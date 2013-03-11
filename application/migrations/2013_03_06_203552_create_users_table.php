@@ -13,7 +13,7 @@ class Create_Users_Table {
 			$table->engine = "InnoDB";
 			$table->increments('id');
 			$table->string('email')->unique();
-			$table->string('password', 32);
+			$table->string('password', 100);
 			$table->string('fname');
 			$table->string('lname');
 			$table->string('phone')->nullable();
