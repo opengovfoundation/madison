@@ -24,7 +24,7 @@ class Create_Notes_Table {
 			
 			//Set foreign keys
 			$table->foreign('user_id')->references('id')->on('users')->on_delete('restrict');
-			$table->foreign('section_id')->references('id')->on('bill_content')->on_delete('restrict');
+			$table->foreign('section_id')->references('id')->on('doc_contents')->on_delete('restrict');
 			$table->foreign('parent_id')->references('id')->on('notes')->on_delete('restrict');
 		});
 	}

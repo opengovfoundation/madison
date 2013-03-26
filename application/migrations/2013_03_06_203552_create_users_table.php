@@ -20,6 +20,7 @@ class Create_Users_Table {
 			$table->integer('org_id')->unsigned()->nullable();
 			$table->string('position')->nullable();
 			$table->integer('user_level')->unsigned()->default(3);
+			$table->string('token', 25);
 			$table->timestamp('last_login')->nullable();
 			$table->timestamps();
 			
