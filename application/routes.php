@@ -32,9 +32,25 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('home.index');
+
+Route::any('doc/(:any?)', 'doc@index');
+Route::get('signup', 'login@signup');
+Route::post('signup', 'login@signup');
+Route::get('verify/(:num)/(:all)', 'login@verify');
+
+Route::get('/', 'home@index');
+
+Route::any('doc', function(){
+	return Redirect::to('docs');
+});
+Route::any('docs', 'doc@index');
+
+Route::controller(Controller::detect());
+
+Route::get('logout', function(){
+	Auth::logout();	//Logout the current user
+	Session::flush(); //delete the session
+	return Redirect::to('home');
 });
 
 /*
@@ -108,4 +124,8 @@ Route::filter('csrf', function()
 Route::filter('auth', function()
 {
 	if (Auth::guest()) return Redirect::to('login');
+});
+
+Route::filter('admin', function(){
+	if(Auth::guest() || Auth::user()->user_level != 1) return Redirect::home()->with('message', 'You are not authorized to view that page');
 });
