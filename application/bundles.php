@@ -34,7 +34,6 @@
 */
 
 return array(
-
-	'docs' => array('handles' => 'docs'),
-
+	'facebook-sdk' => array('auto' => true),
+	'messages'	=>	array('auto' => true),
 );
