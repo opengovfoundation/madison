@@ -6,26 +6,8 @@
 <h1>{{ $doc->title }}</h1>
 <div class="row-fluid">
 	<div class="span8 well well-large">
-		{{-- This is messy.  This should be separated into a partial view. --}}
-		<?php function output_tree($parent){
-			?>
-			<ol>
-				<li id="content_<?php echo $parent->id; ?>" class="content_item">
-					{{ $parent->content }}
-					<?php 
-						$children = $parent->content_children()->get();
-						if(count($children) > 0){
-							foreach($children as $child){
-								output_tree($child);
-							}
-						}
-					?>
-				</li>
-			</ol>
-			<?php
-		}?>
 		@foreach($doc->get_root_content() as $root_content)
-			<?php output_tree($root_content); ?>
+			<?php Helpers::output_tree($root_content); ?>
 		@endforeach
 	</div>
 	<div class="span4 well well-large">

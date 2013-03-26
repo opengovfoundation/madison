@@ -16,4 +16,22 @@ class Helpers{
 		
 		return $facebook->getLoginUrl($params);
 	}
+	
+	public static function output_tree($parent){
+		?>
+		<ol>
+			<li id="content_<?php echo $parent->id; ?>" class="content_item">
+				<?php 
+					echo $parent->content;
+					$children = $parent->content_children()->get();
+					if(count($children) > 0){
+						foreach($children as $child){
+							Helpers::output_tree($child);
+						}
+					}
+				?>
+			</li>
+		</ol>
+		<?php
+	}
 }
