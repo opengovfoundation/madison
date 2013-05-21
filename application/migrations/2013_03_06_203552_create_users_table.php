@@ -21,6 +21,9 @@ class Create_Users_Table {
 			$table->string('position')->nullable();
 			$table->integer('user_level')->unsigned()->default(3);
 			$table->string('token', 25);
+			$table->text('likes')->nullable();
+			$table->text('dislikes')->nullable();
+			$table->text('flags')->nullable();
 			$table->timestamp('last_login')->nullable();
 			$table->timestamps();
 			

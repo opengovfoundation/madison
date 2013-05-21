@@ -1,0 +1,66 @@
+@import "compass/css3/shared";
+@import "compass/css3/border-radius";
+@import "compass/layout/sticky-footer";
+@import "compass/layout/stretching";
+@import "compass_twitter_bootstrap";
+@import "variables";
+@import "mixins";
+
+@include sticky-footer(100px, "#main", "#main-footer", "#footer");
+
+#main{
+	padding-right:0;
+	padding-left:0;
+	position:relative;
+}
+#header{
+	@include grad-bg($black-grad-start, $black-grad-end);
+}
+#navigation{
+	@include grad-bg($blue-grad-start, $blue-grad-end);
+	@include border-radius(10px);
+	margin-left:0;
+}
+#content{
+	//@include stretch-y;
+}
+#leftbar{
+	margin-left:0;
+	@include bg($dark-gray);
+	
+	@include border-corner-radius(top, left, 10px);
+	@include border-corner-radius(bottom, left, 10px);
+	
+	ul{
+		@include vert-navigation-list;
+	}
+}
+
+#rightbar{
+	@include border-radius(10px);
+	@include bg($dark-gray);
+
+}
+#page{
+	margin-left:0;
+}
+#footer{
+	height:100px;
+	@include grad-bg($black-grad-start, $black-grad-end);
+}
+
+//Helper Classes
+h1.blue{
+	color:$blue-header;
+	span.red{
+		color:$red-header;
+	}
+}
+h1.red{
+	color:$red-header;
+}
+
+.single-shadow{
+	@include single-text-shadow(1px, 1px, 5px, false, #000000);
+}
+

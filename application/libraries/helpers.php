@@ -1,7 +1,12 @@
 <?php
+/**
+ * 	Helper functions for Madison
+ */
 class Helpers{
 	
-	//Generates Facebook login url
+	/**
+	 * 	Facebook Login url generation
+	 */
 	public static function fbLogin($redirect = ''){
 		$facebook = IoC::resolve('facebook-sdk');
 		
@@ -17,12 +22,15 @@ class Helpers{
 		return $facebook->getLoginUrl($params);
 	}
 	
+	/**
+	 * 	Recursive function to output a doc content tree
+	 */
 	public static function output_tree($parent){
 		?>
 		<ol>
-			<li id="content_<?php echo $parent->id; ?>" class="content_item">
+			<li>
+				<div id="content_<?php echo $parent->id; ?>" class="content_item"><?php echo $parent->content; ?></div>
 				<?php 
-					echo $parent->content;
 					$children = $parent->content_children()->get();
 					if(count($children) > 0){
 						foreach($children as $child){

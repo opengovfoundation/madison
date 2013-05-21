@@ -69,7 +69,6 @@ function add_doc_handler(){
 	var token = $('input[name="csrf_token"]').val();
 	
 	$.post('/dashboard/content', {'content': 'New Content', 'doc_id': doc_id, 'parent_id': parent_id, 'csrf_token': token}, function(data){
-		console.log(data);
 		data = JSON.parse(data);
 		success = data.success;
 		new_id = data.id;

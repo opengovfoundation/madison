@@ -1,16 +1,28 @@
 <?php
+/**
+ * 	Controller for login / account creation actions
+ */
 class Login_Controller extends Base_Controller{
 	public $restful = true;
 	
+	/**
+	 * 	GET Login Page
+	 */
 	public function get_index(){
 		return View::make('login.index');
 	}
 	
+	
+	/**
+	 * 	POST to log user in
+	 */
 	public function post_index(){
+		//Retrieve POST values
 		$username = Input::get('email');
 		$password = Input::get('password');
 		$user_details = Input::all();
 		
+		//Rules for login form submission
 		$rules = array('email' => 'required', 'password' => 'required');
 		$validation = Validator::make($user_details, $rules);
 		
@@ -19,17 +31,19 @@ class Login_Controller extends Base_Controller{
 			return Redirect::to('login')->with_input()->with_errors($validation);
 		}
 		
-		$credentials = array('username' => $username, 'password' => $password);
+		//Check that the user account exists
 		$user = User::where_email($username)->first();
 		if(!isset($user)){
 			return Redirect::to('login')->with('error', 'That email does not exist.');
 		}
 		
+		//If the user's token field isn't blank, he/she hasn't confirmed their account via email
 		if($user->token != ''){
 			return Redirect::to('login')->with('error', 'Please click the link sent to your email to verify your account.');
 		}
 		
 		//Attempt to log user in
+		$credentials = array('username' => $username, 'password' => $password);
 		if(Auth::attempt($credentials)){
 			return Redirect::home();
 		}
@@ -38,15 +52,23 @@ class Login_Controller extends Base_Controller{
 		}
 	}
 	
+	/**
+	 * 	GET Signup Page
+	 */
 	public function get_signup(){
 		return View::make('login.signup');
 	}
 	
+	/**
+	 * 	POST to create user account
+	 */
 	public function post_signup(){
+		//Retrieve POST values
 		$username = Input::get('email');
 		$password = Input::get('password');
 		$user_details = Input::all();
 		
+		//Rules for signup form submission
 		$rules = array('email'		=>	'required|unique:users',
 						'password'	=>	'required',
 						'fname'		=>	'required',
@@ -57,8 +79,10 @@ class Login_Controller extends Base_Controller{
 			return Redirect::to('signup')->with_input()->with_errors($validation);
 		}
 		else{
+			//Create user token for email verification
 			$token = substr(urlencode(Hash::make($username)), 0, 25);
 			
+			//Create new user
 			$user = new User();
 			$user->email = $username;
 			$user->password = Hash::make($password);
@@ -67,6 +91,7 @@ class Login_Controller extends Base_Controller{
 			$user->token = $token;
 			$user->save();
 			
+			//Send email to user for email account verification
 			Message::to($username)
 				->from('info@madison.org', 'Madison')
 				->subject('Madison Email Confirmation')
@@ -79,6 +104,9 @@ class Login_Controller extends Base_Controller{
 		
 	}
 	
+	/**
+	 * 	Verify users from link sent via email upon signup
+	 */
 	public function get_verify($id, $token){
 		$user = User::find($id);
 		

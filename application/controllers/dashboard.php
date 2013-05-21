@@ -1,4 +1,7 @@
 <?php
+/**
+ * 	Controller for admin dashboard
+ */
 class Dashboard_Controller extends Base_Controller{
 	
 	public $restful = true;
@@ -120,10 +123,15 @@ class Dashboard_Controller extends Base_Controller{
 		}
 	}
 	
+	/**
+	 * 	PUT route for saving documents
+	 */
 	public function put_docs($id = ''){
 		$doc_items = Input::get('doc_items');
 		$doc_items = json_decode($doc_items);
-		
+		if(!isset($doc_items) || count($doc_items) == 0){
+			return Redirect::to('dashboard/docs/' . $id)->with('error', 'No document content was sent to server.');
+		}
 		
 		foreach($doc_items as $item){
 			try{
@@ -156,6 +164,10 @@ class Dashboard_Controller extends Base_Controller{
 		return Redirect::to('dashboard/docs/' . $id)->with('success_message', 'Document Saved Successfully');
 	}
 	
+	/**
+	 * 	POST route for adding line items to documents
+	 * 		Returns JSON array that includes the new line item's auto-incremented id 
+	 */
 	public function post_content($id = ''){
 		
 		if($id != ''){

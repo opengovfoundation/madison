@@ -8,10 +8,9 @@
 		{{ Form::open('dashboard/docs/' . $doc->id, 'put', array('id'=>'doc_content_form')) }}
 		<ol id="doc_list" class="sortable doc_list">
 			<?php
-				foreach($doc->content()->get() as $content){
-					if($content->parent_id == null){
-						DocContent::print_admin_list($content);
-					}	
+				$contents = $doc->content()->where('parent_id', 'IS', DB::raw('NULL'))->get();
+				foreach($contents as $content){
+					DocContent::print_admin_list($content);
 				}
 			?>
 		</ol>

@@ -2,90 +2,88 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
-		<title>Madison</title>
-		@section('header_meta')
-		<meta name="description" content=""/>
-		<meta name = ""/>
-		<meta property="og:title" content="Madison" />
-    	<meta property="og:description" content="Internet users have a right to open government and a voice in government. We exist to power your participation in government. Madison is just a start." />
-    	<meta property="og:type" content="website"/>
-    	<meta property="og:url" content="<?php echo URL::base(); ?>"/>
-    	<meta property="og:image" content=""/>
-		<meta property="og:site_name" content=""/>
-		@yield_section
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		{{ Asset::styles() }}
 		{{ Asset::scripts() }}
 	</head>
 	<body>
-		<div id="header-wrapper">
-    		<div id="header">
-				<a href="<?php echo URL::base(); ?>">
-					<div id="logo"></div>
-				</a>
+		<div id="main" class="container-fluid">
+			<div id="header" class="row-fluid">
+				<div class="span1 spacer"></div>
+				<div class="span4">
+					<h1 class="blue single-shadow">Madison</h1>
+					<p>Collaborate With Congress</p>
+				</div>
+				<div class="span4">
+					<a href="#">About the Madison Platform</a>
+					<a href="#">FAQ</a>
+					<a href="{{ URL::to('login') }}">Login</a>
+					<a href="{{ URL::to('signup') }}">Sign Up</a>
+				</div>
+				<div class="span3">
+					<input type="text" placeholder="Search"/>
+				</div>
 			</div>
-    	</div>
-		<div id="nav">
-    		<div id="subnav-items">
-				<?php if(isset($nav) && $nav != '') : ?>
-				<?php $first = true; foreach($nav as $navItem) : ?>
-					<div class="subnav_div"></div>
-					<?php if(!isset($navItem['children'])) : ?>
-						<a href="<?php echo URL::base() . $navItem['link']; ?>">
-							<div class="subnav-item"><?php echo $navItem['label']; ?></div>
-						</a>
-					<?php else : ?>
-						<div class="subnav_dropdown">
-							<a href="<?php echo URL::base() . $navItem['link']; ?>">
-								<div class="subnav-item">
-								<?php echo $navItem['label']?><img src="/assets/i/arrow-down.png" class="dropdown_arrow"/>	
-								</div>
-							</a>
-							<ul>
-								<?php foreach($navItem['children'] as $child) : ?>
-									<li>
-										<a href="<?php echo URL::base() . $child['link']; ?>">
-											<?php echo $child['label']; ?>
-										</a>
-									</li>
-								<?php endforeach; ?>
-							</ul>
+			<div id="navigation-wrapper" class="row-fluid">
+				<div class="span2 spacer"></div>
+				<div id="navigation" class="span9">
+					<div class="row-fluid">
+						<div class="span3">
+							<select id="doc-nav">
+								<option value="">Select a recent bill</option>
+								@foreach($docs as $doc)
+								<option value="{{ URL::to('doc/' . $doc->slug) }}">{{$doc->title}}</option>
+								@endforeach
+							</select>
 						</div>
-					<?php endif; ?>
-				<?php endforeach; ?>
-				<?php endif; ?>
-        	</div>
-    	</div>
-		<div id="nav-items">
-		    <?php if(Auth::check()) : ?>
-        		<a href="<?php echo URL::base(); ?>/edit/user"><div class="nav-item">Update Account</div></a>
-        		<a href="{{ URL::to('logout') }}"><div class="nav-item">Logout</div></a>
-				<?php if(Auth::user()->user_level == 1) echo HTML::link('dashboard', 'Dashboard'); ?>
-        		<div class="right" style="padding:0px 15px; text-shadow: #999 2px 2px 2px; margin-top:10px;">Welcome <?php echo Auth::user()->fname; ?></div>
-      		<?php else : ?>
-        		<a href="<?php echo Helpers::fbLogin(); ?>"><div class="nav-item login-button">Log in with Facebook</div></a>
-        		<a href="<?php echo URL::base(); ?>/signup"><div class="nav-item">Create an Account</div></a>
-        		<a href="<?php echo URL::to_action('login'); ?>"><div class="nav-item">Login</div></a>
-      		<?php endif; ?>
-    	</div>
-		<div id="wrap">
-    		<div id="content-wrapper">
-				<div id="alert_wrapper" class="text-center">
-					@render('success')
-					@render('message')
-					@render('errors')
-				</div>
-        		<div id="content">
-				@section('content')
-				Content Area
-				@yield_section
+						<div class="span3">
+							<input type="button" class="btn btn-inverse" value="Request a Bill"/>
+							<a href="#">Advanced Bill Search &gt;&gt;</a>
+						</div>
+						<div class="span3">
+							<input type="text" placeholder="Search this bill"/>
+						</div>
+					</div>
 				</div>
 			</div>
+			<div id="alert-wrapper" class="row-fluid">
+				@render('success')
+				@render('message')
+				@render('errors')
+			</div>
+    		<div id="content" class="row-fluid">
+				<div class="span1 spacer"></div>
+				<div id="leftbar" class="span1">
+					<ul>
+						<li>Draft</li>
+						<li>Introduced</li>
+						<li>Markup</li>
+						<li>House</li>
+						<li>Senate</li>
+						<li>Final</li>
+						<li>Review</li>
+						<li>Bill Overview</li>
+					</ul>
+				</div>
+				<div id="page" class="span6">
+					@section('content')
+					Content Area
+					@yield_section
+				</div>
+				<div id="rightbar" class="span3">
+					<h2>Participate</h2>
+				</div>
+			</div>
+			<div id="main-footer"></div>
 		</div>
-		<div id="footer">
-      		<div style="margin-bottom:10px;">
-        		<a href="<?php echo URL::base(); ?>/terms-conditions">Terms & Conditions</a> | &nbsp;
-        		<a href="<?php echo URL::base(); ?>/contact-us?f=b">Report a bug</a> | &nbsp;          
-      		</div>
+		<div id="footer" class="container-fluid">
+			<div class="span8 offset2">
+				<a href="">THE OPENGOV FOUNDATION</a>
+				<a href="">MEDIA INQUIRIES</a>
+				<a href="">CONTACT</a>
+				<a href="">TERMS &amp; CONDITIONS</a>
+				<a href="">REPORT A BUG</a>
+			</div>
   		</div>
 	</body>
 </html>
