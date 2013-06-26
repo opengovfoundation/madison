@@ -6,14 +6,14 @@
 |--------------------------------------------------------------------------
 */
 
+Route::get('faq', 'page@faq');
+Route::get('/', 'page@home');
 
 Route::any('doc/(:any?)', 'doc@index');
 Route::any('note/(:num?)', 'note@index');
 Route::get('signup', 'login@signup');
 Route::post('signup', 'login@signup');
 Route::get('verify/(:num)/(:all)', 'login@verify');
-
-Route::get('/', 'page@home');
 
 Route::any('doc', function(){
 	return Redirect::to('docs');

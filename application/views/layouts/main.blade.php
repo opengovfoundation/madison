@@ -20,7 +20,7 @@
 			<div class="nav">
 				<ul>
 					<li><a href="#">About the Madison Platform</a></li>
-					<li><a href="#">FAQ</a></li>
+					<li><a href="{{ URL::to('faq') }}">FAQ</a></li>
 					<li>
 						<a href="#">User Name</a>
 						<ul>
