@@ -19,7 +19,7 @@
 			<h2>Collaborate With Congress</h2>
 			<div class="nav">
 				<ul>
-					<li><a href="#">About the Madison Platform</a></li>
+					<li><a href="{{ URL::to('about') }}">About the Madison Platform</a></li>
 					<li><a href="{{ URL::to('faq') }}">FAQ</a></li>
 					<li>
 						<a href="#">User Name</a>

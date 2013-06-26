@@ -12,6 +12,21 @@ class Page_Controller extends Base_Controller
 	}
 
 	/**
+	 * About Page
+	 *
+	 * @return object
+	 */
+	public function get_about()
+	{
+		$data = array(
+			'page_id' => 'about',
+			'page_title' => 'About the Madison Platform',
+		);
+
+		return View::make('about.index', $data);
+	}
+
+	/**
 	 * FAQ Page
 	 *
 	 * @return object

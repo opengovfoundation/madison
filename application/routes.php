@@ -6,6 +6,7 @@
 |--------------------------------------------------------------------------
 */
 
+Route::get('about', 'page@about');
 Route::get('faq', 'page@faq');
 Route::get('/', 'page@home');
 
