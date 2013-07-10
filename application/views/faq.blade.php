@@ -3,7 +3,8 @@
 @section('content')
 	<h1>Frequently Asked Questions</h1>
 	<dl>
-		<dt>Question here...</dt>
-		<dd>Lorem ipsum dolor sit amet.</dd>
+		<dt>FAQ Question?</dt>
+		<dd>FAQ answer. Lorem ipsum dolor sit amet.</dd>
 	</dl>
+	@include('partials.learn')
 @endsection

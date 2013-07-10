@@ -15,7 +15,7 @@
 	</head>
 	<body>
 		<div class="header">
-			<h1>Madison Federal</h1>
+			<h1><a href="{{ URL::to('/') }}">Madison Federal</a></h1>
 			<h2>Collaborate With Congress</h2>
 			<div class="nav">
 				<ul>
@@ -33,7 +33,7 @@
 					</li>
 				</ul>
 			</div>
-			<form action="" method="post">
+			<form class="search-form" action="" method="post">
 				<input type="search" placeholder="Search" value="" />
 				<input type="submit" value="Go" />
 			</form>

@@ -1,20 +1,24 @@
 <?php
-/**
- * 	Controller for individual pages
- */
+
 class Page_Controller extends Base_Controller 
 {
 	public $restful = true;
 
+	/**
+	 * Home Page
+	 */
 	public function get_home()
 	{
-		return View::make('home.index');
+		$data = array(
+			'page_id' => 'home',
+			'page_title' => 'The Madison Project',
+		);
+
+		return View::make('home');
 	}
 
 	/**
 	 * About Page
-	 *
-	 * @return object
 	 */
 	public function get_about()
 	{
@@ -23,13 +27,11 @@ class Page_Controller extends Base_Controller
 			'page_title' => 'About the Madison Platform',
 		);
 
-		return View::make('about.index', $data);
+		return View::make('about', $data);
 	}
 
 	/**
 	 * FAQ Page
-	 *
-	 * @return object
 	 */
 	public function get_faq()
 	{
@@ -38,6 +40,6 @@ class Page_Controller extends Base_Controller
 			'page_title' => 'Frequently Asked Questions',
 		);
 
-		return View::make('faq.index', $data);
+		return View::make('faq', $data);
 	}
 }
