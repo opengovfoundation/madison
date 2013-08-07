@@ -2400,7 +2400,7 @@ table th[class*="span"],
   *margin-right: .3em;
   line-height: 14px;
   vertical-align: text-top;
-  background-image: url('/img/glyphicons-halflings.png?1362101162');
+  background-image: url('/img/glyphicons-halflings.png?1375890921');
   background-position: 14px 14px;
   background-repeat: no-repeat;
   margin-top: 1px;
@@ -2421,7 +2421,7 @@ table th[class*="span"],
 .dropdown-menu > .active > a > [class*=" icon-"],
 .dropdown-submenu:hover > a > [class^="icon-"],
 .dropdown-submenu:hover > a > [class*=" icon-"] {
-  background-image: url('/img/glyphicons-halflings-white.png?1362101162');
+  background-image: url('/img/glyphicons-halflings-white.png?1375890921');
 }
 
 /* line 48, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass_twitter_bootstrap-2.2.2.2/stylesheets/compass_twitter_bootstrap/_sprites.scss */
@@ -6621,11 +6621,9 @@ html, body {
   height: 100px;
 }
 
-/* line 11, ../sass/style.scss */
-#main {
-  padding-right: 0;
-  padding-left: 0;
-  position: relative;
+/* line 12, ../sass/style.scss */
+body {
+  background: url(../img/grey.png) repeat;
 }
 
 /* line 16, ../sass/style.scss */
@@ -6647,9 +6645,41 @@ html, body {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$start', endColorstr='$end',GradientType=0 );
   /* IE6-9 */
 }
-
 /* line 19, ../sass/style.scss */
-#navigation {
+#header h1, #header h2 {
+  margin: none;
+  text-align: center;
+}
+
+/* line 24, ../sass/style.scss */
+#main {
+  padding-right: 0;
+  padding-left: 0;
+  position: relative;
+}
+
+/* line 29, ../sass/style.scss */
+.nav {
+  margin: 35px 0 0 0;
+}
+/* line 33, ../sass/style.scss */
+.nav ul li {
+  display: inline-block;
+}
+/* line 37, ../sass/style.scss */
+.nav ul.dropdown {
+  display: none;
+}
+
+/* line 41, ../sass/style.scss */
+#navigation-wrapper {
+  margin: 20px 0;
+}
+
+/* line 44, ../sass/style.scss */
+.topbar {
+  margin-top: 20px;
+  margin-bottom: 20px;
   background: #55a7fb;
   /* Old browsers */
   background: -moz-linear-gradient(top, #55a7fb 0%, #2e74bc 100%);
@@ -6671,12 +6701,18 @@ html, body {
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px;
-  margin-left: 0;
 }
 
-/* line 27, ../sass/style.scss */
-#leftbar {
-  margin-left: 0;
+/* line 50, ../sass/style.scss */
+.content {
+  background: white;
+  padding: 20px;
+}
+
+/* line 54, ../sass/style.scss */
+.leftbar {
+  position: relative;
+  right: -2.12766%;
   background-color: #4b4b4b;
   -moz-border-radius-topleft: 10px;
   -webkit-border-top-left-radius: 10px;
@@ -6684,41 +6720,56 @@ html, body {
   -moz-border-radius-bottomleft: 10px;
   -webkit-border-bottom-left-radius: 10px;
   border-bottom-left-radius: 10px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.5) 5px 0px 5px -2px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.5) 5px 0px 5px -2px;
+  box-shadow: rgba(0, 0, 0, 0.5) 5px 0px 5px -2px;
+  border: 2px groove white;
+  border-right: none;
 }
-/* line 34, ../sass/style.scss */
-#leftbar ul {
+/* line 65, ../sass/style.scss */
+.leftbar ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
   overflow: hidden;
 }
 /* line 22, ../sass/_mixins.scss */
-#leftbar ul > li {
+.leftbar ul > li {
   display: block;
   float: left;
 }
 /* line 25, ../sass/_mixins.scss */
-#leftbar ul > li:last-child {
+.leftbar ul > li:last-child {
   margin-right: 0px;
 }
+/* line 67, ../sass/style.scss */
+.leftbar ul li {
+  padding: 10px;
+}
 
-/* line 39, ../sass/style.scss */
-#rightbar {
+/* line 73, ../sass/style.scss */
+.rightbar {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px;
   background-color: #4b4b4b;
+  border: 2px groove white;
 }
 
-/* line 44, ../sass/style.scss */
+/* line 79, ../sass/style.scss */
 #page {
   margin-left: 0;
+  padding: 10px;
+  background: white;
+  border: 2px groove white;
+  border-right: none;
+  border-left: none;
 }
 
-/* line 47, ../sass/style.scss */
-#footer {
+/* line 87, ../sass/style.scss */
+.footer {
   height: 100px;
   background: #353535;
   /* Old browsers */
@@ -6738,21 +6789,37 @@ html, body {
   /* IE6-9 */
 }
 
-/* line 53, ../sass/style.scss */
-h1.blue {
+/* line 93, ../sass/style.scss */
+.small-header {
+  font-size: 1em;
+}
+
+/* line 96, ../sass/style.scss */
+.blue {
   color: #4196f0;
 }
-/* line 55, ../sass/style.scss */
-h1.blue span.red {
+/* line 98, ../sass/style.scss */
+.blue span.red {
   color: #d60003;
 }
 
-/* line 59, ../sass/style.scss */
-h1.red {
+/* line 102, ../sass/style.scss */
+.red {
   color: #d60003;
 }
 
-/* line 63, ../sass/style.scss */
+/* line 106, ../sass/style.scss */
 .single-shadow {
   text-shadow: 1px 1px 5px black;
+}
+
+/* line 109, ../sass/style.scss */
+input[type="search"].dark-search {
+  background: #4b4b4b;
+  border: none;
+  background-image: url('/img/blue-search.gif');
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: 20px;
+  color: lightgray;
 }

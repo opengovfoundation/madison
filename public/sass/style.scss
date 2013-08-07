@@ -1,3 +1,4 @@
+@import "compass/css3/box-shadow";
 @import "compass/css3/shared";
 @import "compass/css3/border-radius";
 @import "compass/layout/sticky-footer";
@@ -8,59 +9,109 @@
 
 @include sticky-footer(100px, "#main", "#main-footer", "#footer");
 
+body{
+	background:url(../img/grey.png) repeat;
+}
+
+#header{
+	@include grad-bg($black-grad-start, $black-grad-end);
+	
+	h1, h2{
+		margin:none;
+		text-align:center
+	}
+}
 #main{
 	padding-right:0;
 	padding-left:0;
 	position:relative;
 }
-#header{
-	@include grad-bg($black-grad-start, $black-grad-end);
+.nav{
+	margin: 35px 0 0 0;
+
+	ul{
+		li{
+			display:inline-block;
+		}
+	}
+	ul.dropdown{
+		display:none;
+	}
 }
-#navigation{
+#navigation-wrapper{
+	margin:20px 0;
+}
+.topbar{
+	margin-top:20px;
+	margin-bottom:20px;
 	@include grad-bg($blue-grad-start, $blue-grad-end);
 	@include border-radius(10px);
-	margin-left:0;
 }
-#content{
-	//@include stretch-y;
+.content{
+	background:white;
+	padding:20px;
 }
-#leftbar{
-	margin-left:0;
+.leftbar{
+	position:relative;
+	right:-2.12766%;
 	@include bg($dark-gray);
-	
 	@include border-corner-radius(top, left, 10px);
 	@include border-corner-radius(bottom, left, 10px);
+	@include box-shadow(rgba(0, 0, 0, .5) 5px 0px 5px -2px);
+	
+	border: 2px groove white;
+	border-right:none;
 	
 	ul{
 		@include vert-navigation-list;
+		li{
+			padding:10px;
+		}
 	}
 }
 
-#rightbar{
+.rightbar{
 	@include border-radius(10px);
 	@include bg($dark-gray);
+	border: 2px groove white;
 
 }
 #page{
 	margin-left:0;
+	padding:10px;
+	background:white;
+	border:2px groove white;
+	border-right:none;
+	border-left:none;
 }
-#footer{
+.footer{
 	height:100px;
 	@include grad-bg($black-grad-start, $black-grad-end);
 }
 
 //Helper Classes
-h1.blue{
+.small-header{
+	font-size:1em;
+}
+.blue{
 	color:$blue-header;
 	span.red{
 		color:$red-header;
 	}
 }
-h1.red{
+.red{
 	color:$red-header;
 }
 
 .single-shadow{
 	@include single-text-shadow(1px, 1px, 5px, false, #000000);
 }
-
+input[type="search"].dark-search{
+	background:#4b4b4b;
+	border:none;
+	background-image: $search-img;
+	background-repeat: no-repeat;
+	background-position:right;
+	background-size:20px;
+	color:lightgray;
+}

@@ -14,16 +14,20 @@
 		{{ Asset::scripts() }}
 	</head>
 	<body>
-		<div class="header">
-			<h1><a href="{{ URL::to('/') }}">Madison Federal</a></h1>
-			<h2>Collaborate With Congress</h2>
-			<div class="nav">
+		<div id="header" class="header row-fluid">
+			<div class="span1 spacer"></div>
+			<div class="span4">
+				<h1 class="blue single-shadow"><a href="{{ URL::to('/') }}">Madison Federal</a></h1>
+				<h2 class="blue small-header">Collaborate With Congress</h2>
+			</div>
+			<div class="nav span7">
 				<ul>
 					<li><a href="{{ URL::to('about') }}">About the Madison Platform</a></li>
 					<li><a href="{{ URL::to('faq') }}">FAQ</a></li>
 					<li>
+						<!-- TODO:  Check if user's signed in -->
 						<a href="#">User Name</a>
-						<ul>
+						<ul class="dropdown">
 							<li><a href="#">Bookmarked Bills</a></li>
 							<li><a href="#">Your Points</a></li>
 							<li><a href="#">Account Settings</a></li>
@@ -31,20 +35,29 @@
 							<li><a href="#">Logout</a></li>
 						</ul>
 					</li>
+					<li>
+						<form action="" class="search-form" method="post">
+							<input type="search" class="dark-search" placeholder="Search" value="" />
+							<!-- <input type="submit" value="Go" /> -->
+						</form>
+					</li>
 				</ul>
 			</div>
-			<form class="search-form" action="" method="post">
-				<input type="search" placeholder="Search" value="" />
-				<input type="submit" value="Go" />
-			</form>
 		</div>
-
-		<div id="main">
+		<div id="topbar-wrapper" class="row-fluid">
+			<div class="span2 spacer"></div>
+			<div class="span9 topbar">
+				@include('partials.topbar')
+			</div>
+			<div class="span1 spacer"></div>
+		</div>
+		<div id="main" class="row-fluid">
 			@yield('content')
 		</div>
 
-		<div class="footer">
-			<div class="nav">
+		<div class="footer row-fluid">
+			<div class="span2 spacer"></div>
+			<div class="nav span10">
 				<ul>
 					<li><a href="#">The OpenGov Foundation</a></li>
 					<li><a href="#">Media Inquiries</a></li>
@@ -53,7 +66,7 @@
 					<li><a href="#">Report a Bug</a></li>
 				</ul>
 			</div>
-			<p>From the Office of Congressman <a href="#">Darrell Issa</a></p>
+			<div class="span2 spacer"></div>
 		</div>
 	</body>
 </html>
