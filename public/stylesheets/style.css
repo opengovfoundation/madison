@@ -6627,6 +6627,11 @@ body {
 }
 
 /* line 16, ../sass/style.scss */
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+  margin-top: 10px;
+}
+
+/* line 21, ../sass/style.scss */
 #header {
   background: #353535;
   /* Old browsers */
@@ -6645,38 +6650,38 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$start', endColorstr='$end',GradientType=0 );
   /* IE6-9 */
 }
-/* line 19, ../sass/style.scss */
+/* line 24, ../sass/style.scss */
 #header h1, #header h2 {
   margin: none;
   text-align: center;
 }
 
-/* line 24, ../sass/style.scss */
+/* line 29, ../sass/style.scss */
 #main {
   padding-right: 0;
   padding-left: 0;
   position: relative;
 }
 
-/* line 29, ../sass/style.scss */
+/* line 34, ../sass/style.scss */
 .nav {
   margin: 35px 0 0 0;
 }
-/* line 33, ../sass/style.scss */
+/* line 38, ../sass/style.scss */
 .nav ul li {
   display: inline-block;
 }
-/* line 37, ../sass/style.scss */
+/* line 42, ../sass/style.scss */
 .nav ul.dropdown {
   display: none;
 }
 
-/* line 41, ../sass/style.scss */
+/* line 46, ../sass/style.scss */
 #navigation-wrapper {
   margin: 20px 0;
 }
 
-/* line 44, ../sass/style.scss */
+/* line 49, ../sass/style.scss */
 .topbar {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -6703,13 +6708,13 @@ body {
   border-radius: 10px;
 }
 
-/* line 50, ../sass/style.scss */
+/* line 55, ../sass/style.scss */
 .content {
   background: white;
   padding: 20px;
 }
 
-/* line 54, ../sass/style.scss */
+/* line 59, ../sass/style.scss */
 .leftbar {
   position: relative;
   right: -2.12766%;
@@ -6726,7 +6731,7 @@ body {
   border: 2px groove white;
   border-right: none;
 }
-/* line 65, ../sass/style.scss */
+/* line 70, ../sass/style.scss */
 .leftbar ul {
   list-style-type: none;
   padding: 0;
@@ -6742,12 +6747,12 @@ body {
 .leftbar ul > li:last-child {
   margin-right: 0px;
 }
-/* line 67, ../sass/style.scss */
+/* line 72, ../sass/style.scss */
 .leftbar ul li {
   padding: 10px;
 }
 
-/* line 73, ../sass/style.scss */
+/* line 78, ../sass/style.scss */
 .rightbar {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -6758,7 +6763,7 @@ body {
   border: 2px groove white;
 }
 
-/* line 79, ../sass/style.scss */
+/* line 84, ../sass/style.scss */
 #page {
   margin-left: 0;
   padding: 10px;
@@ -6768,7 +6773,7 @@ body {
   border-left: none;
 }
 
-/* line 87, ../sass/style.scss */
+/* line 92, ../sass/style.scss */
 .footer {
   height: 100px;
   background: #353535;
@@ -6789,31 +6794,31 @@ body {
   /* IE6-9 */
 }
 
-/* line 93, ../sass/style.scss */
+/* line 98, ../sass/style.scss */
 .small-header {
   font-size: 1em;
 }
 
-/* line 96, ../sass/style.scss */
+/* line 101, ../sass/style.scss */
 .blue {
   color: #4196f0;
 }
-/* line 98, ../sass/style.scss */
+/* line 103, ../sass/style.scss */
 .blue span.red {
   color: #d60003;
 }
 
-/* line 102, ../sass/style.scss */
+/* line 107, ../sass/style.scss */
 .red {
   color: #d60003;
 }
 
-/* line 106, ../sass/style.scss */
+/* line 111, ../sass/style.scss */
 .single-shadow {
   text-shadow: 1px 1px 5px black;
 }
 
-/* line 109, ../sass/style.scss */
+/* line 114, ../sass/style.scss */
 input[type="search"].dark-search {
   background: #4b4b4b;
   border: none;
@@ -6822,4 +6827,27 @@ input[type="search"].dark-search {
   background-position: right;
   background-size: 20px;
   color: lightgray;
+}
+
+/* line 124, ../sass/style.scss */
+input[type="button"].black {
+  background: #484848;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #484848 0%, black 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #484848), color-stop(100%, black));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #484848 0%, black 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #484848 0%, black 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #484848 0%, black 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #484848 0%, #000000 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$start', endColorstr='$end',GradientType=0 );
+  /* IE6-9 */
+  border-radius: 5px;
+  color: white;
+  border: 1px solid black;
 }
