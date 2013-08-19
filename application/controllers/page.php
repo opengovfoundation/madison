@@ -14,7 +14,7 @@ class Page_Controller extends Base_Controller
 			'page_title' => 'The Madison Project',
 		);
 
-		return View::make('home');
+		return View::make('home', $data);
 	}
 
 	/**

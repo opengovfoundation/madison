@@ -1,6 +1,7 @@
 @import "compass/css3/box-shadow";
 @import "compass/css3/shared";
 @import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
 @import "compass/layout/sticky-footer";
 @import "compass/layout/stretching";
 @import "compass_twitter_bootstrap";
@@ -13,17 +14,29 @@ body{
 	background:url(../img/grey.png) repeat;
 }
 
+a:hover{
+	text-decoration:none;
+}
+
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{
 	margin-top:10px;
 }
 
 
-#header{
+.header{
 	@include grad-bg($black-grad-start, $black-grad-end);
 	
 	h1, h2{
 		margin:none;
-		text-align:center
+		text-align:center;
+		a{
+			color:#0088cc;
+		}
+		
+	}
+	
+	a{
+		color:#787878;
 	}
 }
 #main{
@@ -36,6 +49,10 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 
 	ul{
 		li{
+			a{
+				margin:0 25px;
+			}
+		
 			display:inline-block;
 		}
 	}
@@ -53,6 +70,8 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	@include border-radius(10px);
 }
 .content{
+	@include single-box-shadow(black, 1em, 1em, 1em, -1em);
+
 	background:white;
 	padding:20px;
 }
@@ -79,8 +98,30 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	@include border-radius(10px);
 	@include bg($dark-gray);
 	border: 2px groove white;
+	
+	.bottom{
+		text-align:center;
+		background:#c70102;
+		border-bottom-left-radius:8px;
+		border-bottom-right-radius:8px;
+		padding:20px 0;
+		color:white;
+		
+		a{
+			color:white;
+			font-size:1.3em;
+		}
+	}
 
 }
+
+.getstarted{
+	p{
+		margin:10px 20px;
+		color:lightgrey;
+	}
+}
+
 #page{
 	margin-left:0;
 	padding:10px;

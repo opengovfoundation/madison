@@ -1,6 +1,9 @@
 <div class="span4">
 	<select name="" id="" style="margin-left:10px;">
 		<option value="">Select a recent bill</option>
+		@foreach($docs as $doc)
+			<option value="{{ $doc->slug }}">{{ $doc->title }}</option>
+		@endforeach
 	</select>
 </div>
 <div class="span2">

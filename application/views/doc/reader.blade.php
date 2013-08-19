@@ -5,7 +5,7 @@
 @section('content')
 <h1>{{ $doc->title }}</h1>
 <div class="row-fluid">
-	<div class="span8 well well-large">
+	<div class="span7 well well-large">
 		@foreach($doc->get_root_content() as $root_content)
 			<?php Helpers::output_tree($root_content); ?>
 		@endforeach

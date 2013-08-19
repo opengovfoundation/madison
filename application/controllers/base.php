@@ -32,7 +32,7 @@ class Base_Controller extends Controller {
 		Asset::add('underscore', 'js/underscore.min.js');
 		parent::__construct();
 		
-		$docs = Doc::all();
+		$docs = Doc::order_by('updated_at', 'desc')->take(10)->get();
 		View::share('docs', $docs);
 	}
 
