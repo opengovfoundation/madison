@@ -3,14 +3,19 @@
 @parent
 @endsection
 @section('content')
-<h1>{{ $doc->title }}</h1>
 <div class="row-fluid">
-	<div class="span7 well well-large">
+	<div class="span12">
+		<h1>{{ $doc->title }}</h1>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span2 spacer"></div>
+	<div class="span6 well well-large doc_content @if(Auth::check())logged_in@endif">
 		@foreach($doc->get_root_content() as $root_content)
 			<?php Helpers::output_tree($root_content); ?>
 		@endforeach
 	</div>
-	<div class="span4 well well-large">
+	<div class="span3 well well-large">
 		<div class="row-fluid">
 			<div class="span12">
 				<h3>Participate</h3>
@@ -127,5 +132,6 @@
 			</div>
 		</div>
 	</div>
+	<div class="span1 spacer"></div>
 </div>
 @endsection

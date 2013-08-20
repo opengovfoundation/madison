@@ -15,6 +15,10 @@ body{
 	background:url(../img/grey.png) repeat;
 }
 
+h1{
+	text-align:center;
+}
+
 a{
 	&:hover{ text-decoration:none; }
 	&.disabled{
@@ -154,7 +158,21 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	@include grad-bg($black-grad-start, $black-grad-end);
 }
 
+//Document Reader
+.doc_content.logged_in .content_item{
+	cursor:pointer;
+}
+
+.content_item{
+	&.selected{
+		background:yellow;
+	}
+}
+
 //Helper Classes
+.hidden{
+	display:none;
+}
 .small-header{
 	font-size:1em;
 }

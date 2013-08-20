@@ -6626,22 +6626,27 @@ body {
   background: url(../img/grey.png) repeat;
 }
 
-/* line 19, ../sass/style.scss */
+/* line 18, ../sass/style.scss */
+h1 {
+  text-align: center;
+}
+
+/* line 23, ../sass/style.scss */
 a:hover {
   text-decoration: none;
 }
-/* line 20, ../sass/style.scss */
+/* line 24, ../sass/style.scss */
 a.disabled {
   cursor: default;
   opacity: .5;
 }
 
-/* line 27, ../sass/style.scss */
+/* line 31, ../sass/style.scss */
 input.disabled {
   cursor: default;
   opacity: .5;
 }
-/* line 33, ../sass/style.scss */
+/* line 37, ../sass/style.scss */
 input[type="button"].black {
   font-size: 1em;
   padding: 0.5em 1.5em;
@@ -6701,12 +6706,12 @@ input[type="button"].black::-moz-focus-inner {
   margin: -1px !important;
 }
 
-/* line 40, ../sass/style.scss */
+/* line 44, ../sass/style.scss */
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
   margin-top: 10px;
 }
 
-/* line 45, ../sass/style.scss */
+/* line 49, ../sass/style.scss */
 .header {
   background: #353535;
   /* Old browsers */
@@ -6725,50 +6730,50 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$start', endColorstr='$end',GradientType=0 );
   /* IE6-9 */
 }
-/* line 48, ../sass/style.scss */
+/* line 52, ../sass/style.scss */
 .header h1, .header h2 {
   margin: none;
   text-align: center;
 }
-/* line 51, ../sass/style.scss */
+/* line 55, ../sass/style.scss */
 .header h1 a, .header h2 a {
   color: #0088cc;
 }
-/* line 57, ../sass/style.scss */
+/* line 61, ../sass/style.scss */
 .header a {
   color: #787878;
 }
 
-/* line 61, ../sass/style.scss */
+/* line 65, ../sass/style.scss */
 #main {
   padding-right: 0;
   padding-left: 0;
   position: relative;
 }
 
-/* line 66, ../sass/style.scss */
+/* line 70, ../sass/style.scss */
 .nav {
   margin: 35px 0 0 0;
 }
-/* line 70, ../sass/style.scss */
+/* line 74, ../sass/style.scss */
 .nav ul li {
   display: inline-block;
 }
-/* line 71, ../sass/style.scss */
+/* line 75, ../sass/style.scss */
 .nav ul li a {
   margin: 0 25px;
 }
-/* line 78, ../sass/style.scss */
+/* line 82, ../sass/style.scss */
 .nav ul.dropdown {
   display: none;
 }
 
-/* line 82, ../sass/style.scss */
+/* line 86, ../sass/style.scss */
 #navigation-wrapper {
   margin: 20px 0;
 }
 
-/* line 85, ../sass/style.scss */
+/* line 89, ../sass/style.scss */
 .topbar {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -6795,7 +6800,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   border-radius: 10px;
 }
 
-/* line 91, ../sass/style.scss */
+/* line 95, ../sass/style.scss */
 .content {
   -webkit-box-shadow: 1em 1em 1em -1em black;
   -moz-box-shadow: 1em 1em 1em -1em black;
@@ -6804,7 +6809,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   padding: 20px;
 }
 
-/* line 97, ../sass/style.scss */
+/* line 101, ../sass/style.scss */
 .leftbar {
   position: relative;
   right: -2.12766%;
@@ -6821,7 +6826,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   border: 2px groove white;
   border-right: none;
 }
-/* line 108, ../sass/style.scss */
+/* line 112, ../sass/style.scss */
 .leftbar ul {
   list-style-type: none;
   padding: 0;
@@ -6837,12 +6842,12 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 .leftbar ul > li:last-child {
   margin-right: 0px;
 }
-/* line 110, ../sass/style.scss */
+/* line 114, ../sass/style.scss */
 .leftbar ul li {
   padding: 10px;
 }
 
-/* line 116, ../sass/style.scss */
+/* line 120, ../sass/style.scss */
 .rightbar {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -6852,7 +6857,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   background-color: #4b4b4b;
   border: 2px groove white;
 }
-/* line 121, ../sass/style.scss */
+/* line 125, ../sass/style.scss */
 .rightbar .bottom {
   text-align: center;
   background: #c70102;
@@ -6861,19 +6866,19 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   padding: 20px 0;
   color: white;
 }
-/* line 129, ../sass/style.scss */
+/* line 133, ../sass/style.scss */
 .rightbar .bottom a {
   color: white;
   font-size: 1.3em;
 }
 
-/* line 138, ../sass/style.scss */
+/* line 142, ../sass/style.scss */
 .getstarted p {
   margin: 10px 20px;
   color: lightgrey;
 }
 
-/* line 144, ../sass/style.scss */
+/* line 148, ../sass/style.scss */
 #page {
   margin-left: 0;
   padding: 10px;
@@ -6883,7 +6888,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   border-left: none;
 }
 
-/* line 152, ../sass/style.scss */
+/* line 156, ../sass/style.scss */
 .footer {
   height: 100px;
   background: #353535;
@@ -6904,31 +6909,46 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   /* IE6-9 */
 }
 
-/* line 158, ../sass/style.scss */
+/* line 162, ../sass/style.scss */
+.doc_content.logged_in .content_item {
+  cursor: pointer;
+}
+
+/* line 167, ../sass/style.scss */
+.content_item.selected {
+  background: yellow;
+}
+
+/* line 173, ../sass/style.scss */
+.hidden {
+  display: none;
+}
+
+/* line 176, ../sass/style.scss */
 .small-header {
   font-size: 1em;
 }
 
-/* line 161, ../sass/style.scss */
+/* line 179, ../sass/style.scss */
 .blue {
   color: #4196f0;
 }
-/* line 163, ../sass/style.scss */
+/* line 181, ../sass/style.scss */
 .blue span.red {
   color: #d60003;
 }
 
-/* line 167, ../sass/style.scss */
+/* line 185, ../sass/style.scss */
 .red {
   color: #d60003;
 }
 
-/* line 171, ../sass/style.scss */
+/* line 189, ../sass/style.scss */
 .single-shadow {
   text-shadow: 1px 1px 5px black;
 }
 
-/* line 174, ../sass/style.scss */
+/* line 192, ../sass/style.scss */
 input[type="search"].dark-search {
   background: #4b4b4b;
   border: none;
