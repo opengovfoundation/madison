@@ -10,11 +10,12 @@ class Page_Controller extends Base_Controller
 	public function get_home()
 	{
 		$data = array(
-			'page_id' => 'home',
-			'page_title' => 'The Madison Project',
+			'page_id'		=> 'home',
+			'page_title'	=> 'The Madison Project',
+			'rightbar'		=> array('getstarted')
 		);
 
-		return View::make('home', $data);
+		return View::make('page.index', $data);
 	}
 
 	/**
@@ -23,11 +24,12 @@ class Page_Controller extends Base_Controller
 	public function get_about()
 	{
 		$data = array(
-			'page_id' => 'about',
-			'page_title' => 'About the Madison Platform',
+			'page_id'		=> 'about',
+			'page_title'	=> 'About the Madison Platform',
+			'rightbar'		=> array('getstarted')
 		);
 
-		return View::make('about', $data);
+		return View::make('page.index', $data);
 	}
 
 	/**
@@ -36,10 +38,11 @@ class Page_Controller extends Base_Controller
 	public function get_faq()
 	{
 		$data = array(
-			'page_id' => 'faq',
-			'page_title' => 'Frequently Asked Questions',
+			'page_id'		=> 'faq',
+			'page_title'	=> 'Frequently Asked Questions',
+			'rightbar'		=> array('getstarted')
 		);
 
-		return View::make('faq', $data);
+		return View::make('page.index', $data);
 	}
 }
