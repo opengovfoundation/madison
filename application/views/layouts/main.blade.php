@@ -37,7 +37,7 @@
 					</li>
 					<li>
 						<form action="" class="search-form" method="post">
-							<input type="search" class="dark-search" placeholder="Search" value="" />
+							<input type="search" class="dark-search disabled" placeholder="Search" value="" />
 							<!-- <input type="submit" value="Go" /> -->
 						</form>
 					</li>

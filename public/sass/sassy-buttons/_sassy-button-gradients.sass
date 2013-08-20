@@ -1,0 +1,87 @@
+// Mixin that does all the gradient magic
+@import "sassy-button-text"
+@import "sassy-button-shadows"
+
+@mixin sassy-button-gradient($style: $sb-gradient-style, $base-color: $sb-base-color, $second-color: $sb-second-color, $text-color: $sb-text-color, $text-style: $sb-text-style,  $auto-states: $sb-pseudo-states, $ie: $sb-ie-support)
+  $first-color: $base-color
+  $lightness : lightness($base-color)
+  $brightnessDivsor : 1
+  @if $lightness > 75
+    $brightnessDivsor : 2
+
+  // user a simple filter gradient if $sb-ie-support is true
+  @if $ie
+    @include filter-gradient($first-color, darken($first-color, 20%))
+  @else
+    background-color: $base-color
+
+  // Matte Gradient Style
+  @if $style == "matte"
+    $first-color: $base-color
+
+    @if $second-color == false
+      $first-color: lighten($base-color,15%)
+      $second-color: $base-color
+
+    @include background(linear-gradient(color-stops($first-color, $second-color 70%)))
+    @include sassy-button-highlight-shadow($first-color)
+    border: 1px solid darken($second-color, 5%)
+
+    @if $auto-states
+      @include sassy-pseudo-states($first-color, $second-color, $style)
+
+  // Shiny Gradient Style
+  @if $style == "shiny"
+    $first-color: lighten($base-color, 25% / $brightnessDivsor)
+
+    @if $second-color == false
+      $second-color: darken($base-color, 10%)
+
+    @include background(linear-gradient(color-stops($first-color, $base-color 50%, $second-color)))
+    @include sassy-button-highlight-shadow($first-color)
+    border: 1px solid darken($second-color, 5%)
+
+    @if $auto-states
+      @include sassy-pseudo-states($first-color, $second-color, $style)
+
+  // Glass Gradient Style
+  @if $style == "glass"
+    $first-color: lighten($base-color, 8% / $brightnessDivsor)
+
+    @if $second-color == false
+      $second-color: $base-color
+
+    @include background(linear-gradient(color-stops($first-color 50%, $base-color 51%)))
+    @include sassy-button-highlight-shadow($first-color)
+    border: 1px solid darken($second-color, 5%)
+
+    @if $auto-states
+      @include sassy-pseudo-states($first-color, $second-color, $style)
+
+  // Simple Gradient Style
+  @if $style == "simple"
+    @if $second-color == false
+      $second-color: darken($base-color, 10%)
+
+    @include background(linear-gradient(color-stops($base-color, $second-color)))
+    @include sassy-button-highlight-shadow($first-color)
+    border: 1px solid darken($second-color, 5%)
+
+    @if $auto-states
+      @include sassy-pseudo-states($base-color, $second-color, $style)
+
+  // Flat Style
+  @if $style == "flat"
+    $second-color: $base-color
+    background-color: $base-color
+    border: 0
+
+    @if $auto-states
+      @include sassy-pseudo-states($base-color, false, $style)
+
+  // Apply Text Styles
+  @if $text-style
+    @include sassy-button-text-style($first-color, $second-color, $text-color, $text-style)
+
+
+

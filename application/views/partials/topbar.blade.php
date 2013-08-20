@@ -7,11 +7,11 @@
 	</select>
 </div>
 <div class="span2">
-	<input type="button" class="black" value="Request a Bill" style="margin-top:10px;"/>
+	<input type="button" class="black disabled" value="Request a Bill" style="margin-top:10px;"/>
 </div>
 <div class="span2">
 	<a href="" class="disabled" style="margin-top:15px; display:block; color:white;">Advanced Bill Search &gt;&gt;</a>
 </div>
 <div class="span4">
-	<input type="search" placeholder="Search"/>
+	<input type="search" class="disabled" placeholder="Search"/>
 </div>

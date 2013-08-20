@@ -6621,27 +6621,92 @@ html, body {
   height: 100px;
 }
 
-/* line 13, ../sass/style.scss */
+/* line 14, ../sass/style.scss */
 body {
   background: url(../img/grey.png) repeat;
 }
 
-/* line 18, ../sass/style.scss */
+/* line 19, ../sass/style.scss */
 a:hover {
   text-decoration: none;
 }
-/* line 19, ../sass/style.scss */
+/* line 20, ../sass/style.scss */
 a.disabled {
   cursor: default;
   opacity: .5;
 }
 
-/* line 25, ../sass/style.scss */
+/* line 27, ../sass/style.scss */
+input.disabled {
+  cursor: default;
+  opacity: .5;
+}
+/* line 33, ../sass/style.scss */
+input[type="button"].black {
+  font-size: 1em;
+  padding: 0.5em 1.5em;
+  color: white;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF484848', endColorstr='#FF151515');
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #484848), color-stop(100%, #000000));
+  background: -webkit-linear-gradient(#484848, #000000);
+  background: -moz-linear-gradient(#484848, #000000);
+  background: -o-linear-gradient(#484848, #000000);
+  background: linear-gradient(#484848, #000000);
+  -webkit-box-shadow: #6e6e6e 0 1px 0 inset;
+  -moz-box-shadow: #6e6e6e 0 1px 0 inset;
+  box-shadow: #6e6e6e 0 1px 0 inset;
+  border: 1px solid black;
+}
+/* line 15, ../sass/sassy-buttons/_sassy-button-pseudo-states.sass */
+input[type="button"].black:hover {
+  text-decoration: none;
+}
+/* line 36, ../sass/sassy-buttons/_sassy-button-pseudo-states.sass */
+input[type="button"].black:hover {
+  background-color: black;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3b3b3b), color-stop(100%, #000000));
+  background: -webkit-linear-gradient(#3b3b3b, #000000);
+  background: -moz-linear-gradient(#3b3b3b, #000000);
+  background: -o-linear-gradient(#3b3b3b, #000000);
+  background: linear-gradient(#3b3b3b, #000000);
+}
+/* line 39, ../sass/sassy-buttons/_sassy-button-pseudo-states.sass */
+input[type="button"].black:active {
+  -webkit-box-shadow: black 0 1px 2px inset;
+  -moz-box-shadow: black 0 1px 2px inset;
+  box-shadow: black 0 1px 2px inset;
+}
+/* line 6, ../sass/sassy-buttons/_sassy-button-pseudo-states.sass */
+input[type="button"].black.disabled, input[type="button"].black[disabled] {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
+  opacity: 0.6;
+  background: black;
+  cursor: default;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+/* line 76, ../sass/_sassy-buttons.sass */
+input[type="button"].black::-moz-focus-inner {
+  padding: 0 !important;
+  margin: -1px !important;
+}
+
+/* line 40, ../sass/style.scss */
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
   margin-top: 10px;
 }
 
-/* line 30, ../sass/style.scss */
+/* line 45, ../sass/style.scss */
 .header {
   background: #353535;
   /* Old browsers */
@@ -6660,50 +6725,50 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$start', endColorstr='$end',GradientType=0 );
   /* IE6-9 */
 }
-/* line 33, ../sass/style.scss */
+/* line 48, ../sass/style.scss */
 .header h1, .header h2 {
   margin: none;
   text-align: center;
 }
-/* line 36, ../sass/style.scss */
+/* line 51, ../sass/style.scss */
 .header h1 a, .header h2 a {
   color: #0088cc;
 }
-/* line 42, ../sass/style.scss */
+/* line 57, ../sass/style.scss */
 .header a {
   color: #787878;
 }
 
-/* line 46, ../sass/style.scss */
+/* line 61, ../sass/style.scss */
 #main {
   padding-right: 0;
   padding-left: 0;
   position: relative;
 }
 
-/* line 51, ../sass/style.scss */
+/* line 66, ../sass/style.scss */
 .nav {
   margin: 35px 0 0 0;
 }
-/* line 55, ../sass/style.scss */
+/* line 70, ../sass/style.scss */
 .nav ul li {
   display: inline-block;
 }
-/* line 56, ../sass/style.scss */
+/* line 71, ../sass/style.scss */
 .nav ul li a {
   margin: 0 25px;
 }
-/* line 63, ../sass/style.scss */
+/* line 78, ../sass/style.scss */
 .nav ul.dropdown {
   display: none;
 }
 
-/* line 67, ../sass/style.scss */
+/* line 82, ../sass/style.scss */
 #navigation-wrapper {
   margin: 20px 0;
 }
 
-/* line 70, ../sass/style.scss */
+/* line 85, ../sass/style.scss */
 .topbar {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -6730,7 +6795,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   border-radius: 10px;
 }
 
-/* line 76, ../sass/style.scss */
+/* line 91, ../sass/style.scss */
 .content {
   -webkit-box-shadow: 1em 1em 1em -1em black;
   -moz-box-shadow: 1em 1em 1em -1em black;
@@ -6739,7 +6804,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   padding: 20px;
 }
 
-/* line 82, ../sass/style.scss */
+/* line 97, ../sass/style.scss */
 .leftbar {
   position: relative;
   right: -2.12766%;
@@ -6756,7 +6821,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   border: 2px groove white;
   border-right: none;
 }
-/* line 93, ../sass/style.scss */
+/* line 108, ../sass/style.scss */
 .leftbar ul {
   list-style-type: none;
   padding: 0;
@@ -6772,12 +6837,12 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 .leftbar ul > li:last-child {
   margin-right: 0px;
 }
-/* line 95, ../sass/style.scss */
+/* line 110, ../sass/style.scss */
 .leftbar ul li {
   padding: 10px;
 }
 
-/* line 101, ../sass/style.scss */
+/* line 116, ../sass/style.scss */
 .rightbar {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -6787,7 +6852,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   background-color: #4b4b4b;
   border: 2px groove white;
 }
-/* line 106, ../sass/style.scss */
+/* line 121, ../sass/style.scss */
 .rightbar .bottom {
   text-align: center;
   background: #c70102;
@@ -6796,19 +6861,19 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   padding: 20px 0;
   color: white;
 }
-/* line 114, ../sass/style.scss */
+/* line 129, ../sass/style.scss */
 .rightbar .bottom a {
   color: white;
   font-size: 1.3em;
 }
 
-/* line 123, ../sass/style.scss */
+/* line 138, ../sass/style.scss */
 .getstarted p {
   margin: 10px 20px;
   color: lightgrey;
 }
 
-/* line 129, ../sass/style.scss */
+/* line 144, ../sass/style.scss */
 #page {
   margin-left: 0;
   padding: 10px;
@@ -6818,7 +6883,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   border-left: none;
 }
 
-/* line 137, ../sass/style.scss */
+/* line 152, ../sass/style.scss */
 .footer {
   height: 100px;
   background: #353535;
@@ -6839,31 +6904,31 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   /* IE6-9 */
 }
 
-/* line 143, ../sass/style.scss */
+/* line 158, ../sass/style.scss */
 .small-header {
   font-size: 1em;
 }
 
-/* line 146, ../sass/style.scss */
+/* line 161, ../sass/style.scss */
 .blue {
   color: #4196f0;
 }
-/* line 148, ../sass/style.scss */
+/* line 163, ../sass/style.scss */
 .blue span.red {
   color: #d60003;
 }
 
-/* line 152, ../sass/style.scss */
+/* line 167, ../sass/style.scss */
 .red {
   color: #d60003;
 }
 
-/* line 156, ../sass/style.scss */
+/* line 171, ../sass/style.scss */
 .single-shadow {
   text-shadow: 1px 1px 5px black;
 }
 
-/* line 159, ../sass/style.scss */
+/* line 174, ../sass/style.scss */
 input[type="search"].dark-search {
   background: #4b4b4b;
   border: none;
@@ -6872,27 +6937,4 @@ input[type="search"].dark-search {
   background-position: right;
   background-size: 20px;
   color: lightgray;
-}
-
-/* line 169, ../sass/style.scss */
-input[type="button"].black {
-  background: #484848;
-  /* Old browsers */
-  background: -moz-linear-gradient(top, #484848 0%, black 100%);
-  /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #484848), color-stop(100%, black));
-  /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #484848 0%, black 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #484848 0%, black 100%);
-  /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #484848 0%, black 100%);
-  /* IE10+ */
-  background: linear-gradient(to bottom, #484848 0%, #000000 100%);
-  /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$start', endColorstr='$end',GradientType=0 );
-  /* IE6-9 */
-  border-radius: 5px;
-  color: white;
-  border: 1px solid black;
 }

@@ -5,6 +5,7 @@
 @import "compass/layout/sticky-footer";
 @import "compass/layout/stretching";
 @import "compass_twitter_bootstrap";
+@import "sassy-buttons";
 @import "variables";
 @import "mixins";
 
@@ -20,6 +21,20 @@ a{
 		cursor:default;
 		opacity:.5;
 	}
+}
+
+input{
+	&.disabled{
+		cursor:default;
+		opacity:.5;
+	}
+
+	&[type="button"]{
+		&.black{
+			@include sassy-button(simple, 5px, 1em, $black-button-start, $black-button-end, white, none);
+		}
+	}
+	
 }
 
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{
@@ -164,12 +179,4 @@ input[type="search"].dark-search{
 	background-position:right;
 	background-size:20px;
 	color:lightgray;
-}
-
-input[type="button"].black{
-	@include grad-bg($black-button-start, $black-button-end);
-	
-	border-radius:5px;
-	color:white;
-	border:1px solid black;
 }

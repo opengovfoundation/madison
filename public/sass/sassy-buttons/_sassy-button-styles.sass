@@ -1,0 +1,16 @@
+// Mixin for some optional styles on sassy buttons
+
+@mixin sassy-button-style($style, $base-color: $sb-base-color)
+  @if $style == "push"
+    position: relative
+    @include box-shadow(darken($base-color, 12%) 0 0.4em 0px, lighten($base-color, 18%) 0 1px 0 inset)
+    border-bottom: solid 1px $base-color
+    &:active
+      top: .3em
+      @include box-shadow(darken($base-color, 8%) 0 0.2em 0px)
+  @if $style == "inset"
+    @include box-shadow(darken($base-color, 8%) 0 0.2em 0.4em inset)
+    border: solid 1px darken($base-color, 15%)
+    &:active
+      @include box-shadow(darken($base-color, 12%) 0 0.2em 0.4em inset)
+

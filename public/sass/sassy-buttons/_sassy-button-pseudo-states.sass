@@ -1,0 +1,51 @@
+// Mixin that generates :hover, :active, and disabled psuedo states
+
+@mixin sassy-pseudo-states($first-color, $second-color, $style)
+  @include sassy-button-hover($first-color, $second-color, $style)
+
+  &.disabled, &[disabled]
+    @include opacity(0.6)
+    background: $second-color
+    cursor: default
+    @include box-shadow(none)
+
+
+@mixin sassy-button-hover($first-color, $second-color, $style)
+
+  &:hover
+    text-decoration: none
+  @if $style == "matte"
+    &:hover
+      background-color: darken($second-color, 5%)
+      @include background(linear-gradient(color-stops(darken($first-color, 5%) 3%, darken($second-color, 5%) 75%)))
+    &:active
+      @include sassy-button-active-shadow($second-color)
+  @if $style == "shiny"
+    &:hover
+      background-color: $second-color
+      @include background(linear-gradient(color-stops(darken($first-color, 2%), $second-color 50%, darken($second-color, 8%))))
+    &:active
+      @include sassy-button-active-shadow($second-color)
+  @if $style == "glass"
+    &:hover
+      background-color: darken($second-color, 7%)
+      @include background(linear-gradient(color-stops(darken($first-color, 7%) 50%, darken($second-color, 7%) 51%)))
+    &:active
+      @include sassy-button-active-shadow($second-color)
+  @if $style == "simple"
+    &:hover
+      background-color: darken($second-color, 5%)
+      @include background(linear-gradient(color-stops(darken($first-color, 5%),darken($second-color, 5%))))
+    &:active
+      @include sassy-button-active-shadow($second-color)
+  @if $style == "flat"
+    &:hover
+      background-color: darken($first-color, 5%)
+    &:active
+      background-color: darken($first-color, 8%)
+
+
+
+
+
+

@@ -14,17 +14,18 @@ $(document).ready(function(){
 	});
 	
 	//Add a tooltip to disabled links - "This function coming soon!"
-	$('a.disabled').qtip({
-			content: 'This function coming soon!',
+	$('.disabled').qtip({
+			content: 'Coming Soon!',
 			position:{
-				corner: {
-					target: 'bottomMiddle',
-					tooltip: 'topMiddle'
-				}
+				my: 'top center',
+				at: 'bottom center'
 			},
 			show: 'mouseover',
-			hide: 'mouseout'
-	});
+			hide: 'mouseout',
+			style: {
+				classes: 'qtip-shadow qtip-dark qtip-rounded'
+			}
+	}, event);
 	
 });
 

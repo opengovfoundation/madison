@@ -1,0 +1,24 @@
+// Mixin that controls the text style
+@mixin sassy-button-text-style($base-color, $second-color, $text-color, $text-style: "inset")
+  $text-lightness: lightness($text-color)
+  $text-color-shift: 0
+  $diff : lightness($base-color) - lightness($second-color)
+
+  @if $diff > 40
+    $text-color-shift: 35  + ($diff/10)
+  @else if $diff > 18
+    $text-color-shift: 30  + ($diff/10)
+  @else
+    $text-color-shift: 25  + ($diff/10)
+
+
+  @if $text-style == "inset"
+    @if $text-lightness < 50
+      @include text-shadow(lighten($second-color, ($text-color-shift/1.5)) 0 1px 0)
+    @else
+      @include text-shadow(darken($base-color, $text-color-shift) 0 -1px 0)
+  @if $text-style == "raised"
+    @if $text-lightness < 50
+      @include text-shadow(lighten($second-color, ($text-color-shift/1.5)) 0 -1px 0)
+    @else
+      @include text-shadow(darken($base-color, $text-color-shift) 0 1px 0)

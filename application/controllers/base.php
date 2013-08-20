@@ -18,6 +18,7 @@ class Base_Controller extends Controller {
 	
 	public function __construct(){
 		//Assets
+		Asset::add('qtip-style', 'stylesheets/jquery.qtip.min.css');
 		Asset::add('style', 'stylesheets/style.css');
 		Asset::add('jquery', 'js/jquery-1.8.0.js');
 		Asset::add('jquery-ui', 'js/jquery.ui.core.js');
@@ -30,7 +31,8 @@ class Base_Controller extends Controller {
 		Asset::add('bill-reader', 'js/bill-reader.js');
 		Asset::add('main', 'js/madison.js');
 		Asset::add('underscore', 'js/underscore.min.js');
-		Asset::add('qtip', 'js/jquery.qtip-1.0.0-rc3.min.js');
+		Asset::add('qtip', 'js/jquery.qtip.min.js');
+		Asset::add('imagesloaded', 'js/imagesloaded.min.js');
 		parent::__construct();
 		
 		$docs = Doc::order_by('updated_at', 'desc')->take(10)->get();
