@@ -6626,17 +6626,22 @@ body {
   background: url(../img/grey.png) repeat;
 }
 
-/* line 17, ../sass/style.scss */
+/* line 18, ../sass/style.scss */
 a:hover {
   text-decoration: none;
 }
+/* line 19, ../sass/style.scss */
+a.disabled {
+  cursor: default;
+  opacity: .5;
+}
 
-/* line 21, ../sass/style.scss */
+/* line 25, ../sass/style.scss */
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
   margin-top: 10px;
 }
 
-/* line 26, ../sass/style.scss */
+/* line 30, ../sass/style.scss */
 .header {
   background: #353535;
   /* Old browsers */
@@ -6655,50 +6660,50 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$start', endColorstr='$end',GradientType=0 );
   /* IE6-9 */
 }
-/* line 29, ../sass/style.scss */
+/* line 33, ../sass/style.scss */
 .header h1, .header h2 {
   margin: none;
   text-align: center;
 }
-/* line 32, ../sass/style.scss */
+/* line 36, ../sass/style.scss */
 .header h1 a, .header h2 a {
   color: #0088cc;
 }
-/* line 38, ../sass/style.scss */
+/* line 42, ../sass/style.scss */
 .header a {
   color: #787878;
 }
 
-/* line 42, ../sass/style.scss */
+/* line 46, ../sass/style.scss */
 #main {
   padding-right: 0;
   padding-left: 0;
   position: relative;
 }
 
-/* line 47, ../sass/style.scss */
+/* line 51, ../sass/style.scss */
 .nav {
   margin: 35px 0 0 0;
 }
-/* line 51, ../sass/style.scss */
+/* line 55, ../sass/style.scss */
 .nav ul li {
   display: inline-block;
 }
-/* line 52, ../sass/style.scss */
+/* line 56, ../sass/style.scss */
 .nav ul li a {
   margin: 0 25px;
 }
-/* line 59, ../sass/style.scss */
+/* line 63, ../sass/style.scss */
 .nav ul.dropdown {
   display: none;
 }
 
-/* line 63, ../sass/style.scss */
+/* line 67, ../sass/style.scss */
 #navigation-wrapper {
   margin: 20px 0;
 }
 
-/* line 66, ../sass/style.scss */
+/* line 70, ../sass/style.scss */
 .topbar {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -6725,7 +6730,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   border-radius: 10px;
 }
 
-/* line 72, ../sass/style.scss */
+/* line 76, ../sass/style.scss */
 .content {
   -webkit-box-shadow: 1em 1em 1em -1em black;
   -moz-box-shadow: 1em 1em 1em -1em black;
@@ -6734,7 +6739,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   padding: 20px;
 }
 
-/* line 78, ../sass/style.scss */
+/* line 82, ../sass/style.scss */
 .leftbar {
   position: relative;
   right: -2.12766%;
@@ -6751,7 +6756,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   border: 2px groove white;
   border-right: none;
 }
-/* line 89, ../sass/style.scss */
+/* line 93, ../sass/style.scss */
 .leftbar ul {
   list-style-type: none;
   padding: 0;
@@ -6767,12 +6772,12 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 .leftbar ul > li:last-child {
   margin-right: 0px;
 }
-/* line 91, ../sass/style.scss */
+/* line 95, ../sass/style.scss */
 .leftbar ul li {
   padding: 10px;
 }
 
-/* line 97, ../sass/style.scss */
+/* line 101, ../sass/style.scss */
 .rightbar {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -6782,7 +6787,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   background-color: #4b4b4b;
   border: 2px groove white;
 }
-/* line 102, ../sass/style.scss */
+/* line 106, ../sass/style.scss */
 .rightbar .bottom {
   text-align: center;
   background: #c70102;
@@ -6791,19 +6796,19 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   padding: 20px 0;
   color: white;
 }
-/* line 110, ../sass/style.scss */
+/* line 114, ../sass/style.scss */
 .rightbar .bottom a {
   color: white;
   font-size: 1.3em;
 }
 
-/* line 119, ../sass/style.scss */
+/* line 123, ../sass/style.scss */
 .getstarted p {
   margin: 10px 20px;
   color: lightgrey;
 }
 
-/* line 125, ../sass/style.scss */
+/* line 129, ../sass/style.scss */
 #page {
   margin-left: 0;
   padding: 10px;
@@ -6813,7 +6818,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   border-left: none;
 }
 
-/* line 133, ../sass/style.scss */
+/* line 137, ../sass/style.scss */
 .footer {
   height: 100px;
   background: #353535;
@@ -6834,31 +6839,31 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   /* IE6-9 */
 }
 
-/* line 139, ../sass/style.scss */
+/* line 143, ../sass/style.scss */
 .small-header {
   font-size: 1em;
 }
 
-/* line 142, ../sass/style.scss */
+/* line 146, ../sass/style.scss */
 .blue {
   color: #4196f0;
 }
-/* line 144, ../sass/style.scss */
+/* line 148, ../sass/style.scss */
 .blue span.red {
   color: #d60003;
 }
 
-/* line 148, ../sass/style.scss */
+/* line 152, ../sass/style.scss */
 .red {
   color: #d60003;
 }
 
-/* line 152, ../sass/style.scss */
+/* line 156, ../sass/style.scss */
 .single-shadow {
   text-shadow: 1px 1px 5px black;
 }
 
-/* line 155, ../sass/style.scss */
+/* line 159, ../sass/style.scss */
 input[type="search"].dark-search {
   background: #4b4b4b;
   border: none;
@@ -6869,7 +6874,7 @@ input[type="search"].dark-search {
   color: lightgray;
 }
 
-/* line 165, ../sass/style.scss */
+/* line 169, ../sass/style.scss */
 input[type="button"].black {
   background: #484848;
   /* Old browsers */

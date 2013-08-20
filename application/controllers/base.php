@@ -30,6 +30,7 @@ class Base_Controller extends Controller {
 		Asset::add('bill-reader', 'js/bill-reader.js');
 		Asset::add('main', 'js/madison.js');
 		Asset::add('underscore', 'js/underscore.min.js');
+		Asset::add('qtip', 'js/jquery.qtip-1.0.0-rc3.min.js');
 		parent::__construct();
 		
 		$docs = Doc::order_by('updated_at', 'desc')->take(10)->get();
