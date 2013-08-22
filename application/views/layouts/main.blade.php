@@ -5,9 +5,10 @@
 		<title>Madison Federal &mdash; Collaborate With Congress</title>
 		<!-- Mobile Optimization -->
 		<meta name="HandheldFriendly" content="True" />
-		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
 		<meta name="format-detection" content="telephone=no" />
 		<meta http-equiv="cleartype" content="on" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<!-- Stylesheets -->
 		{{ Asset::styles() }}
 		<!-- Scripts -->
@@ -25,15 +26,19 @@
 					<li><a href="{{ URL::to('about') }}">About the Madison Platform</a></li>
 					<li><a href="{{ URL::to('faq') }}">FAQ</a></li>
 					<li>
-						<!-- TODO:  Check if user's signed in -->
-						<a href="#">User Name</a>
-						<ul class="dropdown">
+						@if(Auth::check())
+						<a href="#">Welcome {{ Auth::user()->fname }}</a>
+						<ul class="dropdown hidden">
 							<li><a href="#">Bookmarked Bills</a></li>
 							<li><a href="#">Your Points</a></li>
 							<li><a href="#">Account Settings</a></li>
 							<li><a href="#">Help</a></li>
 							<li><a href="#">Logout</a></li>
 						</ul>
+						@else
+						<a href="{{ URL::to('login') }}">Login</a>
+						<a href="{{ URL::to('signup') }}">Sign Up</a>
+						@endif
 					</li>
 					<li>
 						<form action="" class="search-form" method="post">
