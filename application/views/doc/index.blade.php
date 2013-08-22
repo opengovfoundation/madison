@@ -3,12 +3,10 @@
 @parent
 @endsection
 @section('content')
-<h1>Docs</h1>
-<div class="row-fluid well well-large">
-	<div class="span12">
+	<div class="content col-md-12">
+		<h1>Docs</h1>
 		@foreach( $docs as $doc )
 			<a href="{{ URL::to('doc/' . $doc->slug) }}">{{ $doc->title }}</a>
 		@endforeach
 	</div>
-</div>
 @endsection

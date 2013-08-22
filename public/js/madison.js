@@ -12,20 +12,12 @@ $(document).ready(function(){
 	$('a.disabled').click(function(event){
 		event.preventDefault();
 	});
-	
-	//Add a tooltip to disabled links - "This function coming soon!"
-	$('.disabled').qtip({
-			content: 'Coming Soon!',
-			position:{
-				my: 'top center',
-				at: 'bottom center'
-			},
-			show: 'mouseover',
-			hide: 'mouseout',
-			style: {
-				classes: 'qtip-shadow qtip-dark qtip-rounded'
-			}
-	}, event);
+
+	$('.disabled').tooltip({
+		'animation': true,
+		'placement': 'bottom',
+		'title': 'Coming Soon!'
+	});
 	
 });
 
