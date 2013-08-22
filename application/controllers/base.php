@@ -21,7 +21,7 @@ class Base_Controller extends Controller {
 		//TODO: Remove and use bootstrap tooltips
 		Asset::add('qtip-style', 'stylesheets/jquery.qtip.min.css');
 		Asset::add('bootstrap-css', 'bootstrap/css/bootstrap.min.css');
-		Asset::add('bootstrap-responsive', 'bootstrap/css/bootstrap-responsive.min.css');
+		Asset::add('bootstrap-theme', 'bootstrap/css/bootstrap-theme.min.css');
 		Asset::add('style', 'stylesheets/style.css');
 		Asset::add('jquery', 'js/jquery-1.8.0.js');
 		Asset::add('jquery-ui', 'js/jquery.ui.core.js');

@@ -3,21 +3,22 @@
 @parent
 @endsection
 @section('content')
-<div class="row-fluid">
-	<div class="span12">
-		<h1>{{ $doc->title }}</h1>
+	<div class="col-md-8 content doc_content @if(Auth::check())logged_in@endif">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>{{ $doc->title }}</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				@foreach($doc->get_root_content() as $root_content)
+					<?php Helpers::output_tree($root_content); ?>
+				@endforeach
+			</div>
+		</div>
 	</div>
-</div>
-<div class="row-fluid">
-	<div class="span2 spacer"></div>
-	<div class="span6 content doc_content @if(Auth::check())logged_in@endif">
-		@foreach($doc->get_root_content() as $root_content)
-			<?php Helpers::output_tree($root_content); ?>
-		@endforeach
-	</div>
-	<div class="span3 rightbar participate">
+	<div class="col-md-3 col-md-offset-1 rightbar participate">
 		@include('doc.reader.participate')
 	</div>
-	<div class="span1 spacer"></div>
 </div>
 @endsection

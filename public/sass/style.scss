@@ -4,7 +4,6 @@
 @import "compass/css3/box-shadow";
 @import "compass/layout/sticky-footer";
 @import "compass/layout/stretching";
-//@import "compass_twitter_bootstrap";
 @import "sassy-buttons";
 @import "variables";
 @import "mixins";
@@ -94,10 +93,11 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	margin:20px 0;
 }
 .topbar{
-	margin-top:20px;
-	margin-bottom:20px;
 	@include grad-bg($blue-grad-start, $blue-grad-end);
 	@include border-radius(10px);
+	
+	margin:20px 0;
+	padding:10px;
 }
 .content{
 	@include single-box-shadow(black, 1em, 1em, 1em, -1em);
@@ -169,6 +169,8 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 }
 
 .getstarted{
+	padding:0;
+
 	p{
 		margin:10px 20px;
 		color:lightgrey;
