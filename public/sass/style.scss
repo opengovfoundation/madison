@@ -4,7 +4,7 @@
 @import "compass/css3/box-shadow";
 @import "compass/layout/sticky-footer";
 @import "compass/layout/stretching";
-@import "compass_twitter_bootstrap";
+//@import "compass_twitter_bootstrap";
 @import "sassy-buttons";
 @import "variables";
 @import "mixins";
@@ -24,6 +24,13 @@ a{
 	&.disabled{
 		cursor:default;
 		opacity:.5;
+	}
+	
+	&.grey{
+		color:$light-gray;
+	}
+	&.white{
+		color:white;
 	}
 }
 
@@ -80,7 +87,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 		}
 	}
 	ul.dropdown{
-		display:none;
+		//Add dropdown styling
 	}
 }
 #navigation-wrapper{
@@ -121,6 +128,29 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	@include border-radius(10px);
 	@include bg($dark-gray);
 	border: 2px groove white;
+	
+	> .row-fluid{
+		border-bottom:1px solid #3c3c3c;
+	}
+	
+	> .row-fluid:last-child{
+		border-bottom:none;
+	}
+	
+	h3{
+		color:$light-gray;
+		margin-left:20px;
+		font-family:arial;
+		font-weight:200;
+		font-size:1.5em;
+	}
+	h4{
+		color:$light-gray;
+		margin-left:20px;
+		font-family:arial;
+		font-weight:200;
+		font-size:1em;
+	}
 	
 	.bottom{
 		text-align:center;
@@ -169,6 +199,92 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	}
 }
 
+.participate-sponsor{
+	background:#999;
+	.sponsor-button{
+		background:#999;
+		text-align:center;
+		color:white;
+		height:40px;
+		line-height:40px;
+		width:50%;
+		border-right:1px solid $dark-gray;
+	}
+	a:last-child .sponsor-button{
+		border-right:none;
+	}
+	a.disabled .sponsor-button{
+		opacity:.9;
+	}
+}
+
+.participate-share{
+	background:#999;
+	.share-button{
+		width:25%;
+		text-align:center;
+		color:white;
+		height:30px;
+		line-height:30px;
+		border-right:1px solid $dark-gray;
+	}
+	
+	a:last-child .share-button{
+		border-right:none;
+	}
+	a.disabled .share-button{
+		opacity:.9;
+	}
+}
+
+.legend{
+	> p{
+		margin-left:20px;
+		color:$light-gray;
+		font-size:.9em;
+		float:left;
+	}
+	
+	.legend-color{
+		width:30px;
+		height:15px;
+		float:left;
+		margin-left:10px;
+		margin-top:2px;
+	}
+	
+	&.legend-comments .legend-color{
+		background: $comment-color;
+	}
+	&.legend-suggestions .legend-color{
+		background:$suggestion-color;
+	}
+}
+
+.notes-wrapper{
+	max-height:700px;
+	overflow-y:scroll;
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+	margin-bottom:1%;
+	
+	.note{
+		padding:10px 0px;
+	}
+	
+	.note-suggestion{
+		background:$suggestion-color;
+	}
+	.note-comment{
+		background:$comment-color;
+	}
+}
+
+.row-fluid .span12.notes-wrapper{
+	width:98%;
+	margin-left:1%;
+}
+
 //Helper Classes
 .hidden{
 	display:none;
@@ -198,3 +314,71 @@ input[type="search"].dark-search{
 	background-size:20px;
 	color:lightgray;
 }
+
+//CSS Graphics
+	//Ribbon
+	.ribbon{
+		width:25px;
+		height:40px;
+		position:relative;
+		top:-20px;
+		overflow:hidden;
+		right:-90px;
+		
+		.ribbon-container{
+			position:relative;
+			width:25px;
+			height:40px;
+			overflow:hidden;
+			margin:0 auto;
+		}
+		
+		.ribbon-base{
+			height:25px;
+			width:25px;
+			background:#999;
+			position:relative;
+			z-index:2;
+			
+			&:after{
+				content:' ';
+				position:absolute;
+				top:0;
+				width:19px;
+				left:2px;
+				height:36px;
+				border-left:1px dashed #cacaca;
+				border-right:1px dashed #cacaca;
+			}
+		}
+		
+		.ribbon-left-corner{
+			@include transform(45deg);
+		
+			width:25px;
+			height:25px;
+			background:#999;
+			position:absolute;
+			bottom:5px;
+			left:-13px;
+			z-index:1;
+		}
+		
+		.ribbon-right-corner{
+			@include transform(45deg);
+			
+			width:25px;
+			height:25px;
+			background:#999;
+			position:absolute;
+			bottom:5px;
+			right:-13px;
+			z-index:1;
+		}
+		
+	}
+
+
+
+
+

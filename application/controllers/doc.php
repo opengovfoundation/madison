@@ -28,6 +28,7 @@ class Doc_Controller extends Base_Controller{
 				return Response::error('404');
 			}
 			
+			/*
 			//Retrieve top-level document suggestions
 			$suggestions = Note::with('user')
 								->where_type('suggestion')
@@ -43,12 +44,18 @@ class Doc_Controller extends Base_Controller{
 								->where('doc_id', '=', $doc->id)
 								->order_by('likes')
 								->get();
+			*/
+			$notes = Note::with('user')
+								->where('parent_id', 'IS', DB::raw('NULL'))
+								->where('doc_id', '=', $doc->id)
+								->order_by('likes')
+								->get();
 			
 			//Render view and return
-			return View::make('doc.reader')
+			return View::make('doc.reader.index')
 						->with('doc', $doc)
-						->with('suggestions', $suggestions)
-						->with('comments', $comments);
+						->with('notes', $notes);
+						//->with('comments', $comments);
 						
 		}catch(Exception $e){
 			return Redirect::to('docs')->with('error', $e->getMessage());
