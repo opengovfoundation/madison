@@ -10,12 +10,12 @@ $(document).ready(function(){
 			$(this).removeClass('selected');
 			
 			//Hide || show appropriate participate options
-			$('#note-btn-wrapper').addClass('hidden');
-			$('#note-content-wrapper').addClass('hidden');
-				$('#note_content').val('');
-			$('#noselect-msg').removeClass('hidden');
-			$('#section_id').val('');
-			$('#type').val('');
+			$('#action-intro').removeClass('hidden');
+			$('#note_content').val('');
+			$('#note_content').addClass('hidden');
+			$('#note-submit-btn').addClass('hidden');
+			$('#comment-btn-wrapper').addClass('disabled').removeClass('active');
+			$('#suggestion-btn-wrapper').addClass('disabled').removeClass('active');
 			$('.note').removeClass('hidden');
 			return;
 		}
@@ -29,8 +29,9 @@ $(document).ready(function(){
 		$('#section_id').val(section_id);
 		
 		//Hide || show appropriate participate options
-		$('#noselect-msg').addClass('hidden');
-		$('#note-btn-wrapper').removeClass('hidden');
+		$('#suggestion-btn-wrapper').removeClass('disabled');
+		$('#comment-btn-wrapper').removeClass('disabled');
+		$('#action-intro').addClass('hidden');
 		
 		//Hide || show relevant notes
 		$('.note').addClass('hidden');
@@ -40,7 +41,7 @@ $(document).ready(function(){
 	/**
 	*	Adding Comment / Suggestion
 	*/
-	$('.add-note-btn').click(function(){
+	$('.action-btn').click(function(){
 		//No section selected - shouldn't happen if buttons are shown
 		if($('#section_id').val() == ''){
 			participate_error('Please select a section');
@@ -48,7 +49,7 @@ $(document).ready(function(){
 		}
 		
 		//Add correct note type to hidden input
-		var type = $(this).attr('id').replace('-btn', '');
+		var type = $(this).children('input[name="actions"]').attr('id').replace('-btn', '');
 		$('#type').val(type);
 		
 		if(type == 'suggestion'){
@@ -61,18 +62,19 @@ $(document).ready(function(){
 			return;
 		}
 		
-		$('#note-content-wrapper').removeClass('hidden');
+		$('#note_content').removeClass('hidden');
+		$('#note-submit-btn').removeClass('hidden');
 		
 	});
 });
 
 function participate_error(message){
-	$('#note-btn-wrapper').addClass('hidden');
-	$('#note-content-wrapper').addClass('hidden');
-		$('#note_content').val('');
-	$('#noselect-msg').removeClass('hidden');
+	$('#action-intro').removeClass('hidden');
 	$('#section_id').val('');
 	$('#type').val('');
+	$('#note_content').val('');
+	$('#note_content').addClass('hidden');
+	$('#note-submit-btn').addClass('hidden');
 	$('#participate-msg').html(message);
 	
 }

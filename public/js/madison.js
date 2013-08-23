@@ -5,7 +5,7 @@ $(document).ready(function(){
 	//Document select navigation
 	$('#doc-nav').change(function(){
 		var url = $(this).val();
-		window.location.href = url;
+		window.location.href = window.location.origin + '/' + url;
 	});
 	
 	//Disable links with the 'disabled' class
@@ -13,7 +13,7 @@ $(document).ready(function(){
 		event.preventDefault();
 	});
 
-	$('.disabled').tooltip({
+	$('.coming-feature').tooltip({
 		'animation': true,
 		'placement': 'bottom',
 		'title': 'Coming Soon!'

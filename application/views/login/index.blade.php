@@ -16,7 +16,7 @@
 					{{ Form::open('login', 'post') }}
 					{{ Form::label('email', 'Email') . Form::text('email', Input::old('email'), array('placeholder'=>'Email')) }}
 					{{ Form::label('password', 'Password') . Form::password('password', array('placeholder'=>'Password')) }}
-					{{ Form::submit('Login') }}
+					{{ Form::submit('Login', array('class'=>'btn')) }}
 					{{ Form::token() . Form::close() }}
 				</div>
 				<div class="span4 spacer"></div>

@@ -26,7 +26,7 @@ Route::controller(Controller::detect());
 Route::get('logout', function(){
 	Auth::logout();	//Logout the current user
 	Session::flush(); //delete the session
-	return Redirect::to('home');
+	return Redirect::back();
 });
 
 /*

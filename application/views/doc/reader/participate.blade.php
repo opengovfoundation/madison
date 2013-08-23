@@ -1,10 +1,8 @@
-<div class="row-fluid">
-	<div class="span8">
-		<h3>PARTICIPATE</h3>
-	</div>
-	<div class="span4">
-		<a href="" class="white disabled">
-			<span style="position:relative; top:20px;">Bookmark</span>
+<!-- div.col-md-3.col-md-offset-1.rightbar.participate -->
+<div class="row">
+	<div class="bookmark">
+		<a href="" class="white disabled coming-feature" style="line-height:100%;">
+			<span class="bookmark-label">Bookmark</span>
 			<div class="ribbon">
 				<div class="ribbon-container">
 					<div class="ribbon-base"></div>
@@ -14,16 +12,19 @@
 			</div>
 		</a>
 	</div>
+	<div class="col-md-8">
+		<h3>PARTICIPATE</h3>
+	</div>
 </div>
-<div class="row-fluid participate-sponsor">
+<div class="row participate-sponsor">
 	@include('doc.reader.sponsor')
 </div>
-<div class="row-fluid participate-share">
+<div class="row participate-share">
 	@include('doc.reader.share')
 </div>
-<div class="row-fluid participate-action">
+<div class="row participate-action">
 	@include('doc.reader.action')
 </div>
-<div class="row-fluid participate-notes">
+<div class="row participate-notes">
 	@include('doc.reader.notes')
 </div>

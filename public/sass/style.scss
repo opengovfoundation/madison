@@ -4,6 +4,7 @@
 @import "compass/css3/box-shadow";
 @import "compass/layout/sticky-footer";
 @import "compass/layout/stretching";
+@import "compass/css3/transition";
 @import "sassy-buttons";
 @import "variables";
 @import "mixins";
@@ -19,7 +20,14 @@ h1{
 }
 
 a{
-	&:hover{ text-decoration:none; }
+	@include single-transition(all, .2s, linear);
+	color:$light-gray;
+
+	&:hover{ 
+		color:white;
+		text-decoration:none; 
+	}
+	
 	&.disabled{
 		cursor:default;
 		opacity:.5;
@@ -51,6 +59,12 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	margin-top:10px;
 }
 
+textarea.form-inline{
+	width:100%;
+	margin-top:0;
+	height:150px;
+}
+
 
 .header{
 	@include grad-bg($black-grad-start, $black-grad-end);
@@ -62,10 +76,6 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 			color:#0088cc;
 		}
 		
-	}
-	
-	a{
-		color:#787878;
 	}
 }
 #main{
@@ -85,10 +95,16 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 			display:inline-block;
 		}
 	}
-	ul.dropdown{
-		//Add dropdown styling
+	
+	.open{
+		> a, > a:hover, > a:focus{
+			background-color:inherit;
+			border-color:none;
+			opacity:.5;
+		}
 	}
 }
+
 #navigation-wrapper{
 	margin:20px 0;
 }
@@ -129,11 +145,11 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	@include bg($dark-gray);
 	border: 2px groove white;
 	
-	> .row-fluid{
+	> .row{
 		border-bottom:1px solid #3c3c3c;
 	}
 	
-	> .row-fluid:last-child{
+	> .row:last-child{
 		border-bottom:none;
 	}
 	
@@ -152,7 +168,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 		font-size:1em;
 	}
 	
-	.bottom{
+	.rounded-bottom{
 		text-align:center;
 		background:#c70102;
 		border-bottom-left-radius:8px;
@@ -201,47 +217,8 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	}
 }
 
-.participate-sponsor{
-	background:#999;
-	.sponsor-button{
-		background:#999;
-		text-align:center;
-		color:white;
-		height:40px;
-		line-height:40px;
-		width:50%;
-		border-right:1px solid $dark-gray;
-	}
-	a:last-child .sponsor-button{
-		border-right:none;
-	}
-	a.disabled .sponsor-button{
-		opacity:.9;
-	}
-}
-
-.participate-share{
-	background:#999;
-	.share-button{
-		width:25%;
-		text-align:center;
-		color:white;
-		height:30px;
-		line-height:30px;
-		border-right:1px solid $dark-gray;
-	}
-	
-	a:last-child .share-button{
-		border-right:none;
-	}
-	a.disabled .share-button{
-		opacity:.9;
-	}
-}
-
 .legend{
 	> p{
-		margin-left:20px;
 		color:$light-gray;
 		font-size:.9em;
 		float:left;
@@ -264,14 +241,19 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 }
 
 .notes-wrapper{
-	max-height:700px;
+	max-height:300px;
 	overflow-y:scroll;
 	border-bottom-left-radius:10px;
 	border-bottom-right-radius:10px;
 	margin-bottom:1%;
+	width:98%;
+	margin-left:1%;
 	
 	.note{
 		padding:10px 0px;
+		border-bottom:1px solid white;
+		
+		&:last-child{ border-bottom: none;}
 	}
 	
 	.note-suggestion{
@@ -317,15 +299,28 @@ input[type="search"].dark-search{
 	color:lightgray;
 }
 
+.bookmark{
+	position:absolute;
+	top:0;
+	right:0;
+	
+	.bookmark-label{
+		position:relative;
+		top:20px;
+		right:40px;
+		font-size:.8em;
+	}
+}
+
 //CSS Graphics
 	//Ribbon
 	.ribbon{
 		width:25px;
 		height:40px;
+		overflow:hidden;
 		position:relative;
 		top:-20px;
-		overflow:hidden;
-		right:-90px;
+		right:-15px;
 		
 		.ribbon-container{
 			position:relative;
@@ -347,7 +342,7 @@ input[type="search"].dark-search{
 				position:absolute;
 				top:0;
 				width:19px;
-				left:2px;
+				left:3px;
 				height:36px;
 				border-left:1px dashed #cacaca;
 				border-right:1px dashed #cacaca;

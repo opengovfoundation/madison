@@ -23,6 +23,7 @@
 			</div>
 		</div>
 		
+		<div class="row">
 		<div class="container">
 			<div id="topbar-wrapper" class="row">
 				<div class="col-md-12 topbar">
@@ -30,10 +31,13 @@
 				</div>
 			</div>
 		</div>
+		</div>
 		
-		<div id="main" class="container">
-			<div class="row">
-				@yield('content')
+		<div id="main" class="row">
+			<div class="container">
+				<div class="row">
+					@yield('content')
+				</div>
 			</div>
 		</div>
 		

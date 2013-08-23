@@ -1,27 +1,31 @@
-<div class="row-fluid">
-	<div class="span10">
-		<h4>Suggestions &amp; Comments</h4>
+<!-- div.row -->
+<div class="col-md-12">
+	<div class="row">
+		<div class="col-md-12">
+			<h4>Suggestions &amp; Comments</h4>
+		</div>
 	</div>
-	<div class="span2">
-		<a href="" class="disabled white" style="position:relative; top:10px;">View All</a>
+	<div class="row">
+		<div class="col-md-12">
+			<a href="" class="disabled white">View All</a>
+		</div>
 	</div>
-</div>
-<div class="row-fluid">
-	<div class="span6 legend legend-comments"><p>Comments</p><div class="legend-color"></div></div>
-	<div class="span6 legend legend-suggestions"><p>Suggestions</p><div class="legend-color"></div></div>
-</div>
-<div class="row-fluid">
-	<div class="span12 notes-wrapper">
-		@foreach($notes as $note)
-			<div class="row-fluid note note-{{ $note->type }}">
-				<div class="span1 spacer"></div>
-				<div class="span1">
-					<img src="http://www.gravatar.com/avatar/{{ md5(strtolower(trim($note->user->email))) }}" alt="" />
+	<div class="row">
+		<div class="col-md-6 legend legend-comments"><p>Comments</p><div class="legend-color"></div></div>
+		<div class="col-md-6 legend legend-suggestions"><p>Suggestions</p><div class="legend-color"></div></div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 notes-wrapper">
+			@foreach($notes as $note)
+				<div class="row note note-{{ $note->type }} note_{{ $note->section_id }}">
+					<div class="col-md-3">
+						<img src="http://www.gravatar.com/avatar/{{ md5(strtolower(trim($note->user->email))) }}" class="img-rounded img-responsive" alt="" />
+					</div>
+					<div class="col-md-9">
+						<p>{{ $note->content }}</p>
+					</div>
 				</div>
-				<div class="span10">
-					<p>{{ $note->content }}</p>
-				</div>
-			</div>
-		@endforeach
+			@endforeach
+		</div>
 	</div>
 </div>
