@@ -25,13 +25,21 @@
 			</div>
 		
 			<div class="row">
-			<div class="container">
-				<div id="topbar-wrapper" class="row">
-					<div class="col-md-12 topbar">
-						@include('partials.topbar')
+				<div class="container">
+					<div id="topbar-wrapper" class="row">
+						<div class="col-md-12 topbar">
+							@include('partials.topbar')
+						</div>
 					</div>
 				</div>
 			</div>
+			
+			<div class="row">
+				<div class="container alerts">
+					@include('errors')
+					@include('message')
+					@include('success')
+				</div>
 			</div>
 		
 			<div id="main" class="row">

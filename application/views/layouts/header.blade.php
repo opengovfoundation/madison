@@ -11,10 +11,10 @@
 			<div class="dropdown">
 				<a href="#" data-toggle="dropdown">Welcome {{ Auth::user()->fname }} <span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
-					<li><a href="#">Bookmarked Bills</a></li>
-					<li><a href="#">Your Points</a></li>
-					<li><a href="#">Account Settings</a></li>
-					<li><a href="#">Help</a></li>
+					<li><a href="#" class="disabled coming-feature">Bookmarked Bills</a></li>
+					<li><a href="#" class="disabled coming-feature">Your Points</a></li>
+					<li><a href="#" class="disabled coming-feature">Account Settings</a></li>
+					<li><a href="#" class="disabled coming-feature">Help</a></li>
 					<li><a href="{{ URL::to('logout') }}">Logout</a></li>
 				</ul>
 			</div>
