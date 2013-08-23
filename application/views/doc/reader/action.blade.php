@@ -3,7 +3,7 @@
 @if(Auth::check())
 	{{ Form::open('note') }}
 	<div class="md-col-12">
-		<div class="btn-group btn-group-justified" data-toggle="buttons">
+		<div class="btn-group btn-group-justified action-btn-wrapper" data-toggle="buttons">
 			<label id="suggestion-btn-wrapper" class="action-btn btn btn-primary disabled">
 				<input type="radio" name="actions" id="suggestion-btn"/> Edit
 			</label>

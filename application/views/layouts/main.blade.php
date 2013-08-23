@@ -15,32 +15,34 @@
 		{{ Asset::scripts() }}
 	</head>
 	<body>
-		<div id="header" class="header row">
+		<div id="wrap"><!-- Necessary for the sticky footer -->
+			<div id="header" class="header row">
+				<div class="container">
+					<div class="row">
+						@include('layouts.header')
+					</div>
+				</div>
+			</div>
+		
+			<div class="row">
 			<div class="container">
-				<div class="row">
-					@include('layouts.header')
+				<div id="topbar-wrapper" class="row">
+					<div class="col-md-12 topbar">
+						@include('partials.topbar')
+					</div>
 				</div>
 			</div>
-		</div>
+			</div>
 		
-		<div class="row">
-		<div class="container">
-			<div id="topbar-wrapper" class="row">
-				<div class="col-md-12 topbar">
-					@include('partials.topbar')
+			<div id="main" class="row">
+				<div class="container">
+					<div class="row">
+						@yield('content')
+					</div>
 				</div>
+				<div id="main-footer"></div>
 			</div>
 		</div>
-		</div>
-		
-		<div id="main" class="row">
-			<div class="container">
-				<div class="row">
-					@yield('content')
-				</div>
-			</div>
-		</div>
-		
 		<div class="footer row">
 			<div class="container">
 				<div class="row">

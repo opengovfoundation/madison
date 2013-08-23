@@ -17,6 +17,7 @@ $(document).ready(function(){
 			$('#comment-btn-wrapper').addClass('disabled').removeClass('active');
 			$('#suggestion-btn-wrapper').addClass('disabled').removeClass('active');
 			$('.note').removeClass('hidden');
+			
 			return;
 		}
 		
@@ -65,6 +66,18 @@ $(document).ready(function(){
 		$('#note_content').removeClass('hidden');
 		$('#note-submit-btn').removeClass('hidden');
 		
+	});
+	
+	$('.action-btn-wrapper').hover(function(){
+		if(!$(this).children('.action-btn').first().hasClass('disabled')){
+			$(this).tooltip('distroy');
+		}
+	});
+	
+	$('.action-btn-wrapper').tooltip({
+		'animation': true,
+		'placement': 'bottom',
+		'title': 'Please select a section.'
 	});
 });
 

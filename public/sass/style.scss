@@ -9,7 +9,7 @@
 @import "variables";
 @import "mixins";
 
-@include sticky-footer(100px, "#main", "#main-footer", "#footer");
+//@include sticky-footer(100px, "#main", "#main-footer", "#footer");
 
 body{
 	background:url(../img/grey.png) repeat;
@@ -203,6 +203,7 @@ textarea.form-inline{
 }
 .footer{
 	height:100px;
+	margin-top:50px;
 	@include grad-bg($black-grad-start, $black-grad-end);
 }
 
