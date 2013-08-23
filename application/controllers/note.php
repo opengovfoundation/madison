@@ -131,7 +131,7 @@ class Note_Controller extends Base_Controller{
 		if($validation->fails()){
 			$doc = Doc::find($doc_id);
 			if(isset($doc)){
-				return Redirect::to('docs/' . $doc->slug)->with_input()->with_errors($validation);
+				return Redirect::to('doc/' . $doc->slug)->with_input()->with_errors($validation);
 			}else{
 				return Redirect::to('docs')->with_errors($validation)->with('error', 'Unable to redirect to document');
 			}
