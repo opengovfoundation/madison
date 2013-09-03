@@ -28,6 +28,24 @@ class Note extends Eloquent{
 		return $this->has_many('NoteMeta');
 	}
 	
+	public function setUserMeta(){
+		$metas = $this->has_many('NoteMeta')->where('user_id', '=', Auth::user()->id)->get();
+		
+		$metaArray = array(
+			'like'		=> 0,
+			'dislike'	=> 0,
+			'flag'		=> 0
+		);
+		
+		foreach($metas as $meta){
+			$metaArray[$meta->meta_value] = 1;
+		}
+		
+		$this->usermeta = $metaArray;
+		
+		return true;
+	}
+	
 	public function add_note_feedback($meta_type, $user_id){
 		$types = array('like', 'dislike', 'flag');
 		

@@ -25,7 +25,7 @@
 		</li>
 		<li>
 			<form action="" class="search-form" method="post">
-				<input type="search" class="dark-search disabled coming-feature" placeholder="Search" value="" />
+				<input type="search" class="form-control dark-search disabled coming-feature" placeholder="Search" value="" />
 				<!-- <input type="submit" value="Go" /> -->
 			</form>
 		</li>

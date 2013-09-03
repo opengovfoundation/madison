@@ -30,7 +30,6 @@ class Base_Controller extends Controller {
 		Asset::add('modernizr', 'vendor/modernizr-latest.js');
 		Asset::add('underscore', 'vendor/underscore.min.js');
 		Asset::add('style', 'stylesheets/style.css');
-		Asset::add('bill-reader', 'js/bill-reader.js');
 		Asset::add('main', 'js/madison.js');
 		
 		parent::__construct();

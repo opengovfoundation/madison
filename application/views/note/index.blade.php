@@ -4,21 +4,21 @@
 @endsection
 @section('content')
 <h1>{{ ucwords($note->type) }}</h1>
-<div class="row-fluid well well-large">
-	<div class="span12">
-		<div class="row-fluid">
+<div class="row well well-large">
+	<div class="col-md-12">
+		<div class="row">
 			@if($note->type == 'suggestion')
 				<h3>Original Passage</h3>
 			@else
 				<h3>Bill Passage</h3>
 			@endif
-			<div class="span12">
+			<div class="col-md-12">
 				<p>{{ $doc_content->content }}</p>
 			</div>
 		</div>
-		<div class="row-fluid">
+		<div class="row">
 			<h3>{{ ucwords($note->type) }}</h3>
-			<div class="span12">
+			<div class="col-md-12">
 				@if($note->type == 'suggestion')
 					<p>{{ StringDiff::diff($doc_content->content, $note->content) }}</p>
 				@else
@@ -26,14 +26,14 @@
 				@endif
 			</div>
 		</div>
-		<div class="row-fluid">
-			<div class="span6">
+		<div class="row">
+			<div class="col-md-6">
 				<a href="{{ URL::to('user/' . $user->id) }}">{{ $user->fname . ' ' . substr($user->lname, 0, 1) }}</a>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<p><span id="note_{{$note->id}}_likes">{{ $note->likes }}</span> likes, <span id="note_{{$note->id}}_dislikes">{{ $note->dislikes }}</span> dislikes</p>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				@if(Auth::check())
 				<div class="note-tools-large">
 					<div id="flag_{{$note->id}}" class="note-tool flag-large-btn" title="Flag as Inappropriate"></div>
@@ -43,8 +43,9 @@
 				@endif
 			</div>
 		</div>
-		<div class="row-fluid">
-			<div class="span12">
+		@if(Auth::check())
+		<div class="row">
+			<div class="col-md-12">
 				{{ Form::open('note/' . $note->id) }}
 					<textarea name="note_content" id="note_content" ></textarea>
 					<input type="hidden" name="doc_id" value="{{ $doc_content->doc_id }}"/>
@@ -55,21 +56,22 @@
 				{{ Form::token() . Form::close() }}
 			</div>
 		</div>
+		@endif
 		@if(isset($child_notes))
-			<div class="row-fluid">
+			<div class="row">
 				@foreach($child_notes as $child_note)
-					<div class="span12">
+					<div class="col-md-12">
 						<p>{{ $child_note->content }}</p>
 					</div>
-					<div class="span12">
-						<div class="row-fluid">
-							<div class="span6">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6">
 								<a href="{{ URL::to('user/' . $child_note->user->id)}}">{{ $child_note->user->fname . ' ' . substr($child_note->user->lname, 0, 1) }}</a>
 							</div>
-							<div class="span3">
+							<div class="col-md-3">
 								<p><span id="note_{{$child_note->id}}_likes">{{ $child_note->likes }}</span> likes, <span id="note_{{$child_note->id}}_dislikes">{{ $child_note->dislikes }}</span> dislikes</p>
 							</div>
-							<div class="span3">
+							<div class="col-md-3">
 								@if(Auth::check())
 								<div class="comment-tools">
 									<div id="flag_{{$child_note->id}}"class="note-tool flag-btn" title="Flag as Inappropriate"></div>

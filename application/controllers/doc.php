@@ -7,6 +7,9 @@ class Doc_Controller extends Base_Controller{
 	
 	public function __construct(){
 		parent::__construct();
+		
+		Asset::add('bill-reader', 'js/bill-reader.js');
+		Asset::add('note-votes', 'js/note.js');
 	}
 	
 	//GET document view
@@ -28,11 +31,26 @@ class Doc_Controller extends Base_Controller{
 				return Response::error('404');
 			}
 			
-			$notes = Note::with('user')
+			if(Auth::check()){
+				$note_data = array('user');
+			}else{
+				$note_data = 'user';
+			}
+			
+			
+			$notes = Note::with($note_data)
 								->where('parent_id', 'IS', DB::raw('NULL'))
 								->where('doc_id', '=', $doc->id)
-								->order_by('likes')
+								->order_by('likes', 'desc')
 								->get();
+						
+			if(Auth::check()){
+				foreach($notes as $note){
+					$note->setUserMeta();
+				}
+			}					
+			
+								
 			
 			//Render view and return
 			return View::make('doc.reader.index')

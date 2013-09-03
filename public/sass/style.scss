@@ -5,7 +5,7 @@
 @import "compass/layout/sticky-footer";
 @import "compass/layout/stretching";
 @import "compass/css3/transition";
-@import "sassy-buttons";
+@import "compass/css3/text-shadow";
 @import "variables";
 @import "mixins";
 
@@ -33,12 +33,28 @@ a{
 		opacity:.5;
 	}
 	
-	&.grey{
+	&.gray{
 		color:$light-gray;
 	}
 	&.white{
 		color:white;
 	}
+	&.black{
+		color:black;
+		
+		&:hover{
+			color:$light-gray;
+		}
+	}
+	&.underlined{
+		text-decoration:underline;
+	}
+}
+p{
+	&.gray{
+		color:$light-gray;
+	}
+
 }
 
 input{
@@ -46,13 +62,6 @@ input{
 		cursor:default;
 		opacity:.5;
 	}
-
-	&[type="button"]{
-		&.black{
-			@include sassy-button(simple, 5px, 1em, $black-button-start, $black-button-end, white, none);
-		}
-	}
-	
 }
 
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{
@@ -65,6 +74,11 @@ textarea.form-inline{
 	height:150px;
 }
 
+.btn-black{
+	@include grad-bg($black-grad-start, $black-grad-end);
+	
+	color:$light-gray;
+}
 
 .header{
 	@include grad-bg($black-grad-start, $black-grad-end);
@@ -263,11 +277,26 @@ textarea.form-inline{
 	.note-comment{
 		background:$comment-color;
 	}
-}
-
-.row-fluid .span12.notes-wrapper{
-	width:98%;
-	margin-left:1%;
+	
+	.note-votes{
+		@include single-transition(all, .2s, linear);
+		height:0;
+		overflow:hidden;
+		cursor:pointer;
+		
+		.note-vote-wrapper{
+			padding:0;
+		}
+	}
+	
+	.note:hover .note-votes{
+		height:20px;
+	}
+	
+	.note-vote.selected{
+		color:$blue-grad-end;
+	}
+	
 }
 
 //Helper Classes

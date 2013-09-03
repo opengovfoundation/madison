@@ -11,7 +11,7 @@ class Doc extends Eloquent{
 	}
 	
 	public function doc_meta(){
-		return $this->has_many('Doc_Meta');
+		return $this->has_many('DocMeta');
 	}
 	
 	public function get_root_content(){
