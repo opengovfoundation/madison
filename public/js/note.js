@@ -34,7 +34,7 @@ $(document).ready(function(){
 						$('#dislike-' + note_id).removeClass('selected');
 					}
 					
-					var likes = $('#note-' + note_id + '-likes').html(String(data.likes));
+					var likes = $('#note-' + note_id + '-likes').html(data.likes);
 					var dislikes = $('#note-' + note_id + '-dislikes').html(data.dislikes);
 					var flags = $('#note-' + note_id + '-flags').html(data.flags); 
 				}else{
