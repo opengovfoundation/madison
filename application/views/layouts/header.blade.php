@@ -13,7 +13,10 @@
 				<ul class="dropdown-menu" role="menu">
 					<li><a href="#" class="disabled coming-feature">Bookmarked Bills</a></li>
 					<li><a href="#" class="disabled coming-feature">Your Points</a></li>
-					<li><a href="#" class="disabled coming-feature">Account Settings</a></li>
+					<li><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}" >Account Settings</a></li>
+					@if(Auth::user()->user_level == '1')
+					<li><a href="{{ URL::to('dashboard') }}">Administrative Dashboard</a></li>
+					@endif
 					<li><a href="#" class="disabled coming-feature">Help</a></li>
 					<li><a href="{{ URL::to('logout') }}">Logout</a></li>
 				</ul>

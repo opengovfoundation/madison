@@ -25,7 +25,7 @@ a{
 
 	&:hover{ 
 		color:white;
-		text-decoration:none; 
+		text-decoration:none;
 	}
 	
 	&.disabled{
@@ -44,6 +44,10 @@ a{
 		
 		&:hover{
 			color:$light-gray;
+			
+			del, ins{
+				color:$light-gray;
+			}
 		}
 	}
 	&.underlined{
@@ -55,6 +59,16 @@ p{
 		color:$light-gray;
 	}
 
+}
+del, ins{
+	@include single-transition(all, .2s, linear);
+}
+
+del{
+	color:red;
+}
+ins{
+	color:green;
 }
 
 input{
@@ -122,13 +136,45 @@ textarea.form-inline{
 #navigation-wrapper{
 	margin:20px 0;
 }
-.topbar{
+.navbar{
 	@include grad-bg($blue-grad-start, $blue-grad-end);
-	@include border-radius(10px);
 	
-	margin:20px 0;
-	padding:10px;
+	margin-top:20px;
+	z-index:1;
+	
+	.nav{
+		margin-top:0;
+	}
+	
+	.navbar-form{
+		margin-top:0;
+		margin-bottom:0;
+	
+		button{
+			margin-top:10px;
+			margin-bottom:10px;
+		}
+		input[type="text"]{
+			margin-bottom:10px;
+		}
+	}
 }
+.navbar-default{
+	.navbar-nav{
+		li{
+			a{
+				&.black{
+					color:black;
+
+					&:hover{
+						color:white;
+					}
+				}
+			}
+		}
+	}
+}
+
 .content{
 	@include single-box-shadow(black, 1em, 1em, 1em, -1em);
 
@@ -222,7 +268,8 @@ textarea.form-inline{
 }
 
 //Document Reader
-.doc_content.logged_in .content_item{
+
+.content_item{
 	cursor:pointer;
 }
 
@@ -314,6 +361,10 @@ textarea.form-inline{
 }
 .red{
 	color:$red-header;
+	
+	&:hover{
+		color:$light-gray;
+	}
 }
 
 .single-shadow{

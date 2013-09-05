@@ -1,20 +1,22 @@
-<div class="row">
-	<div class="col-md-3 col-sm-3">
-		<select id="doc-nav">
-			<option value="">Select a recent bill</option>
-			<option value="docs/">View All</option>
-			@foreach($docs as $doc)
-				<option value="doc/{{ $doc->slug }}">{{ $doc->title }}</option>
-			@endforeach
-		</select>
+<nav class="navbar navbar-default" role="navigation">
+	<div class="collapse navbar-collapse navbar-ex1-collapse">
+		<ul class="nav navbar-nav">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle black" data-toggle="dropdown">Select a recent bill <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="{{ URL::to('docs') }}">View All</a></li>
+					@foreach($docs as $doc)
+						<li><a href="{{ URL::to('doc/' . $doc->slug) }}">{{ $doc->title }}</a></li>
+					@endforeach
+		        </ul>
+			</li>
+		</ul>
+		<!-- <button type="button" class="btn btn-default navbar-btn btn-black">Request a Bill</button> -->
+		<form class="navbar-form navbar-right" role="search">
+			<div class="form-group">
+				<input type="text" class="form-control disabled coming-feature" placeholder="Search this bill">
+			</div>
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
 	</div>
-	<div class="col-md-3 col-sm-3 coming-feature">
-		<input type="button" class="btn btn-black disabled" value="Request a Bill" />
-	</div>
-	<div class="col-md-3 col-sm-3">
-		<a href="" class="disabled white coming-feature">Advanced Bill Search &gt;&gt;</a>
-	</div>
-	<div class="col-md-3 col-sm-3">
-		<input type="search" class="disabled coming-feature form-control" placeholder="Search"/>
-	</div>
-</div>
+</nav>

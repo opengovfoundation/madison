@@ -26,11 +26,11 @@
 		
 			<div class="row">
 				<div class="container">
-					<div id="topbar-wrapper" class="row">
-						<div class="col-md-12 topbar">
+					<!-- <div id="topbar-wrapper" class="row"> -->
+						<!-- <div class="col-md-12 topbar"> -->
 							@include('partials.topbar')
-						</div>
-					</div>
+						<!-- </div> -->
+					<!-- </div> -->
 				</div>
 			</div>
 			
