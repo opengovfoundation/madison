@@ -1,7 +1,4 @@
 @layout('layouts/main')
-@section('nav')
-@parent
-@endsection
 @section('content')
 	<div class="content col-md-12 docs">
 		<h1>All Documents</h1>

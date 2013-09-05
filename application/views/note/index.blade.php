@@ -1,7 +1,4 @@
 @layout('layouts/main')
-@section('nav')
-@parent
-@endsection
 @section('content')
 <h1>{{ ucwords($note->type) }}</h1>
 <div class="row well well-large">

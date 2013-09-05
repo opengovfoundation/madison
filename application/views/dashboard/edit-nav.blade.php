@@ -1,7 +1,4 @@
 @layout('layouts/main')
-@section('nav')
-@parent
-@endsection
 @section('content')
 <h1 class="text-center">Edit Navigation</h1>
 <div class="row-fluid well well-large">
