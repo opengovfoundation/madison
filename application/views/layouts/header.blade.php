@@ -11,13 +11,13 @@
 			<div class="dropdown">
 				<a href="#" data-toggle="dropdown">Welcome {{ Auth::user()->fname }} <span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
-					<li><a href="#" class="disabled coming-feature">Bookmarked Bills</a></li>
-					<li><a href="#" class="disabled coming-feature">Your Points</a></li>
+					<!-- <li><a href="#" class="disabled coming-feature">Bookmarked Bills</a></li> -->
+					<!-- <li><a href="#" class="disabled coming-feature">Your Points</a></li> -->
 					<li><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}" >Account Settings</a></li>
 					@if(Auth::user()->user_level == '1')
 					<li><a href="{{ URL::to('dashboard') }}">Administrative Dashboard</a></li>
 					@endif
-					<li><a href="#" class="disabled coming-feature">Help</a></li>
+					<!-- <li><a href="#" class="disabled coming-feature">Help</a></li> -->
 					<li><a href="{{ URL::to('logout') }}">Logout</a></li>
 				</ul>
 			</div>
@@ -28,7 +28,7 @@
 		</li>
 		<li>
 			<form action="" class="search-form" method="post">
-				<input type="search" class="form-control dark-search disabled coming-feature" placeholder="Search" value="" />
+				<input type="search" class="form-control dark-search disabled coming-feature" placeholder="Search" value="" disabled/>
 				<!-- <input type="submit" value="Go" /> -->
 			</form>
 		</li>

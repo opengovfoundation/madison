@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Madison Federal &mdash; Collaborate With Congress</title>
+		<title>{{ $page_title }}</title>
 		<!-- Mobile Optimization -->
 		<meta name="HandheldFriendly" content="True" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
@@ -15,7 +15,7 @@
 		{{ Asset::scripts() }}
 	</head>
 	<body>
-		<div id="wrap"><!-- Necessary for the sticky footer -->
+		<div id="wrap">
 			<div id="header" class="header row">
 				<div class="container">
 					<div class="row">
@@ -23,14 +23,9 @@
 					</div>
 				</div>
 			</div>
-		
 			<div class="row">
 				<div class="container">
-					<!-- <div id="topbar-wrapper" class="row"> -->
-						<!-- <div class="col-md-12 topbar"> -->
-							@include('partials.topbar')
-						<!-- </div> -->
-					<!-- </div> -->
+					@include('partials.topbar')
 				</div>
 			</div>
 			
@@ -48,10 +43,11 @@
 						@yield('content')
 					</div>
 				</div>
-				<div id="main-footer"></div>
+				<div id="wrap-footer"></div>
 			</div>
+			
 		</div>
-		<div class="footer row">
+		<div id="footer" class="footer row">
 			<div class="container">
 				<div class="row">
 					@include('layouts.footer')

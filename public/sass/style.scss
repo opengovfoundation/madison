@@ -9,7 +9,7 @@
 @import "variables";
 @import "mixins";
 
-//@include sticky-footer(100px, "#main", "#main-footer", "#footer");
+@include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
 
 body{
 	background:url(../img/grey.png) repeat;

@@ -10,7 +10,7 @@
 			<div class="col-md-3 col-md-offset-1">
 				<img src="http://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->email))) }}?s=200" class="img-rounded img-responsive" alt="" />
 				@if(Auth::check() && Auth::user()->id == $user->id)
-				<a href="{{ URL::to('user/edit' . Auth::user()->id) }}" class="red">Edit Profile</a>
+				<a href="{{ URL::to('user/edit/' . Auth::user()->id) }}" class="red">Edit Profile</a>
 				@endif
 			</div>
 			<div class="col-md-8">

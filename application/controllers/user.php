@@ -25,19 +25,15 @@ class User_Controller extends Base_Controller{
 			return Response::error('404');
 		}
 	
+		//Set data array
+		$data = array(
+			'user'			=> $user,
+			'page_id'		=> 'user_profile',
+			'page_title'	=> $user->fname . ' ' . substr($user->lname, 0, 1) . "'s Profile"	
+		);
+	
 		//Render view and return
-		return View::make('user.index')
-					->with('user', $user);
-	}
-	
-	public function put_index($id = null){
-		
-		
-		return Response::error('404');
-	}
-	
-	public function post_index($id = null){
-		return Response::error('404');
+		return View::make('user.index', $data);
 	}
 	
 	public function get_edit($id=null){
@@ -49,7 +45,13 @@ class User_Controller extends Base_Controller{
 			return Response::error('404');
 		}
 		
-		return View::make('user.edit.index');
+		//Set data array
+		$data = array(
+			'page_id'		=> 'edit_profile',
+			'page_title'	=> 'Edit Your Profile'
+		);
+		
+		return View::make('user.edit.index', $data);
 	}
 	
 	public function put_edit($id=null){
@@ -98,7 +100,12 @@ class User_Controller extends Base_Controller{
 		
 		return Redirect::back()->with('success_message', 'Your profile has been updated.');
 	}
+	
+	public function put_index($id = null){
+		return Response::error('404');
+	}
+	
+	public function post_index($id = null){
+		return Response::error('404');
+	}
 }
-
-
-
