@@ -1,12 +1,22 @@
 //Page load functions
 $(document).ready(function(){
 	/**
-	*	Set has-notes class for .content_items with notes
+	*	Set has-notes class for .content_items with notes and create note count badges
 	*/
 	$.each($('.note'), function(){
 		var id = $(this).attr('data-contentitem');
-
+		var badge = $('#badge_' + id);
+		
 		$('#content_' + id).addClass('has-notes');
+		
+		
+		if(badge.html() == ''){
+			badge.html('1');
+		}else{
+			var badgeNum = parseInt(badge.html(), '10')
+			badgeNum++;
+			badge.html(badgeNum);
+		}
 	});
 	
 	/**

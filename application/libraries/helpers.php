@@ -29,7 +29,8 @@ class Helpers{
 		?>
 		<ol>
 			<li>
-				<div id="content_<?php echo $parent->id; ?>" class="content_item"><?php echo $parent->content; ?></div>
+				
+				<div id="content_<?php echo $parent->id; ?>" class="content_item"><span><?php echo $parent->content; ?></span><span id="badge_<?php echo $parent->id; ?>" class="badge pull-right"></span></div>
 				<?php 
 					$children = $parent->content_children()->get();
 					if(count($children) > 0){
