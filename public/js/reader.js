@@ -1,7 +1,16 @@
 //Page load functions
 $(document).ready(function(){
 	/**
-	*	Selecting line items
+	*	Set has-notes class for .content_items with notes
+	*/
+	$.each($('.note'), function(){
+		var id = $(this).attr('data-contentitem');
+
+		$('#content_' + id).addClass('has-notes');
+	});
+	
+	/**
+	*	Binding for selecting line items
 	*/
 	$('.content_item').click(function(){
 		
@@ -40,7 +49,7 @@ $(document).ready(function(){
 	});
 	
 	/**
-	*	Adding Comment / Suggestion
+	*	Binding for adding comment / suggestion
 	*/
 	$('.action-btn').click(function(){
 		//No section selected - shouldn't happen if buttons are shown

@@ -275,17 +275,23 @@ textarea.form-inline{
 }
 
 //Document Reader
-.doc_content ol{
-	list-style:none;
+.doc_content{
+	max-height:700px;
+	overflow-y:scroll;
+	ol{
+		list-style:none;
+	}
 }
 
 .content_item{
 	cursor:pointer;
-}
 
-.content_item{
 	&.selected{
-		background:yellow;
+		background:yellow !important;
+	}
+	
+	&.has-notes{
+		background:$has-notes-gray;
 	}
 }
 
