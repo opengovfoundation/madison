@@ -1,4 +1,4 @@
-@if($errors->messages)
+@if(is_object($errors) && isset($errors->messages))
 	@foreach($errors->messages as $e)
 		<div class="alert alert-danger">
 			{{ $e[0] }}
