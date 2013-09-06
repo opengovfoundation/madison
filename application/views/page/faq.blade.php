@@ -2,5 +2,4 @@
 <dl>
 	<dt>FAQ Question?</dt>
 	<dd>FAQ answer. Lorem ipsum dolor sit amet.</dd>
-</dl>
-@include('partials.learn')	
+</dl>	
