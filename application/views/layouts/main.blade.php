@@ -49,11 +49,7 @@
 			</div>
 		</div>
 		<div class="footer row">
-			<div class="container">
-				<div class="row">
-					@include('layouts.footer')
-				</div>
-			</div>
+			@include('layouts.footer')
 		</div>
 	</body>
 </html>

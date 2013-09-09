@@ -149,6 +149,24 @@ textarea.form-inline{
 	}
 }
 
+.nav-footer {
+
+	padding-top: 30px;
+
+	.container {
+		width: 100%;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	a {
+		display: inline-block;
+		margin: 0 10px;
+		font-size: 12px;
+		text-transform: uppercase;
+	}
+}
+
 /* GLOBAL SEARCH
 ------------------------------ */
 .global-search {
