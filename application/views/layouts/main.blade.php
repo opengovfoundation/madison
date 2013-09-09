@@ -16,12 +16,9 @@
 	</head>
 	<body>
 		<div id="wrap"><!-- Necessary for the sticky footer -->
-			<div id="header" class="header row">
-				<div class="container">
-					<div class="row">
-						@include('layouts.header')
-					</div>
-				</div>
+			
+			<div id="header-main" class="header row">
+				@include('layouts.header')
 			</div>
 		
 			<div class="row">

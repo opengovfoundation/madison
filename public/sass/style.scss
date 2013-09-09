@@ -80,48 +80,110 @@ textarea.form-inline{
 	color:$light-gray;
 }
 
-.header{
+/* MAIN HEADER
+------------------------------ */
+.header {	
 	@include grad-bg($black-grad-start, $black-grad-end);
 	
-	h1, h2{
-		margin:none;
-		text-align:center;
-		a{
-			color:#0088cc;
-		}
-		
+	.logo-madison {
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	.link-home { display: inline-block; }
+
+	h1, h2 {
+		margin: 0;
+		text-align: center;
+		color: #459ffe;
+	}
+
+	h1 {
+		margin: 0 0 5px;
+		font-size: 28px;
+	}
+
+	h2 {
+		font-size: 14px;
+	}
+
+	.level {
+		color: #dc0002;
 	}
 }
+
+/* NAVIGATION
+------------------------------ */
+.nav {
+
+	// These are separated because they're global, and should be 
+	// applied to all navs. Avoids duplicate code.
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.nav-main {
+	
+	ul {
+		margin-top: 22px; /* TO-DO: Needs to be dynamic */
+	}
+
+	li {
+		margin-right: 20px;
+		float: left;
+		font-weight: bold;
+		font-size: 12px;
+	}
+
+	.dropdown-menu {
+		margin-top: 0;
+	}
+}
+
+/* GLOBAL SEARCH
+------------------------------ */
+.global-search {
+	
+	form {
+		width: 95%;
+		position: relative;
+		top: 14px; /* TO-DO: Needs to be dynamic */
+	}
+
+	.input-search {
+		margin: 0;
+	}
+
+	.input-submit {
+		height: 24px;
+		width: 24px;
+		margin: -12px 0 0;
+		border: 0;
+		position: absolute;
+		right: 5px;
+		top: 50%;
+		text-indent: -9999px;
+		background: transparent url(../img/dark-blue-search.png) center no-repeat;
+	}
+}
+
+/* CONTENT
+------------------------------ */
 #main{
 	padding-right:0;
 	padding-left:0;
 	position:relative;
 }
-.nav{
-	margin: 35px 0 0 0;
 
-	ul{
-		li{
-			a{
-				margin:0 25px;
-			}
-		
-			display:inline-block;
-		}
-	}
-	
-	.open{
-		> a, > a:hover, > a:focus{
-			background-color:inherit;
-			border-color:none;
-			opacity:.5;
-		}
-	}
-}
-
-#navigation-wrapper{
-	margin:20px 0;
-}
 .topbar{
 	@include grad-bg($blue-grad-start, $blue-grad-end);
 	@include border-radius(10px);
