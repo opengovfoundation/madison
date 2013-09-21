@@ -9,7 +9,7 @@
 @import "variables";
 @import "mixins";
 
-//@include sticky-footer(100px, "#main", "#main-footer", "#footer");
+@include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
 
 body{
 	background:url(../img/grey.png) repeat;
@@ -25,7 +25,7 @@ a{
 
 	&:hover{ 
 		color:white;
-		text-decoration:none; 
+		text-decoration:none;
 	}
 	
 	&.disabled{
@@ -44,6 +44,10 @@ a{
 		
 		&:hover{
 			color:$light-gray;
+			
+			del, ins{
+				color:$light-gray;
+			}
 		}
 	}
 	&.underlined{
@@ -55,6 +59,16 @@ p{
 		color:$light-gray;
 	}
 
+}
+del, ins{
+	@include single-transition(all, .2s, linear);
+}
+
+del{
+	color:red;
+}
+ins{
+	color:green;
 }
 
 input{
@@ -202,18 +216,57 @@ textarea.form-inline{
 	position:relative;
 }
 
-.topbar{
+.navbar{
 	@include grad-bg($blue-grad-start, $blue-grad-end);
-	@include border-radius(10px);
 	
-	margin:20px 0;
-	padding:10px;
+	margin-top:20px;
+	z-index:1;
+	
+	.nav{
+		margin-top:0;
+	}
+	
+	.navbar-form{
+		margin-top:0;
+		margin-bottom:0;
+	
+		button{
+			margin-top:10px;
+			margin-bottom:10px;
+		}
+		input[type="text"]{
+			margin-bottom:10px;
+		}
+	}
 }
+.navbar-default{
+	.navbar-nav{
+		li{
+			a{
+				&.black{
+					color:black;
+
+					&:hover{
+						color:white;
+					}
+				}
+			}
+		}
+	}
+}
+
 .content{
 	@include single-box-shadow(black, 1em, 1em, 1em, -1em);
 
 	background:white;
 	padding:20px;
+	
+	a{
+		color:black;
+	}
+	a:hover{
+		color:$light-gray;
+	}
 }
 .leftbar{
 	position:relative;
@@ -302,13 +355,23 @@ textarea.form-inline{
 }
 
 //Document Reader
-.doc_content.logged_in .content_item{
-	cursor:pointer;
+.doc_content{
+	max-height:700px;
+	overflow-y:scroll;
+	ol{
+		list-style:none;
+	}
 }
 
 .content_item{
+	cursor:pointer;
+
 	&.selected{
-		background:yellow;
+		background:yellow !important;
+	}
+	
+	&.has-notes{
+		background:$has-notes-gray;
 	}
 }
 
@@ -394,6 +457,10 @@ textarea.form-inline{
 }
 .red{
 	color:$red-header;
+	
+	&:hover{
+		color:$light-gray;
+	}
 }
 
 .single-shadow{

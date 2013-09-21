@@ -10,6 +10,8 @@ Route::get('about', 'page@about');
 Route::get('faq', 'page@faq');
 Route::get('/', 'page@home');
 
+Route::any('user/edit/(:num?)', 'user@edit');
+Route::any('user/(:num?)', 'user@index');
 Route::any('doc/(:any?)', 'doc@index');
 Route::any('note/(:num?)', 'note@index');
 Route::get('signup', 'login@signup');

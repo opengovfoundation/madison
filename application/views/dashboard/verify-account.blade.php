@@ -1,7 +1,4 @@
 @layout('layouts/main')
-@section('nav')
-@parent
-@endsection
 @section('content')
 <div class="row-fluid well well-large">
 	<div class="span12">

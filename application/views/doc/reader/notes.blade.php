@@ -17,7 +17,7 @@
 	<div class="row">
 		<div class="col-md-12 notes-wrapper">
 			@foreach($notes as $note)
-				<div class="row note note-{{ $note->type }} note_{{ $note->section_id }}">
+				<div class="row note note-{{ $note->type }} note_{{ $note->section_id }}" data-contentitem="{{ $note->section_id }}">
 					<div class="col-md-12">
 						<div class="row">
 							<div class="col-md-3">

@@ -37,5 +37,4 @@ class Base_Controller extends Controller {
 		$docs = Doc::order_by('updated_at', 'desc')->take(10)->get();
 		View::share('docs', $docs);
 	}
-
 }

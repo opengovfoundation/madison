@@ -1,7 +1,4 @@
 @layout('layouts/main')
-@section('nav')
-@parent
-@endsection
 @section('content')
 	<div class="col-md-8 content doc_content @if(Auth::check())logged_in@endif">
 		<div class="row">

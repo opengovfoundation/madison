@@ -9,7 +9,12 @@ class Login_Controller extends Base_Controller{
 	 * 	GET Login Page
 	 */
 	public function get_index(){
-		return View::make('login.index');
+		$data = array(
+			'page_id'		=> 'login',
+			'page_title'	=> 'Log In'
+		);
+		
+		return View::make('login.index', $data);
 	}
 	
 	
@@ -56,7 +61,12 @@ class Login_Controller extends Base_Controller{
 	 * 	GET Signup Page
 	 */
 	public function get_signup(){
-		return View::make('login.signup');
+		$data = array(
+			'page_id'		=> 'signup',
+			'page_title'	=> 'Sign Up for Madison'
+		);
+		
+		return View::make('login.signup', $data);
 	}
 	
 	/**
