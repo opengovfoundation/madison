@@ -166,6 +166,7 @@ textarea.form-inline{
 .nav-footer {
 
 	padding-top: 30px;
+	text-align: center;
 
 	.container {
 		width: 100%;
@@ -175,9 +176,18 @@ textarea.form-inline{
 
 	a {
 		display: inline-block;
-		margin: 0 10px;
+		box-sizing: border-box;
+		margin: 0 5px 0 0;
+		padding: 0 10px 0 0;
 		font-size: 12px;
 		text-transform: uppercase;
+		border-right: 1px solid #bcbab9;
+	}
+
+	a:last-child {
+		margin-right: none;
+		padding-right: none;
+		border-right: none;
 	}
 }
 
