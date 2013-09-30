@@ -1,9 +1,9 @@
-/* line 10, ../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 10, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%;
 }
 
-/* line 12, ../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 12, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #wrap {
   clear: both;
   min-height: 100%;
@@ -11,12 +11,12 @@ html, body {
   height: 100%;
   margin-bottom: -100px;
 }
-/* line 18, ../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 18, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #wrap #wrap-footer {
   height: 100px;
 }
 
-/* line 20, ../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 20, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #footer {
   clear: both;
   position: relative;
@@ -610,20 +610,19 @@ textarea.form-inline {
 input[type="search"].dark-search {
   background: #4b4b4b;
   border: none;
-  background-image: url('/img/blue-search.gif');
   background-repeat: no-repeat;
   background-position: right;
   background-size: 20px;
   color: lightgray;
 }
 
-/* line 489, ../sass/style.scss */
+/* line 488, ../sass/style.scss */
 .bookmark {
   position: absolute;
   top: 0;
   right: 0;
 }
-/* line 494, ../sass/style.scss */
+/* line 493, ../sass/style.scss */
 .bookmark .bookmark-label {
   position: relative;
   top: 20px;
@@ -631,7 +630,7 @@ input[type="search"].dark-search {
   font-size: .8em;
 }
 
-/* line 504, ../sass/style.scss */
+/* line 503, ../sass/style.scss */
 .ribbon {
   width: 25px;
   height: 40px;
@@ -640,7 +639,7 @@ input[type="search"].dark-search {
   top: -20px;
   right: -15px;
 }
-/* line 512, ../sass/style.scss */
+/* line 511, ../sass/style.scss */
 .ribbon .ribbon-container {
   position: relative;
   width: 25px;
@@ -648,7 +647,7 @@ input[type="search"].dark-search {
   overflow: hidden;
   margin: 0 auto;
 }
-/* line 520, ../sass/style.scss */
+/* line 519, ../sass/style.scss */
 .ribbon .ribbon-base {
   height: 25px;
   width: 25px;
@@ -656,7 +655,7 @@ input[type="search"].dark-search {
   position: relative;
   z-index: 2;
 }
-/* line 527, ../sass/style.scss */
+/* line 526, ../sass/style.scss */
 .ribbon .ribbon-base:after {
   content: ' ';
   position: absolute;
@@ -667,7 +666,7 @@ input[type="search"].dark-search {
   border-left: 1px dashed #cacaca;
   border-right: 1px dashed #cacaca;
 }
-/* line 539, ../sass/style.scss */
+/* line 538, ../sass/style.scss */
 .ribbon .ribbon-left-corner {
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
@@ -682,7 +681,7 @@ input[type="search"].dark-search {
   left: -13px;
   z-index: 1;
 }
-/* line 551, ../sass/style.scss */
+/* line 550, ../sass/style.scss */
 .ribbon .ribbon-right-corner {
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
