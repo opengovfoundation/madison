@@ -1,9 +1,17 @@
 $(document).ready(function(){
-	$('input[type=text]:first').focus();
-
-	$('#doc-nav').change(function(){
-		var url = $(this).val();
-		window.location.href = url;
+	//Focus on first input element
+	$('input:first').focus();
+	
+	//Disable links with the 'disabled' class
+	$('a.disabled').click(function(event){
+		event.preventDefault();
 	});
+
+	$('.coming-feature').tooltip({
+		'animation': true,
+		'placement': 'bottom',
+		'title': 'Coming Soon!'
+	});
+	
 });
 

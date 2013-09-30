@@ -1,10 +1,7 @@
 @layout('layouts/main')
-@section('nav')
-@parent
-@endsection
 @section('content')
-<div class="row-fluid well well-large">
-	<div class="span12">
+<div class="row content">
+	<div class="col-md-12">
 		{{ Form::open('dashboard/docs/' . $doc->id, 'put', array('id'=>'doc_content_form')) }}
 		<ol id="doc_list" class="sortable doc_list">
 			<?php

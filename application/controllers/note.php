@@ -36,12 +36,17 @@ class Note_Controller extends Base_Controller{
 		$doc_content = $note->doc_content()->first();
 		$child_notes = $note->note_children()->get();
 		
+		$data = array(
+			'page_id'		=> 'note',
+			'page_title'	=> 'View ' . ucwords($note->type),
+			'note'			=> $note,
+			'user'			=> $user,
+			'doc_content'	=> $doc_content,
+			'child_notes'	=> $child_notes
+		);
+		
 		//Render view and return to user
-		return View::make('note.index')
-					->with('note', $note)
-					->with('user', $user)
-					->with('doc_content', $doc_content)
-					->with('child_notes', $child_notes);
+		return View::make('note.index', $data);
 		
 	}
 	
@@ -131,7 +136,7 @@ class Note_Controller extends Base_Controller{
 		if($validation->fails()){
 			$doc = Doc::find($doc_id);
 			if(isset($doc)){
-				return Redirect::to('docs/' . $doc->slug)->with_input()->with_errors($validation);
+				return Redirect::to('doc/' . $doc->slug)->with_input()->with_errors($validation);
 			}else{
 				return Redirect::to('docs')->with_errors($validation)->with('error', 'Unable to redirect to document');
 			}

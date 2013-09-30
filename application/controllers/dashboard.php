@@ -20,7 +20,12 @@ class Dashboard_Controller extends Base_Controller{
 	 * 	Dashboard Index View
 	 */
 	public function get_index(){
-		return View::make('dashboard.index');
+		$data = array(
+			'page_id'		=> 'dashboard',
+			'page_title'	=> 'Dashboard'
+		);
+		
+		return View::make('dashboard.index', $data);
 	}
 	
 	/**
@@ -34,9 +39,14 @@ class Dashboard_Controller extends Base_Controller{
 			$nav = unserialize($nav->meta_value);
 		}
 		
-		return View::make('dashboard.edit-nav')
-			->with('docs', $docs)
-			->with('nav', $nav);
+		$data = array(
+			'page_id'		=> 'edit_nav',
+			'page_title'	=> 'Edit Navigation',
+			'docs'			=> $docs,
+			'nav'			=> $nav
+		);
+		
+		return View::make('dashboard.edit-nav', $data);
 	}
 	
 	/**
@@ -67,13 +77,27 @@ class Dashboard_Controller extends Base_Controller{
 	public function get_docs($id = ''){
 		if($id == ''){
 			$docs = Doc::all();
-			return View::make('dashboard.docs')->with('docs', $docs);
+			
+			$data = array(
+				'page_id'		=> 'doc_list',
+				'page_title'	=> 'Edit Documents',
+				'docs'			=> $docs
+			);
+			
+			return View::make('dashboard.docs', $data);
 		}
 		else{
 			$doc = Doc::find($id);
 			if(isset($doc)){
 				Asset::add('edit-doc', 'js/edit-doc.js');
-				return View::make('dashboard.edit-doc')->with('doc', $doc);
+				
+				$data = array(
+					'page_id'		=> 'edit_doc',
+					'page_title'	=> 'Edit ' . $doc->title,
+					'doc'			=> $doc
+				);
+				
+				return View::make('dashboard.edit-doc', $data);
 			}
 			else{
 				return Response::error('404');
@@ -208,7 +232,12 @@ class Dashboard_Controller extends Base_Controller{
 	 * 	Verification request view
 	 */
 	public function get_verifications(){
-		return View::make('dashboard.verify-account');
+		$data = array(
+			'page_id'		=> 'verify_users',
+			'page_title'	=> 'Verify Users'
+		);
+		
+		return View::make('dashboard.verify-account', $data);
 	}
 	
 	/**
@@ -217,5 +246,35 @@ class Dashboard_Controller extends Base_Controller{
 	public function post_verification(){
 		
 	}
+	
+	
+	
+	/**
+	 * 	Post route for House document import
+	 */
+	public function post_import(){
+		$url = Input::get('url');
+		$import_details = Input::all();
+		
+		$rules = array('url' => 'required');
+		
+		$validation = Validator::make($import_details, $rules);
+		
+		if($validation->fails()){
+			return Redirect::back()->with_input()->with_errors($validation);
+		}
+		
+		
+		try{
+			$importer = new BillImport($url);//Found in the library folder ( used specifically for Federal House bills )
+			$importer->createDoc();
+		}catch(Exception $e){
+			return Redirect::back()->with_input()->with('error', 'Error: ' . $e->getMessage());
+		}
+		
+		return Redirect::back()->with('success_message', "Document created successfully!");
+	}
+	
+	
 }
 

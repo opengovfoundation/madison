@@ -7,6 +7,9 @@ class Doc_Controller extends Base_Controller{
 	
 	public function __construct(){
 		parent::__construct();
+		
+		Asset::add('bill-reader', 'js/bill-reader.js');
+		Asset::add('note-votes', 'js/note.js');
 	}
 	
 	//GET document view
@@ -14,7 +17,14 @@ class Doc_Controller extends Base_Controller{
 		//No document requested, list documents
 		if(null == $slug){
 			$docs = Doc::all();
-			return View::make('doc.index')->with('docs', $docs);
+			
+			$data = array(
+				'docs'			=> $docs,
+				'page_id'		=> 'docs',
+				'page_title'	=> 'All Documents'
+			);
+			
+			return View::make('doc.index', $data);
 		}
 		
 		try{
@@ -28,27 +38,35 @@ class Doc_Controller extends Base_Controller{
 				return Response::error('404');
 			}
 			
-			//Retrieve top-level document suggestions
-			$suggestions = Note::with('user')
-								->where_type('suggestion')
+			if(Auth::check()){
+				$note_data = array('user');
+			}else{
+				$note_data = 'user';
+			}
+			
+			
+			$notes = Note::with($note_data)
 								->where('parent_id', 'IS', DB::raw('NULL'))
 								->where('doc_id', '=', $doc->id)
-								->order_by('likes')
+								->order_by('likes', 'desc')
 								->get();
-								
-			//Retrieve top-level document comments
-			$comments = Note::with('user')
-								->where_type('comment')
-								->where('parent_id', 'IS', DB::raw('NULL'))
-								->where('doc_id', '=', $doc->id)
-								->order_by('likes')
-								->get();
+						
+			if(Auth::check()){
+				foreach($notes as $note){
+					$note->setUserMeta();
+				}
+			}					
+			
+			//Set data array
+			$data = array(
+				'doc'			=> $doc,
+				'notes'			=> $notes,
+				'page_id'		=> strtolower(str_replace(' ','-', $doc->title)),
+				'page_title'	=> $doc->title
+			);				
 			
 			//Render view and return
-			return View::make('doc.reader')
-						->with('doc', $doc)
-						->with('suggestions', $suggestions)
-						->with('comments', $comments);
+			return View::make('doc.reader.index', $data);
 						
 		}catch(Exception $e){
 			return Redirect::to('docs')->with('error', $e->getMessage());

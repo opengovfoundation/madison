@@ -6,14 +6,17 @@
 |--------------------------------------------------------------------------
 */
 
+Route::get('about', 'page@about');
+Route::get('faq', 'page@faq');
+Route::get('/', 'page@home');
 
+Route::any('user/edit/(:num?)', 'user@edit');
+Route::any('user/(:num?)', 'user@index');
 Route::any('doc/(:any?)', 'doc@index');
 Route::any('note/(:num?)', 'note@index');
 Route::get('signup', 'login@signup');
 Route::post('signup', 'login@signup');
 Route::get('verify/(:num)/(:all)', 'login@verify');
-
-Route::get('/', 'page@home');
 
 Route::any('doc', function(){
 	return Redirect::to('docs');
@@ -25,7 +28,7 @@ Route::controller(Controller::detect());
 Route::get('logout', function(){
 	Auth::logout();	//Logout the current user
 	Session::flush(); //delete the session
-	return Redirect::to('home');
+	return Redirect::back();
 });
 
 /*

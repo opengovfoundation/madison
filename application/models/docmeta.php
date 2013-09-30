@@ -2,7 +2,7 @@
 /**
  * 	Document meta model
  */
-class Doc_Meta extends Eloquent{
+class DocMeta extends Eloquent{
 	public static $table = 'doc_meta';
 	public static $timestamp = true;
 	
