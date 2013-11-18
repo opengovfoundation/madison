@@ -1,0 +1,567 @@
+@import "compass/css3/box-shadow";
+@import "compass/css3/shared";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/layout/sticky-footer";
+@import "compass/layout/stretching";
+@import "compass/css3/transition";
+@import "compass/css3/text-shadow";
+@import "variables";
+@import "mixins";
+
+@include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
+
+body{
+	background:url(../img/grey.png) repeat;
+}
+
+h1{
+	text-align:center;
+}
+
+a{
+	@include single-transition(all, .2s, linear);
+	color:$light-gray;
+
+	&:hover{ 
+		color:white;
+		text-decoration:none;
+	}
+	
+	&.disabled{
+		cursor:default;
+		opacity:.5;
+	}
+	
+	&.gray{
+		color:$light-gray;
+	}
+	&.white{
+		color:white;
+	}
+	&.black{
+		color:black;
+		
+		&:hover{
+			color:$light-gray;
+			
+			del, ins{
+				color:$light-gray;
+			}
+		}
+	}
+	&.underlined{
+		text-decoration:underline;
+	}
+}
+p{
+	&.gray{
+		color:$light-gray;
+	}
+
+}
+del, ins{
+	@include single-transition(all, .2s, linear);
+}
+
+del{
+	color:red;
+}
+ins{
+	color:green;
+}
+
+input{
+	&.disabled{
+		cursor:default;
+		opacity:.5;
+	}
+}
+
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{
+	margin-top:10px;
+}
+
+textarea.form-inline{
+	width:100%;
+	margin-top:0;
+	height:150px;
+}
+
+.btn-black{
+	@include grad-bg($black-grad-start, $black-grad-end);
+	
+	color:$light-gray;
+}
+
+/* MAIN HEADER
+------------------------------ */
+.header {	
+	@include grad-bg($black-grad-start, $black-grad-end);
+	
+	.logo-madison {
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	.link-home { display: inline-block; }
+
+	h1, h2 {
+		margin: 0;
+		text-align: center;
+		color: #459ffe;
+	}
+
+	h1 {
+		margin: 0 0 5px;
+		font-size: 28px;
+	}
+
+	h2 {
+		font-size: 14px;
+	}
+
+	.level {
+		color: #dc0002;
+	}
+}
+
+/* NAVIGATION
+------------------------------ */
+.nav {
+
+	// These are separated because they're global, and should be 
+	// applied to all navs. Avoids duplicate code.
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.nav-main {
+	
+	ul {
+		margin-top: 22px; /* TO-DO: Needs to be dynamic */
+	}
+
+	li {
+		margin-right: 20px;
+		float: left;
+		font-weight: bold;
+		font-size: 12px;
+	}
+
+	.dropdown-menu {
+		margin-top: 0;
+	}
+}
+
+.nav-footer {
+
+	padding-top: 30px;
+	text-align: center;
+
+	.container {
+		width: 100%;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	a {
+		display: inline-block;
+		box-sizing: border-box;
+		margin: 0 5px 0 0;
+		padding: 0 10px 0 0;
+		font-size: 12px;
+		text-transform: uppercase;
+		border-right: 1px solid #bcbab9;
+	}
+
+	a:last-child {
+		margin-right: none;
+		padding-right: none;
+		border-right: none;
+	}
+}
+
+/* GLOBAL SEARCH
+------------------------------ */
+.global-search {
+	
+	form {
+		width: 95%;
+		position: relative;
+		top: 14px; /* TO-DO: Needs to be dynamic */
+	}
+
+	.input-search {
+		margin: 0;
+	}
+
+	.input-submit {
+		height: 24px;
+		width: 24px;
+		margin: -12px 0 0;
+		border: 0;
+		position: absolute;
+		right: 5px;
+		top: 50%;
+		text-indent: -9999px;
+		background: transparent url(../img/dark-blue-search.png) center no-repeat;
+	}
+}
+
+/* CONTENT
+------------------------------ */
+#main{
+	padding-right:0;
+	padding-left:0;
+	position:relative;
+}
+
+.navbar{
+	@include grad-bg($blue-grad-start, $blue-grad-end);
+	
+	margin-top:20px;
+	z-index:1;
+	
+	.nav{
+		margin-top:0;
+	}
+	
+	.navbar-form{
+		margin-top:0;
+		margin-bottom:0;
+	
+		button{
+			margin-top:10px;
+			margin-bottom:10px;
+		}
+		input[type="text"]{
+			margin-bottom:10px;
+		}
+	}
+}
+.navbar-default{
+	.navbar-nav{
+		li{
+			a{
+				&.black{
+					color:black;
+
+					&:hover{
+						color:white;
+					}
+				}
+			}
+		}
+	}
+}
+
+.content{
+	@include single-box-shadow(black, 1em, 1em, 1em, -1em);
+
+	background:white;
+	padding:20px;
+	
+	a{
+		color:black;
+	}
+	a:hover{
+		color:$light-gray;
+	}
+}
+.leftbar{
+	position:relative;
+	right:-2.12766%;
+	@include bg($dark-gray);
+	@include border-corner-radius(top, left, 10px);
+	@include border-corner-radius(bottom, left, 10px);
+	@include box-shadow(rgba(0, 0, 0, .5) 5px 0px 5px -2px);
+	
+	border: 2px groove white;
+	border-right:none;
+	
+	ul{
+		@include vert-navigation-list;
+		li{
+			padding:10px;
+		}
+	}
+}
+
+.rightbar{
+	@include border-radius(10px);
+	@include bg($dark-gray);
+	border: 2px groove white;
+	
+	> .row{
+		border-bottom:1px solid #3c3c3c;
+	}
+	
+	> .row:last-child{
+		border-bottom:none;
+	}
+	
+	h3{
+		color:$light-gray;
+		margin-left:20px;
+		font-family:arial;
+		font-weight:200;
+		font-size:1.5em;
+	}
+	h4{
+		color:$light-gray;
+		margin-left:20px;
+		font-family:arial;
+		font-weight:200;
+		font-size:1em;
+	}
+	
+	.rounded-bottom{
+		text-align:center;
+		background:#c70102;
+		border-bottom-left-radius:8px;
+		border-bottom-right-radius:8px;
+		padding:20px 0;
+		color:white;
+		
+		a{
+			color:white;
+			font-size:1.3em;
+		}
+	}
+
+}
+
+.getstarted{
+	padding:0;
+
+	p{
+		margin:10px 20px;
+		color:lightgrey;
+	}
+}
+
+#page{
+	margin-left:0;
+	padding:10px;
+	background:white;
+	border:2px groove white;
+	border-right:none;
+	border-left:none;
+}
+.footer{
+	height:100px;
+	margin-top:50px;
+	@include grad-bg($black-grad-start, $black-grad-end);
+}
+
+//Document Reader
+.doc_content{
+	max-height:700px;
+	overflow-y:scroll;
+	ol{
+		list-style:none;
+	}
+}
+
+.content_item{
+	cursor:pointer;
+
+	&.selected{
+		background:yellow !important;
+	}
+	
+	&.has-notes{
+		background:$has-notes-gray;
+	}
+}
+
+.legend{
+	> p{
+		color:$light-gray;
+		font-size:.9em;
+		float:left;
+	}
+	
+	.legend-color{
+		width:30px;
+		height:15px;
+		float:left;
+		margin-left:10px;
+		margin-top:2px;
+	}
+	
+	&.legend-comments .legend-color{
+		background: $comment-color;
+	}
+	&.legend-suggestions .legend-color{
+		background:$suggestion-color;
+	}
+}
+
+.notes-wrapper{
+	max-height:300px;
+	overflow-y:scroll;
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+	margin-bottom:1%;
+	width:98%;
+	margin-left:1%;
+	
+	.note{
+		padding:10px 0px;
+		border-bottom:1px solid white;
+		
+		&:last-child{ border-bottom: none;}
+	}
+	
+	.note-suggestion{
+		background:$suggestion-color;
+	}
+	.note-comment{
+		background:$comment-color;
+	}
+	
+	.note-votes{
+		@include single-transition(all, .2s, linear);
+		height:0;
+		overflow:hidden;
+		cursor:pointer;
+		
+		.note-vote-wrapper{
+			padding:0;
+		}
+	}
+	
+	.note:hover .note-votes{
+		height:20px;
+	}
+	
+	.note-vote.selected{
+		color:$blue-grad-end;
+	}
+	
+}
+
+//Helper Classes
+.hidden{
+	display:none;
+}
+.small-header{
+	font-size:1em;
+}
+.blue{
+	color:$blue-header;
+	span.red{
+		color:$red-header;
+	}
+}
+.red{
+	color:$red-header;
+	
+	&:hover{
+		color:$light-gray;
+	}
+}
+
+.single-shadow{
+	@include single-text-shadow(1px, 1px, 5px, false, #000000);
+}
+input[type="search"].dark-search{
+	background:#4b4b4b;
+	border:none;
+	background-repeat: no-repeat;
+	background-position:right;
+	background-size:20px;
+	color:lightgray;
+}
+
+.bookmark{
+	position:absolute;
+	top:0;
+	right:0;
+	
+	.bookmark-label{
+		position:relative;
+		top:20px;
+		right:40px;
+		font-size:.8em;
+	}
+}
+
+//CSS Graphics
+	//Ribbon
+	.ribbon{
+		width:25px;
+		height:40px;
+		overflow:hidden;
+		position:relative;
+		top:-20px;
+		right:-15px;
+		
+		.ribbon-container{
+			position:relative;
+			width:25px;
+			height:40px;
+			overflow:hidden;
+			margin:0 auto;
+		}
+		
+		.ribbon-base{
+			height:25px;
+			width:25px;
+			background:#999;
+			position:relative;
+			z-index:2;
+			
+			&:after{
+				content:' ';
+				position:absolute;
+				top:0;
+				width:19px;
+				left:3px;
+				height:36px;
+				border-left:1px dashed #cacaca;
+				border-right:1px dashed #cacaca;
+			}
+		}
+		
+		.ribbon-left-corner{
+			@include transform(45deg);
+		
+			width:25px;
+			height:25px;
+			background:#999;
+			position:absolute;
+			bottom:5px;
+			left:-13px;
+			z-index:1;
+		}
+		
+		.ribbon-right-corner{
+			@include transform(45deg);
+			
+			width:25px;
+			height:25px;
+			background:#999;
+			position:absolute;
+			bottom:5px;
+			right:-13px;
+			z-index:1;
+		}
+		
+	}
+
+
+
+
+
