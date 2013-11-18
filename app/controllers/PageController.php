@@ -21,7 +21,7 @@ class PageController extends BaseController
 	/**
 	 * About Page
 	 */
-	public function get_about()
+	public function about()
 	{
 		$data = array(
 			'page_id'		=> 'about',
@@ -35,7 +35,7 @@ class PageController extends BaseController
 	/**
 	 * FAQ Page
 	 */
-	public function get_faq()
+	public function faq()
 	{
 		$data = array(
 			'page_id'		=> 'faq',
