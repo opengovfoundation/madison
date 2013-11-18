@@ -11,9 +11,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
 		<!-- Stylesheets -->
+		{{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
+		{{ HTML::style('vendor/bootstrap/css/bootstrap-theme.min.css') }}
 		{{ HTML::style('css/style.css') }}
-		<!-- Scripts -->
-		{{ HTML::script('js/madison.js') }}
 	</head>
 	<body>
 		<div id="wrap">
@@ -48,5 +48,19 @@
 		<div id="footer" class="footer row">
 			@include('layouts.footer')
 		</div>
+		<!-- Scripts -->
+		{{ HTML::script('vendor/jquery/jquery-1.9.1.min.js') }}
+		{{ HTML::script('vendor/jquery/jquery.ui.core.js') }}
+		{{ HTML::script('vendor/jquery/jquery.ui.widget.js') }}
+		{{ HTML::script('vendor/jquery/jquery.ui.mouse.js') }}
+		{{ HTML::script('vendor/jquery/jquery.ui.sortable.js') }}
+		{{ HTML::script('vendor/jquery/jquery.mjs.nestedSortable.js') }}
+		{{ HTML::script('vendor/bootstrap/js/bootstrap.min.js') }}
+		{{ HTML::script('vendor/modernizr-latest.js') }}
+		{{ HTML::script('vendor/underscore.min.js') }}
+		{{ HTML::script('js/madison.js') }}
+		{{ HTML::script('js/reader.js') }}
+		{{ HTML::script('js/note.js') }}
+		{{ HTML::script('js/bill-reader.js') }}
 	</body>
 </html>

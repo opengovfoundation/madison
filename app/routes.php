@@ -15,40 +15,26 @@ Route::get('about', 'PageController@about');
 Route::get('faq', 'PageController@faq');
 Route::get('/', 'PageController@home');
 
-Route::any('user/edit/(:num?)', 'UserController@edit');
-Route::any('user/(:num?)', 'UserController@index');
-Route::any('doc/(:any?)', 'DocController@index');
-Route::any('note/(:num?)', 'NoteController@index');
-Route::get('signup', 'LoginController@signup');
-Route::post('signup', 'LoginController@signup');
-Route::get('verify/(:num)/(:all)', 'LoginController@verify');
+Route::any('doc/{slug}', 'DocController@index');
 
-Route::any('doc', function(){
-	return Redirect::to('docs');
-});
+//Route::any('user/edit/(:num?)', 'UserController@edit');
+//Route::any('user/(:num?)', 'UserController@index');
+
+//Route::any('note/(:num?)', 'NoteController@index');
+//Route::get('signup', 'LoginController@signup');
+//Route::post('signup', 'LoginController@signup');
+//Route::get('verify/(:num)/(:all)', 'LoginController@verify');
+
+//Route::any('doc', function(){
+//	return Redirect::to('docs');
+//});
 Route::any('docs', 'DocController@index');
 
-Route::get('logout', function(){
-	Auth::logout();	//Logout the current user
-	Session::flush(); //delete the session
-	return Redirect::back();
-});
-
-/*
-|--------------------------------------------------------------------------
-| Application 404 & 500 Error Handlers
-|--------------------------------------------------------------------------
-*/
-
-Event::listen('404', function()
-{
-	return Response::error('404');
-});
-
-Event::listen('500', function()
-{
-	return Response::error('500');
-});
+//Route::get('logout', function(){
+//	Auth::logout();	//Logout the current user
+//	Session::flush(); //delete the session
+//	return Redirect::back();
+//});
 
 /*
 |--------------------------------------------------------------------------
@@ -56,16 +42,16 @@ Event::listen('500', function()
 |--------------------------------------------------------------------------
 */
 
-Route::filter('csrf', function()
-{
-	if (Request::forged()) return Response::error('500');
-});
+//Route::filter('csrf', function()
+//{
+//	if (Request::forged()) return Response::error('500');
+//});
 
-Route::filter('auth', function()
-{
-	if (Auth::guest()) return Redirect::to('login');
-});
+//Route::filter('auth', function()
+//{
+//	if (Auth::guest()) return Redirect::to('login');
+//});
 
-Route::filter('admin', function(){
-	if(Auth::guest() || Auth::user()->user_level != 1) return Redirect::home()->with('message', 'You are not authorized to view that page');
-});
+//Route::filter('admin', function(){
+//	if(Auth::guest() || Auth::user()->user_level != 1) return Redirect::home()->with('message', 'You are not authorized to view that page');
+//});

@@ -7,13 +7,10 @@ class DocController extends BaseController{
 	
 	public function __construct(){
 		parent::__construct();
-		
-		Asset::add('bill-reader', 'js/bill-reader.js');
-		Asset::add('note-votes', 'js/note.js');
 	}
 	
 	//GET document view
-	public function get_index($slug = null){
+	public function index($slug = null){
 		//No document requested, list documents
 		if(null == $slug){
 			$docs = Doc::all();
@@ -28,8 +25,6 @@ class DocController extends BaseController{
 		}
 		
 		try{
-			//Add document reader
-			Asset::add('reader', 'js/reader.js');
 			
 			//Retrieve requested document
 			$doc = Doc::where_slug($slug)->first();
@@ -71,7 +66,7 @@ class DocController extends BaseController{
 		}catch(Exception $e){
 			return Redirect::to('docs')->with('error', $e->getMessage());
 		}
-		return Response::error('404');
+		App::abort('404');
 	}
 }
 
