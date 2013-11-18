@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "0f1f80c89d80183130642cf4dfda5173",
+    "hash": "e3d83e593f5c1a756dc0ceada8a3300b",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -783,6 +783,47 @@
                 "laravel"
             ],
             "time": "2013-11-15 04:57:21"
+        },
+        {
+            "name": "loic-sharma/profiler",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/loic-sharma/profiler.git",
+                "reference": "6db72a07c39c4b83d70fd6432cfb952e0eac61fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/loic-sharma/profiler/zipball/6db72a07c39c4b83d70fd6432cfb952e0eac61fc",
+                "reference": "6db72a07c39c4b83d70fd6432cfb952e0eac61fc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "psr/log": "1.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Profiler": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Loic Sharma"
+                }
+            ],
+            "description": "A PHP 5.3 profiler based off of Laravel 3's Anbu.",
+            "keywords": [
+                "anbu",
+                "laravel",
+                "profiler"
+            ],
+            "time": "2013-06-17 17:00:15"
         },
         {
             "name": "monolog/monolog",

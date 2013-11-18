@@ -7,15 +7,17 @@ class Doc extends Eloquent{
 	}
 	
 	public function content(){
-		return $this->has_many('DocContent');
+		return $this->hasMany('DocContent');
 	}
 	
 	public function doc_meta(){
-		return $this->has_many('DocMeta');
+		return $this->hasMany('DocMeta');
 	}
 	
 	public function get_root_content(){
-		return DocContent::where('doc_id', '=', $this->id)->where('parent_id', 'IS', DB::raw('NULL'))->get();
+		$root_content = DocContent::where('doc_id', '=', $this->attributes['id'])->where('parent_id')->get();
+		
+		return $root_content;
 	}
 }
 

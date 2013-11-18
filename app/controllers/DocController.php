@@ -27,10 +27,10 @@ class DocController extends BaseController{
 		try{
 			
 			//Retrieve requested document
-			$doc = Doc::where_slug($slug)->first();
+			$doc = Doc::where('slug', $slug)->first();
 			
 			if(!isset($doc)){
-				return Response::error('404');
+				App::abort('404');
 			}
 			
 			if(Auth::check()){
@@ -38,7 +38,6 @@ class DocController extends BaseController{
 			}else{
 				$note_data = 'user';
 			}
-			
 			
 			$notes = Note::with($note_data)
 								->where('parent_id', 'IS', DB::raw('NULL'))

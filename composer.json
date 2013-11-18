@@ -5,7 +5,8 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.0.*",
-		"roumen/sitemap": "*"
+		"roumen/sitemap": "*",
+		"loic-sharma/profiler": "1.1.*"
 	},
 	"autoload": {
 		"classmap": [

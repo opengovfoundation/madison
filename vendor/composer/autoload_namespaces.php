@@ -22,6 +22,7 @@ return array(
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
     'Roumen\\Sitemap' => array($vendorDir . '/roumen/sitemap/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
+    'Profiler' => array($vendorDir . '/loic-sharma/profiler/src'),
     'Predis' => array($vendorDir . '/predis/predis/lib'),
     'Patchwork' => array($vendorDir . '/patchwork/utf8/class'),
     'PHPParser' => array($vendorDir . '/nikic/php-parser/lib'),

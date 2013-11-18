@@ -113,6 +113,7 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+		'Profiler\ProfilerServiceProvider',
 
 	),
 
@@ -165,6 +166,7 @@ return array(
 		'Mail'            => 'Illuminate\Support\Facades\Mail',
 		'Paginator'       => 'Illuminate\Support\Facades\Paginator',
 		'Password'        => 'Illuminate\Support\Facades\Password',
+		'Profiler'		  => 'Profiler\Facades\Profiler',
 		'Queue'           => 'Illuminate\Support\Facades\Queue',
 		'Redirect'        => 'Illuminate\Support\Facades\Redirect',
 		'Redis'           => 'Illuminate\Support\Facades\Redis',
