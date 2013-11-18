@@ -32,7 +32,7 @@ class DocContent extends Eloquent{
 					$children = $parent->content_children()->get();
 					if(count($children) > 0){
 						foreach($children as $child){
-							Helpers::output_tree($child);
+							DocContent::output_tree($child);
 						}
 					}
 				?>
