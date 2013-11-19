@@ -1,7 +1,7 @@
 <!-- div.row -->
 <div class="md-col-12"><h4>Edit / Comment</h4></div>
 @if(Auth::check())
-	{{ Form::open('note') }}
+	{{ Form::open(array('url'=>'note')) }}
 	<div class="md-col-12">
 		<div class="btn-group btn-group-justified action-btn-wrapper" data-toggle="buttons">
 			<label id="suggestion-btn-wrapper" class="action-btn btn btn-primary disabled">

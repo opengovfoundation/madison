@@ -14,11 +14,10 @@
 Route::get('about', 'PageController@about');
 Route::get('faq', 'PageController@faq');
 Route::get('/', 'PageController@home');
+Route::any('doc/{slug}', 'DocController@index');
+Route::get('user/{id}', 'UserController@getIndex')->where(array('id' => '[0-9]+'));
 Route::controller('user', 'UserController');
 
-Route::any('doc/{slug}', 'DocController@index');
-
-//Route::any('user/edit/(:num?)', 'UserController@edit');
 //Route::any('user/(:num?)', 'UserController@index');
 
 //Route::any('note/(:num?)', 'NoteController@index');
@@ -46,16 +45,16 @@ Route::get('logout', function(){
 |--------------------------------------------------------------------------
 */
 
-//Route::filter('csrf', function()
-//{
-//	if (Request::forged()) return Response::error('500');
-//});
+Route::post('register', array('before' => 'csrf', function()
+{
+    return 'You gave a valid CSRF token!';
+}));
 
-//Route::filter('auth', function()
-//{
-//	if (Auth::guest()) return Redirect::to('login');
-//});
+Route::filter('auth', function()
+{
+	if (!Auth::check()) return Redirect::to('user/login');
+});
 
-//Route::filter('admin', function(){
-//	if(Auth::guest() || Auth::user()->user_level != 1) return Redirect::home()->with('message', 'You are not authorized to view that page');
-//});
+Route::filter('admin', function(){
+	if(Auth::guest() || Auth::user()->user_level != 1) return Redirect::home()->with('message', 'You are not authorized to view that page');
+});
