@@ -9,7 +9,6 @@
 		<meta name="format-detection" content="telephone=no" />
 		<meta http-equiv="cleartype" content="on" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
 		<!-- Stylesheets -->
 		{{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
 		{{ HTML::style('vendor/bootstrap/css/bootstrap-theme.min.css') }}

@@ -40,10 +40,11 @@ class DocController extends BaseController{
 			}
 			
 			$notes = Note::with($note_data)
-								->where('parent_id', 'IS', DB::raw('NULL'))
+								->where('parent_id')
 								->where('doc_id', '=', $doc->id)
 								->orderBy('likes', 'desc')
 								->get();
+
 						
 			if(Auth::check()){
 				foreach($notes as $note){

@@ -3,8 +3,7 @@
  * 	Note meta model
  */
 class NoteMeta extends Eloquent{
-	public static $table = 'note_meta';
-	public static $timestamp = true;
+	protected $table = 'note_meta';
 	
 	//Note this meta is describing
 	public function note(){

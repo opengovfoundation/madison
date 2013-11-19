@@ -1,7 +1,7 @@
 <!-- div.row -->
 <div class="md-col-12"><h4>Edit / Comment</h4></div>
 @if(Auth::check())
-	{{ Form::open(array('url'=>'note')) }}
+	{{ Form::open(array('url'=>'note', 'method'=>'post')) }}
 	<div class="md-col-12">
 		<div class="btn-group btn-group-justified action-btn-wrapper" data-toggle="buttons">
 			<label id="suggestion-btn-wrapper" class="action-btn btn btn-primary disabled">
@@ -28,6 +28,6 @@
 	{{ Form::close() }}
 @else
 	<div class="md-col-12">
-	<p style="padding-left:20px;" class="gray">Please {{ HTML::link('login', 'Login', array('class'=>'underlined')) }} to participate</p>
+	<p style="padding-left:20px;" class="gray">Please {{ HTML::link('user/login', 'Login', array('class'=>'underlined')) }} to participate</p>
 	</div>
 @endif

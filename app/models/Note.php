@@ -1,6 +1,5 @@
 <?php
 class Note extends Eloquent{
-	public static $timestamp = true;
 	
 	public $includes = array('user');
 	

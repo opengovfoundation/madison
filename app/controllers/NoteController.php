@@ -4,22 +4,21 @@
  */	
 
 class NoteController extends BaseController{
-	public $restful = true;
 	
 	public function __construct(){
 		parent::__construct();
 		
 		//Require the user to be signed in to create, update notes
-		$this->filter('before', 'auth')->on(array('post', 'put'));
-		
-		//Run CSRF filter before all POSTs and PUTs
-		$this->filter('before', 'csrf')->on('post');
+		$this->beforeFilter('auth', array('on'=> array('post', 'put')));
+
+		//Run CSRF filter before all POSTS
+		$this->beforeFilter('csrf', array('on' => 'post'));
 	}
 	
 	/**
 	 * 	GET note view
 	 */
-	public function get_index($id = null){
+	public function getIndex($id = null){
 		//Return 404 if no id is passed
 		if($id == null){
 			return Response::error('404');
@@ -54,7 +53,7 @@ class NoteController extends BaseController{
 	 * 	Update note information
 	 * 		ie. Likes, dislikes, flags, etc.
 	 */
-	public function put_index($id = null){
+	public function putIndex($id = null){
 		//No note id requested
 		if($id == null){
 			$msg = 'There was an error processing your request';
@@ -115,7 +114,7 @@ class NoteController extends BaseController{
 	/**
 	 * 	Create new note
 	 */
-	public function post_index($id = null){
+	public function postIndex($id = null){
 		//Retrieve POST values
 		$doc_id = Input::get('doc_id');
 		$section_id = Input::get('section_id');

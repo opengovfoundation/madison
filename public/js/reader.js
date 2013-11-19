@@ -89,7 +89,7 @@ $(document).ready(function(){
 	
 	$('.action-btn-wrapper').hover(function(){
 		if(!$(this).children('.action-btn').first().hasClass('disabled')){
-			$(this).tooltip('distroy');
+			$(this).tooltip('destroy');
 		}
 	});
 	
