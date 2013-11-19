@@ -1,4 +1,4 @@
-@layout('layouts/main')
+@extends('layouts/main')
 @section('content')
 <h1>{{ ucwords($note->type) }}</h1>
 <div class="row well well-large">
@@ -43,7 +43,7 @@
 		@if(Auth::check())
 		<div class="row">
 			<div class="col-md-12">
-				{{ Form::open('note/' . $note->id) }}
+				{{ Form::open(array('url'=>'note/' . $note->id, 'method'=>'post')) }}
 					<textarea name="note_content" id="note_content" ></textarea>
 					<input type="hidden" name="doc_id" value="{{ $doc_content->doc_id }}"/>
 					<input type="hidden" name="parent_id" value="{{$note->id}}" />
@@ -120,7 +120,5 @@
 			});
 		});
 	});
-	
-	
 </script>
 @endsection
