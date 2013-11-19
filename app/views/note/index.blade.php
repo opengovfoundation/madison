@@ -1,8 +1,7 @@
 @extends('layouts/main')
 @section('content')
 <h1>{{ ucwords($note->type) }}</h1>
-<div class="row well well-large">
-	<div class="col-md-12">
+	<div class="content col-md-12">
 		<div class="row">
 			@if($note->type == 'suggestion')
 				<h3>Original Passage</h3>
@@ -83,7 +82,6 @@
 			</div>
 		@endif
 	</div>
-</div>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('.note-tool').click(function(){
