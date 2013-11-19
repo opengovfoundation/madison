@@ -12,7 +12,7 @@
 		<li class="link-faq"><a href="{{ URL::to('faq') }}">FAQ</a></li>		
 		@if(Auth::check())
 			<li class="dropdown">
-				<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{-- Auth::user()->fname --}} <span class="caret"></span></a>
+				<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ Auth::user()->fname }} <span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
 					<!-- <li class="link-bookmarked"><a href="#" class="disabled coming-feature">Bookmarked Bills</a></li> -->
 					<!-- <li class="link-points"><a href="#" class="disabled coming-feature">Your Points</a></li> -->
@@ -25,8 +25,8 @@
 				</ul>
 			</li>
 		@else
-			<li class="link-login"><a href="{{ URL::to('login') }}">Login</a></li>
-			<li class="link-signup"><a href="{{ URL::to('signup') }}">Sign Up</a></li>
+			<li class="link-login"><a href="{{ URL::to('user/login') }}">Login</a></li>
+			<li class="link-signup"><a href="{{ URL::to('user/signup') }}">Sign Up</a></li>
 		@endif
 	</ul>
 

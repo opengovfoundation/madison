@@ -1,27 +1,36 @@
-@layout('layouts/main')
+@extends('layouts/main')
+
 
 @section('content')
-	<h1>Create Account</h1>
-	<form method="post" action="signup">
-		<div>
-			<label for="fname">First Name:</label>
-			<input type="text" name="fname" placeholder="First Name" />
+	<div class="content col-md-12">
+		<div class="row">
+			<div class="md-col-12">
+				<h1>Signup</h1>
+			</div>
 		</div>
-		<div>
-			<label for="lname">Last Name:</label>
-			<input type="text" name="lname" placeholder="Last Name"/>
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				{{ Form::open(array('url'=>'user/signup', 'method'=>'post')) }}
+				<!-- First Name -->
+				<div class="form-group">
+					{{ Form::label('fname', 'First Name') . Form::text('fname', Input::old('fname'), array('placeholder'=>'First Name', 'class'=>'form-control')) }}
+				</div>
+				<!-- Last Name -->
+				<div class="form-group">
+					{{ Form::label('lname', 'Last Name') . Form::text('lname', Input::old('lname'), array('placeholder'=>'Last Name', 'class'=>'form-control')) }}
+				</div>
+				<!-- Email -->
+				<div class="form-group">
+					{{ Form::label('email', 'Email') . Form::text('email', Input::old('email'), array('placeholder'=>'Email', 'class'=>'form-control')) }}
+				</div>
+				<!-- Password -->
+				<div class="form-group">
+					{{ Form::label('password', 'Password') . Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control')) }}
+				</div>
+				<!-- Submit -->
+				{{ Form::submit('Signup', array('class'=>'btn btn-default')) }}
+				{{ Form::token() . Form::close() }}
+			</div>
 		</div>
-		<div>
-			<label for="email">Email:</label>
-			<input type="email" name="email" placeholder="Email" />
-		</div>
-		<div>
-			<label for="password">Password:</label>
-			<input type="password" name="password" placeholder="Password" />
-		</div>
-		<div>
-			<input type="hidden" name="new_user" value="on" />
-			<input type="submit" value="Login" />
-		</div>
-	</form>
+	</div>
 @endsection

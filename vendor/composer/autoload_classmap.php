@@ -24,7 +24,6 @@ return array(
     'DocMeta' => $baseDir . '/app/models/DocMeta.php',
     'EditUsersTable' => $baseDir . '/app/database/migrations/2013_09_04_210926_edit_users_table.php',
     'IlluminateQueueClosure' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
-    'LoginController' => $baseDir . '/app/controllers/LoginController.php',
     'Note' => $baseDir . '/app/models/Note.php',
     'NoteController' => $baseDir . '/app/controllers/NoteController.php',
     'NoteMeta' => $baseDir . '/app/models/NoteMeta.php',

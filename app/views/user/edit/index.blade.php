@@ -1,4 +1,4 @@
-@layout('layouts.main')
+@extends('layouts.main')
 @section('content')
 	<div class="content col-md-12">
 		<div class="row">
@@ -8,7 +8,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
-				{{ Form::open('user/edit/' . Auth::user()->id, 'PUT' ) }}
+				{{ Form::open(array('url'=>'user/edit/' . Auth::user()->id, 'method'=>'PUT' )) }}
 					<!-- First Name -->
 					<div class="form-group">
 						<label for="fname">First Name:</label>

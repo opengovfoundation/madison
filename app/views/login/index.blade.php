@@ -1,4 +1,4 @@
-@layout('layouts.main')
+@extends('layouts.main')
 @section('content')
 	<div class="content col-md-12">
 		<div class="row">
@@ -8,7 +8,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
-				{{ Form::open('login', 'post') }}
+				{{ Form::open(array('url'=>'user/login', 'method'=>'post')) }}
 				<!-- Email -->
 				<div class="form-group">
 					{{ Form::label('email', 'Email') . Form::text('email', Input::old('email'), array('placeholder'=>'Email', 'class'=>'form-control')) }}
