@@ -114,7 +114,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Profiler\ProfilerServiceProvider',
-
+		'Roumen\Sitemap\SitemapServiceProvider',
 	),
 
 	/*
