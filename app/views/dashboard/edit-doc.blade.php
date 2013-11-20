@@ -1,11 +1,11 @@
-@layout('layouts/main')
+@extends('layouts/main')
 @section('content')
 <div class="row content">
 	<div class="col-md-12">
-		{{ Form::open('dashboard/docs/' . $doc->id, 'put', array('id'=>'doc_content_form')) }}
+		{{ Form::open(array('url' => 'dashboard/docs/' . $doc->id, 'method' => 'put', 'id'=>'doc_content_form')) }}
 		<ol id="doc_list" class="sortable doc_list">
 			<?php
-				$contents = $doc->content()->where('parent_id', 'IS', DB::raw('NULL'))->get();
+				$contents = $doc->content()->where('parent_id')->get();
 				foreach($contents as $content){
 					DocContent::print_admin_list($content);
 				}
@@ -19,4 +19,5 @@
 		<div id="save_message" class="alert hidden"></div>
 	</div>
 </div>
+{{ HTML::script('js/edit-doc.js') }}
 @endsection

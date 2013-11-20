@@ -13,6 +13,7 @@
 		{{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
 		{{ HTML::style('vendor/bootstrap/css/bootstrap-theme.min.css') }}
 		{{ HTML::style('css/style.css') }}
+		{{ HTML::script('vendor/jquery/jquery-1.9.1.min.js') }}
 	</head>
 	<body>
 		<div id="wrap">
@@ -48,7 +49,7 @@
 			@include('layouts.footer')
 		</div>
 		<!-- Scripts -->
-		{{ HTML::script('vendor/jquery/jquery-1.9.1.min.js') }}
+		{{ HTML::script('vendor/jquery/jquery.browser.min.js') }}
 		{{ HTML::script('vendor/jquery/jquery.ui.core.js') }}
 		{{ HTML::script('vendor/jquery/jquery.ui.widget.js') }}
 		{{ HTML::script('vendor/jquery/jquery.ui.mouse.js') }}
@@ -58,8 +59,5 @@
 		{{ HTML::script('vendor/modernizr-latest.js') }}
 		{{ HTML::script('vendor/underscore.min.js') }}
 		{{ HTML::script('js/madison.js') }}
-		{{ HTML::script('js/reader.js') }}
-		{{ HTML::script('js/note.js') }}
-		{{ HTML::script('js/bill-reader.js') }}
 	</body>
 </html>

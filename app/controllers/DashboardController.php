@@ -8,10 +8,10 @@ class DashboardController extends BaseController{
 	
 	public function __construct(){
 		//Filter to ensure user is signed in and is user_level == 1
-		$this->filter('before', 'admin');
+		$this->beforeFilter('admin');
 		
 		//Run csrf filter before all posts
-		$this->filter('before', 'csrf')->on('post');
+		$this->beforeFilter('csrf', array('on'=>'post'));
 		
 		parent::__construct();
 	}
@@ -19,7 +19,7 @@ class DashboardController extends BaseController{
 	/**
 	 * 	Dashboard Index View
 	 */
-	public function get_index(){
+	public function getIndex(){
 		$data = array(
 			'page_id'		=> 'dashboard',
 			'page_title'	=> 'Dashboard'
@@ -29,52 +29,9 @@ class DashboardController extends BaseController{
 	}
 	
 	/**
-	 * 	Navigation Edit View
-	 */
-	public function get_nav(){
-		Asset::add('edit-nav', 'js/edit-nav.js');
-		$docs = Doc::all();
-		$nav = Setting::where('meta_key', '=', 'nav')->first();
-		if(isset($nav->meta_value)){
-			$nav = unserialize($nav->meta_value);
-		}
-		
-		$data = array(
-			'page_id'		=> 'edit_nav',
-			'page_title'	=> 'Edit Navigation',
-			'docs'			=> $docs,
-			'nav'			=> $nav
-		);
-		
-		return View::make('dashboard.edit-nav', $data);
-	}
-	
-	/**
-	 * 	Save navigation menu
-	 */
-	public function post_nav(){
-		$navInput = Input::get('nav');
-		
-		try{
-			$nav = Setting::where('meta_key', '=', 'nav')->first();
-			
-			if(!isset($nav)){
-				$nav = new Setting();
-				$nav->meta_key = 'nav';
-				$nav->meta_value = serialize($navInput);
-				$nav->save();
-			}
-			
-			echo json_encode(array('success'=>true, 'message'=>'Navigation Menu Saved Successfully')); 
-		}catch (Exception $e){
-			echo json_encode(array('success'=>false, 'message'=>'Failed to save navigation menu.'));
-		}
-	}
-	
-	/**
 	 * 	Document Creation/List or Document Edit Views
 	 */
-	public function get_docs($id = ''){
+	public function getDocs($id = ''){
 		if($id == ''){
 			$docs = Doc::all();
 			
@@ -89,7 +46,6 @@ class DashboardController extends BaseController{
 		else{
 			$doc = Doc::find($id);
 			if(isset($doc)){
-				Asset::add('edit-doc', 'js/edit-doc.js');
 				
 				$data = array(
 					'page_id'		=> 'edit_doc',
@@ -108,7 +64,7 @@ class DashboardController extends BaseController{
 	/**
 	 * 	Post route for creating / updating documents
 	 */
-	public function post_docs($id = ''){
+	public function postDocs($id = ''){
 		//Creating new document
 		if($id == ''){
 			$title = Input::get('title');
@@ -150,7 +106,7 @@ class DashboardController extends BaseController{
 	/**
 	 * 	PUT route for saving documents
 	 */
-	public function put_docs($id = ''){
+	public function putDocs($id = ''){
 		$doc_items = Input::get('doc_items');
 		$doc_items = json_decode($doc_items);
 		if(!isset($doc_items) || count($doc_items) == 0){
@@ -192,7 +148,7 @@ class DashboardController extends BaseController{
 	 * 	POST route for adding line items to documents
 	 * 		Returns JSON array that includes the new line item's auto-incremented id 
 	 */
-	public function post_content($id = ''){
+	public function postContent($id = ''){
 		
 		if($id != ''){
 			return Response::error('404');
@@ -231,7 +187,7 @@ class DashboardController extends BaseController{
 	/**
 	 * 	Verification request view
 	 */
-	public function get_verifications(){
+	public function getVerifications(){
 		$data = array(
 			'page_id'		=> 'verify_users',
 			'page_title'	=> 'Verify Users'
@@ -243,7 +199,7 @@ class DashboardController extends BaseController{
 	/**
 	 * 	Post route for handling verification request responses
 	 */
-	public function post_verification(){
+	public function postVerification(){
 		
 	}
 	
@@ -252,7 +208,7 @@ class DashboardController extends BaseController{
 	/**
 	 * 	Post route for House document import
 	 */
-	public function post_import(){
+	public function postImport(){
 		$url = Input::get('url');
 		$import_details = Input::all();
 		

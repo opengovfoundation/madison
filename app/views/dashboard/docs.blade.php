@@ -1,4 +1,4 @@
-@layout('layouts/main')
+@extends('layouts/main')
 @section('content')
 <div class="content col-md-12">
 	<div class="row">
@@ -20,7 +20,7 @@
 		<div class="col-md-6">
 			<div class="row">
 				<h2>Create Document</h2>
-				{{ Form::open('dashboard/docs', 'post') }}
+				{{ Form::open(array('url' => 'dashboard/docs', 'method' => 'post')) }}
 				<div class="form-group">
 					{{ Form::label('title', 'Title:') . Form::text('title', Input::old('title'), array('placeholder' => 'Document Title', 'class'=>'form-control')) }}
 				</div>
@@ -32,7 +32,7 @@
 			</div>
 			<div class="row">
 				<h2>Import XML Document</h2>
-				{{ Form::open('dashboard/import', 'post') }}
+				{{ Form::open(array('url' => 'dashboard/import', 'method' => 'post')) }}
 				<div class="form-group">
 					<label for="url">URL:</label>
 					<input type="url" name="url" id="url" value="{{ Input::old('url') }}" placeholder="Enter URL" class="form-control" />

@@ -56,7 +56,7 @@ class DocContent extends Eloquent{
 			</div>
 			<ol>
 				<?php 
-				foreach($contentItem->content_children()->order_by('child_priority', 'asc')->get() as $child){
+				foreach($contentItem->content_children()->orderBy('child_priority', 'asc')->get() as $child){
 					DocContent::print_admin_list($child);
 				} 
 				?>

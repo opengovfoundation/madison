@@ -82,6 +82,7 @@
 			</div>
 		@endif
 	</div>
+	{{ HTML::script('js/note.js') }}
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('.note-tool').click(function(){

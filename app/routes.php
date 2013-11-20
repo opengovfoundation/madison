@@ -25,6 +25,9 @@ Route::post('note/{id}', 'NoteController@postIndex')->where(array('id' => '[0-9]
 Route::put('note/{id}', 'NoteController@putIndex')->where(array('id' => '[0-9]+'));
 Route::controller('note', 'NoteController');
 
+//Dashboard Routes
+Route::controller('dashboard', 'DashboardController');
+
 //Logout Route
 Route::get('logout', function(){
 	Auth::logout();	//Logout the current user
