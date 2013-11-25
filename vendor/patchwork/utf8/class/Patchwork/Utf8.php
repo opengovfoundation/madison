@@ -36,17 +36,54 @@ class Utf8
 
     // Generic UTF-8 to ASCII transliteration
 
-    static function toAscii($s)
+    static function toAscii($s, $subst_chr = '?')
     {
         if (preg_match("/[\x80-\xFF]/", $s))
         {
-            static $translitExtra = false;
-            $translitExtra or $translitExtra = self::getData('translit_extra');
+            static $translitExtra = array();
+            $translitExtra or $translitExtra = static::getData('translit_extra');
 
-            $s = n::normalize($s, n::NFKD);
-            $s = preg_replace('/\p{Mn}+/u', '', $s);
-            $s = str_replace($translitExtra[0], $translitExtra[1], $s);
-            $s = iconv('UTF-8', 'ASCII' . ('glibc' !== ICONV_IMPL ? '//IGNORE' : '') . '//TRANSLIT', $s);
+            $s = n::normalize($s, n::NFKC);
+
+/**/        $glibc = 'glibc' === ICONV_IMPL;
+
+            preg_match_all('/./u', $s, $s);
+
+            foreach ($s[0] as &$c)
+            {
+                if (! isset($c[1])) continue;
+
+/**/            if ($glibc)
+/**/            {
+                    $t = iconv('UTF-8', 'ASCII//TRANSLIT', $c);
+/**/            }
+/**/            else
+/**/            {
+                    $t = iconv('UTF-8', 'ASCII//IGNORE//TRANSLIT', $c);
+
+                    if (! isset($t[0])) $t = '?';
+                    else if (isset($t[1])) $t = ltrim($t, '\'`"^~');
+/**/            }
+
+                if ('?' === $t)
+                {
+                    if (isset($translitExtra[$c]))
+                    {
+                        $t = $translitExtra[$c];
+                    }
+                    else
+                    {
+                        $t = n::normalize($c, n::NFD);
+
+                        if ($t[0] < "\x80") $t = $t[0];
+                        else $t = $subst_chr;
+                    }
+                }
+
+                $c = $t;
+            }
+
+            $s = implode('', $s[0]);
         }
 
         return $s;
@@ -105,7 +142,7 @@ class Utf8
         if ($full)
         {
             static $fullCaseFold = false;
-            $fullCaseFold || $fullCaseFold = self::getData('caseFolding_full');
+            $fullCaseFold || $fullCaseFold = static::getData('caseFolding_full');
 
             $s = str_replace($fullCaseFold[0], $fullCaseFold[1], $s);
         }
@@ -205,7 +242,7 @@ class Utf8
 
     static function stristr($s, $needle, $before_needle = false)
     {
-        if ('' === (string) $needle) return false;
+        if ('' === $needle .= '') return false;
         return mb_stristr($s, $needle, $before_needle, 'UTF-8');
     }
 
@@ -323,9 +360,7 @@ class Utf8
 
         foreach ($search as $i => $s)
         {
-            is_string($s) or $s = (string) $s;
-
-            if ('' === $s) $s = '/^(?<=.)$/';
+            if ('' === $s .= '') $s = '/^(?<=.)$/';
             else $s = '/' . preg_quote($s, '/') . '/ui';
 
             $search[$i] = $s;
@@ -430,8 +465,8 @@ class Utf8
         return $charlist;
     }
 
-    static function strcmp       ($a, $b) {return (string) $a === (string) $b ? 0 : strcmp(n::normalize($a, n::NFD), n::normalize($b, n::NFD));}
-    static function strnatcmp    ($a, $b) {return (string) $a === (string) $b ? 0 : strnatcmp(self::strtonatfold($a), self::strtonatfold($b));}
+    static function strcmp       ($a, $b) {return $a . '' === $b . '' ? 0 : strcmp(n::normalize($a, n::NFD), n::normalize($b, n::NFD));}
+    static function strnatcmp    ($a, $b) {return $a . '' === $b . '' ? 0 : strnatcmp(self::strtonatfold($a), self::strtonatfold($b));}
     static function strcasecmp   ($a, $b) {return self::strcmp   (static::strtocasefold($a), static::strtocasefold($b));}
     static function strnatcasecmp($a, $b) {return self::strnatcmp(static::strtocasefold($a), static::strtocasefold($b));}
     static function strncasecmp  ($a, $b, $len) {return self::strncmp(static::strtocasefold($a), static::strtocasefold($b), $len);}
@@ -439,7 +474,7 @@ class Utf8
 
     static function strcspn($s, $charlist, $start = 0, $len = 2147483647)
     {
-        if ('' === (string) $charlist) return null;
+        if ('' === $charlist .= '') return null;
         if ($start || 2147483647 != $len) $s = self::substr($s, $start, $len);
 
         return preg_match('/^(.*?)' . self::rxClass($charlist) . '/us', $s, $len) ? grapheme_strlen($len[1]) : grapheme_strlen($s);

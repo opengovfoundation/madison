@@ -36,14 +36,14 @@ class Normalizer
 
     static function isNormalized($s, $form = self::NFC)
     {
-        if (strspn($s, self::$ASCII) === strlen($s)) return true;
+        if (strspn($s .= '', self::$ASCII) === strlen($s)) return true;
         if (self::NFC === $form && preg_match('//u', $s) && !preg_match('/[^\x00-\x{2FF}]/u', $s)) return true;
         return false; // Pretend false as quick checks implementented in PHP won't be so quick
     }
 
     static function normalize($s, $form = self::NFC)
     {
-        if (!preg_match('//u', $s)) return false;
+        if (!preg_match('//u', $s .= '')) return false;
 
         switch ($form)
         {
@@ -55,19 +55,19 @@ class Normalizer
         default: return false;
         }
 
-        if (!strlen($s)) return '';
+        if ('' === $s) return '';
 
-        if ($K && empty(self::$KD)) self::$KD = self::getData('compatibilityDecomposition');
+        if ($K && empty(self::$KD)) self::$KD = static::getData('compatibilityDecomposition');
 
         if (empty(self::$D))
         {
-            self::$D = self::getData('canonicalDecomposition');
-            self::$cC = self::getData('combiningClass');
+            self::$D = static::getData('canonicalDecomposition');
+            self::$cC = static::getData('combiningClass');
         }
 
         if ($C)
         {
-            if (empty(self::$C)) self::$C = self::getData('canonicalComposition');
+            if (empty(self::$C)) self::$C = static::getData('canonicalComposition');
             return self::recompose(self::decompose($s, $K));
         }
         else return self::decompose($s, $K);

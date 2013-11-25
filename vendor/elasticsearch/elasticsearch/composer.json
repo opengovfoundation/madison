@@ -1,0 +1,34 @@
+{
+  "name": "elasticsearch/elasticsearch",
+  "description": "PHP Client for Elasticsearch",
+  "keywords": ["search","client", "elasticsearch"],
+  "type": "library",
+  "license": "Apache 2",
+  "authors": [
+    {
+      "name": "Zachary Tong"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.9",
+    "monolog/monolog": "~1.5",
+    "pimple/pimple": "~1.0",
+    "guzzle/guzzle": "~3.7",
+    "psr/log": "~1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "3.7.*",
+    "mockery/mockery": "dev-master@dev",
+    "athletic/athletic": "~0.1",
+    "symfony/yaml": "2.4.*@dev",
+    "satooshi/php-coveralls": "dev-master",
+    "mikey179/vfsStream": "~1.2"
+  },
+  "autoload": {
+    "psr-0": {
+      "Elasticsearch": "src/",
+      "Elasticsearch\\Tests" : "tests/",
+      "Elasticsearch\\Benchmarks" : "benchmarks/"
+    }
+  }
+}

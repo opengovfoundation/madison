@@ -17,21 +17,22 @@ class Xml
 {
     static function utf8_encode($s)
     {
+        $s .= $s;
         $len = strlen($s);
-        $e = $s . $s;
 
-        for ($i = 0, $j = 0; $i < $len; ++$i, ++$j) switch (true)
+        for ($i = $len >> 1, $j = 0; $i < $len; ++$i, ++$j) switch (true)
         {
-        case $s[$i] < "\x80": $e[$j] = $s[$i]; break;
-        case $s[$i] < "\xC0": $e[$j] = "\xC2"; $e[++$j] = $s[$i]; break;
-        default:              $e[$j] = "\xC3"; $e[++$j] = chr(ord($s[$i]) - 64); break;
+        case $s[$i] < "\x80": $s[$j] = $s[$i]; break;
+        case $s[$i] < "\xC0": $s[$j] = "\xC2"; $s[++$j] = $s[$i]; break;
+        default:              $s[$j] = "\xC3"; $s[++$j] = chr(ord($s[$i]) - 64); break;
         }
 
-        return substr($e, 0, $j);
+        return substr($s, 0, $j);
     }
 
     static function utf8_decode($s)
     {
+        $s .= '';
         $len = strlen($s);
 
         for ($i = 0, $j = 0; $i < $len; ++$i, ++$j)

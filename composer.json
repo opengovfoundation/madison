@@ -7,7 +7,8 @@
 		"laravel/framework": "4.0.*",
 		"roumen/sitemap": "*",
 		"loic-sharma/profiler": "1.1.*",
-		"symfony/yaml": "*"
+		"symfony/yaml": "*",
+		"elasticsearch/elasticsearch": "~0.4"
 	},
 	"autoload": {
 		"classmap": [

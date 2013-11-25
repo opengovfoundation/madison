@@ -76,9 +76,7 @@ class TurkishUtf8 extends Utf8
 
         foreach ($search as $i => $s)
         {
-            is_string($s) or $s = (string) $s;
-
-            if ('' === $s) $s = '/^(?<=.)$/';
+            if ('' === $s .= '') $s = '/^(?<=.)$/';
             else
             {
                 $s = preg_quote($s, '/');
