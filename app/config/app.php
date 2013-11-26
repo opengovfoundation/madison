@@ -115,6 +115,8 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Profiler\ProfilerServiceProvider',
 		'Roumen\Sitemap\SitemapServiceProvider',
+		'Illuminate\Remote\RemoteServiceProvider',
+		'Rocketeer\RocketeerServiceProvider',
 	),
 
 	/*
@@ -172,6 +174,7 @@ return array(
 		'Redis'           => 'Illuminate\Support\Facades\Redis',
 		'Request'         => 'Illuminate\Support\Facades\Request',
 		'Response'        => 'Illuminate\Support\Facades\Response',
+		'Rocketeer' 	  => 'Rocketeer\Facades\Rocketeer',
 		'Route'           => 'Illuminate\Support\Facades\Route',
 		'Schema'          => 'Illuminate\Support\Facades\Schema',
 		'Seeder'          => 'Illuminate\Database\Seeder',
