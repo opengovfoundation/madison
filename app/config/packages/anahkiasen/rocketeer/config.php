@@ -132,8 +132,8 @@
 				function($task){
 					$homeFolder = $task->rocketeer->getHomeFolder();
 
-					//TODO don't hard code staging
-					$ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/staging/shared/creds.yml current/app/config/creds.yml');
+					
+					$ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/shared/creds.yml current/app/config/creds.yml');
 				}
 			),
 			'cleanup' => array(),
