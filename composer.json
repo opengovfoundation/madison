@@ -3,10 +3,18 @@
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
+	"repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/changwuf31/remote"
+        }
+    ],
 	"require": {
 		"laravel/framework": "4.0.*",
 		"roumen/sitemap": "*",
-		"loic-sharma/profiler": "1.1.*"
+		"loic-sharma/profiler": "1.1.*",
+		"illuminate/remote": "4.1.*@dev",
+		"anahkiasen/rocketeer": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

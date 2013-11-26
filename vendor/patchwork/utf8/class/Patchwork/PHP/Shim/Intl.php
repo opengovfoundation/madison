@@ -28,7 +28,7 @@ class Intl
 {
     static function grapheme_extract($s, $size, $type = GRAPHEME_EXTR_COUNT, $start = 0, &$next = 0)
     {
-        $s = (string) substr($s, $start);
+        $s = substr($s, $start) . '';
         $size  = (int) $size;
         $type  = (int) $type;
         $start = (int) $start;
@@ -62,7 +62,6 @@ class Intl
 
     static function grapheme_strlen($s)
     {
-        $s = (string) $s;
         preg_replace('/' . GRAPHEME_CLUSTER_RX . '/u', '', $s, -1, $len);
         return 0 === $len && '' !== $s ? null : $len;
     }
@@ -94,6 +93,7 @@ class Intl
 
         if (2147483647 == $len) return grapheme_substr($s, $start);
 
+        $s .= '';
         $slen = grapheme_strlen($s);
         $start = (int) $start;
 
@@ -121,10 +121,10 @@ class Intl
 
     protected static function grapheme_position($s, $needle, $offset, $mode)
     {
-        if ($offset > 0) $s = (string) self::grapheme_substr($s, $offset);
+        if ($offset > 0) $s = self::grapheme_substr($s, $offset);
         else if ($offset < 0) $offset = 0;
-        if ('' === (string) $needle) return false;
-        if ('' === (string) $s) return false;
+        if ('' === $needle .= '') return false;
+        if ('' === $s .= '') return false;
 
         switch ($mode)
         {
