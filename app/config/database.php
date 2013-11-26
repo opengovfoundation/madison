@@ -1,5 +1,7 @@
 <?php
 
+$creds = yaml_parse_file(app_path() . '/config/creds.yml');
+
 return array(
 
 	/*
@@ -55,9 +57,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'database',
-			'username'  => 'user',
-			'password'  => 'password',
+			'database'  => $creds['database'],
+			'username'  => $creds['username'],
+			'password'  => $creds['password'],
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
