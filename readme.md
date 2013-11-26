@@ -6,6 +6,20 @@ Right now Madison is in a _pre-stable_ version.  A roadmap to version 2.0 (stabl
 
 If you have questions about Madison, please open an issue and we will try to respond as soon as possible.
 
+## Installation
+
+1.  Install [Composer](http://getcomposer.org/)
+1.  Install and enable the yaml php extension
+	* CentOS
+		* `yum install libyaml libyaml-devel`
+		* `pecl install yaml`
+	* OSX
+		* `brew install libyaml`
+		* Follow the homebrew instructions for enabling the extension
+1.  run `composer install` to install all composer packages
+1. 	copy `app/config/example_creds.yml` to `app/config/creds.yml` and add your mysql credentials 
+1.  run `php artisan app:migrate` to create database schema
+
 ## How to help
 
 * Claim an issue, comment on an issue, or submit a pull request to resolve one
