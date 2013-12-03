@@ -1,0 +1,182 @@
+@import 'compass';
+@import 'compass/css3/transform';
+@import 'compass/layout/stretching';
+@import 'compass/reset/utilities';
+
+$baseFontSize: 14px;
+
+@import 'common';
+
+
+
+//ELEMENT STYLES////////////////////////////////
+body {
+  background-color: transparent;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+}
+
+svg { -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+
+
+
+//ANNOTATOR STYLES////////////////////////////////
+.annotator-hide {
+  display: none;
+  visibility: hidden;
+}
+
+
+.excerpt {
+  margin-bottom: 1em;
+}
+
+
+.sliding-panels > li {
+  @extend .content;
+  @include smallshadow(-2px);
+  @include stretch-y;
+  @include transition(transform .4s);
+  @include translateX(100%);
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  left: 1em;
+  right: 0;
+
+  &:first-child {
+    @include box-shadow(none);
+    @include translateX(0);
+    left: 0;
+  }
+
+  &.show {
+    @include translateX(0);
+  }
+
+  &.squished {
+    padding-left: -.5em;
+  }
+}
+
+//SIDEBAR LAYOUT////////////////////////////////
+#wrapper {
+  height: 100%;
+  position: relative;
+}
+
+.topbar {
+  top: .5em;
+
+  .inner {
+    margin: 0 .5em 0 .5em;
+  }
+}
+
+.bottombar {
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  height: 3.7em;
+  width: 100%;
+
+  .notif-list {
+    margin-right: 1em;
+    box-shadow: 1px 1px 9px #b5d4ff;
+  }
+
+  .top-padding {
+    padding-top: .5em;
+  }
+  .bottom-padding {
+    padding-bottom: .5em;
+  }
+
+  .notif-text {
+    font-family: $sansFontFamily;
+    position: relative;
+    bottom: 2px;
+  }
+}
+
+
+//SHEET////////////////////////////////
+//This comes down from under the toolbar
+.sheet {
+  @include smallshadow;
+  font-family: $sansFontFamily;
+  max-height: 30em;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 2px;
+
+  .close {
+    position: absolute;
+    right: 1em;
+    top: .25em;
+  }
+
+  &.collapsed {
+    max-height: 0;
+  }
+
+  footer {
+    text-align: right;
+    a { @extend .small; }
+  }
+
+  footer {
+    font-family: $sansFontFamily;
+    text-align: right;
+    a { @extend .small; }
+  }
+
+  input:not([type="submit"]) { width: 100%; }
+}
+
+
+.user-picker {
+  padding: 0 .5em;
+
+  .avatar {
+    border-radius: 2px;
+  }
+
+  .dropdown-toggle {
+    .provider {
+      color: $grayLight;
+      display: none;
+    }
+    &:hover {
+      .provider {
+        display: inline;
+      }
+    }
+  }
+
+  .dropdown.open .provider {
+    display: inline;
+  }
+}
+
+
+//SEARCH HIGHLIGHTS////////////////////////////////
+.search-hl-active {
+  background: $highlightColor;
+  box-shadow:3px 3px 4px -1px #999999;
+  &::-moz-selection {
+    background: $highlightColor;
+    box-shadow:3px 3px 4px #999999;
+  }
+  &::-moz-selection, &::-moz-window-inactive, &::window-inactive {
+    background: $highlightColor;
+    box-shadow:3px 3px 4px #999999;
+  }
+  &::selection, &::selection:window-inactive {
+    background: $highlightColor;
+    box-shadow:3px 3px 4px #999999;
+  }
+}

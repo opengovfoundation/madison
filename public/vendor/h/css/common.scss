@@ -1,0 +1,1242 @@
+@import 'compass/typography/text/force-wrap';
+
+@import 'reset';
+@import 'base';
+@import 'responsive';
+@import 'yui_grid';
+
+
+$sansFontFamily: "Source Sans Pro", $sansFontFamily;
+$serifFontFamily: "Merriweather", $serifFontFamily;
+$headingsColor: $textColor;
+
+
+//ELEMENT STYLES////////////////////////////////
+a {
+  color: $linkColor;
+  &:hover { color: $linkColorHover; }
+  text-decoration: none;
+}
+
+body {
+  background-color: $bodyBackground;
+  color: $textColor;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.4;
+}
+
+p {
+  -webkit-hyphens: auto;
+     -moz-hyphens: auto;
+          hyphens: auto;
+
+  & + p {
+    margin: 2em 0 0;
+  }
+}
+
+em { font-style: italic; }
+
+html {
+  font-size: $baseFontSize / 16px * 1em;
+  line-height: $baseLineHeight / 16px * 1em;
+
+  @include yui_grid();
+
+  @include respond-to(handhelds) {
+    @include yui_grid('h-');
+  }
+
+  @include respond-to(wide-handhelds) {
+    @include yui_grid('wh-');
+  }
+
+  @include respond-to(tablets) {
+    @include yui_grid('t-');
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $sansFontFamily;
+  color: $headingsColor;
+}
+
+h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin: .75em 0;
+}
+
+h3 {
+  font-size: 1.17em;
+  margin: .83em 0;
+}
+
+h5 {
+  font-size: .83em;
+  margin: 1.5em 0;
+}
+
+h6 {
+  font-size: .75em;
+  margin: 1.67em 0;
+}
+
+input, textarea {
+  @include plainform;
+}
+
+select {
+  @include plainform;
+  padding: 0;
+  text-decoration: underline;
+  border: 0;
+  &:focus {
+    border: 0;
+  }
+}
+
+label {
+  @extend .visuallyhidden;
+}
+
+
+
+//MCRANDOM////////////////////////////////
+button, input[type=submit], .btn {
+  @include sweetbutton;
+}
+
+.alert-block {
+  span.errorMsgLbl { @extend .visuallyhidden; }
+  span.errorMsg { @extend .visuallyhidden; }
+}
+
+.inline-block {
+  display: inline-block
+}
+
+.small {
+  font-size: .8em;
+}
+
+.icon-hidden {
+  &:before {
+    color: transparent;
+  }
+  &:after {
+    color: transparent;
+  }
+}
+
+//Candidate for cleanup
+.btn-link {
+  @include box-shadow(none);
+  @include reset-box-model;
+  background: none;
+  background-color: transparent;
+  text-decoration: underline;
+  border: none;
+  cursor: pointer;
+  color: $linkColor;
+  position: static;
+  &:hover { color: $linkColorHover; }
+}
+
+.red {
+  color: $hypothered;
+}
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+
+//Notifications///////////////////////////////
+
+.notifications {
+  padding: 1em 0em 1em 1em;
+
+  .paper {
+    border: 1px solid #75b8f3;
+  }
+
+}
+
+
+//CLOSER////////////////////////////////
+.close {
+  @extend .x-icon;
+  float: right;
+  width: 1em;
+  height: 1em;
+  opacity: .2;
+
+  &:hover {
+    cursor: pointer;
+    opacity: .4;
+  }
+}
+
+
+
+//FORM RELATED////////////////////////////////
+.form-horizontal {
+  display: inline-block;
+  .controls, .control-group, div, fieldset,
+  input, button, select, textarea {
+    display: inline-block;
+  }
+  select, textarea, input, button {
+    margin: .5em 0;
+  }
+}
+
+.form-inline .control-group { margin-bottom: 0; }
+
+.form-vertical {
+  select, textarea, input, button {
+    display: block;
+    margin-top: .75em;
+  }
+}
+
+.req {
+  display: none;
+}
+
+.slow-validate {
+  display: block;
+  font-family: $sansFontFamily;
+  max-height: 0;
+  overflow: hidden;
+
+  &.slow-validate-show {
+    @include transition(max-height .25s ease-in 2s);
+    max-height: 10em;
+  }
+}
+
+.visuallyhidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px; width: 1px;
+  margin: -1px; padding: 0; border: 0;
+}
+
+
+
+//EXCERPT////////////////////////////////
+.excerpt {
+  position: relative;
+  blockquote {
+    margin-bottom: 0;
+  }
+  .more, .less {
+    font-size: .9em;
+    font-family: $sansFontFamily;
+    display: block;
+    text-align: right;
+  }
+}
+
+blockquote {
+  color: $gray;
+  font-family: $serifFontFamily;
+  font-size: 1em;
+  margin-bottom: 1em;
+  padding: 0 .8em;
+
+  &:before, &:after {
+    color: $grayLighter;
+    font-family: "icomoon";
+    position: absolute;
+  }
+
+  &:before {
+    content: "\23";
+    font-size: 6em;
+    top: -.36em;
+    left: -.31em;
+  }
+
+  &:after {
+    content: "\24";
+    font-size: 5em;
+    right: -.31em;
+    bottom: -.27em;
+  }
+}
+
+
+
+//DROPDOWNS////////////////////////////////
+.dropdown {
+  position: relative;
+  span {
+    cursor: pointer;
+    &:hover {
+      color: black;
+    }
+  }
+}
+
+.dropdown-toggle {
+  @include fonticon("\002f", right, 0);
+  cursor: pointer;
+
+  &:active {
+    outline: 0;
+  }
+}
+
+.dropdown-menu {
+  @include rotateX(90deg);
+  background: $white;
+  border: solid 1px $grayLighter;
+  margin-top: .8em;
+  top: 100%;
+  float: left;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+
+  li {
+    cursor: pointer;
+    line-height: 1;
+    text-align: left;
+    padding: .5em;
+    white-space: nowrap;
+
+    &:hover {
+      color: black;
+    }
+
+    &.selected {
+      color: black;
+      font-weight: 600;
+      line-height: 1;
+      &:before {
+        font-size: .7em;
+      }
+    }
+    &.inactive {
+      font-weight: 400;
+      color: $grayLighter;
+      cursor: default;
+      &:hover {
+        color: $grayLighter;
+      }
+      & * {
+        cursor: default;
+      }
+    }
+
+    & + li {
+      border-top: dotted 1px $grayLighter;
+    }
+  }
+
+  a {
+    color: inherit;
+  }
+
+  // These psuedo-elements add the speech bubble tail / triangle.
+  &:before, &:after {
+    // http://www.red-team-design.com/css-diagonal-borders-still-not-rendering-properly-on-firefox
+    @include scale(.9999);
+    border-color: rgba(0, 0, 0, 0);
+
+    border-style: solid;
+    border-width: 0 7px 6px 7px;
+    content: '';
+    position: absolute;
+    height: 0;
+    left: 5px;
+    width: 0;
+  }
+
+  &:before {
+    border-bottom-color: $grayLighter;
+    top: -7px;
+  }
+
+  &:after {
+    border-bottom-color: $white;
+    top: -6px;
+    z-index: 3;
+  }
+
+  // Aligns the dropdown menu to right
+  &.pull-right {
+    right: 0;
+    left: auto;
+    text-align: right;
+
+    // Align the tail
+    &:before, &:after {
+      left: auto;
+      right: 5px;
+    }
+  }
+}
+
+.open {
+  & > .dropdown-menu {
+    @include smallshadow;
+    @include rotateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+
+
+//ICON CLASSES////////////////////////////////
+.flag-icon {
+  @include fonticon("\28", left);
+}
+
+.fave-icon {
+  @include fonticon("\e006", left);
+  &.checked:before {
+    content: "\e005";
+  }
+}
+
+.reply-icon {
+  @include fonticon("\e004", left);
+}
+
+.share-icon {
+  @include fonticon("\25", left);
+}
+
+.down-icon {
+  @include fonticon("\e007", left);
+}
+
+.clipboard-icon {
+  @include fonticon("\33", left);
+}
+
+.check-icon {
+  @include fonticon("\35", left);
+}
+
+.x-icon {
+  @include fonticon("\36", left);
+}
+
+.vis-icon {
+  @include fonticon("\e001", left);
+}
+
+.highlight-icon {
+  @include fonticon("\e01a", left);
+}
+
+.comment-icon {
+  @include fonticon("\e01e", left);
+}
+
+.launch-icon {
+  @include fonticon("\2a", left);
+}
+
+.cancel-icon {
+  position: relative;
+  top: 2px;
+  width: 11px; height: 11px;
+  background-position: center 0;
+  background-repeat: no-repeat;
+  background-image: url(../images/embed/icons/cancel_search.png?1311104738);
+  cursor: pointer;
+  &:hover {
+    background-position: center -11px;
+  }
+}
+
+//VISIBILITY
+.visibility {
+  .dropdown-toggle {
+    @include fonticon("\3c", right);
+  }
+  li {
+    @include fonticon("\35", right);
+    &:after {
+      opacity: 0;
+    }
+    &.selected {
+      &:after {
+        opacity: 1;
+      }
+    }
+  }
+  .vis-public {
+    border-bottom: 1px solid $grayLighter;
+    margin: .4em 0 0;
+    padding: 0 .5em 0;
+  }
+}
+
+
+//TABS////////////////////////////////
+.nav-tabs {
+  @include pie-clearfix;
+  margin: 0 .2em;
+
+  a {
+    font-family: $sansFontFamily;
+    color: $grayDark;
+  }
+
+  & > li {
+    @include box-shadow(inset 2px -10px 13px -8px hsla(0, 0%, 0%, .1));
+    background: darken($white, 2%);
+    border-top-right-radius: 2em 5em;
+    border-top-left-radius: 2em 5em;
+    border: .1em solid $grayLighter;
+    border-bottom: none;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 1;
+    margin-right: -.5em;
+    padding: .25em 1em .5em;
+    position: relative;
+
+    &:hover {
+      background: $white;
+    }
+
+    &.active, &:active {
+      @include box-shadow(none);
+      background: $white;
+      color: #333;
+    }
+
+    &.active {
+      z-index: 1;
+    }
+  }
+}
+
+.tab-content {
+  @include border-radius(.1em);
+  background: $white;
+  border: solid .1em $grayLighter;
+  margin-top: -.1em;
+  padding: 1em;
+  position: relative;
+
+  .tab-pane {
+    display: none;
+    &.active {
+      display: inherit !important;
+    }
+  }
+}
+
+
+//KNOCKOUT///////////
+//Provides a knockout background
+.knockout {
+  @include border-radius(.5em);
+  @include pie-clearfix;
+  @include box-shadow(inset 1px 1px 3px hsla(0, 0%, 0%, .1));
+  padding: 1em;
+}
+
+
+//PAPER////////////////////////////////
+//Provides the white background upon which items sit
+.paper {
+  @include border-radius(2px);
+  @include smallshadow(0, 2px);
+  background: $white;
+  border: solid 1px $grayLighter;
+  padding: 1em;
+}
+
+
+//TOOL BAR////////////////////////////////
+.topbar {
+  @include smallshadow(0);
+  background: $white;
+  border: solid 1px $grayLighter;
+  border-style: solid none;
+  height: 2em;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: .5em;
+  z-index: 5;
+
+  .barbutton {
+    &:hover {
+      @include box-shadow(inset 0 1px 3px hsla(0, 0%, 0%, .1));
+    }
+
+    &:active {
+      @include box-shadow(inset 0 2px 3px hsla(0, 0%, 0%, .1));
+    }
+  }
+
+  .inner > * {
+    padding: .3em;
+
+    &.pull-right {
+      display: inline-block;
+      font-family: $sansFontFamily;
+    }
+
+    &.search-upper {
+      padding: 0em;
+      padding-top: .15em;
+    }
+  }
+
+  .right-border {
+    padding-right: 3.7em;
+  }
+}
+
+
+
+//MAIN CONTENT///////
+.content {
+  margin: 0 auto;
+  padding: 1em;
+  padding-top: 3.5em;
+
+  .domain {
+    margin: .2em 0 .3em;
+  }
+
+  .domain .favicon {
+    margin: 0 .5em;
+  }
+
+  .page {
+    margin-bottom: 1em;
+
+    a {
+      font-weight: bold;
+    }
+  }
+}
+
+
+//ANNOTATION////////////////////////////////
+//This is for everything that is formatted as an annotation.
+.annotation {
+  @include pie-clearfix;
+  font-family: $sansFontFamily;
+  position: relative;
+
+  .user {
+    font-weight: bold;
+    font-size: 1.1em;
+    &:hover {
+      color: $linkColorHover;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+
+  .body {
+    div {
+      clear: both;
+      margin: .25em 0;
+      #{elements-of-type(inline)}, #{headings()}, p, li {
+        @include force-wrap;
+      }
+
+      ol, ul {
+        padding-left: 1.25em;
+      }
+
+      ol {
+        list-style-type: decimal;
+      }
+
+      ul {
+        list-style-type: disc;
+      }
+    }
+
+    textarea {
+      min-height: 8em;
+      width: 100%;
+    }
+  }
+
+  .buttonbar {
+    @include pie-clearfix;
+    margin: .25em 0;
+
+    .btn {
+      margin-right: .5em;
+    }
+  }
+
+  .tip {
+    @extend .small;
+    float: right;
+  }
+
+  .quote {
+    font-style: italic
+  }
+}
+
+// Temporary hack until sidebar and displayer are unified
+.annotation-displayer {
+  .user {
+    &:hover {
+      color: $linkColorHover;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}
+
+//THREADING////////////////////////////////
+//Threaded discussion specific
+.thread {
+  cursor: pointer;
+  position: relative;
+
+  & > ul {
+    padding-left: $thread-padding;
+    margin-left: -$thread-padding;
+
+    & > * {
+      border-left: 1px dotted $grayLight;
+      position: relative;
+
+      &:first-child {
+        margin-top: .5em;
+      }
+    }
+  }
+
+  .thread {
+    height: 100%;
+    padding-left: $thread-padding;
+  }
+
+  .threadexp {
+    height: $threadexp-width;
+    width: $threadexp-width;
+    position: absolute;
+    top: $threadexp-width / 2;
+    left: -($threadexp-width / 2);
+    outline: 1px solid #aaa;
+    @include icon("minus_1.png");
+  }
+
+  .annotation {
+    &.squished {
+      padding-left: 0;
+    }
+  }
+
+  .search-collapsed {
+    background-image: url("../images/plus_1.png");
+  }
+
+  //These are all the changes needed to collapse thread objects.
+  &.collapsed {
+    display: block !important;
+
+    .thread {
+      display: none;
+    }
+
+    & > ul {
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    & > .annotation {
+      .body {
+        font-size: .95em;
+      }
+
+      .body * {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      .indicators {
+        display: run-in;
+        margin-right: .25em;
+      }
+    }
+
+    & > .threadexp {
+      background-image: url("../images/plus_1.png");
+    }
+  }
+
+  &.collapse-hide-setup > ul {
+    @include transition-timing-function(cubic-bezier(0, 1, 0, 1));
+    max-height: 65536px;
+    overflow: hidden;
+  }
+
+  &.collapse-hide-start > ul {
+    max-height: 0;
+  }
+
+  &.collapse-show-setup > ul {
+    @include transition-timing-function(cubic-bezier(1, 0, 1, 0));
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  &.collapse-show-start > ul {
+    max-height: 65536px;
+  }
+}
+
+
+
+//MAGICONTROLS////////////////////////////////
+.magicontrols {
+  & > * {
+    display: inline-block;
+    padding-right: .8em;
+  }
+
+  &.pull-right {
+    text-align: right;
+    clear: both;
+
+    & > * {
+      padding-right: 0;
+    }
+  }
+
+  & > .show {
+    @include transition(opacity);
+    @include transition-duration(.15s);
+    opacity: 0;
+
+    &.open, :hover > & {
+      @include transition-duration(.15s);
+      opacity: 1;
+    }
+  }
+}
+
+.share-dialog {
+   display: none;
+  .icon-input {
+    position: relative;
+    .go-icon {
+      position: absolute;
+      top: .33em;
+    }
+    .share-div {
+      margin-left: 1.5em;
+      .share-text {
+        width: 100%;
+        margin-bottom: 4px;
+      }
+    }
+  }
+}
+
+//SUMMARY////////////////////////////////
+//This is specific to the summary view.
+.summary {
+  position: relative;
+
+  &:hover {
+    @include smallshadow(2px, 3px, .1);
+    bottom: 1px;
+  }
+
+  &:active {
+    @include smallshadow(2px, 1px, .1);
+    bottom: 0;
+  }
+}
+
+//STREAMER////////////////////////////////
+//This is specific to the streamer page
+.main-content {
+  margin:0;
+}
+
+.knockout {
+  .center {
+    text-align: center;
+  }
+}
+
+.button_controls {
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: .5em;
+  margin-top: .5em;
+}
+
+.stream-list {
+  margin-bottom: .75em;
+}
+
+.no-overflow {
+  overflow: hidden;
+}
+
+.strech {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.filter-body {
+ overflow: visible;
+ padding-bottom: 1.5em;
+}
+
+.side-bar-right {
+    width: 15em;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.side-bar-left {
+    width: 30em;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.card-grid {
+  .full-quote {
+    margin: 0;
+    padding-left: 2em;
+    padding-right: 1.75em;
+  }
+}
+@mixin sidebar_animation {
+  -webkit-transition: 1s linear all;
+  -moz-transition: 1s linear all;
+  -o-transition: 1s linear all;
+  transition: 1s linear all;
+  overflow-y:hidden;
+}
+
+.sidebar_anim_show_left-setup {
+  @include sidebar_animation;
+  opacity: 0;
+  width: 0em;
+}
+
+.sidebar_anim_show_left-setup.sidebar_anim_show_left-start {
+  opacity: 1;
+  width: 30em;
+}
+
+.sidebar_anim_show_right-setup {
+  @include sidebar_animation;
+  opacity: 0;
+  width: 0em;
+}
+
+.sidebar_anim_show_right-setup.sidebar_anim_show_right-start {
+  opacity: 1;
+  width: 15em;
+}
+.sidebar_anim_hide_right-setup {
+  @include sidebar_animation;
+  opacity: 1;
+  width: 15em;
+}
+
+.sidebar_anim_hide_right-setup.sidebar_anim_hide_right-start {
+  opacity: 0;
+  width: 0em;
+}
+
+.sidebar_anim_hide_left-setup {
+  @include sidebar_animation;
+  opacity: 1;
+  width: 30em;
+}
+
+.sidebar_anim_hide_left-setup.sidebar_anim_hide_left-start {
+  opacity: 0;
+  width: 0em;
+}
+
+.searchbar-border {
+  height: auto;
+  padding-bottom: 2em;
+}
+
+.searchbar-error {
+  color: red;
+}
+
+.menu-width {
+  width: 20em;
+  white-space: pre-line;
+}
+
+pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }
+
+.sidebar-content {
+  padding-top: 4em;
+  overflow-x:hidden;
+  overflow-y:hidden;
+}
+
+.annotation-header-border {
+  padding: .5em;
+  overflow: hidden;
+}
+
+.annotation-header-width {
+  padding: .2em;
+  overflow: hidden;
+}
+
+.annotation-header-favicon {
+  width: 1em;
+  vertical-align: middle;
+}
+
+.searchbar {
+  margin-top: 8em;
+}
+
+.searchinput {
+  width: 79%;
+}
+
+.searchbutton {
+  width: 19%
+}
+
+.searchfield {
+  width: 100%
+}
+
+.small-padding {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+//A grid of cards
+.card-grid {
+  position: relative;
+  margin: 0 -1em;
+  & > * {
+    padding: 1em;
+    margin: -1em 0;
+  }
+}
+
+// Tags for the annotations
+.tags {
+  @include pie-clearfix;
+  @include reset-box-model;
+  @include reset-font;
+  background: none;
+  clear: both;
+  margin-top: .2em;
+  margin-bottom: .2em;
+
+  .tagit-close {
+    cursor: pointer;
+    position: absolute;
+    right: .1em;
+    top: 50%;
+    margin-top: -8px;
+    line-height: 17px;
+  }
+
+  .text-icon { display: none; }
+
+  input {
+    float: left;
+    position: relative;
+    bottom: 7px;
+  }
+
+  li {
+    cursor: pointer;
+    display: block;
+    float: left;
+    margin: .6em .2em;
+    padding: .01em 1.3em .01em .3em;
+    position: relative;
+    right: 2px;
+    font-size: 12px;
+    opacity:.8;
+
+
+    &:hover { opacity: 1; }
+
+    & + li { margin-left: .1em; }
+  }
+  li.tagit-choice { margin-top: .33em; }
+
+  &[readonly] {
+    .tagit-new, .tagit-close { display: none; }
+    li { padding-right: .3em; }
+    li.tagit-choice { margin-top: .1em; }
+  }
+}
+
+// Only show one line of tags in bucket view
+.summary .tags {
+  height: 2.0em;
+  overflow: hidden;
+}
+
+h3.stream {
+  letter-spacing: normal;
+  word-spacing: normal;
+  margin-top: 0;
+}
+
+//Visual Search////////////////////////////////
+//Override their css here
+
+.collapsed-container {
+  height: 1em;
+  visibility: hidden;
+}
+
+.VS-search .search_facet {
+  float: left;
+  margin: 0;
+  padding: 0 0 0 14px;
+  position: relative;
+  border: 1px solid transparent;
+  height: 20px;
+  margin: 3px -8px 4px 0;
+}
+
+.small-inner {
+  margin:0px .5em 0px 1em;
+}
+
+.search-container {
+  width: auto;
+  float: none;
+  overflow: hidden;
+}
+
+.VS-search .VS-search-box {
+  min-height: 20px;
+  height: 24px;
+}
+
+.VS-search .VS-icon-search {
+  position: absolute;
+  left: 9px;
+  top: 7px;
+}
+
+.VS-search .VS-icon-cancel {
+  position: absolute;
+  right: 9px;
+  top: 7px;
+}
+
+.VS-search .VS-search-inner {
+  position: relative;
+  margin: 0 20px 0 22px;
+  overflow: hidden;
+  display: block; 
+}
+
+.visual-search {
+  .VS-search .VS-search-box {
+    border: 0;
+    min-height: 22px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+
+  .VS-search input,.VS-search .VS-input-width-tester {
+    border: none;
+    -moz-box-sizing:content-box;
+    -webkit-box-sizing:content-box;
+    box-sizing: content-box;
+  }
+
+  .VS-search .search_input input {
+    width: 4px;
+  }
+}
+
+.thread {
+  .load-more {
+    @include pie-clearfix;
+    font-family: $sansFontFamily;
+    font-weight:bold;
+    font-size: 11px;
+  }
+}
+
+.magnify-glass {
+  width: 2.25em;
+  min-height: 22px;
+}
+
+.magnify-glass .VS-icon-search:hover {
+  width:12px;
+  height:12px;
+  background-image:url(../images/embed/icons/search_glyph_dark.png);
+  cursor: pointer;
+}
+
+.fadeIn-setup,.fadeOut-setup {
+  -webkit-transition: .25s linear opacity;
+  -moz-transition: .25s linear opacity;
+  -o-transition: .25s linear opacity;
+  transition: .25s linear opacity;
+}
+
+.fadeIn-setup{
+  opacity:0;
+}
+.fadeOut-setup{
+  opacity:1;
+}
+.fadeIn-setup.fadeIn-start {
+  opacity: 1;
+}
+.fadeOut-setup.fadeOut-start{
+    opacity:0;
+}

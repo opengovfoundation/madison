@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="madisonApp">
+<html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<title>{{ $page_title }}</title>
@@ -9,11 +9,7 @@
 		<meta name="format-detection" content="telephone=no" />
 		<meta http-equiv="cleartype" content="on" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-		<!-- Stylesheets -->
-		{{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
-		{{ HTML::style('vendor/bootstrap/css/bootstrap-theme.min.css') }}
-		{{ HTML::style('css/style.css') }}
-		{{ HTML::script('vendor/jquery/jquery-1.9.1.min.js') }}
+		@include('layouts.assets')
 	</head>
 	<body>
 		<div id="wrap">

@@ -1,0 +1,143 @@
+<form name="form">
+  <div class="magicontrols pull-right" ng-hide="editing">
+    <!-- Timestamp -->
+    <fuzzytime ng-model="model.$viewValue.updated"></fuzzytime>
+
+    <!-- More actions -->
+    <div class="dropdown small show">
+      <span class="dropdown-toggle" role="button" title="More actions"></span>
+      <ul class="dropdown-menu pull-right" role="menu">
+        <li class="reply-icon"
+            ng-click="reply()">Reply</li>
+        <li class="clipboard-icon"
+            ng-show="auth.update"
+            ng-click="edit()">Edit</li>
+        <li class="x-icon"
+            ng-show="auth.delete"
+            ng-click="delete()">Delete…</li>
+        <li class="flag-icon"
+            ng-hide="auth.delete"
+            ng-click="flag()">Flag…</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Privacy -->
+  <privacy ng-model="$parent.model.$modelValue.permissions"
+           ng-show="editing && action != 'delete'"
+           class="dropdown privacy pull-right"
+           name="privacy" />
+
+  <!-- Deletion notice -->
+  <span ng-show="!editing && model.$viewValue.deleted"
+        >Annotation deleted.</span>
+
+  <!-- Preface -->
+  <header ng-switch="editing && action">
+    <strong ng-switch-when="delete">You may provide an explanation here.</strong>
+    <!-- User -->
+    <strong ng-switch-default class="indicators">
+      <username ng-model="model.$modelValue.user"></username>
+      <span class="small vis-icon"
+            ng-show="form.privacy.$viewValue != 'Public'"></span>
+      <span class="small highlight-icon"
+            ng-hide="model.$viewValue.text || editing || model.$viewValue.deleted || model.$viewValue.tags.length"></span>
+      <span class="small comment-icon"
+            ng-hide="model.$viewValue.target.length || model.$viewValue.references"></span>
+    </strong>
+  </header>
+
+  <!-- Prompt -->
+  <!-- TODO: replace with placeholder on markdown elements? -->
+  <div ng-show="model.$viewValue.deleted && !editing">
+    <ng-switch on="model.$viewValue.text.length">
+      <div ng-switch-when="0">(no reason given)</div>
+      <div ng-switch-default>Reason:</div>
+    </ng-switch>
+  </div>
+
+  <!-- Body -->
+  <div ng-show="mode=='search' && !editing">
+    <markdown ng-model="$parent.model.$modelValue.highlightText"
+              ng-readonly="!$parent.editing"
+              class="body"
+              name="text" />
+  </div>
+  <div ng-hide="mode=='search' && !editing">
+    <markdown ng-model="$parent.model.$modelValue.text"
+              ng-readonly="!$parent.editing"
+              class="body"
+              name="text" />
+  </div>
+
+  <!-- Tip about Markdown -->
+  <span ng-hide="!editing" class="tip"><a href="https://en.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a> is supported.</span>
+
+  <!-- Tags -->
+  <ul ng-readonly="!editing"
+      ng-model="model.$modelValue.tags"
+      name="tags"
+      class="tags"
+      placeholder="Add tags"
+  />
+
+  <!-- Bottom controls -->
+  <div class="buttonbar" ng-show="editing">
+    <div class="annotator-controls">
+      <ng-switch on="action">
+        <button ng-switch-when="edit"
+                ng-click="save($event)"
+                ng-disabled="!form.$valid"
+                class="btn check-icon">Save</button>
+        <button ng-switch-when="delete"
+                ng-click="save($event)"
+                ng-disabled="!form.$valid"
+                class="btn check-icon">Delete</button>
+        <button ng-switch-default
+                ng-click="save($event)"
+                ng-disabled="!form.$valid"
+                class="btn check-icon">Save</button>
+      </ng-switch>
+      <span role="button" ng-click="cancel($event)" class="x-icon">Cancel</span>
+    </div>
+  </div>
+
+  <div data-ng-bind-html="model.$viewValue.body"
+       data-ng-hide="editing"
+       class="body" />
+
+  <!-- Editing preview -->
+  <div ng-show="previewText" class="preview">
+    <h4>Preview</h4>
+    <div ng-bind-html="previewText" class="body" />
+  </div>
+
+  <!-- Share dialog -->
+  <div class="share-dialog" data-ng-show="!editing">
+    <div class="icon-input">
+      <div class="go-icon">
+	<a class="launch-icon show" href="{{shared_link}}" target="_blank"></a>
+      </div>
+      <div class="share-div">
+        <input class="share-text" type="text" ng-model="shared_link" readonly ng-blur="toggle()" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom control strip -->
+  <div class="magicontrols small" ng-hide="editing">
+    <span class="reply-count"
+          ng-pluralize=""
+          ng-show="thread.children.length && replies!='false'"
+          count="thread.flattenChildren().length"
+          when="{one: '1 reply', other: '{} replies'}" />
+    <a class="reply-icon show" href="" title="Reply" ng-click="reply($event)">Reply</a>
+    <!-- <span class="fave-icon" title="Favorite"
+          ng-click="favorite()" /> -->
+    <a class="share-icon show" href="" title="Share" ng-click="share($event)">Share</a>
+    <a class="clipboard-icon show" href="" title="Edit" ng-show="auth.update" ng-click="edit($event)">Edit</a>
+    <a class="x-icon show" href="" title="Delete" ng-show="auth.delete" ng-click="delete($event)">Delete</a>
+    <a class="flag-icon show" href="" title="flag" ng-hide="auth.delete" ng-click="flag($event)">Flag</a>
+
+  </div>
+</form>
