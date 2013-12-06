@@ -1,73 +1,12 @@
 		<!-- Stylesheets -->
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Merriweather%7CSource+Sans+Pro:400,600&amp;subset=latin,latin-ext">
-		{{ HTML::style('vendor/h/lib/jquery-ui-smoothness.css') }}
-		{{ HTML::style('vendor/h/lib/visualsearch.css') }}
 		{{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
 		{{ HTML::style('vendor/bootstrap/css/bootstrap-theme.min.css') }}
 		{{ HTML::style('vendor/h/css/inject.css') }}
 		{{ HTML::style('css/style.css') }}
 
 		<!-- Scripts -->
-		{{ HTML::script('vendor/h/lib/d3.js') }}
-		{{ HTML::script('vendor/h/dom_text_mapper.js') }}
-		{{ HTML::script('vendor/h/page_text_mapper_core.js') }}
-		{{ HTML::script('vendor/h/lib/jquery-1.10.2.js') }}
-		{{ HTML::script('vendor/h/lib/jquery.scrollintoview.js') }}
-		{{ HTML::script('vendor/h/lib/jquery.ui.widget.js') }}
-		{{ HTML::script('vendor/h/lib/jquery.ui.autocomplete.js') }}
-		{{ HTML::script('vendor/h/lib/jquery.ui.core.js') }}
-		{{ HTML::script('vendor/h/lib/jquery.ui.menu.js') }}
-		{{ HTML::script('vendor/h/lib/jquery.ui.position.js') }}
-		{{ HTML::script('vendor/h/lib/jquery.ui.effect.js') }}
-		{{ HTML::script('vendor/h/lib/jquery.ui.effect-blind.js') }}
-		{{ HTML::script('vendor/h/lib/jquery.ui.effect-highlight.js') }}
-		{{ HTML::script('vendor/h/lib/jquery.ui.effect-forecolor-highlight.js') }}
-		{{ HTML::script('vendor/h/lib/jschannel.js') }}
-		{{ HTML::script('vendor/h/lib/gettext.js') }}
-		{{ HTML::script('vendor/h/data.js') }}
+		{{ HTML::script('vendor/jquery/jquery-1.10.2.js') }}
 		{{ HTML::script('vendor/h/lib/annotator.js') }}
-		{{ HTML::script('vendor/h/lib/annotator.auth.js') }}
-		{{ HTML::script('vendor/h/plugin/bridge.js') }}
-		{{ HTML::script('vendor/h/lib/annotator.document.js') }}
-		{{ HTML::script('vendor/h/plugin/heatmap.js') }}
-		{{ HTML::script('vendor/h/lib/annotator.textanchors.js') }}
-		{{ HTML::script('vendor/h/lib/diff_match_patch_uncompressed.js') }}
-		{{ HTML::script('vendor/h/text_match_engines.js') }}
-		{{ HTML::script('vendor/h/dom_text_matcher.js') }}
-		{{ HTML::script('vendor/h/lib/annotator.fuzzytextanchors.js') }}
-		{{-- HTML::script('vendor/h/lib/annotator.pdf.js') --}}
-		{{ HTML::script('vendor/h/plugin/toolbar.js') }}
-		{{ HTML::script('vendor/h/guest.js') }}
-		{{ HTML::script('vendor/h/host.js') }}
-		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
-		{{ HTML::script('vendor/h/lib/jquery.mousewheel.js') }}
-		{{ HTML::script('vendor/h/lib/angular.js') }}
-		{{ HTML::script('vendor/h/lib/angular-bootstrap.js') }}
-		{{ HTML::script('vendor/h/lib/angular-resource.js') }}
-		{{ HTML::script('vendor/h/lib/angular-route.js') }}
-		{{ HTML::script('vendor/h/lib/angular-sanitize.js') }}
-		{{ HTML::script('vendor/h/plugin/discovery.js') }}
-		{{ HTML::script('vendor/h/lib/annotator.permissions.js') }}
-		{{ HTML::script('vendor/h/lib/annotator.store.js') }}
-		{{ HTML::script('vendor/h/plugin/threading.js') }}
-		{{ HTML::script('vendor/h/lib/jwz.js') }}
-		{{ HTML::script('vendor/h/lib/Markdown.Converter.js') }}
-		{{ HTML::script('vendor/h/lib/polyfills/raf.js') }}
-		{{ HTML::script('vendor/h/lib/sockjs-0.3.4.js') }}
-		{{ HTML::script('vendor/h/lib/tag-it.js') }}
-		{{ HTML::script('vendor/h/lib/underscore-1.4.3.js') }}
-		{{ HTML::script('vendor/h/lib/backbone-0.9.10.js') }}
-		{{ HTML::script('vendor/h/lib/visualsearch.js') }}
-		{{ HTML::script('vendor/h/lib/uuid.js') }}
-
-		<!-- Angular App -->
-		{{ HTML::script('vendor/h/js/app.js') }}
-		{{ HTML::script('vendor/h/js/controllers.js') }}
-		{{ HTML::script('vendor/h/js/filters.js') }}
-		{{ HTML::script('vendor/h/js/flash.js') }}
-		{{ HTML::script('vendor/h/js/directives.js') }}
-		{{ HTML::script('vendor/h/js/app_directives.js') }}
-		{{ HTML::script('vendor/h/js/displayer.js') }}
-		{{ HTML::script('vendor/h/js/services.js') }}
-		{{ HTML::script('vendor/h/js/streamfilter.js') }}
-		{{ HTML::script('vendor/h/js/streamsearch.js') }}
+		{{ HTML::script('vendor/h/lib/d3.js') }}
+		

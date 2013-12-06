@@ -1,5 +1,6 @@
 @extends('layouts/main')
 @section('content')
+	{{ HTML::script('vendor/h/js/embed.js') }}
 	<div class="col-md-8 content doc_content @if(Auth::check())logged_in@endif">
 		<div class="row">
 			<div class="col-md-12">
