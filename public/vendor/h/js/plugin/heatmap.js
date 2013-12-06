@@ -34,6 +34,7 @@
       this.isUpper = __bind(this.isUpper, this);
       this._fillDynamicBucket = __bind(this._fillDynamicBucket, this);
       this._update = __bind(this._update, this);
+      this._scheduleUpdate = __bind(this._scheduleUpdate, this);
       Heatmap.__super__.constructor.call(this, $(this.html), options);
       if (this.options.container != null) {
         $(this.options.container).append(this.element);
@@ -55,10 +56,10 @@
         if (event === 'annotationCreated') {
           this.annotator.subscribe(event, function() {
             _this.dynamicBucket = false;
-            return _this._update();
+            return _this._scheduleUpdate();
           });
         } else {
-          this.annotator.subscribe(event, this._update);
+          this.annotator.subscribe(event, this._scheduleUpdate);
         }
       }
       this.element.on('click', function(event) {
@@ -72,7 +73,7 @@
         var anchor, dir, next, page;
         anchor = Array.isArray(highlights) ? highlights[0].anchor : highlights.anchor;
         if (anchor.annotation.id != null) {
-          _this._update();
+          _this._scheduleUpdate();
         }
         if ((_this.pendingScroll != null) && __indexOf.call(_this.pendingScroll.anchors, anchor) >= 0) {
           if (!--_this.pendingScroll.count) {
@@ -98,12 +99,24 @@
       });
       this.annotator.subscribe("highlightRemoved", function(highlight) {
         if (highlight.annotation.id != null) {
-          return _this._update();
+          return _this._scheduleUpdate();
         }
       });
       return addEventListener("docPageScrolling", function() {
         return _this._update();
       });
+    };
+
+    Heatmap.prototype._scheduleUpdate = function() {
+      var _this = this;
+      if (this._updatePending) {
+        return;
+      }
+      this._updatePending = true;
+      return setTimeout((function() {
+        delete _this._updatePending;
+        return _this._update();
+      }), 200);
     };
 
     Heatmap.prototype._maybeRebaseUrls = function() {
@@ -403,35 +416,29 @@
         return buckets;
       });
       tabs.enter().append('div').classed('heatmap-pointer', true).on('mousemove', function(bucket) {
-        var hl, _j, _len1, _ref2, _ref3, _results;
+        var hl, _j, _len1, _ref2, _ref3;
         _ref2 = _this.annotator.getHighlights();
-        _results = [];
         for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
           hl = _ref2[_j];
           if (_ref3 = hl.annotation, __indexOf.call(_this.buckets[bucket], _ref3) >= 0) {
-            _results.push(hl.setActive(true));
+            hl.setActive(true, true);
           } else {
             if (!hl.isTemporary()) {
-              _results.push(hl.setActive(false));
-            } else {
-              _results.push(void 0);
+              hl.setActive(false, true);
             }
           }
         }
-        return _results;
+        return _this.annotator.publish("finalizeHighlights");
       }).on('mouseout', function() {
-        var hl, _j, _len1, _ref2, _results;
+        var hl, _j, _len1, _ref2;
         _ref2 = _this.annotator.getHighlights();
-        _results = [];
         for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
           hl = _ref2[_j];
           if (!hl.isTemporary()) {
-            _results.push(hl.setActive(false));
-          } else {
-            _results.push(void 0);
+            hl.setActive(false, true);
           }
         }
-        return _results;
+        return _this.annotator.publish("finalizeHighlights");
       }).on('click', function(bucket) {
         var pad;
         d3.event.stopPropagation();

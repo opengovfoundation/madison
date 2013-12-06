@@ -17,11 +17,9 @@
       "setVisibleHighlights": "onSetVisibleHighlights"
     };
 
-    Guest.prototype.onAnchorMouseover = function() {};
-
-    Guest.prototype.onAnchorMouseout = function() {};
-
     Guest.prototype.options = {
+      TextHighlights: {},
+      DomTextMapper: {},
       TextAnchors: {},
       FuzzyTextAnchors: {},
       PDF: {},
@@ -34,19 +32,26 @@
 
     Guest.prototype.visibleHighlights = false;
 
-    function Guest(element, options) {
+    Guest.prototype.noBack = false;
+
+    function Guest(element, options, config) {
+      var name, opts, _ref,
+        _this = this;
+      if (config == null) {
+        config = {};
+      }
       this.onSetVisibleHighlights = __bind(this.onSetVisibleHighlights, this);
       this.onAdderClick = __bind(this.onAdderClick, this);
       this.addToken = __bind(this.addToken, this);
       this.onAnchorClick = __bind(this.onAnchorClick, this);
       this.onAnchorMousedown = __bind(this.onAnchorMousedown, this);
       this.checkForStartSelection = __bind(this.checkForStartSelection, this);
+      this.removeEmphasis = __bind(this.removeEmphasis, this);
+      this.addEmphasis = __bind(this.addEmphasis, this);
       this.showEditor = __bind(this.showEditor, this);
       this.updateViewer = __bind(this.updateViewer, this);
       this.showViewer = __bind(this.showViewer, this);
       this.scanDocument = __bind(this.scanDocument, this);
-      var name, opts, _ref,
-        _this = this;
       Gettext.prototype.parse_locale_data(annotator_locale_data);
       options.noScan = true;
       Guest.__super__.constructor.apply(this, arguments);
@@ -73,6 +78,7 @@
           return formatted;
         },
         onConnect: function(source, origin, scope) {
+          _this.publish("enableAnnotating", _this.canAnnotate);
           return _this.panel = _this._setupXDM({
             window: source,
             origin: origin,
@@ -98,7 +104,9 @@
           this.addPlugin(name, opts);
         }
       }
-      this.scanDocument("Annotator initialized");
+      if (!config.dontScan) {
+        this.scanDocument("Guest initialized");
+      }
       this.subscribe('annotationDeleted', function(annotation) {
         var i, _ref1;
         if (_this.isComment(annotation)) {
@@ -127,25 +135,22 @@
           return _this.plugins.Heatmap._update();
         }
       }).bind('setActiveHighlights', function(ctx, tags) {
-        var hl, _i, _len, _ref, _ref1, _results;
+        var hl, _i, _len, _ref, _ref1;
         if (tags == null) {
           tags = [];
         }
         _ref = _this.getHighlights();
-        _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           hl = _ref[_i];
           if (_ref1 = hl.annotation.$$tag, __indexOf.call(tags, _ref1) >= 0) {
-            _results.push(hl.setActive(true));
+            hl.setActive(true, true);
           } else {
             if (!hl.isTemporary()) {
-              _results.push(hl.setActive(false));
-            } else {
-              _results.push(void 0);
+              hl.setActive(false, true);
             }
           }
         }
-        return _results;
+        return _this.publish("finalizeHighlights");
       }).bind('scrollTo', function(ctx, tag) {
         var hl, _i, _len, _ref;
         _ref = _this.getHighlights();
@@ -157,7 +162,10 @@
           }
         }
       }).bind('adderClick', function() {
-        return _this.onAdderClick(_this.event);
+        _this.selectedTargets = _this.forcedLoginTargets;
+        _this.onAdderClick(_this.forcedLoginEvent);
+        delete _this.forcedLoginTargets;
+        return delete _this.forcedLoginEvent;
       }).bind('getDocumentInfo', function() {
         return {
           uri: _this.plugins.Document.uri(),
@@ -190,16 +198,15 @@
     Guest.prototype._setupWrapper = function() {
       var _this = this;
       this.wrapper = this.element.on('click', function() {
-        if (!(_this.ignoreMouseup || _this.noBack)) {
-          return setTimeout(function() {
-            var _ref, _ref1;
+        if (_this.canAnnotate && !_this.noBack && !_this.creatingHL) {
+          setTimeout(function() {
+            var _ref;
             if (!((_ref = _this.selectedTargets) != null ? _ref.length : void 0)) {
-              return (_ref1 = _this.panel) != null ? _ref1.notify({
-                method: 'back'
-              }) : void 0;
+              return _this.hideFrame();
             }
           });
         }
+        return delete _this.creatingHL;
       });
       return this;
     };
@@ -248,6 +255,38 @@
       return this.plugins.Bridge.showEditor(annotation);
     };
 
+    Guest.prototype.addEmphasis = function(annotations) {
+      var a, _ref;
+      return (_ref = this.panel) != null ? _ref.notify({
+        method: "addEmphasis",
+        params: (function() {
+          var _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = annotations.length; _i < _len; _i++) {
+            a = annotations[_i];
+            _results.push(a.id);
+          }
+          return _results;
+        })()
+      }) : void 0;
+    };
+
+    Guest.prototype.removeEmphasis = function(annotations) {
+      var a, _ref;
+      return (_ref = this.panel) != null ? _ref.notify({
+        method: "removeEmphasis",
+        params: (function() {
+          var _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = annotations.length; _i < _len; _i++) {
+            a = annotations[_i];
+            _results.push(a.id);
+          }
+          return _results;
+        })()
+      }) : void 0;
+    };
+
     Guest.prototype.checkForStartSelection = function(event) {
       if (!(event && this.isAnnotator(event.target))) {
         return this.mouseIsDown = true;
@@ -270,9 +309,13 @@
       var annotation;
       this.selectedTargets = event.targets;
       if (this.tool === 'highlight') {
-        if (!this.confirmSelection()) {
-          return;
+        if (!this.canAnnotate) {
+          return false;
         }
+        if (!this.confirmSelection()) {
+          return false;
+        }
+        this.creatingHL = true;
         annotation = {
           inject: true
         };
@@ -281,6 +324,18 @@
         return this.publish('annotationCreated', annotation);
       } else {
         return Guest.__super__.onSuccessfulSelection.apply(this, arguments);
+      }
+    };
+
+    Guest.prototype.onAnchorMouseover = function(annotations) {
+      if ((this.tool === 'highlight') || this.visibleHighlights) {
+        return this.addEmphasis(annotations);
+      }
+    };
+
+    Guest.prototype.onAnchorMouseout = function(annotations) {
+      if ((this.tool === 'highlight') || this.visibleHighlights) {
+        return this.removeEmphasis(annotations);
       }
     };
 
@@ -379,8 +434,10 @@
       if (event != null) {
         event.preventDefault();
       }
-      this.event = event;
+      this.forcedLoginEvent = event;
+      this.forcedLoginTargets = this.selectedTargets;
       this.adder.hide();
+      this.inAdderClick = false;
       position = this.adder.position();
       annotation = this.setupAnnotation(this.createAnnotation());
       _ref = this.getHighlights([annotation]);

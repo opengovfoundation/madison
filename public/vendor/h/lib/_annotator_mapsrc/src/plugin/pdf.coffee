@@ -48,21 +48,20 @@ class window.PDFTextMapper extends window.PageTextMapperCore
         @_unmapPage @pageInfo[index]
 
     # Do something about cross-page selections
-    window.DomTextMapper.instances.push
-      id: "cross-page catcher"
-      rootNode: document.getElementById "viewer"
-      performUpdateOnNode: (node, data) =>
-        if "viewer" is node.getAttribute? "id"
-          # This event escaped the pages.
-          # Must be a cross-page selection.
-          if data.start? and data.end?
-            startPage = @getPageForNode data.start
-            endPage = @getPageForNode data.end
-            for index in [ startPage.index .. endPage.index ]
-              #console.log "Should rescan page #" + index
-              @_updateMap @pageInfo[index]
-      documentChanged: ->
-      timestamp: ->
+    viewer = document.getElementById "viewer"
+    viewer.addEventListener "domChange", (event) =>
+      node = event.srcElement
+      data = event.data
+      if "viewer" is node.getAttribute? "id"
+        console.log "Detected cross-page change event."
+        # This event escaped the pages.
+        # Must be a cross-page selection.
+        if data.start? and data.end?
+          startPage = @getPageForNode data.start
+          endPage = @getPageForNode data.end
+          for index in [ startPage.index .. endPage.index ]
+            #console.log "Should rescan page #" + index
+            @_updateMap @pageInfo[index]
 
     $(PDFView.container).on 'scroll', => @_onScroll()
 
@@ -85,27 +84,47 @@ class window.PDFTextMapper extends window.PageTextMapperCore
     PDFView.getPage(1).then =>
       console.log "Scanning document for text..."
 
-      # Tell the Find Controller to go digging
-      PDFFindController.extractText()
-
-      # When all the text has been extracted
-      PDFJS.Promise.all(PDFFindController.extractTextPromises).then =>
-        # PDF.js text extraction has finished.
-
-        # Post-process the extracted text
-        @pageInfo = ({ content: @_parseExtractedText page } for page in PDFFindController.pageContents)
-
-        # Do some besic calculations with the content
-        @_onHavePageContents()
-
-        # OK, we are ready to rock.
-        @pendingScan.resolve()
-
-        # Do whatever we need to do after scanning
-        @_onAfterScan()
+      @pageInfo = []
+      @_extractPageText 0
 
     # Return the promise
     @pendingScan
+
+  # Manually extract the text from the PDF document.
+  # This workaround is here to avoid depending PDFFindController's
+  # own text extraction routines, which sometimes fail to add
+  # adequate spacing.
+  _extractPageText: (pageIndex) ->
+    # Get a handle on the page
+    page = PDFFindController.pdfPageSource.pages[pageIndex]
+
+    # Start the collection of page contents
+    page.getTextContent().then (data) =>
+
+      # First, join all the pieces from the bidiTexts
+      rawContent = (text.str for text in data.bidiTexts).join " "
+
+      # Do some post-processing
+      content = @_parseExtractedText rawContent
+
+      # Save the extracted content to our page information registery
+      @pageInfo[pageIndex] = content: content
+
+      if pageIndex is PDFView.pages.length - 1
+        @_finishScan()
+      else
+        @_extractPageText pageIndex + 1
+
+  # This is called when scanning is finished
+  _finishScan: =>
+    # Do some besic calculations with the content
+    @_onHavePageContents()
+
+    # OK, we are ready to rock.
+    @pendingScan.resolve()
+
+    # Do whatever we need to do after scanning
+    @_onAfterScan()
 
 
   # Look up the page for a given DOM node
@@ -130,6 +149,10 @@ class window.PDFTextMapper extends window.PageTextMapperCore
 class Annotator.Plugin.PDF extends Annotator.Plugin
 
   pluginInit: ->
+    # We need dom-text-mapper
+    unless @annotator.plugins.DomTextMapper
+      throw "The PDF Annotator plugin requires the DomTextMapper plugin."
+
     @annotator.documentAccessStrategies.unshift
       # Strategy to handle PDF documents rendered by PDF.js
       name: "PDF.js"

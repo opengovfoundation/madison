@@ -1,5 +1,7 @@
 (function() {
-  var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __slice = [].slice,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   window.DomTextMapper = (function() {
     var CONTEXT_LEN, SELECT_CHILDREN_INSTEAD, USE_EMPTY_TEXT_WORKAROUND, USE_TABLE_TEXT_WORKAROUND, WHITESPACE;
@@ -16,50 +18,43 @@
 
     CONTEXT_LEN = 32;
 
-    DomTextMapper.instances = [];
-
-    DomTextMapper.changed = function(node, reason, data) {
-      var instance, _i, _len, _ref;
-      if (reason == null) {
-        reason = "no reason";
-      }
-      if (data == null) {
-        data = {};
-      }
-      if (this.instances.length === 0) {
-        return;
-      }
-      _ref = this.instances;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        instance = _ref[_i];
-        if (!(instance.rootNode.contains(node))) {
-          continue;
-        }
-        instance.documentChanged();
-        instance.performUpdateOnNode(node, false, data);
-        instance.lastScanned = instance.timestamp();
-      }
-      return null;
-    };
+    DomTextMapper.instances = 0;
 
     function DomTextMapper(id) {
-      var instances;
       this.id = id;
+      this._onChange = __bind(this._onChange, this);
       this.setRealRoot();
-      instances = window.DomTextMapper.instances;
-      instances.push(this);
+      DomTextMapper.instances += 1;
       if (this.id == null) {
-        this.id = "d-t-m #" + instances.length;
+        this.id = "d-t-m #" + DomTextMapper.instances;
       }
     }
 
-    DomTextMapper.prototype.log = function(msg) {
-      return console.log(this.id + ": " + msg);
+    DomTextMapper.prototype.log = function() {
+      var msg;
+      msg = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      return console.log.apply(console, [this.id, ": "].concat(__slice.call(msg)));
+    };
+
+    DomTextMapper.prototype._onChange = function(event) {
+      this.documentChanged();
+      this.performUpdateOnNode(event.srcElement, false, event.data);
+      return this.lastScanned = this.timestamp();
+    };
+
+    DomTextMapper.prototype._changeRootNode = function(node) {
+      var _ref;
+      if ((_ref = this.rootNode) != null) {
+        _ref.removeEventListener("domChange", this._onChange);
+      }
+      this.rootNode = node;
+      this.rootNode.addEventListener("domChange", this._onChange);
+      return node;
     };
 
     DomTextMapper.prototype.setRootNode = function(rootNode) {
       this.rootWin = window;
-      return this.pathStartNode = this.rootNode = rootNode;
+      return this.pathStartNode = this._changeRootNode(rootNode);
     };
 
     DomTextMapper.prototype.setRootId = function(rootId) {
@@ -76,7 +71,7 @@
       if (this.rootWin == null) {
         throw new Error("Can't access contents of the specified iframe!");
       }
-      this.rootNode = this.rootWin.document;
+      this._changeRootNode(this.rootWin.document);
       return this.pathStartNode = this.getBody();
     };
 
@@ -86,7 +81,7 @@
 
     DomTextMapper.prototype.setRealRoot = function() {
       this.rootWin = window;
-      this.rootNode = document;
+      this._changeRootNode(document);
       return this.pathStartNode = this.getBody();
     };
 

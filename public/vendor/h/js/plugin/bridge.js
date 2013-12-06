@@ -15,7 +15,8 @@
       'annotationCreated': 'annotationCreated',
       'annotationUpdated': 'annotationUpdated',
       'annotationDeleted': 'annotationDeleted',
-      'annotationsLoaded': 'annotationsLoaded'
+      'annotationsLoaded': 'annotationsLoaded',
+      'enableAnnotating': 'enableAnnotating'
     };
 
     Bridge.prototype.options = {
@@ -162,9 +163,13 @@
           }
           return _results;
         }).call(_this);
-        return _this.annotator.loadAnnotations(annotations);
+        if (annotations.length) {
+          return _this.annotator.loadAnnotations(annotations);
+        }
       }).bind('showEditor', function(ctx, annotation) {
         return _this.annotator.showEditor(_this._parse(annotation));
+      }).bind('enableAnnotating', function(ctx, state) {
+        return _this.annotator.enableAnnotating(state, false);
       });
     };
 
@@ -222,6 +227,9 @@
           },
           error: function(error, reason) {
             if (error !== 'timeout_error') {
+              console.log('Error in call! Reason: ' + reason);
+              console.log(error);
+              console.log('Destroying channel!');
               return d.reject(error, reason);
             } else {
               return d.resolve(null);
@@ -295,21 +303,24 @@
         origin: origin,
         scope: scope,
         onReady: function() {
-          var a, t;
+          var a, annotations, t;
           options.onConnect.call(_this.annotator, source, origin, scope);
-          return channel.notify({
-            method: 'loadAnnotations',
-            params: (function() {
-              var _ref1, _results;
-              _ref1 = this.cache;
-              _results = [];
-              for (t in _ref1) {
-                a = _ref1[t];
-                _results.push(this._format(a));
-              }
-              return _results;
-            }).call(_this)
-          });
+          annotations = (function() {
+            var _ref1, _results;
+            _ref1 = this.cache;
+            _results = [];
+            for (t in _ref1) {
+              a = _ref1[t];
+              _results.push(this._format(a));
+            }
+            return _results;
+          }).call(_this);
+          if (annotations.length) {
+            return channel.notify({
+              method: 'loadAnnotations',
+              params: annotations
+            });
+          }
         }
       });
       channel = this._build(options);
@@ -426,6 +437,13 @@
         params: this._format(annotation)
       });
       return this;
+    };
+
+    Bridge.prototype.enableAnnotating = function(state) {
+      return this._notify({
+        method: 'enableAnnotating',
+        params: state
+      });
     };
 
     return Bridge;

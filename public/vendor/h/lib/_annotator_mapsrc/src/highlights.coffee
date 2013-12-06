@@ -14,8 +14,21 @@ class Highlight
     throw "Operation not implemented."
 
   # Mark/unmark this hl as active
-  setActive: (value) ->
+  #
+  # Value specifies whether it should be active or not
+  #
+  # The 'batch' field specifies whether this call is only one of
+  # many subsequent calls, which should be executed together.
+  #
+  # In this case, a "finalizeHighlights" event will be published
+  # when all the flags have been set, and the changes should be
+  # executed.
+  setActive: (value, batch = false) ->
     throw "Operation not implemented."
+
+  # React to changes in the underlying annotation
+  annotationUpdated: ->
+    #console.log "In HL", this, "annotation has been updated."
 
   # Remove all traces of this hl from the document
   removeFromDocument: ->
@@ -36,7 +49,7 @@ class Highlight
   getHeight: -> $(@_getDOMElements()).outerHeight true
 
   # Get the bottom Y offset of the highlight. Override for more control.
-  getBottom: -> getTop() + getBottom()
+  getBottom: -> @getTop() + @getBottom()
 
   # Scroll the highlight into view. Override for more control
   scrollTo: -> $(@_getDOMElements()).scrollintoview()

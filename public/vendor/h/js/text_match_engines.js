@@ -121,6 +121,9 @@
       if (expectedStartLoc < 0) {
         throw new Error("Can't search at negative indices!");
       }
+      if (expectedStartLoc !== Math.floor(expectedStartLoc)) {
+        throw new Error("Expected start location must be an integer.");
+      }
       if (!this.caseSensitive) {
         text = text.toLowerCase();
         pattern = pattern.toLowerCase();

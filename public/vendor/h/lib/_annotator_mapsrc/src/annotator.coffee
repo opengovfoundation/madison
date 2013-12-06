@@ -39,6 +39,16 @@ util =
 # Store a reference to the current Annotator object.
 _Annotator = this.Annotator
 
+# Fake two-phase / pagination support, used for HTML documents
+class DummyDocumentAccess
+
+  @applicable: -> true
+  getPageIndex: -> 0
+  getPageCount: -> 1
+  getPageIndexForPos: -> 0
+  isPageMapped: -> true
+  scan: ->
+
 class Annotator extends Delegator
   # Events to be bound on Annotator#element.
   events:
@@ -58,11 +68,13 @@ class Annotator extends Delegator
 
   viewer: null
 
-  selectedRanges: null
+  selectedTargets: null
 
   mouseIsDown: false
 
-  ignoreMouseup: false
+  inAdderClick: false
+
+  canAnnotate: false
 
   viewerHideTimer: null
 
@@ -97,14 +109,14 @@ class Annotator extends Delegator
     # Return early if the annotator is not supported.
     return this unless Annotator.supported()
     this._setupDocumentEvents() unless @options.readOnly
+    this._setupAnchorEvents()
     this._setupWrapper()
-    unless @options.noMatching
-      this._setupDocumentAccessStrategies()
+    this._setupDocumentAccessStrategies()
     this._setupViewer()._setupEditor()
     this._setupDynamicStyle()
 
     # Perform initial DOM scan, unless told not to.
-    this._scan() unless (@options.noScan or @options.noMatching)
+    this._scan() unless @options.noScan
 
     # Create adder
     this.adder = $(this.html.adder).appendTo(@wrapper).hide()
@@ -112,17 +124,16 @@ class Annotator extends Delegator
   # Initializes the available document access strategies
   _setupDocumentAccessStrategies: ->
     @documentAccessStrategies = [
-      # Default strategy for simple HTML documents.
-      # Also the generic fallback.
-      name: "DOM generic"
-      mapper: DomTextMapper
-      init: => @domMapper.setRootNode @wrapper[0]
+      # Default dummy strategy for simple HTML documents.
+      # The generic fallback.
+      name: "Dummy"
+      mapper: DummyDocumentAccess
     ]
 
     this
 
   # Initializes the components used for analyzing the document
-  _setupMapper: ->
+  _chooseAccessPolicy: ->
     if @domMapper? then return
 
     # Go over the available strategies
@@ -142,10 +153,13 @@ class Annotator extends Delegator
 
   # Perform a scan of the DOM. Required for finding anchors.
   _scan: ->
-    unless @domMapper     # If we haven't yet created a document mapper,
-      this._setupMapper() # do so now.
-
+    # If we haven't yet chosen a document access strategy, do so now.
+    this._chooseAccessPolicy() unless @domMapper
     @pendingScan = @domMapper.scan()
+    if @pendingScan?
+      @pendingScan.then => @enableAnnotating()
+    else
+      @enableAnnotating()
 
   # Wraps the children of @element in a @wrapper div. NOTE: This method will also
   # remove any script elements inside @element to prevent them re-executing.
@@ -217,6 +231,14 @@ class Annotator extends Delegator
     })
     this
 
+  # Sets up handlers to anchor-related events
+  _setupAnchorEvents: ->
+    # When annotations are updated
+    @on 'annotationUpdated', (annotation) =>
+      # Notify the anchors
+      for anchor in annotation.anchors or []
+        anchor.annotationUpdated()
+
   # Sets up any dynamically calculated CSS for the Annotator.
   #
   # Returns itself for chaining.
@@ -247,6 +269,28 @@ class Annotator extends Delegator
 
     this
 
+  # Enables or disables the creation of annotations
+  #
+  # When it's set to false, nobody os supposed to call
+  # onSuccessfulSelection()
+  enableAnnotating: (value = true, local = true) ->
+    # If we already have this setting, do nothing
+    return if value is @canAnnotate
+
+    # Set the field
+    @canAnnotate = value
+
+    # Publish an event, so that others can react
+    this.publish "enableAnnotating", value
+
+    # If this call came from "outside" (whatever it means), and annotation
+    # is now disabled, then hide the adder.
+    @adder.hide() unless value or local
+
+  # Shortcut to disable annotating
+  disableAnnotating: (local = true) -> this.enableAnnotating false, local
+
+  # Utility function to get the decoded form of the document URI
   getHref: =>
     uri = decodeURIComponent document.location.href
     if document.location.hash then uri = uri.slice 0, (-1 * location.hash.length)
@@ -333,6 +377,7 @@ class Annotator extends Delegator
   setupAnnotation: (annotation) ->
     # If this is a new annotation, we might have to add the targets
     annotation.target ?= @selectedTargets
+    @selectedTargets = []
 
     unless annotation.target?
       throw new Error "Can not run setupAnnotation(). No target or selection available."
@@ -440,6 +485,8 @@ class Annotator extends Delegator
     clone = annotations.slice()
 
     if annotations.length # Do we have to do something?
+      # Do we have a doc access strategy? If we don't have it yet, scan!
+      @_scan() unless @domMapper
       if @pendingScan?    # Is there a pending scan?
         # Schedule the parsing the annotations for
         # when scan has finished
@@ -515,13 +562,13 @@ class Annotator extends Delegator
     this
 
   # Callback method called when the @editor fires the "hide" event. Itself
-  # publishes the 'annotationEditorHidden' event and resets the @ignoreMouseup
-  # property to allow listening to mouse events.
+  # publishes the 'annotationEditorHidden' event and sets the @canAnnotate
+  # property to allow the creation of new annotations
   #
   # Returns nothing.
   onEditorHide: =>
     this.publish('annotationEditorHidden', [@editor])
-    @ignoreMouseup = false
+    this.enableAnnotating()
 
   # Callback method called when the @editor fires the "save" event. Itself
   # publishes the 'annotationEditorSubmit' event and creates/updates the
@@ -581,7 +628,33 @@ class Annotator extends Delegator
       this.startViewerHideTimer()
     @mouseIsDown = true
 
+  # This method is to be called by the mechanisms responsible for
+  # triggering annotation (and highlight) creation.
+  #
+  # event - any event which has triggered this.
+  #         The following fields are used:
+  #   targets: an array of targets, which should be used to anchor the
+  #            newly created annotation
+  #   pageX and pageY: if the adder button is shown, use there coordinates
+  #
+  # immadiate - should we show the adder button, or should be proceed
+  #             to create the annotation/highlight immediately ?
+  #
+  # returns false if the creation of annotations is forbidden at the moment,
+  # true otherwise.
   onSuccessfulSelection: (event, immediate = false) ->
+    # Check whether we got a proper event
+    unless event?
+      throw "Called onSuccessfulSelection without an event!"
+    unless event.targets?
+      throw "Called onSuccessulSelection with an event with missing targets!"
+
+    # Are we allowed to create annotations?
+    unless @canAnnotate
+      #@Annotator.showNotification "You are already editing an annotation!",
+      #  @Annotator.Notification.INFO
+      return false
+
     # Store the selected targets
     @selectedTargets = event.targets
 
@@ -595,8 +668,11 @@ class Annotator extends Delegator
         .css(util.mousePosition(event, @wrapper[0]))
         .show()
 
+    true
+
   onFailedSelection: (event) ->
     @adder.hide()
+    @selectedTargets = []
 
 
   # Public: Determines if the provided element is part of the annotator plugin.
@@ -616,7 +692,7 @@ class Annotator extends Delegator
   isAnnotator: (element) ->
     !!$(element).parents().andSelf().filter('[class^=annotator-]').not(@wrapper).length
 
-  # Annotator#element callback. Sets @ignoreMouseup to true to prevent
+  # Annotator#element callback. Sets the @canAnnotate to false to prevent
   # the annotation selection events firing when the adder is clicked.
   #
   # event - A mousedown Event object
@@ -624,7 +700,8 @@ class Annotator extends Delegator
   # Returns nothing.
   onAdderMousedown: (event) =>
     event?.preventDefault()
-    @ignoreMouseup = true
+    this.disableAnnotating()
+    @inAdderClick = true
 
   # Annotator#element callback. Displays the @editor in place of the @adder and
   # loads in a newly created annotation Object. The click event is used as well
@@ -639,6 +716,7 @@ class Annotator extends Delegator
     # Hide the adder
     position = @adder.position()
     @adder.hide()
+    @inAdderClick = false
 
     # Create a new annotation.
     annotation = this.createAnnotation()
@@ -747,7 +825,7 @@ class Annotator extends Delegator
     for anchor in @anchors[index] ? []
       anchor.virtualize index
 
-  onAnchorMouseover: (annotations) ->
+  onAnchorMouseover: (annotations, highlightType) ->
     #console.log "Mouse over annotations:", annotations
 
     # Cancel any pending hiding of the viewer.
@@ -759,14 +837,14 @@ class Annotator extends Delegator
 
     this.showViewer(annotations, util.mousePosition(event, @wrapper[0]))
 
-  onAnchorMouseout: (annotations) ->
+  onAnchorMouseout: (annotations, highlightType) ->
     #console.log "Mouse out on annotations:", annotations
     this.startViewerHideTimer()
 
-  onAnchorMousedown: (annotations) ->
+  onAnchorMousedown: (annotations, highlightType) ->
     #console.log "Mouse down on annotations:", annotations
 
-  onAnchorClick: (annotations) ->
+  onAnchorClick: (annotations, highlightType) ->
     #console.log "Click on annotations:", annotations
 
 # Create namespace for Annotator plugins

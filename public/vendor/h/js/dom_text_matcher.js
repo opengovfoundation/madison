@@ -64,7 +64,7 @@
         throw new Error("Can not do a context-based fuzzy search with missing context!");
       }
       len = this.corpus().length;
-      expectedPrefixStart = expectedStart != null ? expectedStart - prefix.length : len / 2;
+      expectedPrefixStart = expectedStart != null ? expectedStart - prefix.length : Math.floor(len / 2);
       this.dmp.setMatchDistance((_ref = options.contextMatchDistance) != null ? _ref : len * 2);
       this.dmp.setMatchThreshold((_ref1 = options.contextMatchThreshold) != null ? _ref1 : 0.5);
       prefixResult = this.dmp.search(this.corpus(), prefix, expectedPrefixStart);

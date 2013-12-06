@@ -30,7 +30,9 @@
         }
       }
       app = $('<iframe></iframe>').attr('seamless', '').attr('src', "" + options.app + "#/?xdm=" + (encodeURIComponent(hostOrigin)));
-      Host.__super__.constructor.apply(this, arguments);
+      Host.__super__.constructor.call(this, element, options, {
+        dontScan: true
+      });
       app.appendTo(this.frame);
       if (this.plugins.Heatmap != null) {
         this._setupDragEvents();
@@ -40,6 +42,7 @@
           }
         });
       }
+      this.scanDocument("Host initialized");
       this.Annotator = Annotator;
       Annotator.$.extend(Annotator.Notification, {
         INFO: 'info',

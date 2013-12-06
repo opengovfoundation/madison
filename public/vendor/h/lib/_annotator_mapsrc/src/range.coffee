@@ -162,8 +162,16 @@ class Range.BrowserRange
         while n? and (n.nodeType isnt Node.TEXT_NODE)
           n = n.firstChild
         if n? # Did we find a text node at the start of this element?
-          r.end = n
-          r.endOffset = 0
+          # Check the previous sibling
+          prev = n.previousSibling
+          if prev? and (prev.nodeType is Node.TEXT_NODE)
+            # We have another text righ before us. Use that instead.
+            r.end = prev
+            r.endOffset = prev.nodeValue.length
+          else
+            # No, we need to stick to this node.
+            r.end = n
+            r.endOffset = 0
 
       unless r.end?
         # We need to find a text node in the previous node.
@@ -211,9 +219,12 @@ class Range.BrowserRange
     while nr.commonAncestor.nodeType isnt Node.ELEMENT_NODE
       nr.commonAncestor = nr.commonAncestor.parentNode
 
-    if window.DomTextMapper? and changed
-#      console.log "Ranged normalization changed the DOM, updating d-t-m"
-      window.DomTextMapper.changed nr.commonAncestor, "range normalization", nr
+    if changed
+      event = document.createEvent "UIEvents"
+      event.initUIEvent "domChange", true, false, window, 0
+      event.reason = "range normalization"
+      event.data = nr
+      nr.commonAncestor.dispatchEvent event
 
     new Range.NormalizedRange(nr)
 
@@ -353,6 +364,19 @@ class Range.NormalizedRange
     range.setStartBefore(@start)
     range.setEndAfter(@end)
     range
+
+  # Utility function to bottom-right the coordinates of this range,
+  # by inserting a test element before it, and taking it's pos.
+  getEndCoords: ->
+    me = $ this.end  # Get the start element
+    probe = $ "<span></span>" # Prepare an element for probing
+    probe.insertAfter me # insert the probe element before the start
+    pos = probe.offset() # get the position
+    probe.remove()  # remove the probe, restoring the original state
+
+    # return the wanted data
+    x: pos.left
+    y: pos.top
 
 # Public: A range suitable for storing in local storage or serializing to JSON.
 class Range.SerializedRange
