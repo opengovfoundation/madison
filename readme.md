@@ -17,8 +17,8 @@ If you have questions about Madison, please open an issue and we will try to res
 		* `brew install libyaml`
 		* Follow the homebrew instructions for enabling the extension
 1.  run `composer install` to install all composer packages
-1. 	copy `app/config/example_creds.yml` to `app/config/creds.yml` and add your mysql credentials 
-1.  run `php artisan app:migrate` to create database schema
+1. 	copy `app/config/example_creds.yml` to `app/config/creds.yml` and add your mysql credentials
+1.  run `php artisan migrate` to create database schema
 
 ## How to help
 
