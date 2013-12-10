@@ -37,27 +37,23 @@ $(document).ready(function(){
 			toleranceElement: 'div',
 			maxLevels: 0
 		});
-		var input = $('<input>').attr('type', 'hidden').attr('name', 'deleted_ids').attr('id', 'deleted_ids').val(new Array());
-		$('#doc_content_form').append(input);
-		$('#doc_content_form').submit(saveDocument);
-		$('.doc_item .dropdown_arrow').click(dropdown_arrow_handler);
-		$('.delete_doc_item').click(delete_doc_handler);
-		$('.add_doc_item').click(add_doc_handler);
-		$('.edit_info_link').click(function(){
-			if($(this).hasClass('red')){
-				$(this).removeClass('red');
-				$('.edit_doc_info').hide();
-			}
-			else{
-				$(this).addClass('red');
-				$('.edit_doc_info').show();
-			}
-		});
-		$('#save_doc').click(saveDocument);
 	}
 	catch(err){
 		console.log(err);
 	}
+    var input = $('<input>').attr('type', 'hidden').attr('name', 'deleted_ids').attr('id', 'deleted_ids').val(new Array());
+    $('#doc_content_form').append(input);
+    $('#doc_content_form').submit(saveDocument);
+    $('.doc_item .dropdown_arrow').click(dropdown_arrow_handler);
+    $('.delete_doc_item').click(delete_doc_handler);
+    $('.add_doc_item').click(add_doc_handler);
+    $('.edit_info_link').click(function(){
+        $('.doc_item_content').toggleClass('hidden');
+        $('.content-container').toggleClass('hidden');
+
+    });
+    $('#save_doc').click(saveDocument);
+    replace_markdown();
 });
 
 function add_doc_handler(){
@@ -112,23 +108,31 @@ function delete_doc_handler(){
 		deletedIds.push($(this).children('.sort_handle').children('input[name="content_id"]').val());
 	});
 	deletedIds.push($(this).siblings('input[name="content_id"]').val());
-	
+
 	if($('#deleted_ids').val().length > 0){
 		var prevIds = $('#deleted_ids').val().split();
 		$('#deleted_ids').val(_.union(prevIds, deletedIds));
 	}else{
 		$('#deleted_ids').val(deletedIds);
 	}
-	
+
 	toRemove.remove();
 }
 function dropdown_arrow_handler(){
 	var sibling_content = $(this).parent('span').siblings('.doc_item_content');
-	
+
 	if(sibling_content.hasClass('expanded')){
 		sibling_content.removeClass('expanded');
 	}
 	else{
 		sibling_content.addClass('expanded');
 	}
+}
+function replace_markdown(){
+    var converter = new Markdown.Converter();
+
+    $('.markdown').each(function(i, item){
+        console.log($(item).text());
+        $(item).html( converter.makeHtml($(item).text()) );
+    });
 }

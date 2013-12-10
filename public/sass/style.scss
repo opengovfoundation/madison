@@ -629,7 +629,6 @@ ol.sortable, ol.sortable ol{list-style:none;}
 			text-align:center;
 		}
 		.doc_item_content{
-			max-height:0;
 			display:block;
 			clear:both;
 			margin:0;
@@ -643,7 +642,6 @@ ol.sortable, ol.sortable ol{list-style:none;}
 			max-height:999px;
 		}
 		.doc_item_content textarea{
-			width:98%;
 			resize:both;
 		}
 

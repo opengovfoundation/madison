@@ -1,5 +1,9 @@
 @extends('layouts/main')
 @section('content')
+{{ HTML::style('vendor/pagedown/assets/demo.css') }}
+{{ HTML::script('vendor/pagedown/assets/Markdown.Converter.js') }}
+{{ HTML::script('vendor/pagedown/assets/Markdown.Editor.js') }}
+{{ HTML::script('vendor/pagedown/assets/Markdown.Sanitizer.js') }}
 <div class="row content">
 	<div class="col-md-12">
 		{{ Form::open(array('url' => 'dashboard/docs/' . $doc->id, 'method' => 'put', 'id'=>'doc_content_form')) }}
@@ -13,7 +17,7 @@
 		</ol>
 		{{ Form::hidden('doc_id', $doc->id) }}
 		<div class="form_actions">
-			{{ Form::submit('Save Doc', array('class'=>'btn')) }}
+			{{ Form::submit('Save Doc', array('name' => 'submit', 'id' => 'submit', 'class'=>'btn')) }}
 		</div>
 		{{ Form::token() . Form::close() }}
 		<div id="save_message" class="alert hidden"></div>

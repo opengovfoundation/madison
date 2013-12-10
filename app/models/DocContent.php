@@ -40,25 +40,39 @@ class DocContent extends Eloquent{
 		</ol>
 		<?php
 	}
-	
+
 	public static function print_admin_list($contentItem){
 		?>
 		<li class="doc_item">
 			<div class="sort_handle">
-				<span>
-					<?php echo HTML::image('img/arrow-down.png', 'Down Arrow', array('class'=>'dropdown_arrow')); ?>
-					<?php echo $contentItem->content ?>
-				</span>
+				<div>
+					<?php echo HTML::image('img/arrow-down.png', 'Down Arrow', array('class'=>'dropdown_arrow edit_info_link')); ?>
+					<span class="markdown content-container"><?php echo $contentItem->content ?></span>
+				</div>
 				<input type="hidden" name="content_id" value="<?php echo $contentItem->id; ?>"/>
-				<p class="add_doc_item">+</p>
-				<p class="delete_doc_item">&times;</p>
-				<p class="doc_item_content"><textarea><?php echo $contentItem->content; ?></textarea></p>
+				<div class="add_doc_item">+</div>
+				<div class="delete_doc_item">&times;</div>
+				<div class="doc_item_content hidden">
+					<div id="wmd-button-bar"></div>
+					<textarea class="wmd-input" id="wmd-input"><?php echo $contentItem->content; ?></textarea>
+					<div id="wmd-preview" class="wmd-panel wmd-preview"></div>
+					<script type="text/javascript">
+						$(function () {
+							var converter1 = Markdown.getSanitizingConverter();
+
+							var editor1 = new Markdown.Editor(converter1);
+
+							editor1.run();
+							console.log('done', editor1);
+						});
+					</script>
+				</div>
 			</div>
 			<ol>
-				<?php 
+				<?php
 				foreach($contentItem->content_children()->orderBy('child_priority', 'asc')->get() as $child){
 					DocContent::print_admin_list($child);
-				} 
+				}
 				?>
 			</ol>
 		</li>
