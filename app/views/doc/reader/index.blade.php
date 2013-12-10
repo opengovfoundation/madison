@@ -19,6 +19,4 @@
 		@include('doc.reader.participate')
 	</div>
 </div>
-{{-- HTML::script('js/reader.js') --}}
-{{-- HTML::script('js/bill-reader.js') --}}
 @endsection

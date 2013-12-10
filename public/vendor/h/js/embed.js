@@ -12,10 +12,10 @@ yepnope.addFilter(function (resourceObj) {
 yepnope([
   {
     test: typeof(window.annotator) !== 'undefined',
-    nope: ["/vendor/h/lib/d3.js", "/vendor/h/lib/jquery.scrollintoview.js", "/vendor/h/lib/jquery.ui.widget.js", "/vendor/h/lib/jquery.ui.autocomplete.js", "/vendor/h/lib/jquery.ui.core.js", "/vendor/h/lib/jquery.ui.widget.js", "/vendor/h/lib/jquery.ui.menu.js", "/vendor/h/lib/jquery.ui.position.js", "/vendor/h/lib/jquery-ui-smoothness.css", "/vendor/h/lib/jquery.ui.effect.js", "/vendor/h/lib/jquery.ui.effect-blind.js", "/vendor/h/lib/jquery.ui.effect-highlight.js", "/vendor/h/lib/jquery.ui.effect-forecolor-highlight.js", "/vendor/h/lib/jschannel.js", "/vendor/h/lib/gettext.js", "/vendor/h/locale/data.js", "/vendor/h/js/plugin/bridge.js", "/vendor/h/lib/annotator.document.js", "/vendor/h/js/plugin/heatmap.js", "/vendor/h/lib/annotator.texthighlights.js", "/vendor/h/js/dom_text_mapper.js", "/vendor/h/lib/annotator.domtextmapper.js", "/vendor/h/lib/annotator.textanchors.js", "/vendor/h/lib/diff_match_patch_uncompressed.js", "/vendor/h/js/text_match_engines.js", "/vendor/h/js/dom_text_matcher.js", "/vendor/h/lib/annotator.fuzzytextanchors.js", "/vendor/h/js/page_text_mapper_core.js", "/vendor/h/lib/annotator.pdf.js", "/vendor/h/js/plugin/toolbar.js", "/vendor/h/js/guest.js", "/vendor/h/js/host.js"],
+    nope: ["http://localhost:5000/assets/lib/d3.js?bee704b4", "http://localhost:5000/assets/lib/jquery-1.10.2.js?91515770", "http://localhost:5000/assets/lib/jquery.scrollintoview.js?42cd3e5e", "http://localhost:5000/assets/lib/jquery.ui.widget.js?bddbabe4", "http://localhost:5000/assets/lib/jquery.ui.autocomplete.js?9979e47b", "http://localhost:5000/assets/lib/jquery.ui.core.js?67e9965f", "http://localhost:5000/assets/lib/jquery.ui.widget.js?bddbabe4", "http://localhost:5000/assets/lib/jquery.ui.menu.js?d5c1cd9f", "http://localhost:5000/assets/lib/jquery.ui.position.js?fe73e7c3", "http://localhost:5000/assets/lib/jquery-ui-smoothness.css?c93cb50e", "http://localhost:5000/assets/lib/jquery.ui.effect.js?77ee3f3a", "http://localhost:5000/assets/lib/jquery.ui.effect-blind.js?607efd93", "http://localhost:5000/assets/lib/jquery.ui.effect-highlight.js?0da42fff", "http://localhost:5000/assets/lib/jquery.ui.effect-forecolor-highlight.js?7f3011ef", "http://localhost:5000/assets/lib/jschannel.js?2f510985", "http://localhost:5000/assets/lib/gettext.js?946e49b9", "http://localhost:5000/assets/locale/data.js?8b715a6c", "http://localhost:5000/assets/lib/annotator.js?10d1fd53", "http://localhost:5000/assets/js/plugin/bridge.js?58aeb101", "http://localhost:5000/assets/lib/annotator.document.js?a138e9f7", "http://localhost:5000/assets/js/plugin/heatmap.js?86733692", "http://localhost:5000/assets/lib/annotator.texthighlights.js?ebd66a5a", "http://localhost:5000/assets/js/dom_text_mapper.js?0f56ba7d", "http://localhost:5000/assets/lib/annotator.domtextmapper.js?76167e0b", "http://localhost:5000/assets/lib/annotator.textanchors.js?c5696e3e", "http://localhost:5000/assets/lib/diff_match_patch_uncompressed.js?8df9a29a", "http://localhost:5000/assets/js/text_match_engines.js?3e31bc37", "http://localhost:5000/assets/js/dom_text_matcher.js?39dc7d15", "http://localhost:5000/assets/lib/annotator.fuzzytextanchors.js?2444fdd3", "http://localhost:5000/assets/js/page_text_mapper_core.js?3cc7761d", "http://localhost:5000/assets/lib/annotator.pdf.js?8e2aef21", "http://localhost:5000/assets/js/plugin/toolbar.js?031a897c", "http://localhost:5000/assets/js/guest.js?06e663df", "http://localhost:5000/assets/js/host.js?744e08f5", "http://localhost:5000/assets/css/inject.css?7fba9354"],
     complete: function () {
       window.annotator = null;
-      var app = "https://hypothes.is/app"
+      var app = "http://localhost:5000/app"
         , bootstrap = [
           'if (!window.annotator) {',
           '  var klass, options;',
@@ -38,7 +38,7 @@ yepnope([
   },
   {
     test: window.requestAnimationFrame,
-    nope: "https://hypothes.is/assets/lib/polyfills/raf.js?e9cfa896"
+    nope: "http://localhost:5000/assets/lib/polyfills/raf.js?e9cfa896"
   }
 ]);
 /*]]>{/literal}*/
