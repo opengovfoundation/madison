@@ -24,35 +24,36 @@ class DashboardController extends BaseController{
 			'page_id'		=> 'dashboard',
 			'page_title'	=> 'Dashboard'
 		);
-		
+
 		return View::make('dashboard.index', $data);
 	}
-	
+
 	/**
 	 * 	Document Creation/List or Document Edit Views
 	 */
 	public function getDocs($id = ''){
 		if($id == ''){
 			$docs = Doc::all();
-			
+
 			$data = array(
 				'page_id'		=> 'doc_list',
 				'page_title'	=> 'Edit Documents',
 				'docs'			=> $docs
 			);
-			
+
 			return View::make('dashboard.docs', $data);
 		}
 		else{
 			$doc = Doc::find($id);
 			if(isset($doc)){
-				
 				$data = array(
 					'page_id'		=> 'edit_doc',
 					'page_title'	=> 'Edit ' . $doc->title,
-					'doc'			=> $doc
+					'doc'			=> $doc,
+					// Just get the first content element.  We only have one, now.
+					'contentItem' => $doc->content()->where('parent_id')->first()
 				);
-				
+
 				return View::make('dashboard.edit-doc', $data);
 			}
 			else{
