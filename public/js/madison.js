@@ -12,6 +12,15 @@ $(document).ready(function(){
 		'placement': 'bottom',
 		'title': 'Coming Soon!'
 	});
-	
+
+    replace_markdown();
 });
 
+
+function replace_markdown(){
+    var converter = new Markdown.Converter();
+
+    $('.markdown').each(function(i, item){
+        $(item).html( converter.makeHtml($(item).text()) );
+    });
+}

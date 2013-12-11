@@ -1,7 +1,6 @@
 @extends('layouts/main')
 @section('content')
 {{ HTML::style('vendor/pagedown/assets/demo.css') }}
-{{ HTML::script('vendor/pagedown/assets/Markdown.Converter.js') }}
 {{ HTML::script('vendor/pagedown/assets/Markdown.Editor.js') }}
 {{ HTML::script('vendor/pagedown/assets/Markdown.Sanitizer.js') }}
 <div class="row content">

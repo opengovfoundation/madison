@@ -24,7 +24,6 @@ $(document).ready(function(){
     $('#doc_content_form').submit(saveDocument);
 
     $('#save_doc').click(saveDocument);
-    replace_markdown();
 });
 
 function add_doc_handler(){
@@ -98,12 +97,4 @@ function dropdown_arrow_handler(){
 	else{
 		sibling_content.addClass('expanded');
 	}
-}
-function replace_markdown(){
-    var converter = new Markdown.Converter();
-
-    $('.markdown').each(function(i, item){
-        console.log($(item).text());
-        $(item).html( converter.makeHtml($(item).text()) );
-    });
 }

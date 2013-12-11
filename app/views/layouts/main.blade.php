@@ -58,6 +58,7 @@
 		{{ HTML::script('vendor/bootstrap/js/bootstrap.min.js') }}
 		{{ HTML::script('vendor/modernizr-latest.js') }}
 		{{ HTML::script('vendor/underscore.min.js') }}
+		{{ HTML::script('vendor/pagedown/assets/Markdown.Converter.js') }}
 		{{ HTML::script('js/madison.js') }}
 	</body>
 </html>

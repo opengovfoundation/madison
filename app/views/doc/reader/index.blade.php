@@ -7,11 +7,10 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-12">
-				@foreach($doc->get_root_content() as $root_content)
-					<?php DocContent::output_tree($root_content); ?>
-				@endforeach
-			</div>
+			<div class="col-md-12 markdown"
+				>@foreach($doc->get_root_content() as $root_content){{{
+					$root_content->content
+				}}}@endforeach</div>
 		</div>
 	</div>
 	<div class="col-md-3 col-md-offset-1 rightbar participate">
