@@ -28,6 +28,10 @@ Route::controller('note', 'NoteController');
 //Dashboard Routes
 Route::controller('dashboard', 'DashboardController');
 
+//Api Routes
+Route::controller('api/annotation', 'AnnotationApiController');
+Route::controller('api', 'ApiController');
+
 //Logout Route
 Route::get('logout', function(){
 	Auth::logout();	//Logout the current user
