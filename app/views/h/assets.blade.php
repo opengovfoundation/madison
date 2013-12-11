@@ -24,4 +24,3 @@
 {{ HTML::script('vendor/h/js/plugin/toolbar.js') }}
 {{ HTML::script('vendor/h/js/guest.js') }}
 {{ HTML::script('vendor/h/js/host.js') }}
-{{ HTML::script('vendor/h/')}}

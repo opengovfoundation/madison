@@ -34,7 +34,7 @@
 
 <div class="global-search col-md-4">
 	<form action="" method="post">
-		<input type="search" class="input-search form-control dark-search disabled coming-feature" placeholder="Search" value="" />
+		<input type="search" class="input-search form-control dark-search disabled coming-feature" placeholder="Search" value="" disabled/>
 		<input class="input-submit" type="submit" value="Search" />
 	</form>
 </div>
