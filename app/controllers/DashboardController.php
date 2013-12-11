@@ -103,59 +103,47 @@ class DashboardController extends BaseController{
 			return Response::error('404');
 		}
 	}
-	
+
 	/**
 	 * 	PUT route for saving documents
 	 */
 	public function putDocs($id = ''){
-		$doc_items = Input::get('doc_items');
-		$doc_items = json_decode($doc_items);
-		if(!isset($doc_items) || count($doc_items) == 0){
-			return Redirect::to('dashboard/docs/' . $id)->with('error', 'No document content was sent to server.');
-		}
-		
-		foreach($doc_items as $item){
+		$content = Input::get('content');
+		$content_id = Input::get('content_id');
+
+		if($content_id){
 			try{
-				$content = DocContent::find($item->id);
-				$content->doc_id = $id;
-				$content->parent_id = $item->parent_id == 0 ? null : $item->parent_id;
-				$content->child_priority = $item->child_priority;
-				$content->content = $item->content;
-				$content->save();
+				$doc_content = DocContent::find($content_id);
 			}catch (Exception $e){
 				return Redirect::to('dashboard/docs/' . $id)->with('error', 'Error saving the document: ' . $e->getMessage());
 			}
 		}
-		
-		$deleted_ids = Input::get('deleted_ids');
-		if(!empty($deleted_ids)){
-			$deleted_ids = explode(',', $deleted_ids);
-			$deleted_ids = array_unique($deleted_ids);
-			
-			foreach($deleted_ids as $deletedId){
-				try{
-					$toDelete = DocContent::find($deletedId);
-					$toDelete->delete();
-				}catch(Exception $e){
-					return Redirect::to('dashboard/docs/' . $id)->with('error', 'Errors saving the document: ' . $e->getMessage());
-				}
-			}
+		else{
+			$doc_content = new DocContent();
 		}
-		
+
+		$doc_content->doc_id = $id;
+		$doc_content->content = $content;
+		$doc_content->save();
+
+		$doc = Doc::find($id);
+
+		$this->storeDocFile($doc, $doc_content);
+
 		return Redirect::to('dashboard/docs/' . $id)->with('success_message', 'Document Saved Successfully');
 	}
-	
+
 	/**
 	 * 	POST route for adding line items to documents
-	 * 		Returns JSON array that includes the new line item's auto-incremented id 
+	 * 		Returns JSON array that includes the new line item's auto-incremented id
 	 */
 	public function postContent($id = ''){
-		
+
 		if($id != ''){
 			return Response::error('404');
 		}
 		$content_details = Input::all();
-		
+
 		$rules = array('doc_id' => 'required',
 						'content' => 'required',
 						'parent_id' => 'required'
