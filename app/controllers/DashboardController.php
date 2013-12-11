@@ -193,45 +193,50 @@ class DashboardController extends BaseController{
 			'page_id'		=> 'verify_users',
 			'page_title'	=> 'Verify Users'
 		);
-		
+
 		return View::make('dashboard.verify-account', $data);
 	}
-	
+
 	/**
 	 * 	Post route for handling verification request responses
 	 */
 	public function postVerification(){
-		
+
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 	Post route for House document import
 	 */
 	public function postImport(){
 		$url = Input::get('url');
 		$import_details = Input::all();
-		
+
 		$rules = array('url' => 'required');
-		
+
 		$validation = Validator::make($import_details, $rules);
-		
+
 		if($validation->fails()){
 			return Redirect::back()->with_input()->with_errors($validation);
 		}
-		
-		
+
+
 		try{
 			$importer = new BillImport($url);//Found in the library folder ( used specifically for Federal House bills )
 			$importer->createDoc();
 		}catch(Exception $e){
 			return Redirect::back()->with_input()->with('error', 'Error: ' . $e->getMessage());
 		}
-		
+
 		return Redirect::back()->with('success_message', "Document created successfully!");
 	}
-	
-	
+
+	public function storeDocFile($doc, $doc_content){
+		$markdown_filename = $doc->slug . '.md';
+		$markdown_path = join(DIRECTORY_SEPARATOR, array(storage_path(), 'docs', 'md', $markdown_filename));
+
+		return file_put_contents($markdown_path, $doc_content->content);
+	}
 }
 
