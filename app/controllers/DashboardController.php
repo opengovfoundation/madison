@@ -127,8 +127,7 @@ class DashboardController extends BaseController{
 		$doc_content->save();
 
 		$doc = Doc::find($id);
-
-		$this->storeDocFile($doc, $doc_content);
+		$doc->store_content($doc, $doc_content);
 
 		return Redirect::to('dashboard/docs/' . $id)->with('success_message', 'Document Saved Successfully');
 	}
@@ -218,13 +217,6 @@ class DashboardController extends BaseController{
 		}
 
 		return Redirect::back()->with('success_message', "Document created successfully!");
-	}
-
-	public function storeDocFile($doc, $doc_content){
-		$markdown_filename = $doc->slug . '.md';
-		$markdown_path = join(DIRECTORY_SEPARATOR, array(storage_path(), 'docs', 'md', $markdown_filename));
-
-		return file_put_contents($markdown_path, $doc_content->content);
 	}
 }
 

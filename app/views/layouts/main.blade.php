@@ -14,10 +14,11 @@
 		{{ HTML::style('vendor/bootstrap/css/bootstrap-theme.min.css') }}
 		{{ HTML::style('css/style.css') }}
 		{{ HTML::script('vendor/jquery/jquery-1.9.1.min.js') }}
+		{{ HTML::script('vendor/pagedown/assets/Markdown.Converter.js') }}
 	</head>
 	<body>
 		<div id="wrap">
-			
+
 			<div id="header-main" class="header row">
 				@include('layouts.header')
 			</div>
@@ -58,7 +59,6 @@
 		{{ HTML::script('vendor/bootstrap/js/bootstrap.min.js') }}
 		{{ HTML::script('vendor/modernizr-latest.js') }}
 		{{ HTML::script('vendor/underscore.min.js') }}
-		{{ HTML::script('vendor/pagedown/assets/Markdown.Converter.js') }}
 		{{ HTML::script('js/madison.js') }}
 	</body>
 </html>

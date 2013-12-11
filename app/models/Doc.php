@@ -14,10 +14,30 @@ class Doc extends Eloquent{
 		return $this->hasMany('DocMeta');
 	}
 
-	public function get_root_content(){
-		$root_content = DocContent::where('doc_id', '=', $this->attributes['id'])->where('parent_id')->get();
+	public function get_file_path($format = 'markdown'){
+		// Format is not used yet.
 
-		return $root_content;
+		$markdown_filename = $this->slug . '.md';
+		$markdown_path = join(DIRECTORY_SEPARATOR, array(storage_path(), 'docs', 'md', $markdown_filename));
+
+		return $markdown_path;
+	}
+
+	public function store_content($doc, $doc_content){
+		return File::put($this->get_file_path(), $doc_content->content);
+	}
+
+	public function get_content($format = null){
+		$path = $this->get_file_path($format);
+
+		try {
+			return File::get($path);
+		}
+		catch (FileNotFoundException $e) {
+			return DocContent::where('doc_id', '=', $this->attributes['id'])->where('parent_id')->first()->content;
+		}
+
+
 	}
 }
 
