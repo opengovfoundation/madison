@@ -15,7 +15,6 @@ class Doc extends Eloquent{
 	}
 
 	public function get_file_path($format = 'markdown'){
-		// Format is not used yet.
 		switch($format){
 			case 'html' :
 				$path = 'html';
