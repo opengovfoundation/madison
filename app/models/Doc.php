@@ -16,15 +16,31 @@ class Doc extends Eloquent{
 
 	public function get_file_path($format = 'markdown'){
 		// Format is not used yet.
+		switch($format){
+			case 'html' :
+				$path = 'html';
+				$ext = '.html';
+				break;
 
-		$markdown_filename = $this->slug . '.md';
-		$markdown_path = join(DIRECTORY_SEPARATOR, array(storage_path(), 'docs', 'md', $markdown_filename));
+			case 'markdown':
+			default:
+				$path = 'md';
+				$ext = '.md';
+		}
 
-		return $markdown_path;
+
+		$filename = $this->slug . $ext;
+		$path = join(DIRECTORY_SEPARATOR, array(storage_path(), 'docs', $path, $filename));
+
+		return $path;
 	}
 
 	public function store_content($doc, $doc_content){
-		return File::put($this->get_file_path(), $doc_content->content);
+		File::put($this->get_file_path('markdown'), $doc_content->content);
+
+		File::put($this->get_file_path('html'),
+			Parsedown::instance()->parse($doc_content->content)
+		);
 	}
 
 	public function get_content($format = null){
@@ -33,8 +49,14 @@ class Doc extends Eloquent{
 		try {
 			return File::get($path);
 		}
-		catch (FileNotFoundException $e) {
-			return DocContent::where('doc_id', '=', $this->attributes['id'])->where('parent_id')->first()->content;
+		catch (FileNotFoundException $e){
+			$content = DocContent::where('doc_id', '=', $this->attributes['id'])->where('parent_id')->first()->content;
+
+			if($format == 'html'){
+				$content = Parsedown::instance()->parse($content);
+			}
+
+			return $content;
 		}
 
 

@@ -16,7 +16,8 @@
 		"symfony/yaml": "*",
 		"elasticsearch/elasticsearch": "~0.4",
 		"illuminate/remote": "4.1.*@dev",
-		"anahkiasen/rocketeer": "dev-master"
+		"anahkiasen/rocketeer": "dev-master",
+		"graham-campbell/markdown": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
