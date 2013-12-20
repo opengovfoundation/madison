@@ -1,7 +1,0 @@
-/nbproject
-/vendor
-composer.phar
-composer.lock
-.directory
-.DS_Store
-Thumbs.db
