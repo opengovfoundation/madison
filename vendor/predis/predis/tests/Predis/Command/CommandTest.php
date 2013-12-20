@@ -11,12 +11,12 @@
 
 namespace Predis\Command;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
+use PredisTestCase;
 
 /**
  *
  */
-class CommandTest extends StandardTestCase
+class CommandTest extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -107,8 +107,14 @@ class CommandTest extends StandardTestCase
 
         $command->setHash($hash);
         $this->assertSame($hash, $command->getHash());
-    }
 
+        $command->setArguments(array('key'));
+        $this->assertNull($command->getHash());
+
+        $command->setHash($hash);
+        $command->setRawArguments(array('key'));
+        $this->assertNull($command->getHash());
+    }
     /**
      * @group disconnected
      */

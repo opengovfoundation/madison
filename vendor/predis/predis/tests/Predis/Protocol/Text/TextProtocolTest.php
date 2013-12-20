@@ -11,12 +11,12 @@
 
 namespace Predis\Protocol\Text;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
+use PredisTestCase;
 
 /**
  *
  */
-class TextProtocolTest extends StandardTestCase
+class TextProtocolTest extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -35,7 +35,6 @@ class TextProtocolTest extends StandardTestCase
         $command->expects($this->once())
                 ->method('getArguments')
                 ->will($this->returnValue(array()));
-
 
         $connection = $this->getMock('Predis\Connection\ComposableConnectionInterface');
 

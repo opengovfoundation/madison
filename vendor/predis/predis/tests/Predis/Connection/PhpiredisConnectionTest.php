@@ -11,14 +11,10 @@
 
 namespace Predis\Connection;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
-use Predis\Profile\ServerProfile;
-
 /**
  * @group ext-phpiredis
  */
-class PhpiredisConnectionTest extends ConnectionTestCase
+class PhpiredisConnectionTest extends PredisConnectionTestCase
 {
     /**
      * @group disconnected

@@ -11,13 +11,11 @@
 
 namespace Predis\Command;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
 /**
  * @group commands
  * @group realm-string
  */
-class StringBitCountTest extends CommandTestCase
+class StringBitCountTest extends PredisCommandTestCase
 {
     /**
      * {@inheritdoc}

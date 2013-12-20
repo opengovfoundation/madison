@@ -24,7 +24,8 @@ always enabled.
 
 Patchwork UTF-8 provides pure PHP implementations for 3 of those 4 extensions.
 `pcre` compiled with unicode support is required but is widely available.
-The set of portability-fallbacks that are currently implemented is:
+The following set of portability-fallbacks allows an application to run on a
+server even if one or more of those extensions are not enabled:
 
 - *utf8_encode, utf8_decode*,
 - `mbstring`: *mb_convert_encoding, mb_decode_mimeheader, mb_encode_mimeheader,
@@ -47,8 +48,7 @@ Patchwork\Utf8
 considered when working with generic Unicode strings. The `Patchwork\Utf8`
 class implements the quasi-complete set of native string functions that need
 UTF-8 grapheme clusters awareness. Function names, arguments and behavior
-carefully replicates native PHP string functions so that usage is
-straightforward.
+carefully replicates native PHP string functions.
 
 Some more functions are also provided to help handling UTF-8 strings:
 

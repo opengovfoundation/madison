@@ -11,26 +11,26 @@
 
 namespace Predis\Cluster\Distribution;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
+use PredisTestCase;
 
 /**
  *
  */
-abstract class DistributionStrategyTestCase extends StandardTestCase
+abstract class PredisDistributorTestCase extends PredisTestCase
 {
     /**
      * Returns a new instance of the tested distributor.
      *
      * @return Predis\Cluster\Distribution\DistributionStrategyInterface
      */
-    protected abstract function getDistributorInstance();
+    abstract protected function getDistributorInstance();
 
     /**
      * Returns a list of nodes from the hashring.
      *
-     * @param DistributionStrategyInterface $ring Hashring instance.
-     * @param int $iterations Number of nodes to fetch.
-     * @return array Nodes from the hashring.
+     * @param  DistributionStrategyInterface $ring       Hashring instance.
+     * @param  int                           $iterations Number of nodes to fetch.
+     * @return array                         Nodes from the hashring.
      */
     protected function getNodes(DistributionStrategyInterface $ring, $iterations = 10)
     {

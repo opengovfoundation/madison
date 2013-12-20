@@ -7,7 +7,7 @@
 */
 
 //Static Pages
-Route::get('about', 'PageController@about');
+Route::get('about', 'PageController@getAbout');
 Route::get('faq', 'PageController@faq');
 Route::get('/', 'PageController@home');
 
@@ -29,8 +29,14 @@ Route::controller('note', 'NoteController');
 Route::controller('dashboard', 'DashboardController');
 
 //Api Routes
-Route::controller('api/annotation', 'AnnotationApiController');
-Route::controller('api', 'ApiController');
+Route::get('api', 'ApiController@getIndex');
+Route::get('api/annotation/search', 'AnnotationApiController@getSearch');
+Route::post('api/annotation', 'AnnotationApiController@postIndex');
+Route::get('api/annotation/{id}', 'AnnotationApiController@getIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+Route::put('api/annotation/{id}', 'AnnotationApiController@putIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+Route::delete('api/annotation/{id}', 'AnnotationApiController@deleteIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+
+
 
 //Logout Route
 Route::get('logout', function(){

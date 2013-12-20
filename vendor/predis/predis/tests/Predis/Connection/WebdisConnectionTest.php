@@ -11,9 +11,7 @@
 
 namespace Predis\Connection;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
-use Predis\Profile\ServerProfile;
+use PredisTestCase;
 
 /**
  * @group ext-curl
@@ -21,7 +19,7 @@ use Predis\Profile\ServerProfile;
  * @group realm-connection
  * @group realm-webdis
  */
-class WebdisConnectionTest extends StandardTestCase
+class WebdisConnectionTest extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -138,6 +136,7 @@ class WebdisConnectionTest extends StandardTestCase
     }
 
     /**
+     * @medium
      * @group disconnected
      * @group slow
      * @expectedException Predis\Connection\ConnectionException
@@ -168,34 +167,9 @@ class WebdisConnectionTest extends StandardTestCase
     }
 
     /**
-     * Returns a new instance of connection parameters.
-     *
-     * @param array $additional Additional connection parameters.
-     * @return ConnectionParameters Default connection parameters.
-     */
-    protected function getParameters($additional = array())
-    {
-        $parameters = array_merge($this->getDefaultParametersArray(), $additional);
-        $parameters = new ConnectionParameters($parameters);
-
-        return $parameters;
-    }
-
-    /**
-     * Returns a new instance of server profile.
-     *
-     * @param array $additional Additional connection parameters.
-     * @return ServerProfile
-     */
-    protected function getProfile($version = null)
-    {
-        return ServerProfile::get($version ?: REDIS_SERVER_VERSION);
-    }
-
-    /**
      * Returns a new instance of a connection instance.
      *
-     * @param array $parameters Additional connection parameters.
+     * @param  array            $parameters Additional connection parameters.
      * @return WebdisConnection
      */
     protected function getConnection(&$profile = null, Array $parameters = array())

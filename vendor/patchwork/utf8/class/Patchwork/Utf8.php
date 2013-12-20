@@ -215,8 +215,9 @@ class Utf8
 /**/    if (50418 > PHP_VERSION_ID || 50500 == PHP_VERSION_ID)
 /**/    {
             // Don't use grapheme_stripos because of https://bugs.php.net/61860
+            if (! preg_match('//u', $s .= '')) return false;
             if ($offset < 0) $offset = 0;
-            if (!$needle = mb_stripos($s, $needle, $offset, 'UTF-8')) return $needle;
+            if (! $needle = mb_stripos($s, $needle .= '', $offset, 'UTF-8')) return $needle;
             return grapheme_strlen(iconv_substr($s, 0, $needle, 'UTF-8'));
 /**/    }
 /**/    else
@@ -230,8 +231,9 @@ class Utf8
 /**/    if (50418 > PHP_VERSION_ID || 50500 == PHP_VERSION_ID)
 /**/    {
             // Don't use grapheme_strripos because of https://bugs.php.net/61860
+            if (! preg_match('//u', $s .= '')) return false;
             if ($offset < 0) $offset = 0;
-            if (!$needle = mb_strripos($s, $needle, $offset, 'UTF-8')) return $needle;
+            if (! $needle = mb_strripos($s, $needle .= '', $offset, 'UTF-8')) return $needle;
             return grapheme_strlen(iconv_substr($s, 0, $needle, 'UTF-8'));
 /**/    }
 /**/    else

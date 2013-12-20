@@ -198,12 +198,7 @@ class Bootup
 
         $a = array(&$_FILES, &$_ENV, &$_GET, &$_POST, &$_COOKIE, &$_SERVER, &$_REQUEST);
 
-        foreach ($a[0] as &$r)
-        {
-            $a[] =& $r['name'];
-            $a[] =& $r['type'];
-        }
-
+        foreach ($a[0] as &$r) $a[] = array(&$r['name'], &$r['type']);
         unset($a[0]);
 
         $len = count($a) + 1;

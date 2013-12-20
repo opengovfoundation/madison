@@ -11,12 +11,11 @@
 
 namespace Predis\Connection;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
+use PredisTestCase;
 /**
  *
  */
-class ConnectionFactoryTest extends StandardTestCase
+class ConnectionFactoryTest extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -46,7 +45,6 @@ class ConnectionFactoryTest extends StandardTestCase
         $this->assertEquals($tcp->scheme, $parameters->scheme);
         $this->assertEquals($tcp->host, $parameters->host);
         $this->assertEquals($tcp->database, $parameters->database);
-
 
         $unix = new ConnectionParameters(array(
             'scheme' => 'unix',

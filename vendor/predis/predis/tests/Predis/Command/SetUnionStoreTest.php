@@ -11,13 +11,11 @@
 
 namespace Predis\Command;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
 /**
  * @group commands
  * @group realm-set
  */
-class SetUnionStoreTest extends CommandTestCase
+class SetUnionStoreTest extends PredisCommandTestCase
 {
     /**
      * {@inheritdoc}

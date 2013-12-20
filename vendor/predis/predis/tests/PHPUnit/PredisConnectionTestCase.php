@@ -11,14 +11,13 @@
 
 namespace Predis\Connection;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
+use PredisTestCase;
 use Predis\Profile\ServerProfile;
 
 /**
  * @group realm-connection
  */
-abstract class ConnectionTestCase extends StandardTestCase
+abstract class PredisConnectionTestCase extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -323,37 +322,12 @@ abstract class ConnectionTestCase extends StandardTestCase
     }
 
     /**
-     * Returns a new instance of connection parameters.
-     *
-     * @param array $additional Additional connection parameters.
-     * @return ConnectionParameters Default connection parameters.
-     */
-    protected function getParameters($additional = array())
-    {
-        $parameters = array_merge($this->getDefaultParametersArray(), $additional);
-        $parameters = new ConnectionParameters($parameters);
-
-        return $parameters;
-    }
-
-    /**
-     * Returns a new instance of server profile.
-     *
-     * @param array $additional Additional connection parameters.
-     * @return ServerProfile
-     */
-    protected function getProfile($version = null)
-    {
-        return ServerProfile::get($version ?: REDIS_SERVER_VERSION);
-    }
-
-    /**
      * Returns a new instance of a connection instance.
      *
-     * @param ServerProfile $profile Reference to the server profile instance.
-     * @param Boolean $initialize Push default initialization commands (SELECT and FLUSHDB).
-     * @param array $parameters Additional connection parameters.
+     * @param  ServerProfile    $profile    Reference to the server profile instance.
+     * @param  Boolean          $initialize Push default initialization commands (SELECT and FLUSHDB).
+     * @param  array            $parameters Additional connection parameters.
      * @return StreamConnection
      */
-    protected abstract function getConnection(&$profile = null, $initialize = false, Array $parameters = array());
+    abstract protected function getConnection(&$profile = null, $initialize = false, Array $parameters = array());
 }

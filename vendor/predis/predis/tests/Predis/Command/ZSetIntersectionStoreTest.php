@@ -11,13 +11,11 @@
 
 namespace Predis\Command;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
 /**
  * @group commands
  * @group realm-zset
  */
-class ZSetIntersectionStoreTest extends CommandTestCase
+class ZSetIntersectionStoreTest extends PredisCommandTestCase
 {
     /**
      * {@inheritdoc}
@@ -99,7 +97,6 @@ class ZSetIntersectionStoreTest extends CommandTestCase
         $expected = array(
             'prefix:zset:destination', 2, 'prefix:zset1', 'prefix:zset2', 'WEIGHTS', 10, 100, 'AGGREGATE', 'sum'
         );
-
 
         $command = $this->getCommandWithArgumentsArray($arguments);
         $command->prefixKeys('prefix:');

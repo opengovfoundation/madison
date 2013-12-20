@@ -11,13 +11,11 @@
 
 namespace Predis\Command;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
 /**
  * @group commands
  * @group realm-key
  */
-class KeyPreciseExpireTest extends CommandTestCase
+class KeyPreciseExpireTest extends PredisCommandTestCase
 {
     /**
      * {@inheritdoc}

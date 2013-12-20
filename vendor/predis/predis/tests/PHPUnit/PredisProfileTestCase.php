@@ -11,39 +11,42 @@
 
 namespace Predis\Profile;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
+use PredisTestCase;
 
 /**
  *
  */
-abstract class ServerVersionTestCase extends StandardTestCase
+abstract class PredisProfileTestCase extends PredisTestCase
 {
     /**
      * Returns a new instance of the tested profile.
      *
      * @return ServerProfileInterface
      */
-    protected abstract function getProfileInstance();
+    protected function getProfile($version = null)
+    {
+        $this->markTestIncomplete("Server profile must be defined in ".get_class($this));
+    }
 
     /**
      * Returns the expected version string for the tested profile.
      *
      * @return string Version string.
      */
-    protected abstract function getExpectedVersion();
+    abstract protected function getExpectedVersion();
 
     /**
      * Returns the expected list of commands supported by the tested profile.
      *
      * @return array List of supported commands.
      */
-    protected abstract function getExpectedCommands();
+    abstract protected function getExpectedCommands();
 
     /**
      * Returns the list of commands supported by the current
      * server profile.
      *
-     * @param ServerProfileInterface $profile Server profile instance.
+     * @param  ServerProfileInterface $profile Server profile instance.
      * @return array
      */
     protected function getCommands(ServerProfileInterface $profile)
@@ -58,7 +61,7 @@ abstract class ServerVersionTestCase extends StandardTestCase
      */
     public function testGetVersion()
     {
-        $profile = $this->getProfileInstance();
+        $profile = $this->getProfile();
 
         $this->assertEquals($this->getExpectedVersion(), $profile->getVersion());
     }
@@ -68,7 +71,7 @@ abstract class ServerVersionTestCase extends StandardTestCase
      */
     public function testSupportedCommands()
     {
-        $profile = $this->getProfileInstance();
+        $profile = $this->getProfile();
         $expected = $this->getExpectedCommands();
         $commands = $this->getCommands($profile);
 

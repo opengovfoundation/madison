@@ -121,10 +121,10 @@ class Intl
 
     protected static function grapheme_position($s, $needle, $offset, $mode)
     {
+        if (! preg_match('/./us', $needle .= '')) return false;
+        if (! preg_match('/./us', $s .= '')) return false;
         if ($offset > 0) $s = self::grapheme_substr($s, $offset);
         else if ($offset < 0) $offset = 0;
-        if ('' === $needle .= '') return false;
-        if ('' === $s .= '') return false;
 
         switch ($mode)
         {

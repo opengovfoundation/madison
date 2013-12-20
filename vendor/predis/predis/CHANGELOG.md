@@ -1,8 +1,8 @@
 v0.8.5 (2013-xx-xx)
-===============================================================================
+================================================================================
 
-- Added `2.8` in the server profiles aliases list for the upcoming Redis 2.8.
-  `2.6` is still the default server profile. `dev` now targets Redis 3.0.
+- Added `2.8` in the server profiles aliases list for Redis 2.8. `2.6` is still
+  the default server profile and `dev` now targets Redis 3.0.
 
 - Added `SCAN`, `SSCAN`, `ZSCAN`, `HSCAN` to the server profile for Redis 2.8.
 
@@ -14,6 +14,28 @@ v0.8.5 (2013-xx-xx)
     - hashes (cursor-based iterator using `HSCAN`)
     - lists (plain iterator using `LRANGE`)
 
+- It is now possible to execute "raw commands" using `Predis\Command\RawCommand`
+  and a variable list of command arguments. Input arguments are not filtered and
+  responses are not parsed, which means arguments must follow the signature of
+  the command as defined by Redis and complex responses are left untouched.
+
+- URI parsing for connection parameters has been improved and has slightly less
+  overhead when the number of fields in the querystring grows. New features are:
+
+    - Parsing does not break when value of a field contains one or more "=".
+    - Repeated fieldnames using [] produce an array of values.
+    - Empty or incomplete "key=value" pairs result in an empty string for "key".
+
+- Various improvements and fixes to the redis-cluster connection backend:
+
+    - __FIX__: the `ASKING` command is sent upon -ASK redirections.
+    - An updated slots-map can be fetched from nodes using the `CLUSTER NODES`
+      command. By default this is a manual operation but can be enabled to get
+      automatically done upon -MOVED redirections.
+    - It is possible to specify a common set of connection parameters that are
+      applied to connections created on the fly upon redirections to nodes not
+      part of the initial pool.
+
 - List of deprecated methods:
 
     - `Predis\Client::multiExec()`: superseded by `Predis\Client::transaction()`
@@ -24,7 +46,7 @@ v0.8.5 (2013-xx-xx)
 
 
 v0.8.4 (2013-07-27)
-===============================================================================
+================================================================================
 
 - Added `DUMP` and `RESTORE` to the server profile for Redis 2.6.
 
@@ -48,7 +70,7 @@ v0.8.4 (2013-07-27)
 
 
 v0.8.3 (2013-02-18)
-===============================================================================
+================================================================================
 
 - Added `CLIENT SETNAME` and `CLIENT GETNAME` (ISSUE #102).
 
@@ -77,7 +99,7 @@ v0.8.3 (2013-02-18)
 
 
 v0.8.2 (2013-02-03)
-===============================================================================
+================================================================================
 
 - Added `Predis\Session\SessionHandler` to make it easy to store PHP sessions
   on Redis using Predis. Please note that this class needs either PHP >= 5.4.0
@@ -92,7 +114,7 @@ v0.8.2 (2013-02-03)
 
 
 v0.8.1 (2013-01-19)
-===============================================================================
+================================================================================
 
 - The `connections` client option can now accept a callable object returning
   an instance of `Predis\Connection\ConnectionFactoryInterface`.
@@ -124,7 +146,7 @@ v0.8.1 (2013-01-19)
 
 
 v0.8.0 (2012-10-23)
-===============================================================================
+================================================================================
 
 - The default server profile for Redis is now `2.6`.
 
@@ -189,7 +211,7 @@ v0.8.0 (2012-10-23)
 
 
 v0.7.3 (2012-06-01)
-===============================================================================
+================================================================================
 
 - New commands available in the Redis v2.6 profile (dev): `BITOP`, `BITCOUNT`.
 
@@ -211,7 +233,7 @@ v0.7.3 (2012-06-01)
 
 
 v0.7.2 (2012-04-01)
-===============================================================================
+================================================================================
 
 - Added `2.6` in the server profiles aliases list for the upcoming Redis 2.6.
   `2.4` is still the default server profile. `dev` now targets Redis 2.8.
@@ -229,7 +251,7 @@ v0.7.2 (2012-04-01)
 
 
 v0.7.1 (2011-12-27)
-===============================================================================
+================================================================================
 
 - The PEAR channel on PearHub has been deprecated in favour of `pear.nrk.io`.
 
@@ -248,7 +270,7 @@ v0.7.1 (2011-12-27)
 
 
 v0.7.0 (2011-12-11)
-===============================================================================
+================================================================================
 
 - Predis now adheres to the PSR-0 standard which means that there is no more a
   single file holding all the classes of the library, but multiple files (one
@@ -322,7 +344,7 @@ v0.7.0 (2011-12-11)
 
 
 v0.6.6 (2011-04-01)
-===============================================================================
+================================================================================
 
 - Switched to Redis 2.2 as the default server profile (there are no changes
   that would break compatibility with previous releases). Long command names
@@ -361,7 +383,7 @@ v0.6.6 (2011-04-01)
 
 
 v0.6.5 (2011-02-12)
-===============================================================================
+================================================================================
 
 - __FIX__: due to an untested internal change introduced in v0.6.4, a wrong
   handling of bulk reads of zero-length values was producing protocol
@@ -369,7 +391,7 @@ v0.6.5 (2011-02-12)
 
 
 v0.6.4 (2011-02-12)
-===============================================================================
+================================================================================
 
 - Various performance improvements (15% ~ 25%) especially when dealing with
   long multibulk replies or when using clustered connections.
@@ -383,7 +405,7 @@ v0.6.4 (2011-02-12)
 
 
 v0.6.3 (2011-01-01)
-===============================================================================
+================================================================================
 
 - New commands available in the Redis v2.2 profile (dev):
   - Strings: `SETRANGE`, `GETRANGE`, `SETBIT`, `GETBIT`
@@ -397,7 +419,7 @@ v0.6.3 (2011-01-01)
 
 
 v0.6.2 (2010-11-28)
-===============================================================================
+================================================================================
 
 - Minor internal improvements and clean ups.
 
@@ -422,7 +444,7 @@ v0.6.2 (2010-11-28)
 
 
 v0.6.1 (2010-07-11)
-===============================================================================
+================================================================================
 
 - Minor internal improvements and clean ups.
 
@@ -464,7 +486,7 @@ v0.6.1 (2010-07-11)
 
 
 v0.6.0 (2010-05-24)
-===============================================================================
+================================================================================
 
 - Switched to the new multi-bulk request protocol for all of the commands
   in the Redis 1.2 and Redis 2.0 profiles. Inline and bulk requests are now
@@ -579,7 +601,7 @@ v0.6.0 (2010-05-24)
 
 
 v0.5.1 (2010-01-23)
-===============================================================================
+================================================================================
 
 * `RPOPLPUSH` has been changed from bulk command to inline command in Redis
   1.2.1, so `ListPopLastPushHead` now extends `InlineCommand`. The old behavior
@@ -594,5 +616,5 @@ v0.5.1 (2010-01-23)
 
 
 v0.5.0 (2010-01-09)
-===============================================================================
+================================================================================
 * First versioned release of Predis

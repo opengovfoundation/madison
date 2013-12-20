@@ -11,13 +11,12 @@
 
 namespace Predis\Connection;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
+use PredisTestCase;
 /**
  * @todo ConnectionParameters::define();
  * @todo ConnectionParameters::undefine();
  */
-class ParametersTest extends StandardTestCase
+class ParametersTest extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -161,6 +160,58 @@ class ParametersTest extends StandardTestCase
 
     /**
      * @group disconnected
+     */
+    public function testParsingURIWithIncompletePairInQueryString()
+    {
+        $uri = 'tcp://10.10.10.10?persistent=1&foo=&bar';
+
+        $expected = array(
+            'scheme' => 'tcp',
+            'host' => '10.10.10.10',
+            'persistent' => '1',
+            'foo' => '',
+            'bar' => '',
+        );
+
+        $this->assertSame($expected, ConnectionParameters::parseURI($uri));
+    }
+
+    /**
+     * @group disconnected
+     */
+    public function testParsingURIWithMoreThanOneEqualSignInQueryStringPairValue()
+    {
+        $uri = 'tcp://10.10.10.10?foobar=a=b=c&persistent=1';
+
+        $expected = array(
+            'scheme' => 'tcp',
+            'host' => '10.10.10.10',
+            'foobar' => 'a=b=c',
+            'persistent' => '1',
+        );
+
+        $this->assertSame($expected, ConnectionParameters::parseURI($uri));
+    }
+
+    /**
+     * @group disconnected
+     */
+    public function testParsingURIWhenQueryStringHasBracketsInFieldnames()
+    {
+        $uri = 'tcp://10.10.10.10?persistent=1&metavars[]=foo&metavars[]=hoge';
+
+        $expected = array(
+            'scheme' => 'tcp',
+            'host' => '10.10.10.10',
+            'persistent' => '1',
+            'metavars' => array('foo', 'hoge'),
+        );
+
+        $this->assertSame($expected, ConnectionParameters::parseURI($uri));
+    }
+
+    /**
+     * @group disconnected
      * @expectedException Predis\ClientException
      * @expectedExceptionMessage Invalid URI: tcp://invalid:uri
      */
@@ -189,21 +240,9 @@ class ParametersTest extends StandardTestCase
     }
 
     /**
-     * Returns a named array with the default connection parameters merged with
-     * the specified additional parameters.
-     *
-     * @param Array $additional Additional connection parameters.
-     * @return Array Connection parameters.
-     */
-    protected function getParametersArray(Array $additional)
-    {
-        return array_merge($this->getDefaultParametersArray(), $additional);
-    }
-
-    /**
      * Returns an URI string representation of the specified connection parameters.
      *
-     * @param Array $parameters Array of connection parameters.
+     * @param  Array  $parameters Array of connection parameters.
      * @return String URI string.
      */
     protected function getParametersString(Array $parameters)

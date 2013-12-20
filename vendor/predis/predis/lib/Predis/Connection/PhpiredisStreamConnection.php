@@ -37,6 +37,7 @@ use Predis\Command\CommandInterface;
  *  - scheme: it can be either 'tcp' or 'unix'.
  *  - host: hostname or IP address of the server.
  *  - port: TCP port of the server.
+ *  - path: path of a UNIX domain socket when scheme is 'unix'.
  *  - timeout: timeout to perform the connection.
  *  - read_write_timeout: timeout of read / write operations.
  *  - async_connect: performs the connection asynchronously.
@@ -132,7 +133,7 @@ class PhpiredisStreamConnection extends StreamConnection
     /**
      * Gets the handler used by the protocol reader to handle Redis errors.
      *
-     * @param Boolean $throw_errors Specify if Redis errors throw exceptions.
+     * @param  Boolean  $throw_errors Specify if Redis errors throw exceptions.
      * @return \Closure
      */
     protected function getErrorHandler()
@@ -155,6 +156,7 @@ class PhpiredisStreamConnection extends StreamConnection
 
             if ($buffer === false || $buffer === '') {
                 $this->onConnectionError('Error while reading bytes from the server');
+
                 return;
             }
 

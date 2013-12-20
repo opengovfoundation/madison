@@ -11,15 +11,14 @@
 
 namespace Predis\Cluster;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
+use PredisTestCase;
 use Predis\Cluster\Distribution\HashRing;
 use Predis\Profile\ServerProfile;
 
 /**
  *
  */
-class PredisClusterHashStrategyTest extends StandardTestCase
+class PredisClusterHashStrategyTest extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -245,7 +244,7 @@ class PredisClusterHashStrategyTest extends StandardTestCase
     /**
      * Returns the list of expected supported commands.
      *
-     * @param string $type Optional type of command (based on its keys)
+     * @param  string $type Optional type of command (based on its keys)
      * @return array
      */
     protected function getExpectedCommands($type = null)

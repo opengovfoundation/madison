@@ -1,3 +1,8 @@
+## v1.1.16 (2013-12-06)
+
+- fix $_FILES bootup filtering
+- fix mbstring shim behavior with invalid utf8 strings
+
 ## v1.1.15 (2013-11-23)
 
 - u::toAscii() is now locale sensitive and allows a substitution character

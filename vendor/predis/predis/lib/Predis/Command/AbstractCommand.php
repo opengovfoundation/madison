@@ -24,7 +24,7 @@ abstract class AbstractCommand implements CommandInterface
     /**
      * Returns a filtered array of the arguments.
      *
-     * @param array $arguments List of arguments.
+     * @param  array $arguments List of arguments.
      * @return array
      */
     protected function filterArguments(Array $arguments)
@@ -42,9 +42,7 @@ abstract class AbstractCommand implements CommandInterface
     }
 
     /**
-     * Sets the arguments array without filtering.
-     *
-     * @param array $arguments List of arguments.
+     * {@inheritdoc}
      */
     public function setRawArguments(Array $arguments)
     {
@@ -101,8 +99,8 @@ abstract class AbstractCommand implements CommandInterface
     /**
      * Helper function used to reduce a list of arguments to a string.
      *
-     * @param string $accumulator Temporary string.
-     * @param string $argument Current argument.
+     * @param  string $accumulator Temporary string.
+     * @param  string $argument    Current argument.
      * @return string
      */
     protected function toStringArgumentReducer($accumulator, $argument)
@@ -133,7 +131,7 @@ abstract class AbstractCommand implements CommandInterface
     /**
      * Normalizes the arguments array passed to a Redis command.
      *
-     * @param array $arguments Arguments for a command.
+     * @param  array $arguments Arguments for a command.
      * @return array
      */
     public static function normalizeArguments(Array $arguments)
@@ -148,7 +146,7 @@ abstract class AbstractCommand implements CommandInterface
     /**
      * Normalizes the arguments array passed to a variadic Redis command.
      *
-     * @param array $arguments Arguments for a command.
+     * @param  array $arguments Arguments for a command.
      * @return array
      */
     public static function normalizeVariadic(Array $arguments)

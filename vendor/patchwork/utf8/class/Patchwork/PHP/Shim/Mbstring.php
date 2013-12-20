@@ -254,7 +254,6 @@ class Mbstring
     {
         INF === $encoding && $encoding = self::$internal_encoding;
 
-
         if ($start < 0)
         {
             $start = iconv_strlen($s, $encoding . '//IGNORE') + $start;

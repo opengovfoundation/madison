@@ -62,12 +62,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category   Crypt
- * @package    Crypt_Rijndael
- * @author     Jim Wigginton <terrafrost@php.net>
- * @copyright  MMVIII Jim Wigginton
- * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link       http://phpseclib.sourceforge.net
+ * @category  Crypt
+ * @package   Crypt_Rijndael
+ * @author    Jim Wigginton <terrafrost@php.net>
+ * @copyright MMVIII Jim Wigginton
+ * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @link      http://phpseclib.sourceforge.net
  */
 
 /**
@@ -76,7 +76,7 @@
  * Base cipher class
  */
 if (!class_exists('Crypt_Base')) {
-    require_once('Base.php');
+    include_once 'Base.php';
 }
 
 /**#@+
@@ -135,12 +135,13 @@ define('CRYPT_RIJNDAEL_MODE_MCRYPT', CRYPT_MODE_MCRYPT);
 /**
  * Pure-PHP implementation of Rijndael.
  *
+ * @package Crypt_Rijndael
  * @author  Jim Wigginton <terrafrost@php.net>
  * @version 0.1.0
  * @access  public
- * @package Crypt_Rijndael
  */
-class Crypt_Rijndael extends Crypt_Base {
+class Crypt_Rijndael extends Crypt_Base
+{
     /**
      * The default password key_size used by setPassword()
      *

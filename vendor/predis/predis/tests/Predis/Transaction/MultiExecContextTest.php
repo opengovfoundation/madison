@@ -11,8 +11,7 @@
 
 namespace Predis\Transaction;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
+use PredisTestCase;
 use Predis\Client;
 use Predis\ResponseQueued;
 use Predis\ServerException;
@@ -21,7 +20,7 @@ use Predis\Command\CommandInterface;
 /**
  * @group realm-transaction
  */
-class MultiExecContextTest extends StandardTestCase
+class MultiExecContextTest extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -632,7 +631,7 @@ class MultiExecContextTest extends StandardTestCase
      * Returns a mocked instance of Predis\Connection\SingleConnectionInterface
      * usingthe specified callback to return values from executeCommand().
      *
-     * @param \Closure $executeCallback
+     * @param  \Closure                                     $executeCallback
      * @return \Predis\Connection\SingleConnectionInterface
      */
     protected function getMockedConnection($executeCallback)
@@ -650,7 +649,7 @@ class MultiExecContextTest extends StandardTestCase
      * the specified callback to return values from the executeCommand method
      * of the underlying connection.
      *
-     * @param \Closure $executeCallback
+     * @param  \Closure         $executeCallback
      * @return MultiExecContext
      */
     protected function getMockedTransaction($executeCallback, $options = array())
@@ -665,8 +664,8 @@ class MultiExecContextTest extends StandardTestCase
     /**
      * Returns a callback that emulates a server-side MULTI/EXEC transaction context.
      *
-     * @param array $expected Expected replies.
-     * @param array $commands Reference to an array that stores the whole flow of commands.
+     * @param  array    $expected Expected replies.
+     * @param  array    $commands Reference to an array that stores the whole flow of commands.
      * @return \Closure
      */
     protected function getExecuteCallback($expected = array(), &$commands = array(), &$cas = array())
@@ -707,6 +706,7 @@ class MultiExecContextTest extends StandardTestCase
                     if ($abort) {
                         $commands = $cas = array();
                         $abort = false;
+
                         return null;
                     }
 
@@ -746,11 +746,12 @@ class MultiExecContextTest extends StandardTestCase
      * Converts an array of instances of Predis\Command\CommandInterface and
      * returns an array containing their IDs.
      *
-     * @param array $commands List of commands instances.
+     * @param  array $commands List of commands instances.
      * @return array
      */
-    protected static function commandsToIDs($commands) {
-        return array_map(function($cmd) { return $cmd->getId(); }, $commands);
+    protected static function commandsToIDs($commands)
+    {
+        return array_map(function ($cmd) { return $cmd->getId(); }, $commands);
     }
 
     /**
@@ -761,24 +762,8 @@ class MultiExecContextTest extends StandardTestCase
      * @param array Additional client options.
      * @return Client client instance.
      */
-    protected function getClient(Array $parameters = array(), Array $options = array())
+    protected function getClient(array $parameters = array(), array $options = array())
     {
-        $parameters = array_merge(array(
-            'scheme' => 'tcp',
-            'host' => REDIS_SERVER_HOST,
-            'port' => REDIS_SERVER_PORT,
-            'database' => REDIS_SERVER_DBNUM,
-        ), $parameters);
-
-        $options = array_merge(array(
-            'profile' => REDIS_SERVER_VERSION
-        ), $options);
-
-        $client = new Client($parameters, $options);
-
-        $client->connect();
-        $client->flushdb();
-
-        return $client;
+        return $this->createClient($parameters, $options);
     }
 }

@@ -11,8 +11,6 @@
 
 namespace Predis\Command;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
 /**
  * In order to support the output of SLOWLOG, the backend connection
  * must be able to parse nested multibulk replies deeper than 2 levels.
@@ -20,7 +18,7 @@ use \PHPUnit_Framework_TestCase as StandardTestCase;
  * @group commands
  * @group realm-server
  */
-class ServerSlowlogTest extends CommandTestCase
+class ServerSlowlogTest extends PredisCommandTestCase
 {
     /**
      * {@inheritdoc}

@@ -9,7 +9,7 @@ class ApiController extends BaseController{
 	public function __construct(){
 		parent::__construct();
 
-		$this->beforeFilter('auth');
+		//$this->beforeFilter('auth');
 
 		$params = array();
 		$params['hosts'] = array('localhost:9200');
@@ -22,10 +22,22 @@ class ApiController extends BaseController{
 			'message' 	=> 'Madison API',
 			'links'		=> array(
 			    'annotation'	=> array(
+                    'create'	=> array(
+						'url'	=> action('AnnotationApiController@postIndex')
+					),
 			    	'read'		=> array(
-			    		'url'	=> action('AnnotationApiController@getIndex')
-			    	)
-			    )	
+			    		'url'	=> action('AnnotationApiController@getIndex', array('id'))
+			    	),
+			    	'update'	=> array(
+						'url'	=> action('AnnotationApiController@putIndex', array('id'))
+					),
+					'destroy'	=> array(
+						'url'	=> action('AnnotationApiController@deleteIndex', array('id'))
+					),
+					'search'	=> array(
+						'url'	=>action('AnnotationApiController@getSearch')
+					)
+			    ),
 			)
 		);
 

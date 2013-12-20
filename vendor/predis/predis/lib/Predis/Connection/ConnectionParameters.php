@@ -71,7 +71,7 @@ class ConnectionParameters implements ConnectionParametersInterface
     /**
      * Validates value as boolean.
      *
-     * @param mixed $value Input value.
+     * @param  mixed   $value Input value.
      * @return boolean
      */
     private static function castBoolean($value)
@@ -82,7 +82,7 @@ class ConnectionParameters implements ConnectionParametersInterface
     /**
      * Validates value as float.
      *
-     * @param mixed $value Input value.
+     * @param  mixed $value Input value.
      * @return float
      */
     private static function castFloat($value)
@@ -93,7 +93,7 @@ class ConnectionParameters implements ConnectionParametersInterface
     /**
      * Validates value as integer.
      *
-     * @param mixed $value Input value.
+     * @param  mixed $value Input value.
      * @return int
      */
     private static function castInteger($value)
@@ -104,7 +104,7 @@ class ConnectionParameters implements ConnectionParametersInterface
     /**
      * Parses an URI string and returns an array of connection parameters.
      *
-     * @param string $uri Connection string.
+     * @param  string $uri Connection string.
      * @return array
      */
     public static function parseURI($uri)
@@ -119,12 +119,10 @@ class ConnectionParameters implements ConnectionParametersInterface
         }
 
         if (isset($parsed['query'])) {
-            foreach (explode('&', $parsed['query']) as $kv) {
-                @list($k, $v) = explode('=', $kv);
-                $parsed[$k] = $v;
-            }
-
+            parse_str($parsed['query'], $queryarray);
             unset($parsed['query']);
+
+            $parsed = array_merge($parsed, $queryarray);
         }
 
         return $parsed;
@@ -133,7 +131,7 @@ class ConnectionParameters implements ConnectionParametersInterface
     /**
      * Validates and converts each value of the connection parameters array.
      *
-     * @param array $parameters Connection parameters.
+     * @param  array $parameters Connection parameters.
      * @return array
      */
     private function filter(Array $parameters)

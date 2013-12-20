@@ -37,6 +37,7 @@ use Predis\Command\CommandInterface;
  *  - scheme: it can be either 'tcp' or 'unix'.
  *  - host: hostname or IP address of the server.
  *  - port: TCP port of the server.
+ *  - path: path of a UNIX domain socket when scheme is 'unix'.
  *  - timeout: timeout to perform the connection.
  *  - read_write_timeout: timeout of read / write operations.
  *
@@ -136,7 +137,7 @@ class PhpiredisConnection extends AbstractConnection
     /**
      * Gets the handler used by the protocol reader to handle Redis errors.
      *
-     * @param Boolean $throw_errors Specify if Redis errors throw exceptions.
+     * @param  Boolean  $throw_errors Specify if Redis errors throw exceptions.
      * @return \Closure
      */
     private function getErrorHandler()
@@ -183,7 +184,7 @@ class PhpiredisConnection extends AbstractConnection
     /**
      * Sets options on the socket resource from the connection parameters.
      *
-     * @param resource $socket Socket resource.
+     * @param resource                      $socket     Socket resource.
      * @param ConnectionParametersInterface $parameters Parameters used to initialize the connection.
      */
     private function setSocketOptions($socket, ConnectionParametersInterface $parameters)
@@ -223,7 +224,7 @@ class PhpiredisConnection extends AbstractConnection
     /**
      * Gets the address from the connection parameters.
      *
-     * @param ConnectionParametersInterface $parameters Parameters used to initialize the connection.
+     * @param  ConnectionParametersInterface $parameters Parameters used to initialize the connection.
      * @return string
      */
     private function getAddress(ConnectionParametersInterface $parameters)
@@ -238,6 +239,7 @@ class PhpiredisConnection extends AbstractConnection
             if (($addresses = gethostbynamel($host)) === false) {
                 $this->onConnectionError("Cannot resolve the address of $host");
             }
+
             return $addresses[array_rand($addresses)];
         }
 
@@ -247,7 +249,7 @@ class PhpiredisConnection extends AbstractConnection
     /**
      * Opens the actual connection to the server with a timeout.
      *
-     * @param ConnectionParametersInterface $parameters Parameters used to initialize the connection.
+     * @param  ConnectionParametersInterface $parameters Parameters used to initialize the connection.
      * @return string
      */
     private function connectWithTimeout(ConnectionParametersInterface $parameters)

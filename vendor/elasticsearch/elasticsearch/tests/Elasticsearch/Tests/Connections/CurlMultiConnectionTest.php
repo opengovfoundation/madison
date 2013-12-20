@@ -7,6 +7,7 @@
 
 namespace Elasticsearch\Tests\Connections;
 use Elasticsearch;
+use Mockery as m;
 
 /**
  * Class CurlMultiConnectionTest
@@ -21,6 +22,10 @@ use Elasticsearch;
 class CurlMultiConnectionTest extends \PHPUnit_Framework_TestCase
 {
 
+    public function tearDown()
+    {
+        m::close();
+    }
 
     /**
      * Test no multihandle
@@ -87,6 +92,36 @@ class CurlMultiConnectionTest extends \PHPUnit_Framework_TestCase
 
         $connection = new Elasticsearch\Connections\CurlMultiConnection($host, $port, $connectionParams, $log, $log);
         $ret = $connection->performRequest('GET', '/');
+
+    }
+
+    public function testPingTimeout()
+    {
+
+        $host = 'localhost';
+        $port = 9800;
+
+        $opts = array();
+        $connectionParams['curlMultiHandle'] = curl_multi_init();
+        $that = $this;
+
+        $argsValidator = function($args) use ($that) {
+            $that->assertEquals($args[155], 5000);
+            $that->assertEquals($args[156], 5000);
+
+            return true;
+        };
+
+        $log = m::mock('Psr\Log\LoggerInterface')->shouldReceive('debug')->with("Curl Options:", \Mockery::on($argsValidator))->getMock();
+        $trace = m::mock('Psr\Log\LoggerInterface');
+
+        $connection = new Elasticsearch\Connections\CurlMultiConnection($host, $port, $connectionParams, $log, $trace);
+        try{
+            $ret = $connection->performRequest('GET', '/', null, null, array('timeout' => 5000));
+        } catch (\Exception $e) {
+
+        }
+
 
     }
 

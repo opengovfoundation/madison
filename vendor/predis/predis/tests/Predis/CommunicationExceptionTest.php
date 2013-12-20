@@ -11,14 +11,13 @@
 
 namespace Predis;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
+use PredisTestCase;
 use Predis\Connection\SingleConnectionInterface;
 
 /**
  *
  */
-class CommunicationExceptionTest extends StandardTestCase
+class CommunicationExceptionTest extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -79,7 +78,7 @@ class CommunicationExceptionTest extends StandardTestCase
     /**
      * Returns a mocked connection instance.
      *
-     * @param mixed $parameters Connection parameters.
+     * @param  mixed                     $parameters Connection parameters.
      * @return SingleConnectionInterface
      */
     protected function getMockedConnectionBase($parameters = null)
@@ -88,7 +87,7 @@ class CommunicationExceptionTest extends StandardTestCase
 
         if ($parameters === null) {
             $builder->disableOriginalConstructor();
-        } else if (!$parameters instanceof ConnectionParametersInterface) {
+        } elseif (!$parameters instanceof ConnectionParametersInterface) {
             $parameters = new ConnectionParameters($parameters);
         }
 
@@ -98,10 +97,10 @@ class CommunicationExceptionTest extends StandardTestCase
     /**
      * Returns a connection exception instance.
      *
-     * @param SingleConnectionInterface $message Connection instance.
-     * @param string $message Exception message.
-     * @param int $code Exception code.
-     * @param \Exception $inner Inner exception.
+     * @param  SingleConnectionInterface $message Connection instance.
+     * @param  string                    $message Exception message.
+     * @param  int                       $code    Exception code.
+     * @param  \Exception                $inner   Inner exception.
      * @return \Exception
      */
     protected function getException(SingleConnectionInterface $connection, $message, $code = 0, \Exception $inner = null)

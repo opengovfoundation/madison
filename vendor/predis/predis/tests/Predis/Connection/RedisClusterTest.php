@@ -11,15 +11,14 @@
 
 namespace Predis\Connection;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
+use PredisTestCase;
 use Predis\ResponseError;
 use Predis\Profile\ServerProfile;
 
 /**
  *
  */
-class RedisClusterTest extends StandardTestCase
+class RedisClusterTest extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -106,19 +105,50 @@ class RedisClusterTest extends StandardTestCase
     /**
      * @group disconnected
      */
-    public function testConnectForcesAllConnectionsToConnect()
+    public function testConnectPicksRandomConnection()
     {
+        $connect1 = false;
+        $connect2 = false;
+
         $connection1 = $this->getMockConnection('tcp://127.0.0.1:6379');
-        $connection1->expects($this->once())->method('connect');
+        $connection1->expects($this->any())
+                    ->method('connect')
+                    ->will($this->returnCallback(function () use (&$connect1) {
+                        $connect1 = true;
+                    }));
+        $connection1->expects($this->any())
+                    ->method('isConnected')
+                    ->will($this->returnCallback(function () use (&$connect1) {
+                        return $connect1;
+                    }));
 
         $connection2 = $this->getMockConnection('tcp://127.0.0.1:6380');
-        $connection2->expects($this->once())->method('connect');
+        $connection2->expects($this->any())
+                    ->method('connect')
+                    ->will($this->returnCallback(function () use (&$connect2) {
+                        $connect2 = true;
+                    }));
+        $connection2->expects($this->any())
+                    ->method('isConnected')
+                    ->will($this->returnCallback(function () use (&$connect2) {
+                        return $connect2;
+                    }));
 
         $cluster = new RedisCluster();
         $cluster->add($connection1);
         $cluster->add($connection2);
 
         $cluster->connect();
+
+        $this->assertTrue($cluster->isConnected());
+
+        if ($connect1) {
+            $this->assertTrue($connect1);
+            $this->assertFalse($connect2);
+        } else {
+            $this->assertFalse($connect1);
+            $this->assertTrue($connect2);
+        }
     }
 
     /**
@@ -434,7 +464,10 @@ class RedisClusterTest extends StandardTestCase
                     ->will($this->onConsecutiveCalls($askResponse, 'foobar'));
 
         $connection2 = $this->getMockConnection('tcp://127.0.0.1:6380');
-        $connection2->expects($this->exactly(1))
+        $connection2->expects($this->at(2))
+                    ->method('executeCommand')
+                    ->with($this->isRedisCommand('ASKING'));
+        $connection2->expects($this->at(3))
                     ->method('executeCommand')
                     ->with($command)
                     ->will($this->returnValue('foobar'));
@@ -471,7 +504,10 @@ class RedisClusterTest extends StandardTestCase
                     ->method('executeCommand');
 
         $connection3 = $this->getMockConnection('tcp://127.0.0.1:6381');
-        $connection3->expects($this->once())
+        $connection3->expects($this->at(0))
+                    ->method('executeCommand')
+                    ->with($this->isRedisCommand('ASKING'));
+        $connection3->expects($this->at(1))
                     ->method('executeCommand')
                     ->with($command)
                     ->will($this->returnValue('foobar'));
@@ -511,7 +547,6 @@ class RedisClusterTest extends StandardTestCase
                     ->method('executeCommand')
                     ->with($command)
                     ->will($this->onConsecutiveCalls('foobar', 'foobar'));
-
 
         $factory = $this->getMock('Predis\Connection\ConnectionFactory');
         $factory->expects($this->never())->method('create');
@@ -608,7 +643,7 @@ class RedisClusterTest extends StandardTestCase
     /**
      * Returns a base mocked connection from Predis\Connection\SingleConnectionInterface.
      *
-     * @param mixed $parameters Optional parameters.
+     * @param  mixed $parameters Optional parameters.
      * @return mixed
      */
     protected function getMockConnection($parameters = null)

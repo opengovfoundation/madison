@@ -11,9 +11,8 @@
 
 namespace Predis\Pipeline;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
 use SplQueue;
+use PredisTestCase;
 use Predis\ResponseError;
 use Predis\ResponseObjectInterface;
 use Predis\Profile\ServerProfile;
@@ -21,7 +20,7 @@ use Predis\Profile\ServerProfile;
 /**
  *
  */
-class StandardExecutorTest extends StandardTestCase
+class StandardExecutorTest extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -117,7 +116,7 @@ class StandardExecutorTest extends StandardTestCase
      * Executes a test for the Predis\ResponseObjectInterface type.
      *
      * @param PipelineExecutorInterface $executor
-     * @param ResponseObjectInterface $response
+     * @param ResponseObjectInterface   $response
      */
     protected function simpleResponseObjectTest(PipelineExecutorInterface $executor, ResponseObjectInterface $response)
     {

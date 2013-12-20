@@ -11,8 +11,6 @@
 
 namespace Predis\Command;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
 /**
  * We only perform disconnected tests for this commands because
  * it is too old (Redis v1.2) and expects a different response
@@ -21,7 +19,7 @@ use \PHPUnit_Framework_TestCase as StandardTestCase;
  * @group commands
  * @group realm-key
  */
-class KeyKeysV12xTest extends CommandTestCase
+class KeyKeysV12xTest extends PredisCommandTestCase
 {
     /**
      * {@inheritdoc}

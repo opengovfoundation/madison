@@ -11,15 +11,14 @@
 
 namespace Predis\Connection;
 
-use \PHPUnit_Framework_TestCase as StandardTestCase;
-
+use PredisTestCase;
 use Predis\Profile\ServerProfile;
 use Predis\Replication\ReplicationStrategy;
 
 /**
  *
  */
-class MasterSlaveReplicationTest extends StandardTestCase
+class MasterSlaveReplicationTest extends PredisTestCase
 {
     /**
      * @group disconnected
@@ -496,6 +495,7 @@ class MasterSlaveReplicationTest extends StandardTestCase
 
         $replication->getReplicationStrategy()->setCommandReadOnly('exists', function ($cmd) {
             list($arg1) = $cmd->getArguments();
+
             return $arg1 === 'foo';
         });
 
@@ -569,7 +569,7 @@ class MasterSlaveReplicationTest extends StandardTestCase
     /**
      * Returns a base mocked connection from Predis\Connection\SingleConnectionInterface.
      *
-     * @param mixed $parameters Optional parameters.
+     * @param  mixed $parameters Optional parameters.
      * @return mixed
      */
     protected function getMockConnection($parameters = null)
