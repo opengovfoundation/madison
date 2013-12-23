@@ -117,6 +117,8 @@ return array(
 		'Roumen\Sitemap\SitemapServiceProvider',
 		'Illuminate\Remote\RemoteServiceProvider',
 		'Rocketeer\RocketeerServiceProvider',
+		'GrahamCampbell\Markdown\MarkdownServiceProvider',
+
 	),
 
 	/*
@@ -166,6 +168,7 @@ return array(
 		'Lang'            => 'Illuminate\Support\Facades\Lang',
 		'Log'             => 'Illuminate\Support\Facades\Log',
 		'Mail'            => 'Illuminate\Support\Facades\Mail',
+		'Markdown'        => 'GrahamCampbell\Markdown\Facades\Markdown',
 		'Paginator'       => 'Illuminate\Support\Facades\Paginator',
 		'Password'        => 'Illuminate\Support\Facades\Password',
 		'Profiler'		  => 'Profiler\Facades\Profiler',

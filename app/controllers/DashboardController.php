@@ -24,35 +24,36 @@ class DashboardController extends BaseController{
 			'page_id'		=> 'dashboard',
 			'page_title'	=> 'Dashboard'
 		);
-		
+
 		return View::make('dashboard.index', $data);
 	}
-	
+
 	/**
 	 * 	Document Creation/List or Document Edit Views
 	 */
 	public function getDocs($id = ''){
 		if($id == ''){
 			$docs = Doc::all();
-			
+
 			$data = array(
 				'page_id'		=> 'doc_list',
 				'page_title'	=> 'Edit Documents',
 				'docs'			=> $docs
 			);
-			
+
 			return View::make('dashboard.docs', $data);
 		}
 		else{
 			$doc = Doc::find($id);
 			if(isset($doc)){
-				
 				$data = array(
 					'page_id'		=> 'edit_doc',
 					'page_title'	=> 'Edit ' . $doc->title,
-					'doc'			=> $doc
+					'doc'			=> $doc,
+					// Just get the first content element.  We only have one, now.
+					'contentItem' => $doc->content()->where('parent_id')->first()
 				);
-				
+
 				return View::make('dashboard.edit-doc', $data);
 			}
 			else{
@@ -102,59 +103,46 @@ class DashboardController extends BaseController{
 			return Response::error('404');
 		}
 	}
-	
+
 	/**
 	 * 	PUT route for saving documents
 	 */
 	public function putDocs($id = ''){
-		$doc_items = Input::get('doc_items');
-		$doc_items = json_decode($doc_items);
-		if(!isset($doc_items) || count($doc_items) == 0){
-			return Redirect::to('dashboard/docs/' . $id)->with('error', 'No document content was sent to server.');
-		}
-		
-		foreach($doc_items as $item){
+		$content = Input::get('content');
+		$content_id = Input::get('content_id');
+
+		if($content_id){
 			try{
-				$content = DocContent::find($item->id);
-				$content->doc_id = $id;
-				$content->parent_id = $item->parent_id == 0 ? null : $item->parent_id;
-				$content->child_priority = $item->child_priority;
-				$content->content = $item->content;
-				$content->save();
+				$doc_content = DocContent::find($content_id);
 			}catch (Exception $e){
 				return Redirect::to('dashboard/docs/' . $id)->with('error', 'Error saving the document: ' . $e->getMessage());
 			}
 		}
-		
-		$deleted_ids = Input::get('deleted_ids');
-		if(!empty($deleted_ids)){
-			$deleted_ids = explode(',', $deleted_ids);
-			$deleted_ids = array_unique($deleted_ids);
-			
-			foreach($deleted_ids as $deletedId){
-				try{
-					$toDelete = DocContent::find($deletedId);
-					$toDelete->delete();
-				}catch(Exception $e){
-					return Redirect::to('dashboard/docs/' . $id)->with('error', 'Errors saving the document: ' . $e->getMessage());
-				}
-			}
+		else{
+			$doc_content = new DocContent();
 		}
-		
+
+		$doc_content->doc_id = $id;
+		$doc_content->content = $content;
+		$doc_content->save();
+
+		$doc = Doc::find($id);
+		$doc->store_content($doc, $doc_content);
+
 		return Redirect::to('dashboard/docs/' . $id)->with('success_message', 'Document Saved Successfully');
 	}
-	
+
 	/**
 	 * 	POST route for adding line items to documents
-	 * 		Returns JSON array that includes the new line item's auto-incremented id 
+	 * 		Returns JSON array that includes the new line item's auto-incremented id
 	 */
 	public function postContent($id = ''){
-		
+
 		if($id != ''){
 			return Response::error('404');
 		}
 		$content_details = Input::all();
-		
+
 		$rules = array('doc_id' => 'required',
 						'content' => 'required',
 						'parent_id' => 'required'
@@ -192,45 +180,43 @@ class DashboardController extends BaseController{
 			'page_id'		=> 'verify_users',
 			'page_title'	=> 'Verify Users'
 		);
-		
+
 		return View::make('dashboard.verify-account', $data);
 	}
-	
+
 	/**
 	 * 	Post route for handling verification request responses
 	 */
 	public function postVerification(){
-		
+
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 	Post route for House document import
 	 */
 	public function postImport(){
 		$url = Input::get('url');
 		$import_details = Input::all();
-		
+
 		$rules = array('url' => 'required');
-		
+
 		$validation = Validator::make($import_details, $rules);
-		
+
 		if($validation->fails()){
 			return Redirect::back()->with_input()->with_errors($validation);
 		}
-		
-		
+
+
 		try{
 			$importer = new BillImport($url);//Found in the library folder ( used specifically for Federal House bills )
 			$importer->createDoc();
 		}catch(Exception $e){
 			return Redirect::back()->with_input()->with('error', 'Error: ' . $e->getMessage());
 		}
-		
+
 		return Redirect::back()->with('success_message', "Document created successfully!");
 	}
-	
-	
 }
 

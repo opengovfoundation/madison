@@ -1,32 +1,11 @@
 /**
  * 	Madison Javascript Functions for Administrative document editing
- * 
+ *
  * 	@copyright Copyright &copy; 2013 by The OpenGov Foundation
  *	@license http://www.gnu.org/licenses/ GNU GPL v.3
  */
 
 function saveDocument(){
-	var doc_items = new Array();
-	
-	$('.doc_item').each(function(){
-		var parent = $(this).parent('ol').parent('.doc_item');
-		if(parent.length == 0){
-			parent_id = 0;
-		}
-		else{
-			parent_id = parent.children('div').children('input[name="content_id"]').val();
-		}
-		
-		var content = $(this).children('div').children('.doc_item_content').children('textarea').val();
-		var id = $(this).children('div').children('input[name="content_id"]').val();
-		var child_priority =  $(this).parent().find('> .doc_item' ).index(this);
-		
-		ret = {"id":id, "parent_id":parent_id, "child_priority":"" + child_priority + "", "content":content};
-		doc_items.push(ret);
-	});
-	
-	var input = $('<input>').attr('type', 'hidden').attr('name', 'doc_items').val(JSON.stringify(doc_items));
-	$('#doc_content_form').append($(input));
 }
 
 $(document).ready(function(){
@@ -37,27 +16,14 @@ $(document).ready(function(){
 			toleranceElement: 'div',
 			maxLevels: 0
 		});
-		var input = $('<input>').attr('type', 'hidden').attr('name', 'deleted_ids').attr('id', 'deleted_ids').val(new Array());
-		$('#doc_content_form').append(input);
-		$('#doc_content_form').submit(saveDocument);
-		$('.doc_item .dropdown_arrow').click(dropdown_arrow_handler);
-		$('.delete_doc_item').click(delete_doc_handler);
-		$('.add_doc_item').click(add_doc_handler);
-		$('.edit_info_link').click(function(){
-			if($(this).hasClass('red')){
-				$(this).removeClass('red');
-				$('.edit_doc_info').hide();
-			}
-			else{
-				$(this).addClass('red');
-				$('.edit_doc_info').show();
-			}
-		});
-		$('#save_doc').click(saveDocument);
 	}
 	catch(err){
 		console.log(err);
 	}
+
+    $('#doc_content_form').submit(saveDocument);
+
+    $('#save_doc').click(saveDocument);
 });
 
 function add_doc_handler(){
@@ -112,19 +78,19 @@ function delete_doc_handler(){
 		deletedIds.push($(this).children('.sort_handle').children('input[name="content_id"]').val());
 	});
 	deletedIds.push($(this).siblings('input[name="content_id"]').val());
-	
+
 	if($('#deleted_ids').val().length > 0){
 		var prevIds = $('#deleted_ids').val().split();
 		$('#deleted_ids').val(_.union(prevIds, deletedIds));
 	}else{
 		$('#deleted_ids').val(deletedIds);
 	}
-	
+
 	toRemove.remove();
 }
 function dropdown_arrow_handler(){
 	var sibling_content = $(this).parent('span').siblings('.doc_item_content');
-	
+
 	if(sibling_content.hasClass('expanded')){
 		sibling_content.removeClass('expanded');
 	}

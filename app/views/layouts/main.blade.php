@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<div id="wrap">
-			
+
 			<div id="header-main" class="header row">
 				@include('layouts.header')
 			</div>
@@ -22,7 +22,7 @@
 					@include('partials.topbar')
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="container alerts">
 					@include('errors')
@@ -30,7 +30,7 @@
 					@include('success')
 				</div>
 			</div>
-		
+
 			<div id="main" class="row">
 				<div class="container">
 					<div class="row">
@@ -39,11 +39,11 @@
 				</div>
 				<div id="wrap-footer"></div>
 			</div>
-			
+
 		</div>
 		<div id="footer" class="footer row">
 			@include('layouts.footer')
 		</div>
-		
+
 	</body>
 </html>
