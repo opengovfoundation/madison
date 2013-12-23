@@ -3,11 +3,11 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "9261fa4d7fbff0d67550b1698a75e299",
+    "hash": "2d3d35dc7076959926ad4813ae49148d",
     "packages": [
         {
             "name": "anahkiasen/rocketeer",
-            "version": "dev-master",
+            "version": "0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Anahkiasen/rocketeer.git",
@@ -108,16 +108,16 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "v1.1.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "40db0c96985aab2822edbc4848b3bd2429e02670"
+                "reference": "a11349d39d85bef75a71bd69bd604ac4fb993f03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/40db0c96985aab2822edbc4848b3bd2429e02670",
-                "reference": "40db0c96985aab2822edbc4848b3bd2429e02670",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/a11349d39d85bef75a71bd69bd604ac4fb993f03",
+                "reference": "a11349d39d85bef75a71bd69bd604ac4fb993f03",
                 "shasum": ""
             },
             "require": {
@@ -130,7 +130,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -144,7 +144,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -163,7 +163,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -176,7 +176,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2013-06-16 21:33:03"
+            "time": "2013-12-20 21:39:07"
         },
         {
             "name": "doctrine/cache",
@@ -184,12 +184,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "ff36d4216fef8242c3d8ee97fceee977e3c9b9a6"
+                "reference": "36c4eee5051629524389da376ba270f15765e49f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/ff36d4216fef8242c3d8ee97fceee977e3c9b9a6",
-                "reference": "ff36d4216fef8242c3d8ee97fceee977e3c9b9a6",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/36c4eee5051629524389da376ba270f15765e49f",
+                "reference": "36c4eee5051629524389da376ba270f15765e49f",
                 "shasum": ""
             },
             "require": {
@@ -219,74 +219,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
-                    "email": "jonwage@gmail.com",
-                    "homepage": "http://www.jwage.com/",
-                    "role": "Creator"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com",
-                    "homepage": "http://www.instaclick.com"
-                },
-                {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
-                },
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Johannes M. Schmitt",
-                    "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
-                    "role": "Developer of wrapped JMSSerializerBundle"
-                }
-            ],
-            "description": "Caching library offering an object-oriented API for many cache backends",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "cache",
-                "caching"
-            ],
-            "time": "2013-11-23 16:10:06"
-        },
-        {
-            "name": "doctrine/collections",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/collections.git",
-                "reference": "bcb53776a096a0c64579cc8d8ec0db62f1109fbc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/collections/zipball/bcb53776a096a0c64579cc8d8ec0db62f1109fbc",
-                "reference": "bcb53776a096a0c64579cc8d8ec0db62f1109fbc",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Collections\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -311,46 +244,40 @@
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
-            "description": "Collections Abstraction library",
+            "description": "Caching library offering an object-oriented API for many cache backends",
             "homepage": "http://www.doctrine-project.org",
             "keywords": [
-                "array",
-                "collections",
-                "iterator"
+                "cache",
+                "caching"
             ],
-            "time": "2013-08-29 16:56:45"
+            "time": "2013-12-18 17:21:03"
         },
         {
-            "name": "doctrine/common",
+            "name": "doctrine/collections",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/common.git",
-                "reference": "ad26be7787690d50d572d39a8d2ba5f1542a6d8f"
+                "url": "https://github.com/doctrine/collections.git",
+                "reference": "819871759a4d41dab244d358507bd27d0e8b1e33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/ad26be7787690d50d572d39a8d2ba5f1542a6d8f",
-                "reference": "ad26be7787690d50d572d39a8d2ba5f1542a6d8f",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/819871759a4d41dab244d358507bd27d0e8b1e33",
+                "reference": "819871759a4d41dab244d358507bd27d0e8b1e33",
                 "shasum": ""
             },
             "require": {
-                "doctrine/annotations": "1.*",
-                "doctrine/cache": "1.*",
-                "doctrine/collections": "1.*",
-                "doctrine/inflector": "1.*",
-                "doctrine/lexer": "1.*",
                 "php": ">=5.3.2"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
                 "psr-0": {
-                    "Doctrine\\Common\\": "lib/"
+                    "Doctrine\\Common\\Collections\\": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -359,7 +286,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -384,6 +311,82 @@
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
+            "description": "Collections Abstraction library",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "array",
+                "collections",
+                "iterator"
+            ],
+            "time": "2013-12-21 19:19:27"
+        },
+        {
+            "name": "doctrine/common",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/common.git",
+                "reference": "d2d2e0a64d4686dd0908c9226c8acfe5bcb4089f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/d2d2e0a64d4686dd0908c9226c8acfe5bcb4089f",
+                "reference": "d2d2e0a64d4686dd0908c9226c8acfe5bcb4089f",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "1.*",
+                "doctrine/cache": "1.*",
+                "doctrine/collections": "1.*",
+                "doctrine/inflector": "1.*",
+                "doctrine/lexer": "1.*",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "http://jmsyst.com",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
             "description": "Common Library for Doctrine projects",
             "homepage": "http://www.doctrine-project.org",
             "keywords": [
@@ -393,7 +396,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2013-11-19 22:17:03"
+            "time": "2013-12-23 05:55:47"
         },
         {
             "name": "doctrine/dbal",
@@ -401,12 +404,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "c3448dc0a163becd5acb50199049996c53cade78"
+                "reference": "7195d201b86daf071fc50f7c47450265afc7e310"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/c3448dc0a163becd5acb50199049996c53cade78",
-                "reference": "c3448dc0a163becd5acb50199049996c53cade78",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/7195d201b86daf071fc50f7c47450265afc7e310",
+                "reference": "7195d201b86daf071fc50f7c47450265afc7e310",
                 "shasum": ""
             },
             "require": {
@@ -432,7 +435,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -459,7 +462,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-11-12 12:38:29"
+            "time": "2013-12-22 10:50:36"
         },
         {
             "name": "doctrine/inflector",
@@ -467,12 +470,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "8b4b3ccec7aafc596e2fc1e593c9f2e78f939c8c"
+                "reference": "a81c334f2764b09e2f13a55cfd8fe3233946f728"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/8b4b3ccec7aafc596e2fc1e593c9f2e78f939c8c",
-                "reference": "8b4b3ccec7aafc596e2fc1e593c9f2e78f939c8c",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/a81c334f2764b09e2f13a55cfd8fe3233946f728",
+                "reference": "a81c334f2764b09e2f13a55cfd8fe3233946f728",
                 "shasum": ""
             },
             "require": {
@@ -495,7 +498,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -528,7 +531,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2013-04-10 16:14:30"
+            "time": "2013-12-21 19:19:50"
         },
         {
             "name": "doctrine/lexer",
@@ -536,12 +539,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/lexer.git",
-                "reference": "57d5a024b48709c56ce5bb93072948359220f36c"
+                "reference": "f12a5f74e5f4a9e3f558f3288504e121edfad891"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/lexer/zipball/57d5a024b48709c56ce5bb93072948359220f36c",
-                "reference": "57d5a024b48709c56ce5bb93072948359220f36c",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/f12a5f74e5f4a9e3f558f3288504e121edfad891",
+                "reference": "f12a5f74e5f4a9e3f558f3288504e121edfad891",
                 "shasum": ""
             },
             "require": {
@@ -573,7 +576,7 @@
                     "email": "roman@code-factory.org"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -585,23 +588,24 @@
                 "lexer",
                 "parser"
             ],
-            "time": "2013-11-19 06:15:26"
+            "time": "2013-12-20 21:39:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
-            "version": "v0.4.2",
+            "version": "v0.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elasticsearch/elasticsearch-php.git",
-                "reference": "9293ee7fd78dbc44c1003cd94dfa2e757e36e974"
+                "reference": "f8116d7dc79e6602714e0bcf5a97f1753ef6ca9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elasticsearch/elasticsearch-php/zipball/9293ee7fd78dbc44c1003cd94dfa2e757e36e974",
-                "reference": "9293ee7fd78dbc44c1003cd94dfa2e757e36e974",
+                "url": "https://api.github.com/repos/elasticsearch/elasticsearch-php/zipball/f8116d7dc79e6602714e0bcf5a97f1753ef6ca9f",
+                "reference": "f8116d7dc79e6602714e0bcf5a97f1753ef6ca9f",
                 "shasum": ""
             },
             "require": {
+                "ext-curl": "*",
                 "guzzle/guzzle": "~3.7",
                 "monolog/monolog": "~1.5",
                 "php": ">=5.3.9",
@@ -639,7 +643,7 @@
                 "elasticsearch",
                 "search"
             ],
-            "time": "2013-11-13 05:02:12"
+            "time": "2013-12-02 15:31:03"
         },
         {
             "name": "filp/whoops",
@@ -693,17 +697,71 @@
             "time": "2013-06-10 12:22:13"
         },
         {
+            "name": "graham-campbell/markdown",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GrahamCampbell/Laravel-Markdown.git",
+                "reference": "6073171f3d5c5544138b95099b6107e0f3e670f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/6073171f3d5c5544138b95099b6107e0f3e670f2",
+                "reference": "6073171f3d5c5544138b95099b6107e0f3e670f2",
+                "shasum": ""
+            },
+            "require": {
+                "michelf/php-markdown": "1.4.*",
+                "orchestra/testbench": "2.0.*|2.1.*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.8.*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GrahamCampbell\\Markdown": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache License 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@mineuk.com"
+                }
+            ],
+            "description": "Markdown Is A Simple PHP Markdown Wrapper For Laravel 4",
+            "keywords": [
+                "Graham Campbell",
+                "GrahamCampbell",
+                "Laravel Markdown",
+                "Laravel-Markdown",
+                "framework",
+                "laravel",
+                "markdown",
+                "markdown wrapper",
+                "php markdown",
+                "php markdown wrapper"
+            ],
+            "time": "2013-12-12 00:34:54"
+        },
+        {
             "name": "guzzle/guzzle",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "bc0d57f10ca5709a06b688e7fa5cb4432bc00804"
+                "reference": "e0df12243ee08a4d6fca3241142212428dfd632e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/bc0d57f10ca5709a06b688e7fa5cb4432bc00804",
-                "reference": "bc0d57f10ca5709a06b688e7fa5cb4432bc00804",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/e0df12243ee08a4d6fca3241142212428dfd632e",
+                "reference": "e0df12243ee08a4d6fca3241142212428dfd632e",
                 "shasum": ""
             },
             "require": {
@@ -747,13 +805,13 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.7-dev"
+                    "dev-master": "3.8-dev"
                 }
             },
             "autoload": {
                 "psr-0": {
-                    "Guzzle\\Tests": "tests/",
-                    "Guzzle": "src/"
+                    "Guzzle": "src/",
+                    "Guzzle\\Tests": "tests/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -782,7 +840,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2013-11-22 17:54:40"
+            "time": "2013-12-22 22:25:34"
         },
         {
             "name": "illuminate/remote",
@@ -925,12 +983,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "36bde1d68370a852fc37f41340c78525efdbff73"
+                "reference": "426c9e0e39915eedd2861b147ba6701443136e3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/36bde1d68370a852fc37f41340c78525efdbff73",
-                "reference": "36bde1d68370a852fc37f41340c78525efdbff73",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/426c9e0e39915eedd2861b147ba6701443136e3d",
+                "reference": "426c9e0e39915eedd2861b147ba6701443136e3d",
                 "shasum": ""
             },
             "require": {
@@ -1030,7 +1088,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2013-11-25 17:15:20"
+            "time": "2013-12-06 01:42:26"
         },
         {
             "name": "loic-sharma/profiler",
@@ -1074,17 +1132,68 @@
             "time": "2013-06-17 17:00:15"
         },
         {
+            "name": "michelf/php-markdown",
+            "version": "dev-lib",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michelf/php-markdown.git",
+                "reference": "6f952ee180e9bd345f3dd6005aa11e0f5dcbd1b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/6f952ee180e9bd345f3dd6005aa11e0f5dcbd1b8",
+                "reference": "6f952ee180e9bd345f3dd6005aa11e0f5dcbd1b8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-lib": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Michelf": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Michel Fortin",
+                    "email": "michel.fortin@michelf.ca",
+                    "homepage": "http://michelf.ca/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "John Gruber",
+                    "homepage": "http://daringfireball.net/"
+                }
+            ],
+            "description": "PHP Markdown",
+            "homepage": "http://michelf.ca/projects/php-markdown/",
+            "keywords": [
+                "markdown"
+            ],
+            "time": "2013-11-29 21:49:31"
+        },
+        {
             "name": "monolog/monolog",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "6f5b3d2a9c63a857d40d200f1bb9f62991c07bf8"
+                "reference": "c9db00f8821b2cc7238732529f8d4007296a630c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/6f5b3d2a9c63a857d40d200f1bb9f62991c07bf8",
-                "reference": "6f5b3d2a9c63a857d40d200f1bb9f62991c07bf8",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c9db00f8821b2cc7238732529f8d4007296a630c",
+                "reference": "c9db00f8821b2cc7238732529f8d4007296a630c",
                 "shasum": ""
             },
             "require": {
@@ -1138,20 +1247,20 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2013-11-25 13:58:14"
+            "time": "2013-12-14 13:52:08"
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "b0450b539d1567b2acee6467b6b323a8547b5559"
+                "reference": "03ede52a1f360441b5826cb8a798e0d0a919731f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/b0450b539d1567b2acee6467b6b323a8547b5559",
-                "reference": "b0450b539d1567b2acee6467b6b323a8547b5559",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/03ede52a1f360441b5826cb8a798e0d0a919731f",
+                "reference": "03ede52a1f360441b5826cb8a798e0d0a919731f",
                 "shasum": ""
             },
             "require": {
@@ -1184,7 +1293,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2013-11-23 15:22:05"
+            "time": "2013-12-05 04:13:29"
         },
         {
             "name": "nikic/php-parser",
@@ -1192,12 +1301,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "7f4ab26732c6c0dcfeef98ee94452977ac26e82c"
+                "reference": "0353c921bd12980399e3e6404ea3931b3356e15a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/7f4ab26732c6c0dcfeef98ee94452977ac26e82c",
-                "reference": "7f4ab26732c6c0dcfeef98ee94452977ac26e82c",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/0353c921bd12980399e3e6404ea3931b3356e15a",
+                "reference": "0353c921bd12980399e3e6404ea3931b3356e15a",
                 "shasum": ""
             },
             "require": {
@@ -1229,20 +1338,66 @@
                 "parser",
                 "php"
             ],
-            "time": "2013-11-15 19:27:56"
+            "time": "2013-11-27 19:33:56"
         },
         {
-            "name": "patchwork/utf8",
-            "version": "v1.1.15",
+            "name": "orchestra/testbench",
+            "version": "2.0.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "2b13126f572501ce9806846349344f1c6b20b545"
+                "url": "https://github.com/orchestral/testbench.git",
+                "reference": "61d4b98b170486522ed16fe32093f083bbe4513a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/2b13126f572501ce9806846349344f1c6b20b545",
-                "reference": "2b13126f572501ce9806846349344f1c6b20b545",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/61d4b98b170486522ed16fe32093f083bbe4513a",
+                "reference": "61d4b98b170486522ed16fe32093f083bbe4513a",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "4.0.*",
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Orchestra\\Testbench": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mior Muhammad Zaki",
+                    "email": "crynobone@gmail.com",
+                    "homepage": "https://github.com/crynobone"
+                }
+            ],
+            "description": "Laravel 4 Package Unit Testing Helper",
+            "keywords": [
+                "laravel"
+            ],
+            "time": "2013-12-18 23:31:26"
+        },
+        {
+            "name": "patchwork/utf8",
+            "version": "v1.1.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
+                "reference": "bc719e850b57791c1024d06f9fe7d474348e7ba6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/bc719e850b57791c1024d06f9fe7d474348e7ba6",
+                "reference": "bc719e850b57791c1024d06f9fe7d474348e7ba6",
                 "shasum": ""
             },
             "require": {
@@ -1280,7 +1435,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2013-11-23 12:47:40"
+            "time": "2013-12-07 12:20:20"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -1288,16 +1443,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "480bc5c27794607e9f975bb84d08c447e30af94f"
+                "reference": "4bd9a546ab5cfa9838eaabe4e0c32643e4eed412"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/480bc5c27794607e9f975bb84d08c447e30af94f",
-                "reference": "480bc5c27794607e9f975bb84d08c447e30af94f",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/4bd9a546ab5cfa9838eaabe4e0c32643e4eed412",
+                "reference": "4bd9a546ab5cfa9838eaabe4e0c32643e4eed412",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.0.0"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "1.*"
             },
             "suggest": {
                 "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
@@ -1332,6 +1490,21 @@
                 {
                     "name": "Jim Wigginton",
                     "email": "terrafrost@php.net",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Patrick Monnerat",
+                    "email": "pm@datasphere.ch",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Andreas Fischer",
+                    "email": "bantu@phpbb.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Hans-Jürgen Petrich",
+                    "email": "petrich@tronic-media.com",
                     "role": "Developer"
                 }
             ],
@@ -1342,6 +1515,7 @@
                 "aes",
                 "asn.1",
                 "asn1",
+                "blowfish",
                 "crypto",
                 "cryptography",
                 "encryption",
@@ -1351,10 +1525,11 @@
                 "signature",
                 "signing",
                 "ssh",
+                "twofish",
                 "x.509",
                 "x509"
             ],
-            "time": "2013-11-25 21:52:04"
+            "time": "2013-12-22 17:53:35"
         },
         {
             "name": "pimple/pimple",
@@ -1408,12 +1583,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nrk/predis.git",
-                "reference": "4e664c6c90824bc5161aea1981235adf315a6949"
+                "reference": "d2debfd43eb8a5201204bb70275a0ef83b3d11ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/4e664c6c90824bc5161aea1981235adf315a6949",
-                "reference": "4e664c6c90824bc5161aea1981235adf315a6949",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/d2debfd43eb8a5201204bb70275a0ef83b3d11ff",
+                "reference": "d2debfd43eb8a5201204bb70275a0ef83b3d11ff",
                 "shasum": ""
             },
             "require": {
@@ -1447,7 +1622,7 @@
                 "predis",
                 "redis"
             ],
-            "time": "2013-11-22 14:17:50"
+            "time": "2013-12-22 16:51:18"
         },
         {
             "name": "psr/log",
@@ -1455,12 +1630,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "134145e8d08ddcb9bb8f49a2feb9aa1f2393650c"
+                "reference": "5144da9525d24346bf009ff28f10cbaa1f0f166e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/134145e8d08ddcb9bb8f49a2feb9aa1f2393650c",
-                "reference": "134145e8d08ddcb9bb8f49a2feb9aa1f2393650c",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/5144da9525d24346bf009ff28f10cbaa1f0f166e",
+                "reference": "5144da9525d24346bf009ff28f10cbaa1f0f166e",
                 "shasum": ""
             },
             "type": "library",
@@ -1490,24 +1665,24 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2013-11-19 10:21:35"
+            "time": "2013-12-05 15:25:07"
         },
         {
             "name": "roumen/sitemap",
-            "version": "dev-master",
+            "version": "v2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RoumenDamianoff/laravel4-sitemap.git",
-                "reference": "0f65ff070c03d5dd418b2ae380328438d2a2c9d4"
+                "reference": "d48ec2b635e5c8d2e42321d37a981e98c489fc06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RoumenDamianoff/laravel4-sitemap/zipball/0f65ff070c03d5dd418b2ae380328438d2a2c9d4",
-                "reference": "0f65ff070c03d5dd418b2ae380328438d2a2c9d4",
+                "url": "https://api.github.com/repos/RoumenDamianoff/laravel4-sitemap/zipball/d48ec2b635e5c8d2e42321d37a981e98c489fc06",
+                "reference": "d48ec2b635e5c8d2e42321d37a981e98c489fc06",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "4.*",
+                "illuminate/support": "~4",
                 "php": ">=5.3.0"
             },
             "type": "library",
@@ -1524,7 +1699,7 @@
                 {
                     "name": "Roumen Damianoff",
                     "email": "roumen@dawebs.com",
-                    "homepage": "http://roumen.it/projects/laravel4-assets",
+                    "homepage": "http://roumen.it/projects/laravel4-sitemap",
                     "role": "Developer"
                 }
             ],
@@ -1533,20 +1708,20 @@
                 "Sitemap",
                 "laravel"
             ],
-            "time": "2013-10-30 10:23:55"
+            "time": "2013-12-16 07:55:41"
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.0.2",
+            "version": "v5.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "f3917ecef35a4e4d98b303eb9fee463bc983f379"
+                "reference": "32edc3b0de0fdc1b10f5c4912e8677b3f411a230"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/f3917ecef35a4e4d98b303eb9fee463bc983f379",
-                "reference": "f3917ecef35a4e4d98b303eb9fee463bc983f379",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/32edc3b0de0fdc1b10f5c4912e8677b3f411a230",
+                "reference": "32edc3b0de0fdc1b10f5c4912e8677b3f411a230",
                 "shasum": ""
             },
             "require": {
@@ -1582,7 +1757,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2013-08-30 12:35:21"
+            "time": "2013-12-03 13:33:24"
         },
         {
             "name": "symfony/browser-kit",
@@ -1591,12 +1766,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/BrowserKit.git",
-                "reference": "7149642bc4ca2a13bc759b62506ab1c67ba39901"
+                "reference": "63cb00e12964f186abcb28e8005407c3da67bc5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/7149642bc4ca2a13bc759b62506ab1c67ba39901",
-                "reference": "7149642bc4ca2a13bc759b62506ab1c67ba39901",
+                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/63cb00e12964f186abcb28e8005407c3da67bc5c",
+                "reference": "63cb00e12964f186abcb28e8005407c3da67bc5c",
                 "shasum": ""
             },
             "require": {
@@ -1637,7 +1812,7 @@
             ],
             "description": "Symfony BrowserKit Component",
             "homepage": "http://symfony.com",
-            "time": "2013-11-23 21:11:41"
+            "time": "2013-12-17 08:03:37"
         },
         {
             "name": "symfony/console",
@@ -1646,12 +1821,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "6027e11bf64235b1d8b9b4a58640256c0c73fdc4"
+                "reference": "15031c5ca7583997de218c1f5b1b406f621d18c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/6027e11bf64235b1d8b9b4a58640256c0c73fdc4",
-                "reference": "6027e11bf64235b1d8b9b4a58640256c0c73fdc4",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/15031c5ca7583997de218c1f5b1b406f621d18c3",
+                "reference": "15031c5ca7583997de218c1f5b1b406f621d18c3",
                 "shasum": ""
             },
             "require": {
@@ -1690,7 +1865,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-11-25 14:49:41"
+            "time": "2013-12-15 18:46:51"
         },
         {
             "name": "symfony/css-selector",
@@ -1750,12 +1925,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Debug.git",
-                "reference": "5da7e8c937fac1e82ebc2c096152fed2d14d09e6"
+                "reference": "93f26330c7750628772e074c90dacf27ddf48b6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Debug/zipball/5da7e8c937fac1e82ebc2c096152fed2d14d09e6",
-                "reference": "5da7e8c937fac1e82ebc2c096152fed2d14d09e6",
+                "url": "https://api.github.com/repos/symfony/Debug/zipball/93f26330c7750628772e074c90dacf27ddf48b6b",
+                "reference": "93f26330c7750628772e074c90dacf27ddf48b6b",
                 "shasum": ""
             },
             "require": {
@@ -1797,7 +1972,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "http://symfony.com",
-            "time": "2013-11-25 15:00:46"
+            "time": "2013-12-12 16:08:59"
         },
         {
             "name": "symfony/dom-crawler",
@@ -1806,12 +1981,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "4dc2c596b28884892da24729d9b32d01d89c1a59"
+                "reference": "7a7239828861dfbe883da4b834ac4dd07a8b056f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/4dc2c596b28884892da24729d9b32d01d89c1a59",
-                "reference": "4dc2c596b28884892da24729d9b32d01d89c1a59",
+                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/7a7239828861dfbe883da4b834ac4dd07a8b056f",
+                "reference": "7a7239828861dfbe883da4b834ac4dd07a8b056f",
                 "shasum": ""
             },
             "require": {
@@ -1850,7 +2025,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "http://symfony.com",
-            "time": "2013-10-30 08:30:20"
+            "time": "2013-12-03 14:51:26"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1859,12 +2034,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "2d8ece3c610726a73d0c95c885134efea182610e"
+                "reference": "30b2f954258361a10301189ddad8522462321924"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/2d8ece3c610726a73d0c95c885134efea182610e",
-                "reference": "2d8ece3c610726a73d0c95c885134efea182610e",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/30b2f954258361a10301189ddad8522462321924",
+                "reference": "30b2f954258361a10301189ddad8522462321924",
                 "shasum": ""
             },
             "require": {
@@ -1904,7 +2079,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2013-10-13 06:32:10"
+            "time": "2013-12-03 14:51:26"
         },
         {
             "name": "symfony/filesystem",
@@ -2007,12 +2182,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "c4522cb62c25f3e6d481a93701d4d7814ab434a8"
+                "reference": "a77fc0dfbcd5fdc97f78522a36c531b86fd09ae0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/c4522cb62c25f3e6d481a93701d4d7814ab434a8",
-                "reference": "c4522cb62c25f3e6d481a93701d4d7814ab434a8",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/a77fc0dfbcd5fdc97f78522a36c531b86fd09ae0",
+                "reference": "a77fc0dfbcd5fdc97f78522a36c531b86fd09ae0",
                 "shasum": ""
             },
             "require": {
@@ -2048,7 +2223,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-11-25 14:49:41"
+            "time": "2013-12-17 08:02:48"
         },
         {
             "name": "symfony/http-kernel",
@@ -2057,12 +2232,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel.git",
-                "reference": "46aa5b516dded0a8b1994b0a19e916bb6bea4f50"
+                "reference": "be35a7047d2391d062026984c979972131b47007"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/46aa5b516dded0a8b1994b0a19e916bb6bea4f50",
-                "reference": "46aa5b516dded0a8b1994b0a19e916bb6bea4f50",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/be35a7047d2391d062026984c979972131b47007",
+                "reference": "be35a7047d2391d062026984c979972131b47007",
                 "shasum": ""
             },
             "require": {
@@ -2119,7 +2294,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "http://symfony.com",
-            "time": "2013-11-25 14:49:41"
+            "time": "2013-12-16 15:25:46"
         },
         {
             "name": "symfony/process",
@@ -2175,12 +2350,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing.git",
-                "reference": "7d41463094752e87a0fae60316d236abecb8a034"
+                "reference": "f3622da652fc6a73ce9d85dbee4ec7ef425c8349"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Routing/zipball/7d41463094752e87a0fae60316d236abecb8a034",
-                "reference": "7d41463094752e87a0fae60316d236abecb8a034",
+                "url": "https://api.github.com/repos/symfony/Routing/zipball/f3622da652fc6a73ce9d85dbee4ec7ef425c8349",
+                "reference": "f3622da652fc6a73ce9d85dbee4ec7ef425c8349",
                 "shasum": ""
             },
             "require": {
@@ -2224,7 +2399,7 @@
             ],
             "description": "Symfony Routing Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-29 19:41:41"
+            "time": "2013-12-14 11:06:34"
         },
         {
             "name": "symfony/translation",
@@ -2233,12 +2408,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation.git",
-                "reference": "809f030dbc3a3e7adfdaff0b52bf21ce07289195"
+                "reference": "6b255d216d206983598d16906dee9dc63a2e8ee4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Translation/zipball/809f030dbc3a3e7adfdaff0b52bf21ce07289195",
-                "reference": "809f030dbc3a3e7adfdaff0b52bf21ce07289195",
+                "url": "https://api.github.com/repos/symfony/Translation/zipball/6b255d216d206983598d16906dee9dc63a2e8ee4",
+                "reference": "6b255d216d206983598d16906dee9dc63a2e8ee4",
                 "shasum": ""
             },
             "require": {
@@ -2279,35 +2454,30 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-11-25 14:49:41"
+            "time": "2013-11-28 06:43:58"
         },
         {
             "name": "symfony/yaml",
-            "version": "dev-master",
+            "version": "2.1.x-dev",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "9de619fff37677c6a4d71aba0fc8ede5c5186c9a"
+                "reference": "347a7a02204433c6926ecc3f13e805bdc30e8f9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/9de619fff37677c6a4d71aba0fc8ede5c5186c9a",
-                "reference": "9de619fff37677c6a4d71aba0fc8ede5c5186c9a",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/347a7a02204433c6926ecc3f13e805bdc30e8f9f",
+                "reference": "347a7a02204433c6926ecc3f13e805bdc30e8f9f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.5-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Yaml\\": ""
+                    "Symfony\\Component\\Yaml": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2326,7 +2496,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2013-11-24 20:17:07"
+            "time": "2013-05-10 00:09:46"
         }
     ],
     "packages-dev": [
@@ -2338,7 +2508,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "illuminate/remote": 20,
-        "anahkiasen/rocketeer": 20
+        "graham-campbell/markdown": 20
     },
     "platform": [
 

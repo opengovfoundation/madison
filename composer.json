@@ -11,12 +11,12 @@
     ],
 	"require": {
 		"laravel/framework": "4.0.*",
-		"roumen/sitemap": "*",
+		"roumen/sitemap": "2.3.*",
 		"loic-sharma/profiler": "1.1.*",
-		"symfony/yaml": "*",
+		"symfony/yaml": "2.1.*",
 		"elasticsearch/elasticsearch": "~0.4",
 		"illuminate/remote": "4.1.*@dev",
-		"anahkiasen/rocketeer": "dev-master",
+		"anahkiasen/rocketeer": "0.9.*",
 		"graham-campbell/markdown": "dev-master"
 	},
 	"autoload": {
