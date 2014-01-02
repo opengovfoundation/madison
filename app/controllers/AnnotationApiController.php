@@ -22,14 +22,10 @@ class AnnotationApiController extends ApiController{
 		$es = $this->es;
 		$params = $this->params;
 		
-		//If no id requested, return 404
-		if($id === null){
-			
-			App::abort(404, 'No annotation id passed.');
+		if($id !== null){
+			$params['id'] = $id;	
 		}
 		
-		$params['id'] = $id;
-
 		try{
 			$results = $es->get($params);	
 		}catch(Elasticsearch\Common\Exceptions\Missing404Exception $e){
@@ -112,13 +108,26 @@ class AnnotationApiController extends ApiController{
 	public function getSearch(){
 		$es = $this->es;
 
+		$uri = Input::get('uri');
+
 		$params['index'] = "annotator";
 		$params['type'] = "annotation";
-		$params['body']['query']['match_all'] = array();
 
+		if($uri !== null){	
+			$params['body']['query']['match']['uri'] = $uri;	
+		}
+		
 		$results = $es->search($params);
 
-		return $results;
+		$total = $results['hits']['total'];
+
+		$rows = array('total'=>$total, 'rows' => array());
+
+		foreach($results['hits']['hits'] as $result){
+			array_push($rows['rows'], $result);
+		}
+
+		return $rows;
 	}
 }
 

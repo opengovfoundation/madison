@@ -30,11 +30,12 @@ Route::controller('dashboard', 'DashboardController');
 
 //Api Routes
 Route::get('api', 'ApiController@getIndex');
-Route::get('api/annotation/search', 'AnnotationApiController@getSearch');
-Route::post('api/annotation', 'AnnotationApiController@postIndex');
-Route::get('api/annotation/{id}', 'AnnotationApiController@getIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
-Route::put('api/annotation/{id}', 'AnnotationApiController@putIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
-Route::delete('api/annotation/{id}', 'AnnotationApiController@deleteIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+Route::get('api/annotations/search', 'AnnotationApiController@getSearch');
+Route::get('api/annotations', 'AnnotationApiController@getSearch');
+Route::post('api/annotations', 'AnnotationApiController@postIndex');
+Route::get('api/annotations/{id}', 'AnnotationApiController@getIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+Route::put('api/annotations/{id}', 'AnnotationApiController@putIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+Route::delete('api/annotations/{id}', 'AnnotationApiController@deleteIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
 
 
 
