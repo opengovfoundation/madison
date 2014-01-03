@@ -3,6 +3,8 @@ class Annotation{
 	const INDEX = 'annotator';
 	const TYPE = 'annotation';
 
+	protected $body;
+
 	//Annotation format described at https://github.com/okfn/annotator/wiki/Annotation-format
 	public $id;
 	public $annotator_schema_version = 'v1.0';
@@ -20,9 +22,31 @@ class Annotation{
 	public function __construct($id = null, $source = null){
 		$this->id = $id;
 
-		foreach($source as $key => $value){
-			$this->$key = $value;
+		if(isset($source)){
+			foreach($source as $key => $value){
+				$this->$key = $value;
+			}
 		}
+	}
+
+	public function save($es){
+		if(!isset($this->body)){
+			throw new Exception('Annotation body not found.  Cannot save.');
+		}
+
+		$params = array(
+			'index'	=> self::INDEX,
+			'type'	=> self::TYPE,
+			'body'	=> $this->body
+		);
+
+		$results = $es->index($params);
+		
+		return $results['_id'];
+	}
+
+	public function setBody($body){
+		$this->body = $body;
 	}
 
 	public static function find($es, $id){

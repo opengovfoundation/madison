@@ -37,18 +37,14 @@ class AnnotationApiController extends ApiController{
 	}
 
 	public function postIndex(){
-		$es = $this->es;
-		$params = $this->params;
-
 		$body = Input::all();
-		//TODO: check required fields
-		
-		$params['body'] = $body;
 
-		//TODO: add try-catch block here
-		$ret = $es->index($params);
+		$annotation = new Annotation();
+		$annotation->setBody($body); 
 
-		return $ret;
+		$id = $annotation->save($this->es);
+
+		return Redirect::to('/api/annotations/' . $id);
 	}
 
 	public function putIndex($id = null){
