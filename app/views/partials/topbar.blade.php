@@ -5,7 +5,7 @@
 			<ul class="dropdown-menu">
 				<li><a href="{{ URL::to('docs') }}">View All</a></li>
 				@foreach($docs as $doc)
-					<li><a href="{{ URL::to('doc/' . $doc->slug) }}">{{ $doc->title }}</a></li>
+					<li><a href="{{ URL::to('docs/' . $doc->slug) }}">{{ $doc->title }}</a></li>
 				@endforeach
 	        </ul>
 		</li>
