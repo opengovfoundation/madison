@@ -22,9 +22,9 @@ class AnnotationApiController extends ApiController{
 
 		try{
 			if($id !== null){
-				$results = $this->getAnnotation($id);
+				$results = Annotation::find($this->es, $id);
 			}else{
-				$results = $this->getAllAnnotations();
+				$results = Annotation::all($this->es);
 			}
 
 		}catch(Elasticsearch\Common\Exceptions\Missing404Exception $e){
@@ -127,35 +127,6 @@ class AnnotationApiController extends ApiController{
 		}
 
 		return Response::json($rows);
-	}
-
-	protected function getAnnotation($id){
-		if($id === null){
-			throw new Exception('Cannot retrieve annotation with null id');
-		}
-
-		$es = $this->es;
-		$params = $this->params;
-
-		$params['id'] = $id;
-		$annotation = $es->get($params);
-
-		return $annotation['source'];
-	}
-
-	protected function getAllAnnotations(){
-		$es = $this->es;
-		$params = $this->params;
-
-		$params['body']['query']['match_all'] = array();
-		$results = $es->search($params);
-		$results = $results['hits']['hits'];
-		$annotations = array();
-		foreach($results as $annotation){
-			array_push($annotations, $annotation['_source']);
-		}
-
-		return $annotations;
 	}
 }
 
