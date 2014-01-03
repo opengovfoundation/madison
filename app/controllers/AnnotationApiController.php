@@ -26,7 +26,6 @@ class AnnotationApiController extends ApiController{
 			}else{
 				$results = Annotation::all($this->es);
 			}
-
 		}catch(Elasticsearch\Common\Exceptions\Missing404Exception $e){
 			App::abort(404, 'Id not found');
 		}catch(Exception $e){
@@ -79,24 +78,18 @@ class AnnotationApiController extends ApiController{
 	public function deleteIndex($id = null){
 		//If no id requested, return 404
 		if($id === null){
-			
 			App::abort(404, 'No annotation id passed.');
 		}
 
-		$es = $this->es;
-		$params = $this->params;
-
-		$params['id'] = $id;
-
 		try{
-			$results = $es->delete($params);	
+			$ret = Annotation::delete($this->es, $id);
 		}catch(Elasticsearch\Common\Exceptions\Missing404Exception $e){
 			App::abort(404, 'Id not found');
 		}catch(Exception $e){
 			App::abort(404, $e->getMessage());
 		}
 		
-		return $results;
+		return Response::make(null, 204);
 
 	}
 

@@ -89,5 +89,15 @@ class Annotation{
 
 		return $annotations;
 	}
+
+	public static function delete($es, $id){
+		$params = array(
+			'index'	=> self::INDEX,
+			'type'	=> self::TYPE,
+			'id'	=> $id
+		);
+
+		return $es->delete($params);
+	}
 }
 
