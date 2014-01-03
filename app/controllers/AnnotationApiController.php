@@ -19,22 +19,21 @@ class AnnotationApiController extends ApiController{
 	//		404 with error message if id not found,
 	//		404 if no id passed
 	public function getIndex($id = null){
-		$es = $this->es;
-		$params = $this->params;
-		
-		if($id !== null){
-			$params['id'] = $id;	
-		}
-		
+
 		try{
-			$results = $es->get($params);	
+			if($id !== null){
+				$results = $this->getAnnotation($id);
+			}else{
+				$results = $this->getAllAnnotations();
+			}
+
 		}catch(Elasticsearch\Common\Exceptions\Missing404Exception $e){
 			App::abort(404, 'Id not found');
 		}catch(Exception $e){
 			App::abort(404, $e->getMessage());
 		}
 
-		return $results;
+		return Response::json($results);
 	}
 
 	public function postIndex(){
@@ -121,13 +120,42 @@ class AnnotationApiController extends ApiController{
 
 		$total = $results['hits']['total'];
 
-		$rows = array('total'=>$total, 'rows' => array());
+		$rows = array('rows' => array(), 'total'=>$total);
 
 		foreach($results['hits']['hits'] as $result){
 			array_push($rows['rows'], $result);
 		}
 
-		return $rows;
+		return Response::json($rows);
+	}
+
+	protected function getAnnotation($id){
+		if($id === null){
+			throw new Exception('Cannot retrieve annotation with null id');
+		}
+
+		$es = $this->es;
+		$params = $this->params;
+
+		$params['id'] = $id;
+		$annotation = $es->get($params);
+
+		return $annotation['source'];
+	}
+
+	protected function getAllAnnotations(){
+		$es = $this->es;
+		$params = $this->params;
+
+		$params['body']['query']['match_all'] = array();
+		$results = $es->search($params);
+		$results = $results['hits']['hits'];
+		$annotations = array();
+		foreach($results as $annotation){
+			array_push($annotations, $annotation['_source']);
+		}
+
+		return $annotations;
 	}
 }
 

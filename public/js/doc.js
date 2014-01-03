@@ -9,9 +9,9 @@ $(document).ready(function(){
 			'uri': window.location.href
 		},
 		prefix: '/api/annotations',
-		loadFromSearch: {
-			'uri': window.location.href
-		},
+		//loadFromSearch: {
+		//	'uri': window.location.href
+		//},
 		urls: {
 			create: 	'',
 			read: 		'/:id',
@@ -20,4 +20,5 @@ $(document).ready(function(){
 			search: 	'/search'
 		}
 	});
+
 });

@@ -13,7 +13,7 @@ Route::get('/', 'PageController@home');
 
 //Document Routes
 Route::get('docs', 'DocController@index');
-Route::get('doc/{slug}', 'DocController@index');
+Route::get('docs/{slug}', 'DocController@index');
 
 //User Routes
 Route::get('user/{id}', 'UserController@getIndex')->where(array('id' => '[0-9]+'));
@@ -31,7 +31,7 @@ Route::controller('dashboard', 'DashboardController');
 //Api Routes
 Route::get('api', 'ApiController@getIndex');
 Route::get('api/annotations/search', 'AnnotationApiController@getSearch');
-Route::get('api/annotations', 'AnnotationApiController@getSearch');
+Route::get('api/annotations', 'AnnotationApiController@getIndex');
 Route::post('api/annotations', 'AnnotationApiController@postIndex');
 Route::get('api/annotations/{id}', 'AnnotationApiController@getIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
 Route::put('api/annotations/{id}', 'AnnotationApiController@putIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
