@@ -1,5 +1,9 @@
 $(document).ready(function(){
-	var annotator = $('#content').annotator();
+	var current_user = $('#current_user').val();
+	
+	var annotator = $('#content').annotator({
+		readOnly: current_user === undefined
+	});
 
 	annotator.annotator('addPlugin', 'Unsupported');
 	annotator.annotator('addPlugin', 'Tags');
@@ -9,9 +13,6 @@ $(document).ready(function(){
 			'uri': window.location.href
 		},
 		prefix: '/api/annotations',
-		//loadFromSearch: {
-		//	'uri': window.location.href
-		//},
 		urls: {
 			create: 	'',
 			read: 		'/:id',
@@ -21,4 +22,15 @@ $(document).ready(function(){
 		}
 	});
 
+	annotator.annotator('addPlugin', 'Permissions', {
+		user: current_user,
+		permissions:{
+			'read': 	[],
+			'update': 	[current_user],
+			'delete': 	[current_user],
+			'admin': 	[current_user]
+		},
+		showViewPermissionsCheckbox: false,
+		showEditPermissionsCheckbox: false
+	});	
 });
