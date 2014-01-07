@@ -1,6 +1,8 @@
 $(document).ready(function(){
 	var current_user = $('#current_user').val();
-	
+	var current_user_id = parseInt($('#current_user_id').val());
+	var current_user_name = $('#current_user_name').val();
+
 	var annotator = $('#content').annotator({
 		readOnly: current_user === undefined
 	});
@@ -23,12 +25,15 @@ $(document).ready(function(){
 	});
 
 	annotator.annotator('addPlugin', 'Permissions', {
-		user: current_user,
+		user: { 
+			'id': 	current_user_id,
+			'name': current_user_name
+		},
 		permissions:{
 			'read': 	[],
-			'update': 	[current_user],
-			'delete': 	[current_user],
-			'admin': 	[current_user]
+			'update': 	[current_user_id],
+			'delete': 	[current_user_id],
+			'admin': 	[current_user_id]
 		},
 		showViewPermissionsCheckbox: false,
 		showEditPermissionsCheckbox: false

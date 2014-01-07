@@ -2,7 +2,9 @@
 @section('content')
 	@if(Auth::check())
 	<input type="hidden" id="current_user" value="{{ Auth::user()->email }}" />
+	<input type="hidden" id="current_user_id" value="{{ Auth::user()->id }}" />
 	<input type="hidden" id="current_user_level" value="{{ Auth::user()->user_level }}" />
+	<input type="hidden" id="current_user_name" value="{{ Auth::user()->fname . ' ' . substr(Auth::user()->lname, 0, 1) }}" />
 	@endif
 	{{ HTML::style('vendor/annotator/annotator.min.css') }}
 	{{ HTML::script('vendor/annotator/annotator-full.min.js') }}
