@@ -40,7 +40,7 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.mailgun.org',
+	'host' => $smtp_config['host'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -66,7 +66,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => null, 'name' => null),
+	'from' => $smtp_config['from'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -92,7 +92,7 @@ return array(
 	|
 	*/
 
-	'username' => null,
+	'username' => $smtp_config['username'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -105,7 +105,7 @@ return array(
 	|
 	*/
 
-	'password' => null,
+	'password' => $smtp_config['password'],
 
 	/*
 	|--------------------------------------------------------------------------
