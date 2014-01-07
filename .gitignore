@@ -1,5 +1,6 @@
 public/.sass-cache/
 app/config/creds.yml
+app/config/smtp.yml
 app/config/remote.php
 vendor/
 composer.lock

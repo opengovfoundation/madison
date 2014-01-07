@@ -1,5 +1,17 @@
 <?php
 
+	if(file_exists(app_path() . '/config/smtp.yml')){
+		$smtp_config = yaml_parse_file(app_path() . '/config/smtp.yml');
+	}else{
+		//Laravel defaults
+		$smtp_config = array(
+			'host'=> 'smtp.mailgun.org',
+			'from' => array('address' => null, 'name' => null),
+			'username' => null,
+			'password' => null
+		);
+	}
+
 return array(
 
 	/*

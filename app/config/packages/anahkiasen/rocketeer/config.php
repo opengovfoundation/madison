@@ -133,7 +133,8 @@
 					$homeFolder = $task->rocketeer->getHomeFolder();
 
 					
-					$ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/shared/creds.yml current/app/config/creds.yml');
+					$cred_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/shared/creds.yml current/app/config/creds.yml');
+					$smtp_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/shared/smtp.yml current/app/config/smtp.yml');
 				}
 			),
 			'cleanup' => array(),
