@@ -36,6 +36,20 @@ $(document).ready(function(){
 			'admin': 	[current_user_id]
 		},
 		showViewPermissionsCheckbox: false,
-		showEditPermissionsCheckbox: false
+		showEditPermissionsCheckbox: false,
+		userId: function(user){
+			if(user && user.id){
+				return user.id;
+			}
+
+			return user;
+		},
+		userString: function(user){
+			if(user && user.name){
+				return user.name;
+			}
+			
+			return user;
+		}
 	});	
 });
