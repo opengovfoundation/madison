@@ -644,9 +644,5 @@ ol.sortable, ol.sortable ol{list-style:none;}
 		.doc_item_content textarea{
 			resize:both;
 		}
-/* Enforcing Bootstrap glyphicons
---------------------------------*/
-.glyphicon{
-	font-family: 'Glyphicons Halflings' !important;
-}
 
+@import "annotatorPlugin";

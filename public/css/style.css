@@ -817,9 +817,14 @@ ol.sortable, ol.sortable ol {
   resize: both;
 }
 
-/* Enforcing Bootstrap glyphicons
+/* Annotator Plugin Styling
 --------------------------------*/
-/* line 649, ../sass/style.scss */
+/* line 3, ../sass/_annotatorPlugin.scss */
 .glyphicon {
   font-family: 'Glyphicons Halflings' !important;
+}
+
+/* line 7, ../sass/_annotatorPlugin.scss */
+.annotation-action > span {
+  margin: 0 5px;
 }
