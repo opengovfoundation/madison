@@ -1,4 +1,5 @@
 <nav class="navbar navbar-default" role="navigation">
+	@if(!$docs->isEmpty())
 	<ul class="nav navbar-nav">
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle black" data-toggle="dropdown">Select a recent bill <b class="caret"></b></a>
@@ -10,6 +11,7 @@
 	        </ul>
 		</li>
 	</ul>
+	@endif
 	<!-- <button type="button" class="btn btn-default navbar-btn btn-black">Request a Bill</button> -->
 	<form class="navbar-form navbar-right" role="search">
 		<div class="form-group">
