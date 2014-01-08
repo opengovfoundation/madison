@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration{
 			$table->string('phone')->nullable();
 			$table->integer('org_id')->unsigned()->nullable();
 			$table->string('position')->nullable();
+			$table->string('location')->nullable();
+			$table->string('url')->nullable();
 			$table->integer('user_level')->unsigned()->default(3);
 			$table->string('token', 25);
 			$table->text('likes')->nullable();

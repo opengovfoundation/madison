@@ -21,7 +21,6 @@ class CreateNoteMetaTable extends Migration{
 			$table->timestamps();
 			
 			//Set foreign keys
-			$table->foreign('note_id')->references('id')->on('notes')->on_delete('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
 		});
 	}
