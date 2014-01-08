@@ -1,9 +1,9 @@
-/* line 10, ../../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 10, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%;
 }
 
-/* line 12, ../../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 12, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #wrap {
   clear: both;
   min-height: 100%;
@@ -11,12 +11,12 @@ html, body {
   height: 100%;
   margin-bottom: -100px;
 }
-/* line 18, ../../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 18, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #wrap #wrap-footer {
   height: 100px;
 }
 
-/* line 20, ../../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 20, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #footer {
   clear: both;
   position: relative;
@@ -815,4 +815,11 @@ ol.sortable, ol.sortable ol {
 /* line 644, ../sass/style.scss */
 .doc_item_content textarea {
   resize: both;
+}
+
+/* Enforcing Bootstrap glyphicons
+--------------------------------*/
+/* line 649, ../sass/style.scss */
+.glyphicon {
+  font-family: 'Glyphicons Halflings' !important;
 }
