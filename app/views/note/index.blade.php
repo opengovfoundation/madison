@@ -6,7 +6,7 @@
 			
 			<h3>Original Passage</h3>
 			<div class="col-md-12">
-				<p>{{ $quote }}</p>
+				<blockquote>{{ $quote }}</blockquote>
 			</div>
 		</div>
 		<div class="row">
