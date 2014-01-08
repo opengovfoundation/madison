@@ -41,7 +41,7 @@ class AnnotationApiController extends ApiController{
 		$body = Input::all();
 
 		$annotation = new Annotation();
-		$annotation->setBody($body); 
+		$annotation->body($body); 
 
 		$id = $annotation->save($this->es);
 

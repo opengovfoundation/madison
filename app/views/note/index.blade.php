@@ -1,40 +1,35 @@
 @extends('layouts/main')
 @section('content')
-<h1>{{ ucwords($note->type) }}</h1>
+<h1>Annotation</h1>
 	<div class="content col-md-12">
 		<div class="row">
-			@if($note->type == 'suggestion')
-				<h3>Original Passage</h3>
-			@else
-				<h3>Bill Passage</h3>
-			@endif
+			
+			<h3>Original Passage</h3>
 			<div class="col-md-12">
-				<p>{{ $doc_content->content }}</p>
+				<p>{{ $quote }}</p>
 			</div>
 		</div>
 		<div class="row">
-			<h3>{{ ucwords($note->type) }}</h3>
+			<h3>Annotation</h3>
 			<div class="col-md-12">
-				@if($note->type == 'suggestion')
-					<p>{{ StringDiff::diff($doc_content->content, $note->content) }}</p>
-				@else
-					<p>{{ $note->content }}</p>
-				@endif
+				
+				<p>{{ $text }}</p>
+				
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6">
-				<a href="{{ URL::to('user/' . $user->id) }}">{{ $user->fname . ' ' . substr($user->lname, 0, 1) }}</a>
+				<a href="{{ URL::to('user/' . $user_id) }}">{{ $user_name }}</a>
 			</div>
 			<div class="col-md-3">
-				<p><span id="note_{{$note->id}}_likes">{{ $note->likes }}</span> likes, <span id="note_{{$note->id}}_dislikes">{{ $note->dislikes }}</span> dislikes</p>
+				<p><span id="note_{{$note_id}}_likes">{{ $likes }}</span> likes, <span id="note_{{$note_id}}_dislikes">{{ $dislikes }}</span> dislikes</p>
 			</div>
 			<div class="col-md-3">
 				@if(Auth::check())
 				<div class="note-tools-large">
-					<div id="flag_{{$note->id}}" class="note-tool flag-large-btn" title="Flag as Inappropriate"></div>
-					<div id="dislike_{{$note->id}}" class="note-tool dislike-large-btn" title="Dislike"></div>
-					<div id="like_{{$note->id}}" class="note-tool like-large-btn"></div>
+					<div id="flag_{{$note_id}}" class="note-tool flag-large-btn" title="Flag as Inappropriate"></div>
+					<div id="dislike_{{$note_id}}" class="note-tool dislike-large-btn" title="Dislike"></div>
+					<div id="like_{{$note_id}}" class="note-tool like-large-btn"></div>
 				</div>
 				@endif
 			</div>
@@ -42,11 +37,9 @@
 		@if(Auth::check())
 		<div class="row">
 			<div class="col-md-12">
-				{{ Form::open(array('url'=>'note/' . $note->id, 'method'=>'post')) }}
+				{{ Form::open(array('url'=>'note/' . $note_id, 'method'=>'post')) }}
 					<textarea name="note_content" id="note_content" ></textarea>
-					<input type="hidden" name="doc_id" value="{{ $doc_content->doc_id }}"/>
-					<input type="hidden" name="parent_id" value="{{$note->id}}" />
-					<input type="hidden" name="section_id" value="{{ $note->section_id }}" />
+					<input type="hidden" name="parent_id" value="{{$note_id}}" />
 					<input type="hidden" name="type" value="comment"/>
 					{{ Form::submit('Comment', array('class'=>'btn')) }}
 				{{ Form::token() . Form::close() }}

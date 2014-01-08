@@ -5,8 +5,11 @@ $(document).ready(function(){
 
 	var annotator = $('#content').annotator({
 		readOnly: current_user === undefined
+	}).on('annotationsLoaded', function(e, annotations){
+		//console.log(annotations);
 	});
 
+	
 	annotator.annotator('addPlugin', 'Unsupported');
 	annotator.annotator('addPlugin', 'Tags');
 	annotator.annotator('addPlugin', 'Markdown');
@@ -51,5 +54,7 @@ $(document).ready(function(){
 			
 			return user;
 		}
-	});	
+	});
+
+	annotator.annotator('addPlugin', 'Madison');
 });

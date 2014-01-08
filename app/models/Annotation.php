@@ -15,7 +15,7 @@ class Annotation{
 	public $uri;
 	public $ranges;
 	public $user;
-	public $consumer;
+	public $consumer = 'Madison';
 	public $tags;
 	public $permissions;
 
@@ -49,9 +49,72 @@ class Annotation{
 		return $results['_id'];
 	}
 
-	public function setBody($body){
-		$this->body = $body;
+	/**
+	*	Accessor Functions
+	*/
+
+	public function id($id = null){
+		return $this->access('id', $id);
 	}
+
+	public function created($created = null){
+		return $this->access('created', $created);
+	}
+	
+	public function updated($updated = null){
+		return $this->access('updated', $updated);
+	}
+	
+	public function quote($quote = null){
+		return $this->access('quote', $quote);
+	}
+
+	public function uri($uri = null){
+		return $this->access('uri', $uri);
+	}
+	
+	public function ranges($ranges = null){
+		return $this->access('ranges', $ranges);
+	}
+
+	public function tags($tags = null){
+		return $this->access('tags', $tags);
+	}
+	
+	public function permissions($permissions = null){
+		return $this->access('permissions', $permissions);
+	}
+
+	public function body($body = null){
+		return $this->access('body', $body);
+	}
+
+	public function text($text = null){
+		return $this->access('text', $text);
+	}
+
+	public function user($user = null){
+		return $this->access('user', $user);
+	}
+
+	/**
+	*	Class Helper Functions
+	**/
+	protected function access($attribute, $value){
+		if(isset($value)){
+			$this->$attribute = $value;
+		}else{
+			return $this->$attribute;
+		}
+	}
+
+	public function toString(){
+
+	}
+
+	/**
+	*	Class Static Functions
+	*/
 
 	public static function find($es, $id){
 		if($id === null){

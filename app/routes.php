@@ -20,9 +20,9 @@ Route::get('user/{id}', 'UserController@getIndex')->where(array('id' => '[0-9]+'
 Route::controller('user', 'UserController');
 
 //Note Routes
-Route::get('note/{id}', 'NoteController@getIndex')->where(array('id' => '[0-9]+'));
-Route::post('note/{id}', 'NoteController@postIndex')->where(array('id' => '[0-9]+'));
-Route::put('note/{id}', 'NoteController@putIndex')->where(array('id' => '[0-9]+'));
+Route::get('note/{id}', 'NoteController@getIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+Route::post('note/{id}', 'NoteController@postIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+Route::put('note/{id}', 'NoteController@putIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
 Route::controller('note', 'NoteController');
 
 //Dashboard Routes

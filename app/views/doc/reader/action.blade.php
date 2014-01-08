@@ -1,17 +1,6 @@
 <!-- div.row -->
-<div class="md-col-12"><h4>Edit / Comment</h4></div>
 @if(Auth::check())
 	{{ Form::open(array('url'=>'note', 'method'=>'post')) }}
-	<div class="md-col-12">
-		<div class="btn-group btn-group-justified action-btn-wrapper" data-toggle="buttons">
-			<label id="suggestion-btn-wrapper" class="action-btn btn btn-primary disabled">
-				<input type="radio" name="actions" id="suggestion-btn"/> Edit
-			</label>
-			<label id="comment-btn-wrapper" class="action-btn btn btn-primary disabled">
-				<input type="radio" name="actions" id="comment-btn"/> Comment
-			</label>
-		</div>
-	</div>
 	<div class="md-col-12">
 		<div id="note-content-wrapper">
 			<p id="action-intro" style="color:white;padding:10px;">Select part of the document to make an edit or comment.</p>

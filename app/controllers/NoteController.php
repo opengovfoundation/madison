@@ -21,27 +21,33 @@ class NoteController extends BaseController{
 	public function getIndex($id = null){
 		//Return 404 if no id is passed
 		if($id == null){
-			return Response::error('404');
+			App::abort(404, 'Note id not found');
 		}
 		
 		//Invalid note id
-		$note = Note::find($id);
-		if(!isset($note)){
-			return Response::error('404');
+		$annotation = Annotation::find($this->es, $id);
+
+		if(!isset($annotation)){
+			App::abort(404, 'Unable to retrieve note');
 		}
 		
 		//Retrieve note information
-		$user = $note->user()->first();
-		$doc_content = $note->doc_content()->first();
-		$child_notes = $note->note_children()->get();
 		
+		//$child_notes = $annotation->note_children()->get();
+		
+		$user = $annotation->user();
+
 		$data = array(
 			'page_id'		=> 'note',
-			'page_title'	=> 'View ' . ucwords($note->type),
-			'note'			=> $note,
-			'user'			=> $user,
-			'doc_content'	=> $doc_content,
-			'child_notes'	=> $child_notes
+			'page_title'	=> 'View Note',
+			'note_id'		=> $id,
+			'text'			=> $annotation->text(),
+			'user_name'		=> $user['name'],
+			'user_id'		=> $user['id'],
+			'quote'			=> $annotation->quote(),
+			'likes'			=> 0,
+			'dislikes'		=> 0,
+			'child_notes'	=> null
 		);
 		
 		//Render view and return to user

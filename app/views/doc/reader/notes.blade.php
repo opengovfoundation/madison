@@ -30,7 +30,6 @@
 							</div>
 						</div>
 						@if(Auth::check())
-						<?php //print_r($note->usermeta); ?>
 						<div class="row note-votes">
 							<div class="col-md-2 col-md-offset-6 note-vote-wrapper">
 								<span id="like-{{ $note->id }}" class="glyphicon glyphicon-thumbs-up note-vote note-vote-{{ $note->id }} vote-up {{ $note->usermeta['like'] == 1 ? 'selected' : ''}}"></span>
