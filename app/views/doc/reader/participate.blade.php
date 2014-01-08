@@ -28,5 +28,5 @@
 	@include('doc.reader.action')
 </div>
 <div class="row participate-notes">
-	@include('doc.reader.notes')
+	{{-- @include('doc.reader.notes') --}}
 </div>

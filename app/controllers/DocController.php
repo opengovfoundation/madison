@@ -33,29 +33,9 @@ class DocController extends BaseController{
 				App::abort('404');
 			}
 			
-			if(Auth::check()){
-				$note_data = array('user');
-			}else{
-				$note_data = 'user';
-			}
-			
-			$notes = Note::with($note_data)
-								->where('parent_id')
-								->where('doc_id', '=', $doc->id)
-								->orderBy('likes', 'desc')
-								->get();
-
-						
-			if(Auth::check()){
-				foreach($notes as $note){
-					$note->setUserMeta();
-				}
-			}					
-			
 			//Set data array
 			$data = array(
 				'doc'			=> $doc,
-				'notes'			=> $notes,
 				'page_id'		=> strtolower(str_replace(' ','-', $doc->title)),
 				'page_title'	=> $doc->title
 			);				
