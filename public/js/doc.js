@@ -1,7 +1,7 @@
 $(document).ready(function(){
-	var current_user = $('#current_user').val();
-	var current_user_id = parseInt($('#current_user_id').val());
-	var current_user_name = $('#current_user_name').val();
+	current_user = $('#current_user').val();
+	current_user_id = $('#current_user_id').val();
+	current_user_name = $('#current_user_name').val();
 
 	var annotator = $('#content').annotator({
 		readOnly: current_user === undefined
@@ -53,5 +53,7 @@ $(document).ready(function(){
 		}
 	});
 
-	annotator.annotator('addPlugin', 'Madison');
+	annotator.annotator('addPlugin', 'Madison', {
+		userId: current_user_id
+	});
 });
