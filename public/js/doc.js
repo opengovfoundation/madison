@@ -1,10 +1,6 @@
 $(document).ready(function(){
-	current_user = $('#current_user').val();
-	current_user_id = $('#current_user_id').val();
-	current_user_name = $('#current_user_name').val();
-
 	var annotator = $('#content').annotator({
-		readOnly: current_user === undefined
+		readOnly: user.id == ''
 	});
 
 	annotator.annotator('addPlugin', 'Unsupported');
@@ -25,15 +21,12 @@ $(document).ready(function(){
 	});
 
 	annotator.annotator('addPlugin', 'Permissions', {
-		user: { 
-			'id': 	current_user_id,
-			'name': current_user_name
-		},
+		user: user,
 		permissions:{
 			'read': 	[],
-			'update': 	[current_user_id],
-			'delete': 	[current_user_id],
-			'admin': 	[current_user_id]
+			'update': 	[user.id],
+			'delete': 	[user.id],
+			'admin': 	[user.id]
 		},
 		showViewPermissionsCheckbox: false,
 		showEditPermissionsCheckbox: false,
@@ -54,6 +47,6 @@ $(document).ready(function(){
 	});
 
 	annotator.annotator('addPlugin', 'Madison', {
-		userId: current_user_id
+		userId: user.id
 	});
 });
