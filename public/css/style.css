@@ -479,8 +479,8 @@ textarea.form-inline {
 
 /* line 368, ../sass/style.scss */
 .doc_content {
-  max-height: 700px;
-  overflow-y: scroll;
+  /* max-height:700px;
+  overflow-y:scroll; */
 }
 /* line 371, ../sass/style.scss */
 .doc_content ol {
@@ -843,4 +843,9 @@ ol.sortable, ol.sortable ol {
 /* line 23, ../sass/_annotatorPlugin.scss */
 .annotation-action > span {
   margin: 0 5px;
+}
+
+/* line 27, ../sass/_annotatorPlugin.scss */
+.annotation-comments .btn {
+  margin: 5px 10px;
 }
