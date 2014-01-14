@@ -8,7 +8,7 @@ $(document).ready(function(){
 	annotator.annotator('addPlugin', 'Markdown');
 	annotator.annotator('addPlugin', 'Store', {
 		annotationData:{
-			'uri': window.location.href
+			'uri': window.location.href,
 		},
 		prefix: '/api/annotations',
 		urls: {

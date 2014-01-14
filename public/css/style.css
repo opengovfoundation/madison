@@ -822,9 +822,14 @@ ol.sortable, ol.sortable ol {
 /* line 3, ../sass/_annotatorPlugin.scss */
 .glyphicon {
   font-family: 'Glyphicons Halflings' !important;
+  cursor: pointer;
+}
+/* line 7, ../sass/_annotatorPlugin.scss */
+.glyphicon.selected {
+  color: blue;
 }
 
-/* line 7, ../sass/_annotatorPlugin.scss */
+/* line 12, ../sass/_annotatorPlugin.scss */
 .annotation-action > span {
   margin: 0 5px;
 }

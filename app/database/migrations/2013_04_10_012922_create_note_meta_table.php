@@ -14,7 +14,7 @@ class CreateNoteMetaTable extends Migration{
 		Schema::create('note_meta', function($table){
 			$table->engine = "InnoDB";
 			$table->increments('id');
-			$table->integer('note_id')->unsigned();
+			$table->string('note_id');
 			$table->integer('user_id')->unsigned()->nullable();
 			$table->string('meta_key');
 			$table->string('meta_value')->nullable();

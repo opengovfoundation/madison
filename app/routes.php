@@ -30,12 +30,25 @@ Route::controller('dashboard', 'DashboardController');
 
 //Api Routes
 Route::get('api', 'ApiController@getIndex');
-Route::get('api/annotations/search', 'AnnotationApiController@getSearch');
-Route::get('api/annotations', 'AnnotationApiController@getIndex');
-Route::post('api/annotations', 'AnnotationApiController@postIndex');
-Route::get('api/annotations/{id}', 'AnnotationApiController@getIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
-Route::put('api/annotations/{id}', 'AnnotationApiController@putIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
-Route::delete('api/annotations/{id}', 'AnnotationApiController@deleteIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    //Annotation Action Routes
+    Route::post('api/annotations/{id}/likes', 'AnnotationApiController@postLikes')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    Route::post('api/annotations/{id}/dislikes', 'AnnotationApiController@postDislikes')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    Route::post('api/annotations/{id}/flags', 'AnnotationApiController@postFlags')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    Route::get('api/annotations/{id}/likes', 'AnnotationApiController@getLikes')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    Route::get('api/annotations/{id}/dislikes', 'AnnotationApiController@getDislikes')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    Route::get('api/annotations/{id}/flags', 'AnnotationApiController@getFlags')->where(array('id' => '[0-9a-zA-Z_-]+'));
+
+
+
+    //Annotation Routes
+    Route::get('api/annotations/search', 'AnnotationApiController@getSearch');
+    Route::get('api/annotations', 'AnnotationApiController@getIndex');
+    Route::post('api/annotations', 'AnnotationApiController@postIndex');
+    Route::get('api/annotations/{id}', 'AnnotationApiController@getIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    Route::put('api/annotations/{id}', 'AnnotationApiController@putIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    Route::delete('api/annotations/{id}', 'AnnotationApiController@deleteIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+
+
 
 
 

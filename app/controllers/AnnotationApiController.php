@@ -23,13 +23,25 @@ class AnnotationApiController extends ApiController{
 	public function getIndex($id = null){
 
 		try{
-			if($id !== null){
-				$results = Annotation::find($this->es, $id);
+			if(Auth::check()){
+				$userid = Auth::user()->id;
+
+				if($id !== null){
+					//TODO
+						// This call should be Annotation::find($this->es)->with('actions');
+					$results = Annotation::findWithActions($this->es, $id, $userid);
+				}else{
+					//TODO:
+						// This call should be Annotation::all($this->es)->with('actions');
+					$results = Annotation::allWithActions($this->es, $userid);
+				}
 			}else{
-				$results = Annotation::all($this->es);
+				if($id !== null){
+					$results = Annotation::find($this->es, $id);
+				}else{
+					$results = Annotation::all($this->es);
+				}
 			}
-		}catch(Elasticsearch\Common\Exceptions\Missing404Exception $e){
-			App::abort(404, 'Id not found');
 		}catch(Exception $e){
 			App::abort(404, $e->getMessage());
 		}
@@ -41,7 +53,9 @@ class AnnotationApiController extends ApiController{
 		$body = Input::all();
 
 		$annotation = new Annotation();
-		$annotation->body($body); 
+		$annotation->body($body);
+
+
 
 		$id = $annotation->save($this->es);
 
@@ -85,14 +99,11 @@ class AnnotationApiController extends ApiController{
 
 		try{
 			$ret = Annotation::delete($this->es, $id);
-		}catch(Elasticsearch\Common\Exceptions\Missing404Exception $e){
-			App::abort(404, 'Id not found');
 		}catch(Exception $e){
 			App::abort(404, $e->getMessage());
 		}
 		
 		return Response::make(null, 204);
-
 	}
 
 	public function getSearch(){
@@ -119,5 +130,79 @@ class AnnotationApiController extends ApiController{
 
 		return Response::json($rows);
 	}
+
+	public function getLikes($id = null){
+		$es = $this->es;
+
+		if($id === null){
+			App::abort(404, 'No annotation id passed.');
+		}
+
+		$likes = Annotation::getMetaCount($es, $id, 'likes');
+
+		return Response::json(array('likes' => $likes));
+	}
+
+	public function getDislikes($id = null){
+		$es = $this->es;
+
+		if($id === null){
+			App::abort(404, 'No annotation id passed.');
+		}
+
+		$dislikes = Annotation::getMetaCount($es, $id, 'dislikes');
+
+		return Response::json(array('dislikes' => $dislikes));
+	}
+
+	public function getFlags($id = null){
+		$es = $this->es;
+
+		if($id === null){
+			App::abort(404, 'No annotation id passed.');
+		}
+
+		$flags = Annotation::getMetaCount($es, $id, 'flags');
+
+		return Response::json(array('flags' => $flags));
+	}
+
+	public function postLikes($id = null){
+		$es = $this->es;
+
+		if($id === null){
+			App::abort(404, 'No note id passed');
+		}
+
+		$postAction = Annotation::addUserAction($es, $id, Auth::user()->id, 'like');
+
+		return Response::json($postAction);
+	}
+
+	public function postDislikes($id = null){
+		$es = $this->es;
+
+		if($id === null){
+			App::abort(404, 'No note id passed');
+		}
+
+		$postAction = Annotation::addUserAction($es, $id, Auth::user()->id, 'dislike');
+
+		return Response::json($postAction);
+	}	
+
+	public function postFlags($id = null){
+		$es = $this->es;
+
+		if($id === null){
+			App::abort(404, 'No note id passed');
+		}
+
+		$postAction = Annotation::addUserAction($es, $id, Auth::user()->id, 'flag');
+
+		return Response::json($postAction);
+	}
+
+
 }
 

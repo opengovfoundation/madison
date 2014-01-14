@@ -2,6 +2,11 @@
 --------------------------------*/
 .glyphicon{
 	font-family: 'Glyphicons Halflings' !important;
+	cursor:pointer;
+
+	&.selected{
+		color:blue;
+	}
 }
 
 .annotation-action > span{
