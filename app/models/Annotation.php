@@ -19,6 +19,9 @@ class Annotation{
 	public $tags;
 	public $permissions;
 	public $user_action = null;
+	public $likes = null;
+	public $dislikes = null;
+	public $flags = null;
 
 	public function __construct($id = null, $source = null){
 		$this->id = $id;
@@ -36,6 +39,12 @@ class Annotation{
 		if($meta->count() == 1){
 			$this->user_action = $meta->first()->meta_value;
 		}
+	}
+
+	public function setActionCounts(){
+		$this->likes = $this->likes();
+		$this->dislikes = $this->dislikes();
+		$this->flags = $this->flags();
 	}
 
 	public function save($es){
@@ -154,10 +163,12 @@ class Annotation{
 			'id'	=> $id
 		);
 
-
 		$annotation = $es->get($params);
+		$annotation = new Annotation($id, $annotation['_source']);
 
-		return new Annotation($id, $annotation['_source']);
+		$annotation->setActionCounts();
+
+		return $annotation;
 	}
 
 	public static function findWithActions($es, $id, $userid){
@@ -176,6 +187,7 @@ class Annotation{
 
 		$annotation = new Annotation($id, $annotation['_source']);
 		$annotation->setUserAction($userid);
+		$annotation->setActionCounts();
 		
 		return $annotation;
 	}
@@ -197,6 +209,7 @@ class Annotation{
 		$annotations = array();
 		foreach($results as $annotation){
 			$toPush = new Annotation($annotation['_id'], $annotation['_source']);
+			$toPush->setActionCounts();
 
 			array_push($annotations, $toPush);
 		}
@@ -221,6 +234,7 @@ class Annotation{
 		foreach($results as $annotation){
 			$toPush = new Annotation($annotation['_id'], $annotation['_source']);
 			$toPush->setUserAction($userid);
+			$toPush->setActionCounts();
 
 			array_push($annotations, $toPush);
 		}

@@ -11,7 +11,12 @@ function addLike(annotation, element){
 		}
 
 		element.siblings('.glyphicon-thumbs-down').children('.action-count').text(data.dislikes);
-		element.siblings('.glyphicon-flag').children('action-count').text(data.flags);
+		element.siblings('.glyphicon-flag').children('.action-count').text(data.flags);
+
+		annotation.likes = data.likes;
+		annotation.dislikes = data.dislikes;
+		annotation.flags = data.flags;
+		annotation.user_action = 'like';
 	});
 }
 
@@ -29,6 +34,11 @@ function addDislike(annotation, element){
 
 		element.siblings('.glyphicon-thumbs-up').children('.action-count').text(data.likes);
 		element.siblings('.glyphicon-flag').children('.action-count').text(data.flags);
+
+		annotation.likes = data.likes;
+		annotation.dislikes = data.dislikes;
+		annotation.flags = data.flags;
+		annotation.user_action = 'dislike';
 	});
 }
 
@@ -46,6 +56,11 @@ function addFlag(annotation, element){
 
 		element.siblings('.glyphicon-thumbs-up').children('.action-count').text(data.likes);
 		element.siblings('.glyphicon-thumbs-down ').children('.action-count').text(data.dislikes);
+
+		annotation.likes = data.likes;
+		annotation.dislikes = data.dislikes;
+		annotation.flags = data.flags;
+		annotation.user_action = 'flag';
 	});
 }
 
