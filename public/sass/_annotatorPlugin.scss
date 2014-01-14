@@ -2,10 +2,21 @@
 --------------------------------*/
 .glyphicon{
 	font-family: 'Glyphicons Halflings' !important;
-	cursor:pointer;
 
 	&.selected{
 		color:blue;
+	}
+
+	&.logged-in{
+		cursor:pointer;
+	}
+
+	.action-count:before{
+		content: '(';
+	}
+
+	.action-count:after{
+		content: ')';
 	}
 }
 

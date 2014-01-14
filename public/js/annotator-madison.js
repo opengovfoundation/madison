@@ -1,6 +1,7 @@
 function addLike(annotation, element){
 	$.post('/api/annotations/' + annotation.id + '/likes', function(data){
 		element = $(element);
+		element.children('.action-count').text(data.likes);
 		element.siblings('.glyphicon').removeClass('selected');
 
 		if(data.action){
@@ -8,12 +9,16 @@ function addLike(annotation, element){
 		}else{
 			element.removeClass('selected');
 		}
+
+		element.siblings('.glyphicon-thumbs-down').children('.action-count').text(data.dislikes);
+		element.siblings('.glyphicon-flag').children('action-count').text(data.flags);
 	});
 }
 
 function addDislike(annotation, element){
 	$.post('/api/annotations/' + annotation.id + '/dislikes', function(data){
 		element = $(element);
+		element.children('.action-count').text(data.dislikes);
 		element.siblings('.glyphicon').removeClass('selected');
 
 		if(data.action){
@@ -21,12 +26,16 @@ function addDislike(annotation, element){
 		}else{
 			element.removeClass('selected');
 		}
+
+		element.siblings('.glyphicon-thumbs-up').children('.action-count').text(data.likes);
+		element.siblings('.glyphicon-flag').children('.action-count').text(data.flags);
 	});
 }
 
 function addFlag(annotation, element){
 	$.post('/api/annotations/' + annotation.id + '/flags', function(data){
 		element = $(element);
+		element.children('.action-count').text(data.flags);
 		element.siblings('.glyphicon').removeClass('selected');
 
 		if(data.action){
@@ -34,6 +43,9 @@ function addFlag(annotation, element){
 		}else{
 			element.removeClass('selected');
 		}
+
+		element.siblings('.glyphicon-thumbs-up').children('.action-count').text(data.likes);
+		element.siblings('.glyphicon-thumbs-down ').children('.action-count').text(data.dislikes);
 	});
 }
 
@@ -59,23 +71,20 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 				noteLink.append(annotationLink);
 				$(field).append(noteLink);
 
+				//Add actions to annotation
+				annotationAction = $('<div></div>').addClass('annotation-action');
+				generalAction = $('<span></span>').addClass('glyphicon').data('annotation-id', annotation.id);
+				
+				annotationLike = generalAction.clone().addClass('glyphicon-thumbs-up').append('<span class="action-count">' + annotation.likes + '</span>');
+
+				annotationDislike = generalAction.clone().addClass('glyphicon-thumbs-down').append('<span class="action-count">' + annotation.dislikes + '</span>');
+
+				annotationFlag = generalAction.clone().addClass('glyphicon-flag').append('<span class="action-count">' + annotation.flags + '</span>');
+
+				annotationAction.append(annotationLike, annotationDislike, annotationFlag);
+
 				if(user.id != ''){
-					//Add actions to annotation
-					annotationAction = $('<div></div>').addClass('annotation-action');
-					generalAction = $('<span></span>').addClass('glyphicon').data('annotation-id', annotation.id);
 					
-					annotationLike = generalAction.clone().addClass('glyphicon-thumbs-up').click(function(){
-						addLike(annotation, this);
-					});
-
-					annotationDislike = generalAction.clone().addClass('glyphicon-thumbs-down').click(function(){
-						addDislike(annotation, this);
-					});
-
-					annotationFlag = generalAction.clone().addClass('glyphicon-flag').click(function(){
-						addFlag(annotation, this);
-					});
-
 					if(annotation.user_action){
 						if(annotation.user_action == 'like'){
 							annotationLike.addClass('selected');
@@ -87,12 +96,21 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 							console.error('User action not found.', annotation);
 						}
 					}
-					
 
-					annotationAction.append(annotationLike, annotationDislike, annotationFlag);
+					annotationLike.addClass('logged-in').click(function(){
+						addLike(annotation, this);
+					});
 
-					$(field).append(annotationAction);
+					annotationDislike.addClass('logged-in').click(function(){
+						addDislike(annotation, this);
+					});
+
+					annotationFlag.addClass('logged-in').click(function(){
+						addFlag(annotation, this);
+					});
 				}
+
+				$(field).append(annotationAction);
 			}
 		});
 	}

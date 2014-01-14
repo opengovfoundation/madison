@@ -822,14 +822,25 @@ ol.sortable, ol.sortable ol {
 /* line 3, ../sass/_annotatorPlugin.scss */
 .glyphicon {
   font-family: 'Glyphicons Halflings' !important;
-  cursor: pointer;
 }
-/* line 7, ../sass/_annotatorPlugin.scss */
+/* line 6, ../sass/_annotatorPlugin.scss */
 .glyphicon.selected {
   color: blue;
 }
+/* line 10, ../sass/_annotatorPlugin.scss */
+.glyphicon.logged-in {
+  cursor: pointer;
+}
+/* line 14, ../sass/_annotatorPlugin.scss */
+.glyphicon .action-count:before {
+  content: '(';
+}
+/* line 18, ../sass/_annotatorPlugin.scss */
+.glyphicon .action-count:after {
+  content: ')';
+}
 
-/* line 12, ../sass/_annotatorPlugin.scss */
+/* line 23, ../sass/_annotatorPlugin.scss */
 .annotation-action > span {
   margin: 0 5px;
 }
