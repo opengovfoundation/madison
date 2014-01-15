@@ -870,7 +870,16 @@ ol.sortable, ol.sortable ol {
 }
 
 /* line 46, ../sass/_annotatorPlugin.scss */
-.comment-author:before {
+.comment-author:before, .annotation-author:before {
   content: '-';
   margin-right: 5px;
+}
+
+/* line 51, ../sass/_annotatorPlugin.scss */
+.sidebar-annotation {
+  background: gray;
+}
+/* line 54, ../sass/_annotatorPlugin.scss */
+.sidebar-annotation blockquote {
+  color: lightgray;
 }

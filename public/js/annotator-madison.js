@@ -74,6 +74,18 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 	pluginInit: function(){
 		this.annotator.subscribe('annotationsLoaded', function(annotations){
 			window.annotations = annotations;
+
+			sidebarNotes = $('#participate-notes');
+
+			$.each(annotations, function(index, annotation){
+				sidebarNote = $('<div class="sidebar-annotation"><blockquote>' + annotation.text + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote></div>');
+				sidebarNotes.append(sidebarNote);
+			});
+		});
+
+		this.annotator.subscribe('annotationCreated', function(annotation){
+			sidebarNote = $('<div class="sidebar-annotation"><blockquote>' + annotation.text + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote></div>');
+			$('#participate-notes').append(sidebarNote);
 		});
 
 		this.annotator.viewer.addField({

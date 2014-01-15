@@ -43,7 +43,15 @@
 	}
 }
 
-.comment-author:before{
+.comment-author:before, .annotation-author:before{
 	content:'-';
 	margin-right:5px;
+}
+
+.sidebar-annotation{
+	background:gray;
+
+	blockquote{
+		color:lightgray;
+	}
 }
