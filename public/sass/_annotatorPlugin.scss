@@ -1,4 +1,5 @@
 @import "compass/css3/images";
+@import "compass/css3/transform";
 
 /* Annotator Plugin Styling
 --------------------------------*/
@@ -20,6 +21,14 @@
 	.action-count:after{
 		content: ')';
 	}
+}
+
+.comment-toggle{
+	cursor: pointer;
+}
+
+.caret-right{
+	@include rotate(-90deg);
 }
 
 .annotation-action > span{

@@ -136,10 +136,18 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
 				$(field).append(annotationAction);
 
-				currentComments = $('<div class="current-comments"></div>');
+				commentsHeader = $('<div class="comment-toggle" data-toggle-"collapse" data-target="#current-comments">Comments <span id="comment-caret" class="caret caret-right"></span></button>').click(function(){
+					$('#current-comments').collapse('toggle');
+					$('#comment-caret').toggleClass('caret-right');
+				});
+				currentComments = $('<div id="current-comments" class="current-comments collapse"></div>');
 				$.each(annotation.comments, function(index, comment){
 					comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
 					currentComments.append(comment);
+				});
+
+				currentComments.ready(function(){
+					$('#existing-comments').collapse({toggle: false});
 				});
 
 				if(user.id != ''){
@@ -164,7 +172,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 					$(field).append(annotationComments);
 				}
 
-				$(field).append(currentComments);			
+				$(field).append(commentsHeader, currentComments);			
 			}
 		});
 	}
