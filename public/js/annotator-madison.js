@@ -124,6 +124,12 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
 				$(field).append(annotationAction);
 
+				currentComments = $('<div class="current-comments"></div>');
+				$.each(annotation.comments, function(index, comment){
+					comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
+					currentComments.append(comment);
+				});
+
 				if(user.id != ''){
 					annotationComments = $('<div class="annotation-comments"></div>');
 					annotationComments.append('<input type="text" class="form-control" />');
@@ -137,26 +143,16 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 						}
 
 						$.post('/api/annotations/' + annotation.id + '/comments', {comment: comment}, function(response){
-							
-							commentElement = $('<div class="annotation-comment"><span class="">' + comment.text + '</span></div>');
-
-							console.log(this, commentElement);
+							annotation.comments.push(comment);
+							comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
+							currentComments.append(comment);
 						});
-
-						
-
 					}));
 
 					$(field).append(annotationComments);
 				}
 
-				currentComments = $('<div class="current-comments"></div>');
-				$.each(annotation.comments, function(index, comment){
-					comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
-					currentComments.append(comment);
-				});
-
-				$(field).append(currentComments);
+				$(field).append(currentComments);			
 			}
 		});
 	}
