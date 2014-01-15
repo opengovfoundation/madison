@@ -9,6 +9,7 @@ $(document).ready(function(){
 	annotator.annotator('addPlugin', 'Store', {
 		annotationData:{
 			'uri': window.location.href,
+			'comments': []
 		},
 		prefix: '/api/annotations',
 		urls: {

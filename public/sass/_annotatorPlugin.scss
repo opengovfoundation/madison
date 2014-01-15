@@ -1,3 +1,5 @@
+@import "compass/css3/images";
+
 /* Annotator Plugin Styling
 --------------------------------*/
 .glyphicon{
@@ -24,6 +26,24 @@
 	margin:0 5px;
 }
 
-.annotation-comments .btn{
-	margin:5px 10px;
+.annotation-comments{
+	input[type="text"]{
+		padding-left:10px;
+	}
+
+	.btn{
+		margin-top:5px;
+		padding:0px 10px;
+		@include background-image(linear-gradient(#428bca, #3071a9));
+		color:white;
+
+		&:hover{
+			@include background-image(linear-gradient(scale-lightness(#428bca, 20%), scale-lightness(#3071a9, 20%)));
+		}
+	}
+}
+
+.comment-author:before{
+	content:'-';
+	margin-right:5px;
 }

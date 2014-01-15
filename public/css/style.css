@@ -819,33 +819,58 @@ ol.sortable, ol.sortable ol {
 
 /* Annotator Plugin Styling
 --------------------------------*/
-/* line 3, ../sass/_annotatorPlugin.scss */
+/* line 5, ../sass/_annotatorPlugin.scss */
 .glyphicon {
   font-family: 'Glyphicons Halflings' !important;
 }
-/* line 6, ../sass/_annotatorPlugin.scss */
+/* line 8, ../sass/_annotatorPlugin.scss */
 .glyphicon.selected {
   color: blue;
 }
-/* line 10, ../sass/_annotatorPlugin.scss */
+/* line 12, ../sass/_annotatorPlugin.scss */
 .glyphicon.logged-in {
   cursor: pointer;
 }
-/* line 14, ../sass/_annotatorPlugin.scss */
+/* line 16, ../sass/_annotatorPlugin.scss */
 .glyphicon .action-count:before {
   content: '(';
 }
-/* line 18, ../sass/_annotatorPlugin.scss */
+/* line 20, ../sass/_annotatorPlugin.scss */
 .glyphicon .action-count:after {
   content: ')';
 }
 
-/* line 23, ../sass/_annotatorPlugin.scss */
+/* line 25, ../sass/_annotatorPlugin.scss */
 .annotation-action > span {
   margin: 0 5px;
 }
 
-/* line 27, ../sass/_annotatorPlugin.scss */
+/* line 30, ../sass/_annotatorPlugin.scss */
+.annotation-comments input[type="text"] {
+  padding-left: 10px;
+}
+/* line 34, ../sass/_annotatorPlugin.scss */
 .annotation-comments .btn {
-  margin: 5px 10px;
+  margin-top: 5px;
+  padding: 0px 10px;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #428bca), color-stop(100%, #3071a9));
+  background-image: -webkit-linear-gradient(#428bca, #3071a9);
+  background-image: -moz-linear-gradient(#428bca, #3071a9);
+  background-image: -o-linear-gradient(#428bca, #3071a9);
+  background-image: linear-gradient(#428bca, #3071a9);
+  color: white;
+}
+/* line 40, ../sass/_annotatorPlugin.scss */
+.annotation-comments .btn:hover {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #68a2d5), color-stop(100%, #488fcb));
+  background-image: -webkit-linear-gradient(#68a2d5, #488fcb);
+  background-image: -moz-linear-gradient(#68a2d5, #488fcb);
+  background-image: -o-linear-gradient(#68a2d5, #488fcb);
+  background-image: linear-gradient(#68a2d5, #488fcb);
+}
+
+/* line 46, ../sass/_annotatorPlugin.scss */
+.comment-author:before {
+  content: '-';
+  margin-right: 5px;
 }

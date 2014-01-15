@@ -72,11 +72,10 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 	events: {},
 	options: {},
 	pluginInit: function(){
-
-		this.annotator.subscribe('annotationCreated', function(annotation){
-			console.info("The annotation: %o has just been created!", annotation);
+		this.annotator.subscribe('annotationsLoaded', function(annotations){
+			window.annotations = annotations;
 		});
-		
+
 		this.annotator.viewer.addField({
 			load: function(field, annotation){
 
@@ -91,9 +90,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 				generalAction = $('<span></span>').addClass('glyphicon').data('annotation-id', annotation.id);
 				
 				annotationLike = generalAction.clone().addClass('glyphicon-thumbs-up').append('<span class="action-count">' + annotation.likes + '</span>');
-
 				annotationDislike = generalAction.clone().addClass('glyphicon-thumbs-down').append('<span class="action-count">' + annotation.dislikes + '</span>');
-
 				annotationFlag = generalAction.clone().addClass('glyphicon-flag').append('<span class="action-count">' + annotation.flags + '</span>');
 
 				annotationAction.append(annotationLike, annotationDislike, annotationFlag);
@@ -126,6 +123,40 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 				}
 
 				$(field).append(annotationAction);
+
+				if(user.id != ''){
+					annotationComments = $('<div class="annotation-comments"></div>');
+					annotationComments.append('<input type="text" class="form-control" />');
+
+					annotationComments.append($('<button type="button" class="btn btn-primary" >Submit</button>').click(function(){
+						text = $(this).parent().children('input[type="text"]').val();
+						
+						comment = {
+							text: text,
+							user: user
+						}
+
+						$.post('/api/annotations/' + annotation.id + '/comments', {comment: comment}, function(response){
+							
+							commentElement = $('<div class="annotation-comment"><span class="">' + comment.text + '</span></div>');
+
+							console.log(this, commentElement);
+						});
+
+						
+
+					}));
+
+					$(field).append(annotationComments);
+				}
+
+				currentComments = $('<div class="current-comments"></div>');
+				$.each(annotation.comments, function(index, comment){
+					comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
+					currentComments.append(comment);
+				});
+
+				$(field).append(currentComments);
 			}
 		});
 	}

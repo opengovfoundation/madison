@@ -5,10 +5,6 @@
 class AnnotationApiController extends ApiController{
 	
 	protected $es; // ElasticSearch client
-	protected $params = array(
-		'index' => 'annotator',
-		'type' 	=> 'annotation'
-	);
 
 	public function __construct(){
 		parent::__construct();
@@ -55,8 +51,6 @@ class AnnotationApiController extends ApiController{
 		$annotation = new Annotation();
 		$annotation->body($body);
 
-
-
 		$id = $annotation->save($this->es);
 
 		return Redirect::to('/api/annotations/' . $id, 303);
@@ -69,26 +63,15 @@ class AnnotationApiController extends ApiController{
 			App::abort(404, 'No annotation id passed.');
 		}
 
-		$es = $this->es;
-		$params = $this->params;
-
 		$body = Input::all();
 
-		$params['id'] = $id;
-		$params['body']['doc'] = $body;
+		$id = Input::get('id');
 
-		//TODO: check body values
+		$annotation = Annotation::find($this->es, $id);
 
-		try{
-			$results = $es->update($params);	
-		}catch(Elasticsearch\Common\Exceptions\Missing404Exception $e){
-			App::abort(404, 'Id not found');
-		}catch(Exception $e){
-			App::abort(404, $e->getMessage());
-		}
+		$results = $annotation->update($this->es, $body);
 
-		return $results;
-
+		return Response::json($results);
 	}
 
 	public function deleteIndex($id = null){
@@ -107,28 +90,7 @@ class AnnotationApiController extends ApiController{
 	}
 
 	public function getSearch(){
-		$es = $this->es;
-
-		$uri = Input::get('uri');
-
-		$params['index'] = "annotator";
-		$params['type'] = "annotation";
-
-		if($uri !== null){	
-			$params['body']['query']['match']['uri'] = $uri;	
-		}
-		
-		$results = $es->search($params);
-
-		$total = $results['hits']['total'];
-
-		$rows = array('rows' => array(), 'total'=>$total);
-
-		foreach($results['hits']['hits'] as $result){
-			array_push($rows['rows'], $result);
-		}
-
-		return Response::json($rows);
+		return false;
 	}
 
 	public function getLikes($id = null){
@@ -203,6 +165,30 @@ class AnnotationApiController extends ApiController{
 		return Response::json($postAction);
 	}
 
+	public function getComments($id = null, $commentId = null){
+		$es = $this->es;
 
+		if($id !== null){
+			$results = Comment::find($this->es, $id);
+		}else{
+			$results = Comment::all($this->es);
+		}
+
+		return Response::json($results);
+	}
+
+	public function postComments($id = null){
+		if($id === null){
+			throw new Exception("Unable to post comment without annotation id.");
+		}
+
+		$comment = Input::get('comment');
+
+		$annotation = Annotation::find($this->es, $id);
+
+		$results = $annotation->addComment($this->es, $comment);
+
+		return Response::json($results);
+	}
 }
 

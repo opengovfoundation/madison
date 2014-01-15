@@ -1,9 +1,10 @@
 <?php
 class Annotation{
-	const INDEX = 'annotator';
+	const INDEX = 'madison';
 	const TYPE = 'annotation';
 
 	protected $body;
+	protected $es;
 
 	//Annotation format described at https://github.com/okfn/annotator/wiki/Annotation-format
 	public $id;
@@ -22,6 +23,7 @@ class Annotation{
 	public $likes = null;
 	public $dislikes = null;
 	public $flags = null;
+	public $comments = array();
 
 	public function __construct($id = null, $source = null){
 		$this->id = $id;
@@ -31,6 +33,19 @@ class Annotation{
 				$this->$key = $value;
 			}
 		}
+	}
+
+	public function addComment($es, $comment){
+		$comment['created'] = date(DateTime::ATOM);
+		$comment['updated'] = date(DateTime::ATOM);
+
+		array_push($this->comments, $comment);
+
+		foreach($this->comments as $index => &$comment){
+			$comment['id'] = $index + 1;
+		}
+
+		return $this->update($es);
 	}
 
 	public function setUserAction($user_id){
@@ -45,6 +60,43 @@ class Annotation{
 		$this->likes = $this->likes();
 		$this->dislikes = $this->dislikes();
 		$this->flags = $this->flags();
+	}
+
+	public function update($es, $body = null){
+
+		if(isset($body)){
+			foreach($body as $name => $value){
+				$this->$name = $value;
+			}
+		}
+		
+		$params = array(
+			'index' => self::INDEX,
+			'type' 	=> self::TYPE,
+			'id'	=> $this->id,
+		);
+
+		$attributes = new ReflectionClass('Annotation');
+		$attributes = $attributes->getProperties(ReflectionProperty::IS_PUBLIC);
+
+		$body = array();
+
+		foreach($attributes as $attribute){
+			$name = $attribute->name;
+			$body[$name] = $this->$name;
+		}
+
+		$params['body']['doc'] = $body;
+
+		try{
+			$results = $es->update($params);	
+		}catch(Elasticsearch\Common\Exceptions\Missing404Exception $e){
+			App::abort(404, 'Id not found');
+		}catch(Exception $e){
+			App::abort(404, $e->getMessage());
+		}
+
+		return $results;
 	}
 
 	public function save($es){
@@ -133,6 +185,10 @@ class Annotation{
 		return $flags;
 	}
 
+	public function setES($es){
+		$this->es = $es;
+	}
+
 	/**
 	*	Class Helper Functions
 	**/
@@ -142,10 +198,6 @@ class Annotation{
 		}else{
 			return $this->$attribute;
 		}
-	}
-
-	public function toString(){
-
 	}
 
 	/**
@@ -167,6 +219,7 @@ class Annotation{
 		$annotation = new Annotation($id, $annotation['_source']);
 
 		$annotation->setActionCounts();
+		$annotation->setES($es);
 
 		return $annotation;
 	}

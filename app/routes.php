@@ -38,7 +38,10 @@ Route::get('api', 'ApiController@getIndex');
     Route::get('api/annotations/{id}/dislikes', 'AnnotationApiController@getDislikes')->where(array('id' => '[0-9a-zA-Z_-]+'));
     Route::get('api/annotations/{id}/flags', 'AnnotationApiController@getFlags')->where(array('id' => '[0-9a-zA-Z_-]+'));
 
-
+    //Comment Routes
+    Route::get('api/annotations/{id}/comments', 'AnnotationApiController@getComments')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    Route::post('api/annotations/{id}/comments', 'AnnotationApiController@postComments')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    Route::get('api/annotations/{id}/comments/{comment}', 'AnnotationApiController@getComments')->where(array('id' => '[0-9a-zA-Z_-]+', 'comment' => '[0-9a-zA-Z_-]+'));
 
     //Annotation Routes
     Route::get('api/annotations/search', 'AnnotationApiController@getSearch');
@@ -48,9 +51,8 @@ Route::get('api', 'ApiController@getIndex');
     Route::put('api/annotations/{id}', 'AnnotationApiController@putIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
     Route::delete('api/annotations/{id}', 'AnnotationApiController@deleteIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
 
-
-
-
+    
+    
 
 //Logout Route
 Route::get('logout', function(){
