@@ -16,13 +16,13 @@
 		<h3>PARTICIPATE</h3>
 	</div>
 </div>
-@if(Auth::check())
-<div class="row participate-sponsor">
-	@include('doc.reader.sponsor')
-</div>
-<div class="row participate-share">
-	@include('doc.reader.share')
-</div>
+@if(Auth::check() && 0)
+	<div class="row participate-sponsor">
+		@include('doc.reader.sponsor')
+	</div>
+	<div class="row participate-share">
+		@include('doc.reader.share')
+	</div>
 @endif
 <div class="row participate-action">
 	@include('doc.reader.action')

@@ -877,9 +877,12 @@ ol.sortable, ol.sortable ol {
 
 /* line 51, ../sass/_annotatorPlugin.scss */
 .sidebar-annotation {
+  cursor: pointer;
   background: gray;
-}
-/* line 54, ../sass/_annotatorPlugin.scss */
-.sidebar-annotation blockquote {
   color: lightgray;
+}
+/* line 57, ../sass/_annotatorPlugin.scss */
+.sidebar-annotation:hover {
+  background: #999999;
+  color: scale-darkness(lightgrey, 20%);
 }

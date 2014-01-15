@@ -49,9 +49,13 @@
 }
 
 .sidebar-annotation{
-	background:gray;
+	cursor:pointer;
 
-	blockquote{
-		color:lightgray;
+	background:gray;
+	color:lightgray;
+
+	&:hover{
+		background: scale-lightness(gray, 20%);
+		color: scale-darkness(lightgray, 20%);
 	}
 }
