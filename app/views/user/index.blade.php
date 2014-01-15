@@ -17,6 +17,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<h2>Suggestions</h2>
+						@if(0)
 						@foreach($user->suggestions as $suggestion)
 							<div class="row user-note user-suggestion">
 								<div class="col-md-12">
@@ -33,11 +34,13 @@
 								</div>
 							</div>
 						@endforeach
+						@endif
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
 						<h2>Comments</h2>
+						@if(0)
 						@foreach($user->comments as $comment)
 							<div class="row user-note user-comment">
 								<div class="col-md-12">
@@ -54,6 +57,7 @@
 								</div>
 							</div>
 						@endforeach
+						@endif
 					</div>
 				</div>
 			</div>

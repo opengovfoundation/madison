@@ -15,13 +15,11 @@ class UserController extends BaseController{
 		}
 		
 		//Grab user by id
-		$user = User::find($id)->with(array('comments', 'organization'))->first();
-		
-		$user->setSuggestions();
+		$user = User::find($id)->first();
 		
 		//Invalid user id
 		if(!isset($user)){
-			App::abort(404);
+			App::abort(404, 'User id not found');
 		}
 	
 		//Set data array

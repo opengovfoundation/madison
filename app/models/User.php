@@ -24,7 +24,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 
 	//Notes this user has created
 	public function notes(){
-		return $this->hasMany('Note');
+		//return $this->hasMany('Note');
+
+		//This needs to return the notes the user has created from elasticsearch
+		return true;
 	}
 	
 	//This user's organization
@@ -37,19 +40,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	}
 	
 	public function setSuggestions(){
-		$suggestions = $this->hasMany('Note')->where('type', '=', 'suggestion')->get();
+		// $suggestions = $this->hasMany('Note')->where('type', '=', 'suggestion')->get();
 		
-		foreach($suggestions as $suggestion){
-			$suggestion->orig_content = DocContent::find($suggestion->section_id)->content;
-		}
+		// foreach($suggestions as $suggestion){
+		// 	$suggestion->orig_content = DocContent::find($suggestion->section_id)->content;
+		// }
 		
-		$this->suggestions = $suggestions;
+		// $this->suggestions = $suggestions;
 		
+		// return true;
 		return true;
 	}
 	
 	public function comments(){
-		return $this->hasMany('Note')->where('type', '=', 'comment');
+		//return $this->hasMany('Note')->where('type', '=', 'comment');
+		return true;
 	}
 }
 

@@ -32,27 +32,15 @@ class NoteController extends BaseController{
 		}
 		
 		//Retrieve note information
-		
-		//$child_notes = $annotation->note_children()->get();
-		
-		$user = $annotation->user();
 
 		$data = array(
 			'page_id'		=> 'note',
 			'page_title'	=> 'View Note',
-			'note_id'		=> $id,
-			'text'			=> $annotation->text(),
-			'user_name'		=> $user['name'],
-			'user_id'		=> $user['id'],
-			'quote'			=> $annotation->quote(),
-			'likes'			=> 0,
-			'dislikes'		=> 0,
-			'child_notes'	=> null
+			'annotation'	=> $annotation
 		);
-		
+
 		//Render view and return to user
 		return View::make('note.index', $data);
-		
 	}
 	
 	/**

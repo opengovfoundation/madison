@@ -185,6 +185,10 @@ class Annotation{
 		return $flags;
 	}
 
+	public function comments(){
+		return $this->comments;
+	}
+
 	public function setES($es){
 		$this->es = $es;
 	}
