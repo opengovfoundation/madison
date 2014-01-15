@@ -12,7 +12,7 @@
 		@include('layouts.assets')
 	</head>
 	<body>
-		<a href="https://github.com/opengovfoundation/madison" target="_blank"><img style="position: absolute; top: 0; left: 30px; border: 0;" src="/img/blue-white-ribbon.png" alt="Fork me on GitHub"></a>
+		<a href="https://github.com/opengovfoundation/madison" class="visible-lg" target="_blank"><img style="position: absolute; top: 0; left: 30px; border: 0;" src="/img/blue-white-ribbon.png" alt="Fork me on GitHub"></a>
 		<div id="wrap">
 
 			<div id="header-main" class="header row">
