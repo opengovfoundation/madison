@@ -69,7 +69,9 @@ class AnnotationApiController extends ApiController{
 
 		$annotation = Annotation::find($this->es, $id);
 
-		$results = $annotation->update($this->es, $body);
+		$annotation->body($body);
+
+		$results = $annotation->update($this->es);
 
 		return Response::json($results);
 	}

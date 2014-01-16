@@ -1,10 +1,13 @@
 <?php
+use Carbon\Carbon;
+
 class Annotation{
 	const INDEX = 'madison';
 	const TYPE = 'annotation';
 
 	protected $body;
 	protected $es;
+	protected $user_action = null;
 
 	//Annotation format described at https://github.com/okfn/annotator/wiki/Annotation-format
 	public $id;
@@ -19,7 +22,6 @@ class Annotation{
 	public $consumer = 'Madison';
 	public $tags;
 	public $permissions;
-	public $user_action = null;
 	public $likes = null;
 	public $dislikes = null;
 	public $flags = null;
@@ -36,8 +38,9 @@ class Annotation{
 	}
 
 	public function addComment($es, $comment){
-		$comment['created'] = date(DateTime::ATOM);
-		$comment['updated'] = date(DateTime::ATOM);
+
+		$comment['created'] = Carbon::now('America/New_York')->toRFC2822String();
+		$comment['updated'] = Carbon::now('America/New_York')->toRFC2822String();
 
 		array_push($this->comments, $comment);
 
@@ -45,7 +48,7 @@ class Annotation{
 			$comment['id'] = $index + 1;
 		}
 
-		return $this->update($es);
+		return $this->update($es, false);
 	}
 
 	public function setUserAction($user_id){
@@ -62,7 +65,10 @@ class Annotation{
 		$this->flags = $this->flags();
 	}
 
-	public function update($es, $body = null){
+	public function update($es, $updateTimestamp = true){
+		if($updateTimestamp){
+			$this->updated = Carbon::now('America/New_York')->toRFC2822String();
+		}
 
 		if(isset($body)){
 			foreach($body as $name => $value){
@@ -103,6 +109,9 @@ class Annotation{
 		if(!isset($this->body)){
 			throw new Exception('Annotation body not found.  Cannot save.');
 		}
+
+		$this->body['created'] = Carbon::now('America/New_York')->toRFC2822String();
+		$this->body['updated'] = Carbon::now('America/New_York')->toRFC2822String();
 
 		$params = array(
 			'index'	=> self::INDEX,
