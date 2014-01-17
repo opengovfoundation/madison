@@ -78,7 +78,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 			sidebarNotes = $('#participate-notes');
 
 			$.each(annotations, function(index, annotation){
-				sidebarNote = $('<div class="sidebar-annotation"><blockquote>' + annotation.text + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote></div>');
+				sidebarNote = $('<a href="/note/' + annotation.id + '"><div class="sidebar-annotation"><blockquote>' + annotation.text + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote></div></a>');
 				sidebarNotes.append(sidebarNote);
 			});
 		});
