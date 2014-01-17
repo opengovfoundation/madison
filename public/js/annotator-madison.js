@@ -136,8 +136,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
 				$(field).append(annotationAction);
 
-				console.log($(annotation.comments).length);
-
 				commentsHeader = $('<div class="comment-toggle" data-toggle-"collapse" data-target="#current-comments">Comments <span id="comment-caret" class="caret caret-right"></span></button>').click(function(){
 					$('#current-comments').collapse('toggle');
 					$('#comment-caret').toggleClass('caret-right');
