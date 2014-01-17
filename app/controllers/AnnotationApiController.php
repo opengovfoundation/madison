@@ -95,74 +95,74 @@ class AnnotationApiController extends ApiController{
 		return false;
 	}
 
-	public function getLikes($id = null){
+	public function getLikes($doc, $annotation = null){
 		$es = $this->es;
 
-		if($id === null){
+		if($annotation === null){
 			App::abort(404, 'No annotation id passed.');
 		}
 
-		$likes = Annotation::getMetaCount($es, $id, 'likes');
+		$likes = Annotation::getMetaCount($es, $annotation, 'likes');
 
 		return Response::json(array('likes' => $likes));
 	}
 
-	public function getDislikes($id = null){
+	public function getDislikes($doc, $annotation = null){
 		$es = $this->es;
 
-		if($id === null){
+		if($annotation === null){
 			App::abort(404, 'No annotation id passed.');
 		}
 
-		$dislikes = Annotation::getMetaCount($es, $id, 'dislikes');
+		$dislikes = Annotation::getMetaCount($es, $annotation, 'dislikes');
 
 		return Response::json(array('dislikes' => $dislikes));
 	}
 
-	public function getFlags($id = null){
+	public function getFlags($doc, $annotation = null){
 		$es = $this->es;
 
-		if($id === null){
+		if($annotation === null){
 			App::abort(404, 'No annotation id passed.');
 		}
 
-		$flags = Annotation::getMetaCount($es, $id, 'flags');
+		$flags = Annotation::getMetaCount($es, $annotation, 'flags');
 
 		return Response::json(array('flags' => $flags));
 	}
 
-	public function postLikes($id = null){
+	public function postLikes($doc, $annotation = null){
 		$es = $this->es;
 
-		if($id === null){
+		if($annotation === null){
 			App::abort(404, 'No note id passed');
 		}
 
-		$postAction = Annotation::addUserAction($es, $id, Auth::user()->id, 'like');
+		$postAction = Annotation::addUserAction($es, $annotation, Auth::user()->id, 'like');
 
 		return Response::json($postAction);
 	}
 
-	public function postDislikes($id = null){
+	public function postDislikes($doc, $annotation = null){
 		$es = $this->es;
 
-		if($id === null){
+		if($annotation === null){
 			App::abort(404, 'No note id passed');
 		}
 
-		$postAction = Annotation::addUserAction($es, $id, Auth::user()->id, 'dislike');
+		$postAction = Annotation::addUserAction($es, $annotation, Auth::user()->id, 'dislike');
 
 		return Response::json($postAction);
 	}	
 
-	public function postFlags($id = null){
+	public function postFlags($doc, $annotation = null){
 		$es = $this->es;
 
-		if($id === null){
+		if($annotation === null){
 			App::abort(404, 'No note id passed');
 		}
 
-		$postAction = Annotation::addUserAction($es, $id, Auth::user()->id, 'flag');
+		$postAction = Annotation::addUserAction($es, $annotation, Auth::user()->id, 'flag');
 
 		return Response::json($postAction);
 	}

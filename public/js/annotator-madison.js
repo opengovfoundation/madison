@@ -1,5 +1,5 @@
 function addLike(annotation, element){
-	$.post('/api/annotations/' + annotation.id + '/likes', function(data){
+	$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/likes', function(data){
 		element = $(element);
 		element.children('.action-count').text(data.likes);
 		element.siblings('.glyphicon').removeClass('selected');
@@ -21,7 +21,7 @@ function addLike(annotation, element){
 }
 
 function addDislike(annotation, element){
-	$.post('/api/annotations/' + annotation.id + '/dislikes', function(data){
+	$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/dislikes', function(data){
 		element = $(element);
 		element.children('.action-count').text(data.dislikes);
 		element.siblings('.glyphicon').removeClass('selected');
@@ -43,7 +43,7 @@ function addDislike(annotation, element){
 }
 
 function addFlag(annotation, element){
-	$.post('/api/annotations/' + annotation.id + '/flags', function(data){
+	$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/flags', function(data){
 		element = $(element);
 		element.children('.action-count').text(data.flags);
 		element.siblings('.glyphicon').removeClass('selected');
