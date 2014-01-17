@@ -156,6 +156,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
 					annotationComments.append($('<button type="button" class="btn btn-primary" >Submit</button>').click(function(){
 						text = $(this).parent().children('input[type="text"]').val();
+						$(this).parent().children('input[type="text"]').val('');
 						
 						comment = {
 							text: text,
@@ -167,6 +168,8 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 							comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
 							currentComments.append(comment);
 						});
+
+						$('#current-comments').collapse(true);
 					}));
 
 					$(field).append(annotationComments);

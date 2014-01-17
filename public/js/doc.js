@@ -8,10 +8,10 @@ $(document).ready(function(){
 	annotator.annotator('addPlugin', 'Markdown');
 	annotator.annotator('addPlugin', 'Store', {
 		annotationData:{
-			'uri': window.location.href,
+			'uri': window.location.pathname,
 			'comments': []
 		},
-		prefix: '/api/annotations',
+		prefix: '/api/docs/'+ doc.id + '/annotations',
 		urls: {
 			create: 	'',
 			read: 		'/:id',

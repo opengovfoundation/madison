@@ -258,14 +258,14 @@ class Annotation{
 		return $annotation;
 	}
 
-	public static function all($es){
+	public static function all($es, $docId){
 		
 		$params = array(
 			'index'	=> self::INDEX,
 			'type'	=> self::TYPE,
 			'body'	=> array(
 				'query'	=> array(
-					'match_all'	=> array()
+					'term'	=> array('doc' => $docId)
 				)
 			)
 		);
@@ -283,13 +283,13 @@ class Annotation{
 		return $annotations;
 	}
 
-	public static function allWithActions($es, $userid){
+	public static function allWithActions($es, $docId, $userId){
 		$params = array(
 			'index'	=> self::INDEX,
 			'type'	=> self::TYPE,
 			'body'	=> array(
 				'query'	=> array(
-					'match_all'	=> array()
+					'term'	=> array('doc' => $docId)
 				)
 			)
 		);
@@ -299,7 +299,7 @@ class Annotation{
 		$annotations = array();
 		foreach($results as $annotation){
 			$toPush = new Annotation($annotation['_id'], $annotation['_source']);
-			$toPush->setUserAction($userid);
+			$toPush->setUserAction($userId);
 			$toPush->setActionCounts();
 
 			array_push($annotations, $toPush);

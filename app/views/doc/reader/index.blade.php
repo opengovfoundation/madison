@@ -19,6 +19,12 @@
 			}
 		</script>
 	@endif
+	<script>
+		var doc = {
+			slug: '{{ $doc->slug }}',
+			id: {{ $doc->id }}
+		}
+	</script>
 	{{ HTML::style('vendor/annotator/annotator.min.css') }}
 	{{ HTML::script('vendor/annotator/annotator-full.min.js') }}
 	{{ HTML::script('vendor/showdown/showdown.js') }}

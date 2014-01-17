@@ -12,30 +12,29 @@ class AnnotationApiController extends ApiController{
 		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
 	}	
 	
-	//Route for /api/annotation/{id}
+	//Route for /api/docs{doc}/annotation/{annotation}
 	//	Returns json annotation if id found,
 	//		404 with error message if id not found,
 	//		404 if no id passed
-	public function getIndex($id = null){
-
+	public function getIndex($doc, $annotation = null){
 		try{
 			if(Auth::check()){
 				$userid = Auth::user()->id;
 
-				if($id !== null){
+				if($annotation !== null){
 					//TODO
 						// This call should be Annotation::find($this->es)->with('actions');
-					$results = Annotation::findWithActions($this->es, $id, $userid);
+					$results = Annotation::findWithActions($this->es, $annotation, $userid);
 				}else{
 					//TODO:
 						// This call should be Annotation::all($this->es)->with('actions');
-					$results = Annotation::allWithActions($this->es, $userid);
+					$results = Annotation::allWithActions($this->es, $doc, $userid);
 				}
 			}else{
-				if($id !== null){
-					$results = Annotation::find($this->es, $id);
+				if($annotation !== null){
+					$results = Annotation::find($this->es, $annotation);
 				}else{
-					$results = Annotation::all($this->es);
+					$results = Annotation::all($this->es, $doc);
 				}
 			}
 		}catch(Exception $e){
@@ -45,8 +44,9 @@ class AnnotationApiController extends ApiController{
 		return Response::json($results);
 	}
 
-	public function postIndex(){
+	public function postIndex($doc){
 		$body = Input::all();
+		$body['doc'] = $doc;
 
 		$annotation = new Annotation();
 		$annotation->body($body);
