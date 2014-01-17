@@ -67,4 +67,9 @@
 		background: scale-lightness(gray, 20%);
 		color: scale-darkness(lightgray, 20%);
 	}
+
+	blockquote{
+		margin-bottom:0;
+		border-bottom:1px dotted darkgray;
+	}
 }

@@ -301,6 +301,7 @@ textarea.form-inline{
 	@include border-radius(10px);
 	@include bg($dark-gray);
 	border: 2px groove white;
+	color:$light-gray;
 	
 	> .row{
 		border-bottom:1px solid #3c3c3c;
@@ -308,18 +309,17 @@ textarea.form-inline{
 	
 	> .row:last-child{
 		border-bottom:none;
+		margin-bottom:20px;
 	}
 	
 	h3{
-		color:$light-gray;
-		margin-left:20px;
+		margin:20px;
 		font-family:arial;
 		font-weight:200;
 		font-size:1.5em;
 	}
 	h4{
-		color:$light-gray;
-		margin-left:20px;
+		margin:20px;
 		font-family:arial;
 		font-weight:200;
 		font-size:1em;
@@ -337,6 +337,11 @@ textarea.form-inline{
 			color:white;
 			font-size:1.3em;
 		}
+	}
+
+	.action-intro{
+		padding: 10px;
+		margin:0;
 	}
 
 }
