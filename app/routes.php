@@ -1,5 +1,20 @@
 <?php
 
+/**
+*   Global Route Patterns
+*/
+
+Route::pattern('annotation', '[0-9a-zA-Z_-]+');
+Route::pattern('comment', '[0-9a-zA-Z_-]+');
+Route::pattern('doc', '[0-9]+');
+Route::pattern('user', '[0-9]+');
+
+
+/**
+*   Route - Model bindings
+*/
+Route::model('user', 'User'); 
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -9,47 +24,47 @@
 //Static Pages
 Route::get('about', 'PageController@getAbout');
 Route::get('faq', 'PageController@faq');
-Route::get('/', 'PageController@home');
+Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 
 //Document Routes
 Route::get('docs', 'DocController@index');
 Route::get('docs/{slug}', 'DocController@index');
 
 //User Routes
-Route::get('user/{id}', 'UserController@getIndex')->where(array('id' => '[0-9]+'));
+Route::get('user/{user}', 'UserController@getIndex');
 Route::controller('user', 'UserController');
 
 //Note Routes
-Route::get('note/{id}', 'NoteController@getIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
-Route::post('note/{id}', 'NoteController@postIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
-Route::put('note/{id}', 'NoteController@putIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+Route::get('note/{annotation}', 'NoteController@getIndex');
+Route::post('note/{annotation}', 'NoteController@postIndex');
+Route::put('note/{annotation}', 'NoteController@putIndex');
 Route::controller('note', 'NoteController');
 
 //Dashboard Routes
 Route::controller('dashboard', 'DashboardController');
 
 //Api Routes
-Route::get('api', 'ApiController@getIndex');
+//Route::get('api', 'ApiController@getIndex');
     //Annotation Action Routes
-    Route::post('api/annotations/{id}/likes', 'AnnotationApiController@postLikes')->where(array('id' => '[0-9a-zA-Z_-]+'));
-    Route::post('api/annotations/{id}/dislikes', 'AnnotationApiController@postDislikes')->where(array('id' => '[0-9a-zA-Z_-]+'));
-    Route::post('api/annotations/{id}/flags', 'AnnotationApiController@postFlags')->where(array('id' => '[0-9a-zA-Z_-]+'));
-    Route::get('api/annotations/{id}/likes', 'AnnotationApiController@getLikes')->where(array('id' => '[0-9a-zA-Z_-]+'));
-    Route::get('api/annotations/{id}/dislikes', 'AnnotationApiController@getDislikes')->where(array('id' => '[0-9a-zA-Z_-]+'));
-    Route::get('api/annotations/{id}/flags', 'AnnotationApiController@getFlags')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    Route::post('api/docs/{doc}/annotations/{annotation}/likes', 'AnnotationApiController@postLikes');
+    Route::post('api/docs/{doc}/annotations/{annotation}/dislikes', 'AnnotationApiController@postDislikes');
+    Route::post('api/docs/{doc}/annotations/{annotation}/flags', 'AnnotationApiController@postFlags');
+    Route::get('api/docs/{doc}/annotations/{annotation}/likes', 'AnnotationApiController@getLikes');
+    Route::get('api/docs/{doc}/annotations/{annotation}/dislikes', 'AnnotationApiController@getDislikes');
+    Route::get('api/docs/{doc}/annotations/{annotation}/flags', 'AnnotationApiController@getFlags');
 
     //Comment Routes
-    Route::get('api/annotations/{id}/comments', 'AnnotationApiController@getComments')->where(array('id' => '[0-9a-zA-Z_-]+'));
-    Route::post('api/annotations/{id}/comments', 'AnnotationApiController@postComments')->where(array('id' => '[0-9a-zA-Z_-]+'));
-    Route::get('api/annotations/{id}/comments/{comment}', 'AnnotationApiController@getComments')->where(array('id' => '[0-9a-zA-Z_-]+', 'comment' => '[0-9a-zA-Z_-]+'));
+    Route::get('api/docs/{doc}/annotations/{annotation}/comments', 'AnnotationApiController@getComments');
+    Route::post('api/docs/{doc}/annotations/{annotation}/comments', 'AnnotationApiController@postComments');
+    Route::get('api/docs/{doc}/annotations/{annotation}/comments/{comment}', 'AnnotationApiController@getComments');
 
     //Annotation Routes
     Route::get('api/annotations/search', 'AnnotationApiController@getSearch');
-    Route::get('api/annotations', 'AnnotationApiController@getIndex');
-    Route::post('api/annotations', 'AnnotationApiController@postIndex');
-    Route::get('api/annotations/{id}', 'AnnotationApiController@getIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
-    Route::put('api/annotations/{id}', 'AnnotationApiController@putIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
-    Route::delete('api/annotations/{id}', 'AnnotationApiController@deleteIndex')->where(array('id' => '[0-9a-zA-Z_-]+'));
+    Route::get('api/docs/{doc}/annotations/{annotation?}', 'AnnotationApiController@getIndex');
+    Route::post('api/docs/{doc}/annotations', 'AnnotationApiController@postIndex');
+    //Route::get('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@getIndex');
+    Route::put('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@putIndex');
+    Route::delete('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@deleteIndex');
 
     
     
