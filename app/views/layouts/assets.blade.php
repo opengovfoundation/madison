@@ -24,3 +24,11 @@
 {{ HTML::script('vendor/underscore.min.js') }}
 {{ HTML::script('vendor/pagedown/assets/Markdown.Converter.js') }}
 {{ HTML::script('js/madison.js') }}
+
+<?php 
+$fs = new Illuminate\Filesystem\Filesystem();
+if($fs->exists(public_path() . '/js/uservoice.js')): ?>
+	{{ HTML::script('js/uservoice.js') }}
+	<?php else: ?>
+	dd(public_path());
+<?php endif; ?>

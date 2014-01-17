@@ -135,6 +135,7 @@
 					
 					$cred_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/shared/creds.yml current/app/config/creds.yml');
 					$smtp_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/shared/smtp.yml current/app/config/smtp.yml');
+					$uservoice_ret = $task->runInFOlder('/', 'ln -s ' . $homeFolder .'/shared/uservoice.js current/public/js/uservoice.js');
 				}
 			),
 			'cleanup' => array(),

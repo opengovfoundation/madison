@@ -8,20 +8,7 @@ class UserController extends BaseController{
 		parent::__construct();
 	}
 	
-	public function getIndex($id = null){
-		
-		if($id == null){
-			App::abort(404);
-		}
-		
-		//Grab user by id
-		$user = User::find($id)->first();
-		
-		//Invalid user id
-		if(!isset($user)){
-			App::abort(404, 'User id not found');
-		}
-	
+	public function getIndex(User $user){
 		//Set data array
 		$data = array(
 			'user'			=> $user,
