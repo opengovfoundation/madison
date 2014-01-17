@@ -53,7 +53,7 @@ class AnnotationApiController extends ApiController{
 
 		$id = $annotation->save($this->es);
 
-		return Redirect::to('/api/annotations/' . $id, 303);
+		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $id, 303);
 	}
 
 	public function putIndex($id = null){
