@@ -1,6 +1,6 @@
 @extends('layouts/main')
 @section('content')
-<h1>Annotation</h1>
+<h1>{{ $annotation->user()['name'] }}'s Note</h1>
 	<div class="content col-md-12">
 		<div class="row">
 			<h3>Original Passage</h3>
@@ -9,7 +9,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<h3>Annotation</h3>
+			<h3>Note</h3>
 			<div class="col-md-12">
 				
 				<p>{{ $annotation->text() }}</p>
