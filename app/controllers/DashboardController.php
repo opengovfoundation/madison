@@ -131,46 +131,6 @@ class DashboardController extends BaseController{
 
 		return Redirect::to('dashboard/docs/' . $id)->with('success_message', 'Document Saved Successfully');
 	}
-
-	/**
-	 * 	POST route for adding line items to documents
-	 * 		Returns JSON array that includes the new line item's auto-incremented id
-	 */
-	public function postContent($id = ''){
-
-		if($id != ''){
-			return Response::error('404');
-		}
-		$content_details = Input::all();
-
-		$rules = array('doc_id' => 'required',
-						'content' => 'required',
-						'parent_id' => 'required'
-						);
-		$validation = Validator::make($content_details, $rules);
-		if($validation->fails()){
-			return json_encode(array('success'=>false, 'msg'=>'New content failed required fields'));
-		}
-		
-		$doc_id = Input::get('doc_id');
-		$content = Input::get('content');
-		$parent_id = Input::get('parent_id');
-		$child_priority = Input::get('child_priority');
-		
-		$doc_item = new DocContent();
-		$doc_item->doc_id = $doc_id;
-		$doc_item->content = $content;
-		$doc_item->parent_id = $parent_id;
-		$doc_item->child_priority = 0;
-		
-		try{
-			$doc_item->save();
-		}catch(Exception $e){
-			return json_encode(array('success'=>false, 'msg'=>'Failure saving new content: ' . $e->getMessage()));
-		}
-		
-		return json_encode(array('success'=>true, 'id' => $doc_item->id, 'msg' => 'Content created successfully'));
-	}
 	
 	/**
 	 * 	Verification request view
@@ -190,8 +150,6 @@ class DashboardController extends BaseController{
 	public function postVerification(){
 
 	}
-
-
 
 	/**
 	 * 	Post route for House document import
