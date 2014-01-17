@@ -35,9 +35,12 @@ class Annotation{
 				$this->$key = $value;
 			}
 		}
+
+		$this->es = self::connect();
 	}
 
-	public function addComment($es, $comment){
+	public function addComment($comment){
+		$es = $this->es;
 
 		$comment['created'] = Carbon::now('America/New_York')->toRFC2822String();
 		$comment['updated'] = Carbon::now('America/New_York')->toRFC2822String();
@@ -48,7 +51,7 @@ class Annotation{
 			$comment['id'] = $index + 1;
 		}
 
-		return $this->update($es, false);
+		return $this->update(false);
 	}
 
 	public function setUserAction($user_id){
@@ -65,7 +68,9 @@ class Annotation{
 		$this->flags = $this->flags();
 	}
 
-	public function update($es, $updateTimestamp = true){
+	public function update($updateTimestamp = true){
+		$es = $this->es;
+
 		if($updateTimestamp){
 			$this->updated = Carbon::now('America/New_York')->toRFC2822String();
 		}
@@ -105,7 +110,9 @@ class Annotation{
 		return $results;
 	}
 
-	public function save($es){
+	public function save(){
+		$es = $this->es;
+
 		if(!isset($this->body)){
 			throw new Exception('Annotation body not found.  Cannot save.');
 		}
@@ -126,6 +133,25 @@ class Annotation{
 		}
 
 		return $results['_id'];
+	}
+
+	public function delete(){
+		$es = self::connect();
+
+		$params = array(
+			'index'	=> self::INDEX,
+			'type'	=> self::TYPE,
+			'id'	=> $this->id
+		);
+
+		$result = $es->delete($params);
+		
+		if($result['ok'] == true){
+			$metas = NoteMeta::where('note_id', $this->id);
+			$metas->delete();
+		}
+		
+		return $result;
 	}
 
 	/**
@@ -198,10 +224,6 @@ class Annotation{
 		return $this->comments;
 	}
 
-	public function setES($es){
-		$this->es = $es;
-	}
-
 	/**
 	*	Class Helper Functions
 	**/
@@ -217,7 +239,9 @@ class Annotation{
 	*	Class Static Functions
 	*/
 
-	public static function find($es, $id){
+	public static function find($id){
+		$es = self::connect();
+
 		if($id === null){
 			throw new Exception('Cannot retrieve annotation with null id');
 		}
@@ -232,12 +256,13 @@ class Annotation{
 		$annotation = new Annotation($id, $annotation['_source']);
 
 		$annotation->setActionCounts();
-		$annotation->setES($es);
 
 		return $annotation;
 	}
 
-	public static function findWithActions($es, $id, $userid){
+	public static function findWithActions($id, $userid){
+		$es = self::connect();
+
 		if($id === null){
 			throw new Exception('Cannot retrieve annotation with null id');
 		}
@@ -258,8 +283,9 @@ class Annotation{
 		return $annotation;
 	}
 
-	public static function all($es, $docId){
-		
+	public static function all($docId){
+		$es = self::connect();
+
 		$params = array(
 			'index'	=> self::INDEX,
 			'type'	=> self::TYPE,
@@ -283,7 +309,9 @@ class Annotation{
 		return $annotations;
 	}
 
-	public static function allWithActions($es, $docId, $userId){
+	public static function allWithActions($docId, $userId){
+		$es = self::connect();
+
 		$params = array(
 			'index'	=> self::INDEX,
 			'type'	=> self::TYPE,
@@ -308,36 +336,23 @@ class Annotation{
 		return $annotations;
 	}
 
-	public static function delete($es, $id){
-		$params = array(
-			'index'	=> self::INDEX,
-			'type'	=> self::TYPE,
-			'id'	=> $id
-		);
+	public static function getMetaCount($id, $action){
+		$es = self::connect();
 
-		$result = $es->delete($params);
-		
-		if($result['ok'] == true){
-			$metas = NoteMeta::where('note_id', $id);
-			$metas->delete();
-		}
-		
-		return $result;
-	}
-
-	public static function getMetaCount($es, $id, $action){
 		if($id === null){
 			App::abort(404, 'No note id passed');
 		}
 
-		$annotation = Annotation::find($es, $id);
+		$annotation = Annotation::find($id);
 
 		$action_count = $annotation->$action();
 
 		return $action_count;
 	}
 
-	public static function addUserAction($es, $note_id, $user_id, $action){
+	public static function addUserAction($note_id, $user_id, $action){
+		$es = self::connect();
+
 		if($note_id == null || $user_id == null || $action == null){
 			throw new Exception('Unable to add user action.');
 		}
@@ -349,7 +364,7 @@ class Annotation{
 		                  'flags'		=> -1
 		            );
 
-		$annotation = Annotation::find($es, $note_id);
+		$annotation = Annotation::find($note_id);
 
 		$meta = NoteMeta::where('user_id', $user_id)->where('note_id', '=', $note_id)->where('meta_key', '=', 'user_action');
 
@@ -387,6 +402,13 @@ class Annotation{
 		$toReturn['flags'] = $annotation->flags();
 
 		return $toReturn;
+	}
+
+	protected static function connect(){
+		$params['hosts'] = Config::get('elasticsearch.hosts');
+		$es = new Elasticsearch\Client($params);
+
+		return $es;
 	}
 }
 

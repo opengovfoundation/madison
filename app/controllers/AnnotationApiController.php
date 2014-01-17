@@ -3,8 +3,6 @@
  * 	Controller for Document actions
  */
 class AnnotationApiController extends ApiController{
-	
-	protected $es; // ElasticSearch client
 
 	public function __construct(){
 		parent::__construct();
@@ -22,19 +20,15 @@ class AnnotationApiController extends ApiController{
 				$userid = Auth::user()->id;
 
 				if($annotation !== null){
-					//TODO
-						// This call should be Annotation::find($this->es)->with('actions');
-					$results = Annotation::findWithActions($this->es, $annotation, $userid);
+					$results = Annotation::findWithActions($annotation, $userid);
 				}else{
-					//TODO:
-						// This call should be Annotation::all($this->es)->with('actions');
-					$results = Annotation::allWithActions($this->es, $doc, $userid);
+					$results = Annotation::allWithActions($doc, $userid);
 				}
 			}else{
 				if($annotation !== null){
-					$results = Annotation::find($this->es, $annotation);
+					$results = Annotation::find($annotation);
 				}else{
-					$results = Annotation::all($this->es, $doc);
+					$results = Annotation::all($doc);
 				}
 			}
 		}catch(Exception $e){
@@ -51,7 +45,7 @@ class AnnotationApiController extends ApiController{
 		$annotation = new Annotation();
 		$annotation->body($body);
 
-		$id = $annotation->save($this->es);
+		$id = $annotation->save();
 
 		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $id, 303);
 	}
@@ -67,26 +61,24 @@ class AnnotationApiController extends ApiController{
 
 		$id = Input::get('id');
 
-		$annotation = Annotation::find($this->es, $id);
+		$annotation = Annotation::find($id);
 
 		$annotation->body($body);
 
-		$results = $annotation->update($this->es);
+		$results = $annotation->update();
 
 		return Response::json($results);
 	}
 
-	public function deleteIndex($id = null){
+	public function deleteIndex($doc, $annotation){
 		//If no id requested, return 404
-		if($id === null){
+		if($annotation === null){
 			App::abort(404, 'No annotation id passed.');
 		}
 
-		try{
-			$ret = Annotation::delete($this->es, $id);
-		}catch(Exception $e){
-			App::abort(404, $e->getMessage());
-		}
+		$annotation = Annotation::find($annotation);
+		
+		$ret = $annotation->delete();
 		
 		return Response::make(null, 204);
 	}
@@ -96,87 +88,63 @@ class AnnotationApiController extends ApiController{
 	}
 
 	public function getLikes($doc, $annotation = null){
-		$es = $this->es;
-
 		if($annotation === null){
 			App::abort(404, 'No annotation id passed.');
 		}
 
-		$likes = Annotation::getMetaCount($es, $annotation, 'likes');
+		$likes = Annotation::getMetaCount($annotation, 'likes');
 
 		return Response::json(array('likes' => $likes));
 	}
 
 	public function getDislikes($doc, $annotation = null){
-		$es = $this->es;
-
 		if($annotation === null){
 			App::abort(404, 'No annotation id passed.');
 		}
 
-		$dislikes = Annotation::getMetaCount($es, $annotation, 'dislikes');
+		$dislikes = Annotation::getMetaCount($annotation, 'dislikes');
 
 		return Response::json(array('dislikes' => $dislikes));
 	}
 
 	public function getFlags($doc, $annotation = null){
-		$es = $this->es;
-
 		if($annotation === null){
 			App::abort(404, 'No annotation id passed.');
 		}
 
-		$flags = Annotation::getMetaCount($es, $annotation, 'flags');
+		$flags = Annotation::getMetaCount($annotation, 'flags');
 
 		return Response::json(array('flags' => $flags));
 	}
 
 	public function postLikes($doc, $annotation = null){
-		$es = $this->es;
-
 		if($annotation === null){
 			App::abort(404, 'No note id passed');
 		}
 
-		$postAction = Annotation::addUserAction($es, $annotation, Auth::user()->id, 'like');
+		$postAction = Annotation::addUserAction($annotation, Auth::user()->id, 'like');
 
 		return Response::json($postAction);
 	}
 
 	public function postDislikes($doc, $annotation = null){
-		$es = $this->es;
-
 		if($annotation === null){
 			App::abort(404, 'No note id passed');
 		}
 
-		$postAction = Annotation::addUserAction($es, $annotation, Auth::user()->id, 'dislike');
+		$postAction = Annotation::addUserAction($annotation, Auth::user()->id, 'dislike');
 
 		return Response::json($postAction);
 	}	
 
 	public function postFlags($doc, $annotation = null){
-		$es = $this->es;
-
 		if($annotation === null){
 			App::abort(404, 'No note id passed');
 		}
 
-		$postAction = Annotation::addUserAction($es, $annotation, Auth::user()->id, 'flag');
+		$postAction = Annotation::addUserAction($annotation, Auth::user()->id, 'flag');
 
 		return Response::json($postAction);
-	}
-
-	public function getComments($id = null, $commentId = null){
-		$es = $this->es;
-
-		if($id !== null){
-			$results = Comment::find($this->es, $id);
-		}else{
-			$results = Comment::all($this->es);
-		}
-
-		return Response::json($results);
 	}
 
 	public function postComments($doc, $annotation = null){
@@ -186,9 +154,9 @@ class AnnotationApiController extends ApiController{
 
 		$comment = Input::get('comment');
 
-		$annotation = Annotation::find($this->es, $annotation);
+		$annotation = Annotation::find($annotation);
 
-		$results = $annotation->addComment($this->es, $comment);
+		$results = $annotation->addComment($comment);
 
 		return Response::json($results);
 	}

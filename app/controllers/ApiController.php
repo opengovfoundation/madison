@@ -10,11 +10,6 @@ class ApiController extends BaseController{
 		parent::__construct();
 
 		//$this->beforeFilter('auth');
-
-		$params = array();
-		$params['hosts'] = array('localhost:9200');
-
-		$this->es = new Elasticsearch\Client($params);
 	}
 	
 	// public function getIndex(){
