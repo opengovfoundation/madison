@@ -1,4 +1,5 @@
 public/.sass-cache/
+public/js/uservoice.js
 app/config/creds.yml
 app/config/smtp.yml
 app/config/remote.php
