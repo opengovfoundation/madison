@@ -163,7 +163,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 							user: user
 						}
 
-						$.post('/api/annotations/' + annotation.id + '/comments', {comment: comment}, function(response){
+						$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/comments', {comment: comment}, function(response){
 							annotation.comments.push(comment);
 							comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
 							currentComments.append(comment);

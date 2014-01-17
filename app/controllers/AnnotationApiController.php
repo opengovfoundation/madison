@@ -179,14 +179,14 @@ class AnnotationApiController extends ApiController{
 		return Response::json($results);
 	}
 
-	public function postComments($id = null){
-		if($id === null){
+	public function postComments($doc, $annotation = null){
+		if($annotation === null){
 			throw new Exception("Unable to post comment without annotation id.");
 		}
 
 		$comment = Input::get('comment');
 
-		$annotation = Annotation::find($this->es, $id);
+		$annotation = Annotation::find($this->es, $annotation);
 
 		$results = $annotation->addComment($this->es, $comment);
 
