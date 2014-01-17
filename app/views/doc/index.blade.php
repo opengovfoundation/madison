@@ -3,7 +3,7 @@
 	<div class="content col-md-12 docs">
 		<h1>All Documents</h1>
 		@foreach( $docs as $doc )
-			<a href="{{ URL::to('doc/' . $doc->slug) }}">{{ $doc->title }}</a>
+			<a href="{{ URL::to('docs/' . $doc->slug) }}">{{ $doc->title }}</a>
 		@endforeach
 	</div>
 @endsection

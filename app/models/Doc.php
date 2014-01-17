@@ -36,11 +36,8 @@ class Doc extends Eloquent{
 		return $path;
 	}
 
-	public function store_content($doc, $doc_content){
-		//TODO:
-			//Create ElasticSearch class to hold this connection
-		$esParams['hosts'] = Config::get('elasticsearch.hosts');
-		$es = new Elasticsearch\Client($esParams);
+	public function store_content($doc, $doc_content){		
+		$es = self::esConnect();
 
 		File::put($this->get_file_path('markdown'), $doc_content->content);
 
@@ -78,8 +75,23 @@ class Doc extends Eloquent{
 
 			return $content;
 		}
+	}
 
+	public static function search($query){
+		$es = self::esConnect();
 
+		$params['index'] = self::INDEX;
+		$params['type'] = self::TYPE;
+		$params['body']['query']['filtered']['query']['query_string']['query'] = $query;
+
+		return $es->search($params);
+	}
+
+	public static function esConnect(){
+		$esParams['hosts'] = Config::get('elasticsearch.hosts');
+		$es = new Elasticsearch\Client($esParams);
+
+		return $es;
 	}
 }
 

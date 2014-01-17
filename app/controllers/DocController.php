@@ -48,5 +48,29 @@ class DocController extends BaseController{
 		}
 		App::abort('404');
 	}
+
+	public function getSearch(){
+		$q = Input::get('q');
+
+    	$results = Doc::search(urldecode($q));
+    	//$results = json_decode($results);
+
+    	$docs = array();
+
+    	foreach($results['hits']['hits'] as $result){
+    		$doc = Doc::find($result['_source']['id']);
+    		array_push($docs, $doc);
+    	}
+
+    	$data = array(
+    		'page_id' 		=> 'doc-search',
+    		'page_title' 	=> 'Search Results',
+    		'results'			=> $docs,
+    		'query'			=> $q
+    	);
+
+    	return View::make('doc.search.index', $data);
+
+	}
 }
 
