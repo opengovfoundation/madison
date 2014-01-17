@@ -1,6 +1,8 @@
 <?php
 class Doc extends Eloquent{
 	public static $timestamp = true;
+	const INDEX = 'madison';
+	const TYPE = 'doc';
 
 	public function getLink(){
 		return URL::to('doc/' . $this->slug);
@@ -35,11 +37,30 @@ class Doc extends Eloquent{
 	}
 
 	public function store_content($doc, $doc_content){
+		//TODO:
+			//Create ElasticSearch class to hold this connection
+		$esParams['hosts'] = Config::get('elasticsearch.hosts');
+		$es = new Elasticsearch\Client($esParams);
+
 		File::put($this->get_file_path('markdown'), $doc_content->content);
 
 		File::put($this->get_file_path('html'),
 			Markdown::render($doc_content->content)
 		);
+
+		$body = array(
+			'id' => $this->id,
+			'content' => $doc_content->content
+		);
+
+		$params = array(
+			'index'	=> self::INDEX,
+			'type'	=> self::TYPE,
+			'id'	=> $this->id,
+			'body'	=> $body
+		);
+
+		$results = $es->index($params);
 	}
 
 	public function get_content($format = null){
