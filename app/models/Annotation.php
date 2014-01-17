@@ -7,7 +7,6 @@ class Annotation{
 
 	protected $body;
 	protected $es;
-	protected $user_action = null;
 
 	//Annotation format described at https://github.com/okfn/annotator/wiki/Annotation-format
 	public $id;
@@ -26,6 +25,7 @@ class Annotation{
 	public $dislikes = null;
 	public $flags = null;
 	public $comments = array();
+	public $user_action = null;
 
 	public function __construct($id = null, $source = null){
 		$this->id = $id;
@@ -81,6 +81,10 @@ class Annotation{
 			}
 		}
 		
+		if(isset($body['user_action'])){
+			unset($body['user_action']);
+		}
+
 		$params = array(
 			'index' => self::INDEX,
 			'type' 	=> self::TYPE,
