@@ -66,9 +66,6 @@ Route::controller('dashboard', 'DashboardController');
     Route::put('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@putIndex');
     Route::delete('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@deleteIndex');
 
-    
-    
-
 //Logout Route
 Route::get('logout', function(){
 	Auth::logout();	//Logout the current user

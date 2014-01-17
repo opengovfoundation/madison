@@ -25,7 +25,7 @@ class NoteController extends BaseController{
 		}
 		
 		//Invalid note id
-		$annotation = Annotation::find($this->es, $id);
+		$annotation = Annotation::find($id);
 
 		if(!isset($annotation)){
 			App::abort(404, 'Unable to retrieve note');
