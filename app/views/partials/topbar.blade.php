@@ -12,8 +12,7 @@
 		</li>
 	</ul>
 	@endif
-	<!-- <button type="button" class="btn btn-default navbar-btn btn-black">Request a Bill</button> -->
-	<form class="navbar-form navbar-right" role="search">
+	<form class="navbar-form navbar-right hidden" role="search">
 		<div class="form-group">
 			<input type="text" class="form-control disabled coming-feature" placeholder="Search this bill" disabled>
 		</div>
