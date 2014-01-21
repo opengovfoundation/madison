@@ -14,7 +14,7 @@
 			<li class="dropdown">
 				<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ Auth::user()->fname }} <span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
-					<!-- <li class="link-bookmarked"><a href="#" class="disabled coming-feature">Bookmarked Bills</a></li> -->
+					<!-- <li class="link-bookmarked"><a href="#" class="disabled coming-feature">Bookmarked Documents</a></li> -->
 					<!-- <li class="link-points"><a href="#" class="disabled coming-feature">Your Points</a></li> -->
 					<li class="link-settings"><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}">Account Settings</a></li>
 					@if(Auth::user()->user_level == '1')
@@ -34,7 +34,7 @@
 
 <div class="global-search col-md-4">
 	<form action="{{ URL::to('docs/search') }}" method="get">
-		<input name="q" type="search" class="input-search form-control dark-search disabled coming-feature" placeholder="Search" value="" />
+		<input name="q" type="search" class="input-search form-control dark-search" placeholder="Search all documents" value="" />
 		<input class="input-submit" type="submit" value="Search" />
 	</form>
 </div>
