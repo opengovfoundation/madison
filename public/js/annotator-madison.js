@@ -72,32 +72,38 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 	events: {},
 	options: {},
 	pluginInit: function(){
+
+		//Subscribe to the annotationsLoaded call.  This allows us to grab all annotation objects from the Store plugin for our purposes
 		this.annotator.subscribe('annotationsLoaded', function(annotations){
 			window.annotations = annotations;
 
+			//Append each loaded annotation to the sidebar
 			sidebarNotes = $('#participate-notes');
-
 			$.each(annotations, function(index, annotation){
 				sidebarNote = $('<a href="/note/' + annotation.id + '"><div class="sidebar-annotation"><blockquote>' + annotation.text + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote></div></a>');
 				sidebarNotes.append(sidebarNote);
 			});
 		});
 
+		//Subscribe to the annotationCreated call.  This allows us to grab annotations as they're created
 		this.annotator.subscribe('annotationCreated', function(annotation){
+			
+			//Append new annotations to the sidebar
 			sidebarNote = $('<div class="sidebar-annotation"><blockquote>' + annotation.text + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote></div>');
 			$('#participate-notes').append(sidebarNote);
 		});
 
+		//Add Madison-specific fields to the viewer when Annotator loads it
 		this.annotator.viewer.addField({
 			load: function(field, annotation){
 
-				//Add link to annotation in Madison
+				//Add link to annotation
 				noteLink = $('<div class="annotation-link"></div>');
 				annotationLink = $('<a></a>').attr('href', window.location.origin + '/note/' + annotation.id).text('View Note');
 				noteLink.append(annotationLink);
 				$(field).append(noteLink);
 
-				//Add actions to annotation
+				//Add actions ( like / dislike / error) to annotation viewer
 				annotationAction = $('<div></div>').addClass('annotation-action');
 				generalAction = $('<span></span>').addClass('glyphicon').data('annotation-id', annotation.id);
 				
@@ -107,8 +113,8 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
 				annotationAction.append(annotationLike, annotationDislike, annotationFlag);
 
+				//If user is logged in add his current action and enable the action buttons
 				if(user.id != ''){
-					
 					if(annotation.user_action){
 						if(annotation.user_action == 'like'){
 							annotationLike.addClass('selected');
@@ -117,7 +123,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 						}else if(annotation.user_action == 'flag'){
 							annotationFlag.addClass('selected');
 						}else{
-							console.error('User action not found.', annotation);
+							// This user doesn't have any actions on this annotation
 						}
 					}
 
@@ -136,25 +142,30 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
 				$(field).append(annotationAction);
 
+				//Add comment wrapper and collapse the comment thread
 				commentsHeader = $('<div class="comment-toggle" data-toggle-"collapse" data-target="#current-comments">Comments <span id="comment-caret" class="caret caret-right"></span></button>').click(function(){
 					$('#current-comments').collapse('toggle');
 					$('#comment-caret').toggleClass('caret-right');
 				});
 
+				//If there are no comments, hide the comment wrapper
 				if($(annotation.comments).length == 0){
 					commentsHeader.addClass('hidden');
 				}
 
+				//Add all current comments to the annotation viewer
 				currentComments = $('<div id="current-comments" class="current-comments collapse"></div>');
 				$.each(annotation.comments, function(index, comment){
 					comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
 					currentComments.append(comment);
 				});
 
+				//Collapse the comment thread on load
 				currentComments.ready(function(){
 					$('#existing-comments').collapse({toggle: false});
 				});
 
+				//If the user is logged in, allow them to comment
 				if(user.id != ''){
 					annotationComments = $('<div class="annotation-comments"></div>');
 					annotationComments.append('<input type="text" class="form-control" />');
@@ -168,6 +179,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 							user: user
 						}
 
+						//POST request to add user's comment
 						$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/comments', {comment: comment}, function(response){
 							annotation.comments.push(comment);
 							comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
