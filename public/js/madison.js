@@ -13,6 +13,8 @@ $(document).ready(function(){
 		'title': 'Coming Soon!'
 	});
 
+	$('.tooltip').tooltip({});
+
     replace_markdown();
 });
 
