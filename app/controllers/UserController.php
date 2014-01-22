@@ -97,9 +97,10 @@ class UserController extends BaseController{
 	public function getLogin(){
 		$data = array(
 			'page_id'		=> 'login',
-			'page_title'	=> 'Log In'
+			'page_title'	=> 'Log In',
+			'previous_page'	=> URL::previous()
 		);
-		
+
 		return View::make('login.index', $data);
 	}
 
@@ -107,6 +108,7 @@ class UserController extends BaseController{
 		//Retrieve POST values
 		$email = Input::get('email');
 		$password = Input::get('password');
+		$previous_page = Input::get('previous_page');
 		$user_details = Input::all();
 		
 		//Rules for login form submission
@@ -132,8 +134,14 @@ class UserController extends BaseController{
 		
 		//Attempt to log user in
 		$credentials = array('email' => $email, 'password' => $password);
+		
 		if(Auth::attempt($credentials)){
-			return Redirect::to('/');
+			if(isset($previous_page)){
+				return Redirect::to($previous_page);	
+			}else{
+				return Redirect::to('/docs/');
+			}
+			
 		}
 		else{
 			return Redirect::to('user/login')->with('error', 'Incorrect login credentials');

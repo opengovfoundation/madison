@@ -19,6 +19,7 @@
 				</div>
 				<!-- Submit -->
 				{{ Form::submit('Login', array('class'=>'btn btn-default')) }}
+				{{ Form::hidden('previous_page', $previous_page) }}
 				{{ Form::token() . Form::close() }}
 			</div>
 		</div>
