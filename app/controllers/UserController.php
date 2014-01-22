@@ -52,8 +52,10 @@ class UserController extends BaseController{
 		$lname = Input::get('lname');
 		$url = Input::get('url');
 		$location = Input::get('location');
-		$user_details = Input::all();
+		$admin_request = Input::get('admin-request');
 		
+		$user_details = Input::all();
+
 		if(Auth::user()->email != $email){
 			$rules = array(
 				'fname'		=> 'required',
@@ -66,7 +68,6 @@ class UserController extends BaseController{
 				'lname'		=> 'required'
 			);
 		}
-		
 		
 		$validation = Validator::make($user_details, $rules);
 		
@@ -186,7 +187,7 @@ class UserController extends BaseController{
 			$user->save();
 			
 			//Send email to user for email account verification
-			Mail::send('email.template', array('token'=>$token), function ($message) use ($email, $fname) {
+			Mail::queue('email.template', array('token'=>$token), function ($message) use ($email, $fname) {
     			$message->subject('Madison Email Confirmation');
     			$message->from('sayhello@opengovfoundation.org', 'Madison');
     			$message->to($email); // Recipient address
