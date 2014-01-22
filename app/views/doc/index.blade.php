@@ -2,8 +2,12 @@
 @section('content')
 	<div class="content col-md-12 docs">
 		<h1>All Documents</h1>
-		@foreach( $docs as $doc )
-			<a href="{{ URL::to('docs/' . $doc->slug) }}">{{ $doc->title }}</a>
-		@endforeach
+		<ul>
+			@foreach( $docs as $doc )
+				<li>
+					<a href="{{ URL::to('docs/' . $doc->slug) }}">{{ $doc->title }}</a>
+				</li>
+			@endforeach
+		</ul>
 	</div>
 @endsection
