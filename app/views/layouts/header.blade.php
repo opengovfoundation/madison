@@ -1,7 +1,7 @@
 <div class="logo-madison col-md-3 col-md-offset-1">
 	<a class="link-home" href="{{ URL::to('/') }}">
-		<h1 class="blue single-shadow">Madison <span class="level">Federal</span></h1>
-		<h2 class="blue small-header">&#149; Collaborate With Congress &#149;</h2>
+		<h1 class="blue single-shadow">Madison <span class="level">Demo</span></h1>
+		<h2 class="blue small-header">&#149; Collaborate Online &#149;</h2>
 	</a>
 </div>
 
