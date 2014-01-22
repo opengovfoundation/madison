@@ -17,6 +17,6 @@
 	{{ Form::close() }}
 @else
 	<div class="md-col-12">
-	<p style="padding-left:20px;" class="gray">Please {{ HTML::link('user/login', 'Login', array('class'=>'underlined')) }} to participate</p>
+	<p style="padding-left:20px; margin-top:10px;" class="gray">Please {{ HTML::link('user/login', 'Login', array('class'=>'underlined')) }} to participate</p>
 	</div>
 @endif

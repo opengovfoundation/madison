@@ -16,7 +16,7 @@
 		<h3>PARTICIPATE</h3>
 	</div>
 </div>
-@if(Auth::check() && 0)
+@if(Auth::check())
 	<div class="row participate-sponsor">
 		@include('doc.reader.sponsor')
 	</div>
