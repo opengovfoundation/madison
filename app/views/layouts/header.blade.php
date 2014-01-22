@@ -8,7 +8,7 @@
 <div class="nav nav-main col-md-4">
 
 	<ul>
-		<li class="link-about"><a href="{{ URL::to('about') }}">About the Madison Platform</a></li>
+		<li class="link-about"><a href="{{ URL::to('about') }}">About</a></li>
 		<li class="link-faq"><a href="{{ URL::to('faq') }}">FAQ</a></li>		
 		@if(Auth::check())
 			<li class="dropdown">
