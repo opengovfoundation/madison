@@ -12,7 +12,7 @@ class PageController extends BaseController
 		$data = array(
 			'page_id'		=> 'home',
 			'page_title'	=> 'The Madison Project',
-			'rightbar'		=> array('getstarted')
+			'rightbar'		=> array()
 		);
 
 		return View::make('page.index', $data);
