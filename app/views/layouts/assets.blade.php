@@ -27,8 +27,17 @@
 
 <?php 
 $fs = new Illuminate\Filesystem\Filesystem();
-if($fs->exists(public_path() . '/js/uservoice.js')): ?>
+?>
+{{-- Include site-specific uservoice js file if it exists --}}
+@if($fs->exists(public_path() . '/js/uservoice.js'))
 	{{ HTML::script('js/uservoice.js') }}
-	<?php else: ?>
-	dd(public_path());
-<?php endif; ?>
+@endif
+
+{{-- Include site-specific addthis js file if it exists --}}
+@if($fs->exists(public_path() . '/js/addthis.js'))
+	{{ HTML::script('js/addthis.js') }}
+@endif
+
+
+
+
