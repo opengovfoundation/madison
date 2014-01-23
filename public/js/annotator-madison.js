@@ -76,15 +76,13 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 		//Subscribe to the annotationsLoaded call.  This allows us to grab all annotation objects from the Store plugin for our purposes
 		this.annotator.subscribe('annotationsLoaded', function(annotations){
 			window.annotations = annotations;
-			var converter = new Markdown.Converter();
 
-			//Append each loaded annotation to the sidebar
-			sidebarNotes = $('#participate-notes');
-			$.each(annotations, function(index, annotation){
-				sidebarNote = $('<a href="/note/' + annotation.id + '"><div class="sidebar-annotation"><blockquote>' + converter.makeHtml(annotation.text) + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote></div></a>');
-				sidebarNotes.append(sidebarNote);
-			});
-		});
+			try{
+				this.copyNotesToSidebar(annotations);	
+			}catch(e){
+				console.error(e);
+			}
+		}.bind(this));
 
 		//Subscribe to the annotationCreated call.  This allows us to grab annotations as they're created
 		this.annotator.subscribe('annotationCreated', function(annotation){
@@ -198,6 +196,20 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 				$(field).append(commentsHeader, currentComments);			
 			}
 		});
+	},
+	copyNotesToSidebar: function(annotations){
+		//Append each loaded annotation to the sidebar
+		sidebarNotes = $('#participate-notes');
+
+		$.each(annotations, function(index, annotation){
+			this.copyNoteToSidebar(annotation, sidebarNotes);
+		}.bind(this));
+	},
+	copyNoteToSidebar: function(annotation, sidebarNotes){
+		var converter = new Markdown.Converter();
+
+		sidebarNote = $('<a href="/note/' + annotation.id + '"><div class="sidebar-annotation"><blockquote>' + converter.makeHtml(annotation.text) + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote></div></a>');
+		sidebarNotes.append(sidebarNote);
 	}
 });
 	
