@@ -9,6 +9,7 @@
 		<meta name="format-detection" content="telephone=no" />
 		<meta http-equiv="cleartype" content="on" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		@include('layouts.socials')
 		@include('layouts.assets')
 	</head>
 	<body>

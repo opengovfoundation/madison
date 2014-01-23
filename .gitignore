@@ -4,5 +4,6 @@ public/js/addthis.js
 app/config/creds.yml
 app/config/smtp.yml
 app/config/remote.php
+app/config/socials.php
 vendor/
 composer.lock
