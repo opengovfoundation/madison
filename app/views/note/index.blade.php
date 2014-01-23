@@ -11,9 +11,7 @@
 		<div class="row">
 			<h3>Note</h3>
 			<div class="col-md-12">
-				
-				<p>{{ $annotation->text() }}</p>
-				
+				<p>{{ Markdown::render($annotation->text()) }}</p>
 			</div>
 		</div>
 		<div class="row">
