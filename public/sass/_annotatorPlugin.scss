@@ -52,6 +52,11 @@
 	}
 }
 
+.current-comments{
+	max-height:200px;
+	overflow-y:scroll;
+}
+
 .comment-author:before, .annotation-author:before{
 	content:'-';
 	margin-right:5px;

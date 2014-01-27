@@ -889,23 +889,29 @@ ol.sortable, ol.sortable ol {
 }
 
 /* line 55, ../sass/_annotatorPlugin.scss */
+.current-comments {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+/* line 60, ../sass/_annotatorPlugin.scss */
 .comment-author:before, .annotation-author:before {
   content: '-';
   margin-right: 5px;
 }
 
-/* line 60, ../sass/_annotatorPlugin.scss */
+/* line 65, ../sass/_annotatorPlugin.scss */
 .sidebar-annotation {
   cursor: pointer;
   background: gray;
   color: lightgray;
 }
-/* line 66, ../sass/_annotatorPlugin.scss */
+/* line 71, ../sass/_annotatorPlugin.scss */
 .sidebar-annotation:hover {
   background: #999999;
   color: scale-darkness(lightgrey, 20%);
 }
-/* line 71, ../sass/_annotatorPlugin.scss */
+/* line 76, ../sass/_annotatorPlugin.scss */
 .sidebar-annotation blockquote {
   margin-bottom: 0;
   border-bottom: 1px dotted darkgray;
