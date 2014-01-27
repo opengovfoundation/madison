@@ -32,5 +32,4 @@
 		<div id="save_message" class="alert hidden"></div>
 	</div>
 </div>
-{{ HTML::script('js/edit-doc.js') }}
 @endsection
