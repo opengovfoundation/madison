@@ -95,8 +95,16 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 		this.annotator.subscribe('annotationCreated', function(annotation){
 			sidebarNotes = $('#participate-notes');
 
-			this.copyNoteToSidebar(annotation, sidebarNotes);
+			this.copyNoteToSidebar(annotation, sidebarNotes);	
 		}.bind(this));
+
+		this.annotator.subscribe('commentCreated', function(comment){
+			comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
+			currentComments.append(comment);
+			currentComments.removeClass('hidden');
+
+			$('#current-comments').collapse(true);
+		});
 
 		//Add Madison-specific fields to the viewer when Annotator loads it
 		this.annotator.viewer.addField({
@@ -134,27 +142,14 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 		//If the user is logged in, allow them to comment
 		if(user.id != ''){
 			annotationComments = $('<div class="annotation-comments"></div>');
-			annotationComments.append('<input type="text" class="form-control" />');
+			commentText = $('<input type="text" class="form-control" />');
+			commentSubmit = $('<button type="button" class="btn btn-primary" >Submit</button>');
+			commentSubmit.click(function(){
+				this.createComment(commentText, annotation);
+			}.bind(this));
+			annotationComments.append(commentText);
 
-			annotationComments.append($('<button type="button" class="btn btn-primary" >Submit</button>').click(function(){
-				text = $(this).parent().children('input[type="text"]').val();
-				$(this).parent().children('input[type="text"]').val('');
-				
-				comment = {
-					text: text,
-					user: user
-				}
-
-				//POST request to add user's comment
-				$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/comments', {comment: comment}, function(response){
-					annotation.comments.push(comment);
-					comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
-					currentComments.append(comment);
-					currentComments.removeClass('hidden');
-				});
-
-				$('#current-comments').collapse(true);
-			}));
+			annotationComments.append(commentSubmit);
 
 			$(field).append(annotationComments);
 		}
@@ -218,9 +213,34 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 	},
 	copyNoteToSidebar: function(annotation, sidebarNotes){
 		var converter = new Markdown.Converter();
+		var interval;
 
-		sidebarNote = $('<a href="/note/' + annotation.id + '"><div class="sidebar-annotation"><blockquote>' + converter.makeHtml(annotation.text) + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote></div></a>');
-		sidebarNotes.append(sidebarNote);
+		// We must wait on the POST request to populate the annotation id
+		if(typeof annotation.id == 'undefined'){
+			interval = window.setInterval(function(){
+				this.copyNoteToSidebar(annotation, sidebarNotes);
+				window.clearInterval(interval);
+			}.bind(this), 500);
+		}else{
+			sidebarNote = $('<a href="/note/' + annotation.id + '"><div class="sidebar-annotation"><blockquote>' + converter.makeHtml(annotation.text) + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote></div></a>');
+			sidebarNotes.append(sidebarNote);
+		}
+	},
+	createComment: function(textElement, annotation){
+		text = textElement.val();
+		textElement.val('');
+
+		comment = {
+			text: text,
+			user: user
+		}
+
+		//POST request to add user's comment
+		$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/comments', {comment: comment}, function(response){
+			annotation.comments.push(comment);
+
+			return this.annotator.publish('commentCreated', comment);
+		}.bind(this));
 	}
 });
 	
