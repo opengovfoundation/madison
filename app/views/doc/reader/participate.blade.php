@@ -28,5 +28,8 @@
 	@include('doc.reader.action')
 </div>
 <div id="participate-notes" class="row participate-notes">
-	<h3>Notes</h3>
+	<h3 class="rightbar-header">Notes</h3>
+</div>
+<div id="participate-comments" class="row participate-comments">
+	<h3 class="rightbar-header">Comments</h3>
 </div>

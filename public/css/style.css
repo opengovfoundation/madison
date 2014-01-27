@@ -407,7 +407,7 @@ textarea.form-inline {
   margin-bottom: 20px;
 }
 /* line 315, ../sass/style.scss */
-.rightbar h3 {
+.rightbar h3.rightbar-header {
   margin: 20px;
   font-family: arial;
   font-weight: 200;

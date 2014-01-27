@@ -15,6 +15,10 @@ $(document).ready(function(){
 
 	$('.tooltip').tooltip({});
 
+	$('.init-popover').popover({
+		trigger: 'hover'
+	});
+
     replace_markdown();
 });
 
