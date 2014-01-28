@@ -6,7 +6,7 @@ Right now Madison is in a _pre-stable_ version.  A roadmap to version 2.0 (stabl
 
 If you have questions about Madison, please open an issue and we will try to respond as soon as possible.
 
-Check out the [Madison Wiki](https://github.com/opengovfoundation/madison/wiki) for more information on the project.
+Check out the [Madison Wiki](https://github.com/opengovfoundation/madison/wiki) or jump right into the [Madison Architecture](https://github.com/opengovfoundation/madison/wiki/madison-architecture/) for more information on the project.
 
 ## Installation
 
