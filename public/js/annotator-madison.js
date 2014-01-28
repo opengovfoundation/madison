@@ -222,8 +222,21 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 				window.clearInterval(interval);
 			}.bind(this), 500);
 		}else{
-			sidebarNote = $('<a href="/note/' + annotation.id + '"><div class="sidebar-annotation"><blockquote>' + converter.makeHtml(annotation.text) + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote></div></a>');
-			sidebarNotes.append(sidebarNote);
+			sidebarLink = $('<a href="/note/' + annotation.id + '"></a>');
+			sidebarNote = $('<div class="sidebar-annotation"></div>');
+			sidebarNote.append('<blockquote>' + converter.makeHtml(annotation.text) + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote>');
+			/*if($(annotation.comments).length != 0){
+				sidebarComments = $('<div class="sidebar-note-comments><a href="#">Comments <span class="comment-caret"></span></a></div>');
+				commentThread = $('<div class="sidebar-comment-thread"></div>');
+				$.each(annotation.comments, function(index, comment){
+					commentThread.append('<div class="sidebar-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
+				});
+				sidebarComments.append(commentThread);
+				sidebarNote.append(sidebarComments);
+			}*/
+
+			sidebarLink.append(sidebarNote);
+			sidebarNotes.append(sidebarLink);
 		}
 	},
 	createComment: function(textElement, annotation){
