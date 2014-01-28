@@ -30,7 +30,7 @@
 	{{ HTML::script('vendor/showdown/showdown.js') }}
 	{{ HTML::script('js/annotator-madison.js') }}
 	{{ HTML::script('js/doc.js') }}
-	<div id="content" ng-controller="ReaderCtrl" class="col-md-8 content doc_content @if(Auth::check())logged_in@endif">
+	<div id="content" ng-controller="ReaderController" class="col-md-8 content doc_content @if(Auth::check())logged_in@endif">
 		<div class="row">
 			<div class="col-md-12">
 				<h1>{{ $doc->title }}</h1>
@@ -40,7 +40,7 @@
 			<div class="col-md-12">{{ $doc->get_content('html') }}</div>
 		</div>
 	</div>
-	<div ng-controller="ParticipateCtrl" class="col-md-3 col-md-offset-1 rightbar participate">
+	<div ng-controller="ParticipateController" class="col-md-3 col-md-offset-1 rightbar participate">
 		@include('doc.reader.participate')
 	</div>
 </div>

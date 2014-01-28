@@ -79,24 +79,20 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 		*		Adds all annotations to the sidebar
 		**/
 		this.annotator.subscribe('annotationsLoaded', function(annotations){
-			window.annotations = annotations;
 
-			try{
-				this.copyNotesToSidebar(annotations);	
-			}catch(e){
-				console.error(e);
-			}
-		}.bind(this));
+			//Set the annotations in the annotationService
+			var annotationService = getAnnotationService();
+			annotationService.setAnnotations(annotations);
+		});
 
 		/**
 		*	Subscribe to Annotator's `annotationCreated` event
 		*		Adds new annotation to the sidebar
 		*/
 		this.annotator.subscribe('annotationCreated', function(annotation){
-			sidebarNotes = $('#participate-notes');
-
-			this.copyNoteToSidebar(annotation, sidebarNotes);	
-		}.bind(this));
+			var annotationService = getAnnotationService();
+			annotationService.addAnnotation(annotation);
+		});
 
 		this.annotator.subscribe('commentCreated', function(comment){
 			comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
@@ -202,42 +198,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 		annotationLink = $('<a></a>').attr('href', window.location.origin + '/note/' + annotation.id).text('View Note');
 		noteLink.append(annotationLink);
 		$(field).append(noteLink);
-	},
-	copyNotesToSidebar: function(annotations){
-		//Append each loaded annotation to the sidebar
-		sidebarNotes = $('#participate-notes');
-
-		$.each(annotations, function(index, annotation){
-			this.copyNoteToSidebar(annotation, sidebarNotes);
-		}.bind(this));
-	},
-	copyNoteToSidebar: function(annotation, sidebarNotes){
-		var converter = new Markdown.Converter();
-		var interval;
-
-		// We must wait on the POST request to populate the annotation id
-		if(typeof annotation.id == 'undefined'){
-			interval = window.setInterval(function(){
-				this.copyNoteToSidebar(annotation, sidebarNotes);
-				window.clearInterval(interval);
-			}.bind(this), 500);
-		}else{
-			sidebarLink = $('<a href="/note/' + annotation.id + '"></a>');
-			sidebarNote = $('<div class="sidebar-annotation"></div>');
-			sidebarNote.append('<blockquote>' + converter.makeHtml(annotation.text) + '<div class="annotation-author">' + annotation.user.name + '</div></blockquote>');
-			/*if($(annotation.comments).length != 0){
-				sidebarComments = $('<div class="sidebar-note-comments><a href="#">Comments <span class="comment-caret"></span></a></div>');
-				commentThread = $('<div class="sidebar-comment-thread"></div>');
-				$.each(annotation.comments, function(index, comment){
-					commentThread.append('<div class="sidebar-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
-				});
-				sidebarComments.append(commentThread);
-				sidebarNote.append(sidebarComments);
-			}*/
-
-			sidebarLink.append(sidebarNote);
-			sidebarNotes.append(sidebarLink);
-		}
 	},
 	createComment: function(textElement, annotation){
 		text = textElement.val();

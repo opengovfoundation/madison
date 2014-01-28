@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="madisonApp" lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<title>{{ $page_title }}</title>

@@ -29,6 +29,11 @@
 </div>
 <div id="participate-notes" class="row participate-notes">
 	<h3 class="rightbar-header">Notes</h3>
+	<div class="sidebar-annotation" ng-repeat="annotation in annotations">
+		<a href="/note/<% annotation.id %>" >
+			<blockquote><div class="annotation-content" ng-bind-html="annotation.html"></div><div class="annotation-author"><% annotation.user.name %></div></blockquote>
+		</a>
+	</div>
 </div>
 <div id="participate-comments" class="row participate-comments">
 	<h3 class="rightbar-header">Comments</h3>
