@@ -1,4 +1,4 @@
-<div class="comment-field">
+<div class="comment-field" ng-show="user.id">
 	<form name="add-comment-form" ng-submit="commentSubmit()">
 		<textarea ng-model="comment.content" id="doc-comment-field" type="text" class="form-control centered" required></textarea>
 		<button class="btn btn-primary">Add Comment</button>
