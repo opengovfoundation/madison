@@ -834,11 +834,17 @@ ol.sortable, ol.sortable ol {
   overflow: scroll;
 }
 
-/* line 661, ../sass/style.scss */
+/* line 658, ../sass/style.scss */
+.sidebar-comment-thread {
+  margin-left: 10px;
+}
+
+/* line 664, ../sass/style.scss */
 .participate-comments .comment-thread {
   margin-top: 20px;
   padding: 20px;
   border-top: 1px dotted lightgray;
+  margin-left: 10px;
 }
 
 /* Annotator Plugin Styling
@@ -926,12 +932,8 @@ ol.sortable, ol.sortable ol {
   color: lightgray;
 }
 /* line 71, ../sass/_annotatorPlugin.scss */
-.sidebar-annotation:hover {
-  background: #999999;
-  color: scale-darkness(lightgrey, 20%);
-}
-/* line 76, ../sass/_annotatorPlugin.scss */
 .sidebar-annotation blockquote {
   margin-bottom: 0;
   border-bottom: 1px dotted darkgray;
+  padding: 5px 10px;
 }

@@ -9,9 +9,11 @@
 		</blockquote>
 		
 		<div id="<% annotation.id %>-comments" class="sidebar-comment-thread collapse">
-			<div class="sidebar-add-comment"></div>
 			<div class="sidebar-comment" ng-repeat="comment in annotation.comments">
-				<% comment.text %>
+				<blockquote>
+					<span class="comment-content"><% comment.text %></span>
+					<div class="comment-author"><% comment.user.name %></div>
+				</blockquote>
 			</div>
 		</div>
 	</div>
