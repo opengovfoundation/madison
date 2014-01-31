@@ -56,7 +56,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/docs/{doc}/annotations/{annotation}/dislikes', 'AnnotationApiController@getDislikes');
     Route::get('api/docs/{doc}/annotations/{annotation}/flags', 'AnnotationApiController@getFlags');
 
-    //Comment Routes
+    //Annotation Comment Routes
     Route::get('api/docs/{doc}/annotations/{annotation}/comments', 'AnnotationApiController@getComments');
     Route::post('api/docs/{doc}/annotations/{annotation}/comments', 'AnnotationApiController@postComments');
     Route::get('api/docs/{doc}/annotations/{annotation}/comments/{comment}', 'AnnotationApiController@getComments');
@@ -68,6 +68,11 @@ Route::controller('dashboard', 'DashboardController');
     //Route::get('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@getIndex');
     Route::put('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@putIndex');
     Route::delete('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@deleteIndex');
+
+    //Document Comment Routes
+    Route::post('api/docs/{doc}/comments', 'CommentApiController@postIndex');
+    Route::get('api/docs/{doc}/comments', 'CommentApiController@getIndex');
+    Route::get('api/docs/{doc}/comments/{comment?}', 'CommentApiController@getIndex');
 
 //Logout Route
 Route::get('logout', function(){

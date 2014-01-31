@@ -40,7 +40,7 @@
 			<div class="col-md-12">{{ $doc->get_content('html') }}</div>
 		</div>
 	</div>
-	<div ng-controller="ParticipateController" class="col-md-3 col-md-offset-1 rightbar participate">
+	<div ng-controller="ParticipateController" ng-init="init({{ $doc->id }})" class="col-md-3 col-md-offset-1 rightbar participate">
 		@include('doc.reader.participate')
 	</div>
 </div>

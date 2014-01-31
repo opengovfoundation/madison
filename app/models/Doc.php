@@ -4,6 +4,10 @@ class Doc extends Eloquent{
 	const INDEX = 'madison';
 	const TYPE = 'doc';
 
+	public function comments(){
+		return $this->hasMany('Comment');
+	}
+
 	public function getLink(){
 		return URL::to('doc/' . $this->slug);
 	}

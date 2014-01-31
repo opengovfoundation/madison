@@ -10,6 +10,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	
 	protected $hidden = array('password');
 
+	public function comments(){
+		return $this->hasMany('Comment');
+	}
+
 	public function getAuthIdentifier(){
 		return $this->id;
 	}
@@ -49,11 +53,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		// $this->suggestions = $suggestions;
 		
 		// return true;
-		return true;
-	}
-	
-	public function comments(){
-		//return $this->hasMany('Note')->where('type', '=', 'comment');
 		return true;
 	}
 }
