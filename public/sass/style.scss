@@ -8,6 +8,7 @@
 @import "compass/css3/text-shadow";
 @import "variables";
 @import "mixins";
+@import "helpers";
 
 @include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
 
