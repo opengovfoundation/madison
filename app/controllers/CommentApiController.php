@@ -12,7 +12,7 @@ class CommentApiController extends ApiController{
 	
 	public function getIndex($doc, $comment = null){
 		if($comment === null){
-			$comments = Comment::where('doc_id', $doc)->get();
+			$comments = Comment::where('doc_id', $doc)->with('user')->get();
 
 			if($comments->isEmpty()){
 				$comments = array();

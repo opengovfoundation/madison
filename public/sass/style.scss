@@ -663,12 +663,15 @@ ol.sortable, ol.sortable ol{list-style:none;}
 
 	.comment-thread{
 		margin-top:20px;
-		padding:20px;
 		border-top:1px dotted lightgray;
-		margin-left:10px;
+		max-height:300px;
+		overflow:scroll;
+
+		blockquote{
+			margin-bottom:0;
+			border-bottom:1px dotted darkgray;
+		}
 	}
 }
-
-
 
 @import "annotatorPlugin";

@@ -6,6 +6,9 @@
 </div>
 <div class="comment-thread" ng-show="comments.length">
 	<div class="doc-comment" ng-repeat="comment in comments">
-		{{ comment.content }}
+		<blockquote>
+			<span class="comment-content"><% comment.content %></span>
+			<div class="comment-author"><% comment.user.fname + ' ' + comment.user.lname.charAt(0) %></div>
+		</blockquote>
 	</div>
 </div>
