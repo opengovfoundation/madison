@@ -650,5 +650,22 @@ ol.sortable, ol.sortable ol{list-style:none;}
 		.doc_item_content textarea{
 			resize:both;
 		}
+/** Sidebar Styling **/
+.sidebar-annotation-wrapper{
+	max-height:300px;
+	overflow:scroll;
+}
+
+.participate-comments{
+
+	.comment-thread{
+		margin-top:20px;
+		padding:20px;
+		border-top:1px dotted lightgray;
+	}
+
+}
+
+
 
 @import "annotatorPlugin";

@@ -827,6 +827,20 @@ ol.sortable, ol.sortable ol {
   resize: both;
 }
 
+/** Sidebar Styling **/
+/* line 654, ../sass/style.scss */
+.sidebar-annotation-wrapper {
+  max-height: 300px;
+  overflow: scroll;
+}
+
+/* line 661, ../sass/style.scss */
+.participate-comments .comment-thread {
+  margin-top: 20px;
+  padding: 20px;
+  border-top: 1px dotted lightgray;
+}
+
 /* Annotator Plugin Styling
 --------------------------------*/
 /* line 6, ../sass/_annotatorPlugin.scss */
