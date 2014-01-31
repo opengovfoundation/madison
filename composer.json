@@ -14,9 +14,9 @@
 		"roumen/sitemap": "2.3.*",
 		"loic-sharma/profiler": "1.1.*",
 		"elasticsearch/elasticsearch": "~0.4",
-		"illuminate/remote": "4.1.*@dev",
+		"illuminate/remote": "4.1.*",
 		"anahkiasen/rocketeer": "0.9.*",
-		"graham-campbell/markdown": "1.0.*@dev"
+		"graham-campbell/markdown": "1.0.*"
 	},
 	"autoload": {
 		"classmap": [
