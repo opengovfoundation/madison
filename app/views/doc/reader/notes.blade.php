@@ -5,7 +5,7 @@
 			<a href="/note/<% annotation.id %>">
 				<div class="annotation-content" ng-bind-html="annotation.html"></div><div class="annotation-author"><% annotation.user.name %></div>
 			</a>
-			<span class="sidebar-comment-label" ng-show="annotation.comments" ng-click="showCommentThread(annotation.id, $event)">Comments<span class="sidebar-comment-caret caret caret-right"></span></span>
+			<span class="sidebar-comment-label" ng-show="annotation.comments" ng-click="showCommentThread(annotation.id, $event)">Comments (<% comments.length %>)<span class="sidebar-comment-caret caret caret-right"></span></span>
 		</blockquote>
 		
 		<div id="<% annotation.id %>-comments" class="sidebar-comment-thread collapse">
