@@ -42,6 +42,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	public function note_meta(){
 		return $this->hasMany('NoteMeta');
 	}
+
+	public function doc_meta(){
+		return $this->hasMany('DocMeta');
+	}
 	
 	public function setSuggestions(){
 		// $suggestions = $this->hasMany('Note')->where('type', '=', 'suggestion')->get();

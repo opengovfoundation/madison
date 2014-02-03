@@ -54,12 +54,22 @@ function ParticipateController($scope, $http, annotationService){
 	};
 
 	$scope.support = function(supported, $event){
-		target = $event.target;
-		sibling = $(target).siblings('.btn');
-		$(target).removeClass('btn-default').addClass('btn-success');
-		$(sibling).removeClass('btn-success').addClass('btn-default');
-
 		
+		$http.post('/api/docs/' + $scope.doc.id + '/support', {'support': supported})
+		.success(function(data, status, headers, config){
+			//Parse data to see what user's action is currently
+			if(data.support == null){
+				$('.doc-support').toggleClass('btn-success', false);
+				$('.doc-oppose').toggleClass('btn-success', false);
+			}else{
+				$('.doc-support').toggleClass('btn-success', data.support);
+				$('.doc-oppose').toggleClass('btn-success', !data.support);
+			}
+		})
+		.error(function(data, status, headers, config){
+			console.error("Error posting support: %o", data);
+		});
+
 	};
 }
 
