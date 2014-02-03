@@ -37,6 +37,7 @@ function ParticipateController($scope, $http, annotationService){
 			console.error("Error loading comments: %o", data);
 		});
 	};
+
 	$scope.commentSubmit = function(form){
 		comment = angular.copy($scope.comment);
 		comment.user = $scope.user;
@@ -50,7 +51,16 @@ function ParticipateController($scope, $http, annotationService){
 		.error(function(data, status, headers, config){
 			console.error("Error posting comment: %o", data);
 		});
-	}
+	};
+
+	$scope.support = function(supported, $event){
+		target = $event.target;
+		sibling = $(target).siblings('.btn');
+		$(target).removeClass('btn-default').addClass('btn-success');
+		$(sibling).removeClass('btn-success').addClass('btn-default');
+
+		
+	};
 }
 
 ReaderController.$inject = ['$scope', 'annotationService'];
