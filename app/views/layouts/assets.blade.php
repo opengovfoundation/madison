@@ -24,6 +24,7 @@
 {{ HTML::script('vendor/underscore.min.js') }}
 {{ HTML::script('vendor/pagedown/assets/Markdown.Converter.js') }}
 {{ HTML::script('vendor/angular/angular.min.js') }}
+{{ HTML::script('vendor/angular-md5.js') }}
 {{ HTML::script('js/angular/app.js') }}
 {{ HTML::script('js/angular/controllers.js') }}
 {{ HTML::script('js/angular/services.js') }}
