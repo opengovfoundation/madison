@@ -1,6 +1,6 @@
 <h3 class="rightbar-header">Notes</h3>
 <div class="sidebar-annotation-wrapper">
-	<div class="sidebar-annotation" ng-repeat="annotation in annotations">
+	<div class="sidebar-annotation col-md-12" ng-repeat="annotation in annotations">
 		<blockquote>
 			<div class="row">
 				<div class="col-md-3">
@@ -17,11 +17,8 @@
 					</div>
 				</div>
 			</div>
-
-			
 			<span class="sidebar-comment-label" ng-show="annotation.comments" ng-click="showCommentThread(annotation.id, $event)">Comments (<% comments.length %>)<span class="sidebar-comment-caret caret caret-right"></span></span>
 		</blockquote>
-		
 		<div id="<% annotation.id %>-comments" class="sidebar-comment-thread collapse">
 			<div class="sidebar-comment" ng-repeat="comment in annotation.comments">
 				<blockquote>
