@@ -723,18 +723,23 @@ input[type="search"].dark-search {
 }
 
 /* line 576, ../sass/style.scss */
+.sidebar-comment-label {
+  cursor: pointer;
+}
+
+/* line 580, ../sass/style.scss */
 .sidebar-comment-thread {
   margin-left: 10px;
 }
 
-/* line 582, ../sass/style.scss */
+/* line 585, ../sass/style.scss */
 .participate-comments .comment-thread {
   margin-top: 20px;
   border-top: 1px dotted lightgray;
   max-height: 300px;
   overflow: scroll;
 }
-/* line 588, ../sass/style.scss */
+/* line 591, ../sass/style.scss */
 .participate-comments .comment-thread blockquote {
   margin-bottom: 0;
   border-bottom: 1px dotted darkgray;

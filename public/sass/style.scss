@@ -573,12 +573,15 @@ input[type="search"].dark-search{
 	overflow:scroll;
 	border:3px solid $dark-gray;
 }
+.sidebar-comment-label{
+	cursor:pointer;
+}
+
 .sidebar-comment-thread{
 	margin-left:10px;
 }
 
 .participate-comments{
-
 	.comment-thread{
 		margin-top:20px;
 		border-top:1px dotted lightgray;
