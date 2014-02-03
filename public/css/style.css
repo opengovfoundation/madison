@@ -693,28 +693,21 @@ input[type="search"].dark-search {
   overflow-y: scroll;
 }
 
-/* line 549, ../sass/style.scss */
-.comment-author:before, .annotation-author:before {
-  content: '-';
-  margin-right: 5px;
-}
-
 /** Sidebar Styling **/
-/* line 556, ../sass/style.scss */
+/* line 551, ../sass/style.scss */
 .sidebar-annotation {
-  cursor: pointer;
   background: #fffac1;
   color: black;
 }
-/* line 562, ../sass/style.scss */
+/* line 555, ../sass/style.scss */
 .sidebar-annotation a {
   color: black;
 }
-/* line 565, ../sass/style.scss */
+/* line 558, ../sass/style.scss */
 .sidebar-annotation a:hover {
   color: lightgray;
 }
-/* line 570, ../sass/style.scss */
+/* line 563, ../sass/style.scss */
 .sidebar-annotation blockquote {
   margin-bottom: 0;
   border-bottom: 1px dotted darkgray;
@@ -722,25 +715,26 @@ input[type="search"].dark-search {
   border-left: none;
 }
 
-/* line 578, ../sass/style.scss */
+/* line 571, ../sass/style.scss */
 .sidebar-annotation-wrapper {
   max-height: 300px;
   overflow: scroll;
+  border: 3px solid #4b4b4b;
 }
 
-/* line 582, ../sass/style.scss */
+/* line 576, ../sass/style.scss */
 .sidebar-comment-thread {
   margin-left: 10px;
 }
 
-/* line 588, ../sass/style.scss */
+/* line 582, ../sass/style.scss */
 .participate-comments .comment-thread {
   margin-top: 20px;
   border-top: 1px dotted lightgray;
   max-height: 300px;
   overflow: scroll;
 }
-/* line 594, ../sass/style.scss */
+/* line 588, ../sass/style.scss */
 .participate-comments .comment-thread blockquote {
   margin-bottom: 0;
   border-bottom: 1px dotted darkgray;

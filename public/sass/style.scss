@@ -546,16 +546,9 @@ input[type="search"].dark-search{
 	overflow-y:scroll;
 }
 
-.comment-author:before, .annotation-author:before{
-	content:'-';
-	margin-right:5px;
-}
-
 /** Sidebar Styling **/
 
 .sidebar-annotation{
-	cursor:pointer;
-
 	background:#fffac1;
 	color:black;
 
@@ -578,6 +571,7 @@ input[type="search"].dark-search{
 .sidebar-annotation-wrapper{
 	max-height:300px;
 	overflow:scroll;
+	border:3px solid $dark-gray;
 }
 .sidebar-comment-thread{
 	margin-left:10px;
