@@ -32,7 +32,6 @@ function ParticipateController($scope, $http, annotationService){
 		$http({method: 'GET', url: '/api/docs/' + docId + '/comments'})
 		.success(function(data, status, headers, config){
 			$scope.comments = data;
-			console.log($scope.comments);
 		})
 		.error(function(data, status, headers, config){
 			console.error("Error loading comments: %o", data);
