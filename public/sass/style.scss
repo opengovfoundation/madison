@@ -6,6 +6,8 @@
 @import "compass/layout/stretching";
 @import "compass/css3/transition";
 @import "compass/css3/text-shadow";
+@import "compass/css3/images";
+@import "compass/css3/transform";
 @import "variables";
 @import "mixins";
 @import "helpers";
@@ -650,7 +652,84 @@ ol.sortable, ol.sortable ol{list-style:none;}
 		.doc_item_content textarea{
 			resize:both;
 		}
+
+/* Annotator Plugin Styling
+--------------------------------*/
+.glyphicon{
+	font-family: 'Glyphicons Halflings' !important;
+
+	&.selected{
+		color:blue;
+	}
+
+	&.logged-in{
+		cursor:pointer;
+	}
+
+	.action-count:before{
+		content: '(';
+	}
+
+	.action-count:after{
+		content: ')';
+	}
+}
+
+.comment-toggle{
+	cursor: pointer;
+}
+
+.caret-right{
+	@include rotate(-90deg);
+}
+
+.annotation-action > span{
+	margin:0 5px;
+}
+
+.annotation-comments{
+	input[type="text"]{
+		padding-left:10px;
+	}
+
+	.btn{
+		margin-top:5px;
+		padding:0px 10px;
+		@include background-image(linear-gradient(#428bca, #3071a9));
+		color:white;
+
+		&:hover{
+			@include background-image(linear-gradient(scale-lightness(#428bca, 20%), scale-lightness(#3071a9, 20%)));
+		}
+	}
+}
+
+.current-comments{
+	max-height:200px;
+	overflow-y:scroll;
+}
+
+.comment-author:before, .annotation-author:before{
+	content:'-';
+	margin-right:5px;
+}
+
 /** Sidebar Styling **/
+
+.sidebar-annotation{
+	cursor:pointer;
+
+	background:gray;
+	color:lightgray;
+
+	blockquote{
+		margin-bottom:0;
+		border-bottom:1px dotted darkgray;
+		padding:5px 10px;
+		border-left:none;
+	}
+}
+
 .sidebar-annotation-wrapper{
 	max-height:300px;
 	overflow:scroll;
@@ -673,5 +752,3 @@ ol.sortable, ol.sortable ol{list-style:none;}
 		}
 	}
 }
-
-@import "annotatorPlugin";
