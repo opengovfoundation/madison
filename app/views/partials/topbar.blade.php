@@ -2,7 +2,7 @@
 	@if(!$docs->isEmpty())
 	<ul class="nav navbar-nav">
 		<li class="dropdown">
-			<a href="#" class="dropdown-toggle black" data-toggle="dropdown">Select a recent bill <b class="caret"></b></a>
+			<a href="#" class="dropdown-toggle black" data-toggle="dropdown">Select a recent document<b class="caret"></b></a>
 			<ul class="dropdown-menu">
 				<li><a href="{{ URL::to('docs') }}">View All</a></li>
 				@foreach($docs as $doc)
