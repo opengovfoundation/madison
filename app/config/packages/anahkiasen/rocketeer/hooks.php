@@ -26,11 +26,11 @@
 			function($task){
 				$task->runForCurrentRelease('php artisan migrate');
 
-				$homeFolder = $task->rocketeer->getHomeFolder();
-				$cred_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/shared/creds.yml current/app/config/creds.yml');
-				$smtp_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/shared/smtp.yml current/app/config/smtp.yml');
-				$uservoice_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder .'/shared/uservoice.js current/public/js/uservoice.js');
-				$addthis_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/shared/addthis.js current/public/js/addthis.js');
+				$homeFolder = $task->rocketeer->getFolder('shared');
+				$cred_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . 'creds.yml current/app/config/creds.yml');
+				$smtp_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . 'smtp.yml current/app/config/smtp.yml');
+				$uservoice_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder .'uservoice.js current/public/js/uservoice.js');
+				$addthis_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . 'addthis.js current/public/js/addthis.js');
 			}
 		),
 		'cleanup' => array(),
