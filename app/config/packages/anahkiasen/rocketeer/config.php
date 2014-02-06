@@ -29,7 +29,7 @@
 		'password'   => '',
 
 		// The branch to deploy
-		'branch'     => 'master',
+		'branch'     => '',
 	),
 
 	// Stages
@@ -42,10 +42,10 @@
 
 		// Adding entries to this array will split the remote folder in stages
 		// Like /var/www/yourapp/staging and /var/www/yourapp/production
-		'stages' => array('staging'),
+		'stages' => array('demo', 'production'),
 
 		// The default stage to execute tasks on when --stage is not provided
-		'default' => 'staging',
+		'default' => 'production',
 	),
 
 	// Remote server
@@ -152,8 +152,11 @@
 	// to the stage or connection currently in use.
 	// Per example :
 	'stages' => array(
-		'staging' => array(
-			'scm' => array('branch' => 'deploy'),
+		'demo' => array(
+			'scm' => array('branch' => 'demo'),
+		),
+		'production' => array(
+			'scm' => array('branch' => 'master'),
 		),
 	),
 
@@ -161,6 +164,8 @@
 
 		// Stages configurations
 		'stages' => array(
+			'demo' 			=> array(),
+			'production' 	=> array(),
 		),
 
 		// Connections configuration
