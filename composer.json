@@ -15,7 +15,7 @@
 		"loic-sharma/profiler": "1.1.*",
 		"elasticsearch/elasticsearch": "~0.4",
 		"illuminate/remote": "4.1.*",
-		"anahkiasen/rocketeer": "0.9.*",
+		"anahkiasen/rocketeer": "dev-master",
 		"graham-campbell/markdown": "1.0.*"
 	},
 	"autoload": {
