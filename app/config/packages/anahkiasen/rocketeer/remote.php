@@ -45,9 +45,9 @@
 		// a single command as a string or an array of commands
 		'callback' => function ($task, $file) {
 			return array(
-				sprintf('chmod -R 777 %s', $file),
+				sprintf('chmod -R 775 %s', $file),
 				sprintf('chmod -R g+s %s', $file),
-				//sprintf('chown -R apache:apache %s', $file),
+				sprintf('chown -R cmbirk:madison %s', $file),
 			);
 		},
 
