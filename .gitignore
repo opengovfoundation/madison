@@ -8,3 +8,4 @@ app/config/remote.php
 app/config/socials.php
 /vendor/*
 composer.lock
+shared
