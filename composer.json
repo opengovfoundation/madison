@@ -11,7 +11,7 @@
     ],
 	"require": {
 		"laravel/framework": "4.1.*",
-		"roumen/sitemap": "2.3.*",
+		"roumen/sitemap": "dev-master",
 		"loic-sharma/profiler": "1.1.*",
 		"elasticsearch/elasticsearch": "~0.4",
 		"illuminate/remote": "4.1.*",
