@@ -53,5 +53,23 @@ function ParticipateController($scope, $http, annotationService){
 	}
 }
 
+function RecentDocsController($scope, $http){
+	$scope.docs = [];
+
+	$scope.init = function(){
+		$scope.getDocs();
+	}
+
+	$scope.getDocs = function(){
+		$http.get('/api/docs/recent/10')
+		.success(function(data, status, headers, config){
+			$scope.docs = data;
+		});
+	}
+}
+
+RecentDocsController.$inject = ['$scope', '$http'];
 ReaderController.$inject = ['$scope', 'annotationService'];
 ParticipateController.$inject = ['$scope', '$http', 'annotationService'];
+
+

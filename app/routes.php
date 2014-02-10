@@ -74,6 +74,9 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/docs/{doc}/comments', 'CommentApiController@getIndex');
     Route::get('api/docs/{doc}/comments/{comment?}', 'CommentApiController@getIndex');
 
+    //Recent Documents
+    Route::get('api/docs/recent/{query?}', 'DocumentApiController@getRecent')->where('query', '[0-9]+');
+
 //Logout Route
 Route::get('logout', function(){
 	Auth::logout();	//Logout the current user
