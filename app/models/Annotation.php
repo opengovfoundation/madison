@@ -2,11 +2,11 @@
 use Carbon\Carbon;
 
 class Annotation{
-	const INDEX = 'madison';
 	const TYPE = 'annotation';
 
 	protected $body;
 	protected $es;
+	protected $index;
 
 	//Annotation format described at https://github.com/okfn/annotator/wiki/Annotation-format
 	public $id;
@@ -35,6 +35,8 @@ class Annotation{
 				$this->$key = $value;
 			}
 		}
+
+		$this->index = Config::get('elasticsearch.annotationIndex');
 
 		$this->es = self::connect();
 	}
@@ -86,7 +88,7 @@ class Annotation{
 		}
 
 		$params = array(
-			'index' => self::INDEX,
+			'index' => $this->index,
 			'type' 	=> self::TYPE,
 			'id'	=> $this->id,
 		);
@@ -125,7 +127,7 @@ class Annotation{
 		$this->body['updated'] = Carbon::now('America/New_York')->toRFC2822String();
 
 		$params = array(
-			'index'	=> self::INDEX,
+			'index'	=> $this->index,
 			'type'	=> self::TYPE,
 			'body'	=> $this->body
 		);
@@ -143,7 +145,7 @@ class Annotation{
 		$es = self::connect();
 
 		$params = array(
-			'index'	=> self::INDEX,
+			'index'	=> $this->index,
 			'type'	=> self::TYPE,
 			'id'	=> $this->id
 		);
@@ -251,7 +253,7 @@ class Annotation{
 		}
 
 		$params = array(
-			'index'	=> self::INDEX,
+			'index'	=> Config::get('elasticsearch.annotationIndex'),
 			'type'	=> self::TYPE,
 			'id'	=> $id
 		);
@@ -272,7 +274,7 @@ class Annotation{
 		}
 
 		$params = array(
-			'index'	=> self::INDEX,
+			'index'	=> Config::get('elasticsearch.annotationIndex'),
 			'type'	=> self::TYPE,
 			'id'	=> $id
 		);
@@ -291,7 +293,7 @@ class Annotation{
 		$es = self::connect();
 
 		$params = array(
-			'index'	=> self::INDEX,
+			'index'	=> Config::get('elasticsearch.annotationIndex'),
 			'type'	=> self::TYPE,
 			'body'	=> array(
 				'query'	=> array(
@@ -317,7 +319,7 @@ class Annotation{
 		$es = self::connect();
 
 		$params = array(
-			'index'	=> self::INDEX,
+			'index'	=> Config::get('elasticsearch.annotationIndex'),
 			'type'	=> self::TYPE,
 			'body'	=> array(
 				'query'	=> array(

@@ -1,8 +1,16 @@
 <?php
 class Doc extends Eloquent{
 	public static $timestamp = true;
-	const INDEX = 'madison';
+	
+	protected $index;
+
 	const TYPE = 'doc';
+
+	public function __construct(){
+		parent::__construct();
+
+		$this->index = Config::get('elasticsearch.annotationIndex');
+	}
 
 	public function comments(){
 		return $this->hasMany('Comment');
@@ -55,7 +63,7 @@ class Doc extends Eloquent{
 		);
 
 		$params = array(
-			'index'	=> self::INDEX,
+			'index'	=> $this->index,
 			'type'	=> self::TYPE,
 			'id'	=> $this->id,
 			'body'	=> $body
@@ -84,7 +92,7 @@ class Doc extends Eloquent{
 	public static function search($query){
 		$es = self::esConnect();
 
-		$params['index'] = self::INDEX;
+		$params['index'] = Config::get('elasticsearch.annotationIndex');
 		$params['type'] = self::TYPE;
 		$params['body']['query']['filtered']['query']['query_string']['query'] = $query;
 
