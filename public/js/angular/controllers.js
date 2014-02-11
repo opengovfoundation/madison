@@ -68,6 +68,36 @@ function RecentDocsController($scope, $http){
 	}
 }
 
+function DashboardVerifyController($scope, $http){
+	$scope.requests = [];
+	$scope.test = 'something';
+
+	$scope.init = function(){
+		$scope.getRequests();
+	}
+
+	$scope.getRequests = function(){
+		$http.get('/api/user/verify')
+		.success(function(data, status, headers, config){
+			$scope.requests = data;
+		})
+		.error(function(data, status, headers, config){
+			console.error(data);
+		});
+	}
+
+	$scope.update = function(request, status, event){
+		$http.post('/api/user/verify', {'request': request, 'status': status})
+		.success(function(data){
+			request.meta_value = status;
+		})
+		.error(function(data, status, headers, config){
+			console.log(data);
+		});
+	}
+}
+
+DashboardVerifyController.$inject = ['$scope', '$http'];
 RecentDocsController.$inject = ['$scope', '$http'];
 ReaderController.$inject = ['$scope', 'annotationService'];
 ParticipateController.$inject = ['$scope', '$http', 'annotationService'];

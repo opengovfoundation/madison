@@ -10,6 +10,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	
 	protected $hidden = array('password');
 
+	public function verified(){
+		$request = $this->user_meta()->where('meta_key', 'verify')->first();
+		
+		if(isset($request)){
+			return $request->meta_value;	
+		}else{
+			return null;
+		}
+		
+	}
+
 	public function comments(){
 		return $this->hasMany('Comment');
 	}
@@ -41,6 +52,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	
 	public function note_meta(){
 		return $this->hasMany('NoteMeta');
+	}
+
+	public function user_meta(){
+		return $this->hasMany('UserMeta');
 	}
 	
 	public function setSuggestions(){

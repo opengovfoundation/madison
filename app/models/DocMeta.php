@@ -8,7 +8,7 @@ class DocMeta extends Eloquent{
 	
 	//Document this meta is describing
 	public function doc(){
-		return $this->belongs_to('Doc');
+		return $this->belongsTo('Doc');
 	}
 	
 	

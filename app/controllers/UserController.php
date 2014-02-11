@@ -28,7 +28,7 @@ class UserController extends BaseController{
 		}else if($id == null){
 			return Response::error('404');
 		}
-		
+
 		//Set data array
 		$data = array(
 			'page_id'		=> 'edit_profile',
@@ -52,8 +52,8 @@ class UserController extends BaseController{
 		$lname = Input::get('lname');
 		$url = Input::get('url');
 		$location = Input::get('location');
-		$admin_request = Input::get('admin-request');
-		
+		$verify = Input::get('verify');
+
 		$user_details = Input::all();
 
 		if(Auth::user()->email != $email){
@@ -82,6 +82,16 @@ class UserController extends BaseController{
 		$user->url = $url;
 		$user->location = $location;
 		$user->save();
+
+		if(isset($verify)){
+			$meta = new UserMeta();
+			$meta->meta_key = 'verify';
+			$meta->meta_value = 'pending';
+			$meta->user_id = $id;
+			$meta->save();
+
+			return Redirect::back()->with('success_message', 'Your profile has been updated')->with('message', 'Your verified status has been requested.');
+		}
 		
 		return Redirect::back()->with('success_message', 'Your profile has been updated.');
 	}

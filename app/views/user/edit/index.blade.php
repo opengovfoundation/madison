@@ -36,6 +36,17 @@
 						<label for="location">Location:</label>
 						<input type="text" class="form-control" name="location" id="location" placeholder="Enter Location" value="{{ Auth::user()->location }}"/>
 					</div>
+					<div class="checkbox">
+						@if(Auth::user()->verified())
+							<label>
+								<input name="verify" type="checkbox" checked disabled> Request 'Verified Account' is '{{ Auth::user()->verified() }}'
+							</label>
+						@else
+							<label>
+								<input name="verify" type="checkbox"> Request 'Verified Account'
+							</label>
+						@endif
+					</div>
 					<div class="form-group">
 						<!-- Change avatar at gravatar.com -->
 						<a href="https://gravatar.com" target="_blank" class="red">Change your avatar at Gravatar.com</a>

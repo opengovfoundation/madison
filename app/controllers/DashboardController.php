@@ -136,9 +136,12 @@ class DashboardController extends BaseController{
 	 * 	Verification request view
 	 */
 	public function getVerifications(){
+		$requests = UserMeta::where('meta_key', 'verify')->with('user')->get();
+
 		$data = array(
 			'page_id'		=> 'verify_users',
-			'page_title'	=> 'Verify Users'
+			'page_title'	=> 'Verify Users',
+			'requests'		=> $requests
 		);
 
 		return View::make('dashboard.verify-account', $data);
@@ -148,7 +151,7 @@ class DashboardController extends BaseController{
 	 * 	Post route for handling verification request responses
 	 */
 	public function postVerification(){
-
+		
 	}
 
 	/**

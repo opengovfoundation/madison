@@ -6,7 +6,7 @@ class NoteMeta extends Eloquent{
 	protected $table = 'note_meta';
 	
 	public function user(){
-		return $this->belongs_to('User');
+		return $this->belongsTo('User');
 	}
 	
 }

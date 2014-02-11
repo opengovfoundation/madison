@@ -77,6 +77,10 @@ Route::controller('dashboard', 'DashboardController');
     //Recent Documents
     Route::get('api/docs/recent/{query?}', 'DocumentApiController@getRecent')->where('query', '[0-9]+');
 
+    //User Routes
+    Route::get('api/user/verify/', 'UserApiController@getVerify');
+    Route::post('api/user/verify/', 'UserApiController@postVerify');
+
 //Logout Route
 Route::get('logout', function(){
 	Auth::logout();	//Logout the current user
