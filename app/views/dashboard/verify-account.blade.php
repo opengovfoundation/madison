@@ -18,8 +18,9 @@
 					<span><% request.meta_value %></span>
 					<span>
 						<div class="btn-group">
-							<button type="button" class="btn btn-success" ng-class="{active: request.meta_value == 'verified'}" ng-click="update(request, 'verified', event)">Verify</button>
-							<button type="button" class="btn btn-danger" ng-class="{active: request.meta_value == 'denied'}" ng-click="update(request, 'denied', event)">Deny</button>
+							<button type="button" class="btn btn-success" ng-class="{active: request.meta_value == 'verified'}" ng-click="update(request, 'verified')">Verified</button>
+							<button type="button" class="btn btn-warning" ng-class="{active: request.meta_value == 'pending'}" ng-click="update(request, 'pending')">Pending</button>
+							<button type="button" class="btn btn-danger" ng-class="{active: request.meta_value == 'denied'}" ng-click="update(request, 'denied')">Denied</button>
 						</div>
 					</span>
 				</li>
