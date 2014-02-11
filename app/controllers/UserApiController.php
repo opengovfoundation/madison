@@ -11,7 +11,7 @@ class UserApiController extends ApiController{
 	}	
 	
 	public function getVerify(){
-		$this->beforeFilter('admin', array('on' => array('get')));
+		$this->beforeFilter('admin');
 
 		$requests = UserMeta::where('meta_key', 'verify')->with('user')->get();
 
@@ -19,6 +19,8 @@ class UserApiController extends ApiController{
 	}
 
 	public function postVerify(){
+		$this->beforeFilter('admin');
+
 		$request = Input::get('request');
 		$status = Input::get('status');
 
