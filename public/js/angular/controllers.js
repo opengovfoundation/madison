@@ -70,7 +70,6 @@ function RecentDocsController($scope, $http){
 
 function DashboardVerifyController($scope, $http){
 	$scope.requests = [];
-	$scope.test = 'something';
 
 	$scope.init = function(){
 		$scope.getRequests();
@@ -92,11 +91,44 @@ function DashboardVerifyController($scope, $http){
 			request.meta_value = status;
 		})
 		.error(function(data, status, headers, config){
-			console.log(data);
+			console.error(data);
 		});
 	}
 }
 
+function DashboardSettingsController($scope, $http, $debounce){
+	$scope.emails = [];
+	$scope.contact = undefined;
+
+	$scope.getAdmins = function(){
+		$http.get('/api/user/admin')
+		.success(function(data){
+			angular.forEach(data, function(item){
+				$scope.emails.push(item.email);
+			});
+		})
+		.error(function(data){
+			console.error(data);
+		});
+	}
+
+	$scope.getContact = function(){
+		$http.get('/api/user/admin/contact')
+		.success(function(data){
+			$scope.contact = data.email;
+		})
+		.error(function(data){
+			console.error(data);
+		});
+	}
+
+	$scope.init = function(){
+		$scope.getContact();
+		$scope.getAdmins();
+	}
+}
+
+DashboardSettingsController.$inject = ['$scope', '$http'];
 DashboardVerifyController.$inject = ['$scope', '$http'];
 RecentDocsController.$inject = ['$scope', '$http'];
 ReaderController.$inject = ['$scope', 'annotationService'];

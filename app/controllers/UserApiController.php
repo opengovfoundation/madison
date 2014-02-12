@@ -38,5 +38,26 @@ class UserApiController extends ApiController{
 
 		return Response::json($ret);
 	}
+
+	public function getAdmins(){
+		$this->beforeFilter('admin');
+
+		$emails = User::where('user_level', 1)->select('users.email')->get();
+
+		return Response::json($emails);
+	}
+
+	public function getContact(){
+		$this->beforeFilter('admin');
+
+		$contact = UserMeta::where('meta_key', 'admin_contact')->with('user')->first();
+		if(!isset($contact->email)){
+			$email = null;
+		}else{
+			$email = $contact->user->email;
+		}
+
+		return Response::json($email);
+	}
 }
 

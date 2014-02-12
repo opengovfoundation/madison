@@ -148,36 +148,27 @@ class DashboardController extends BaseController{
 	}
 
 	/**
-	 * 	Post route for handling verification request responses
-	 */
-	public function postVerification(){
-		
-	}
+	*	Settings page
+	*/
 
-	/**
-	 * 	Post route for House document import
-	 */
-	public function postImport(){
-		$url = Input::get('url');
-		$import_details = Input::all();
+	public function getSettings(){
+		$adminContact = UserMeta::where('meta_key', 'admin_contact')->with('user')->first();
 
-		$rules = array('url' => 'required');
-
-		$validation = Validator::make($import_details, $rules);
-
-		if($validation->fails()){
-			return Redirect::back()->with_input()->with_errors($validation);
+		if(!isset($adminContact)){
+			$adminEmail = '';
+		}else{
+			$adminEmail = $adminContact->user->email;
 		}
 
+		$data = array(
+			'page_id'		=> 'settings',
+			'page_title'	=> 'Settings',
+			'adminEmail'	=> $adminEmail
+		);
 
-		try{
-			$importer = new BillImport($url);//Found in the library folder ( used specifically for Federal House bills )
-			$importer->createDoc();
-		}catch(Exception $e){
-			return Redirect::back()->with_input()->with('error', 'Error: ' . $e->getMessage());
-		}
-
-		return Redirect::back()->with('success_message', "Document created successfully!");
+		return View::make('dashboard.settings', $data);
 	}
+
+
 }
 

@@ -80,6 +80,8 @@ Route::controller('dashboard', 'DashboardController');
     //User Routes
     Route::get('api/user/verify/', 'UserApiController@getVerify');
     Route::post('api/user/verify/', 'UserApiController@postVerify');
+    Route::get('api/user/admin/', 'UserApiController@getAdmins');
+    Route::get('api/user/admin/contact/', 'UserApiController@getContact');
 
 //Logout Route
 Route::get('logout', function(){
