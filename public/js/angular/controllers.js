@@ -96,26 +96,25 @@ function DashboardVerifyController($scope, $http){
 	}
 }
 
-function DashboardSettingsController($scope, $http, $debounce){
-	$scope.emails = [];
-	$scope.contact = undefined;
+function DashboardSettingsController($scope, $http){
+	$scope.admins = [];
 
 	$scope.getAdmins = function(){
 		$http.get('/api/user/admin')
 		.success(function(data){
-			angular.forEach(data, function(item){
-				$scope.emails.push(item.email);
-			});
+			$scope.admins = data;
 		})
 		.error(function(data){
 			console.error(data);
 		});
 	}
 
-	$scope.getContact = function(){
-		$http.get('/api/user/admin/contact')
+	$scope.saveAdmin = function(admin){
+		admin.saved = false;
+
+		$http.post('/api/user/admin/', {'admin': admin})
 		.success(function(data){
-			$scope.contact = data.email;
+			admin.saved = true;
 		})
 		.error(function(data){
 			console.error(data);
@@ -123,7 +122,6 @@ function DashboardSettingsController($scope, $http, $debounce){
 	}
 
 	$scope.init = function(){
-		$scope.getContact();
 		$scope.getAdmins();
 	}
 }

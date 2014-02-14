@@ -152,23 +152,27 @@ class DashboardController extends BaseController{
 	*/
 
 	public function getSettings(){
-		$adminContact = UserMeta::where('meta_key', 'admin_contact')->with('user')->first();
-
-		if(!isset($adminContact)){
-			$adminEmail = '';
-		}else{
-			$adminEmail = $adminContact->user->email;
-		}
-
 		$data = array(
 			'page_id'		=> 'settings',
 			'page_title'	=> 'Settings',
-			'adminEmail'	=> $adminEmail
 		);
 
 		return View::make('dashboard.settings', $data);
 	}
 
+	public function postSettings(){
+		$adminEmail = Input::get('contact-email');
 
+		$adminContact = User::where('email', '$adminEmail');
+
+		if(!isset($adminContact)){
+			return Redirect::back()->with('error', 'The admin account with this email was not found.  Please try a different email.');
+		}
+
+
+
+
+
+	}
 }
 

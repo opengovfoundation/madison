@@ -57,6 +57,20 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	public function user_meta(){
 		return $this->hasMany('UserMeta');
 	}
+
+	public function admin_contact(){
+		if($this->user_level != 1){
+			return false;
+		}
+
+		$meta = $this->user_meta()->where('meta_key', '=', 'admin_contact')->first();
+
+		if(isset($meta)){
+			$this->admin_contact = $meta->meta_value;
+		}else{
+			$this->admin_contact = false;
+		}
+	}
 	
 	public function setSuggestions(){
 		// $suggestions = $this->hasMany('Note')->where('type', '=', 'suggestion')->get();

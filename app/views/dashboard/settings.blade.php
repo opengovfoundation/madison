@@ -9,15 +9,24 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="content col-md-12" ng-controller="DashboardSettingsController" ng-init="init()">
+		<div class="content col-md-12">
 			<h1>Settings</h1>
-			<form role="form" name="settingsForm" action="/dashboard/settings" method="POST">
-				<div class="form-group" >
-					<label class="control-label" for="adminContact">Admin Contact Email</label>
-					<input ng-model="contact" typeahead="email for email in emails | filter:$viewValue" typeahead-editable="false" type="email" class="form-control" placeholder="Admin Contact Email" value="<% selected %>" required/>
-				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
-			</form>
+			<table class="table table-striped" ng-controller="DashboardSettingsController" ng-init="init()">
+				<thead>
+					<th>Contact</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="admin in admins">
+						<td><input type="checkbox" ng-model="admin.admin_contact" ng-click="saveAdmin(admin)"><span class="glyphicon glyphicon-refresh" ng-show="admin.saved == false"></span></td>
+						<td><% admin.fname %></td>
+						<td><% admin.lname %></td>
+						<td><% admin.email %></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 @endsection
