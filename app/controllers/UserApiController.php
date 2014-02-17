@@ -53,6 +53,16 @@ class UserApiController extends ApiController{
 
 	public function postAdmin(){
 		$admin = Input::get('admin');
+
+		$user = User::find($admin['id']);
+
+		if(!isset($user)){
+			throw new Exception('User with id ' . $admin['id'] . ' could not be found.');
+		}
+
+		$user->admin_contact($admin['admin_contact']);
+
+		return Response::json(array('saved' => true));
 	}
 }
 

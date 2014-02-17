@@ -112,7 +112,7 @@ function DashboardSettingsController($scope, $http){
 	$scope.saveAdmin = function(admin){
 		admin.saved = false;
 
-		$http.post('/api/user/admin/', {'admin': admin})
+		$http.post('/api/user/admin', {'admin': admin})
 		.success(function(data){
 			admin.saved = true;
 		})
