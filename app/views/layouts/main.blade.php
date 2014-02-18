@@ -19,10 +19,9 @@
 			</div>
 			<div class="row">
 				<div class="container">
-					@include('partials.topbar')
+					<div class="md-col-12">&nbsp;</div>
 				</div>
 			</div>
-
 			<div class="row">
 				<div class="container alerts">
 					@include('errors')
