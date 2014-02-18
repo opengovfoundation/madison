@@ -63,7 +63,14 @@ function RecentDocsController($scope, $http){
 	$scope.getDocs = function(){
 		$http.get('/api/docs/recent/10')
 		.success(function(data, status, headers, config){
-			$scope.docs = data;
+
+			angular.forEach(data, function(doc, key){
+				doc.updated_at = Date.parse(doc.updated_at);
+				doc.created_at = Date.parse(doc.created_at);
+
+				$scope.docs.push(doc);
+			});
+
 		});
 	}
 }
