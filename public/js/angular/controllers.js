@@ -66,10 +66,6 @@ function HomePageController($scope, $http, $window){
 
 		$scope.select2Config = {
 			multiple: true,
-			simple_tags: true,
-			tags: function(){
-				return $scope.categories;
-			}
 		}	
 	}
 

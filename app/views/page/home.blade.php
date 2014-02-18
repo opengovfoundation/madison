@@ -2,7 +2,11 @@
 	<h1>Welcome to Madison</h1>
 </div>
 <div class="row" ng-controller="HomePageController" ng-init="init()">
-	<input type="hidden" ui-select2="select2Config" ng-model="select2" />
+	<select ui-select2="select2Config" ng-model="select2">
+		<optgroup label="Category">
+			<option value="<% category %>" ng-repeat="category in categories"><% category %></option>
+		</optgroup>
+	</select>
 	<ul>
 		<li ng-repeat="doc in docs" >
 			<a href="/docs/<% doc.slug %>">
