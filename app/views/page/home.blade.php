@@ -10,7 +10,7 @@
 			<div class="list-doc-info">
 				<span class="doc-created-date">Posted <% doc.created_at | date:'mediumDate' %></span>
 				<span class="doc-updated-date">Updated <% doc.updated_at | date:'mediumDate' %></span>
-				<span class="doc-action-count"></span>
+				<span class="doc-action-count"><% doc.annotationCount %></span>
 			</div>
 		</li>
 	</ul>

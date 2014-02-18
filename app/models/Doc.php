@@ -28,6 +28,18 @@ class Doc extends Eloquent{
 		return $this->hasMany('DocMeta');
 	}
 
+	public function setActionCount(){
+		$es = self::esConnect();
+
+		$params['index'] = $this->index;
+		$params['type'] = 'annotation';
+		$params['body']['term']['doc'] = (string)$this->id;
+
+		$count = $es->count($params);
+
+		$this->annotationCount = $count['count'];
+	}
+
 	public function get_file_path($format = 'markdown'){
 		switch($format){
 			case 'html' :
