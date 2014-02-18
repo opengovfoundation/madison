@@ -300,6 +300,7 @@ textarea.form-inline{
 		li{
 			border-top: 1px solid #ccc;
 			padding: 12px 10px;
+			position: relative;
 			a{
 				font-weight: bold;
 				font-size:1.2em;
@@ -321,9 +322,26 @@ textarea.form-inline{
 				.dov-updated-date{
 
 				}
+				.doc-action-count{
+					background: #999;
+					color: #FFF;
+					text-align: center;
+					font-weight: bold;
+					@include border-radius(2px);
+					position: absolute;
+					right:0;
+					top: 12px;
+					display: block;
+					padding: 3px 8px 4px 8px;
+				}
 			}
 		}
 	}
+}
+
+.select2-container{
+	margin-left: 20px;
+	width: 85%;
 }
 
 .leftbar{
