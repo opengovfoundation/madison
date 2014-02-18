@@ -55,10 +55,40 @@ function ParticipateController($scope, $http, annotationService){
 
 function HomePageController($scope, $http, $window){
 	$scope.docs = [];
+	$scope.categories = [];
 	$scope.select2;
+
+	
 
 	$scope.init = function(){
 		$scope.getDocs();
+		$scope.getCategories();	
+
+		$scope.select2Config = {
+			multiple: true,
+			simple_tags: true,
+			tags: function(){
+				return $scope.categories;
+			}
+		}	
+	}
+
+	$scope.docFilter = function(element, doc){
+		console.log(element, doc);
+	}
+
+	$scope.$watch('select2', function(updated){
+		console.log("updated %o", updated);
+	});
+
+	$scope.getCategories = function(){
+		$http.get('/api/docs/categories')
+		.success(function(data){
+			$scope.categories = data;
+		})
+		.error(function(data){
+			console.error("Unable to get document categories: %o", data);
+		});
 	}
 
 	$scope.getDocs = function(){
@@ -72,11 +102,10 @@ function HomePageController($scope, $http, $window){
 				$scope.docs.push(doc);
 			});
 
+		})
+		.error(function(data){
+			console.error("Unable to get documents: %o", data);
 		});
-	}
-
-	$scope.filterDocs = function(){
-		$window.location.href = "/docs/" + $scope.select2;
 	}
 }
 

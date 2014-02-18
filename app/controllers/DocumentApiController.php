@@ -25,5 +25,10 @@ class DocumentApiController extends ApiController{
 
 		return Response::json($docs);
 	}
+
+	public function getCategories($query = null){
+
+		return Response::json(array('tag1', 'tag2', 'tag3', 'tag4'));
+	}
 }
 

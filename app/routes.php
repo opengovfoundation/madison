@@ -76,6 +76,7 @@ Route::controller('dashboard', 'DashboardController');
 
     //Recent Documents
     Route::get('api/docs/recent/{query?}', 'DocumentApiController@getRecent')->where('query', '[0-9]+');
+    Route::get('api/docs/categories', 'DocumentApiController@getCategories');
 
     //User Routes
     Route::get('api/user/verify/', 'UserApiController@getVerify');

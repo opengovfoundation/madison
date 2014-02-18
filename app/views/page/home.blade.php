@@ -2,12 +2,9 @@
 	<h1>Welcome to Madison</h1>
 </div>
 <div class="row" ng-controller="HomePageController" ng-init="init()">
-	<select ui-select2 ng-model="select2" data-placeholder="Filter Documents" ng-change="filterDocs()">
-		<option value=""></option>
-		<option value="<% doc.slug %>" ng-repeat="doc in docs"><% doc.title %></option>
-	</select>
+	<input type="hidden" ui-select2="select2Config" ng-model="select2" />
 	<ul>
-		<li ng-repeat="doc in docs">
+		<li ng-repeat="doc in docs" >
 			<a href="/docs/<% doc.slug %>">
 				<% doc.title %>
 			</a>
