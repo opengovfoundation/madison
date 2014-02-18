@@ -53,8 +53,9 @@ function ParticipateController($scope, $http, annotationService){
 	}
 }
 
-function RecentDocsController($scope, $http){
+function HomePageController($scope, $http){
 	$scope.docs = [];
+	$scope.select2;
 
 	$scope.init = function(){
 		$scope.getDocs();
@@ -135,7 +136,7 @@ function DashboardSettingsController($scope, $http){
 
 DashboardSettingsController.$inject = ['$scope', '$http'];
 DashboardVerifyController.$inject = ['$scope', '$http'];
-RecentDocsController.$inject = ['$scope', '$http'];
+HomePageController.$inject = ['$scope', '$http'];
 ReaderController.$inject = ['$scope', 'annotationService'];
 ParticipateController.$inject = ['$scope', '$http', 'annotationService'];
 

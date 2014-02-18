@@ -2,6 +2,7 @@
 {{ HTML::style('vendor/jquery/jquery-ui-smoothness.css') }}
 {{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
 {{ HTML::style('vendor/bootstrap/css/bootstrap-theme.min.css') }}
+{{ HTML::style('vendor/select2/select2.css') }}
 {{ HTML::style('css/style.css') }}
 
 <!-- Scripts -->
@@ -15,6 +16,8 @@
 {{ HTML::script('vendor/angular-md5.js') }}
 {{ HTML::script('vendor/ui-bootstrap-tpls-0.10.0.min.js') }}
 {{ HTML::script('vendor/ui-utils.min.js') }}
+{{ HTML::script('vendor/select2/select2.js') }}
+{{ HTML::script('vendor/select2/ui-select2.js') }}
 {{ HTML::script('js/angular/app.js') }}
 {{ HTML::script('js/angular/controllers.js') }}
 {{ HTML::script('js/angular/services.js') }}

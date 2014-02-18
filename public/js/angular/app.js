@@ -1,4 +1,4 @@
-imports = ['angular-md5', 'ui.bootstrap', 'ui.utils'];
+imports = ['angular-md5', 'ui.bootstrap', 'ui.utils', 'ui.select2'];
 
 var app = angular.module('madisonApp', imports, function($interpolateProvider){
 	$interpolateProvider.startSymbol('<%');
