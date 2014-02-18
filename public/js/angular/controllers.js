@@ -53,7 +53,7 @@ function ParticipateController($scope, $http, annotationService){
 	}
 }
 
-function HomePageController($scope, $http){
+function HomePageController($scope, $http, $window){
 	$scope.docs = [];
 	$scope.select2;
 
@@ -73,6 +73,10 @@ function HomePageController($scope, $http){
 			});
 
 		});
+	}
+
+	$scope.filterDocs = function(){
+		$window.location.href = "/docs/" + $scope.select2;
 	}
 }
 
@@ -136,7 +140,7 @@ function DashboardSettingsController($scope, $http){
 
 DashboardSettingsController.$inject = ['$scope', '$http'];
 DashboardVerifyController.$inject = ['$scope', '$http'];
-HomePageController.$inject = ['$scope', '$http'];
+HomePageController.$inject = ['$scope', '$http', '$window'];
 ReaderController.$inject = ['$scope', 'annotationService'];
 ParticipateController.$inject = ['$scope', '$http', 'annotationService'];
 
