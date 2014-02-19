@@ -89,10 +89,6 @@ function HomePageController($scope, $http, $filter){
 		return show;
 	}
 
-	$scope.$watch('select2', function(changed){
-		console.log(changed);
-	});
-
 	$scope.getDocs = function(){
 		$http.get('/api/docs/recent')
 		.success(function(data, status, headers, config){
