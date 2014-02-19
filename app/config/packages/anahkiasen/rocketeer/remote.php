@@ -46,8 +46,6 @@
 			return array(
 				sprintf('chmod -R 775 %s', $file),
 				sprintf('chmod -R g+s %s', $file),
-				sprintf('sudo chown -R apache:madison %s', $file),
-				sprintf('setfacl -R -m u:apache:rwx %s', $file),
 			);
 		},
 
