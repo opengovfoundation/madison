@@ -2,7 +2,8 @@
 	<h1>Welcome to Madison</h1>
 </div>
 <div class="row" ng-controller="HomePageController" ng-init="init()">
-	<select ui-select2="select2Config" ng-model="select2">
+	<select ui-select2="select2Config" ng-model="select2" placeholder="Filter documents by category">
+		<option value=""></option>
 		<optgroup label="Category">
 			<option value="<% category %>" ng-repeat="category in categories"><% category %></option>
 		</optgroup>

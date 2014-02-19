@@ -26,9 +26,39 @@ class DocumentApiController extends ApiController{
 		return Response::json($docs);
 	}
 
-	public function getCategories($query = null){
+	public function getCategories($doc = null){
+		if(!isset($doc)){
+			$categories = Category::all();	
+		}else{
+			$doc = Doc::find($doc);
+			$categories = $doc->categories()->get();
+		}
 
-		return Response::json(array('tag1', 'tag2', 'tag3', 'tag4'));
+		return Response::json($categories);
+	}
+
+	public function postCategories($doc){
+		$doc = Doc::find($doc);
+
+		$categories = Input::get('categories');
+		$categoryIds = array();
+
+		foreach($categories as $category){
+			$toAdd = Category::where('name', $category)->first();
+			
+			if(!isset($toAdd)){
+				$toAdd = new Category();
+			}
+			
+			$toAdd->name = $category;
+			$toAdd->save();
+
+			array_push($categoryIds, $toAdd->id);
+		}
+
+		$doc->categories()->sync($categoryIds);
+
+		return Response::json($categoryIds);	
 	}
 }
 
