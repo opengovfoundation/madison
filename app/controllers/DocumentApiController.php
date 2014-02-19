@@ -17,7 +17,7 @@ class DocumentApiController extends ApiController{
 			$recent = $query;
 		}
 
-		$docs = Doc::take(10)->orderBy('updated_at', 'DESC')->get();
+		$docs = Doc::take(10)->with('categories')->orderBy('updated_at', 'DESC')->get();
 
 		foreach($docs as $doc){
 			$doc->setActionCount();
