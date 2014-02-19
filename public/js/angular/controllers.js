@@ -53,7 +53,7 @@ function ParticipateController($scope, $http, annotationService){
 	}
 }
 
-function HomePageController($scope, $http, $window){
+function HomePageController($scope, $http, $filter){
 	$scope.docs = [];
 	$scope.categories = [];
 	$scope.select2;
@@ -62,7 +62,7 @@ function HomePageController($scope, $http, $window){
 
 	$scope.init = function(){
 		$scope.getDocs();
-		$scope.getCategories();	
+		//$scope.getCategories();	
 
 		$scope.select2Config = {
 			multiple: true,
@@ -93,18 +93,6 @@ function HomePageController($scope, $http, $window){
 		console.log(changed);
 	});
 
-	$scope.getCategories = function(){
-		$http.get('/api/docs/categories')
-		.success(function(data){
-			angular.forEach(data, function(category){
-				$scope.categories.push(category.name);
-			});
-		})
-		.error(function(data){
-			console.error("Unable to get document categories: %o", data);
-		});
-	}
-
 	$scope.getDocs = function(){
 		$http.get('/api/docs/recent')
 		.success(function(data, status, headers, config){
@@ -114,6 +102,14 @@ function HomePageController($scope, $http, $window){
 				doc.created_at = Date.parse(doc.created_at);
 
 				$scope.docs.push(doc);
+
+				angular.forEach(doc.categories, function(category){
+					var found = $filter('filter')($scope.categories, category, true);
+
+					if(!found.length){
+						$scope.categories.push(category.name);
+					}
+				});
 			});
 
 		})
@@ -248,7 +244,7 @@ function DashboardEditorController($scope, $http, $timeout)
 DashboardEditorController.$inject = ['$scope', '$http', '$timeout'];
 DashboardSettingsController.$inject = ['$scope', '$http'];
 DashboardVerifyController.$inject = ['$scope', '$http'];
-HomePageController.$inject = ['$scope', '$http', '$window'];
+HomePageController.$inject = ['$scope', '$http', '$filter'];
 ReaderController.$inject = ['$scope', 'annotationService'];
 ParticipateController.$inject = ['$scope', '$http', 'annotationService'];
 
