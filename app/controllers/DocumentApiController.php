@@ -8,7 +8,17 @@ class DocumentApiController extends ApiController{
 		parent::__construct();
 
 		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
-	}	
+	}
+
+	public function getDocs(){
+		$docs = Doc::with('categories')->orderBy('updated_at', 'DESC')->get();
+
+		foreach($docs as $doc){
+			$doc->setActionCount();
+		}
+
+		return Response::json($docs);
+	}
 	
 	public function getRecent($query = null){
 		$recent = 10;
