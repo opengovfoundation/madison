@@ -80,7 +80,9 @@ function HomePageController($scope, $http, $window){
 	$scope.getCategories = function(){
 		$http.get('/api/docs/categories')
 		.success(function(data){
-			$scope.categories = data;
+			angular.forEach(data, function(category){
+				$scope.categories.push(category.name);
+			});
 		})
 		.error(function(data){
 			console.error("Unable to get document categories: %o", data);
@@ -166,8 +168,8 @@ function DashboardSettingsController($scope, $http){
 function DashboardEditorController($scope, $http, $timeout)
 {
 	$scope.doc;
-	$scope.categories;
-	$scope.suggestedCategories;
+	$scope.categories = [];
+	$scope.suggestedCategories = [];
 	
 
 	$scope.init = function(){
@@ -175,7 +177,9 @@ function DashboardEditorController($scope, $http, $timeout)
 
 		$http.get('/api/docs/categories')
 		.success(function(data){
-			$scope.suggestedCategories = data;
+			angular.forEach(data, function(category){
+				$scope.suggestedCategories.push(category.name);
+			})
 		})
 		.error(function(data){
 			console.error("Unable to get document categories: %o", data);

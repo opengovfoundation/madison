@@ -8,6 +8,7 @@
 		<div class="row">
 			<h2>Document Information</h2>
 			<div class="col-md-12">
+				<h3>Categories</h3>
 				<input type="hidden" ui-select2="categoryOptions" ng-model="categories" />
 			</div>
 		</div>
@@ -27,8 +28,6 @@
 						}
 
 						$(function () {
-							
-
 							var converter1 = Markdown.getSanitizingConverter();
 							var editor1 = new Markdown.Editor(converter1);
 
