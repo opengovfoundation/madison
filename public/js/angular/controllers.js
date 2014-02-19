@@ -66,15 +66,31 @@ function HomePageController($scope, $http, $window){
 
 		$scope.select2Config = {
 			multiple: true,
+			allowClear: true
 		}	
 	}
 
-	$scope.docFilter = function(element, doc){
-		console.log(element, doc);
+	$scope.docFilter = function(doc){
+		var show = false;
+
+		if(typeof $scope.select2 != 'undefined' && $scope.select2 != ''){
+			var cont = true;
+
+			angular.forEach(doc.categories, function(category){
+				if(category.name == $scope.select2 && cont){
+					show =  true;
+					cont = false;
+				}
+			});
+		}else{
+			show = true;
+		}
+
+		return show;
 	}
 
-	$scope.$watch('select2', function(updated){
-		console.log("updated %o", updated);
+	$scope.$watch('select2', function(changed){
+		console.log(changed);
 	});
 
 	$scope.getCategories = function(){

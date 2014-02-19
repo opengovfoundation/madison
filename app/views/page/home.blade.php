@@ -9,7 +9,7 @@
 		</optgroup>
 	</select>
 	<ul>
-		<li ng-repeat="doc in docs" >
+		<li ng-repeat="doc in docs" ng-show="docFilter(doc)">
 			<a href="/docs/<% doc.slug %>">
 				<% doc.title %>
 			</a>
