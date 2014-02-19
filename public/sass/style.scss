@@ -334,6 +334,16 @@ textarea.form-inline{
 					display: block;
 					padding: 3px 8px 4px 8px;
 				}
+
+				.category{
+					background: #999;
+					color: #FFF;
+					@include border-radius(2px);
+					text-align: center;
+					font-weight: bold;
+					padding: 3px 6px 4px 5px;
+					font-size: .8em;
+				}
 			}
 		}
 	}
