@@ -106,7 +106,7 @@ function HomePageController($scope, $http, $window){
 	}
 
 	$scope.getDocs = function(){
-		$http.get('/api/docs/')
+		$http.get('/api/docs/recent')
 		.success(function(data, status, headers, config){
 
 			angular.forEach(data, function(doc, key){
