@@ -37,6 +37,12 @@ Route::get('docs/{slug}', 'DocController@index');
 Route::get('user/{user}', 'UserController@getIndex');
 Route::controller('user', 'UserController');
 
+//Password Routes
+Route::get( 'password/remind', 'RemindersController@getRemind');
+Route::post('password/remind', 'RemindersController@postRemind');
+Route::get( 'password/reset/{token}',  'RemindersController@getReset');
+Route::post('password/reset',  'RemindersController@postReset');
+
 //Note Routes
 Route::get('note/{annotation}', 'NoteController@getIndex');
 Route::post('note/{annotation}', 'NoteController@postIndex');
