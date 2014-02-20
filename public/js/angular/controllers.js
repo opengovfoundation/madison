@@ -56,14 +56,12 @@ function ParticipateController($scope, $http, annotationService){
 function HomePageController($scope, $http, $filter){
 	$scope.docs = [];
 	$scope.categories = [];
+	$scope.sponsors = [];
 	$scope.select2;
-
-	
 
 	$scope.init = function(){
 		$scope.getDocs();
-		//$scope.getCategories();	
-
+		
 		$scope.select2Config = {
 			multiple: true,
 			allowClear: true
@@ -82,6 +80,14 @@ function HomePageController($scope, $http, $filter){
 					cont = false;
 				}
 			});
+
+			angular.forEach(doc.sponsor, function(sponsor){
+				if(sponsor.id == $scope.select2 && cont){
+					show = true;
+					cont = false;
+				}
+			});
+
 		}else{
 			show = true;
 		}
@@ -104,6 +110,14 @@ function HomePageController($scope, $http, $filter){
 
 					if(!found.length){
 						$scope.categories.push(category.name);
+					}
+				});
+
+				angular.forEach(doc.sponsor, function(sponsor){
+					var found = $filter('filter')($scope.sponsors, sponsor, true);
+
+					if(!found.length){
+						$scope.sponsors.push(sponsor);
 					}
 				});
 			});

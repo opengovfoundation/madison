@@ -11,7 +11,7 @@ class DocumentApiController extends ApiController{
 	}
 
 	public function getDocs(){
-		$docs = Doc::with('categories')->orderBy('updated_at', 'DESC')->get();
+		$docs = Doc::with('categories')->with('sponsor')->orderBy('updated_at', 'DESC')->get();
 
 		foreach($docs as $doc){
 			$doc->setActionCount();
@@ -89,6 +89,13 @@ class DocumentApiController extends ApiController{
 
 		return Response::json($user);
 
+	}
+
+	public function getAllSponsors(){
+		$doc = Doc::with('sponsor')->first();
+		$sponsors = $doc->sponsor;
+
+		return Response::json($sponsors);
 	}
 }
 

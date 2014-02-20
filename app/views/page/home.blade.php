@@ -7,6 +7,9 @@
 		<optgroup label="Category">
 			<option value="<% category %>" ng-repeat="category in categories"><% category %></option>
 		</optgroup>
+		<optgroup label="Sponsor">
+			<option value="<% sponsor.id %>" ng-repeat="sponsor in sponsors"><% sponsor.fname %> <% sponsor.lname %></option>
+		</optgroup>
 	</select>
 	<ul>
 		<li ng-repeat="doc in docs" ng-show="docFilter(doc)">

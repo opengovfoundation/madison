@@ -74,9 +74,10 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/docs/{doc}/comments', 'CommentApiController@getIndex');
     Route::get('api/docs/{doc}/comments/{comment?}', 'CommentApiController@getIndex');
 
-    //Recent Documents
+    //Document Api Routes
     Route::get('api/docs/recent/{query?}', 'DocumentApiController@getRecent')->where('query', '[0-9]+');
     Route::get('api/docs/categories', 'DocumentApiController@getCategories');
+    Route::get('api/docs/sponsors', 'DocumentApiController@getAllSponsors');
     Route::get('api/docs/{doc}/categories', 'DocumentApiController@getCategories');
     Route::post('api/docs/{doc}/categories', 'DocumentApiController@postCategories');
     Route::get('api/docs/{doc}/sponsor', 'DocumentApiController@getSponsor');
