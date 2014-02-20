@@ -205,8 +205,8 @@ class UserController extends BaseController{
 			$user->save();
 			
 			//Send email to user for email account verification
-			Mail::queue('email.template', array('token'=>$token), function ($message) use ($email, $fname) {
-    			$message->subject('Madison Email Confirmation');
+			Mail::queue('email.signup', array('token'=>$token), function ($message) use ($email, $fname) {
+    			$message->subject('Welcome to the Madison Community');
     			$message->from('sayhello@opengovfoundation.org', 'Madison');
     			$message->to($email); // Recipient address
 			});
