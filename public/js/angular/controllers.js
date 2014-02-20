@@ -1,3 +1,7 @@
+/**
+*	Document Viewer Controllers
+*/
+
 function ReaderController($scope, annotationService){
 	$scope.annotations = [];
 
@@ -52,6 +56,10 @@ function ParticipateController($scope, $http, annotationService){
 		});
 	}
 }
+
+/**
+*	Page Controllers
+*/
 
 function HomePageController($scope, $http, $filter){
 	$scope.docs = [];
@@ -128,6 +136,49 @@ function HomePageController($scope, $http, $filter){
 		});
 	}
 }
+
+function UserPageController($scope, $http, $location){
+	$scope.user;
+	$scope.docs;
+	$scope.meta;
+	$scope.verified = false;
+
+	$scope.init = function(){
+		$scope.getUser();
+	}
+
+	$scope.getUser = function(){
+		var abs = $location.absUrl();
+		var id = abs.match(/.*\/(\d+)$/);
+		id = id[1];
+
+		$http.get('/api/user/' + id)
+		.success(function(data){
+			$scope.user = angular.copy(data);
+			$scope.docs = angular.copy(data.docs);
+			$scope.meta = angular.copy(data.user_meta);
+
+			angular.forEach($scope.user.user_meta, function(meta){
+				var cont = true;
+
+				if(meta.meta_key == 'verify' && meta.meta_value == 'verified' && cont){
+					$scope.verified = true;
+					cont = false
+				}
+			});
+
+			$scope.user.created_at = Date.parse($scope.user.created_at);
+
+		}).error(function(data){
+			console.error("Unable to retrieve user: %o", data);
+		});
+	}
+
+}
+
+/** 
+*	Dashboard Controllers
+*/
 
 function DashboardVerifyController($scope, $http){
 	$scope.requests = [];
@@ -326,10 +377,17 @@ function DashboardEditorController($scope, $http, $timeout)
 
 }
 
+/**
+*	Dependency Injections
+*/
+
 DashboardEditorController.$inject = ['$scope', '$http', '$timeout'];
 DashboardSettingsController.$inject = ['$scope', '$http'];
 DashboardVerifyController.$inject = ['$scope', '$http'];
+
 HomePageController.$inject = ['$scope', '$http', '$filter'];
+UserPageController.$inject = ['$scope', '$http', '$location'];
+
 ReaderController.$inject = ['$scope', 'annotationService'];
 ParticipateController.$inject = ['$scope', '$http', 'annotationService'];
 

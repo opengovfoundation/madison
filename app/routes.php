@@ -85,6 +85,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/docs/', 'DocumentApiController@getDocs');
 
     //User Routes
+    Route::get('api/user/{user}', 'UserApiController@getUser');
     Route::get('api/user/verify/', 'UserApiController@getVerify');
     Route::post('api/user/verify/', 'UserApiController@postVerify');
     Route::get('api/user/admin/', 'UserApiController@getAdmins');

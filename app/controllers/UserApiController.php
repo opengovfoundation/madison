@@ -8,7 +8,13 @@ class UserApiController extends ApiController{
 		parent::__construct();
 
 		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
-	}	
+	}
+
+	public function getUser($user){
+		$user->load('docs', 'user_meta');
+
+		return Response::json($user);
+	}
 	
 	public function getVerify(){
 		$this->beforeFilter('admin');

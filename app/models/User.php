@@ -18,7 +18,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		}else{
 			return null;
 		}
-		
 	}
 
 	public function docs(){
