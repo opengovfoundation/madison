@@ -19,13 +19,13 @@
 						</li>
 					@endforeach
 				@endif
-				
+
 			</ul>
 		</div>
 		<div class="col-md-6">
 			<div class="row">
 				<h2>Create Document</h2>
-				{{ Form::open(array('url' => 'dashboard/docs', 'method' => 'post')) }}
+				{{ Form::open(array('url' => 'dashboard/docs', 'method' => 'post', 'id' => 'create-document-form')) }}
 				<div class="form-group">
 					{{ Form::label('title', 'Title:') . Form::text('title', Input::old('title'), array('placeholder' => 'Document Title', 'class'=>'form-control')) }}
 				</div>
