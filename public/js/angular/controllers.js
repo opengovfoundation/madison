@@ -176,32 +176,42 @@ function DashboardSettingsController($scope, $http){
 function DashboardEditorController($scope, $http, $timeout)
 {
 	$scope.doc;
+	$scope.sponsor;
+	$scope.status;
+	$scope.verifiedUsers = [];
 	$scope.categories = [];
 	$scope.suggestedCategories = [];
 	
 
 	$scope.init = function(){
 		$scope.doc = doc;
+		$scope.getAllCategories();
+		$scope.getDocCategories();
+		$scope.getDocSponsor();
+		$scope.getVerifiedUsers();
+		$scope.setSelectOptions();
 
-		$http.get('/api/docs/categories')
-		.success(function(data){
-			angular.forEach(data, function(category){
-				$scope.suggestedCategories.push(category.name);
-			})
-		})
-		.error(function(data){
-			console.error("Unable to get document categories: %o", data);
+		var initCategories = true;
+		var initSponsor = true;
+
+		$scope.$watch('categories', function(values){
+			if(initCategories){
+				$timeout(function(){ initCategories = false; });
+			}else{
+				$scope.saveCategories();
+			}
 		});
 
-		$http.get('/api/docs/' + $scope.doc.id + '/categories')
-		.success(function(data){
-			angular.forEach(data, function(category){
-				$scope.categories.push(category.name);
-			});
-		}).error(function(data){
-			console.error("Unable to get categories for document %o: %o", $scope.doc, data);
+		$scope.$watch('sponsor', function(value){
+			if(initSponsor){
+				$timeout(function(){ initSponsor = false; });
+			}else{
+				$scope.saveSponsor();
+			}
 		});
+	}
 
+	$scope.setSelectOptions = function(){
 		$scope.categoryOptions = {
 			multiple: true,
 			simple_tags: true,
@@ -213,25 +223,90 @@ function DashboardEditorController($scope, $http, $timeout)
 			}
 		};
 
-		var initializing = true;
+		$scope.sponsorOptions = {
+			placeholder: "Select Document Sponsor",
+			ajax: {
+				url: "/api/user/verify",
+				dataType: 'json',
+				data: function(term, page){
+					return;
+				},
+				results: function(data, page){
+					var returned = [];
+					angular.forEach(data, function(verified){
+						var text = verified.user.fname + " " + verified.user.lname + " - " + verified.user.email;
 
-		$scope.$watch('categories', function(values){
-			if(initializing){
-				$timeout(function(){ initializing = false; });
-			}else{
-				$scope.saveCategories();
+						returned.push({ id: verified.user.id, text: text });
+					});
+
+					return {results: returned};
+				}
+			},
+			initSelection: function(element, callback){
+				callback($scope.sponsor);
 			}
+		};
+	}
+
+	$scope.getVerifiedUsers = function(){
+		$http.get('/api/user/verify')
+		.success(function(data){
+			angular.forEach(data, function(verified){
+				$scope.verifiedUsers.push(angular.copy(verified.user));
+			});
+		}).error(function(data){
+			console.error("Unable to get verified users: %o", data);
+		})
+	}
+
+	$scope.getDocCategories = function(){
+		$http.get('/api/docs/' + $scope.doc.id + '/categories')
+		.success(function(data){
+			angular.forEach(data, function(category){
+				$scope.categories.push(category.name);
+			});
+		}).error(function(data){
+			console.error("Unable to get categories for document %o: %o", $scope.doc, data);
+		});
+	}
+
+	$scope.getDocSponsor = function(){
+		$http.get('/api/docs/' + $scope.doc.id + '/sponsor')
+		.success(function(data){
+			$scope.sponsor = angular.copy({id: data.id, text: data.fname + " " + data.lname + " - " + data.email});
+		}).error(function(data){
+			console.error("Error getting document sponsor: %o", data);
+		});
+
+	}
+
+	$scope.getAllCategories = function(){
+		$http.get('/api/docs/categories')
+		.success(function(data){
+			angular.forEach(data, function(category){
+				$scope.suggestedCategories.push(category.name);
+			})
+		})
+		.error(function(data){
+			console.error("Unable to get document categories: %o", data);
 		});
 	}
 
 	$scope.saveCategories = function(){
-		console.log("Document %o has categories %o", $scope.doc, $scope.categories);
-
 		$http.post('/api/docs/' + $scope.doc.id + '/categories', {'categories': $scope.categories})
 		.success(function(data){
-			console.log(data);
+			console.log("Categories saved successfully: %o", data);
 		}).error(function(data){
 			console.error("Error saving categories for document %o: %o \n %o", $scope.doc, $scope.categories, data);
+		});
+	}
+
+	$scope.saveSponsor = function(){
+		$http.post('/api/docs/' + $scope.doc.id + '/sponsor', {'sponsor': $scope.sponsor})
+		.success(function(data){
+			console.log("Sponsor saved successfully: %o", data);
+		}).error(function(data){
+			console.error("Error saving sponsor: %o", data)
 		});
 	}
 

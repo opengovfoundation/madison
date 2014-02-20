@@ -15,8 +15,23 @@
 		<div class="row">
 			<h2>Document Information</h2>
 			<div class="col-md-12">
-				<h3>Categories</h3>
-				<input type="hidden" ui-select2="categoryOptions" ng-model="categories" />
+				<div class="row">
+					<h3>Sponsor</h3>
+					<input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" data-placeholder="Select Document Sponsor">
+
+
+					{{-- 
+					<select ui-select2 ng-model="sponsor" data-placeholder="Select Document Sponsor">
+						<option value=""></option>
+						<option ng-repeat="user in verifiedUsers" value="<% user.id %>"><% user.fname %> <% user.lname %> - <% user.email %></option>
+					</select>
+					--}}
+				</div>
+				<div class="row">
+					<h3>Categories</h3>
+					<input type="hidden" ui-select2="categoryOptions" ng-model="categories" />
+				</div>
+				
 			</div>
 		</div>
 		<div class="row">

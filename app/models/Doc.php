@@ -12,6 +12,10 @@ class Doc extends Eloquent{
 		$this->index = Config::get('elasticsearch.annotationIndex');
 	}
 
+	public function sponsor(){
+		return $this->belongsToMany('User');
+	}
+
 	public function categories(){
 		return $this->belongsToMany('Category');
 	}

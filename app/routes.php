@@ -79,6 +79,8 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/docs/categories', 'DocumentApiController@getCategories');
     Route::get('api/docs/{doc}/categories', 'DocumentApiController@getCategories');
     Route::post('api/docs/{doc}/categories', 'DocumentApiController@postCategories');
+    Route::get('api/docs/{doc}/sponsor', 'DocumentApiController@getSponsor');
+    Route::post('api/docs/{doc}/sponsor', 'DocumentApiController@postSponsor');
     Route::get('api/docs/', 'DocumentApiController@getDocs');
 
     //User Routes

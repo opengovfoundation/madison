@@ -70,5 +70,25 @@ class DocumentApiController extends ApiController{
 
 		return Response::json($categoryIds);	
 	}
+
+	public function getSponsor($doc){
+		$doc = Doc::find($doc);
+
+		$sponsor = $doc->sponsor()->first();
+
+		return Response::json($sponsor);
+	}
+
+	public function postSponsor($doc){
+		$sponsor = Input::get('sponsor');
+
+		$doc = Doc::find($doc)->first();
+		$user = User::find($sponsor)->first();
+
+		$doc->sponsor()->sync(array($doc->id));
+
+		return Response::json($user);
+
+	}
 }
 
