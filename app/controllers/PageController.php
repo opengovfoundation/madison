@@ -12,7 +12,6 @@ class PageController extends BaseController
 		$data = array(
 			'page_id'		=> 'home',
 			'page_title'	=> 'The Madison Project',
-			'rightbar'		=> array()
 		);
 
 		return View::make('page.index', $data);
@@ -21,12 +20,11 @@ class PageController extends BaseController
 	/**
 	 * About Page
 	 */
-	public function about()
+	public function getAbout()
 	{
 		$data = array(
 			'page_id'		=> 'about',
 			'page_title'	=> 'About the Madison Platform',
-			'rightbar'		=> array('getstarted')
 		);
 
 		return View::make('page.index', $data);
@@ -40,7 +38,6 @@ class PageController extends BaseController
 		$data = array(
 			'page_id'		=> 'faq',
 			'page_title'	=> 'Frequently Asked Questions',
-			'rightbar'		=> array('getstarted')
 		);
 
 		return View::make('page.index', $data);

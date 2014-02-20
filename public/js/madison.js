@@ -20,6 +20,16 @@ $(document).ready(function(){
 	});
 
     replace_markdown();
+
+    // If we have a document name but no slug,
+    // create a slug.
+    if($('#create-document-form').length){
+		$('#title').blur(function(){
+			if($('#slug').val().length < 1 && $('#title').val().length > 0){
+			$('#slug').val( $('#title').val().toLowerCase().replace(/ +/g, '-') );
+			}
+		});
+    }
 });
 
 

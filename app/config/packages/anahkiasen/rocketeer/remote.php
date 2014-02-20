@@ -46,8 +46,7 @@
 			return array(
 				sprintf('chmod -R 775 %s', $file),
 				sprintf('chmod -R g+s %s', $file),
-				sprintf('chown -R cmbirk:madison %s', $file),
-				sprintf('setfacl -R -m u:apache:rwx %s', $file),
+				sprintf('chgrp -R madison %s', $file)
 			);
 		},
 

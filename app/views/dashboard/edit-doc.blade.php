@@ -3,13 +3,35 @@
 {{ HTML::style('vendor/pagedown/assets/demo.css') }}
 {{ HTML::script('vendor/pagedown/assets/Markdown.Editor.js') }}
 {{ HTML::script('vendor/pagedown/assets/Markdown.Sanitizer.js') }}
+<div class="row">
+	<ol class="breadcrumb">
+		<li><a href="/dashboard">Dashboard</a></li>
+		<li><a href="/dashboard/docs">Documents</a></li>
+		<li class="active">{{ $doc->title }}</li>
+	</ol>
+</div>
 <div class="row content" ng-controller="DashboardEditorController" ng-init="init()">
 	<div class="col-md-12">
 		<div class="row">
 			<h2>Document Information</h2>
 			<div class="col-md-12">
-				<h3>Categories</h3>
-				<input type="hidden" ui-select2="categoryOptions" ng-model="categories" />
+				<div class="row">
+					<h3>Sponsor</h3>
+					<input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" data-placeholder="Select Document Sponsor">
+
+
+					{{-- 
+					<select ui-select2 ng-model="sponsor" data-placeholder="Select Document Sponsor">
+						<option value=""></option>
+						<option ng-repeat="user in verifiedUsers" value="<% user.id %>"><% user.fname %> <% user.lname %> - <% user.email %></option>
+					</select>
+					--}}
+				</div>
+				<div class="row">
+					<h3>Categories</h3>
+					<input type="hidden" ui-select2="categoryOptions" ng-model="categories" />
+				</div>
+				
 			</div>
 		</div>
 		<div class="row">

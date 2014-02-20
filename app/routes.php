@@ -37,6 +37,12 @@ Route::get('docs/{slug}', 'DocController@index');
 Route::get('user/{user}', 'UserController@getIndex');
 Route::controller('user', 'UserController');
 
+//Password Routes
+Route::get( 'password/remind', 'RemindersController@getRemind');
+Route::post('password/remind', 'RemindersController@postRemind');
+Route::get( 'password/reset/{token}',  'RemindersController@getReset');
+Route::post('password/reset',  'RemindersController@postReset');
+
 //Note Routes
 Route::get('note/{annotation}', 'NoteController@getIndex');
 Route::post('note/{annotation}', 'NoteController@postIndex');
@@ -74,13 +80,19 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/docs/{doc}/comments', 'CommentApiController@getIndex');
     Route::get('api/docs/{doc}/comments/{comment?}', 'CommentApiController@getIndex');
 
-    //Recent Documents
+    //Document Api Routes
     Route::get('api/docs/recent/{query?}', 'DocumentApiController@getRecent')->where('query', '[0-9]+');
     Route::get('api/docs/categories', 'DocumentApiController@getCategories');
+    Route::get('api/docs/sponsors', 'DocumentApiController@getAllSponsors');
     Route::get('api/docs/{doc}/categories', 'DocumentApiController@getCategories');
     Route::post('api/docs/{doc}/categories', 'DocumentApiController@postCategories');
+    Route::get('api/docs/{doc}/sponsor', 'DocumentApiController@getSponsor');
+    Route::post('api/docs/{doc}/sponsor', 'DocumentApiController@postSponsor');
+    Route::get('api/docs/{doc}', 'DocumentApiController@getDoc');
+    Route::get('api/docs/', 'DocumentApiController@getDocs');
 
     //User Routes
+    Route::get('api/user/{user}', 'UserApiController@getUser');
     Route::get('api/user/verify/', 'UserApiController@getVerify');
     Route::post('api/user/verify/', 'UserApiController@postVerify');
     Route::get('api/user/admin/', 'UserApiController@getAdmins');

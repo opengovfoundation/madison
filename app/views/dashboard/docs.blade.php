@@ -1,7 +1,12 @@
 @extends('layouts/main')
 @section('content')
-<div class="content col-md-12">
 	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href="/dashboard">Dashboard</a></li>
+			<li class="active">Documents</li>
+		</ol>
+	</div>
+	<div class="row content">
 		<div class="col-md-6">
 			<h2>Documents</h2>
 			<ul>
@@ -14,13 +19,13 @@
 						</li>
 					@endforeach
 				@endif
-				
+
 			</ul>
 		</div>
 		<div class="col-md-6">
 			<div class="row">
 				<h2>Create Document</h2>
-				{{ Form::open(array('url' => 'dashboard/docs', 'method' => 'post')) }}
+				{{ Form::open(array('url' => 'dashboard/docs', 'method' => 'post', 'id' => 'create-document-form')) }}
 				<div class="form-group">
 					{{ Form::label('title', 'Title:') . Form::text('title', Input::old('title'), array('placeholder' => 'Document Title', 'class'=>'form-control')) }}
 				</div>
@@ -42,5 +47,4 @@
 			</div>
 		</div>
 	</div>
-</div>
 @endsection

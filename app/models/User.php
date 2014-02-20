@@ -18,7 +18,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		}else{
 			return null;
 		}
-		
+	}
+
+	public function docs(){
+		return $this->belongsToMany('Doc');
 	}
 
 	public function comments(){

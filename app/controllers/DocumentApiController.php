@@ -8,7 +8,23 @@ class DocumentApiController extends ApiController{
 		parent::__construct();
 
 		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
-	}	
+	}
+
+	public function getDoc($doc){
+		$doc = Doc::find($doc)->first();
+
+		return Response::json($doc);
+	}
+
+	public function getDocs(){
+		$docs = Doc::with('categories')->with('sponsor')->orderBy('updated_at', 'DESC')->get();
+
+		foreach($docs as $doc){
+			$doc->setActionCount();
+		}
+
+		return Response::json($docs);
+	}
 	
 	public function getRecent($query = null){
 		$recent = 10;
@@ -59,6 +75,33 @@ class DocumentApiController extends ApiController{
 		$doc->categories()->sync($categoryIds);
 
 		return Response::json($categoryIds);	
+	}
+
+	public function getSponsor($doc){
+		$doc = Doc::find($doc);
+
+		$sponsor = $doc->sponsor()->first();
+
+		return Response::json($sponsor);
+	}
+
+	public function postSponsor($doc){
+		$sponsor = Input::get('sponsor');
+
+		$doc = Doc::find($doc)->first();
+		$user = User::find($sponsor)->first();
+
+		$doc->sponsor()->sync(array($doc->id));
+
+		return Response::json($user);
+
+	}
+
+	public function getAllSponsors(){
+		$doc = Doc::with('sponsor')->first();
+		$sponsors = $doc->sponsor;
+
+		return Response::json($sponsors);
 	}
 }
 
