@@ -3,6 +3,13 @@
 {{ HTML::style('vendor/pagedown/assets/demo.css') }}
 {{ HTML::script('vendor/pagedown/assets/Markdown.Editor.js') }}
 {{ HTML::script('vendor/pagedown/assets/Markdown.Sanitizer.js') }}
+<div class="row">
+	<ol class="breadcrumb">
+		<li><a href="/dashboard">Dashboard</a></li>
+		<li><a href="/dashboard/docs">Documents</a></li>
+		<li class="active">{{ $doc->title }}</li>
+	</ol>
+</div>
 <div class="row content" ng-controller="DashboardEditorController" ng-init="init()">
 	<div class="col-md-12">
 		<div class="row">
