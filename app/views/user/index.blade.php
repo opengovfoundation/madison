@@ -16,7 +16,28 @@
 			</div>
 		</div>
 		<div class="row">
-			
+			<tabset justified="true">
+				<tab heading="sponsored" ng-show="showVerified()">
+					<ul class="user-sponsored-docs">
+						<li class="user-sponsored-doc" ng-repeat="doc in docs">
+							<a href="/docs/<% doc.slug %>"><% doc.title %></a>
+							<div class="list-doc-info">
+								<span class="doc-created-date">Posted <% doc.created_at | date:'mediumDate' %></span>
+								<span class="doc-updated-date">Updated <% doc.updated_at | date:'mediumDate' %></span>
+							</div>
+						</li>
+					</ul>
+				</tab>
+				<tab heading="activity">
+					<ul class="user-activity-items">
+						<li class="user-activity-item" ng-repeat="comment in comments">
+							<span.user-activity-title>Added a comment to the text of <div doc-link doc-id="<% comment.doc_id %>"></div></span>
+							<span class="user-activity-date"><% comment.created_at | date:'mediumDate' %></span>
+							<blockquote><% comment.content %></blockquote>
+						</li>
+					</ul>
+				</tab>
+			</tabset>
 		</div>
 	</div>
 @endsection

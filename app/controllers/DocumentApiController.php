@@ -10,6 +10,12 @@ class DocumentApiController extends ApiController{
 		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
 	}
 
+	public function getDoc($doc){
+		$doc = Doc::find($doc)->first();
+
+		return Response::json($doc);
+	}
+
 	public function getDocs(){
 		$docs = Doc::with('categories')->with('sponsor')->orderBy('updated_at', 'DESC')->get();
 

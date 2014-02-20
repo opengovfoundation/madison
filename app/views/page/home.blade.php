@@ -22,7 +22,6 @@
 				<span class="doc-categories">
 					<span class="category" ng-repeat="category in doc.categories"><% category.name %></span>
 				</span>
-				<span class="doc-action-count"><% doc.annotationCount %></span>
 			</div>
 		</li>
 	</ul>

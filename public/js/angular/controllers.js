@@ -139,8 +139,9 @@ function HomePageController($scope, $http, $filter){
 
 function UserPageController($scope, $http, $location){
 	$scope.user;
-	$scope.docs;
 	$scope.meta;
+	$scope.docs = [];
+	$scope.comments = [];
 	$scope.verified = false;
 
 	$scope.init = function(){
@@ -155,8 +156,19 @@ function UserPageController($scope, $http, $location){
 		$http.get('/api/user/' + id)
 		.success(function(data){
 			$scope.user = angular.copy(data);
-			$scope.docs = angular.copy(data.docs);
 			$scope.meta = angular.copy(data.user_meta);
+
+			angular.forEach(data.docs, function(doc){
+				doc.created_at = Date.parse(doc.created_at);
+				doc.updated_at = Date.parse(doc.updated_at);
+
+				$scope.docs.push(doc);
+			});
+
+			angular.forEach(data.comments, function(comment){
+				comment.created_at = Date.parse(comment.created_at);
+				$scope.comments.push(comment);
+			});
 
 			angular.forEach($scope.user.user_meta, function(meta){
 				var cont = true;
@@ -172,6 +184,14 @@ function UserPageController($scope, $http, $location){
 		}).error(function(data){
 			console.error("Unable to retrieve user: %o", data);
 		});
+	}
+
+	$scope.showVerified = function(){
+		if($scope.verified && $scope.docs.length > 0){
+			return true;
+		}
+
+		return false;
 	}
 
 }

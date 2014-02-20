@@ -19,6 +19,7 @@
 {{ HTML::script('vendor/select2/select2.js') }}
 {{ HTML::script('vendor/select2/ui-select2.js') }}
 {{ HTML::script('js/angular/app.js') }}
+{{ HTML::script('js/angular/filters.js') }}
 {{ HTML::script('js/angular/controllers.js') }}
 {{ HTML::script('js/angular/services.js') }}
 {{ HTML::script('js/angular/directives.js') }}
