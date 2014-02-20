@@ -354,6 +354,57 @@ textarea.form-inline{
 	width: 85%;
 }
 
+h1.user-name{
+	text-align: left;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	display: inline-block;
+}
+
+.user-verified{
+	background: #489EF9;
+	color: #FFF;
+	@include border-radius(2px);
+	text-align: center;
+	font-weight: bold;
+	padding: 4px 5px 4px 5px;
+	font-size: .8em;
+	text-transform: uppercase;
+	display: inline-block;
+	position: relative;
+	top: -6px;
+	margin-left: 5px;
+}
+
+.user-created-date{
+	color: #999;
+	font-size: .9em;
+}
+
+.content.col-md-12 .row ul.nav-tabs{
+	li{
+		border-top: none;
+		padding: 0px;
+		a{	
+			color: #999;
+			&:hover{
+				cursor: pointer;
+				text-decoration: none;
+				color: inherit;
+			}
+		}
+	}
+	li.active{
+		a{
+			color: inherit;
+			&:hover{
+				color: inherit;
+			}
+		}
+
+	}
+}
+
 .leftbar{
 	position:relative;
 	right:-2.12766%;
