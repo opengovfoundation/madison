@@ -1,16 +1,16 @@
-/* @override 
+/* @override
 	http://mymadison.io/css/style.css */
 /* line 1, ../sass/_helpers.scss */
 .centered {
   margin: 0 auto;
 }
 
-/* line 10, ../../../../../../../Applications/CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 10, ../../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%;
 }
 
-/* line 12, ../../../../../../../Applications/CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 12, ../../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #wrap {
   clear: both;
   min-height: 100%;
@@ -18,12 +18,12 @@ html, body {
   height: 100%;
   margin-bottom: -100px;
 }
-/* line 18, ../../../../../../../Applications/CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 18, ../../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #wrap #wrap-footer {
   height: 100px;
 }
 
-/* line 20, ../../../../../../../Applications/CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 20, ../../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #footer {
   clear: both;
   position: relative;
@@ -696,35 +696,43 @@ input[type="search"].dark-search {
   z-index: 1;
 }
 
+/* Login form */
+/* line 567, ../sass/style.scss */
+.content .forgot-password {
+  color: #4196f0;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
 /* Annotator Plugin Styling
 --------------------------------*/
-/* line 568, ../sass/style.scss */
+/* line 575, ../sass/style.scss */
 .glyphicon {
   font-family: 'Glyphicons Halflings' !important;
 }
-/* line 571, ../sass/style.scss */
+/* line 578, ../sass/style.scss */
 .glyphicon.selected {
   color: blue;
 }
-/* line 575, ../sass/style.scss */
+/* line 582, ../sass/style.scss */
 .glyphicon.logged-in {
   cursor: pointer;
 }
-/* line 579, ../sass/style.scss */
+/* line 586, ../sass/style.scss */
 .glyphicon .action-count:before {
   content: '(';
 }
-/* line 583, ../sass/style.scss */
+/* line 590, ../sass/style.scss */
 .glyphicon .action-count:after {
   content: ')';
 }
 
-/* line 588, ../sass/style.scss */
+/* line 595, ../sass/style.scss */
 .comment-toggle {
   cursor: pointer;
 }
 
-/* line 592, ../sass/style.scss */
+/* line 599, ../sass/style.scss */
 .caret-right {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
@@ -733,16 +741,16 @@ input[type="search"].dark-search {
   transform: rotate(-90deg);
 }
 
-/* line 596, ../sass/style.scss */
+/* line 603, ../sass/style.scss */
 .annotation-action > span {
   margin: 0 5px;
 }
 
-/* line 601, ../sass/style.scss */
+/* line 608, ../sass/style.scss */
 .annotation-comments input[type="text"] {
   padding-left: 10px;
 }
-/* line 605, ../sass/style.scss */
+/* line 612, ../sass/style.scss */
 .annotation-comments .btn {
   margin-top: 5px;
   padding: 0px 10px;
@@ -753,7 +761,7 @@ input[type="search"].dark-search {
   background-image: linear-gradient(#428bca, #3071a9);
   color: white;
 }
-/* line 611, ../sass/style.scss */
+/* line 618, ../sass/style.scss */
 .annotation-comments .btn:hover {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #68a2d5), color-stop(100%, #488fcb));
   background-image: -webkit-linear-gradient(#68a2d5, #488fcb);
@@ -762,27 +770,27 @@ input[type="search"].dark-search {
   background-image: linear-gradient(#68a2d5, #488fcb);
 }
 
-/* line 617, ../sass/style.scss */
+/* line 624, ../sass/style.scss */
 .current-comments {
   max-height: 200px;
   overflow-y: scroll;
 }
 
 /** Sidebar Styling **/
-/* line 624, ../sass/style.scss */
+/* line 631, ../sass/style.scss */
 .sidebar-annotation {
   background: #fffac1;
   color: black;
 }
-/* line 628, ../sass/style.scss */
+/* line 635, ../sass/style.scss */
 .sidebar-annotation a {
   color: black;
 }
-/* line 631, ../sass/style.scss */
+/* line 638, ../sass/style.scss */
 .sidebar-annotation a:hover {
   color: lightgray;
 }
-/* line 636, ../sass/style.scss */
+/* line 643, ../sass/style.scss */
 .sidebar-annotation blockquote {
   margin-bottom: 0;
   border-bottom: 1px dotted darkgray;
@@ -790,31 +798,31 @@ input[type="search"].dark-search {
   border-left: none;
 }
 
-/* line 644, ../sass/style.scss */
+/* line 651, ../sass/style.scss */
 .sidebar-annotation-wrapper {
   max-height: 300px;
   overflow: scroll;
   border: 3px solid #4b4b4b;
 }
 
-/* line 649, ../sass/style.scss */
+/* line 656, ../sass/style.scss */
 .sidebar-comment-label {
   cursor: pointer;
 }
 
-/* line 653, ../sass/style.scss */
+/* line 660, ../sass/style.scss */
 .sidebar-comment-thread {
   margin-left: 10px;
 }
 
-/* line 658, ../sass/style.scss */
+/* line 665, ../sass/style.scss */
 .participate-comments .comment-thread {
   margin-top: 20px;
   border-top: 1px dotted lightgray;
   max-height: 300px;
   overflow: scroll;
 }
-/* line 664, ../sass/style.scss */
+/* line 671, ../sass/style.scss */
 .participate-comments .comment-thread blockquote {
   margin-bottom: 0;
   border-bottom: 1px dotted darkgray;

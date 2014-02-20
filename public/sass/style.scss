@@ -1,4 +1,4 @@
-/* @override 
+/* @override
 	http://mymadison.io/css/style.css */
 
 @import "compass/css3/box-shadow";
@@ -32,16 +32,16 @@ a{
 	@include single-transition(all, .2s, linear);
 	color:$light-gray;
 
-	&:hover{ 
+	&:hover{
 		color:white;
 		text-decoration:none;
 	}
-	
+
 	&.disabled{
 		cursor:default;
 		opacity:.5;
 	}
-	
+
 	&.gray{
 		color:$light-gray;
 	}
@@ -50,10 +50,10 @@ a{
 	}
 	&.black{
 		color:black;
-		
+
 		&:hover{
 			color:$light-gray;
-			
+
 			del, ins{
 				color:$light-gray;
 			}
@@ -99,15 +99,15 @@ textarea.form-inline{
 
 .btn-black{
 	@include grad-bg($black-grad-start, $black-grad-end);
-	
+
 	color:$light-gray;
 }
 
 /* MAIN HEADER
 ------------------------------ */
-.header {	
+.header {
 	@include grad-bg($black-grad-start, $black-grad-end);
-	
+
 	.logo-madison {
 		margin-top: 5px;
 		margin-bottom: 5px;
@@ -139,7 +139,7 @@ textarea.form-inline{
 ------------------------------ */
 .nav {
 
-	// These are separated because they're global, and should be 
+	// These are separated because they're global, and should be
 	// applied to all navs. Avoids duplicate code.
 
 	ul {
@@ -155,7 +155,7 @@ textarea.form-inline{
 }
 
 .nav-main {
-	
+
 	ul {
 		margin-top: 22px; /* TO-DO: Needs to be dynamic */
 	}
@@ -203,7 +203,7 @@ textarea.form-inline{
 /* GLOBAL SEARCH
 ------------------------------ */
 .global-search {
-	
+
 	form {
 		width: 95%;
 		position: relative;
@@ -237,18 +237,18 @@ textarea.form-inline{
 
 .navbar{
 	@include grad-bg($blue-grad-start, $blue-grad-end);
-	
+
 	margin-top:20px;
 	z-index:1;
-	
+
 	.nav{
 		margin-top:0;
 	}
-	
+
 	.navbar-form{
 		margin-top:0;
 		margin-bottom:0;
-	
+
 		button{
 			margin-top:10px;
 			margin-bottom:10px;
@@ -283,7 +283,7 @@ textarea.form-inline{
 	padding:20px;
 	border: 1px solid #f0f0f0;
 	@include border-radius(4px);
-	
+
 	a{
 		color:black;
 	}
@@ -361,10 +361,10 @@ textarea.form-inline{
 	@include border-corner-radius(top, left, 10px);
 	@include border-corner-radius(bottom, left, 10px);
 	@include box-shadow(rgba(0, 0, 0, .5) 5px 0px 5px -2px);
-	
+
 	border: 2px groove white;
 	border-right:none;
-	
+
 	ul{
 		@include vert-navigation-list;
 		li{
@@ -378,16 +378,16 @@ textarea.form-inline{
 	@include bg($dark-gray);
 	border: 2px groove white;
 	color:$light-gray;
-	
+
 	> .row{
 		border-bottom:1px solid #3c3c3c;
 	}
-	
+
 	> .row:last-child{
 		border-bottom:none;
 		margin-bottom:20px;
 	}
-	
+
 	h3.rightbar-header{
 		margin:20px;
 		font-family:arial;
@@ -400,7 +400,7 @@ textarea.form-inline{
 		font-weight:200;
 		font-size:1em;
 	}
-	
+
 	.rounded-bottom{
 		text-align:center;
 		background:#c70102;
@@ -408,7 +408,7 @@ textarea.form-inline{
 		border-bottom-right-radius:8px;
 		padding:20px 0;
 		color:white;
-		
+
 		a{
 			color:white;
 			font-size:1.3em;
@@ -469,7 +469,7 @@ textarea.form-inline{
 }
 .red{
 	color:$red-header;
-	
+
 	&:hover{
 		color:$light-gray;
 	}
@@ -491,7 +491,7 @@ input[type="search"].dark-search{
 	position:absolute;
 	top:0;
 	right:0;
-	
+
 	.bookmark-label{
 		position:relative;
 		top:20px;
@@ -509,7 +509,7 @@ input[type="search"].dark-search{
 		position:relative;
 		top:-20px;
 		right:-15px;
-		
+
 		.ribbon-container{
 			position:relative;
 			width:25px;
@@ -517,14 +517,14 @@ input[type="search"].dark-search{
 			overflow:hidden;
 			margin:0 auto;
 		}
-		
+
 		.ribbon-base{
 			height:25px;
 			width:25px;
 			background:#999;
 			position:relative;
 			z-index:2;
-			
+
 			&:after{
 				content:' ';
 				position:absolute;
@@ -536,10 +536,10 @@ input[type="search"].dark-search{
 				border-right:1px dashed #cacaca;
 			}
 		}
-		
+
 		.ribbon-left-corner{
 			@include transform(45deg);
-		
+
 			width:25px;
 			height:25px;
 			background:#999;
@@ -548,10 +548,10 @@ input[type="search"].dark-search{
 			left:-13px;
 			z-index:1;
 		}
-		
+
 		.ribbon-right-corner{
 			@include transform(45deg);
-			
+
 			width:25px;
 			height:25px;
 			background:#999;
@@ -560,7 +560,14 @@ input[type="search"].dark-search{
 			right:-13px;
 			z-index:1;
 		}
-		
+
+	}
+
+/* Login form */
+.content .forgot-password {
+	color: $blue-header;
+	font-weight: bold;
+	margin-left: 20px;
 	}
 
 /* Annotator Plugin Styling
