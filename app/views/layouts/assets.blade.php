@@ -1,4 +1,5 @@
 <!-- Stylesheets -->
+{{ HTML::style('vendor/datetimepicker/datetimepicker.css') }}
 {{ HTML::style('vendor/jquery/jquery-ui-smoothness.css') }}
 {{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
 {{ HTML::style('vendor/bootstrap/css/bootstrap-theme.min.css') }}
@@ -18,6 +19,8 @@
 {{ HTML::script('vendor/ui-utils.min.js') }}
 {{ HTML::script('vendor/select2/select2.js') }}
 {{ HTML::script('vendor/select2/ui-select2.js') }}
+{{ HTML::script('vendor/moment.js') }}
+{{ HTML::script('vendor/datetimepicker/datetimepicker.js') }}
 {{ HTML::script('js/angular/app.js') }}
 {{ HTML::script('js/angular/controllers.js') }}
 {{ HTML::script('js/angular/services.js') }}

@@ -93,6 +93,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/docs/{doc}/status', 'DocumentApiController@getStatus');
     Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus');
     Route::get('api/docs/{doc}', 'DocumentApiController@getDoc');
+    Route::post('api/docs/{doc}', 'DocumentApiController@postDoc');
     Route::get('api/docs/', 'DocumentApiController@getDocs');
 
     //User Routes

@@ -26,7 +26,7 @@ function ParticipateController($scope, $http, annotationService){
 			$http.get('/api/users/' + user.id + '/support/' + doc.id)
 			.success(function(data){
 				switch(data.meta_value){
-					case "1":						
+					case "1":
 						$scope.supported = true;
 						break;
 					case "":
@@ -81,7 +81,7 @@ function ParticipateController($scope, $http, annotationService){
 
 	$scope.support = function(supported, $event){
 		console.log('supporting');
-		
+
 		$http.post('/api/docs/' + $scope.doc.id + '/support', {'support': supported})
 		.success(function(data, status, headers, config){
 			//Parse data to see what user's action is currently
@@ -116,11 +116,11 @@ function HomePageController($scope, $http, $filter){
 
 	$scope.init = function(){
 		$scope.getDocs();
-		
+
 		$scope.select2Config = {
 			multiple: true,
 			allowClear: true
-		}	
+		}
 	}
 
 	$scope.docFilter = function(doc){
@@ -258,7 +258,7 @@ function UserPageController($scope, $http, $location){
 
 }
 
-/** 
+/**
 *	Dashboard Controllers
 */
 
@@ -332,17 +332,18 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 	$scope.suggestedStatuses = [];
 	$scope.dates = [];
 
-	$scope.init = function(){
-		var abs = $location.absUrl();
-		var id = abs.match(/.*\/(\d+)$/);
-		id = id[1];
 
-		$scope.doc = { id: id};
+	$scope.init = function(){
+		$('#submit').hide();
+
+		var abs = $location.absUrl();
+		var id = abs.match(/.*\/(\d+)$/)[1];
+
+		var docDone = $scope.getDoc(id);
+
 		$scope.getAllCategories();
-		$scope.getDocCategories();
-		$scope.getAllStatuses();
-		$scope.getDocSponsor();
-		$scope.getDocStatus();
+		$scope.getDocCategories(id);
+		$scope.getDocSponsor(id);
 		$scope.getVerifiedUsers();
 		$scope.setSelectOptions();
 
@@ -350,20 +351,37 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		var initSponsor = true;
 		var initStatus = true;
 
-		$scope.$watch('status', function(value){
-			if(initStatus){
-				$timeout(function(){ initStatus = false; });
-			}else{
-				$scope.saveStatus();
-			}
-		});
+		docDone.then(function() {
+			new Markdown.Editor(Markdown.getSanitizingConverter()).run();
 
-		$scope.$watch('sponsor', function(value){
-			if(initSponsor){
-				$timeout(function(){ initSponsor = false; });
-			}else{
-				$scope.saveSponsor();
-			}
+			$scope.$watchCollection('[doc.slug, doc.title, doc.content.content]', function(value){
+				$scope.doc.slug = clean_slug($scope.doc.slug);
+				$scope.saveDoc();
+			});
+
+			$scope.$watch('status', function(value){
+				if(initStatus){
+					$timeout(function(){ initStatus = false; });
+				}else{
+					$scope.saveStatus();
+				}
+			});
+
+			$scope.$watch('categories', function(values){
+				if(initCategories){
+					$timeout(function(){ initCategories = false; });
+				}else{
+					$scope.saveCategories();
+				}
+			});
+
+			$scope.$watch('sponsor', function(value){
+				if(initSponsor){
+					$timeout(function(){ initSponsor = false; });
+				}else{
+					$scope.saveSponsor();
+				}
+			});
 		});
 
 		$scope.$watch('categories', function(values){
@@ -374,7 +392,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 			}
 		});
 	}
-
+	
 	$scope.createDate = function(newDate, oldDate){
 		if($scope.newdate.label != ''){
 			$scope.dates.push(angular.copy($scope.newdate));
@@ -435,8 +453,24 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		};
 	}
 
+	$scope.getDoc = function(id){
+		return $http.get('/api/docs/' + id)
+		.success(function(data){
+			$scope.doc = data;
+		});
+	}
+
+	$scope.saveDoc = function(){
+		return $http.post('/api/docs/' + $scope.doc.id, $scope.doc)
+		.success(function(data){
+			console.log("Categories saved successfully: %o", data);
+		}).error(function(data){
+			console.error("Error saving categories for document %o: %o \n %o", $scope.doc, $scope.categories, data);
+		});
+	}
+
 	$scope.getVerifiedUsers = function(){
-		$http.get('/api/user/verify')
+		return $http.get('/api/user/verify')
 		.success(function(data){
 			angular.forEach(data, function(verified){
 				$scope.verifiedUsers.push(angular.copy(verified.user));
@@ -446,8 +480,8 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		})
 	}
 
-	$scope.getDocCategories = function(){
-		$http.get('/api/docs/' + $scope.doc.id + '/categories')
+	$scope.getDocCategories = function(id){
+		return $http.get('/api/docs/' + id + '/categories')
 		.success(function(data){
 			angular.forEach(data, function(category){
 				$scope.categories.push(category.name);
@@ -457,8 +491,8 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		});
 	}
 
-	$scope.getDocSponsor = function(){
-		$http.get('/api/docs/' + $scope.doc.id + '/sponsor')
+	$scope.getDocSponsor = function(id){
+		return $http.get('/api/docs/' + id + '/sponsor')
 		.success(function(data){
 			$scope.sponsor = angular.copy({id: data.id, text: data.fname + " " + data.lname + " - " + data.email});
 		}).error(function(data){
@@ -470,7 +504,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 	$scope.getDocStatus = function(){
 		$http.get('/api/docs/' + $scope.doc.id + '/status')
 		.success(function(data){
-			
+
 			$scope.status = angular.copy({id: data.id, text: data.label});
 		}).error(function(data){
 			console.error("Error getting document status: %o", data);
@@ -489,7 +523,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 	}
 
 	$scope.getAllCategories = function(){
-		$http.get('/api/docs/categories')
+		return $http.get('/api/docs/categories')
 		.success(function(data){
 			angular.forEach(data, function(category){
 				$scope.suggestedCategories.push(category.name);
@@ -501,7 +535,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 	}
 
 	$scope.saveStatus = function(){
-		$http.post('/api/docs/' + $scope.doc.id + '/status', {status: $scope.status})
+		return $http.post('/api/docs/' + $scope.doc.id + '/status', {status: $scope.status})
 		.success(function(data){
 			console.log("Status saved successfully: %o", data);
 		}).error(function(data){
@@ -510,7 +544,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 	}
 
 	$scope.saveSponsor = function(){
-		$http.post('/api/docs/' + $scope.doc.id + '/sponsor', {'sponsor': $scope.sponsor})
+		return $http.post('/api/docs/' + $scope.doc.id + '/sponsor', {'sponsor': $scope.sponsor})
 		.success(function(data){
 			console.log("Sponsor saved successfully: %o", data);
 		}).error(function(data){
@@ -519,7 +553,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 	}
 
 	$scope.saveCategories = function(){
-		$http.post('/api/docs/' + $scope.doc.id + '/categories', {'categories': $scope.categories})
+		return $http.post('/api/docs/' + $scope.doc.id + '/categories', {'categories': $scope.categories})
 		.success(function(data){
 			console.log("Categories saved successfully: %o", data);
 		}).error(function(data){
