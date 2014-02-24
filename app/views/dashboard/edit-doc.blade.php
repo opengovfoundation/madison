@@ -33,7 +33,7 @@
 					</div>
 
 					<div class="form-group">
-						<label for="status" class="col-sm-2">Status: </label>
+						<label for="slug" class="col-sm-2">Slug: </label>
 						<div class="col-sm-10">
 							<input type="text" name="slug" id="slug" value="{{{ $doc->slug }}}" ng-model="doc.slug" style="margin-left:20px;width:85%;padding:5px;"/>
 						</div>
