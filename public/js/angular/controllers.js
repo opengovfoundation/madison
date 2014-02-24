@@ -382,15 +382,17 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 					$scope.saveSponsor();
 				}
 			});
+
+			$scope.$watch('categories', function(values){
+				if(initCategories){
+					$timeout(function(){ initCategories = false; });
+				}else{
+					$scope.saveCategories();
+				}
+			});
 		});
 
-		$scope.$watch('categories', function(values){
-			if(initCategories){
-				$timeout(function(){ initCategories = false; });
-			}else{
-				$scope.saveCategories();
-			}
-		});
+		
 	}
 	
 	$scope.createDate = function(newDate, oldDate){
