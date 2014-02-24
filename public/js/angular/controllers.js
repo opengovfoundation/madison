@@ -124,6 +124,7 @@ function HomePageController($scope, $http, $filter){
 	}
 
 	$scope.docFilter = function(doc){
+
 		var show = false;
 
 		if(typeof $scope.select2 != 'undefined' && $scope.select2 != ''){
@@ -143,7 +144,10 @@ function HomePageController($scope, $http, $filter){
 				}
 			});
 
-			angular.forEach(doc.status, function(status){
+			angular.forEach(doc.statuses, function(status){
+				console.log(status);
+				console.log($scope.select2);
+
 				if(status.id == $scope.select2 && cont){
 					show = true;
 					cont = false;
