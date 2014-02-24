@@ -33,6 +33,21 @@
 						<input name="categories" type="hidden" ui-select2="categoryOptions" ng-model="categories" />
 					</div>
 				</div>
+				<div class="form-group">
+					<label for="dates">Dates: </label>
+					<div class="dates">
+						<div class="new-date">
+							<input ng-model="newdate.label" type="text" placeholder="Date Label" />
+							<datetimepicker ng-model="newdate.date" on-set-time="createDate"></datetimepicker>
+						</div>
+						<div class="existing-dates">
+							<div class="existing-date" ng-repeat="date in dates">
+								<div class="date-label"><% date.label%></div>
+								<div class="date-date"><% date.date | date:short%></div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</form>
 		</div>
 		<div class="row">
