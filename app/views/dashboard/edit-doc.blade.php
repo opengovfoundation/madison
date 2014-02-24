@@ -13,22 +13,27 @@
 <div class="row content" ng-controller="DashboardEditorController" ng-init="init()">
 	<div class="col-md-12">
 		<div class="row">
-			<h2>Document Information</h2>
-			<div class="col-md-12">
-				<div class="row">
-					<h3>Status</h3>
-					<input type="hidden" ui-select2="statusOptions" ng-model="status" data-placeholder=>
+			<form action="" class="form-horizontal" style="padding: 0 50px; border: 1px dotted lightgray;">
+				<h2>Document Information</h2>	
+				<div class="form-group">
+					<label for="status" class="col-sm-2">Status: </label>
+					<div class="col-sm-10">
+						<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" data-placeholder=>
+					</div>
 				</div>
-				<div class="row">
-					<h3>Sponsor</h3>
-					<input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" />
+				<div class="form-group">
+					<label for="sponsor" class="col-sm-2">Sponsor: </label>
+					<div class="col-sm-10">
+						<input name="sponsor" type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" />
+					</div>
 				</div>
-				<div class="row">
-					<h3>Categories</h3>
-					<input type="hidden" ui-select2="categoryOptions" ng-model="categories" />
+				<div class="form-group">
+					<label for="categories" class="col-sm-2">Categories: </label>
+					<div class="col-sm-10">
+						<input name="categories" type="hidden" ui-select2="categoryOptions" ng-model="categories" />
+					</div>
 				</div>
-				
-			</div>
+			</form>
 		</div>
 		<div class="row">
 			<h2>Content</h2>
