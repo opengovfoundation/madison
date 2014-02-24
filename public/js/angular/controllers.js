@@ -41,6 +41,7 @@ function ParticipateController($scope, $http, annotationService){
 			console.error("Error loading comments: %o", data);
 		});
 	};
+
 	$scope.commentSubmit = function(form){
 		comment = angular.copy($scope.comment);
 		comment.user = $scope.user;
@@ -54,7 +55,26 @@ function ParticipateController($scope, $http, annotationService){
 		.error(function(data, status, headers, config){
 			console.error("Error posting comment: %o", data);
 		});
-	}
+	};
+
+	$scope.support = function(supported, $event){
+		
+		$http.post('/api/docs/' + $scope.doc.id + '/support', {'support': supported})
+		.success(function(data, status, headers, config){
+			//Parse data to see what user's action is currently
+			if(data.support == null){
+				$('.doc-support').toggleClass('btn-success', false);
+				$('.doc-oppose').toggleClass('btn-success', false);
+			}else{
+				$('.doc-support').toggleClass('btn-success', data.support);
+				$('.doc-oppose').toggleClass('btn-success', !data.support);
+			}
+		})
+		.error(function(data, status, headers, config){
+			console.error("Error posting support: %o", data);
+		});
+
+	};
 }
 
 /**

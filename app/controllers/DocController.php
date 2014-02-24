@@ -7,6 +7,8 @@ class DocController extends BaseController{
 	
 	public function __construct(){
 		parent::__construct();
+
+		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
 	}
 	
 	//GET document view
@@ -71,6 +73,39 @@ class DocController extends BaseController{
 
     	return View::make('doc.search.index', $data);
 
+	}
+
+	public function postSupport($doc){
+		$input = Input::get();
+
+		$supported = (bool)$input['support'];
+
+		$docMeta = DocMeta::where('user_id', Auth::user()->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
+
+
+		if(!isset($docMeta)){
+			$docMeta = new DocMeta();
+
+			$docMeta->doc_id = $doc;
+			$docMeta->user_id = Auth::user()->id;
+			$docMeta->meta_key = 'support';
+			$docMeta->meta_value = (string)$supported;
+
+			$docMeta->save();
+		}
+		elseif($docMeta->meta_value == (string)$supported){
+			$docMeta->delete();
+			$supported = null;
+		}else{
+			$docMeta->doc_id = $doc;
+			$docMeta->user_id = Auth::user()->id;
+			$docMeta->meta_key = 'support';
+			$docMeta->meta_value = (string)$supported;
+
+			$docMeta->save();
+		}
+
+		return Response::json(array('support' => $supported));
 	}
 }
 

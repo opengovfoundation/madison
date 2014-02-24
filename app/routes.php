@@ -28,10 +28,8 @@ Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 
 //Document Routes
 Route::get('docs/search', 'DocController@getSearch');
-
 Route::get('docs', 'DocController@index');
 Route::get('docs/{slug}', 'DocController@index');
-
 
 //User Routes
 Route::get('user/{user}', 'UserController@getIndex');
@@ -53,7 +51,6 @@ Route::controller('note', 'NoteController');
 Route::controller('dashboard', 'DashboardController');
 
 //Api Routes
-//Route::get('api', 'ApiController@getIndex');
     //Annotation Action Routes
     Route::post('api/docs/{doc}/annotations/{annotation}/likes', 'AnnotationApiController@postLikes');
     Route::post('api/docs/{doc}/annotations/{annotation}/dislikes', 'AnnotationApiController@postDislikes');
@@ -79,6 +76,9 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/comments', 'CommentApiController@postIndex');
     Route::get('api/docs/{doc}/comments', 'CommentApiController@getIndex');
     Route::get('api/docs/{doc}/comments/{comment?}', 'CommentApiController@getIndex');
+
+    //Document Support / Oppose routes
+    Route::post('api/docs/{doc}/support/', 'DocController@postSupport');
 
     //Document Api Routes
     Route::get('api/docs/recent/{query?}', 'DocumentApiController@getRecent')->where('query', '[0-9]+');
