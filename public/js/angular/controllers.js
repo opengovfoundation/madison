@@ -14,11 +14,33 @@ function ReaderController($scope, annotationService){
 function ParticipateController($scope, $http, annotationService){
 	$scope.annotations = [];
 	$scope.comments = [];
+	$scope.supported = false;
+	$scope.opposed = false;
 
 	$scope.init = function(docId){
 		$scope.getDocComments(docId);
 		$scope.user = user;
 		$scope.doc = doc;
+
+		if(typeof user.id != 'undefined'){
+			$http.get('/api/users/' + user.id + '/support/' + doc.id)
+			.success(function(data){
+				switch(data.meta_value){
+					case "1":						
+						$scope.supported = true;
+						break;
+					case "":
+						$scope.opposed = true;
+						break;
+					default:
+						console.log('neither');
+						$scope.supported = null;
+						$scope.opposed = null;
+				}
+			}).error(function(data){
+				console.error("Unable to get support info for user %o and doc %o", user, doc);
+			});
+		}
 	}
 
 	$scope.$on('annotationsUpdated', function(){
@@ -58,17 +80,21 @@ function ParticipateController($scope, $http, annotationService){
 	};
 
 	$scope.support = function(supported, $event){
+		console.log('supporting');
 		
 		$http.post('/api/docs/' + $scope.doc.id + '/support', {'support': supported})
 		.success(function(data, status, headers, config){
 			//Parse data to see what user's action is currently
 			if(data.support == null){
-				$('.doc-support').toggleClass('btn-success', false);
-				$('.doc-oppose').toggleClass('btn-success', false);
+				$scope.supported = false;
+				$scope.opposed = false;
 			}else{
-				$('.doc-support').toggleClass('btn-success', data.support);
-				$('.doc-oppose').toggleClass('btn-success', !data.support);
+				$scope.supported = data.support;
+				$scope.opposed = !data.support;
 			}
+			console.log($scope.supported);
+			console.log($scope.opposed);
+			console.log(data);
 		})
 		.error(function(data, status, headers, config){
 			console.error("Error posting support: %o", data);

@@ -79,6 +79,7 @@ Route::controller('dashboard', 'DashboardController');
 
     //Document Support / Oppose routes
     Route::post('api/docs/{doc}/support/', 'DocController@postSupport');
+    Route::get('api/users/{user}/support/{doc}', 'UserApiController@getSupport');
 
     //Document Api Routes
     Route::get('api/docs/recent/{query?}', 'DocumentApiController@getRecent')->where('query', '[0-9]+');
@@ -100,6 +101,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/user/verify/', 'UserApiController@postVerify');
     Route::get('api/user/admin/', 'UserApiController@getAdmins');
     Route::post('api/user/admin/', 'UserApiController@postAdmin');
+
 
 //Logout Route
 Route::get('logout', function(){

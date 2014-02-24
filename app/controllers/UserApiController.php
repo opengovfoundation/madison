@@ -70,5 +70,11 @@ class UserApiController extends ApiController{
 
 		return Response::json(array('saved' => true));
 	}
+
+	public function getSupport($user, $doc){
+		$docMeta = DocMeta::where('user_id', $user->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
+
+		return Response::json($docMeta);
+	}
 }
 
