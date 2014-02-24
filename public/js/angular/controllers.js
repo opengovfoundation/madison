@@ -325,11 +325,12 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 	$scope.doc;
 	$scope.sponsor;
 	$scope.status;
+	$scope.newdate = {label: '', date: new Date()}
 	$scope.verifiedUsers = [];
 	$scope.categories = [];
 	$scope.suggestedCategories = [];
 	$scope.suggestedStatuses = [];
-	
+	$scope.dates = [];
 
 	$scope.init = function(){
 		var abs = $location.absUrl();
@@ -372,8 +373,16 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 				$scope.saveCategories();
 			}
 		});
+	}
 
-		
+	$scope.createDate = function(newDate, oldDate){
+		if($scope.newdate.label != ''){
+			$scope.dates.push(angular.copy($scope.newdate));
+			$scope.newdate.label = '';
+			$scope.newdate.date = new Date();
+		}else{
+
+		}
 	}
 
 	$scope.setSelectOptions = function(){
