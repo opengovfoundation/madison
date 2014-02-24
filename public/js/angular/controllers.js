@@ -345,6 +345,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		$scope.getAllCategories();
 		$scope.getDocCategories(id);
 		$scope.getDocSponsor(id);
+		$scope.getDocStatus(id);
 		$scope.getVerifiedUsers();
 		$scope.setSelectOptions();
 
@@ -383,17 +384,15 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 					$scope.saveSponsor();
 				}
 			});
+
+			$scope.$watch('categories', function(values){
+				if(initCategories){
+					$timeout(function(){ initCategories = false; });
+				}else{
+					$scope.saveCategories();
+				}
+			});
 		});
-
-		$scope.$watch('categories', function(values){
-			if(initCategories){
-				$timeout(function(){ initCategories = false; });
-			}else{
-				$scope.saveCategories();
-			}
-		});
-
-
 	}
 
 	$scope.setSelectOptions = function(){
@@ -494,8 +493,8 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 
 	}
 
-	$scope.getDocStatus = function(){
-		$http.get('/api/docs/' + $scope.doc.id + '/status')
+	$scope.getDocStatus = function(id){
+		$http.get('/api/docs/' + id + '/status')
 		.success(function(data){
 
 			$scope.status = angular.copy({id: data.id, text: data.label});
