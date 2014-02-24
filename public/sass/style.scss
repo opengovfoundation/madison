@@ -12,6 +12,7 @@
 @import "compass/css3/images";
 @import "compass/css3/transform";
 @import "compass/css3/box-sizing";
+@import "compass/utilities/general/clearfix";
 @import "variables";
 @import "mixins";
 @import "helpers";
@@ -305,6 +306,7 @@ textarea.form-inline{
 				font-weight: bold;
 				font-size:1.2em;
 				color: #444;
+				line-height: 180%;
 				&:hover{
 					color: #111;
 					text-decoration: underline;
@@ -314,7 +316,7 @@ textarea.form-inline{
 				color: #999;
 				font-size: .9em;
 				span{
-					padding-right: 8px;
+					
 				}
 				.doc-created-date{
 
@@ -335,6 +337,11 @@ textarea.form-inline{
 					padding: 3px 8px 4px 8px;
 				}
 
+				span.doc-categories{
+					padding-right: 0px;
+					margin-right: 0px;
+				}
+
 				.category{
 					background: #999;
 					color: #FFF;
@@ -343,6 +350,18 @@ textarea.form-inline{
 					font-weight: bold;
 					padding: 3px 6px 4px 5px;
 					font-size: .8em;
+					margin-left: 3px;
+				}
+
+				.status{
+					background: #489EF9;
+					color: #FFF;
+					@include border-radius(2px);
+					text-align: center;
+					font-weight: bold;
+					padding: 3px 6px 4px 5px;
+					font-size: .8em;
+					margin-right: 4px;
 				}
 			}
 		}
@@ -352,6 +371,13 @@ textarea.form-inline{
 .select2-container{
 	margin-left: 20px;
 	width: 85%;
+}
+
+.user-gravatar{
+	display: inline-block;
+	margin-right:10px;
+	margin-left: 20px;
+	float: left;
 }
 
 h1.user-name{
@@ -379,6 +405,8 @@ h1.user-name{
 .user-created-date{
 	color: #999;
 	font-size: .9em;
+	display: block;
+	padding-left: 1px;
 }
 
 .content.col-md-12 .row ul.nav-tabs{
