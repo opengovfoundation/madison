@@ -88,10 +88,11 @@ class DocumentApiController extends ApiController{
 	public function postSponsor($doc){
 		$sponsor = Input::get('sponsor');
 
-		$doc = Doc::find($doc)->first();
-		$user = User::find($sponsor)->first();
+		$doc = Doc::find($doc);
 
-		$doc->sponsor()->sync(array($doc->id));
+		$user = User::find($sponsor['id']);
+
+		$doc->sponsor()->sync(array($user->id));
 
 		return Response::json($user);
 
