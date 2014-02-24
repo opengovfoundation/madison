@@ -29,9 +29,10 @@
 				<div class="form-group">
 					{{ Form::label('title', 'Title:') . Form::text('title', Input::old('title'), array('placeholder' => 'Document Title', 'class'=>'form-control')) }}
 				</div>
-				<div class="form-group">
-					{{ Form::label('slug', 'Slug:') . Form::text('slug', Input::old('slug'), array('placeholder' => 'Document Slug', 'class' => 'input-slug form-control')) }}
-				</div>
+				<!-- div class="form-group" -->
+					<!-- {{ Form::label('slug', 'Slug:') }} -->
+					{{ Form::hidden('slug', Input::old('slug'), array('placeholder' => 'Document Slug', 'class' => 'input-slug form-control')) }}
+				<!-- /div -->
 				{{ Form::submit('Create Document', array('class' => 'btn')) }}
 				{{ Form::token() . Form::close() }}
 			</div>

@@ -26,12 +26,16 @@ $(document).ready(function(){
     if($('#create-document-form').length){
 		$('#title').blur(function(){
 			if($('#slug').val().length < 1 && $('#title').val().length > 0){
-			$('#slug').val( $('#title').val().toLowerCase().replace(/ +/g, '-') );
+			$('#slug').val( clean_slug( $('#title').val() ) );
 			}
 		});
     }
 });
 
+function clean_slug(string)
+{
+	return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').replace(/ +/g, '-');
+}
 
 function replace_markdown(){
     var converter = new Markdown.Converter();

@@ -11,9 +11,26 @@ class DocumentApiController extends ApiController{
 	}
 
 	public function getDoc($doc){
-		$doc = Doc::find($doc)->first();
+		$doc = Doc::with('content')->find($doc);
 
 		return Response::json($doc);
+	}
+
+	public function postDoc($id){
+		$doc = Doc::find($id);
+		$doc->title = Input::get('title');
+		$doc->slug = Input::get('slug');
+
+		$doc_content = DocContent::firstOrCreate(array('doc_id' => $doc->id));
+
+		$doc_content->content = Input::get('content.content');
+		$doc_content->save();
+
+		$doc->content(array($doc_content));
+
+		$doc->save();
+
+		return Response::json(Doc::with('content')->find($id));
 	}
 
 	public function getDocs(){
@@ -25,7 +42,7 @@ class DocumentApiController extends ApiController{
 
 		return Response::json($docs);
 	}
-	
+
 	public function getRecent($query = null){
 		$recent = 10;
 
@@ -44,7 +61,7 @@ class DocumentApiController extends ApiController{
 
 	public function getCategories($doc = null){
 		if(!isset($doc)){
-			$categories = Category::all();	
+			$categories = Category::all();
 		}else{
 			$doc = Doc::find($doc);
 			$categories = $doc->categories()->get();
@@ -61,11 +78,11 @@ class DocumentApiController extends ApiController{
 
 		foreach($categories as $category){
 			$toAdd = Category::where('name', $category)->first();
-			
+
 			if(!isset($toAdd)){
 				$toAdd = new Category();
 			}
-			
+
 			$toAdd->name = $category;
 			$toAdd->save();
 
@@ -74,7 +91,7 @@ class DocumentApiController extends ApiController{
 
 		$doc->categories()->sync($categoryIds);
 
-		return Response::json($categoryIds);	
+		return Response::json($categoryIds);
 	}
 
 	public function getSponsor($doc){
@@ -89,7 +106,6 @@ class DocumentApiController extends ApiController{
 		$sponsor = Input::get('sponsor');
 
 		$doc = Doc::find($doc);
-
 		$user = User::find($sponsor['id']);
 
 		$doc->sponsor()->sync(array($user->id));
@@ -109,7 +125,7 @@ class DocumentApiController extends ApiController{
 	public function postStatus($doc){
 		$status = Input::get('status');
 
-		$doc = Doc::find($doc)->first();
+		$doc = Doc::find($doc);
 
 		$toAdd = Status::where('label', $status['text'])->first();
 
