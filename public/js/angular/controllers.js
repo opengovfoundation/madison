@@ -258,7 +258,7 @@ function DashboardSettingsController($scope, $http){
 	}
 }
 
-function DashboardEditorController($scope, $http, $timeout)
+function DashboardEditorController($scope, $http, $timeout, $location)
 {
 	$scope.doc;
 	$scope.sponsor;
@@ -266,24 +266,32 @@ function DashboardEditorController($scope, $http, $timeout)
 	$scope.verifiedUsers = [];
 	$scope.categories = [];
 	$scope.suggestedCategories = [];
+	$scope.suggestedStatuses = [];
 	
 
 	$scope.init = function(){
-		$scope.doc = doc;
+		var abs = $location.absUrl();
+		var id = abs.match(/.*\/(\d+)$/);
+		id = id[1];
+
+		$scope.doc = { id: id};
 		$scope.getAllCategories();
 		$scope.getDocCategories();
+		$scope.getAllStatuses();
 		$scope.getDocSponsor();
+		$scope.getDocStatus();
 		$scope.getVerifiedUsers();
 		$scope.setSelectOptions();
 
 		var initCategories = true;
 		var initSponsor = true;
+		var initStatus = true;
 
-		$scope.$watch('categories', function(values){
-			if(initCategories){
-				$timeout(function(){ initCategories = false; });
+		$scope.$watch('status', function(value){
+			if(initStatus){
+				$timeout(function(){ initStatus = false; });
 			}else{
-				$scope.saveCategories();
+				$scope.saveStatus();
 			}
 		});
 
@@ -294,6 +302,16 @@ function DashboardEditorController($scope, $http, $timeout)
 				$scope.saveSponsor();
 			}
 		});
+
+		$scope.$watch('categories', function(values){
+			if(initCategories){
+				$timeout(function(){ initCategories = false; });
+			}else{
+				$scope.saveCategories();
+			}
+		});
+
+		
 	}
 
 	$scope.setSelectOptions = function(){
@@ -307,6 +325,19 @@ function DashboardEditorController($scope, $http, $timeout)
 				return $scope.categories;
 			}
 		};
+
+		$scope.statusOptions={
+			placeholder: "Select Document Status",
+			data: function(){
+				return $scope.suggestedStatuses;
+			},
+			results: function(){
+				return $scope.status;
+			},
+			createSearchChoice: function(term){
+				return { id: term, text: term};
+			}
+		}
 
 		$scope.sponsorOptions = {
 			placeholder: "Select Document Sponsor",
@@ -365,24 +396,45 @@ function DashboardEditorController($scope, $http, $timeout)
 
 	}
 
+	$scope.getDocStatus = function(){
+		$http.get('/api/docs/' + $scope.doc.id + '/status')
+		.success(function(data){
+			
+			$scope.status = angular.copy({id: data.id, text: data.label});
+		}).error(function(data){
+			console.error("Error getting document status: %o", data);
+		});
+	}
+
+	$scope.getAllStatuses = function(){
+		$http.get('/api/docs/statuses')
+		.success(function(data){
+			angular.forEach(data, function(status){
+				$scope.suggestedStatuses.push(status.label);
+			});
+		}).error(function(data){
+			console.error("Unable to get document statuses: %o", data);
+		});
+	}
+
 	$scope.getAllCategories = function(){
 		$http.get('/api/docs/categories')
 		.success(function(data){
 			angular.forEach(data, function(category){
 				$scope.suggestedCategories.push(category.name);
-			})
+			});
 		})
 		.error(function(data){
 			console.error("Unable to get document categories: %o", data);
 		});
 	}
 
-	$scope.saveCategories = function(){
-		$http.post('/api/docs/' + $scope.doc.id + '/categories', {'categories': $scope.categories})
+	$scope.saveStatus = function(){
+		$http.post('/api/docs/' + $scope.doc.id + '/status', {status: $scope.status})
 		.success(function(data){
-			console.log("Categories saved successfully: %o", data);
+			console.log("Status saved successfully: %o", data);
 		}).error(function(data){
-			console.error("Error saving categories for document %o: %o \n %o", $scope.doc, $scope.categories, data);
+			console.error("Error saving status: %o", data);
 		});
 	}
 
@@ -395,13 +447,21 @@ function DashboardEditorController($scope, $http, $timeout)
 		});
 	}
 
+	$scope.saveCategories = function(){
+		$http.post('/api/docs/' + $scope.doc.id + '/categories', {'categories': $scope.categories})
+		.success(function(data){
+			console.log("Categories saved successfully: %o", data);
+		}).error(function(data){
+			console.error("Error saving categories for document %o: %o \n %o", $scope.doc, $scope.categories, data);
+		});
+	}
 }
 
 /**
 *	Dependency Injections
 */
 
-DashboardEditorController.$inject = ['$scope', '$http', '$timeout'];
+DashboardEditorController.$inject = ['$scope', '$http', '$timeout', '$location'];
 DashboardSettingsController.$inject = ['$scope', '$http'];
 DashboardVerifyController.$inject = ['$scope', '$http'];
 

@@ -97,11 +97,45 @@ class DocumentApiController extends ApiController{
 
 	}
 
+	public function getStatus($doc){
+		$doc = Doc::find($doc);
+
+		$status = $doc->statuses()->first();
+
+		return Response::json($status);
+	}
+
+	public function postStatus($doc){
+		$status = Input::get('status');
+
+		$doc = Doc::find($doc)->first();
+
+		$toAdd = Status::where('label', $status['text'])->first();
+
+		if(!isset($toAdd)){
+			$toAdd = new Status();
+			$toAdd->label = $status['text'];
+		}
+		$toAdd->save();
+
+		$doc->statuses()->sync(array($toAdd->id));
+
+		return Response::json($toAdd);
+
+	}
+
 	public function getAllSponsors(){
 		$doc = Doc::with('sponsor')->first();
 		$sponsors = $doc->sponsor;
 
 		return Response::json($sponsors);
+	}
+
+	public function getAllStatuses(){
+		$doc = Doc::with('statuses')->first();
+		$statuses = $doc->status;
+
+		return Response::json($statuses);
 	}
 }
 

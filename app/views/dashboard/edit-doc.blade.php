@@ -16,16 +16,12 @@
 			<h2>Document Information</h2>
 			<div class="col-md-12">
 				<div class="row">
+					<h3>Status</h3>
+					<input type="hidden" ui-select2="statusOptions" ng-model="status" data-placeholder=>
+				</div>
+				<div class="row">
 					<h3>Sponsor</h3>
-					<input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" data-placeholder="Select Document Sponsor">
-
-
-					{{-- 
-					<select ui-select2 ng-model="sponsor" data-placeholder="Select Document Sponsor">
-						<option value=""></option>
-						<option ng-repeat="user in verifiedUsers" value="<% user.id %>"><% user.fname %> <% user.lname %> - <% user.email %></option>
-					</select>
-					--}}
+					<input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" />
 				</div>
 				<div class="row">
 					<h3>Categories</h3>
@@ -45,10 +41,6 @@
 						>{{{ $contentItem->content }}}</textarea>
 					<div id="wmd-preview" class="wmd-panel wmd-preview"></div>
 					<script type="text/javascript">
-						var doc = {
-							id: {{ $doc->id }}
-						}
-
 						$(function () {
 							var converter1 = Markdown.getSanitizingConverter();
 							var editor1 = new Markdown.Editor(converter1);

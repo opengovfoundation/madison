@@ -16,6 +16,10 @@ class Doc extends Eloquent{
 		return $this->belongsToMany('User');
 	}
 
+	public function statuses(){
+		return $this->belongsToMany('Status');
+	}
+
 	public function categories(){
 		return $this->belongsToMany('Category');
 	}
