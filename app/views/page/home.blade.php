@@ -2,13 +2,16 @@
 	<h1>Welcome to Madison</h1>
 </div>
 <div class="row" ng-controller="HomePageController" ng-init="init()">
-	<select ui-select2="select2Config" ng-model="select2" placeholder="Filter documents by category or sponsor">
+	<select ui-select2="select2Config" ng-model="select2" placeholder="Filter documents by category, sponsor, or status">
 		<option value=""></option>
 		<optgroup label="Category">
 			<option value="<% category %>" ng-repeat="category in categories | unique"><% category %></option>
 		</optgroup>
 		<optgroup label="Sponsor">
 			<option value="<% sponsor.id %>" ng-repeat="sponsor in sponsors | unique"><% sponsor.fname %> <% sponsor.lname %></option>
+		</optgroup>
+		<optgroup label="Status">
+			<option value="<% status.id%>" ng-repeat="status in statuses | unique"><% status.label%></option>
 		</optgroup>
 	</select>
 	<ul>
@@ -21,6 +24,9 @@
 				<span class="doc-updated-date">Updated <% doc.updated_at | date:'mediumDate' %></span>
 				<span class="doc-categories">
 					<span class="category" ng-repeat="category in doc.categories"><% category.name %></span>
+				</span>
+				<span class="doc-statuses">
+					<span class="status" ng-repeat="status in doc.statuses"><% status.label %></span>
 				</span>
 			</div>
 		</li>

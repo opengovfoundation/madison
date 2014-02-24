@@ -65,6 +65,7 @@ function HomePageController($scope, $http, $filter){
 	$scope.docs = [];
 	$scope.categories = [];
 	$scope.sponsors = [];
+	$scope.statuses = [];
 	$scope.select2;
 
 	$scope.init = function(){
@@ -91,6 +92,13 @@ function HomePageController($scope, $http, $filter){
 
 			angular.forEach(doc.sponsor, function(sponsor){
 				if(sponsor.id == $scope.select2 && cont){
+					show = true;
+					cont = false;
+				}
+			});
+
+			angular.forEach(doc.status, function(status){
+				if(status.id == $scope.select2 && cont){
 					show = true;
 					cont = false;
 				}
@@ -128,6 +136,14 @@ function HomePageController($scope, $http, $filter){
 						$scope.sponsors.push(sponsor);
 					}
 				});
+
+				angular.forEach(doc.statuses, function(status){
+					var found = $filter('filter')($scope.statuses, status, true);
+
+					if(!found.length){
+						$scope.statuses.push(status);
+					}
+				})
 			});
 
 		})
