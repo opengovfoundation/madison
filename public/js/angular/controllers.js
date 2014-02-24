@@ -352,6 +352,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 			new Markdown.Editor(Markdown.getSanitizingConverter()).run();
 
 			$scope.$watchCollection('[doc.slug, doc.title, doc.content.content]', function(value){
+				$scope.doc.slug = clean_slug($scope.doc.slug);
 				$scope.saveDoc();
 			});
 
@@ -442,7 +443,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 	}
 
 	$scope.getDoc = function(id){
-		return $http.get('/api/docs/' + id + '/')
+		return $http.get('/api/docs/' + id)
 		.success(function(data){
 			$scope.doc = data;
 		});

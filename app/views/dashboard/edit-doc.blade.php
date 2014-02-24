@@ -34,6 +34,7 @@
 
 					<div class="form-group">
 						<label for="slug" class="col-sm-2">Slug: </label>
+						<span class="instructions">a-z (lowercase), 0-9, and "-" only.</span>
 						<div class="col-sm-10">
 							<input type="text" name="slug" id="slug" value="{{{ $doc->slug }}}" ng-model="doc.slug" style="margin-left:20px;width:85%;padding:5px;"/>
 						</div>
@@ -64,7 +65,7 @@
 			</div>
 			<div class="row">
 				<h2>Content</h2>
-					<input type="hidden" name="content_id" value="{{{ $contentItem->id }}}"/>
+					<input type="hidden" name="content_id" value="{{{ $contentItem->id }}}" ng-model="doc.content.id"/>
 
 					<div class="doc_item_content">
 						<div id="wmd-button-bar"></div>
