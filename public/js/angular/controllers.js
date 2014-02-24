@@ -22,7 +22,7 @@ function ParticipateController($scope, $http, annotationService){
 		$scope.user = user;
 		$scope.doc = doc;
 
-		if(typeof user.id != 'undefined'){
+		if(user.id != ''){
 			$http.get('/api/users/' + user.id + '/support/' + doc.id)
 			.success(function(data){
 				switch(data.meta_value){
