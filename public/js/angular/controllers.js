@@ -92,9 +92,6 @@ function ParticipateController($scope, $http, annotationService){
 				$scope.supported = data.support;
 				$scope.opposed = !data.support;
 			}
-			console.log($scope.supported);
-			console.log($scope.opposed);
-			console.log(data);
 		})
 		.error(function(data, status, headers, config){
 			console.error("Error posting support: %o", data);
@@ -145,9 +142,6 @@ function HomePageController($scope, $http, $filter){
 			});
 
 			angular.forEach(doc.statuses, function(status){
-				console.log(status);
-				console.log($scope.select2);
-
 				if(status.id == $scope.select2 && cont){
 					show = true;
 					cont = false;
@@ -338,53 +332,59 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 
 
 	$scope.init = function(){
-		$('#submit').hide();
-
 		var abs = $location.absUrl();
 		var id = abs.match(/.*\/(\d+)$/)[1];
 
 		var docDone = $scope.getDoc(id);
 
 		$scope.getAllCategories();
-		$scope.getDocCategories(id);
-		$scope.getDocSponsor(id);
-		$scope.getDocStatus(id);
 		$scope.getVerifiedUsers();
 		$scope.setSelectOptions();
 
 		var initCategories = true;
 		var initSponsor = true;
 		var initStatus = true;
+		var initDoc = true;
 
 		docDone.then(function() {
 			new Markdown.Editor(Markdown.getSanitizingConverter()).run();
 
+			$scope.getDocSponsor().then(function(){
+				$scope.$watch('sponsor', function(value){
+					if(initSponsor){
+						$timeout(function(){ initSponsor = false; });
+					}else{
+						$scope.saveSponsor();
+					}
+				});
+			});
+
+			$scope.getDocStatus().then(function(){
+				$scope.$watch('status', function(value){
+					if(initStatus){
+						$timeout(function(){ initStatus = false; });
+					}else{
+						$scope.saveStatus();
+					}
+				});
+			});
+
+			$scope.getDocCategories().then(function(){
+				$scope.$watch('categories', function(values){
+					if(initCategories){
+						$timeout(function(){ initCategories = false; });
+					}else{
+						$scope.saveCategories();
+					}
+				});
+			});
+
 			$scope.$watchCollection('[doc.slug, doc.title, doc.content.content]', function(value){
-				$scope.doc.slug = clean_slug($scope.doc.slug);
-				$scope.saveDoc();
-			});
-
-			$scope.$watch('status', function(value){
-				if(initStatus){
-					$timeout(function(){ initStatus = false; });
+				if(initDoc){
+					$timeout(function(){ initDoc = false; });
 				}else{
-					$scope.saveStatus();
-				}
-			});
-
-			$scope.$watch('categories', function(values){
-				if(initCategories){
-					$timeout(function(){ initCategories = false; });
-				}else{
-					$scope.saveCategories();
-				}
-			});
-
-			$scope.$watch('sponsor', function(value){
-				if(initSponsor){
-					$timeout(function(){ initSponsor = false; });
-				}else{
-					$scope.saveSponsor();
+					$scope.doc.slug = clean_slug($scope.doc.slug);
+					$scope.saveDoc();
 				}
 			});
 		});	
@@ -409,7 +409,8 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 			},
 			results: function(){
 				return $scope.categories;
-			}
+			},
+			initSelection: true
 		};
 
 		$scope.statusOptions={
@@ -422,6 +423,9 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 			},
 			createSearchChoice: function(term){
 				return { id: term, text: term};
+			},
+			initSelection: function(element, callback){
+				callback($scope.status);
 			}
 		}
 
@@ -477,8 +481,8 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		})
 	}
 
-	$scope.getDocCategories = function(id){
-		return $http.get('/api/docs/' + id + '/categories')
+	$scope.getDocCategories = function(){
+		return $http.get('/api/docs/' + $scope.doc.id + '/categories')
 		.success(function(data){
 			angular.forEach(data, function(category){
 				$scope.categories.push(category.name);
@@ -488,8 +492,8 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		});
 	}
 
-	$scope.getDocSponsor = function(id){
-		return $http.get('/api/docs/' + id + '/sponsor')
+	$scope.getDocSponsor = function(){
+		return $http.get('/api/docs/' + $scope.doc.id + '/sponsor')
 		.success(function(data){
 			$scope.sponsor = angular.copy({id: data.id, text: data.fname + " " + data.lname + " - " + data.email});
 		}).error(function(data){
@@ -498,8 +502,8 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 
 	}
 
-	$scope.getDocStatus = function(id){
-		$http.get('/api/docs/' + id + '/status')
+	$scope.getDocStatus = function(){
+		return $http.get('/api/docs/' + $scope.doc.id + '/status')
 		.success(function(data){
 			$scope.status = angular.copy({id: data.id, text: data.label});
 		}).error(function(data){
