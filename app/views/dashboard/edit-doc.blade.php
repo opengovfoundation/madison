@@ -76,6 +76,7 @@
 							<input type="hidden" ui-select2="categoryOptions" ng-model="categories" />
 						</div>
 					</div>
+					{{--
 					<div class="form-group">
 						<label for="dates">Dates: </label>
 						<div class="dates">
@@ -91,6 +92,7 @@
 							</div>
 						</div>
 					</div>
+					--}}
 				</div>
 			</tab>
 		</tabset>
