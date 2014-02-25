@@ -1,4 +1,4 @@
-imports = ['angular-md5', 'ui.bootstrap', 'ui.utils', 'ui.select2'];
+imports = ['angular-md5', 'ui.bootstrap', 'ui.utils', 'ui.select2', 'ui.bootstrap.datetimepicker'];
 
 var app = angular.module('madisonApp', imports, function($interpolateProvider){
 	$interpolateProvider.startSymbol('<%');
