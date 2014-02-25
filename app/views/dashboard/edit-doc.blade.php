@@ -46,22 +46,22 @@
 				<div class="row">
 					<h2>Document Information</h2>
 					<div class="form-group">
-						<label for="status" class="col-sm-2">Status: </label>
-						<div class="col-sm-10">
-							<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" data-placeholder="">
-						</div>
-					</div>
-					<div class="form-group">
 						<label for="title" class="col-sm-2">Title: </label>
 						<div class="col-sm-10">
-							<input type="text" name="title" id="title" value="{{{ $doc->title }}}" ng-model="doc.title" style="margin-left:20px;width:85%;padding:5px;"/>
+							<input type="text" name="title" id="title" value="{{{ $doc->title }}}" ng-model="doc.title" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="slug" class="col-sm-2">Slug: </label>
 						<div class="col-sm-10">
-							<span class="instructions">a-z (lowercase), 0-9, and "-" only.</span>
-							<input type="text" name="slug" id="slug" value="{{{ $doc->slug }}}" ng-model="doc.slug" style="margin-left:20px;width:85%;padding:5px;"/>
+							<input type="text" name="slug" id="slug" value="{{{ $doc->slug }}}" ng-model="doc.slug" class="form-control"/>
+							<p class="help-block">a-z (lowercase), 0-9, and "-" only.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="status" class="col-sm-2">Status: </label>
+						<div class="col-sm-10">
+							<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" data-placeholder="">
 						</div>
 					</div>
 					<div class="form-group">
