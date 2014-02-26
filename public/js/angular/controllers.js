@@ -330,7 +330,6 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 	$scope.suggestedStatuses = [];
 	$scope.dates = [];
 
-
 	$scope.init = function(){
 		var abs = $location.absUrl();
 		var id = abs.match(/.*\/(\d+)$/)[1];
@@ -345,6 +344,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		var initSponsor = true;
 		var initStatus = true;
 		var initDoc = true;
+		var initDates = true;
 
 		docDone.then(function() {
 			new Markdown.Editor(Markdown.getSanitizingConverter()).run();
@@ -379,6 +379,8 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 				});
 			});
 
+			$scope.getDocDates();
+
 			$scope.$watchCollection('[doc.slug, doc.title, doc.content.content]', function(value){
 				if(initDoc){
 					$timeout(function(){ initDoc = false; });
@@ -388,16 +390,6 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 				}
 			});
 		});	
-	};
-	
-	$scope.createDate = function(newDate, oldDate){
-		if($scope.newdate.label != ''){
-			$scope.dates.push(angular.copy($scope.newdate));
-			$scope.newdate.label = '';
-			$scope.newdate.date = new Date();
-		}else{
-
-		}
 	};
 
 	$scope.setSelectOptions = function(){
@@ -480,6 +472,30 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 			console.log("Document saved successfully: %o", data);
 		}).error(function(data){
 			console.error("Error saving categories for document %o: %o \n %o", $scope.doc, $scope.categories, data);
+		});
+	};
+
+	$scope.createDate = function(newDate, oldDate){
+		if($scope.newdate.label != ''){
+			$http.post('/api/docs/' + $scope.doc.id + '/dates', {date: $scope.newdate})
+			.success(function(data){
+				data.date = Date.parse(data.date);
+				$scope.dates.push(data);
+			}).error(function(data){
+				console.error("Unable to save date: %o", data);
+			});
+		}
+	};
+
+	$scope.getDocDates = function(){
+		$http.get('/api/docs/' + $scope.doc.id + '/dates')
+		.success(function(data){
+			angular.forEach(data, function(date){
+				date.date = Date.parse(date.date);
+				$scope.dates.push(angular.copy(date));
+			});
+		}).error(function(data){
+			console.error("Error getting dates: %o", data);
 		});
 	};
 

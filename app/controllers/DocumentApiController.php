@@ -141,6 +141,28 @@ class DocumentApiController extends ApiController{
 
 	}
 
+	public function getDates($doc){
+		$doc = Doc::find($doc);
+
+		$dates = $doc->dates()->get();
+
+		return Response::json($dates);
+	}
+
+	public function postDate($doc){
+		$doc = Doc::find($doc);
+
+		$date = Input::get('date');
+
+		$returned = new Date();
+		$returned->label = $date['label'];
+		$returned->date = date("Y-m-d H:i:s", strtotime($date['date']));
+		
+		$doc->dates()->save($returned);
+
+		return Response::json($returned);
+	}
+
 	public function getAllSponsors(){
 		$doc = Doc::with('sponsor')->first();
 		$sponsors = $doc->sponsor;

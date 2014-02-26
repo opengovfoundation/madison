@@ -82,7 +82,7 @@
 						<div class="dates row">
 							<div class="new-date col-sm-3">
 								<label for="newdate-label">New Date:</label><br>
-								<input name="newdate-label" ng-model="newdate.label" type="text" placeholder="Date Label" />
+								<input name="newdate-label" class="form-control" ng-model="newdate.label" type="text" placeholder="Date Label" />
 								<datetimepicker ng-model="newdate.date" on-set-time="createDate"></datetimepicker>
 							</div>
 							<div class="existing-dates col-sm-9">

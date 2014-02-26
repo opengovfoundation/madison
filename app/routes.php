@@ -13,7 +13,7 @@ Route::pattern('user', '[0-9]+');
 /**
 *   Route - Model bindings
 */
-Route::model('user', 'User'); 
+Route::model('user', 'User');
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +92,8 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/sponsor', 'DocumentApiController@postSponsor');
     Route::get('api/docs/{doc}/status', 'DocumentApiController@getStatus');
     Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus');
+    Route::get('api/docs/{doc}/dates', 'DocumentApiController@getDates');
+    Route::post('api/docs/{doc}/dates', 'DocumentApiController@postDate');
     Route::get('api/docs/{doc}', 'DocumentApiController@getDoc');
     Route::post('api/docs/{doc}', 'DocumentApiController@postDoc');
     Route::get('api/docs/', 'DocumentApiController@getDocs');

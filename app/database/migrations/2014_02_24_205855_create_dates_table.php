@@ -14,9 +14,12 @@ class CreateDatesTable extends Migration {
 	{
 		Schema::create('dates', function($table){
 			$table->increments('id');
+			$table->integer('doc_id')->unsigned();
 			$table->datetime('date');
 			$table->string('label');
 			$table->timestamps();
+
+			$table->foreign('doc_id')->references('id')->on('docs')->onDelete('cascade');
 		});
 	}
 
