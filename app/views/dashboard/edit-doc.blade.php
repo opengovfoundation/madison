@@ -76,23 +76,33 @@
 							<input type="hidden" ui-select2="categoryOptions" ng-model="categories" ng-change="categoriesChange(categories)" />
 						</div>
 					</div>
-					{{--
 					<div class="form-group">
 						<label for="dates">Dates: </label>
-						<div class="dates">
-							<div class="new-date">
-								<input ng-model="newdate.label" type="text" placeholder="Date Label" />
+						<hr>
+						<div class="dates row">
+							<div class="new-date col-sm-3">
+								<label for="newdate-label">New Date:</label><br>
+								<input name="newdate-label" ng-model="newdate.label" type="text" placeholder="Date Label" />
 								<datetimepicker ng-model="newdate.date" on-set-time="createDate"></datetimepicker>
 							</div>
-							<div class="existing-dates">
-								<div class="existing-date" ng-repeat="date in dates">
-									<div class="date-label"><% date.label%></div>
-									<div class="date-date"><% date.date | date:short%></div>
+							<div class="existing-dates col-sm-9">
+								<strong>Existing Dates:</strong>
+								<div class="row">
+									<div class="existing-date col-sm-2" ng-repeat="date in dates">
+										<input class="date-label form-control" value="<% date.label %>" />
+										<div class="dropdown">
+											<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+												<% date.date | date:'short' %>
+											</a>
+											<ul class="dropdown-menu">
+												<datetimepicker ng-model="date.date" datetimepicker-config="{dropdownSelector: '.dropdown-toggle' }"></datetimepicker>
+											</ul>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					--}}
 				</div>
 			</tab>
 		</tabset>

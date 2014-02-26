@@ -390,15 +390,15 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		});	
 	};
 	
-	// $scope.createDate = function(newDate, oldDate){
-	// 	if($scope.newdate.label != ''){
-	// 		$scope.dates.push(angular.copy($scope.newdate));
-	// 		$scope.newdate.label = '';
-	// 		$scope.newdate.date = new Date();
-	// 	}else{
+	$scope.createDate = function(newDate, oldDate){
+		if($scope.newdate.label != ''){
+			$scope.dates.push(angular.copy($scope.newdate));
+			$scope.newdate.label = '';
+			$scope.newdate.date = new Date();
+		}else{
 
-	// 	}
-	// };
+		}
+	};
 
 	$scope.setSelectOptions = function(){
 		$scope.categoryOptions = {
