@@ -459,6 +459,14 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		$scope.status = status;
 	};
 
+	$scope.sponsorChange = function(sponsor){
+		$scope.sponsor = sponsor;
+	};
+
+	$scope.categoriesChange = function(categories){
+		$scope.categories = categories;
+	};
+
 	$scope.getDoc = function(id){
 		return $http.get('/api/docs/' + id)
 		.success(function(data){
@@ -549,8 +557,6 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 	};
 
 	$scope.saveSponsor = function(){
-		console.log('saving sponsor');
-
 		return $http.post('/api/docs/' + $scope.doc.id + '/sponsor', {'sponsor': $scope.sponsor})
 		.success(function(data){
 			console.log("Sponsor saved successfully: %o", data);

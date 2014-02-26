@@ -67,13 +67,13 @@
 					<div class="form-group">
 						<label for="sponsor" class="col-sm-2">Sponsor: </label>
 						<div class="col-sm-10">
-							<input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" data-placeholder="Select Document Sponsor" id="sponsor">
+							<input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" ng-change="sponsorChange(sponsor)" id="sponsor">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="categories" class="col-sm-2">Categories: </label>
 						<div class="col-sm-10">
-							<input type="hidden" ui-select2="categoryOptions" ng-model="categories" />
+							<input type="hidden" ui-select2="categoryOptions" ng-model="categories" ng-change="categoriesChange(categories)" />
 						</div>
 					</div>
 					{{--
