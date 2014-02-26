@@ -61,7 +61,7 @@
 					<div class="form-group">
 						<label for="status" class="col-sm-2">Status: </label>
 						<div class="col-sm-10">
-							<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" data-placeholder="">
+							<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" ng-change="statusChange(status)" data-placeholder="">
 						</div>
 					</div>
 					<div class="form-group">

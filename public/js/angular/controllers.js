@@ -41,7 +41,7 @@ function ParticipateController($scope, $http, annotationService){
 				console.error("Unable to get support info for user %o and doc %o", user, doc);
 			});
 		}
-	}
+	};
 
 	$scope.$on('annotationsUpdated', function(){
 		$scope.annotations = annotationService.annotations;
@@ -117,8 +117,8 @@ function HomePageController($scope, $http, $filter){
 		$scope.select2Config = {
 			multiple: true,
 			allowClear: true
-		}
-	}
+		};
+	};
 
 	$scope.docFilter = function(doc){
 
@@ -153,7 +153,7 @@ function HomePageController($scope, $http, $filter){
 		}
 
 		return show;
-	}
+	};
 
 	$scope.getDocs = function(){
 		$http.get('/api/docs/')
@@ -187,14 +187,14 @@ function HomePageController($scope, $http, $filter){
 					if(!found.length){
 						$scope.statuses.push(status);
 					}
-				})
+				});
 			});
 
 		})
 		.error(function(data){
 			console.error("Unable to get documents: %o", data);
 		});
-	}
+	};
 }
 
 function UserPageController($scope, $http, $location){
@@ -206,7 +206,7 @@ function UserPageController($scope, $http, $location){
 
 	$scope.init = function(){
 		$scope.getUser();
-	}
+	};
 
 	$scope.getUser = function(){
 		var abs = $location.absUrl();
@@ -235,7 +235,7 @@ function UserPageController($scope, $http, $location){
 
 				if(meta.meta_key == 'verify' && meta.meta_value == 'verified' && cont){
 					$scope.verified = true;
-					cont = false
+					cont = false;
 				}
 			});
 
@@ -244,7 +244,7 @@ function UserPageController($scope, $http, $location){
 		}).error(function(data){
 			console.error("Unable to retrieve user: %o", data);
 		});
-	}
+	};
 
 	$scope.showVerified = function(){
 		if($scope.verified && $scope.docs.length > 0){
@@ -252,7 +252,7 @@ function UserPageController($scope, $http, $location){
 		}
 
 		return false;
-	}
+	};
 
 }
 
@@ -265,7 +265,7 @@ function DashboardVerifyController($scope, $http){
 
 	$scope.init = function(){
 		$scope.getRequests();
-	}
+	};
 
 	$scope.getRequests = function(){
 		$http.get('/api/user/verify')
@@ -275,7 +275,7 @@ function DashboardVerifyController($scope, $http){
 		.error(function(data, status, headers, config){
 			console.error(data);
 		});
-	}
+	};
 
 	$scope.update = function(request, status, event){
 		$http.post('/api/user/verify', {'request': request, 'status': status})
@@ -285,7 +285,7 @@ function DashboardVerifyController($scope, $http){
 		.error(function(data, status, headers, config){
 			console.error(data);
 		});
-	}
+	};
 }
 
 function DashboardSettingsController($scope, $http){
@@ -299,7 +299,7 @@ function DashboardSettingsController($scope, $http){
 		.error(function(data){
 			console.error(data);
 		});
-	}
+	};
 
 	$scope.saveAdmin = function(admin){
 		admin.saved = false;
@@ -311,11 +311,11 @@ function DashboardSettingsController($scope, $http){
 		.error(function(data){
 			console.error(data);
 		});
-	}
+	};
 
 	$scope.init = function(){
 		$scope.getAdmins();
-	}
+	};
 }
 
 function DashboardEditorController($scope, $http, $timeout, $location)
@@ -323,7 +323,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 	$scope.doc;
 	$scope.sponsor;
 	$scope.status;
-	$scope.newdate = {label: '', date: new Date()}
+	$scope.newdate = {label: '', date: new Date()};
 	$scope.verifiedUsers = [];
 	$scope.categories = [];
 	$scope.suggestedCategories = [];
@@ -388,17 +388,17 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 				}
 			});
 		});	
-	}
+	};
 	
-	$scope.createDate = function(newDate, oldDate){
-		if($scope.newdate.label != ''){
-			$scope.dates.push(angular.copy($scope.newdate));
-			$scope.newdate.label = '';
-			$scope.newdate.date = new Date();
-		}else{
+	// $scope.createDate = function(newDate, oldDate){
+	// 	if($scope.newdate.label != ''){
+	// 		$scope.dates.push(angular.copy($scope.newdate));
+	// 		$scope.newdate.label = '';
+	// 		$scope.newdate.date = new Date();
+	// 	}else{
 
-		}
-	}
+	// 	}
+	// };
 
 	$scope.setSelectOptions = function(){
 		$scope.categoryOptions = {
@@ -419,15 +419,16 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 				return $scope.suggestedStatuses;
 			},
 			results: function(){
+				console.log($scope.status, "Scope status");
 				return $scope.status;
 			},
 			createSearchChoice: function(term){
 				return { id: term, text: term};
 			},
 			initSelection: function(element, callback){
-				callback($scope.status);
+				callback(angular.copy($scope.status));
 			}
-		}
+		};
 
 		$scope.sponsorOptions = {
 			placeholder: "Select Document Sponsor",
@@ -452,14 +453,18 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 				callback($scope.sponsor);
 			}
 		};
-	}
+	};
+
+	$scope.statusChange = function(status){
+		$scope.status = status;
+	};
 
 	$scope.getDoc = function(id){
 		return $http.get('/api/docs/' + id)
 		.success(function(data){
 			$scope.doc = data;
 		});
-	}
+	};
 
 	$scope.saveDoc = function(){
 		return $http.post('/api/docs/' + $scope.doc.id, $scope.doc)
@@ -468,7 +473,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		}).error(function(data){
 			console.error("Error saving categories for document %o: %o \n %o", $scope.doc, $scope.categories, data);
 		});
-	}
+	};
 
 	$scope.getVerifiedUsers = function(){
 		return $http.get('/api/user/verify')
@@ -478,8 +483,8 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 			});
 		}).error(function(data){
 			console.error("Unable to get verified users: %o", data);
-		})
-	}
+		});
+	};
 
 	$scope.getDocCategories = function(){
 		return $http.get('/api/docs/' + $scope.doc.id + '/categories')
@@ -490,7 +495,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		}).error(function(data){
 			console.error("Unable to get categories for document %o: %o", $scope.doc, data);
 		});
-	}
+	};
 
 	$scope.getDocSponsor = function(){
 		return $http.get('/api/docs/' + $scope.doc.id + '/sponsor')
@@ -500,7 +505,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 			console.error("Error getting document sponsor: %o", data);
 		});
 
-	}
+	};
 
 	$scope.getDocStatus = function(){
 		return $http.get('/api/docs/' + $scope.doc.id + '/status')
@@ -509,7 +514,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		}).error(function(data){
 			console.error("Error getting document status: %o", data);
 		});
-	}
+	};
 
 	$scope.getAllStatuses = function(){
 		$http.get('/api/docs/statuses')
@@ -520,7 +525,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		}).error(function(data){
 			console.error("Unable to get document statuses: %o", data);
 		});
-	}
+	};
 
 	$scope.getAllCategories = function(){
 		return $http.get('/api/docs/categories')
@@ -532,7 +537,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		.error(function(data){
 			console.error("Unable to get document categories: %o", data);
 		});
-	}
+	};
 
 	$scope.saveStatus = function(){
 		return $http.post('/api/docs/' + $scope.doc.id + '/status', {status: $scope.status})
@@ -541,7 +546,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		}).error(function(data){
 			console.error("Error saving status: %o", data);
 		});
-	}
+	};
 
 	$scope.saveSponsor = function(){
 		console.log('saving sponsor');
@@ -550,9 +555,9 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		.success(function(data){
 			console.log("Sponsor saved successfully: %o", data);
 		}).error(function(data){
-			console.error("Error saving sponsor: %o", data)
+			console.error("Error saving sponsor: %o", data);
 		});
-	}
+	};
 
 	$scope.saveCategories = function(){
 		return $http.post('/api/docs/' + $scope.doc.id + '/categories', {'categories': $scope.categories})
@@ -561,7 +566,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		}).error(function(data){
 			console.error("Error saving categories for document %o: %o \n %o", $scope.doc, $scope.categories, data);
 		});
-	}
+	};
 }
 
 /**
