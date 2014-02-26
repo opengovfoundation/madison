@@ -18,7 +18,7 @@ class CreateDateDocTable extends Migration {
 
 			$table->foreign('date_id')->references('id')->on('dates')->onDelete('cascade');
 			$table->foreign('doc_id')->references('id')->on('docs')->onDelete('cascade');
-		})
+		});
 	}
 
 	/**
