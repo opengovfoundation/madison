@@ -113,6 +113,7 @@ function HomePageController($scope, $http, $filter){
 	$scope.dateSort;
 	$scope.select2;
 	$scope.docSort = "created_at";
+	$scope.reverse = true;
 
 	$scope.init = function(){
 		$scope.getDocs();
