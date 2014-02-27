@@ -11,6 +11,7 @@
 	</ol>
 </div>
 <div class="row content" ng-controller="DashboardEditorController" ng-init="init()">
+	<a href="/docs/{{ $doc->slug }}">View document's public view</a>
 	<div class="col-md-12">
 	{{ Form::open(array('url' => 'dashboard/docs/' . $doc->id, 'method' => 'put', 'id'=>'doc_content_form',
 		'class' => 'form-horizontal', 'style' => 'style="padding: 0 50px; border: 1px dotted lightgray;"')) }}
