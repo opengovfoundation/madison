@@ -110,14 +110,22 @@ function HomePageController($scope, $http, $filter){
 	$scope.sponsors = [];
 	$scope.statuses = [];
 	$scope.dates = [];
+	$scope.dateSort;
 	$scope.select2;
+	$scope.docSort = "created_at";
 
 	$scope.init = function(){
 		$scope.getDocs();
 
 		$scope.select2Config = {
 			multiple: true,
-			allowClear: true
+			allowClear: true,
+			placeholder: "Filter documents by category, sponsor, or status"
+		};
+
+		$scope.dateSortConfig = {
+			allowClear: true,
+			placeholder: "Sort By Date"
 		};
 	};
 

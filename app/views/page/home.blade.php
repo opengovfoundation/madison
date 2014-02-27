@@ -2,7 +2,7 @@
 	<h1>Welcome to Madison</h1>
 </div>
 <div class="row" ng-controller="HomePageController" ng-init="init()">
-	<select ui-select2="select2Config" ng-model="select2" placeholder="Filter documents by category, sponsor, or status">
+	<select ui-select2="select2Config" ng-model="select2">
 		<option value=""></option>
 		<optgroup label="Category">
 			<option value="<% category %>" ng-repeat="category in categories | unique"><% category %></option>
@@ -14,8 +14,15 @@
 			<option value="<% status.id%>" ng-repeat="status in statuses | unique"><% status.label%></option>
 		</optgroup>
 	</select>
+	<select ui-select2="dateSortConfig" id="dateSortSelect" ng-model="dateSort">
+		<option value=""></option>
+		<option value="created_at">Date Posted</option>
+		<option value="updated_at">Last Updated</option>
+		<!-- <option value="">First Action</option> -->
+
+	</select>
 	<ul>
-		<li ng-repeat="doc in docs" ng-show="docFilter(doc)">
+		<li ng-repeat="doc in docs | orderBy:dateSort:reverse" ng-show="docFilter(doc)">
 			<a href="/docs/<% doc.slug %>">
 				<% doc.title %>
 			</a>
