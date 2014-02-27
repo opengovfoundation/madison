@@ -1,6 +1,6 @@
 <?php
 
-class PagesTest extends Illuminate\Foundation\Testing\TestCase {
+class PageTest extends TestCase {
 
 	/**
 	 * Tests Static Pages
