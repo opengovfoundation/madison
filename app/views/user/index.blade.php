@@ -8,7 +8,7 @@
 			<span class="user-created-date">Member since <% user.created_at | date:'mediumDate'  %></span>
 		</div>
 		<div class="row">
-			<tabset justified="true">
+			<tabset>
 				<tab heading="sponsored" ng-show="showVerified()">
 					<ul class="user-sponsored-docs">
 						<li class="user-sponsored-doc" ng-repeat="doc in docs">
