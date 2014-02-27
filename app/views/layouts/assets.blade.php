@@ -7,7 +7,7 @@
 {{ HTML::style('css/style.css') }}
 
 <!-- Scripts -->
-{{ HTML::script('vendor/jquery/jquery-1.10.2.js') }}
+{{ HTML::script('vendor/jquery/jquery-1.10.2.min.js') }}
 {{ HTML::script('vendor/jquery/jquery.browser.min.js') }}
 {{ HTML::script('vendor/bootstrap/js/bootstrap.min.js') }}
 {{ HTML::script('vendor/modernizr-latest.js') }}
