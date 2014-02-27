@@ -16,4 +16,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		return require __DIR__.'/../../bootstrap/start.php';
 	}
 
+	public function testStaticPages(){
+		$this->call('GET', '/');
+		$this->assertResponseOk();
+
+		$this->call('GET', '/about');
+		$this->assertResponseOk();
+
+		$this->call('GET', '/faq');
+		$this->assertResponseOk();
+
+
+	}	
+
 }

@@ -9,11 +9,11 @@ class ElasticSearchTest extends TestCase {
 	 */
 	public function testAlive()
 	{
-		$params = array('hosts'=> array('localhost:9200'));
+		$params = array('hosts'=> Config::get('elasticsearch.hosts'));
 
 		$es = new Elasticsearch\Client($params);
 
-		$this->assertTrue($es->ping());
+		$this->assertTrue($es->ping(), 'Elasticsearch not running.');
 	}
 
 }
