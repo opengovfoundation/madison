@@ -34,7 +34,7 @@ class DocumentApiController extends ApiController{
 	}
 
 	public function getDocs(){
-		$docs = Doc::with('categories')->with('sponsor')->with('statuses')->orderBy('updated_at', 'DESC')->get();
+		$docs = Doc::with('categories')->with('sponsor')->with('statuses')->with('dates')->orderBy('updated_at', 'DESC')->get();
 
 		foreach($docs as $doc){
 			$doc->setActionCount();

@@ -22,6 +22,9 @@
 			<div class="list-doc-info">
 				<span class="doc-created-date">Posted <% doc.created_at | date:'mediumDate' %></span>
 				<span class="doc-updated-date">Updated <% doc.updated_at | date:'mediumDate' %></span>
+				<span class="doc-dates">
+					<span class="date" ng-repeat="date in doc.dates"><% date.label %> on <% date.date | date:'mediumDate' %></span>
+				</span>
 				<span class="doc-categories">
 					<span class="category" ng-repeat="category in doc.categories"><% category.name %></span>
 				</span>

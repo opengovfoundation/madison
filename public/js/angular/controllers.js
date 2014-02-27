@@ -109,6 +109,7 @@ function HomePageController($scope, $http, $filter){
 	$scope.categories = [];
 	$scope.sponsors = [];
 	$scope.statuses = [];
+	$scope.dates = [];
 	$scope.select2;
 
 	$scope.init = function(){
@@ -188,6 +189,10 @@ function HomePageController($scope, $http, $filter){
 						$scope.statuses.push(status);
 					}
 				});
+
+				angular.forEach(doc.dates, function(date){
+					date.date = Date.parse(date.date);
+				})
 			});
 
 		})
