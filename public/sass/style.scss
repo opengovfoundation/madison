@@ -314,7 +314,7 @@ textarea.form-inline{
 	}
 	ul{
 		list-style: none;
-		margin-top: 20px;
+		margin-top: 40px;
 		padding: 0px 0px;
 		@include box-sizing(border-box);
 		li{
@@ -326,7 +326,7 @@ textarea.form-inline{
 				font-weight: bold;
 				font-size:1.2em;
 				color: #444;
-				line-height: 180%;
+				line-height: 140%;
 				&:hover{
 					color: #111;
 					text-decoration: underline;
@@ -335,6 +335,7 @@ textarea.form-inline{
 			.list-doc-info{
 				color: #999;
 				font-size: .9em;
+				margin-top: 4px;
 				span{
 					//border-right: 2px solid #cccccc;
 					padding-right: 10px;
@@ -396,12 +397,13 @@ textarea.form-inline{
 
 .select2-container{
 	width:72%;
+	float: left;
 }
 
 #s2id_dateSortSelect{
 	//margin-left: 8px;
-	width: 25%;
 	float: right;
+	width: 25%;
 }
 
 .user-gravatar{
