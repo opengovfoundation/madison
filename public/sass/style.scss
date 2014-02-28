@@ -319,7 +319,8 @@ textarea.form-inline{
 				color: #999;
 				font-size: .9em;
 				span{
-					
+					//border-right: 2px solid #cccccc;
+					padding-right: 10px;
 				}
 				.doc-created-date{
 
@@ -339,34 +340,39 @@ textarea.form-inline{
 					display: block;
 					padding: 3px 8px 4px 8px;
 				}
-
-				span.doc-categories{
-					padding-right: 0px;
-					margin-right: 0px;
-				}
-
-				.category{
-					background: #999;
-					color: #FFF;
-					@include border-radius(2px);
-					text-align: center;
-					font-weight: bold;
-					padding: 3px 6px 4px 5px;
-					font-size: .8em;
-					margin-left: 3px;
-				}
-
+			}
+			.doc-categories{
+				padding-right: 0px;
+				margin-right: 0px;
+				position: relative;
+				top: -2px;
+			}
+			.category{
+				background: #999;
+				color: #FFF;
+				@include border-radius(2px);
+				text-align: center;
+				font-weight: bold;
+				padding: 3px 6px 4px 6px;
+				font-size: .8em;
+				margin-left: 4px;
+			}
+			.doc-statuses{
+				position: relative;
+				top: -2px;
 				.status{
 					background: #489EF9;
 					color: #FFF;
 					@include border-radius(2px);
 					text-align: center;
 					font-weight: bold;
-					padding: 3px 6px 4px 5px;
+					padding: 3px 6px 4px 6px;
 					font-size: .8em;
 					margin-right: 4px;
 				}
 			}
+			
+
 		}
 	}
 }
