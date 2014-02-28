@@ -9,13 +9,17 @@
             "url": "https://github.com/changwuf31/remote"
         }
     ],
+    "require-dev":{
+    	"anahkiasen/rocketeer": "dev-master",
+    	"loic-sharma/profiler": "1.1.*",
+    	"way/guard-laravel": "dev-master",
+    	"way/phpunit-wrappers": "dev-master"
+    },
 	"require": {
 		"laravel/framework": "4.1.*",
 		"roumen/sitemap": "dev-master",
-		"loic-sharma/profiler": "1.1.*",
 		"elasticsearch/elasticsearch": "~0.4",
 		"illuminate/remote": "4.1.*",
-		"anahkiasen/rocketeer": "dev-master",
 		"graham-campbell/markdown": "1.0.*"
 	},
 	"autoload": {

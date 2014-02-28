@@ -1,5 +1,8 @@
 <?php
 
+use Way\Tests\Assert;
+use Way\Tests\Should;
+
 class PageTest extends TestCase {
 
 	/**

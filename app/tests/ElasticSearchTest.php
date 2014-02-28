@@ -7,7 +7,7 @@ class ElasticSearchTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testAlive()
+	public function testElasticsearchIsAlive()
 	{
 		$params = array('hosts'=> Config::get('elasticsearch.hosts'));
 
