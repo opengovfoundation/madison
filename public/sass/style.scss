@@ -19,7 +19,18 @@
 
 @include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
 
+/* Bootstrap Overrides */
 
+.content{
+	@include box-sizing(border-box);
+	padding: 0px;
+}
+.row{
+	margin-right: inherit;
+	margin-left: inherit;
+}
+
+/* End Bootstrap Overrides*/
 
 body{
 	background: url(../img/grey.png) repeat;
@@ -118,7 +129,7 @@ textarea.form-inline{
 
 	h1, h2 {
 		margin: 0;
-		text-align: center;
+		// text-align: center;
 		color: #459ffe;
 	}
 
@@ -278,10 +289,11 @@ textarea.form-inline{
 .content{
 	// @include single-box-shadow(black, 1em, 1em, 1em, -1em);
 
-	// @include box-sizing(border-box);
+	
 
 	background:white;
-	padding:20px;
+	padding: 30px;
+	@include box-sizing(border-box);
 	border: 1px solid #f0f0f0;
 	@include border-radius(4px);
 
@@ -297,14 +309,19 @@ textarea.form-inline{
 }
 
 .content.col-md-12 .row{
+	h1{
+		margin-bottom: 45px;
+	}
 	ul{
 		list-style: none;
 		margin-top: 20px;
-		padding: 0px 20px;
+		padding: 0px 0px;
+		@include box-sizing(border-box);
 		li{
 			border-top: 1px solid #ccc;
 			padding: 12px 10px;
 			position: relative;
+			@include box-sizing(border-box);
 			a{
 				font-weight: bold;
 				font-size:1.2em;
@@ -378,8 +395,13 @@ textarea.form-inline{
 }
 
 .select2-container{
-	margin-left: 20px;
-	width: 85%;
+	width:72%;
+}
+
+#s2id_dateSortSelect{
+	//margin-left: 8px;
+	width: 25%;
+	float: right;
 }
 
 .user-gravatar{
