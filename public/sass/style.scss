@@ -406,6 +406,10 @@ textarea.form-inline{
 	width: 25%;
 }
 
+.user-info h1{
+	margin-bottom: 5px !important;
+}
+
 .user-gravatar{
 	display: inline-block;
 	margin-right:10px;
@@ -448,23 +452,64 @@ h1.user-name{
 		padding: 0px;
 		a{	
 			color: #999;
+			border:none;
 			&:hover{
 				cursor: pointer;
 				text-decoration: none;
 				color: inherit;
+
 			}
 		}
 	}
 	li.active{
 		a{
-			color: inherit;
+			color: #FFFFFF;
+			background: #489EF9;
+			border: none;
+			padding-bottom: 10px;
 			&:hover{
-				color: inherit;
+				color: #FFF;
 			}
 		}
 
 	}
 }
+
+.content.col-md-12 .row ul.user-sponsored-docs{
+	margin-top: 0px;
+	li{
+		border-top: none;
+		border-bottom: 1px solid #ccc;
+	}
+}
+
+.content.col-md-12 .row ul.user-activity-items{
+	margin-top: 0px;
+	li{
+		border-top: none;
+		border-bottom: 1px solid #ccc;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		blockquote{
+			margin-bottom: 5px;
+			background: #DEEEFF;
+			border: none;
+			padding: 10px 15px;
+			margin-top: 5px;
+			@include border-radius(4px);
+		}
+		a{
+			font-size: 1em !important;
+			text-decoration: underline !important;
+		}
+		.user-activity-title{
+			font-size: 1em !important;
+
+		}
+	}
+}
+
+
 
 .leftbar{
 	position:relative;
