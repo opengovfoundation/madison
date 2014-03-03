@@ -104,6 +104,12 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/user/verify/', 'UserApiController@postVerify');
     Route::get('api/user/admin/', 'UserApiController@getAdmins');
     Route::post('api/user/admin/', 'UserApiController@postAdmin');
+    // User Login / Signup AJAX requests
+    Route::get('api/user/login', 'UserManageApiController@getLogin');
+    Route::post('api/user/login', 'UserManageApiController@postLogin');
+    Route::get('api/user/signup', 'UserManageApiController@getSignup');
+    Route::post('api/user/signup', 'UserManageApiController@postSignup');
+
 
 
 //Logout Route
