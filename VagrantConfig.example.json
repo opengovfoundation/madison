@@ -1,0 +1,17 @@
+{
+    "ipAddress" : "192.168.42.70",
+    "vmMemory" : "512",
+    "siteDomain" : "dev.example.com",
+    "phpVersion" : "5.4",
+    "aws" : {
+        "accessKey" : "",
+        "secretKey" : "",
+        "instanceType" : "t1.micro",
+        "region" : "us-east-1",
+        "elasticIP" : "",
+        "name" : "Skeleton",
+        "ami" : "ami-d0f89fb9",
+        "keyPair" : "example",
+        "securityGroups" : []
+    }
+}
