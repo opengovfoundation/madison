@@ -8,7 +8,7 @@ Route::pattern('annotation', '[0-9a-zA-Z_-]+');
 Route::pattern('comment', '[0-9a-zA-Z_-]+');
 Route::pattern('doc', '[0-9]+');
 Route::pattern('user', '[0-9]+');
-
+Route::pattern('date', '[0-9]+');
 
 /**
 *   Route - Model bindings
@@ -94,6 +94,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus');
     Route::get('api/docs/{doc}/dates', 'DocumentApiController@getDates');
     Route::post('api/docs/{doc}/dates', 'DocumentApiController@postDate');
+    Route::delete('api/docs/{doc}/dates/{date}', 'DocumentApiController@deleteDate');
     Route::get('api/docs/{doc}', 'DocumentApiController@getDoc');
     Route::post('api/docs/{doc}', 'DocumentApiController@postDoc');
     Route::get('api/docs/', 'DocumentApiController@getDocs');
