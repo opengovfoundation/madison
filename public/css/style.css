@@ -39,12 +39,6 @@ html, body {
   padding: 0px;
 }
 
-/* line 28, ../sass/style.scss */
-.row {
-  margin-right: inherit;
-  margin-left: inherit;
-}
-
 /* End Bootstrap Overrides*/
 /* line 35, ../sass/style.scss */
 body {
@@ -893,35 +887,79 @@ input[type="search"].dark-search {
   margin-left: 20px;
 }
 
+/* Annotation Login Styling
+--------------------------------*/
+/* line 733, ../sass/style.scss */
+.popup {
+  background: #fafafa;
+  padding: 12px 12px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+
+/* line 742, ../sass/style.scss */
+.unauthed-popup .errors ul {
+  list-style: none;
+  padding: 0;
+}
+/* line 745, ../sass/style.scss */
+.unauthed-popup .errors ul li {
+  background: #F9F2F4;
+  color: #c7254e;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 3px 6px;
+  margin-bottom: 4px;
+}
+/* line 754, ../sass/style.scss */
+.unauthed-popup .row {
+  min-width: 300px;
+}
+/* line 757, ../sass/style.scss */
+.unauthed-popup .row .form-group input {
+  margin-top: 0px;
+}
+/* line 765, ../sass/style.scss */
+.unauthed-popup #login {
+  margin-right: 3px;
+}
+
 /* Annotator Plugin Styling
 --------------------------------*/
-/* line 732, ../sass/style.scss */
+/* line 780, ../sass/style.scss */
 .glyphicon {
   font-family: 'Glyphicons Halflings' !important;
 }
-/* line 735, ../sass/style.scss */
+/* line 783, ../sass/style.scss */
 .glyphicon.selected {
   color: blue;
 }
-/* line 739, ../sass/style.scss */
+/* line 787, ../sass/style.scss */
 .glyphicon.logged-in {
   cursor: pointer;
 }
-/* line 743, ../sass/style.scss */
+/* line 791, ../sass/style.scss */
 .glyphicon .action-count:before {
   content: '(';
 }
-/* line 747, ../sass/style.scss */
+/* line 795, ../sass/style.scss */
 .glyphicon .action-count:after {
   content: ')';
 }
 
-/* line 752, ../sass/style.scss */
+/* line 800, ../sass/style.scss */
 .comment-toggle {
   cursor: pointer;
 }
 
-/* line 756, ../sass/style.scss */
+/* line 804, ../sass/style.scss */
 .caret-right {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
@@ -930,16 +968,16 @@ input[type="search"].dark-search {
   transform: rotate(-90deg);
 }
 
-/* line 760, ../sass/style.scss */
+/* line 808, ../sass/style.scss */
 .annotation-action > span {
   margin: 0 5px;
 }
 
-/* line 765, ../sass/style.scss */
+/* line 813, ../sass/style.scss */
 .annotation-comments input[type="text"] {
   padding-left: 10px;
 }
-/* line 769, ../sass/style.scss */
+/* line 817, ../sass/style.scss */
 .annotation-comments .btn {
   margin-top: 5px;
   padding: 0px 10px;
@@ -950,7 +988,7 @@ input[type="search"].dark-search {
   background-image: linear-gradient(#428bca, #3071a9);
   color: white;
 }
-/* line 775, ../sass/style.scss */
+/* line 823, ../sass/style.scss */
 .annotation-comments .btn:hover {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #68a2d5), color-stop(100%, #488fcb));
   background-image: -webkit-linear-gradient(#68a2d5, #488fcb);
@@ -959,27 +997,27 @@ input[type="search"].dark-search {
   background-image: linear-gradient(#68a2d5, #488fcb);
 }
 
-/* line 781, ../sass/style.scss */
+/* line 829, ../sass/style.scss */
 .current-comments {
   max-height: 200px;
   overflow-y: scroll;
 }
 
 /** Sidebar Styling **/
-/* line 788, ../sass/style.scss */
+/* line 836, ../sass/style.scss */
 .sidebar-annotation {
   background: #fffac1;
   color: black;
 }
-/* line 792, ../sass/style.scss */
+/* line 840, ../sass/style.scss */
 .sidebar-annotation a {
   color: black;
 }
-/* line 795, ../sass/style.scss */
+/* line 843, ../sass/style.scss */
 .sidebar-annotation a:hover {
   color: lightgray;
 }
-/* line 800, ../sass/style.scss */
+/* line 848, ../sass/style.scss */
 .sidebar-annotation blockquote {
   margin-bottom: 0;
   border-bottom: 1px dotted darkgray;
@@ -987,31 +1025,31 @@ input[type="search"].dark-search {
   border-left: none;
 }
 
-/* line 808, ../sass/style.scss */
+/* line 856, ../sass/style.scss */
 .sidebar-annotation-wrapper {
   max-height: 300px;
   overflow: scroll;
   border: 3px solid #4b4b4b;
 }
 
-/* line 813, ../sass/style.scss */
+/* line 861, ../sass/style.scss */
 .sidebar-comment-label {
   cursor: pointer;
 }
 
-/* line 817, ../sass/style.scss */
+/* line 865, ../sass/style.scss */
 .sidebar-comment-thread {
   margin-left: 10px;
 }
 
-/* line 822, ../sass/style.scss */
+/* line 870, ../sass/style.scss */
 .participate-comments .comment-thread {
   margin-top: 20px;
   border-top: 1px dotted lightgray;
   max-height: 300px;
   overflow: scroll;
 }
-/* line 828, ../sass/style.scss */
+/* line 876, ../sass/style.scss */
 .participate-comments .comment-thread blockquote {
   margin-bottom: 0;
   border-bottom: 1px dotted darkgray;
