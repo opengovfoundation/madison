@@ -16,6 +16,7 @@
 @import "variables";
 @import "mixins";
 @import "helpers";
+@import "dashboard"; 
 
 @include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
 
@@ -25,12 +26,7 @@
 	@include box-sizing(border-box);
 	padding: 0px;
 }
-.row{
-	//margin-right: inherit;
-	//margin-left: inherit;
-}
 
-/* End Bootstrap Overrides*/
 
 body{
 	background: url(../img/grey.png) repeat;

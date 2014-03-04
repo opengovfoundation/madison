@@ -501,6 +501,18 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 		}
 	};
 
+	$scope.deleteDate = function(date){
+		console.log(date);
+
+		$http.delete('/api/docs/' + $scope.doc.id + '/dates/' + date.id)
+		.success(function(data){
+			var index = $scope.dates.indexOf(date);
+			$scope.dates.splice(index, 1);
+		}).error(function(data){
+			console.error("Unable to delete date: %o", date);
+		});
+	};
+
 	$scope.getDocDates = function(){
 		$http.get('/api/docs/' + $scope.doc.id + '/dates')
 		.success(function(data){

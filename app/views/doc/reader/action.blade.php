@@ -20,6 +20,9 @@
 	{{ Form::close() }}
 @else
 	<div class="md-col-12">
+	<p id="action-intro" class="action-intro">Select part of the document to make an edit or comment.
+		<span class="glyphicon glyphicon-info-sign init-popover" data-toggle="popover" data-original-title="Adding Notes" data-content="Select any part of the document on the left.  When the annotation button appears, click to add your note."></span>
+	</p>
 	<p style="padding-left:20px; margin-top:10px;" class="gray">Please {{ HTML::link('user/login', 'Login', array('class'=>'underlined')) }} to participate</p>
 	</div>
 @endif
