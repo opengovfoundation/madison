@@ -94,6 +94,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus');
     Route::get('api/docs/{doc}/dates', 'DocumentApiController@getDates');
     Route::post('api/docs/{doc}/dates', 'DocumentApiController@postDate');
+    Route::put('api/dates/{date}', 'DocumentApiController@putDate');
     Route::delete('api/docs/{doc}/dates/{date}', 'DocumentApiController@deleteDate');
     Route::get('api/docs/{doc}', 'DocumentApiController@getDoc');
     Route::post('api/docs/{doc}', 'DocumentApiController@postDoc');

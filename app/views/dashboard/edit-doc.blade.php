@@ -87,7 +87,7 @@
 									<div class="existing-date col-sm-2" ng-repeat="date in dates">
 										<div class="form-group">
 											<a class="close" ng-click="deleteDate(date)">&times;</a>
-											<input class="date-label form-control" value="<% date.label %>" />
+											<input class="date-label form-control" ng-model="date.label" />
 										</div>
 										<div class="dropdown">
 											<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
@@ -97,6 +97,7 @@
 												<datetimepicker ng-model="date.date" datetimepicker-config="{dropdownSelector: '.dropdown-toggle' }"></datetimepicker>
 											</ul>
 										</div>
+										<div class="btn btn-info" ng-show="date.$changed" ng-click="saveDate(date)">Update</div>
 									</div>
 								</div>
 							</div>
