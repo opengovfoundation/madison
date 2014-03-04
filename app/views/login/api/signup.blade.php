@@ -1,8 +1,10 @@
+{{--
 <div class="row">
 	<div class="md-col-12">
 		<h1>Signup</h1>
 	</div>
 </div>
+--}}
 <div class="row">
 	<div class="col-md-10 col-md-offset-1">
 		{{ Form::open(array('url'=>'api/user/signup', 'method'=>'post')) }}
