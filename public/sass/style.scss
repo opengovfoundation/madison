@@ -27,7 +27,6 @@
 	padding: 0px;
 }
 
-/* End Bootstrap Overrides*/
 
 body{
 	background: url(../img/grey.png) repeat;
@@ -723,6 +722,54 @@ input[type="search"].dark-search{
 	font-weight: bold;
 	margin-left: 20px;
 	}
+
+/* Annotation Login Styling
+--------------------------------*/
+
+.popup{
+	background: #fafafa;
+	padding: 12px 12px;
+	border: 1px solid #ccc;
+	@include border-radius(4px);
+}
+
+.unauthed-popup{
+	.errors{
+		ul{
+			list-style: none;
+			padding: 0;
+			li{
+				background: #F9F2F4;
+				color: #c7254e; 
+				@include border-radius(3px);
+				padding: 3px 6px;
+				margin-bottom: 4px;
+			}
+		}
+	}
+	.row{
+		min-width: 300px;
+		.form-group{
+			input{
+				margin-top: 0px;
+			}
+		}
+	}
+	input{
+
+	}
+	#login{
+		margin-right: 3px;
+		&:hover{
+			//background: #306DC4;
+		}
+	}
+	#signup{
+		&:hover{
+			//background: #306DC4;
+		}
+	}
+}
 
 /* Annotator Plugin Styling
 --------------------------------*/
