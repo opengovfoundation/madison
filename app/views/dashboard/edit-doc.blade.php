@@ -28,11 +28,6 @@
 								<textarea class="wmd-input" id="wmd-input" name="content" ng-model="doc.content.content"
 									>{{{ $contentItem->content }}}</textarea>
 								<div id="wmd-preview" class="wmd-panel wmd-preview"></div>
-								<script type="text/javascript">
-									var doc = {
-										id: {{ $doc->id }}
-									}
-								</script>
 							</div>
 						{{ Form::hidden('doc_id', $doc->id) }}
 						<div class="form_actions">
@@ -90,7 +85,10 @@
 								<strong>Existing Dates:</strong>
 								<div class="row">
 									<div class="existing-date col-sm-2" ng-repeat="date in dates">
-										<input class="date-label form-control" value="<% date.label %>" />
+										<div class="form-group">
+											<a class="close" ng-click="deleteDate(date)">&times;</a>
+											<input class="date-label form-control" ng-model="date.label" />
+										</div>
 										<div class="dropdown">
 											<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
 												<% date.date | date:'short' %>
@@ -99,6 +97,7 @@
 												<datetimepicker ng-model="date.date" datetimepicker-config="{dropdownSelector: '.dropdown-toggle' }"></datetimepicker>
 											</ul>
 										</div>
+										<div class="btn btn-info" ng-show="date.$changed" ng-click="saveDate(date)">Update</div>
 									</div>
 								</div>
 							</div>

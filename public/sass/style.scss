@@ -16,6 +16,7 @@
 @import "variables";
 @import "mixins";
 @import "helpers";
+@import "dashboard"; 
 
 @include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
 
@@ -25,12 +26,7 @@
 	@include box-sizing(border-box);
 	padding: 0px;
 }
-.row{
-	margin-right: inherit;
-	margin-left: inherit;
-}
 
-/* End Bootstrap Overrides*/
 
 body{
 	background: url(../img/grey.png) repeat;
@@ -406,6 +402,10 @@ textarea.form-inline{
 	width: 25%;
 }
 
+.user-info h1{
+	margin-bottom: 5px !important;
+}
+
 .user-gravatar{
 	display: inline-block;
 	margin-right:10px;
@@ -448,23 +448,64 @@ h1.user-name{
 		padding: 0px;
 		a{	
 			color: #999;
+			border:none;
 			&:hover{
 				cursor: pointer;
 				text-decoration: none;
 				color: inherit;
+
 			}
 		}
 	}
 	li.active{
 		a{
-			color: inherit;
+			color: #FFFFFF;
+			background: #489EF9;
+			border: none;
+			padding-bottom: 10px;
 			&:hover{
-				color: inherit;
+				color: #FFF;
 			}
 		}
 
 	}
 }
+
+.content.col-md-12 .row ul.user-sponsored-docs{
+	margin-top: 0px;
+	li{
+		border-top: none;
+		border-bottom: 1px solid #ccc;
+	}
+}
+
+.content.col-md-12 .row ul.user-activity-items{
+	margin-top: 0px;
+	li{
+		border-top: none;
+		border-bottom: 1px solid #ccc;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		blockquote{
+			margin-bottom: 5px;
+			background: #DEEEFF;
+			border: none;
+			padding: 10px 15px;
+			margin-top: 5px;
+			@include border-radius(4px);
+		}
+		a{
+			font-size: 1em !important;
+			text-decoration: underline !important;
+		}
+		.user-activity-title{
+			font-size: 1em !important;
+
+		}
+	}
+}
+
+
 
 .leftbar{
 	position:relative;
@@ -681,6 +722,56 @@ input[type="search"].dark-search{
 	font-weight: bold;
 	margin-left: 20px;
 	}
+
+/* Annotation Login Styling
+--------------------------------*/
+
+.popup{
+	background: #fafafa;
+	padding: 12px 12px;
+	border: 1px solid #ccc;
+	@include border-radius(4px);
+}
+
+.unauthed-popup{
+	.errors{
+		ul{
+			list-style: none;
+			padding: 0;
+			li{
+				background: #F9F2F4;
+				color: #c7254e; 
+				@include border-radius(3px);
+				padding: 3px 6px;
+				margin-bottom: 4px;
+			}
+		}
+	}
+	.row{
+		min-width: 300px;
+		padding-top: 28px;
+		padding-bottom: 28px;
+		.form-group{
+			input{
+				margin-top: 0px;
+			}
+		}
+	}
+	input{
+
+	}
+	#login{
+		margin-right: 3px;
+		&:hover{
+			//background: #306DC4;
+		}
+	}
+	#signup{
+		&:hover{
+			//background: #306DC4;
+		}
+	}
+}
 
 /* Annotator Plugin Styling
 --------------------------------*/

@@ -332,7 +332,7 @@ function DashboardSettingsController($scope, $http){
 	};
 }
 
-function DashboardEditorController($scope, $http, $timeout, $location)
+function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 {
 	$scope.doc;
 	$scope.sponsor;
@@ -491,22 +491,57 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 
 	$scope.createDate = function(newDate, oldDate){
 		if($scope.newdate.label != ''){
+			$scope.newdate.date = $filter('date')(newDate, 'short');
+
 			$http.post('/api/docs/' + $scope.doc.id + '/dates', {date: $scope.newdate})
 			.success(function(data){
 				data.date = Date.parse(data.date);
+				data.$changed = false;
 				$scope.dates.push(data);
+
+				$scope.newdate = {label: '', date: new Date()};
 			}).error(function(data){
 				console.error("Unable to save date: %o", data);
 			});
 		}
 	};
 
-	$scope.getDocDates = function(){
-		$http.get('/api/docs/' + $scope.doc.id + '/dates')
+	$scope.deleteDate = function(date){
+		$http.delete('/api/docs/' + $scope.doc.id + '/dates/' + date.id)
 		.success(function(data){
-			angular.forEach(data, function(date){
+			var index = $scope.dates.indexOf(date);
+			$scope.dates.splice(index, 1);
+		}).error(function(data){
+			console.error("Unable to delete date: %o", date);
+		});
+	};
+
+	$scope.saveDate = function(date){
+		var sendDate = angular.copy(date);
+		sendDate.date = $filter('date')(sendDate.date, 'short');
+		
+		return $http.put('/api/dates/' + date.id, {date: sendDate})
+		.success(function(data){
+			date.$changed = false;
+			console.log("Date saved successfully: %o", data);
+		}).error(function(data){
+			console.error("Unable to save date: %o (%o)", date, data);
+		});
+	}
+
+	$scope.getDocDates = function(){
+		return $http.get('/api/docs/' + $scope.doc.id + '/dates')
+		.success(function(data){
+			angular.forEach(data, function(date, index){
 				date.date = Date.parse(date.date);
+				date.$changed = false;
 				$scope.dates.push(angular.copy(date));
+
+				$scope.$watch('dates[' + index + ']', function(newitem, olditem){
+					if(!angular.equals(newitem, olditem) && typeof newitem != 'undefined'){
+						newitem.$changed = true;
+					}
+				}, true);
 			});
 		}).error(function(data){
 			console.error("Error getting dates: %o", data);
@@ -609,7 +644,7 @@ function DashboardEditorController($scope, $http, $timeout, $location)
 *	Dependency Injections
 */
 
-DashboardEditorController.$inject = ['$scope', '$http', '$timeout', '$location'];
+DashboardEditorController.$inject = ['$scope', '$http', '$timeout', '$location', '$filter'];
 DashboardSettingsController.$inject = ['$scope', '$http'];
 DashboardVerifyController.$inject = ['$scope', '$http'];
 

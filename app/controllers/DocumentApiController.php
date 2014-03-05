@@ -163,6 +163,36 @@ class DocumentApiController extends ApiController{
 		return Response::json($returned);
 	}
 
+	public function deleteDate($doc, $date){
+		$date = Date::find($date);
+
+		if(!isset($date)){
+			throw new Exception("Unable to delete date.  Date id $date not found.");
+		}
+
+		$date->delete();
+
+		return Response::json();
+	}
+
+	public function putDate($date){
+		$input = Input::get('date');
+		$date = Date::find($date);
+
+		if(!isset($date)){
+			throw new Exception("unable to update date.  Date id $date not found.");
+		}
+
+		$newDate = date("Y-m-d H:i:s", strtotime((string)$input['date']));
+		
+		$date->label = $input['label'];
+		$date->date = $newDate;
+
+		$date->save();
+
+		return Response::json($date);
+	}
+
 	public function getAllSponsors(){
 		$doc = Doc::with('sponsor')->first();
 		$sponsors = $doc->sponsor;
