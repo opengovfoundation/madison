@@ -79,7 +79,7 @@ class app::webserver {
     }
     
     class { 'elasticsearch' :
-      package_url => 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.0.1.deb',
+      package_url => 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.12.deb',
       require => [ Package['default-jre'] ],
       config => {
           'node' => {
