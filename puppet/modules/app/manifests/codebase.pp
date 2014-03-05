@@ -21,4 +21,5 @@ class app::codebase {
     cwd => "/vagrant",
     logoutput => true
   }
+  
 }

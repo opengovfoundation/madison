@@ -18,9 +18,14 @@ class app::webserver {
         require => [ Class['zendserver'] ]
     }
     
+    package { 'libyaml-dev' :
+        ensure => 'present'
+    }
+    
     exec { "install yaml" :
         command => "yes | pecl install yaml",
-        require => [ Class['zendserver'], File['/usr/local/bin/pecl'] ]
+        creates => '/usr/local/zend/lib/php_extensions/yaml.so',
+        require => [ Class['zendserver'], File['/usr/local/bin/pecl'], Package['libyaml-dev'] ]
     }
     
     file { "/usr/local/zend/etc/conf.d/yaml.ini" :
@@ -67,5 +72,19 @@ class app::webserver {
         onlyif  => "test -L ${apache::params::config_dir}/sites-enabled/000-default",
         notify  => Service['apache'],
         require => Package['apache'],
+    }
+    
+    package { 'default-jre' :
+        ensure => present
+    }
+    
+    class { 'elasticsearch' :
+      package_url => 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.0.1.deb',
+      require => [ Package['default-jre'] ],
+      config => {
+          'node' => {
+              'name' => 'madison'
+          }
+      }
     }
 }
