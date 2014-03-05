@@ -133,10 +133,6 @@ class Annotation{
 		);
 
 		$results = $es->index($params);
-		
-		if(!isset($results['ok']) || !$results['ok']){
-			throw new Exception("Annotation save error: " . $results['error'] . " | status: " . $results['status']);
-		}
 
 		return $results['_id'];
 	}
