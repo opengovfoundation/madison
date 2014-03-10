@@ -46,7 +46,9 @@ class AnnotationApiController extends ApiController{
 		$annotation->body($body);
 
 		$id = $annotation->save();
-
+		
+		$body['id'] = $id;
+		
 		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $id, 303);
 	}
 
@@ -58,15 +60,18 @@ class AnnotationApiController extends ApiController{
 		}
 
 		$body = Input::all();
-
+		
+		
+		
 		$id = Input::get('id');
-
+		
 		$annotation = Annotation::find($id);
 
 		$annotation->body($body);
 
 		$results = $annotation->update();
-
+		$body['id'] = $annotation->id;
+		
 		return Response::json($results);
 	}
 
@@ -155,9 +160,9 @@ class AnnotationApiController extends ApiController{
 		$comment = Input::get('comment');
 
 		$annotation = Annotation::find($annotation);
-
+		
 		$results = $annotation->addComment($comment);
-
+		
 		return Response::json($results);
 	}
 }

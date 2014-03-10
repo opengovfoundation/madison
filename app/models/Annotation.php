@@ -53,7 +53,16 @@ class Annotation{
 			$comment['id'] = $index + 1;
 		}
 
-		return $this->update(false);
+		$retval =  $this->update(false);
+		
+		$dbComment = new AnnotationComment();
+		$dbComment->text = $comment['text'];
+		$dbComment->user_id = $comment['user']['id'];
+		$dbComment->id = $comment['id'];
+		$dbComment->annotation_id = $this->id;
+		$dbComment->save();
+		
+		return $retval;
 	}
 
 	public function setUserAction($user_id){
@@ -104,7 +113,10 @@ class Annotation{
 		}
 
 		$params['body']['doc'] = $body;
-
+		
+		$dbValues = $params['body'];
+		$dbValues['id'] = $params['id'];
+		
 		try{
 			$results = $es->update($params);	
 		}catch(Elasticsearch\Common\Exceptions\Missing404Exception $e){
@@ -112,7 +124,11 @@ class Annotation{
 		}catch(Exception $e){
 			App::abort(404, $e->getMessage());
 		}
-
+		
+		file_put_contents('/tmp/update.txt', var_export($params, true));
+		
+		static::saveAnnotationModel($dbValues);
+		
 		return $results;
 	}
 
@@ -123,6 +139,8 @@ class Annotation{
 			throw new Exception('Annotation body not found.  Cannot save.');
 		}
 
+		$dbValues = $this->body;
+		
 		$this->body['created'] = Carbon::now('America/New_York')->toRFC2822String();
 		$this->body['updated'] = Carbon::now('America/New_York')->toRFC2822String();
 
@@ -134,6 +152,10 @@ class Annotation{
 
 		$results = $es->index($params);
 
+		$dbValues['id'] = $results['_id'];
+		
+		static::saveAnnotationModel($dbValues);
+		
 		return $results['_id'];
 	}
 
@@ -411,6 +433,131 @@ class Annotation{
 		$es = new Elasticsearch\Client($params);
 
 		return $es;
+	}
+	
+	static protected function saveAnnotationModel(array $input)
+	{
+		$retval = DBAnnotation::firstOrNew(array(
+			'id' => $input['id']
+		));
+	
+		if(isset($input['user'])) {
+			$retval->user_id = (int)$input['user']['id'];
+		}
+		
+		$retval->doc = (int)$input['doc'];
+		$retval->id = $input['id'];
+		
+		if(isset($input['quote'])) {
+			$retval->quote = $input['quote'];
+		}
+		
+		if(isset($input['text'])) {
+			$retval->text = $input['text'];
+		}
+		
+		if(isset($input['uri'])) {
+			$retval->uri = $input['uri'];
+		}
+		
+		$retval->likes = isset($input['likes']) ? (int)$input['likes'] : 0;
+		$retval->dislikes = isset($input['dislikes']) ? (int)$input['dislikes'] : 0;
+		$retval->flags = isset($input['flags']) ? (int)$input['flags'] : 0;
+	
+		DB::transaction(function() use ($retval, $input) {
+	
+			$retval->save();
+	
+			if(isset($input['comments']) && is_array($input['comments'])) {
+				foreach($input['comments'] as $comment) {
+		
+					$commentObj = AnnotationComment::firstOrNew(array(
+							'id' => (int)$comment['id'],
+							'annotation_id' => $retval->id,
+							'user_id' => (int)$comment['user']['id']
+					));
+		
+					$commentObj->text = $comment['text'];
+		
+					$commentObj->save();
+				}
+			}
+		
+			$permissions = array();
+	
+			if(isset($input['permissions']) && is_array('permissions')) {
+				foreach($input['permissions']['read'] as $userId) {
+					$userId = (int)$userId;
+		
+					if(!isset($permissions[$userId])) {
+						$permissions[$userId] = array('read' => false, 'update' => false, 'delete' => false, 'admin' => false);
+					}
+						
+					$permissions[$userId]['read'] = true;
+				}
+		
+				foreach($input['permissions']['update'] as $userId) {
+					$userId = (int)$userId;
+		
+					if(!isset($permissions[$userId])) {
+						$permissions[$userId] = array('read' => false, 'update' => false, 'delete' => false, 'admin' => false);
+					}
+						
+					$permissions[$userId]['update'] = true;
+				}
+		
+				foreach($input['permissions']['delete'] as $userId) {
+					$userId = (int)$userId;
+		
+					if(!isset($permissions[$userId])) {
+						$permissions[$userId] = array('read' => false, 'update' => false, 'delete' => false, 'admin' => false);
+					}
+						
+					$permissions[$userId]['delete'] = true;
+				}
+		
+				foreach($input['permissions']['admin'] as $userId) {
+					$userId = (int)$userId;
+		
+					if(!isset($permissions[$userId])) {
+						$permissions[$userId] = array('read' => false, 'update' => false, 'delete' => false, 'admin' => false);
+					}
+						
+					$permissions[$userId]['admin'] = true;
+				}
+			}
+		
+			foreach($permissions as $userId => $perms) {
+				$userId = (int)$userId;
+	
+				$permissionsObj = AnnotationPermission::firstOrNew(array(
+						'annotation_id' => $input['id'],
+						'user_id' => $userId
+				));
+	
+				$permissionsObj->read = (int)$perms['read'];
+				$permissionsObj->update = (int)$perms['update'];
+				$permissionsObj->delete = (int)$perms['delete'];
+				$permissionsObj->admin = (int)$perms['admin'];
+	
+				$permissionsObj->save();
+			}
+	
+			if(isset($input['tags']) && is_array($input['tags'])) {
+				foreach($input['tags'] as $tag) {
+		
+					$tag = AnnotationTag::firstOrNew(array(
+							'annotation_id' => $input['id'],
+							'tag' => strtolower($tag)
+					));
+		
+					$tag->save();
+				}
+			}
+	
+		});
+	
+			return $retval;
 	}
 }
 
