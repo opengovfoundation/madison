@@ -557,7 +557,7 @@ class Annotation{
 	
 		});
 	
-			return $retval;
+		return $retval;
 	}
 }
 
