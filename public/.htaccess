@@ -12,4 +12,11 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+    # Enable Gzip Compression
+    <ifmodule mod_deflate.c>
+        AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript text/javascript
+    </ifmodule>
+    # End Gzip
+
 </IfModule>
