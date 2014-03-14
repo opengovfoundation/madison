@@ -1,0 +1,39 @@
+{
+  "name": "angular-select2",
+  "version": "0.0.0",
+  "description": "Select2 directive for Angular.js",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "grunt ci"
+  },
+  "keywords": [
+    "angular",
+    "select2"
+  ],
+  "author": {
+    "name": "Ruben Vermeersch",
+    "email": "ruben@savanne.be",
+    "url": "http://savanne.be/"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-connect": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-watch": "~0.5.1",
+    "grunt-ngmin": "0.0.3",
+    "grunt-release": "~0.3.5",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-protractor-runner": "~0.2.0",
+    "protractor": "~0.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rubenv/angular-select2.git"
+  }
+}

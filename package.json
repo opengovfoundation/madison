@@ -1,0 +1,29 @@
+{
+  "name": "madison",
+  "version": "0.0.0",
+  "description": "Madison is an open-source, collaborative document editing platform.  While Madison can be used to collaborate on many different kinds of documents, the official version is being built with legislative and policy documents in mind.",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opengovfoundation/madison.git"
+  },
+  "author": "",
+  "license": "GPLv.3",
+  "bugs": {
+    "url": "https://github.com/opengovfoundation/madison/issues"
+  },
+  "homepage": "http://mymadison.io",
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-less": "~0.10.0",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-watch": "~0.6.0",
+    "grunt-phpunit": "~0.3.3",
+    "grunt-contrib-compass": "~0.7.2",
+    "grunt-contrib-jshint": "~0.9.1"
+  }
+}

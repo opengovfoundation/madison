@@ -1,0 +1,12 @@
+<phpunit
+    colors="true"
+    convertErrorsToExceptions="true"
+    strict="false"
+    verbose="false">
+
+    <testsuites>
+      <testsuite name="grunt-phpunit testsuite">
+        <directory suffix="Test.php">./modules/</directory>
+      </testsuite>
+    </testsuites>
+</phpunit>

@@ -1,0 +1,20 @@
+{
+  "name": "angular-select2",
+  "version": "0.0.0",
+  "main": "dist/angular-select2.js",
+  "ignore": [
+    "**/.*",
+    "src",
+    "node_modules",
+    "bower_components",
+    "test",
+    "Gruntfile.coffee"
+  ],
+  "dependencies": {
+    "angular": "~1.2.4",
+    "select2": "~3.4.5"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.2.4"
+  }
+}
