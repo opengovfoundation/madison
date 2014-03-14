@@ -437,6 +437,7 @@ class Annotation{
 	
 	static protected function saveAnnotationModel(array $input)
 	{
+		
 		$retval = DBAnnotation::firstOrNew(array(
 			'id' => $input['id']
 		));
@@ -468,6 +469,21 @@ class Annotation{
 	
 			$retval->save();
 	
+			if(isset($input['ranges'])) {
+				foreach($input['ranges'] as $range) {
+					$rangeObj = AnnotationRange::firstByRangeOrNew(array(
+							'annotation_id' => $retval->id,
+							'start_offset' => $range['startOffset'],
+							'end_offset' => $range['endOffset']
+					));
+					
+					$rangeObj->start = $range['start'];
+					$rangeObj->end = $range['end'];
+					
+					$rangeObj->save();
+				}
+			}
+			
 			if(isset($input['comments']) && is_array($input['comments'])) {
 				foreach($input['comments'] as $comment) {
 		
@@ -485,7 +501,8 @@ class Annotation{
 		
 			$permissions = array();
 	
-			if(isset($input['permissions']) && is_array('permissions')) {
+			if(isset($input['permissions']) && is_array($input['permissions'])) {
+				
 				foreach($input['permissions']['read'] as $userId) {
 					$userId = (int)$userId;
 		

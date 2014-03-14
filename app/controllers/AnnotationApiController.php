@@ -14,27 +14,19 @@ class AnnotationApiController extends ApiController{
 	//	Returns json annotation if id found,
 	//		404 with error message if id not found,
 	//		404 if no id passed
-	public function getIndex($doc, $annotation = null){
+	public function getIndex($docId, $annotationId = null){
 		try{
+			$userId = null;
 			if(Auth::check()){
-				$userid = Auth::user()->id;
-
-				if($annotation !== null){
-					$results = Annotation::findWithActions($annotation, $userid);
-				}else{
-					$results = Annotation::allWithActions($doc, $userid);
-				}
-			}else{
-				if($annotation !== null){
-					$results = Annotation::find($annotation);
-				}else{
-					$results = Annotation::all($doc);
-				}
+				$userId = Auth::user()->id;
 			}
+			
+			$results = DBAnnotation::loadAnnotationsForAnnotator($docId, $annotationId, $userId);
 		}catch(Exception $e){
-			App::abort(404, $e->getMessage());
-		}
-
+			throw $e;
+			App::abort(500, $e->getMessage());
+		} 
+		
 		return Response::json($results);
 	}
 
@@ -46,9 +38,7 @@ class AnnotationApiController extends ApiController{
 		$annotation->body($body);
 
 		$id = $annotation->save();
-		
-		$body['id'] = $id;
-		
+
 		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $id, 303);
 	}
 
@@ -60,18 +50,15 @@ class AnnotationApiController extends ApiController{
 		}
 
 		$body = Input::all();
-		
-		
-		
+
 		$id = Input::get('id');
-		
+
 		$annotation = Annotation::find($id);
 
 		$annotation->body($body);
 
 		$results = $annotation->update();
-		$body['id'] = $annotation->id;
-		
+
 		return Response::json($results);
 	}
 
@@ -160,9 +147,9 @@ class AnnotationApiController extends ApiController{
 		$comment = Input::get('comment');
 
 		$annotation = Annotation::find($annotation);
-		
+
 		$results = $annotation->addComment($comment);
-		
+
 		return Response::json($results);
 	}
 }
