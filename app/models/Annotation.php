@@ -1,453 +1,81 @@
 <?php
-use Carbon\Carbon;
 
-class Annotation{
+class Annotation extends Eloquent
+{
 	const TYPE = 'annotation';
-
-	protected $body;
-	protected $es;
-	protected $index;
-
-	//Annotation format described at https://github.com/okfn/annotator/wiki/Annotation-format
-	public $id;
-	public $annotator_schema_version = 'v1.0';
-	public $created;
-	public $updated;
-	public $text;
-	public $quote;
-	public $uri;
-	public $ranges;
-	public $user;
-	public $consumer = 'Madison';
-	public $tags;
-	public $permissions;
-	public $likes = null;
-	public $dislikes = null;
-	public $flags = null;
-	public $comments = array();
-	public $user_action = null;
-
-	public function __construct($id = null, $source = null){
-		$this->id = $id;
-
-		if(isset($source)){
-			foreach($source as $key => $value){
-				$this->$key = $value;
-			}
-		}
-
-		$this->index = Config::get('elasticsearch.annotationIndex');
-
-		$this->es = self::connect();
-	}
-
-	public function addComment($comment){
-		$es = $this->es;
-
-		$comment['created'] = Carbon::now('America/New_York')->toRFC2822String();
-		$comment['updated'] = Carbon::now('America/New_York')->toRFC2822String();
-
-		array_push($this->comments, $comment);
-
-		foreach($this->comments as $index => &$comment){
-			$comment['id'] = $index + 1;
-		}
-
-		$retval =  $this->update(false);
-		
-		$dbComment = new AnnotationComment();
-		$dbComment->text = $comment['text'];
-		$dbComment->user_id = $comment['user']['id'];
-		$dbComment->id = $comment['id'];
-		$dbComment->annotation_id = $this->id;
-		$dbComment->save();
-		
-		return $retval;
-	}
-
-	public function setUserAction($user_id){
-		$meta = NoteMeta::where('user_id', $user_id)->where('note_id', '=', $this->id)->where('meta_key', '=', 'user_action');
-
-		if($meta->count() == 1){
-			$this->user_action = $meta->first()->meta_value;
-		}
-	}
-
-	public function setActionCounts(){
-		$this->likes = $this->likes();
-		$this->dislikes = $this->dislikes();
-		$this->flags = $this->flags();
-	}
-
-	public function update($updateTimestamp = true){
-		$es = $this->es;
-
-		if($updateTimestamp){
-			$this->updated = Carbon::now('America/New_York')->toRFC2822String();
-		}
-
-		if(isset($body)){
-			foreach($body as $name => $value){
-				$this->$name = $value;
-			}
-		}
-		
-		if(isset($body['user_action'])){
-			unset($body['user_action']);
-		}
-
-		$params = array(
-			'index' => $this->index,
-			'type' 	=> self::TYPE,
-			'id'	=> $this->id,
-		);
-
-		$attributes = new ReflectionClass('Annotation');
-		$attributes = $attributes->getProperties(ReflectionProperty::IS_PUBLIC);
-
-		$body = array();
-
-		foreach($attributes as $attribute){
-			$name = $attribute->name;
-			$body[$name] = $this->$name;
-		}
-
-		$params['body']['doc'] = $body;
-		
-		$dbValues = $params['body'];
-		$dbValues['id'] = $params['id'];
-		
-		try{
-			$results = $es->update($params);	
-		}catch(Elasticsearch\Common\Exceptions\Missing404Exception $e){
-			App::abort(404, 'Id not found');
-		}catch(Exception $e){
-			App::abort(404, $e->getMessage());
-		}
-		
-		file_put_contents('/tmp/update.txt', var_export($params, true));
-		
-		static::saveAnnotationModel($dbValues);
-		
-		return $results;
-	}
-
-	public function save(){
-		$es = $this->es;
-
-		if(!isset($this->body)){
-			throw new Exception('Annotation body not found.  Cannot save.');
-		}
-
-		$dbValues = $this->body;
-		
-		$this->body['created'] = Carbon::now('America/New_York')->toRFC2822String();
-		$this->body['updated'] = Carbon::now('America/New_York')->toRFC2822String();
-
-		$params = array(
-			'index'	=> $this->index,
-			'type'	=> self::TYPE,
-			'body'	=> $this->body
-		);
-
-		$results = $es->index($params);
-
-		$dbValues['id'] = $results['_id'];
-		
-		static::saveAnnotationModel($dbValues);
-		
-		return $results['_id'];
-	}
-
-	public function delete(){
-		$es = self::connect();
-
-		$params = array(
-			'index'	=> $this->index,
-			'type'	=> self::TYPE,
-			'id'	=> $this->id
-		);
-
-		$result = $es->delete($params);
-		
-		if($result['ok'] == true){
-			$metas = NoteMeta::where('note_id', $this->id);
-			$metas->delete();
-		}
-		
-		return $result;
-	}
-
-	/**
-	*	Accessor Functions
-	*/
-
-	public function id($id = null){
-		return $this->access('id', $id);
-	}
-
-	public function created($created = null){
-		return $this->access('created', $created);
-	}
 	
-	public function updated($updated = null){
-		return $this->access('updated', $updated);
-	}
+	const ANNOTATION_CONSUMER = "Madison";
 	
-	public function quote($quote = null){
-		return $this->access('quote', $quote);
-	}
-
-	public function uri($uri = null){
-		return $this->access('uri', $uri);
-	}
+	const ACTION_LIKE = 'like';
+	const ACTION_DISLIKE = 'dislike';
+	const ACTION_FLAG = 'flag';
 	
-	public function ranges($ranges = null){
-		return $this->access('ranges', $ranges);
-	}
+	protected $table = "annotations";
+	protected $fillable = array('quote', 'text', 'uri');
 
-	public function tags($tags = null){
-		return $this->access('tags', $tags);
-	}
+	static protected $_esInstance = null;
+	static protected $_esIndex;
 	
-	public function permissions($permissions = null){
-		return $this->access('permissions', $permissions);
-	}
-
-	public function body($body = null){
-		return $this->access('body', $body);
-	}
-
-	public function text($text = null){
-		return $this->access('text', $text);
-	}
-
-	public function user($user = null){
-		return $this->access('user', $user);
-	}
-
-	public function likes($likes = null){
-		$likes = NoteMeta::where('note_id', $this->id)->where('meta_key', '=', 'user_action')->where('meta_value', '=', 'like')->count();
-
-		return $likes;
-	}
-
-	public function dislikes($disliked = null){
-		$dislikes = NoteMeta::where('note_id', $this->id)->where('meta_key', '=', 'user_action')->where('meta_value', '=', 'dislike')->count();
-
-		return $dislikes;
-	}
-
-	public function flags($flags = null){
-		$flags = NoteMeta::where('note_id', $this->id)->where('meta_key', '=', 'user_action')->where('meta_value', '=', 'flag')->count();
-
-		return $flags;
-	}
-
-	public function comments(){
-		return $this->comments;
-	}
-
-	/**
-	*	Class Helper Functions
-	**/
-	protected function access($attribute, $value){
-		if(isset($value)){
-			$this->$attribute = $value;
-		}else{
-			return $this->$attribute;
-		}
-	}
-
-	/**
-	*	Class Static Functions
-	*/
-
-	public static function find($id){
-		$es = self::connect();
-
-		if($id === null){
-			throw new Exception('Cannot retrieve annotation with null id');
-		}
-
-		$params = array(
-			'index'	=> Config::get('elasticsearch.annotationIndex'),
-			'type'	=> self::TYPE,
-			'id'	=> $id
-		);
-
-		$annotation = $es->get($params);
-		$annotation = new Annotation($id, $annotation['_source']);
-
-		$annotation->setActionCounts();
-
-		return $annotation;
-	}
-
-	public static function findWithActions($id, $userid){
-		$es = self::connect();
-
-		if($id === null){
-			throw new Exception('Cannot retrieve annotation with null id');
-		}
-
-		$params = array(
-			'index'	=> Config::get('elasticsearch.annotationIndex'),
-			'type'	=> self::TYPE,
-			'id'	=> $id
-		);
-
-
-		$annotation = $es->get($params);
-
-		$annotation = new Annotation($id, $annotation['_source']);
-		$annotation->setUserAction($userid);
-		$annotation->setActionCounts();
-		
-		return $annotation;
-	}
-
-	public static function all($docId){
-		$es = self::connect();
-
-		$params = array(
-			'index'	=> Config::get('elasticsearch.annotationIndex'),
-			'type'	=> self::TYPE,
-			'body'	=> array(
-				'query'	=> array(
-					'term'	=> array('doc' => $docId)
-				)
-			)
-		);
-
-		$results = $es->search($params);
-		$results = $results['hits']['hits'];
-		$annotations = array();
-		foreach($results as $annotation){
-			$toPush = new Annotation($annotation['_id'], $annotation['_source']);
-			$toPush->setActionCounts();
-
-			array_push($annotations, $toPush);
-		}
-
-		return $annotations;
-	}
-
-	public static function allWithActions($docId, $userId){
-		$es = self::connect();
-
-		$params = array(
-			'index'	=> Config::get('elasticsearch.annotationIndex'),
-			'type'	=> self::TYPE,
-			'body'	=> array(
-				'query'	=> array(
-					'term'	=> array('doc' => $docId)
-				)
-			)
-		);
-
-		$results = $es->search($params);
-		$results = $results['hits']['hits'];
-		$annotations = array();
-		foreach($results as $annotation){
-			$toPush = new Annotation($annotation['_id'], $annotation['_source']);
-			$toPush->setUserAction($userId);
-			$toPush->setActionCounts();
-
-			array_push($annotations, $toPush);
-		}
-
-		return $annotations;
-	}
-
-	public static function getMetaCount($id, $action){
-		$es = self::connect();
-
-		if($id === null){
-			App::abort(404, 'No note id passed');
-		}
-
-		$annotation = Annotation::find($id);
-
-		$action_count = $annotation->$action();
-
-		return $action_count;
-	}
-
-	public static function addUserAction($note_id, $user_id, $action){
-		$es = self::connect();
-
-		if($note_id == null || $user_id == null || $action == null){
-			throw new Exception('Unable to add user action.');
-		}
-
-		$toReturn = array(
-		                  'action' 		=> null,
-		                  'likes'		=> -1,
-		                  'dislikes'	=> -1,
-		                  'flags'		=> -1
-		            );
-
-		$annotation = Annotation::find($note_id);
-
-		$meta = NoteMeta::where('user_id', $user_id)->where('note_id', '=', $note_id)->where('meta_key', '=', 'user_action');
-
-		//This user has no actions on this annotation
-		if($meta->count() == 0){
-			$meta = new NoteMeta();
-			$meta->user_id = Auth::user()->id;
-			$meta->note_id = $note_id;
-			$meta->meta_key = 'user_action';
-			$meta->meta_value = $action;
-
-			$meta->save();
-
-			$toReturn['action'] = true;
-		}elseif($meta->count() == 1){
-			$meta = $meta->first();
-
-			//This user has already done this action.  Removing the action
-			if($meta->meta_value == $action){
-				$meta->delete();
-
-				$toReturn['action'] = false;
-			}else{
-				$meta->meta_value = $action;	
-				$meta->save();
-
-				$toReturn['action'] = true;
-			}
-		}else{
-			throw new Exception('Multiple user actions were found');
-		}
-
-		$toReturn['likes'] = $annotation->likes();
-		$toReturn['dislikes'] = $annotation->dislikes();
-		$toReturn['flags'] = $annotation->flags();
-
-		return $toReturn;
-	}
-
-	protected static function connect(){
-		$params['hosts'] = Config::get('elasticsearch.hosts');
-		$es = new Elasticsearch\Client($params);
-
-		return $es;
-	}
-	
-	static protected function saveAnnotationModel(array $input)
+	static public function getEsClient()
 	{
-		
-		$retval = DBAnnotation::firstOrNew(array(
-			'id' => $input['id']
-		));
+		static::connectToEs();
+		return static::$_esInstance;
+	}
 	
-		if(isset($input['user'])) {
-			$retval->user_id = (int)$input['user']['id'];
+	static public function setEsIndex($index)
+	{
+		static::$_esIndex = $index;
+	}
+	
+	static public function getEsIndex()
+	{
+		return static::$_esIndex;
+	}
+	
+	static public function connectToEs()
+	{
+		if(is_null(static::$_esInstance)) {
+			$params = array(
+				'hosts' => Config::get('elasticsearch.hosts')
+			);
+			
+			static::$_esInstance = new ElasticSearch\Client($params);
+		}
+		
+		static::setEsIndex(Config::get('elasticsearch.annotationIndex'));
+		
+		return static::$_esInstance;
+		
+	}
+	
+	public function comments()
+	{
+		return $this->hasMany('AnnotationComment', 'annotation_id');
+	}
+	
+	public function tags()
+	{
+		return $this->hasMany('AnnotationTag', 'annotation_id');
+	}
+	
+	public function permissions()
+	{
+		return $this->hasMany('AnnotationPermission', 'annotation_id');
+	}
+	
+	static public function createFromAnnotatorArray(array $input)
+	{
+		if(isset($input['id'])) {
+			$retval = static::firstOrNew(array('id' => $input['id']));
+		} else {
+			$retval = new static();
 		}
 		
 		$retval->doc = (int)$input['doc'];
-		$retval->id = $input['id'];
+		
+		if(isset($input['user']) && is_array($input['user'])) {
+			$retval->user_id = (int)$input['user']['id'];
+		}
 		
 		if(isset($input['quote'])) {
 			$retval->quote = $input['quote'];
@@ -461,14 +89,10 @@ class Annotation{
 			$retval->uri = $input['uri'];
 		}
 		
-		$retval->likes = isset($input['likes']) ? (int)$input['likes'] : 0;
-		$retval->dislikes = isset($input['dislikes']) ? (int)$input['dislikes'] : 0;
-		$retval->flags = isset($input['flags']) ? (int)$input['flags'] : 0;
-	
 		DB::transaction(function() use ($retval, $input) {
-	
+		
 			$retval->save();
-	
+		
 			if(isset($input['ranges'])) {
 				foreach($input['ranges'] as $range) {
 					$rangeObj = AnnotationRange::firstByRangeOrNew(array(
@@ -476,14 +100,14 @@ class Annotation{
 							'start_offset' => $range['startOffset'],
 							'end_offset' => $range['endOffset']
 					));
-					
+						
 					$rangeObj->start = $range['start'];
 					$rangeObj->end = $range['end'];
-					
+						
 					$rangeObj->save();
 				}
 			}
-			
+				
 			if(isset($input['comments']) && is_array($input['comments'])) {
 				foreach($input['comments'] as $comment) {
 		
@@ -500,16 +124,16 @@ class Annotation{
 			}
 		
 			$permissions = array();
-	
+		
 			if(isset($input['permissions']) && is_array($input['permissions'])) {
-				
+		
 				foreach($input['permissions']['read'] as $userId) {
 					$userId = (int)$userId;
 		
 					if(!isset($permissions[$userId])) {
 						$permissions[$userId] = array('read' => false, 'update' => false, 'delete' => false, 'admin' => false);
 					}
-						
+		
 					$permissions[$userId]['read'] = true;
 				}
 		
@@ -519,7 +143,7 @@ class Annotation{
 					if(!isset($permissions[$userId])) {
 						$permissions[$userId] = array('read' => false, 'update' => false, 'delete' => false, 'admin' => false);
 					}
-						
+		
 					$permissions[$userId]['update'] = true;
 				}
 		
@@ -529,7 +153,7 @@ class Annotation{
 					if(!isset($permissions[$userId])) {
 						$permissions[$userId] = array('read' => false, 'update' => false, 'delete' => false, 'admin' => false);
 					}
-						
+		
 					$permissions[$userId]['delete'] = true;
 				}
 		
@@ -539,42 +163,243 @@ class Annotation{
 					if(!isset($permissions[$userId])) {
 						$permissions[$userId] = array('read' => false, 'update' => false, 'delete' => false, 'admin' => false);
 					}
-						
+		
 					$permissions[$userId]['admin'] = true;
 				}
 			}
 		
 			foreach($permissions as $userId => $perms) {
 				$userId = (int)$userId;
-	
+		
 				$permissionsObj = AnnotationPermission::firstOrNew(array(
-						'annotation_id' => $input['id'],
-						'user_id' => $userId
+					'annotation_id' => $retval->id,
+					'user_id' => $userId
 				));
-	
+		
 				$permissionsObj->read = (int)$perms['read'];
 				$permissionsObj->update = (int)$perms['update'];
 				$permissionsObj->delete = (int)$perms['delete'];
 				$permissionsObj->admin = (int)$perms['admin'];
-	
+		
 				$permissionsObj->save();
 			}
-	
+		
 			if(isset($input['tags']) && is_array($input['tags'])) {
 				foreach($input['tags'] as $tag) {
 		
+					AnnotationTag::where('annotation_id', '=', $retval->id)->delete();
+					
 					$tag = AnnotationTag::firstOrNew(array(
-							'annotation_id' => $input['id'],
-							'tag' => strtolower($tag)
+						'annotation_id' => $retval->id,
+						'tag' => strtolower($tag)
 					));
 		
 					$tag->save();
 				}
 			}
-	
+		
 		});
+		
+		return $retval;
+		
+	}
 	
+	public function toAnnotatorArray()
+	{
+		$item = $this->toArray();
+		$item['created'] = $item['created_at'];
+		$item['updated'] = $item['updated_at'];
+		$item['annotator_schema_version'] = 'v1.0';
+		$item['ranges'] = array();
+		$item['tags'] = array();
+		$item['comments'] = array();
+		$item['permissions'] = array(
+			'read' => array(),
+			'update' => array(),
+			'delete' => array(),
+			'admin' => array()
+		);
+		
+		$comments = AnnotationComment::where('annotation_id', '=', $item['id'])->get();
+		
+		foreach($comments as $comment) {
+			$user = User::find($comment['user_id']);
+			
+			$item['comments'][] = array(
+				'id' => $comment->id,
+				'text' => $comment->text,
+				'created' => $comment->created_at->toRFC2822String(),
+				'updated' => $comment->updated_at->toRFC2822String(),
+				'user' => array(
+					'id' => $user->id,
+					'user_level' => $user->user_level,
+					'email' => $user->email,
+					'name' => "{$user->fname} {$user->lname[0]}"
+				)
+			);
+		}
+		
+		$ranges = AnnotationRange::where('annotation_id', '=', $item['id'])->get();
+			
+		foreach($ranges as $range) {
+			$item['ranges'][] = array(
+				'start' => $range['start'],
+				'end' => $range['end'],
+				'startOffset' => $range['start_offset'],
+				'endOffset' => $range['end_offset']
+			);
+		}
+			
+		$user = User::where('id', '=', $item['user_id'])->first();
+		$item['user'] = array_intersect_key($user->toArray(), array_flip(array('id', 'email', 'user_level')));
+		$item['user']['name'] = $user->fname . ' ' . $user->lname{0};
+			
+		$item['consumer'] = static::ANNOTATION_CONSUMER;
+			
+		$tags = AnnotationTag::where('annotation_id', '=', $item['id'])->get();
+		
+		foreach($tags as $tag) {
+			$item['tags'][] = $tag->tag;
+		}
+			
+		$permissions = AnnotationPermission::where('annotation_id', '=', $item['id'])->get();
+			
+		foreach($permissions as $perm) {
+			if($perm->read) {
+				$item['permissions']['read'][] = $perm['user_id'];
+			}
+		
+			if($perm->update) {
+				$item['permissions']['update'][] = $perm['user_id'];
+			}
+		
+			if($perm->delete) {
+				$item['permissions']['delete'][] = $perm['user_id'];
+			}
+		
+			if($perm->admin) {
+				$item['permissions']['admin'][] = $perm['user_id'];
+			}
+		}
+		
+		$item['likes'] = $this->likes();
+		$item['dislikes'] = $this->dislikes();
+		$item['flags'] = $this->flags();
+		
+		$item = array_intersect_key($item, array_flip(array(
+			'id', 'annotator_schema_version', 'created', 'updated',
+			'text', 'quote', 'uri', 'ranges', 'user', 'consumer', 'tags',
+			'permissions', 'likes', 'dislikes', 'flags', 'comments', 'doc'
+		)));
+		
+		return $item;
+		
+	}
+	
+	static public function loadAnnotationsForAnnotator($docId, $annotationId = null, $userId = null)
+	{
+		$annotations = static::where('doc', '=', $docId);
+		
+		if(!is_null($annotationId)) {
+			$annotations->where('id', '=', $annotationId);
+		}
+		
+		if(!is_null($userId)) {
+			$annotations->where('user_id', '=', $userId);
+		} 
+		
+		$annotations = $annotations->get();
+		
+		$retval = array();
+		foreach($annotations as $annotation) {
+			$retval[] = $annotation->toAnnotatorArray();
+		}
+		
 		return $retval;
 	}
+	
+	public function updateSearchIndex()
+	{
+	}
+	
+	public function addOrUpdateComment(array $comment) {
+		$obj = new AnnotationComment();
+		$obj->text = $comment['text'];
+		$obj->user_id = $comment['user']['id'];
+		
+		if(isset($comment['id'])) {
+			$obj->id = $comment['id'];
+		}
+		
+		$obj->annotation_id = $this->id;
+		
+		return $obj->save();
+	}
+	
+	static public function getMetaCount($id, $action) 
+	{
+		$annotation = static::where('annotation_id', '=', $id);
+		
+		$actionCount = $annotation->$action();
+		
+		return $actionCount;
+	}
+	
+	public function saveUserAction($userId, $action) 
+	{
+		switch($action) {
+			case static::ACTION_DISLIKE:
+			case static::ACTION_LIKE:
+			case static::ACTION_FLAG:
+				break;
+			default:
+				throw new \InvalidArgumentException("Invalid Action to Add");
+		}
+		
+		$actionModel = NoteMeta::where('annotation_id', '=', $this->id)
+								->where('user_id', '=', $userId)
+								->where('meta_key', '=', NoteMeta::TYPE_USER_ACTION)
+								->take(1)->first();
+		
+		if(is_null($actionModel)) {
+			$actionModel = new NoteMeta();
+			$actionModel->meta_key = NoteMeta::TYPE_USER_ACTION;
+			$actionModel->user_id = $userId;
+			$actionModel->annotation_id = $this->id;
+		}
+		
+		$actionModel->meta_value = $action;
+		
+		return $actionModel->save();
+	}
+	
+	public function likes()
+	{
+		$likes = NoteMeta::where('annotation_id', $this->id)
+						 ->where('meta_key', '=', 'user_action')
+						 ->where('meta_value', '=', static::ACTION_LIKE)
+						 ->count();
+		
+		return $likes;
+	}
+	
+	public function dislikes()
+	{
+		$dislikes = NoteMeta::where('annotation_id', $this->id)
+							 ->where('meta_key', '=', 'user_action')
+							 ->where('meta_value', '=', static::ACTION_DISLIKE)
+							 ->count();
+	
+		return $dislikes;
+	}
+	
+	public function flags()
+	{
+		$flags = NoteMeta::where('annotation_id', $this->id)
+						 ->where('meta_key', '=', 'user_action')
+						 ->where('meta_value', '=', static::ACTION_FLAG)
+						 ->count();
+	
+		return $flags;
+	}
 }
-

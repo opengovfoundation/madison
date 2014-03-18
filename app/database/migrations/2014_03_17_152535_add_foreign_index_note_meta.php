@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAnnotationTagsTable extends Migration {
+class AddForeignIndexNoteMeta extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,14 +12,7 @@ class CreateAnnotationTagsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('annotation_tags', function($table) {
-			$table->engine = "InnoDB";
-			
-			$table->increments('id');
-			$table->integer('annotation_id')->unsigned();
-			$table->string('tag');
-			$table->timestamps();
-			
+		Schema::table('note_meta', function($table) {
 			$table->foreign('annotation_id')->references('id')->on('annotations')->on_delete('cascade');
 		});
 	}
@@ -31,7 +24,10 @@ class CreateAnnotationTagsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('annotation_tags');
+		Schema::table('note_meta', function($table) {
+			$table->dropIndex('note_meta_annotation_id_foreign');
+		});
+		
 	}
 
 }

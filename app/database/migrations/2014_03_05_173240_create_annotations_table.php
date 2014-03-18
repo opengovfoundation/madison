@@ -14,7 +14,9 @@ class CreateAnnotationsTable extends Migration {
 	{
 		Schema::create('annotations', function($table) {
 			$table->engine = "InnoDB";
-			$table->string('id');
+			
+			$table->increments('id');
+			$table->string('search_id');
 			$table->integer('user_id')->unsigned();
 			$table->integer('doc')->unsigned();
 			$table->string('quote');
@@ -25,9 +27,10 @@ class CreateAnnotationsTable extends Migration {
 			$table->integer('flags');
 			$table->timestamps();
 			
-			$table->primary('id');
 			$table->foreign('user_id')->references('id')->on('users');
 			$table->foreign('doc')->references('id')->on('docs');
+			$table->unique('search_id');
+			
 		});
 	}
 
