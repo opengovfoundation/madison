@@ -29,7 +29,8 @@
 
 
 body{
-	background: url(../img/grey.png) repeat;
+	@include bg($bg-gray);
+	//background: url(../img/grey.png) repeat;
 }
 
 h1{
@@ -528,9 +529,7 @@ h1.user-name{
 
 .rightbar{
 	@include border-radius(10px);
-	@include bg($dark-gray);
-	border: 2px groove white;
-	color:$light-gray;
+	@include bg($light-gray);
 
 	> .row{
 		border-bottom:1px solid #3c3c3c;
@@ -541,17 +540,9 @@ h1.user-name{
 		margin-bottom:20px;
 	}
 
-	h3.rightbar-header{
-		margin:20px;
-		font-family:arial;
-		font-weight:200;
-		font-size:1.5em;
-	}
-	h4{
-		margin:20px;
-		font-family:arial;
-		font-weight:200;
-		font-size:1em;
+	h3{
+		padding-bottom:10px;
+		border-bottom: 1px solid lightgrey;
 	}
 
 	.rounded-bottom{
@@ -573,6 +564,10 @@ h1.user-name{
 		margin:0;
 	}
 
+	.activity-item{
+		margin-bottom:10px;
+		border-bottom:1px solid lightgrey;
+	}
 }
 
 .getstarted{

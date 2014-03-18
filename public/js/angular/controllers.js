@@ -34,7 +34,6 @@ function ParticipateController($scope, $http, annotationService){
 						$scope.opposed = true;
 						break;
 					default:
-						console.log('neither');
 						$scope.supported = null;
 						$scope.opposed = null;
 				}
