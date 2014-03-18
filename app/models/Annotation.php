@@ -204,7 +204,7 @@ class Annotation extends Eloquent
 		
 	}
 	
-	public function toAnnotatorArray()
+	public function toAnnotatorArray($userId = null)
 	{
 		$item = $this->toArray();
 		$item['created'] = $item['created_at'];
@@ -282,6 +282,16 @@ class Annotation extends Eloquent
 			}
 		}
 		
+		if(!is_null($userId)) {
+			$noteModel = NoteMeta::where('user_id', '=', $userId)
+								 ->where('meta_key', '=', NoteMeta::TYPE_USER_ACTION)
+								 ->take(1)->first();
+			
+			if(!is_null($noteModel)) {
+				$item['user_action'] = $noteModel->meta_value;
+			}
+		}
+		
 		$item['likes'] = $this->likes();
 		$item['dislikes'] = $this->dislikes();
 		$item['flags'] = $this->flags();
@@ -289,7 +299,8 @@ class Annotation extends Eloquent
 		$item = array_intersect_key($item, array_flip(array(
 			'id', 'annotator_schema_version', 'created', 'updated',
 			'text', 'quote', 'uri', 'ranges', 'user', 'consumer', 'tags',
-			'permissions', 'likes', 'dislikes', 'flags', 'comments', 'doc'
+			'permissions', 'likes', 'dislikes', 'flags', 'comments', 'doc',
+			'user_action'
 		)));
 		
 		return $item;
@@ -303,10 +314,6 @@ class Annotation extends Eloquent
 		if(!is_null($annotationId)) {
 			$annotations->where('id', '=', $annotationId);
 		}
-		
-		if(!is_null($userId)) {
-			$annotations->where('user_id', '=', $userId);
-		} 
 		
 		$annotations = $annotations->get();
 		
@@ -376,7 +383,7 @@ class Annotation extends Eloquent
 	public function likes()
 	{
 		$likes = NoteMeta::where('annotation_id', $this->id)
-						 ->where('meta_key', '=', 'user_action')
+						 ->where('meta_key', '=', NoteMeta::TYPE_USER_ACTION)
 						 ->where('meta_value', '=', static::ACTION_LIKE)
 						 ->count();
 		
@@ -386,7 +393,7 @@ class Annotation extends Eloquent
 	public function dislikes()
 	{
 		$dislikes = NoteMeta::where('annotation_id', $this->id)
-							 ->where('meta_key', '=', 'user_action')
+							 ->where('meta_key', '=', NoteMeta::TYPE_USER_ACTION)
 							 ->where('meta_value', '=', static::ACTION_DISLIKE)
 							 ->count();
 	
@@ -396,7 +403,7 @@ class Annotation extends Eloquent
 	public function flags()
 	{
 		$flags = NoteMeta::where('annotation_id', $this->id)
-						 ->where('meta_key', '=', 'user_action')
+						 ->where('meta_key', '=', NoteMeta::TYPE_USER_ACTION)
 						 ->where('meta_value', '=', static::ACTION_FLAG)
 						 ->count();
 	

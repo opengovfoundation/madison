@@ -1,7 +1,8 @@
 <?php
 use Carbon\Carbon;
 
-class Annotation{
+class OldAnnotation 
+{
 	const TYPE = 'annotation';
 
 	protected $body;
@@ -115,7 +116,7 @@ class Annotation{
 		$params['body']['doc'] = $body;
 		
 		$dbValues = $params['body'];
-		$dbValues['id'] = $params['id'];
+		$dbValues['search_id'] = $params['id'];
 		
 		try{
 			$results = $es->update($params);	
@@ -124,8 +125,6 @@ class Annotation{
 		}catch(Exception $e){
 			App::abort(404, $e->getMessage());
 		}
-		
-		file_put_contents('/tmp/update.txt', var_export($params, true));
 		
 		static::saveAnnotationModel($dbValues);
 		
@@ -152,7 +151,7 @@ class Annotation{
 
 		$results = $es->index($params);
 
-		$dbValues['id'] = $results['_id'];
+		$dbValues['search_id'] = $results['_id'];
 		
 		static::saveAnnotationModel($dbValues);
 		
@@ -171,8 +170,8 @@ class Annotation{
 		$result = $es->delete($params);
 		
 		if($result['ok'] == true){
-			$metas = NoteMeta::where('note_id', $this->id);
-			$metas->delete();
+			$dbRow = DBAnnotation::where('search_id', '=', $this->id);
+			$dbRow->delete();
 		}
 		
 		return $result;
@@ -264,100 +263,45 @@ class Annotation{
 	*/
 
 	public static function find($id){
-		$es = self::connect();
-
-		if($id === null){
-			throw new Exception('Cannot retrieve annotation with null id');
-		}
-
-		$params = array(
-			'index'	=> Config::get('elasticsearch.annotationIndex'),
-			'type'	=> self::TYPE,
-			'id'	=> $id
-		);
-
-		$annotation = $es->get($params);
-		$annotation = new Annotation($id, $annotation['_source']);
-
-		$annotation->setActionCounts();
-
-		return $annotation;
+		
+		if(ctype_digit($id)) {
+			return DBAnnotation::where('id', '=', $id);
+		} 
+		
+		return DBAnnotation::where('search_id', '=', $id);
 	}
 
 	public static function findWithActions($id, $userid){
-		$es = self::connect();
-
-		if($id === null){
-			throw new Exception('Cannot retrieve annotation with null id');
-		}
-
-		$params = array(
-			'index'	=> Config::get('elasticsearch.annotationIndex'),
-			'type'	=> self::TYPE,
-			'id'	=> $id
-		);
-
-
-		$annotation = $es->get($params);
-
-		$annotation = new Annotation($id, $annotation['_source']);
-		$annotation->setUserAction($userid);
-		$annotation->setActionCounts();
 		
-		return $annotation;
+		$retval = static::find($id);
+		
+		$retval->setUserAction($userid);
+		$retval->setActionCounts();
+		
+		return $retval;
 	}
 
 	public static function all($docId){
-		$es = self::connect();
 
-		$params = array(
-			'index'	=> Config::get('elasticsearch.annotationIndex'),
-			'type'	=> self::TYPE,
-			'body'	=> array(
-				'query'	=> array(
-					'term'	=> array('doc' => $docId)
-				)
-			)
-		);
-
-		$results = $es->search($params);
-		$results = $results['hits']['hits'];
-		$annotations = array();
+		$results = DBAnnotation::allByDocId($docId);
+		
 		foreach($results as $annotation){
-			$toPush = new Annotation($annotation['_id'], $annotation['_source']);
-			$toPush->setActionCounts();
-
-			array_push($annotations, $toPush);
+			$annotation->setActionCounts();
 		}
 
-		return $annotations;
+		return $results;
 	}
 
 	public static function allWithActions($docId, $userId){
-		$es = self::connect();
 
-		$params = array(
-			'index'	=> Config::get('elasticsearch.annotationIndex'),
-			'type'	=> self::TYPE,
-			'body'	=> array(
-				'query'	=> array(
-					'term'	=> array('doc' => $docId)
-				)
-			)
-		);
-
-		$results = $es->search($params);
-		$results = $results['hits']['hits'];
-		$annotations = array();
+		$results = DBAnnotation::allByDocId($docId);
+		
 		foreach($results as $annotation){
-			$toPush = new Annotation($annotation['_id'], $annotation['_source']);
-			$toPush->setUserAction($userId);
-			$toPush->setActionCounts();
-
-			array_push($annotations, $toPush);
+			$annotation->setUserAction($userId);
+			$annotation->setActionCounts();
 		}
 
-		return $annotations;
+		return $results;
 	}
 
 	public static function getMetaCount($id, $action){
@@ -367,15 +311,13 @@ class Annotation{
 			App::abort(404, 'No note id passed');
 		}
 
-		$annotation = Annotation::find($id);
-
+		$annotation = static::find($id);
 		$action_count = $annotation->$action();
 
 		return $action_count;
 	}
 
 	public static function addUserAction($note_id, $user_id, $action){
-		$es = self::connect();
 
 		if($note_id == null || $user_id == null || $action == null){
 			throw new Exception('Unable to add user action.');
@@ -388,9 +330,9 @@ class Annotation{
 		                  'flags'		=> -1
 		            );
 
-		$annotation = Annotation::find($note_id);
+		$annotation = OldAnnotation::find($note_id);
 
-		$meta = NoteMeta::where('user_id', $user_id)->where('note_id', '=', $note_id)->where('meta_key', '=', 'user_action');
+		$meta = NoteMeta::where('user_id', $user_id)->where('annotation_id', '=', $note_id)->where('meta_key', '=', 'user_action');
 
 		//This user has no actions on this annotation
 		if($meta->count() == 0){
@@ -437,7 +379,6 @@ class Annotation{
 	
 	static protected function saveAnnotationModel(array $input)
 	{
-		
 		$retval = DBAnnotation::firstOrNew(array(
 			'id' => $input['id']
 		));
