@@ -14,6 +14,7 @@ function ReaderController($scope, annotationService){
 function ParticipateController($scope, $http, annotationService){
 	$scope.annotations = [];
 	$scope.comments = [];
+	$scope.activities = [];
 	$scope.supported = false;
 	$scope.opposed = false;
 
@@ -22,7 +23,7 @@ function ParticipateController($scope, $http, annotationService){
 		$scope.user = user;
 		$scope.doc = doc;
 
-		if(user.id != ''){
+		if(user.id !== ''){
 			$http.get('/api/users/' + user.id + '/support/' + doc.id)
 			.success(function(data){
 				switch(data.meta_value){
@@ -44,20 +45,22 @@ function ParticipateController($scope, $http, annotationService){
 	};
 
 	$scope.$on('annotationsUpdated', function(){
-		$scope.annotations = annotationService.annotations;
+		var annotations = annotationService.annotations;
+		angular.forEach(annotations, function(annotation){
+			annotation.label = 'annotation';
+			$scope.activities.push(annotation);
+		});
 		$scope.$apply();
 	});
-
-	$scope.showCommentThread = function(annotationId, $event){
-		thread = $('#' + annotationId + '-comments');
-		thread.collapse('toggle');
-		$($event.target).children('.caret').toggleClass('caret-right');
-	};
 
 	$scope.getDocComments = function(docId){
 		$http({method: 'GET', url: '/api/docs/' + docId + '/comments'})
 		.success(function(data, status, headers, config){
-			$scope.comments = data;
+			//$scope.comments = data;
+			angular.forEach(data, function(comment){
+				comment.label = 'comment';
+				$scope.activities.push(comment);
+			});
 		})
 		.error(function(data, status, headers, config){
 			console.error("Error loading comments: %o", data);
@@ -71,7 +74,8 @@ function ParticipateController($scope, $http, annotationService){
 
 		$http.post('/api/docs/' + comment.doc.id + '/comments', {'comment': comment})
 		.success(function(data, status, headers, config){
-			$scope.comments.push(comment);
+			comment.label = 'comment';
+			$scope.activities.push(comment);
 			$scope.comment.content = '';
 		})
 		.error(function(data, status, headers, config){
@@ -85,7 +89,7 @@ function ParticipateController($scope, $http, annotationService){
 		$http.post('/api/docs/' + $scope.doc.id + '/support', {'support': supported})
 		.success(function(data, status, headers, config){
 			//Parse data to see what user's action is currently
-			if(data.support == null){
+			if(data.support === null){
 				$scope.supported = false;
 				$scope.opposed = false;
 			}else{
@@ -134,7 +138,7 @@ function HomePageController($scope, $http, $filter){
 
 		var show = false;
 
-		if(typeof $scope.select2 != 'undefined' && $scope.select2 != ''){
+		if(typeof $scope.select2 != 'undefined' && $scope.select2 !== ''){
 			var cont = true;
 
 			angular.forEach(doc.categories, function(category){
@@ -201,7 +205,7 @@ function HomePageController($scope, $http, $filter){
 
 				angular.forEach(doc.dates, function(date){
 					date.date = Date.parse(date.date);
-				})
+				});
 			});
 
 		})
@@ -490,7 +494,7 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 	};
 
 	$scope.createDate = function(newDate, oldDate){
-		if($scope.newdate.label != ''){
+		if($scope.newdate.label !== ''){
 			$scope.newdate.date = $filter('date')(newDate, 'short');
 
 			$http.post('/api/docs/' + $scope.doc.id + '/dates', {date: $scope.newdate})
@@ -527,7 +531,7 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 		}).error(function(data){
 			console.error("Unable to save date: %o (%o)", date, data);
 		});
-	}
+	};
 
 	$scope.getDocDates = function(){
 		return $http.get('/api/docs/' + $scope.doc.id + '/dates')
