@@ -1,6 +1,7 @@
 <h3>Activity</h3>
 <div class="activity-thread col-md-12">
-    <div class="row activity-item" ng-repeat="activity in activities" ng-class="activity.label">
+    <div class="row activity-item" ng-repeat="activity in activities | orderBy:activityOrder:reverse" ng-class="activity.label">
+        <% activity.created_at %>
         <div class="row">
             <div class="activity-author col-md-10">
                 <span ng-if="activity.label == 'comment'"><% activity.user.fname %> <% activity.user.lname.substr(0,1) %></span>

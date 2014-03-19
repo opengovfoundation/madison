@@ -84,6 +84,14 @@ function ParticipateController($scope, $http, annotationService){
 		});
 	};
 
+	$scope.activityOrder = function(activity){
+		if(activity.label == 'comment'){
+			return Date.parse(activity.created_at);	
+		}else{
+			return Date.parse(activity.created);
+		}	
+	};
+
 	$scope.addAction = function(activity, action){
 		if(typeof activity[action] == 'undefined'){
 			activity[action] = 1;
