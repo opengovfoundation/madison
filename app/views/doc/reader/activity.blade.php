@@ -13,5 +13,13 @@
                 <span ng-if="activity.label" == 'annotation'><% activity.text %></span>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Replies indicator -->
+            </div>
+            <div class="col-md-6">
+                <!-- like/dislike/flag -->
+            </div>
+        </div>
     </div>
 </div>
