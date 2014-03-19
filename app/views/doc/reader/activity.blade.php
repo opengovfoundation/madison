@@ -15,10 +15,12 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <!-- Replies indicator -->
+                <span class="activity-replies-indicator" ng-if="activity.comments.length > 0"><span class="glyphicon glyphicon-share-alt"></span><% activity.comments.length %> Replies</span>
             </div>
             <div class="col-md-6">
-                <!-- like/dislike/flag -->
+                <span class="glyphicon glyphicon-thumbs-up">(<% activity.likes || '0' %>)</span>
+                <span class="glyphicon glyphicon-thumbs-down">(<% activity.dislikes || '0' %>)</span>
+                <span class="glyphicon glyphicon-flag">(<% activity.flags || '0' %>)</span>
             </div>
         </div>
     </div>
