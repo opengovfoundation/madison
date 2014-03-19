@@ -72,8 +72,6 @@ function ParticipateController($scope, $http, annotationService){
 		comment.user = $scope.user;
 		comment.doc = $scope.doc;
 
-
-
 		$http.post('/api/docs/' + comment.doc.id + '/comments', {'comment': comment})
 		.success(function(data, status, headers, config){
 			comment.label = 'comment';
@@ -86,9 +84,15 @@ function ParticipateController($scope, $http, annotationService){
 		});
 	};
 
-	$scope.support = function(supported, $event){
-		console.log('supporting');
+	$scope.addAction = function(activity, action){
+		if(typeof activity[action] == 'undefined'){
+			activity[action] = 1;
+		}else{
+			activity[action]++;
+		}
+	};
 
+	$scope.support = function(supported, $event){
 		$http.post('/api/docs/' + $scope.doc.id + '/support', {'support': supported})
 		.success(function(data, status, headers, config){
 			//Parse data to see what user's action is currently
@@ -103,7 +107,6 @@ function ParticipateController($scope, $http, annotationService){
 		.error(function(data, status, headers, config){
 			console.error("Error posting support: %o", data);
 		});
-
 	};
 }
 
@@ -117,8 +120,8 @@ function HomePageController($scope, $http, $filter){
 	$scope.sponsors = [];
 	$scope.statuses = [];
 	$scope.dates = [];
-	$scope.dateSort;
-	$scope.select2;
+	$scope.dateSort = '';
+	$scope.select2 = '';
 	$scope.docSort = "created_at";
 	$scope.reverse = true;
 
@@ -219,8 +222,8 @@ function HomePageController($scope, $http, $filter){
 }
 
 function UserPageController($scope, $http, $location){
-	$scope.user;
-	$scope.meta;
+	$scope.user = {};
+	$scope.meta = '';
 	$scope.docs = [];
 	$scope.comments = [];
 	$scope.verified = false;
@@ -341,9 +344,9 @@ function DashboardSettingsController($scope, $http){
 
 function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 {
-	$scope.doc;
-	$scope.sponsor;
-	$scope.status;
+	$scope.doc = {};
+	$scope.sponsor = {};
+	$scope.status = {};
 	$scope.newdate = {label: '', date: new Date()};
 	$scope.verifiedUsers = [];
 	$scope.categories = [];
