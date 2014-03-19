@@ -1,0 +1,53 @@
+.rightbar{
+    @include border-radius(10px);
+    @include bg($light-gray);
+    padding:0 25px;
+
+    > .row{
+        border-bottom:1px solid #3c3c3c;
+    }
+
+    > .row:last-child{
+        border-bottom:none;
+        margin-bottom:20px;
+    }
+
+    h3{
+        padding-bottom:10px;
+        border-bottom: 1px solid lightgrey;
+    }
+
+    .rounded-bottom{
+        text-align:center;
+        background:#c70102;
+        border-bottom-left-radius:8px;
+        border-bottom-right-radius:8px;
+        padding:20px 0;
+        color:white;
+
+        a{
+            color:white;
+            font-size:1.3em;
+        }
+    }
+
+    .action-intro{
+        padding: 10px;
+        margin:0;
+    }
+
+    .activity-item{
+        margin-bottom:10px;
+        border-bottom:1px solid lightgrey;
+
+        .activity-actions{
+            display:none;
+        }
+
+        &:hover{
+            .activity-actions{
+                display:block;
+            }
+        }
+    }
+}

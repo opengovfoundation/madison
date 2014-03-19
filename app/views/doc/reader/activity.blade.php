@@ -20,7 +20,7 @@
             <div class="col-md-6">
                 <span class="activity-replies-indicator" ng-if="activity.comments.length > 0"><span class="glyphicon glyphicon-share-alt"></span><% activity.comments.length %> Replies</span>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 activity-actions">
                 <span class="glyphicon glyphicon-thumbs-up">(<% activity.likes || '0' %>)</span>
                 <span class="glyphicon glyphicon-thumbs-down">(<% activity.dislikes || '0' %>)</span>
                 <span class="glyphicon glyphicon-flag">(<% activity.flags || '0' %>)</span>
