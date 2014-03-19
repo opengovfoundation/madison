@@ -4,6 +4,7 @@
 
 function ReaderController($scope, annotationService){
 	$scope.annotations = [];
+	$scope.doc = doc;
 
 	$scope.$on('annotationsUpdated', function(){
 		$scope.annotations = annotationService.annotations;
@@ -44,11 +45,11 @@ function ParticipateController($scope, $http, annotationService){
 	};
 
 	$scope.$on('annotationsUpdated', function(){
-		var annotations = annotationService.annotations;
-		angular.forEach(annotations, function(annotation){
+		angular.forEach(annotationService.annotations, function(annotation){
 			annotation.label = 'annotation';
 			$scope.activities.push(annotation);
 		});
+		
 		$scope.$apply();
 	});
 
@@ -71,9 +72,12 @@ function ParticipateController($scope, $http, annotationService){
 		comment.user = $scope.user;
 		comment.doc = $scope.doc;
 
+
+
 		$http.post('/api/docs/' + comment.doc.id + '/comments', {'comment': comment})
 		.success(function(data, status, headers, config){
 			comment.label = 'comment';
+			comment.user.fname = comment.user.name;
 			$scope.activities.push(comment);
 			$scope.comment.content = '';
 		})
