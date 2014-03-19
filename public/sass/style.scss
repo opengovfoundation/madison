@@ -573,6 +573,7 @@ h1.user-name{
 .rightbar{
 	@include border-radius(10px);
 	@include bg($light-gray);
+	padding:0 25px;
 
 	> .row{
 		border-bottom:1px solid #3c3c3c;

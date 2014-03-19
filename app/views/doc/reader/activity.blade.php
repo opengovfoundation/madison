@@ -1,14 +1,17 @@
 <h3>Activity</h3>
-<div class="activity-thread">
-    <div class="activity-item" ng-repeat="activity in activities" ng-class="activity.label">
-        <div class="activity-author">
-            <span ng-if="activity.label == 'comment'"><% activity.user.fname %> <% activity.user.lname.substr(0,1) %></span>
-            <span ng-if="activity.label == 'annotation'"><% activity.user.name %></span>
-            
+<div class="activity-thread col-md-12">
+    <div class="row activity-item" ng-repeat="activity in activities" ng-class="activity.label">
+        <div class="row">
+            <div class="activity-author col-md-6">
+                <span ng-if="activity.label == 'comment'"><% activity.user.fname %> <% activity.user.lname.substr(0,1) %></span>
+                <span ng-if="activity.label == 'annotation'"><% activity.user.name %></span>
+            </div>
         </div>
-        <div class="activity-content">
-            <span ng-if="activity.label == 'comment'"><% activity.content %></span>
-            <span ng-if="activity.label" == 'annotation'><% activity.text %></span>
+        <div class="row">
+            <div class="activity-content col-md-12">
+                <span ng-if="activity.label == 'comment'"><% activity.content %></span>
+                <span ng-if="activity.label" == 'annotation'><% activity.text %></span>
+            </div>
         </div>
     </div>
 </div>
