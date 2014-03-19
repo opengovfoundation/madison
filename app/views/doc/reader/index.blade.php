@@ -36,9 +36,12 @@
 			<div class="doc-status" ng-repeat="status in doc.statuses">
 				<strong>Status: </strong><span><% status.label %></span>
 			</div>
+			<div class="doc-date" ng-repeat="date in doc.dates">
+				<strong><% date.label %>: </strong><span><% date.date | parseDate | date:'shortDate' %></span>
+			</div>
 		</div>
 		<div id="content" class="row content doc_content @if(Auth::check())logged_in@endif">
-			<div class="col-md-12">{{ $doc->get_content('html') }}</div>
+			<div id="doc_content" class="col-md-12">{{ $doc->get_content('html') }}</div>
 		</div>
 	</div>
 	<div ng-controller="ParticipateController" ng-init="init({{ $doc->id }})" class="col-md-3 col-md-offset-1 rightbar participate">

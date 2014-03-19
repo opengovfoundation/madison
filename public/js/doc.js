@@ -117,7 +117,7 @@ $(document).ready(function() {
         };
     }
 
-    annotator = $('#content').annotator({
+    annotator = $('#doc_content').annotator({
         //readOnly: user.id == ''
     });
 

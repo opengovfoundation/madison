@@ -29,7 +29,7 @@ class DocController extends BaseController{
 		try{
 			
 			//Retrieve requested document
-			$doc = Doc::where('slug', $slug)->with('statuses')->with('sponsor')->with('categories')->first();
+			$doc = Doc::where('slug', $slug)->with('statuses')->with('sponsor')->with('categories')->with('dates')->first();
 			
 			if(!isset($doc)){
 				App::abort('404');
