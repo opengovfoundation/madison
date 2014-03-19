@@ -20,17 +20,10 @@
 
 @include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
 
-/* Bootstrap Overrides */
-
-.content{
-	@include box-sizing(border-box);
-	padding: 0px;
-}
 
 
 body{
 	@include bg($bg-gray);
-	//background: url(../img/grey.png) repeat;
 }
 
 h1{
@@ -115,10 +108,20 @@ textarea.form-inline{
 /* MAIN HEADER
 ------------------------------ */
 .header {
-	@include grad-bg($black-grad-start, $black-grad-end);
+	background: $blue-header;
+	padding-bottom: 7px;
+
+	.container{
+		padding-right: 0px;
+		padding-left: 0px;
+		.col-md-4{
+			padding-right: 0px;
+			padding-left: 0px;
+		}
+	}
 
 	.logo-madison {
-		margin-top: 5px;
+		margin-top: 15px;
 		margin-bottom: 5px;
 	}
 
@@ -139,8 +142,26 @@ textarea.form-inline{
 		font-size: 14px;
 	}
 
+
+
+	.logo-madison h1{
+		color: #FFF;
+		font-weight: normal;
+		position: relative;
+	}
+
 	.level {
-		color: #dc0002;
+		color: #e3f4ff;
+		font-size: .33em;
+		background: #83c4ff;
+		padding: 4px;
+		font-weight: bold;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		@include border-radius(2px);
+		top: 8px;
+		right: -45px;
+		position: absolute;
 	}
 }
 
@@ -155,6 +176,7 @@ textarea.form-inline{
 		margin: 0;
 		padding: 0;
 		list-style: none;
+
 	}
 
 	li {
@@ -167,13 +189,17 @@ textarea.form-inline{
 
 	ul {
 		margin-top: 22px; /* TO-DO: Needs to be dynamic */
+		float: right;
 	}
 
 	li {
-		margin-right: 20px;
+		margin-left: 20px;
 		float: left;
 		font-weight: bold;
 		font-size: 12px;
+		a{
+			color: #FFF;
+		}
 	}
 
 	.dropdown-menu {
@@ -214,7 +240,7 @@ textarea.form-inline{
 .global-search {
 
 	form {
-		width: 95%;
+		width: 100%;
 		position: relative;
 		top: 14px; /* TO-DO: Needs to be dynamic */
 	}
@@ -591,6 +617,7 @@ h1.user-name{
 	height:100px;
 	margin-top:50px;
 	@include grad-bg($black-grad-start, $black-grad-end);
+	background: #DEDEDE;
 }
 
 //Document Reader
@@ -633,6 +660,18 @@ input[type="search"].dark-search{
 	background-position:right;
 	background-size:20px;
 	color:lightgray;
+}
+
+input[type="search"].blue-search{
+	background:#83c4ff;
+	border:none;
+	background-repeat: no-repeat;
+	background-position:right;
+	background-size:20px;
+	color: #FFF !important;
+	@include input-placeholder {
+        color: #C6E5FF;
+	    }
 }
 
 .bookmark{

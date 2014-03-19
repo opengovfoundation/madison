@@ -1,8 +1,14 @@
-<div class="logo-madison col-md-3 col-md-offset-1">
+<div class="logo-madison col-md-4">
 	<a class="link-home" href="{{ URL::to('/') }}">
-		<h1 class="blue single-shadow">Madison <span class="level">Demo</span></h1>
-		<h2 class="blue small-header">&#149; Collaborate Online &#149;</h2>
+		<h1 class="white">Madison <span class="level">Demo</span></h1>
 	</a>
+</div>
+
+<div class="global-search col-md-4">
+	<form action="{{ URL::to('docs/search') }}" method="get">
+		<input name="q" type="search" class="input-search form-control blue-search" placeholder="Search all documents" value="" />
+		<input class="input-submit" type="submit" value="Search" />
+	</form>
 </div>
 
 <div class="nav nav-main col-md-4">
@@ -32,9 +38,4 @@
 
 </div>
 
-<div class="global-search col-md-4">
-	<form action="{{ URL::to('docs/search') }}" method="get">
-		<input name="q" type="search" class="input-search form-control dark-search" placeholder="Search all documents" value="" />
-		<input class="input-submit" type="submit" value="Search" />
-	</form>
-</div>
+

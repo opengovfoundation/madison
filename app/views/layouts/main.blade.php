@@ -15,7 +15,9 @@
 	<body>
 		<div id="wrap">
 			<div id="header-main" class="header row">
+				<div class="container">
 				@include('layouts.header')
+				</div>
 			</div>
 			<div class="row">
 				<div class="container">
