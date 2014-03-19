@@ -322,6 +322,10 @@ class Annotation extends Eloquent
 			$retval[] = $annotation->toAnnotatorArray();
 		}
 		
+		if(count($retval) == 1) {
+			return $retval[0];
+		}
+		
 		return $retval;
 	}
 	
