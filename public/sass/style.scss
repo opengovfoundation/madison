@@ -20,8 +20,6 @@
 
 @include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
 
-
-
 body{
 	@include bg($bg-gray);
 }
@@ -185,6 +183,11 @@ textarea.form-inline{
 	}
 }
 
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+		background: none;
+		text-decoration: none;
+	}
+
 .nav-main {
 
 	ul {
@@ -200,7 +203,21 @@ textarea.form-inline{
 		a{
 			color: #FFF;
 		}
+		ul{
+			li{
+				margin-left: 0px;
+				display: block;
+				width: 100%;
+				a{
+					color: $blue-header;
+					padding-left: 5px;
+
+				}
+			}
+		}
 	}
+
+
 
 	.dropdown-menu {
 		margin-top: 0;
