@@ -2,7 +2,7 @@
 
 class Annotation extends Eloquent
 {
-	const TYPE = 'annotation';
+	const INDEX_TYPE = 'annotation';
 	
 	const ANNOTATION_CONSUMER = "Madison";
 	
@@ -331,6 +331,27 @@ class Annotation extends Eloquent
 	
 	public function updateSearchIndex()
 	{
+		$indexData = $this->toAnnotatorArray();
+		$client = static::getEsClient();
+		
+		$esParams = array(
+			'index' => static::getEsIndex(),
+			'type' => static::INDEX_TYPE,
+		);
+		
+		if(!empty($this->search_id)) {
+			$esParams['body']['doc'] = $indexData;
+			$esParams['id'] = $this->search_id;
+			
+			$result = $client->update($esParams);
+			return $this->save();
+		} 
+		
+		$esParams['body'] = $indexData;
+		
+		$result = $client->index($esParams);
+		$this->search_id = $result['_id'];
+		return $this->save();
 	}
 	
 	public function addOrUpdateComment(array $comment) {
