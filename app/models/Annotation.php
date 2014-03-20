@@ -354,6 +354,21 @@ class Annotation extends Eloquent
 		return $this->save();
 	}
 	
+	public function delete()
+	{
+		$client = static::getEsClient();
+		
+		$esParams = array(
+			'index' => static::getEsIndex(),
+			'type' => static::INDEX_TYPE,
+			'id' => $this->id
+		);
+		
+		$client->delete($esParams);
+		
+		return parent::delete();
+	}
+	
 	public function addOrUpdateComment(array $comment) {
 		$obj = new AnnotationComment();
 		$obj->text = $comment['text'];

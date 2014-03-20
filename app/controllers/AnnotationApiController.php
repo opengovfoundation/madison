@@ -46,7 +46,8 @@ class AnnotationApiController extends ApiController{
 		$body['doc'] = $doc;
 
 		$annotation = Annotation::createFromAnnotatorArray($body);
-
+		$annotation->updateSearchIndex();
+		
 		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $annotation->id, 303);
 	}
 
@@ -64,6 +65,7 @@ class AnnotationApiController extends ApiController{
 		$body = Input::all();
 		
 		$annotation = Annotation::createFromAnnotatorArray($body);
+		$annotation->updateSearchIndex();
 		
 		return Response::json($annotation);
 	}
