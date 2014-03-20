@@ -3,15 +3,7 @@
 		<h1 class="white">Madison <span class="level">Demo</span></h1>
 	</a>
 </div>
-
-<div class="global-search col-md-4">
-	<form action="{{ URL::to('docs/search') }}" method="get">
-		<input name="q" type="search" class="input-search form-control blue-search" placeholder="Search all documents" value="" />
-		<input class="input-submit" type="submit" value="Search" />
-	</form>
-</div>
-
-<div class="nav nav-main col-md-4">
+<div class="nav nav-main col-md-4 col-md-offset-4">
 
 	<ul>
 		<li class="link-about"><a href="{{ URL::to('about') }}">About</a></li>

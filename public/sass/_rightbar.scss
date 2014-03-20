@@ -3,10 +3,6 @@
     @include bg($light-gray);
     padding:0 25px;
 
-    > .row{
-        border-bottom:1px solid #3c3c3c;
-    }
-
     > .row:last-child{
         border-bottom:none;
         margin-bottom:20px;
@@ -31,9 +27,9 @@
         }
     }
 
-    .action-intro{
-        padding: 10px;
-        margin:0;
+    .participate-comment{
+        border-bottom:1px solid lightgrey;
+        padding-bottom:10px;
     }
 
     .activity-item{

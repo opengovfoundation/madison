@@ -24,20 +24,16 @@
   padding: 0 25px;
 }
 /* line 6, ../sass/_rightbar.scss */
-.rightbar > .row {
-  border-bottom: 1px solid #3c3c3c;
-}
-/* line 10, ../sass/_rightbar.scss */
 .rightbar > .row:last-child {
   border-bottom: none;
   margin-bottom: 20px;
 }
-/* line 15, ../sass/_rightbar.scss */
+/* line 11, ../sass/_rightbar.scss */
 .rightbar h3 {
   padding-bottom: 10px;
   border-bottom: 1px solid lightgrey;
 }
-/* line 20, ../sass/_rightbar.scss */
+/* line 16, ../sass/_rightbar.scss */
 .rightbar .rounded-bottom {
   text-align: center;
   background: #c70102;
@@ -46,27 +42,27 @@
   padding: 20px 0;
   color: white;
 }
-/* line 28, ../sass/_rightbar.scss */
+/* line 24, ../sass/_rightbar.scss */
 .rightbar .rounded-bottom a {
   color: white;
   font-size: 1.3em;
 }
-/* line 34, ../sass/_rightbar.scss */
-.rightbar .action-intro {
-  padding: 10px;
-  margin: 0;
+/* line 30, ../sass/_rightbar.scss */
+.rightbar .participate-comment {
+  border-bottom: 1px solid lightgrey;
+  padding-bottom: 10px;
 }
-/* line 39, ../sass/_rightbar.scss */
+/* line 35, ../sass/_rightbar.scss */
 .rightbar .activity-item {
   margin-bottom: 10px;
   border-bottom: 1px solid lightgrey;
 }
-/* line 43, ../sass/_rightbar.scss */
+/* line 39, ../sass/_rightbar.scss */
 .rightbar .activity-item .activity-actions {
   display: none;
   cursor: pointer;
 }
-/* line 49, ../sass/_rightbar.scss */
+/* line 45, ../sass/_rightbar.scss */
 .rightbar .activity-item:hover .activity-actions {
   display: block;
 }
