@@ -92,6 +92,13 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 		this.annotator.subscribe('annotationCreated', function(annotation){
 			var annotationService = getAnnotationService();
 			annotationService.addAnnotation(annotation);
+			
+			if($.showAnnotationThanks) {
+				$('#annotationThanks').modal({
+					remote : '/modals/annotation_thanks',
+					keyboard : true
+				});
+			}
 		});
 
 		this.annotator.subscribe('commentCreated', function(comment){
