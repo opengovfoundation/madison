@@ -32,11 +32,14 @@
 				$task->command->info('Linking ' . $homeFolder . '/smtp.yml -> current/app/config/creds.yml');
 				$smtp_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/smtp.yml current/app/config/smtp.yml');
 				
-				$task->command->info('Linking ' . $homeFolder . '/uservoice.js -> current/app/config/creds.yml');
+				$task->command->info('Linking ' . $homeFolder . '/uservoice.js -> current/public/js/uservoice.js');
 				$uservoice_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder .'/uservoice.js current/public/js/uservoice.js');
 				
-				$task->command->info('Linking ' . $homeFolder . '/addthis.js -> current/app/config/creds.yml');
+				$task->command->info('Linking ' . $homeFolder . '/addthis.js -> current/public/js/addthis.js');
 				$addthis_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/addthis.js current/public/js/addthis.js');
+
+				$task->command->info('Linking ' . $homeFolder . '/ga.js -> current/public/js/ga.js');
+				$ga_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/ga.js current/public/js/ga.js');
 			}
 		),
 		'cleanup' => array(),

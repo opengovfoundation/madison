@@ -40,6 +40,11 @@ $fs = new Illuminate\Filesystem\Filesystem();
 	{{ HTML::script('js/addthis.js') }}
 @endif
 
+{{-- Include site-specific google analytics js file if it exists --}}
+@if($fs->exists(public_path() . '/js/ga.js'))
+    {{ HTML::script('js/ga.js') }}
+@endif
+
 
 
 
