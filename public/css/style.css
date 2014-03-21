@@ -59,12 +59,19 @@
 }
 /* line 39, ../sass/_rightbar.scss */
 .rightbar .activity-item .activity-actions {
-  display: none;
   cursor: pointer;
+  -webkit-transition: opacity 1s ease-out, 1s;
+  -moz-transition: opacity 1s ease-out, 1s;
+  -o-transition: opacity 1s ease-out, 1s;
+  transition: opacity 1s ease-out, 1s;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
 }
-/* line 45, ../sass/_rightbar.scss */
+/* line 48, ../sass/_rightbar.scss */
 .rightbar .activity-item:hover .activity-actions {
-  display: block;
+  opacity: 1;
+  height: auto;
 }
 
 /* line 10, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */

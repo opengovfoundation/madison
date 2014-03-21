@@ -37,13 +37,17 @@
         border-bottom:1px solid lightgrey;
 
         .activity-actions{
-            display:none;
             cursor:pointer;
+            @include single-transition(opacity 1s ease-out);
+            opacity:0;
+            height:0;
+            overflow:hidden;
         }
 
         &:hover{
             .activity-actions{
-                display:block;
+                opacity:1;
+                height:auto;
             }
         }
     }
