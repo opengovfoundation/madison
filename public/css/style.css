@@ -81,24 +81,26 @@
 }
 /* line 35, ../sass/_rightbar.scss */
 .rightbar .activity-item {
+  padding-bottom: 10px;
   margin-bottom: 10px;
   border-bottom: 1px solid lightgrey;
 }
 /* line 39, ../sass/_rightbar.scss */
-.rightbar .activity-item .activity-actions {
-  cursor: pointer;
-  -webkit-transition: opacity 1s ease-out, 1s;
-  -moz-transition: opacity 1s ease-out, 1s;
-  -o-transition: opacity 1s ease-out, 1s;
-  transition: opacity 1s ease-out, 1s;
-  opacity: 0;
-  height: 0;
-  overflow: hidden;
+.rightbar .activity-item .activity-content {
+  margin-bottom: 5px;
 }
-/* line 48, ../sass/_rightbar.scss */
-.rightbar .activity-item:hover .activity-actions {
+/* line 42, ../sass/_rightbar.scss */
+.rightbar .activity-item .activity-actions, .rightbar .activity-item .activity-replies-indicator {
+  cursor: pointer;
+  opacity: .25;
+}
+/* line 47, ../sass/_rightbar.scss */
+.rightbar .activity-item:hover .activity-actions, .rightbar .activity-item:hover .activity-replies-indicator {
   opacity: 1;
-  height: auto;
+}
+/* line 51, ../sass/_rightbar.scss */
+.rightbar .activity-item .glyphicon {
+  color: #888;
 }
 
 /* line 10, ../../../../../../../Applications/CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */

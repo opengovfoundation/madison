@@ -33,22 +33,23 @@
     }
 
     .activity-item{
-        margin-bottom:10px;
+        padding-bottom:10px;
+        margin-bottom: 10px;
         border-bottom:1px solid lightgrey;
-
-        .activity-actions{
-            cursor:pointer;
-            @include single-transition(opacity 1s ease-out);
-            opacity:0;
-            height:0;
-            overflow:hidden;
+        .activity-content{
+            margin-bottom: 5px;
         }
-
+        .activity-actions, .activity-replies-indicator{
+            cursor:pointer;
+            opacity:.25;
+        }
         &:hover{
-            .activity-actions{
+            .activity-actions, .activity-replies-indicator{
                 opacity:1;
-                height:auto;
             }
+        }
+        .glyphicon{
+            color: #888;
         }
     }
 }
