@@ -17,6 +17,7 @@
 @import "mixins";
 @import "helpers";
 @import "dashboard";
+@import "document";
 @import "rightbar";
 
 @include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
@@ -593,15 +594,6 @@ h1.user-name{
 	margin-top:50px;
 	@include grad-bg($black-grad-start, $black-grad-end);
 	background: #DEDEDE;
-}
-
-//Document Reader
-.doc_content{
-	/* max-height:700px;
-	overflow-y:scroll; */
-	ol{
-		list-style:none;
-	}
 }
 
 //Helper Classes
