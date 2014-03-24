@@ -56,7 +56,6 @@ function ParticipateController($scope, $http, annotationService){
 	$scope.getDocComments = function(docId){
 		$http({method: 'GET', url: '/api/docs/' + docId + '/comments'})
 		.success(function(data, status, headers, config){
-			//$scope.comments = data;
 			angular.forEach(data, function(comment){
 				comment.label = 'comment';
 				$scope.activities.push(comment);
@@ -85,11 +84,9 @@ function ParticipateController($scope, $http, annotationService){
 	};
 
 	$scope.activityOrder = function(activity){
-		if(activity.label == 'comment'){
-			return Date.parse(activity.created_at);	
-		}else{
-			return Date.parse(activity.created);
-		}	
+		var popularity = activity.likes - activity.dislikes;
+
+		return popularity;
 	};
 
 	$scope.addAction = function(activity, action){

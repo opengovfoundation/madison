@@ -2,6 +2,10 @@
 class Comment extends Eloquent{
 	protected $table = 'comments';
 
+    const ACTION_LIKE = 'like';
+    const ACTION_DISLIKE = 'dislike';
+    const ACTION_FLAG = 'flag';
+
 	public function doc(){
 		return $this->belongsTo('Doc', 'doc_id');
 	}
@@ -9,5 +13,67 @@ class Comment extends Eloquent{
 	public function user(){
 		return $this->belongsTo('User', 'user_id');
 	}
+
+    public function comments(){
+        return $this->hasMany('Comment', 'parent_id');
+    }
+
+    public function likes()
+    {   
+        $likes =  CommentMeta::where('comment_id', $this->id)
+                    ->where('meta_key', '=', CommentMeta::TYPE_USER_ACTION)
+                    ->where('meta_value', '=', static::ACTION_LIKE)
+                    ->count();
+
+        return $likes;
+    }
+
+    public function dislikes()
+    {
+        $dislikes = CommentMeta::where('comment_id', $this->id)
+                             ->where('meta_key', '=', CommentMeta::TYPE_USER_ACTION)
+                             ->where('meta_value', '=', static::ACTION_DISLIKE)
+                             ->count();
+    
+        return $dislikes;
+    }
+    
+    public function flags()
+    {
+        $flags = CommentMeta::where('comment_id', $this->id)
+                         ->where('meta_key', '=', CommentMeta::TYPE_USER_ACTION)
+                         ->where('meta_value', '=', static::ACTION_FLAG)
+                         ->count();
+    
+        return $flags;
+    }
+
+    public function loadArray($userId = null){
+        $item = $this->toArray();
+        $item['created'] = $item['created_at'];
+        $item['updated'] = $item['updated_at'];
+        $item['likes'] = $this->likes();
+        $item['dislikes'] = $this->dislikes();
+        $item['flags'] = $this->flags();
+
+        return $item;
+    }
+
+    static public function loadComments($docId, $commentId, $userId){
+        $comments = static::where('doc_id', '=', $docId);
+
+        if(!is_null($commentId)){
+            $comments->where('id', '=', $commentId);
+        }
+
+        $comments = $comments->get();
+
+        $retval = array();
+        foreach($comments as $comment){
+            $retval[] = $comment->loadArray();
+        }
+
+        return $retval;
+    }
 }
 

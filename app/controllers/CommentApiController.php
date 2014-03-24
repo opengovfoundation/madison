@@ -11,16 +11,19 @@ class CommentApiController extends ApiController{
 	}	
 	
 	public function getIndex($doc, $comment = null){
-		if($comment === null){
-			$comments = Comment::where('doc_id', $doc)->with('user')->get();
-
-			if($comments->isEmpty()){
-				$comments = array();
+		try{
+			$userId = null;
+			if(Auth::check()){
+				$userId = Auth::user()->id;
 			}
 
-			return Response::json($comments);
+			$results = Comment::loadComments($doc, $comment, $userId);
+		}catch(Exception $e){
+			throw $e;
+			App::abort(500, $e->getMessage());
 		}
 
+		return Response::json($results);
 	}
 
 	public function postIndex($doc){

@@ -68,7 +68,6 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/annotations/search', 'AnnotationApiController@getSearch');
     Route::get('api/docs/{doc}/annotations/{annotation?}', 'AnnotationApiController@getIndex');
     Route::post('api/docs/{doc}/annotations', 'AnnotationApiController@postIndex');
-    //Route::get('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@getIndex');
     Route::put('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@putIndex');
     Route::delete('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@deleteIndex');
 
