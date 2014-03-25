@@ -19,6 +19,7 @@
 @import "dashboard";
 @import "document";
 @import "rightbar";
+@import "animations";
 
 @include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
 
