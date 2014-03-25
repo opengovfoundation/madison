@@ -47,6 +47,7 @@ function ParticipateController($scope, $http, annotationService){
 	$scope.$on('annotationsUpdated', function(){
 		angular.forEach(annotationService.annotations, function(annotation){
 			annotation.label = 'annotation';
+			annotation.commentsCollapsed = true;
 			$scope.activities.push(annotation);
 		});
 		
@@ -58,6 +59,7 @@ function ParticipateController($scope, $http, annotationService){
 		.success(function(data, status, headers, config){
 			angular.forEach(data, function(comment){
 				comment.label = 'comment';
+				comment.commentsCollapsed = true;
 				$scope.activities.push(comment);
 			});
 		})
@@ -98,6 +100,11 @@ function ParticipateController($scope, $http, annotationService){
 		}).error(function(data){
 			console.error(data);
 		});
+	};
+
+	$scope.collapseComments = function(activity) {
+		console.log(activity.commentsCollapsed);
+		activity.commentsCollapsed = !activity.commentsCollapsed;
 	};
 
 	$scope.support = function(supported, $event){

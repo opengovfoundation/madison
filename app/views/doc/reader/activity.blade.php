@@ -18,12 +18,19 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <span class="activity-replies-indicator" ng-if="activity.comments.length > 0"><span class="glyphicon glyphicon-share-alt"></span><% activity.comments.length %> Replies</span>
+                <span class="activity-replies-indicator" ng-if="activity.comments.length > 0" ng-click="collapseComments(activity)"><span class="glyphicon glyphicon-share-alt"></span><% activity.comments.length %> Replies</span>
             </div>
             <div class="col-md-6 activity-actions">
                 <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(activity, 'likes')">(<% activity.likes || '0' %>)</span>
                 <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(activity, 'dislikes')">(<% activity.dislikes || '0' %>)</span>
                 <span class="glyphicon glyphicon-flag" ng-click="addAction(activity, 'flags')">(<% activity.flags || '0' %>)</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="activity-replies col-md-12" collapse="activity.commentsCollapsed">
+                <div class="activity-reply" ng-repeat="comment in activity.comments">
+                    <% comment.text %>
+                </div>
             </div>
         </div>
     </div>
