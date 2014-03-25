@@ -38,5 +38,26 @@ class CommentApiController extends ApiController{
 
 		return Response::json($return);
 	}
+
+	public function postLikes($docId, $commentId) {
+		$comment = Comment::find($commentId);
+		$comment->saveUserAction(Auth::user()->id, Comment::ACTION_LIKE);
+
+		return Response::json($comment->loadArray());
+	}
+
+	public function postDislikes($docId, $commentId) {
+		$comment = Comment::find($commentId);
+		$comment->saveUserAction(Auth::user()->id, Comment::ACTION_DISLIKE);
+
+		return Response::json($comment->loadArray());
+	}
+
+	public function postFlags($docId, $commentId) {
+		$comment = Comment::find($commentId);
+		$comment->saveUserAction(Auth::user()->id, Comment::ACTION_FLAG);
+
+		return Response::json($comment->loadArray());
+	}
 }
 

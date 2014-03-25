@@ -59,6 +59,33 @@ class Comment extends Eloquent{
         return $item;
     }
 
+    public function saveUserAction($userId, $action) {
+        switch($action) {
+            case static::ACTION_LIKE:
+            case static::ACTION_DISLIKE:
+            case static::ACTION_FLAG:
+                break;
+            default:
+                throw new \InvalidArgumentException("Invalid Action to Add");
+        }
+
+        $actionModel = CommentMeta::where('comment_id', '=', $this->id)
+                                    ->where('user_id', '=', $userId)
+                                    ->where('meta_key', '=', CommentMeta::TYPE_USER_ACTION)
+                                    ->take(1)->first();
+
+        if(is_null($actionModel)) {
+            $actionModel = new CommentMeta();
+            $actionModel->meta_key = CommentMeta::TYPE_USER_ACTION;
+            $actionModel->user_id = $userId;
+            $actionModel->comment_id = $this->id;
+        }
+
+        $actionModel->meta_value = $action;
+
+        return $actionModel->save();
+    }
+
     static public function loadComments($docId, $commentId, $userId){
         $comments = static::where('doc_id', '=', $docId);
 
