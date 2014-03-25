@@ -26,10 +26,18 @@
                 <span class="glyphicon glyphicon-flag" ng-click="addAction(activity, 'flags')">(<% activity.flags || '0' %>)</span>
             </div>
         </div>
-        <div class="row">
-            <div class="activity-replies col-md-12" collapse="activity.commentsCollapsed">
-                <div class="activity-reply" ng-repeat="comment in activity.comments">
-                    <% comment.text %>
+        <div class="activity-replies row" collapse="activity.commentsCollapsed">
+                <div class="activity-reply col-md-12" ng-repeat="comment in activity.comments">
+                    <div class="reply-author row">
+                        <div class="col-md-6">
+                                <span class="glyphicon glyphicon-share-alt"></span> <% comment.user.name %>:
+                        </div>
+                    </div>
+                    <div class="reply-text row">
+                        <div class="col-md-12">
+                            <% comment.text %>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
