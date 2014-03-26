@@ -1,7 +1,7 @@
 .rightbar{
     @include border-radius(10px);
     @include bg($light-gray);
-    padding:0 25px;
+    padding:5px 30px;
 
     > .row:last-child{
         border-bottom:none;
@@ -32,16 +32,28 @@
         padding-bottom:10px;
     }
 
+    .activity-thread{
+        font-size: 13px;
+        color: #444;
+    }
+
     .activity-item{
-        padding-bottom:10px;
+        padding-bottom:16px;
         margin-bottom: 10px;
         border-bottom:1px solid lightgrey;
+        .activity-author{
+            font-weight: bold;
+        }
         .activity-content{
             margin-bottom: 5px;
+            padding-top: 5px;
         }
         .activity-actions, .activity-replies-indicator{
             cursor:pointer;
             opacity:.25;
+            span.glyphicon{
+                padding-right: 4px;
+            }
         }
         &:hover{
             .activity-actions, .activity-replies-indicator{
@@ -50,6 +62,27 @@
         }
         .glyphicon{
             color: #888;
+        }
+        .activity-replies{
+            .activity-reply{
+                margin-top: 12px;
+                padding-left: 33px;
+                //padding-bottom: 6px;
+                //border-bottom: 1px solid #ccc;
+                .reply-author{
+                    font-weight: bold;
+                    .glyphicon{
+                        margin-left:-18px;
+                    }
+                }
+                .reply-text{
+                    padding-top: 5px;
+                    .col-md-12{
+                        
+                    }
+                }
+
+            }
         }
     }
 }
