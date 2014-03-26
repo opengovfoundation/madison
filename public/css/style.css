@@ -17,25 +17,26 @@
 .doc_content {
   /* max-height:700px;
   overflow-y:scroll; */
+  margin-bottom: 165px;
 }
 /* line 4, ../sass/_document.scss */
 .doc_content ol {
   list-style: none;
 }
 
-/* line 9, ../sass/_document.scss */
+/* line 10, ../sass/_document.scss */
 .doc-info {
   margin-left: -15px;
   margin-right: -15px;
   padding-left: 0px;
   margin-bottom: 25px;
 }
-/* line 14, ../sass/_document.scss */
+/* line 15, ../sass/_document.scss */
 .doc-info h1 {
   text-align: left;
   font-size: 28px;
 }
-/* line 18, ../sass/_document.scss */
+/* line 19, ../sass/_document.scss */
 .doc-info div {
   color: #666;
 }
@@ -48,7 +49,7 @@
   -o-border-radius: 10px;
   border-radius: 10px;
   background-color: #fafafa;
-  padding: 0 25px;
+  padding: 5px 30px;
 }
 /* line 6, ../sass/_rightbar.scss */
 .rightbar > .row:last-child {
@@ -80,27 +81,58 @@
   padding-bottom: 10px;
 }
 /* line 35, ../sass/_rightbar.scss */
+.rightbar .activity-thread {
+  font-size: 13px;
+  color: #444;
+}
+/* line 40, ../sass/_rightbar.scss */
 .rightbar .activity-item {
-  padding-bottom: 10px;
+  padding-bottom: 16px;
   margin-bottom: 10px;
   border-bottom: 1px solid lightgrey;
 }
-/* line 39, ../sass/_rightbar.scss */
+/* line 44, ../sass/_rightbar.scss */
+.rightbar .activity-item .activity-author {
+  font-weight: bold;
+}
+/* line 47, ../sass/_rightbar.scss */
 .rightbar .activity-item .activity-content {
   margin-bottom: 5px;
+  padding-top: 5px;
 }
-/* line 42, ../sass/_rightbar.scss */
+/* line 51, ../sass/_rightbar.scss */
 .rightbar .activity-item .activity-actions, .rightbar .activity-item .activity-replies-indicator {
   cursor: pointer;
   opacity: .25;
 }
-/* line 47, ../sass/_rightbar.scss */
+/* line 54, ../sass/_rightbar.scss */
+.rightbar .activity-item .activity-actions span.glyphicon, .rightbar .activity-item .activity-replies-indicator span.glyphicon {
+  padding-right: 4px;
+}
+/* line 59, ../sass/_rightbar.scss */
 .rightbar .activity-item:hover .activity-actions, .rightbar .activity-item:hover .activity-replies-indicator {
   opacity: 1;
 }
-/* line 51, ../sass/_rightbar.scss */
+/* line 63, ../sass/_rightbar.scss */
 .rightbar .activity-item .glyphicon {
   color: #888;
+}
+/* line 67, ../sass/_rightbar.scss */
+.rightbar .activity-item .activity-replies .activity-reply {
+  margin-top: 12px;
+  padding-left: 33px;
+}
+/* line 72, ../sass/_rightbar.scss */
+.rightbar .activity-item .activity-replies .activity-reply .reply-author {
+  font-weight: bold;
+}
+/* line 74, ../sass/_rightbar.scss */
+.rightbar .activity-item .activity-replies .activity-reply .reply-author .glyphicon {
+  margin-left: -18px;
+}
+/* line 78, ../sass/_rightbar.scss */
+.rightbar .activity-item .activity-replies .activity-reply .reply-text {
+  padding-top: 5px;
 }
 
 /* line 2, ../sass/_animations.scss */
@@ -119,12 +151,12 @@
   opacity: 1;
 }
 
-/* line 10, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 10, ../../../../../../../Applications/CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%;
 }
 
-/* line 12, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 12, ../../../../../../../Applications/CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #wrap {
   clear: both;
   min-height: 100%;
@@ -132,12 +164,12 @@ html, body {
   height: 100%;
   margin-bottom: -100px;
 }
-/* line 18, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 18, ../../../../../../../Applications/CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #wrap #wrap-footer {
   height: 100px;
 }
 
-/* line 20, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 20, ../../../../../../../Applications/CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 #footer {
   clear: both;
   position: relative;
