@@ -18,7 +18,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <span class="activity-replies-indicator" ng-if="activity.comments.length > 0" ng-click="collapseComments(activity)"><span class="glyphicon glyphicon-share-alt"></span><% activity.comments.length %> Replies</span>
+                <span class="activity-replies-indicator" ng-click="collapseComments(activity)"><span class="glyphicon glyphicon-share-alt"></span><% activity.comments.length || '0' %> Replies</span>
             </div>
             <div class="col-md-6 activity-actions">
                 <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(activity, 'likes')">(<% activity.likes || '0' %>)</span>
