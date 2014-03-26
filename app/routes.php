@@ -78,6 +78,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/comments/{comment}/likes', 'CommentApiController@postLikes');
     Route::post('api/docs/{doc}/comments/{comment}/dislikes', 'CommentApiController@postDislikes');
     Route::post('api/docs/{doc}/comments/{comment}/flags', 'CommentApiController@postFlags');
+    Route::post('api/docs/{doc}/comments/{comment}/comments', 'CommentApiController@postComments');
 
     //Document Support / Oppose routes
     Route::post('api/docs/{doc}/support/', 'DocController@postSupport');

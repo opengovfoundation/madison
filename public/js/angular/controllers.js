@@ -103,8 +103,17 @@ function ParticipateController($scope, $http, annotationService){
 	};
 
 	$scope.collapseComments = function(activity) {
-		console.log(activity.commentsCollapsed);
 		activity.commentsCollapsed = !activity.commentsCollapsed;
+	};
+
+	$scope.subcommentSubmit = function(activity, subcomment) {
+		$.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/comments', {'comment': subcomment})
+		.success(function(data){
+			console.log(data);
+			activity.comments.push(data);
+		}).error(function(data){
+			console.error(data);
+		});
 	};
 
 	$scope.support = function(supported, $event){
