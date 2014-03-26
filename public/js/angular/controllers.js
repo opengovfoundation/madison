@@ -92,7 +92,7 @@ function ParticipateController($scope, $http, annotationService){
 	};
 
 	$scope.addAction = function(activity, action){
-		$http.post('/api/docs/' + doc.id + '/comments/' + activity.id + '/' + action)
+		$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
 		.success(function(data){
 			activity.likes = data.likes;
 			activity.dislikes = data.dislikes;
