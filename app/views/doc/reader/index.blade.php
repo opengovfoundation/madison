@@ -28,7 +28,7 @@
 	{{ HTML::script('js/annotator-madison.js') }}
 	{{ HTML::script('js/doc.js') }}
 	<div class="col-md-8" ng-controller="ReaderController">
-		<div class="doc-info col-md-12">
+		<div class="doc-info row">
 			<h1>{{ $doc->title }}</h1>
 			<div class="doc-sponsor" ng-repeat="sponsor in doc.sponsor">
 				<strong>Sponsored by </strong><span><% sponsor.fname %> <% sponsor.lname %></span>

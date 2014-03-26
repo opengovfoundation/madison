@@ -21,7 +21,7 @@
 @import "rightbar";
 @import "animations";
 
-@include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
+/* @include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer"); */
 
 body{
 	@include bg($bg-gray);

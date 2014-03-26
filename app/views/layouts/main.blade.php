@@ -38,8 +38,8 @@
 						@yield('content')
 					</div>
 				</div>
-				<div id="wrap-footer"></div>
 			</div>
+			<div id="wrap-footer"></div>
 		</div>
 		<div id="footer" class="footer row">
 			@include('layouts.footer')
