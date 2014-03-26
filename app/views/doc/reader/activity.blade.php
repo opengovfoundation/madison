@@ -42,7 +42,7 @@
                 @if(Auth::check())
                     <div class="subcomment-field col-md-12">
                         <form name="add-subcomment-form" ng-submit="subcommentSubmit(activity, subcomment)">
-                            <input ng-model="subcomment.content" type="text" class="form-control centered" placeholder="Add a comment" required />
+                            <input ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
                         </form>
                     </div>
                 @endif

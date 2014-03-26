@@ -107,10 +107,13 @@ function ParticipateController($scope, $http, annotationService){
 	};
 
 	$scope.subcommentSubmit = function(activity, subcomment) {
+		subcomment.user = $scope.user;
+
 		$.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/comments', {'comment': subcomment})
 		.success(function(data){
-			console.log(data);
-			activity.comments.push(data);
+			activity.comments.push(angular.copy(subcomment));
+			subcomment.text = '';
+			subcomment.user = '';
 		}).error(function(data){
 			console.error(data);
 		});
