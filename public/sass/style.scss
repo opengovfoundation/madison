@@ -23,8 +23,26 @@
 
 /* @include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer"); */
 
+html{
+	height:100%;
+}
+
 body{
+	height:100%;
 	@include bg($bg-gray);
+}
+
+.wrap{
+	min-height: 100%;
+	height: auto !important;
+	margin:0 auto -75px;
+}
+
+.footer{
+	height:75px;
+	margin-top:100px;
+	@include grad-bg($black-grad-start, $black-grad-end);
+	background: #DEDEDE;
 }
 
 h1{
@@ -590,12 +608,7 @@ h1.user-name{
 	border-right:none;
 	border-left:none;
 }
-.footer{
-	height:100px;
-	margin-top:50px;
-	@include grad-bg($black-grad-start, $black-grad-end);
-	background: #DEDEDE;
-}
+
 
 //Helper Classes
 .hidden{
