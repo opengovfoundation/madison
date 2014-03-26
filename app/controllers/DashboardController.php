@@ -69,7 +69,7 @@ class DashboardController extends BaseController{
 		//Creating new document
 		if($id == ''){
 			$title = Input::get('title');
-			$slug = Input::get('slug');
+			$slug = str_replace(array(' ', '.'),array('-', ''), strtolower($title));
 			$doc_details = Input::all();
 
 			$rules = array('title' => 'required');
