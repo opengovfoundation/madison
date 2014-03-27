@@ -10,11 +10,11 @@
         }
     ],
     "require-dev":{
-    	"anahkiasen/rocketeer": "dev-master",
     	"way/guard-laravel": "dev-master",
     	"way/phpunit-wrappers": "dev-master"
     },
 	"require": {
+        "anahkiasen/rocketeer": "dev-master",
 		"laravel/framework": "4.1.*",
 		"roumen/sitemap": "dev-master",
 		"elasticsearch/elasticsearch": "~0.4",

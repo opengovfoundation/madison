@@ -23,7 +23,7 @@
 	'composer' => function ($task) {
 		return array(
 			$task->composer('self-update'),
-			$task->composer('install --no-interaction --prefer-dist'),
+			$task->composer('install --no-interaction --no-dev --prefer-dist'),
 		);
 	},
 
