@@ -253,7 +253,7 @@ function UserPageController($scope, $http, $location){
 	$scope.user = {};
 	$scope.meta = '';
 	$scope.docs = [];
-	$scope.comments = [];
+	$scope.activities = [];
 	$scope.verified = false;
 
 	$scope.init = function(){
@@ -271,15 +271,17 @@ function UserPageController($scope, $http, $location){
 			$scope.meta = angular.copy(data.user_meta);
 
 			angular.forEach(data.docs, function(doc){
-				doc.created_at = Date.parse(doc.created_at);
-				doc.updated_at = Date.parse(doc.updated_at);
-
 				$scope.docs.push(doc);
 			});
 
 			angular.forEach(data.comments, function(comment){
-				comment.created_at = Date.parse(comment.created_at);
-				$scope.comments.push(comment);
+				comment.label = 'comment';
+				$scope.activities.push(comment);
+			});
+
+			angular.forEach(data.annotations, function(annotation){
+				annotation.label = 'annotation';
+				$scope.activities.push(annotation);
 			});
 
 			angular.forEach($scope.user.user_meta, function(meta){
@@ -299,11 +301,15 @@ function UserPageController($scope, $http, $location){
 	};
 
 	$scope.showVerified = function(){
-		if($scope.verified && $scope.docs.length > 0){
+		if($scope.user.docs && $scope.user.docs.length > 0){
 			return true;
 		}
 
 		return false;
+	};
+
+	$scope.activityOrder = function(activity){
+		return Date.parse(activity.created_at);
 	};
 
 }
