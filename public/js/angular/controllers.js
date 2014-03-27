@@ -114,6 +114,7 @@ function ParticipateController($scope, $http, annotationService){
 			activity.comments.push(data);
 			subcomment.text = '';
 			subcomment.user = '';
+			$scope.$apply();
 		}).error(function(data){
 			console.error(data);
 		});
