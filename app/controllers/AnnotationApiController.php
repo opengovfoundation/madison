@@ -167,9 +167,9 @@ class AnnotationApiController extends ApiController{
 								->where('id', '=', $annotationId)
 							    ->first();
 
-		$results = $annotation->addOrUpdateComment($comment);
+		$result = $annotation->addOrUpdateComment($comment);
 		
-		return Response::json($annotation->toAnnotatorArray());
+		return Response::json($result);
 	}
 }
 

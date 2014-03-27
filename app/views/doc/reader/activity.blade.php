@@ -30,7 +30,7 @@
                 <div class="activity-reply col-md-12" ng-repeat="comment in activity.comments">
                     <div class="reply-author row">
                         <div class="col-md-6">
-                                <span class="glyphicon glyphicon-share-alt"></span> <% comment.user.name || (comment.user.fname + comment.user.lname.substr(0,1)) %>:
+                                <span class="glyphicon glyphicon-share-alt"></span> <% comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) %>:
                         </div>
                     </div>
                     <div class="reply-text row">

@@ -10,4 +10,8 @@ class AnnotationComment extends Eloquent
 	{
 		return $this->belongsTo('DBAnnotation');
 	}
+
+    public function user(){
+        return $this->belongsTo('User');
+    }
 }

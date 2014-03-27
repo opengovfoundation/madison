@@ -47,6 +47,10 @@ class Annotation extends Eloquent
 		return static::$_esInstance;
 		
 	}
+
+	public function user(){
+		return $this->belongsTo('User');
+	}
 	
 	public function comments()
 	{
@@ -380,7 +384,10 @@ class Annotation extends Eloquent
 		
 		$obj->annotation_id = $this->id;
 		
-		return $obj->save();
+		$obj->save();
+		$obj->load('user');
+
+		return $obj;
 	}
 	
 	static public function getMetaCount($id, $action) 
