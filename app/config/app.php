@@ -106,7 +106,6 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-		'Profiler\ProfilerServiceProvider',
 		'Roumen\Sitemap\SitemapServiceProvider',
 		'Rocketeer\RocketeerServiceProvider',
 		'GrahamCampbell\Markdown\MarkdownServiceProvider',
@@ -177,7 +176,6 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 		'Markdown'        => 'GrahamCampbell\Markdown\Facades\Markdown',
-		'Profiler'        => 'Profiler\Facades\Profiler',
 		'Rocketeer'       => 'Rocketeer\Facades\Rocketeer',
 	),
 
