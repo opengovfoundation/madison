@@ -86,8 +86,25 @@ class Comment extends Eloquent{
         return $actionModel->save();
     }
 
+    public function addOrUpdateComment(array $comment) {
+        $obj = new Comment();
+        $obj->content = $comment['text'];
+        $obj->user_id = $comment['user']['id'];
+        $obj->doc_id = $this->doc_id;
+        
+        dd($obj);
+
+        if(isset($comment['id'])) {
+            $obj->id = $comment['id'];
+        }
+        
+        $obj->parent_id = $this->id;
+        
+        return $obj->save();
+    }    
+
     static public function loadComments($docId, $commentId, $userId){
-        $comments = static::where('doc_id', '=', $docId);
+        $comments = static::where('doc_id', '=', $docId)->whereNull('parent_id')->with('comments');
 
         if(!is_null($commentId)){
             $comments->where('id', '=', $commentId);

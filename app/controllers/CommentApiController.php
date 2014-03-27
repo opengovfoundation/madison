@@ -59,5 +59,17 @@ class CommentApiController extends ApiController{
 
 		return Response::json($comment->loadArray());
 	}
+
+	public function postComments($docId, $commentId) {
+		$comment = Input::get('comment');
+
+		$parent = Comment::where('doc_id', '=', $docId)
+								->where('id', '=', $commentId)
+							    ->first();
+
+		$results = $parent->addOrUpdateComment($comment);
+		
+		return Response::json($parent->loadArray());
+	}
 }
 

@@ -43,7 +43,7 @@ class AnnotationApiController extends ApiController{
 	 */
 	public function postIndex($doc){
 		$body = Input::all();
-		$body['doc'] = $doc;
+		$body['doc_id'] = $doc;
 
 		$annotation = Annotation::createFromAnnotatorArray($body);
 		$annotation->updateSearchIndex();
@@ -163,7 +163,7 @@ class AnnotationApiController extends ApiController{
 
 		$comment = Input::get('comment');
 
-		$annotation = Annotation::where('doc', '=', $docId)
+		$annotation = Annotation::where('doc_id', '=', $docId)
 								->where('id', '=', $annotationId)
 							    ->first();
 
