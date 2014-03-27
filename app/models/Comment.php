@@ -107,10 +107,6 @@ class Comment extends Eloquent{
     static public function loadComments($docId, $commentId, $userId){
         $comments = static::where('doc_id', '=', $docId)->whereNull('parent_id')->with('comments');
 
-        foreach($comments->comments as $subcomment){
-            $subcomment->load('user');
-        }
-
         if(!is_null($commentId)){
             $comments->where('id', '=', $commentId);
         }
@@ -119,6 +115,9 @@ class Comment extends Eloquent{
 
         $retval = array();
         foreach($comments as $comment){
+            foreach($comment->comments as $subcomment){
+                $subcomment->load('user');
+            }
             $retval[] = $comment->loadArray();
         }
 
