@@ -24,14 +24,6 @@
 		'setup'   => array(),
 		'deploy'  => array(
 			function($task){
-				$migrated = $task->runForCurrentRelease('php artisan migrate');
-				
-				if($migrated){
-					$task->command->info('Migrating database');
-				}else{
-					$task->command->error('Error migrating database!');
-				}
-
 				$homeFolder = $task->rocketeer->getFolder('shared');
 
 				$task->command->info('Linking ' . $homeFolder . '/creds.yml -> current/app/config/creds.yml');
@@ -54,6 +46,8 @@
 	),
 
 	// Custom Tasks to register with Rocketeer
-	'custom' => array(),
+	'custom' => array(
+		'MadisonTasks\Migrate'
+	),
 
 );

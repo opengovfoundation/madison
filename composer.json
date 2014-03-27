@@ -29,7 +29,8 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/tests/TestCase.php"
+			"app/tests/TestCase.php",
+            "app/config/packages/anahkiasen/rocketeer/tasks"
 		]
 	},
 	"scripts": {
