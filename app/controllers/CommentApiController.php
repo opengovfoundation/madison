@@ -32,7 +32,7 @@ class CommentApiController extends ApiController{
 		$newComment = new Comment();
 		$newComment->user_id = Auth::user()->id;
 		$newComment->doc_id = $comment['doc']['id'];
-		$newComment->content = $comment['content'];
+		$newComment->text = $comment['text'];
 
 		$return = $newComment->save();
 
@@ -67,9 +67,9 @@ class CommentApiController extends ApiController{
 								->where('id', '=', $commentId)
 							    ->first();
 
-		$results = $parent->addOrUpdateComment($comment);
+		$result = $parent->addOrUpdateComment($comment);
 		
-		return Response::json($parent->loadArray());
+		return Response::json($result);
 	}
 }
 

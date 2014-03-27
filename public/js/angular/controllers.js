@@ -78,7 +78,7 @@ function ParticipateController($scope, $http, annotationService){
 			comment.label = 'comment';
 			comment.user.fname = comment.user.name;
 			$scope.activities.push(comment);
-			$scope.comment.content = '';
+			$scope.comment.text = '';
 		})
 		.error(function(data, status, headers, config){
 			console.error("Error posting comment: %o", data);
@@ -111,7 +111,7 @@ function ParticipateController($scope, $http, annotationService){
 
 		$.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/comments', {'comment': subcomment})
 		.success(function(data){
-			activity.comments.push(angular.copy(subcomment));
+			activity.comments.push(data);
 			subcomment.text = '';
 			subcomment.user = '';
 		}).error(function(data){

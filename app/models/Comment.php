@@ -88,11 +88,9 @@ class Comment extends Eloquent{
 
     public function addOrUpdateComment(array $comment) {
         $obj = new Comment();
-        $obj->content = $comment['text'];
+        $obj->text = $comment['text'];
         $obj->user_id = $comment['user']['id'];
         $obj->doc_id = $this->doc_id;
-        
-        dd($obj);
 
         if(isset($comment['id'])) {
             $obj->id = $comment['id'];
@@ -100,11 +98,18 @@ class Comment extends Eloquent{
         
         $obj->parent_id = $this->id;
         
-        return $obj->save();
+        $obj->save();
+        $obj->load('user');
+
+        return $obj;
     }    
 
     static public function loadComments($docId, $commentId, $userId){
         $comments = static::where('doc_id', '=', $docId)->whereNull('parent_id')->with('comments');
+
+        foreach($comments->comments as $subcomment){
+            $subcomment->load('user');
+        }
 
         if(!is_null($commentId)){
             $comments->where('id', '=', $commentId);
