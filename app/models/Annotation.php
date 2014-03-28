@@ -326,10 +326,6 @@ class Annotation extends Eloquent
 			$retval[] = $annotation->toAnnotatorArray();
 		}
 		
-		if(count($retval) == 1) {
-			return $retval[0];
-		}
-		
 		return $retval;
 	}
 	
@@ -365,7 +361,7 @@ class Annotation extends Eloquent
 		$esParams = array(
 			'index' => static::getEsIndex(),
 			'type' => static::INDEX_TYPE,
-			'id' => $this->id
+			'id' => $this->search_id
 		);
 		
 		$client->delete($esParams);
