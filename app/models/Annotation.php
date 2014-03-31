@@ -275,14 +275,20 @@ class Annotation extends Eloquent
 		
 			if($perm->update) {
 				$item['permissions']['update'][] = $perm['user_id'];
+			}else{
+				$item['permissions']['update'][] = '0';
 			}
 		
 			if($perm->delete) {
 				$item['permissions']['delete'][] = $perm['user_id'];
+			}else{
+				$item['permissions']['delete'][] = '0';
 			}
 		
 			if($perm->admin) {
 				$item['permissions']['admin'][] = $perm['user_id'];
+			}else{
+				$item['permissions']['admin'][] = '0';
 			}
 		}
 		

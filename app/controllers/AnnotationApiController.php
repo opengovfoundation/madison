@@ -73,10 +73,10 @@ class AnnotationApiController extends ApiController{
 			$permissions = new AnnotationPermission();
 			$permissions->annotation_id = $annotation->id;
 			$permissions->user_id = Auth::user()->id;
-			$permissions->read = 0;
-			$permissions->update = 1;
-			$permissions->delete = 1;
-			$permissions->admin = 1;
+			$permissions->read = 1;
+			$permissions->update = 0;
+			$permissions->delete = 0;
+			$permissions->admin = 0;
 			$permissions->save();
 
 			foreach($body['tags'] as $tag){
