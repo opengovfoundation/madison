@@ -375,13 +375,17 @@ class Annotation extends Eloquent
 			}
 		}
 		
-		$deletedMetas = NoteMeta::where('annotation_id', '=', $this->id)->delete();
-		$deletedComments = AnnotationComment::where('annotation_id', '=', $this->id)->delete();
-		$deletedPermissions = AnnotationPermission::where('annotation_id', '=', $this->id)->delete();
-		$deletedRanges = AnnotationRange::where('annotation_id', '=', $this->id)->delete();
-		$deletedTags = AnnotationTag::where('annotation_id', '=', $this->id)->delete();
+		DB::transaction(function(){
+			$deletedMetas = NoteMeta::where('annotation_id', '=', $this->id)->delete();
+			$deletedComments = AnnotationComment::where('annotation_id', '=', $this->id)->delete();
+			$deletedPermissions = AnnotationPermission::where('annotation_id', '=', $this->id)->delete();
+			$deletedRanges = AnnotationRange::where('annotation_id', '=', $this->id)->delete();
+			$deletedTags = AnnotationTag::where('annotation_id', '=', $this->id)->delete();
 
-		return parent::delete();
+			return parent::delete();	
+		});
+
+		
 	}
 	
 	public function addOrUpdateComment(array $comment) {
