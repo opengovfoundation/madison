@@ -19,9 +19,9 @@
                 <span class="activity-replies-indicator" ng-click="collapseComments(activity)"><span class="glyphicon glyphicon-share-alt"></span><% activity.comments.length || '0' %> Replies</span>
             </div>
             <div class="col-md-6 activity-actions">
-                <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(activity, 'likes')">(<% activity.likes || '0' %>)</span>
-                <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(activity, 'dislikes')">(<% activity.dislikes || '0' %>)</span>
-                <span class="glyphicon glyphicon-flag" ng-click="addAction(activity, 'flags')">(<% activity.flags || '0' %>)</span>
+                <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(activity, 'likes', $event)">(<% activity.likes || '0' %>)</span>
+                <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(activity, 'dislikes', $event)">(<% activity.dislikes || '0' %>)</span>
+                <span class="glyphicon glyphicon-flag" ng-click="addAction(activity, 'flags', $event)">(<% activity.flags || '0' %>)</span>
             </div>
         </div>
         <div class="activity-replies row" collapse="activity.commentsCollapsed">

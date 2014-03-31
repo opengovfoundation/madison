@@ -12,7 +12,7 @@ function ReaderController($scope, annotationService){
 	});
 }
 
-function ParticipateController($scope, $http, annotationService){
+function ParticipateController($scope, $http, annotationService, createLoginPopup){
 	$scope.annotations = [];
 	$scope.comments = [];
 	$scope.activities = [];
@@ -94,15 +94,20 @@ function ParticipateController($scope, $http, annotationService){
 		return popularity;
 	};
 
-	$scope.addAction = function(activity, action){
-		$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
-		.success(function(data){
-			activity.likes = data.likes;
-			activity.dislikes = data.dislikes;
-			activity.flags = data.flags;
-		}).error(function(data){
-			console.error(data);
-		});
+	$scope.addAction = function(activity, action, $event){
+		if($scope.user.id !== ''){
+			$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
+			.success(function(data){
+				activity.likes = data.likes;
+				activity.dislikes = data.dislikes;
+				activity.flags = data.flags;
+			}).error(function(data){
+				console.error(data);
+			});
+		}else{
+			createLoginPopup($event);
+		}
+		
 	};
 
 	$scope.collapseComments = function(activity) {
@@ -699,6 +704,6 @@ HomePageController.$inject = ['$scope', '$http', '$filter'];
 UserPageController.$inject = ['$scope', '$http', '$location'];
 
 ReaderController.$inject = ['$scope', 'annotationService'];
-ParticipateController.$inject = ['$scope', '$http', 'annotationService'];
+ParticipateController.$inject = ['$scope', '$http', 'annotationService', 'createLoginPopup'];
 
 
