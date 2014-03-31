@@ -363,9 +363,24 @@ class Annotation extends Eloquent
 			'type' => static::INDEX_TYPE,
 			'id' => $this->search_id
 		);
+		try{
+			$client->delete($esParams);
+		}catch(Exception $e){
+			$message = json_decode($e->getMessage());
+
+			if($message->ok){
+				Log::warning("The annotation with id: " . $this->search_id . " was not found in ElasticSearch.  Deleting annotation from the DB...");
+			}else{
+				throw new Exception("Unable to delete annotation from ElasticSearch: " . $e->getMessage());	
+			}
+		}
 		
-		$client->delete($esParams);
-		
+		$deletedMetas = NoteMeta::where('annotation_id', '=', $this->id)->delete();
+		$deletedComments = AnnotationComment::where('annotation_id', '=', $this->id)->delete();
+		$deletedPermissions = AnnotationPermission::where('annotation_id', '=', $this->id)->delete();
+		$deletedRanges = AnnotationRange::where('annotation_id', '=', $this->id)->delete();
+		$deletedTags = AnnotationTag::where('annotation_id', '=', $this->id)->delete();
+
 		return parent::delete();
 	}
 	
