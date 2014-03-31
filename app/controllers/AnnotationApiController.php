@@ -34,6 +34,10 @@ class AnnotationApiController extends ApiController{
 			App::abort(500, $e->getMessage());
 		} 
 		
+		if(isset($annotationId)){
+			return Response::json($results[0]);
+		}
+
 		return Response::json($results);
 	}
 
