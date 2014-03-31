@@ -3,6 +3,7 @@
 class AnnotationRange extends Eloquent
 {
 	protected $table = "annotation_ranges";
+	protected $softDelete = true;
 	public $incrementing = false;
 	protected $fillable = array('start', 'end', 'start_offset', 'end_offset');
 	

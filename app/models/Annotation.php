@@ -11,6 +11,7 @@ class Annotation extends Eloquent
 	const ACTION_FLAG = 'flag';
 	
 	protected $table = "annotations";
+	protected $softDelete = true;
 	protected $fillable = array('quote', 'text', 'uri');
 
 	static protected $_esInstance = null;

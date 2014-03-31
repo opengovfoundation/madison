@@ -1,6 +1,7 @@
 <?php
 class Comment extends Eloquent{
 	protected $table = 'comments';
+    protected $softDelete = true;
 
     const ACTION_LIKE = 'like';
     const ACTION_DISLIKE = 'dislike';

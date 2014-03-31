@@ -46,9 +46,12 @@ function ParticipateController($scope, $http, annotationService){
 
 	$scope.$on('annotationsUpdated', function(){
 		angular.forEach(annotationService.annotations, function(annotation){
-			annotation.label = 'annotation';
-			annotation.commentsCollapsed = true;
-			$scope.activities.push(annotation);
+			if($.inArray(annotation, $scope.activities) < 0){
+				annotation.label = 'annotation';
+				annotation.commentsCollapsed = true;
+				$scope.activities.push(annotation);
+			}
+			
 		});
 		
 		$scope.$apply();

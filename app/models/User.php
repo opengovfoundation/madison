@@ -10,6 +10,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	
 	protected $hidden = array('password', 'token', 'last_login', 'created_at', 'updated_at');
 	//protected $fillable = array('id', 'email', 'fname', 'lname', 'user_level');
+	protected $softDelete = true;
 
 	public function verified(){
 		$request = $this->user_meta()->where('meta_key', 'verify')->first();

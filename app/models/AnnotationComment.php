@@ -3,6 +3,7 @@
 class AnnotationComment extends Eloquent
 {
 	protected $table = "annotation_comments";
+    protected $softDelete = true;
 	public $incrementing = false;
 	protected $fillable = array('id', 'user_id', 'annotation_id', 'text');
 	
