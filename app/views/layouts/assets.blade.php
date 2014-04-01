@@ -14,7 +14,7 @@
 {{ HTML::script('vendor/underscore.min.js') }}
 {{ HTML::script('vendor/pagedown/assets/Markdown.Converter.js') }}
 {{ HTML::script('vendor/angular/angular.min.js') }}
-{{ HTML::script('vendor/angular/angular-animate.js') }}
+{{ HTML::script('vendor/angular/angular-animate.min.js') }}
 {{ HTML::script('vendor/angular-md5.js') }}
 {{ HTML::script('vendor/ui-bootstrap-tpls-0.10.0.min.js') }}
 {{ HTML::script('vendor/ui-utils.min.js') }}

@@ -1,6 +1,6 @@
 <h3>Activity</h3>
 <div class="activity-thread col-md-12">
-    <div class="row activity-item" ng-repeat="activity in activities track by $index | orderBy:activityOrder:true" ng-class="activity.label">
+    <div class="row activity-item" ng-repeat="activity in activities | orderBy:activityOrder:true track by $id(activity)" ng-class="activity.label">
         <div class="row">
             <div class="activity-author col-md-10">
                 <span><% activity.user.name || (activity.user.fname + ' ' + activity.user.lname.substr(0,1)) %></span>
