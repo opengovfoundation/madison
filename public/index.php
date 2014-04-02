@@ -1,10 +1,21 @@
 <?php
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
  * @package  Laravel
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
+
+/*
+ * Uncomment this to enable the Zend Studio debugger
+ * (change the IP if not using the virtual machine environment)
+ * 
+$_GET['start_debug'] = 1;
+$_GET['debug_host'] = "192.168.42.1";
+$_GET['debug_port'] = '10137';
+debugger_start_debug();
+*/
 
 /*
 |--------------------------------------------------------------------------

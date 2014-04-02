@@ -8,8 +8,8 @@
 	// the Rocketeer\Traits\Task class
 	//
 	// In the `custom` array you can list custom Tasks classes to be added
-	// to Rocketeer. Those will then be available in Artisan
-	// as `php artisan deploy:yourtask`
+	// to Rocketeer. Those will then be available in the command line
+	// with all the other tasks
 	//////////////////////////////////////////////////////////////////////
 
 	// Tasks to execute before the core Rocketeer Tasks
@@ -32,17 +32,22 @@
 				$task->command->info('Linking ' . $homeFolder . '/smtp.yml -> current/app/config/creds.yml');
 				$smtp_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/smtp.yml current/app/config/smtp.yml');
 				
-				$task->command->info('Linking ' . $homeFolder . '/uservoice.js -> current/app/config/creds.yml');
+				$task->command->info('Linking ' . $homeFolder . '/uservoice.js -> current/public/js/uservoice.js');
 				$uservoice_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder .'/uservoice.js current/public/js/uservoice.js');
 				
-				$task->command->info('Linking ' . $homeFolder . '/addthis.js -> current/app/config/creds.yml');
+				$task->command->info('Linking ' . $homeFolder . '/addthis.js -> current/public/js/addthis.js');
 				$addthis_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/addthis.js current/public/js/addthis.js');
+
+				$task->command->info('Linking ' . $homeFolder . '/ga.js -> current/public/js/ga.js');
+				$ga_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/ga.js current/public/js/ga.js');
 			}
 		),
 		'cleanup' => array(),
 	),
 
 	// Custom Tasks to register with Rocketeer
-	'custom' => array(),
+	'custom' => array(
+		'MadisonTasks\Migrate'
+	),
 
 );

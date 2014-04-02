@@ -1,0 +1,13 @@
+.activity-item{
+    &.ng-move{
+        position:relative;
+        top:-20px;
+        opacity:0;
+        @include transition(all 1.5s ease);
+
+        &.ng-move-active{
+            top:0;
+            opacity:1
+        }
+    }
+}

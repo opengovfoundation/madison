@@ -14,42 +14,95 @@ class AnnotationApiController extends ApiController{
 	//	Returns json annotation if id found,
 	//		404 with error message if id not found,
 	//		404 if no id passed
-	public function getIndex($doc, $annotation = null){
+	
+	/**
+	 * Get annotations by document ID and annotation ID
+	 * @param interger $docId
+	 * @param string $annotationId optional, if not provided get all
+	 * @throws Exception
+	 */
+	public function getIndex($docId, $annotationId = null){
 		try{
+			$userId = null;
 			if(Auth::check()){
-				$userid = Auth::user()->id;
-
-				if($annotation !== null){
-					$results = Annotation::findWithActions($annotation, $userid);
-				}else{
-					$results = Annotation::allWithActions($doc, $userid);
-				}
-			}else{
-				if($annotation !== null){
-					$results = Annotation::find($annotation);
-				}else{
-					$results = Annotation::all($doc);
-				}
+				$userId = Auth::user()->id;
 			}
+			
+			$results = Annotation::loadAnnotationsForAnnotator($docId, $annotationId, $userId);
 		}catch(Exception $e){
-			App::abort(404, $e->getMessage());
+			throw $e;
+			App::abort(500, $e->getMessage());
+		} 
+		
+		if(isset($annotationId)){
+			return Response::json($results[0]);
 		}
 
 		return Response::json($results);
 	}
 
+	/**
+	 * Create a new annotation
+	 * @param document ID $doc
+	 */
 	public function postIndex($doc){
 		$body = Input::all();
-		$body['doc'] = $doc;
+		$body['doc_id'] = $doc;
 
-		$annotation = new Annotation();
-		$annotation->body($body);
+		$id = DB::transaction(function() use ($body, $doc){
+			$annotation = new Annotation();
+			$annotation->doc_id = $doc;
+			$annotation->user_id = Auth::user()->id;
+			$annotation->quote = $body['quote'];
+			$annotation->text = $body['text'];
+			$annotation->uri = $body['uri'];
 
-		$id = $annotation->save();
+			$annotation->save();
 
+			foreach($body['ranges'] as $range){
+				$rangeObj = new AnnotationRange();
+				$rangeObj->annotation_id = $annotation->id;
+				$rangeObj->start_offset = $range['startOffset'];
+				$rangeObj->end_offset = $range['endOffset'];
+				$rangeObj->start = $range['start'];
+				$rangeObj->end = $range['end'];
+
+				$rangeObj->save();
+			}
+			
+			$permissions = new AnnotationPermission();
+			$permissions->annotation_id = $annotation->id;
+			$permissions->user_id = Auth::user()->id;
+			$permissions->read = 1;
+			$permissions->update = 0;
+			$permissions->delete = 0;
+			$permissions->admin = 0;
+			$permissions->save();
+
+			foreach($body['tags'] as $tag){
+				$tagObj = new AnnotationTag();
+				$tagObj->annotation_id = $annotation->id;
+				$tagObj->tag = $tag;
+				$tagObj->save();
+			}
+
+			$annotation->updateSearchIndex();
+
+			return $annotation->id;
+		});
+
+		
+
+		//$annotation = Annotation::createFromAnnotatorArray($body);
+		
+		
 		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $id, 303);
 	}
 
+	/**
+	 * Update an existing annotation
+	 * @param string $id
+	 */
 	public function putIndex($id = null){
 		
 		//If no id requested, return 404
@@ -58,18 +111,19 @@ class AnnotationApiController extends ApiController{
 		}
 
 		$body = Input::all();
-
-		$id = Input::get('id');
-
-		$annotation = Annotation::find($id);
-
-		$annotation->body($body);
-
-		$results = $annotation->update();
-
-		return Response::json($results);
+		
+		$annotation = Annotation::createFromAnnotatorArray($body);
+		$annotation->updateSearchIndex();
+		
+		return Response::json($annotation);
 	}
 
+	/**
+	 * Delete an annotation by doc ID and annotation ID
+	 * 
+	 * @param int $doc
+	 * @param int $annotation
+	 */
 	public function deleteIndex($doc, $annotation){
 		//If no id requested, return 404
 		if($annotation === null){
@@ -83,6 +137,9 @@ class AnnotationApiController extends ApiController{
 		return Response::make(null, 204);
 	}
 
+	/**
+	 * Return search results for annotations
+	 */
 	public function getSearch(){
 		return false;
 	}
@@ -122,9 +179,10 @@ class AnnotationApiController extends ApiController{
 			App::abort(404, 'No note id passed');
 		}
 
-		$postAction = Annotation::addUserAction($annotation, Auth::user()->id, 'like');
+		$annotation = Annotation::find($annotation);
+		$annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_LIKE);
 
-		return Response::json($postAction);
+		return Response::json($annotation->toAnnotatorArray());
 	}
 
 	public function postDislikes($doc, $annotation = null){
@@ -132,9 +190,10 @@ class AnnotationApiController extends ApiController{
 			App::abort(404, 'No note id passed');
 		}
 
-		$postAction = Annotation::addUserAction($annotation, Auth::user()->id, 'dislike');
+		$annotation = Annotation::find($annotation);
+		$annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_DISLIKE);
 
-		return Response::json($postAction);
+		return Response::json($annotation->toAnnotatorArray());
 	}	
 
 	public function postFlags($doc, $annotation = null){
@@ -142,23 +201,23 @@ class AnnotationApiController extends ApiController{
 			App::abort(404, 'No note id passed');
 		}
 
-		$postAction = Annotation::addUserAction($annotation, Auth::user()->id, 'flag');
+		$annotation = Annotation::find($annotation);
+		$annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_FLAG);
 
-		return Response::json($postAction);
+		return Response::json($annotation->toAnnotatorArray());
 	}
 
-	public function postComments($doc, $annotation = null){
-		if($annotation === null){
-			throw new Exception("Unable to post comment without annotation id.");
-		}
+	public function postComments($docId, $annotationId){
 
 		$comment = Input::get('comment');
 
-		$annotation = Annotation::find($annotation);
+		$annotation = Annotation::where('doc_id', '=', $docId)
+								->where('id', '=', $annotationId)
+							    ->first();
 
-		$results = $annotation->addComment($comment);
-
-		return Response::json($results);
+		$result = $annotation->addOrUpdateComment($comment);
+		
+		return Response::json($result);
 	}
 }
 

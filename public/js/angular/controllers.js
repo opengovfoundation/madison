@@ -2,27 +2,24 @@
 *	Document Viewer Controllers
 */
 
-function ReaderController($scope, annotationService){
+function ReaderController($scope, $http, annotationService){
 	$scope.annotations = [];
+	$scope.doc = doc;
 
 	$scope.$on('annotationsUpdated', function(){
 		$scope.annotations = annotationService.annotations;
 		$scope.$apply();
 	});
-}
-
-function ParticipateController($scope, $http, annotationService){
-	$scope.annotations = [];
-	$scope.comments = [];
-	$scope.supported = false;
-	$scope.opposed = false;
 
 	$scope.init = function(docId){
-		$scope.getDocComments(docId);
 		$scope.user = user;
 		$scope.doc = doc;
 
-		if(user.id != ''){
+		$scope.getSupported();
+	};
+
+	$scope.getSupported = function(){
+		if($scope.user.id !== ''){
 			$http.get('/api/users/' + user.id + '/support/' + doc.id)
 			.success(function(data){
 				switch(data.meta_value){
@@ -33,7 +30,6 @@ function ParticipateController($scope, $http, annotationService){
 						$scope.opposed = true;
 						break;
 					default:
-						console.log('neither');
 						$scope.supported = null;
 						$scope.opposed = null;
 				}
@@ -43,21 +39,58 @@ function ParticipateController($scope, $http, annotationService){
 		}
 	};
 
+	$scope.support = function(supported, $event){
+		$http.post('/api/docs/' + $scope.doc.id + '/support', {'support': supported})
+		.success(function(data, status, headers, config){
+			//Parse data to see what user's action is currently
+			if(data.support === null){
+				$scope.supported = false;
+				$scope.opposed = false;
+			}else{
+				$scope.supported = data.support;
+				$scope.opposed = !data.support;
+			}
+		})
+		.error(function(data, status, headers, config){
+			console.error("Error posting support: %o", data);
+		});
+	};
+}
+
+function ParticipateController($scope, $http, annotationService, createLoginPopup){
+	$scope.annotations = [];
+	$scope.comments = [];
+	$scope.activities = [];
+	$scope.supported = null;
+	$scope.opposed = false;
+
+	$scope.init = function(docId){
+		$scope.getDocComments(docId);
+		$scope.user = user;
+		$scope.doc = doc;
+	};
+
 	$scope.$on('annotationsUpdated', function(){
-		$scope.annotations = annotationService.annotations;
+		angular.forEach(annotationService.annotations, function(annotation){
+			if($.inArray(annotation, $scope.activities) < 0){
+				annotation.label = 'annotation';
+				annotation.commentsCollapsed = true;
+				$scope.activities.push(annotation);
+			}
+			
+		});
+		
 		$scope.$apply();
 	});
-
-	$scope.showCommentThread = function(annotationId, $event){
-		thread = $('#' + annotationId + '-comments');
-		thread.collapse('toggle');
-		$($event.target).children('.caret').toggleClass('caret-right');
-	};
 
 	$scope.getDocComments = function(docId){
 		$http({method: 'GET', url: '/api/docs/' + docId + '/comments'})
 		.success(function(data, status, headers, config){
-			$scope.comments = data;
+			angular.forEach(data, function(comment){
+				comment.label = 'comment';
+				comment.commentsCollapsed = true;
+				$scope.activities.push(comment);
+			});
 		})
 		.error(function(data, status, headers, config){
 			console.error("Error loading comments: %o", data);
@@ -71,32 +104,54 @@ function ParticipateController($scope, $http, annotationService){
 
 		$http.post('/api/docs/' + comment.doc.id + '/comments', {'comment': comment})
 		.success(function(data, status, headers, config){
-			$scope.comments.push(comment);
-			$scope.comment.content = '';
+			comment.label = 'comment';
+			comment.user.fname = comment.user.name;
+			$scope.activities.push(comment);
+			$scope.comment.text = '';
 		})
 		.error(function(data, status, headers, config){
 			console.error("Error posting comment: %o", data);
 		});
 	};
 
-	$scope.support = function(supported, $event){
-		console.log('supporting');
+	$scope.activityOrder = function(activity){
+		var popularity = activity.likes - activity.dislikes;
 
-		$http.post('/api/docs/' + $scope.doc.id + '/support', {'support': supported})
-		.success(function(data, status, headers, config){
-			//Parse data to see what user's action is currently
-			if(data.support == null){
-				$scope.supported = false;
-				$scope.opposed = false;
-			}else{
-				$scope.supported = data.support;
-				$scope.opposed = !data.support;
-			}
-		})
-		.error(function(data, status, headers, config){
-			console.error("Error posting support: %o", data);
+		return popularity;
+	};
+
+	$scope.addAction = function(activity, action, $event){
+		if($scope.user.id !== ''){
+			$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
+			.success(function(data){
+				activity.likes = data.likes;
+				activity.dislikes = data.dislikes;
+				activity.flags = data.flags;
+			}).error(function(data){
+				console.error(data);
+			});
+		}else{
+			createLoginPopup($event);
+		}
+		
+	};
+
+	$scope.collapseComments = function(activity) {
+		activity.commentsCollapsed = !activity.commentsCollapsed;
+	};
+
+	$scope.subcommentSubmit = function(activity, subcomment) {
+		subcomment.user = $scope.user;
+
+		$.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/comments', {'comment': subcomment})
+		.success(function(data){
+			activity.comments.push(data);
+			subcomment.text = '';
+			subcomment.user = '';
+			$scope.$apply();
+		}).error(function(data){
+			console.error(data);
 		});
-
 	};
 }
 
@@ -110,8 +165,8 @@ function HomePageController($scope, $http, $filter){
 	$scope.sponsors = [];
 	$scope.statuses = [];
 	$scope.dates = [];
-	$scope.dateSort;
-	$scope.select2;
+	$scope.dateSort = '';
+	$scope.select2 = '';
 	$scope.docSort = "created_at";
 	$scope.reverse = true;
 
@@ -134,7 +189,7 @@ function HomePageController($scope, $http, $filter){
 
 		var show = false;
 
-		if(typeof $scope.select2 != 'undefined' && $scope.select2 != ''){
+		if(typeof $scope.select2 != 'undefined' && $scope.select2 !== ''){
 			var cont = true;
 
 			angular.forEach(doc.categories, function(category){
@@ -201,7 +256,7 @@ function HomePageController($scope, $http, $filter){
 
 				angular.forEach(doc.dates, function(date){
 					date.date = Date.parse(date.date);
-				})
+				});
 			});
 
 		})
@@ -212,10 +267,10 @@ function HomePageController($scope, $http, $filter){
 }
 
 function UserPageController($scope, $http, $location){
-	$scope.user;
-	$scope.meta;
+	$scope.user = {};
+	$scope.meta = '';
 	$scope.docs = [];
-	$scope.comments = [];
+	$scope.activities = [];
 	$scope.verified = false;
 
 	$scope.init = function(){
@@ -233,15 +288,17 @@ function UserPageController($scope, $http, $location){
 			$scope.meta = angular.copy(data.user_meta);
 
 			angular.forEach(data.docs, function(doc){
-				doc.created_at = Date.parse(doc.created_at);
-				doc.updated_at = Date.parse(doc.updated_at);
-
 				$scope.docs.push(doc);
 			});
 
 			angular.forEach(data.comments, function(comment){
-				comment.created_at = Date.parse(comment.created_at);
-				$scope.comments.push(comment);
+				comment.label = 'comment';
+				$scope.activities.push(comment);
+			});
+
+			angular.forEach(data.annotations, function(annotation){
+				annotation.label = 'annotation';
+				$scope.activities.push(annotation);
 			});
 
 			angular.forEach($scope.user.user_meta, function(meta){
@@ -261,11 +318,15 @@ function UserPageController($scope, $http, $location){
 	};
 
 	$scope.showVerified = function(){
-		if($scope.verified && $scope.docs.length > 0){
+		if($scope.user.docs && $scope.user.docs.length > 0){
 			return true;
 		}
 
 		return false;
+	};
+
+	$scope.activityOrder = function(activity){
+		return Date.parse(activity.created_at);
 	};
 
 }
@@ -334,9 +395,9 @@ function DashboardSettingsController($scope, $http){
 
 function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 {
-	$scope.doc;
-	$scope.sponsor;
-	$scope.status;
+	$scope.doc = {};
+	$scope.sponsor = {};
+	$scope.status = {};
 	$scope.newdate = {label: '', date: new Date()};
 	$scope.verifiedUsers = [];
 	$scope.categories = [];
@@ -490,7 +551,7 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 	};
 
 	$scope.createDate = function(newDate, oldDate){
-		if($scope.newdate.label != ''){
+		if($scope.newdate.label !== ''){
 			$scope.newdate.date = $filter('date')(newDate, 'short');
 
 			$http.post('/api/docs/' + $scope.doc.id + '/dates', {date: $scope.newdate})
@@ -527,7 +588,7 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 		}).error(function(data){
 			console.error("Unable to save date: %o (%o)", date, data);
 		});
-	}
+	};
 
 	$scope.getDocDates = function(){
 		return $http.get('/api/docs/' + $scope.doc.id + '/dates')
@@ -651,7 +712,7 @@ DashboardVerifyController.$inject = ['$scope', '$http'];
 HomePageController.$inject = ['$scope', '$http', '$filter'];
 UserPageController.$inject = ['$scope', '$http', '$location'];
 
-ReaderController.$inject = ['$scope', 'annotationService'];
-ParticipateController.$inject = ['$scope', '$http', 'annotationService'];
+ReaderController.$inject = ['$scope', '$http', 'annotationService'];
+ParticipateController.$inject = ['$scope', '$http', 'annotationService', 'createLoginPopup'];
 
 

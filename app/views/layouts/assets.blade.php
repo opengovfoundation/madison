@@ -7,7 +7,6 @@
 {{ HTML::style('css/style.css') }}
 
 <!-- Scripts -->
-{{ HTML::script('components.js') }}
 {{-- HTML::script('vendor/jquery/jquery-1.10.2.min.js') --}}
 {{-- HTML::script('vendor/jquery/jquery.browser.min.js') --}}
 {{-- HTML::script('vendor/bootstrap/js/bootstrap.min.js') --}}
@@ -27,6 +26,7 @@
 {{ HTML::script('js/angular/controllers.js') }}
 {{ HTML::script('js/angular/services.js') }}
 {{ HTML::script('js/angular/directives.js') }}
+{{ HTML::script('js/angular/filters.js') }}
 {{ HTML::script('js/madison.js') }}
 
 <?php 
@@ -40,6 +40,11 @@ $fs = new Illuminate\Filesystem\Filesystem();
 {{-- Include site-specific addthis js file if it exists --}}
 @if($fs->exists(public_path() . '/js/addthis.js'))
 	{{ HTML::script('js/addthis.js') }}
+@endif
+
+{{-- Include site-specific google analytics js file if it exists --}}
+@if($fs->exists(public_path() . '/js/ga.js'))
+    {{ HTML::script('js/ga.js') }}
 @endif
 
 

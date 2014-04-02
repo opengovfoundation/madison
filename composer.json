@@ -10,17 +10,17 @@
         }
     ],
     "require-dev":{
-    	"anahkiasen/rocketeer": "dev-master",
-    	"loic-sharma/profiler": "1.1.*",
     	"way/guard-laravel": "dev-master",
     	"way/phpunit-wrappers": "dev-master"
     },
 	"require": {
+        "anahkiasen/rocketeer": "dev-master",
 		"laravel/framework": "4.1.*",
 		"roumen/sitemap": "dev-master",
 		"elasticsearch/elasticsearch": "~0.4",
 		"illuminate/remote": "4.1.*",
-		"graham-campbell/markdown": "1.0.*"
+		"graham-campbell/markdown": "1.0.*",
+		"doctrine/dbal" : "2.3.*"
 	},
 	"autoload": {
 		"classmap": [
@@ -29,7 +29,8 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/tests/TestCase.php"
+			"app/tests/TestCase.php",
+            "app/config/packages/anahkiasen/rocketeer/tasks"
 		]
 	},
 	"scripts": {

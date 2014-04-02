@@ -1,15 +1,16 @@
 VagrantConfig.json
 bootstrap/compiled.php
 public/.sass-cache/
-public/js/uservoice.js
-public/js/addthis.js
+public/private/*
 app/config/creds.yml
 app/config/smtp.yml
 app/config/remote.php
 app/config/socials.php
-/vendor/*
 composer.lock
+/vendor/*
 shared
+
+
 public/js/angular/directives-ck.js
 
 public/js/angular/controllers-ck.js
@@ -27,3 +28,9 @@ public/sass/print.css
 public/sass/screen.css
 
 public/sass/style.css
+
+.vagrant/machines/default/virtualbox/id
+
+.vagrant/machines/default/virtualbox/action_set_name
+
+.vagrant/machines/default/virtualbox/action_provision

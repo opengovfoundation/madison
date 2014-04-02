@@ -3,6 +3,7 @@ class Doc extends Eloquent{
 	public static $timestamp = true;
 	
 	protected $index;
+	protected $softDelete = true;
 
 	const TYPE = 'doc';
 

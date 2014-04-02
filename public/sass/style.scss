@@ -16,20 +16,33 @@
 @import "variables";
 @import "mixins";
 @import "helpers";
-@import "dashboard"; 
+@import "dashboard";
+@import "document";
+@import "rightbar";
+@import "animations";
 
-@include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer");
+/* @include sticky-footer(100px, "#wrap", "#wrap-footer", "#footer"); */
 
-/* Bootstrap Overrides */
-
-.content{
-	@include box-sizing(border-box);
-	padding: 0px;
+html{
+	height:100%;
 }
 
-
 body{
-	background: url(../img/grey.png) repeat;
+	height:100%;
+	@include bg($bg-gray);
+}
+
+.wrap{
+	min-height: 100%;
+	height: auto !important;
+	margin:0 auto -75px;
+}
+
+.footer{
+	height:75px;
+	margin-top:100px;
+	@include grad-bg($black-grad-start, $black-grad-end);
+	background: #DEDEDE;
 }
 
 h1{
@@ -114,10 +127,20 @@ textarea.form-inline{
 /* MAIN HEADER
 ------------------------------ */
 .header {
-	@include grad-bg($black-grad-start, $black-grad-end);
+	background: $blue-header;
+	padding-bottom: 7px;
+
+	.container{
+		padding-right: 0px;
+		padding-left: 0px;
+		.col-md-4{
+			padding-right: 0px;
+			padding-left: 0px;
+		}
+	}
 
 	.logo-madison {
-		margin-top: 5px;
+		margin-top: 15px;
 		margin-bottom: 5px;
 	}
 
@@ -138,8 +161,26 @@ textarea.form-inline{
 		font-size: 14px;
 	}
 
+
+
+	.logo-madison h1{
+		color: #FFF;
+		font-weight: normal;
+		position: relative;
+	}
+
 	.level {
-		color: #dc0002;
+		color: #e3f4ff;
+		font-size: .33em;
+		background: #83c4ff;
+		padding: 4px;
+		font-weight: bold;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		@include border-radius(2px);
+		top: 8px;
+		right: -45px;
+		position: absolute;
 	}
 }
 
@@ -154,6 +195,7 @@ textarea.form-inline{
 		margin: 0;
 		padding: 0;
 		list-style: none;
+
 	}
 
 	li {
@@ -162,18 +204,41 @@ textarea.form-inline{
 	}
 }
 
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+		background: none;
+		text-decoration: none;
+	}
+
 .nav-main {
 
 	ul {
 		margin-top: 22px; /* TO-DO: Needs to be dynamic */
+		float: right;
 	}
 
 	li {
-		margin-right: 20px;
+		margin-left: 20px;
 		float: left;
 		font-weight: bold;
 		font-size: 12px;
+		a{
+			color: #FFF;
+		}
+		ul{
+			li{
+				margin-left: 0px;
+				display: block;
+				width: 100%;
+				a{
+					color: $blue-header;
+					padding-left: 5px;
+
+				}
+			}
+		}
 	}
+
+
 
 	.dropdown-menu {
 		margin-top: 0;
@@ -213,7 +278,7 @@ textarea.form-inline{
 .global-search {
 
 	form {
-		width: 95%;
+		width: 100%;
 		position: relative;
 		top: 14px; /* TO-DO: Needs to be dynamic */
 	}
@@ -526,55 +591,6 @@ h1.user-name{
 	}
 }
 
-.rightbar{
-	@include border-radius(10px);
-	@include bg($dark-gray);
-	border: 2px groove white;
-	color:$light-gray;
-
-	> .row{
-		border-bottom:1px solid #3c3c3c;
-	}
-
-	> .row:last-child{
-		border-bottom:none;
-		margin-bottom:20px;
-	}
-
-	h3.rightbar-header{
-		margin:20px;
-		font-family:arial;
-		font-weight:200;
-		font-size:1.5em;
-	}
-	h4{
-		margin:20px;
-		font-family:arial;
-		font-weight:200;
-		font-size:1em;
-	}
-
-	.rounded-bottom{
-		text-align:center;
-		background:#c70102;
-		border-bottom-left-radius:8px;
-		border-bottom-right-radius:8px;
-		padding:20px 0;
-		color:white;
-
-		a{
-			color:white;
-			font-size:1.3em;
-		}
-	}
-
-	.action-intro{
-		padding: 10px;
-		margin:0;
-	}
-
-}
-
 .getstarted{
 	padding:0;
 
@@ -592,20 +608,7 @@ h1.user-name{
 	border-right:none;
 	border-left:none;
 }
-.footer{
-	height:100px;
-	margin-top:50px;
-	@include grad-bg($black-grad-start, $black-grad-end);
-}
 
-//Document Reader
-.doc_content{
-	/* max-height:700px;
-	overflow-y:scroll; */
-	ol{
-		list-style:none;
-	}
-}
 
 //Helper Classes
 .hidden{
@@ -638,6 +641,18 @@ input[type="search"].dark-search{
 	background-position:right;
 	background-size:20px;
 	color:lightgray;
+}
+
+input[type="search"].blue-search{
+	background:#83c4ff;
+	border:none;
+	background-repeat: no-repeat;
+	background-position:right;
+	background-size:20px;
+	color: #FFF !important;
+	@include input-placeholder {
+        color: #C6E5FF;
+	    }
 }
 
 .bookmark{
@@ -795,7 +810,7 @@ input[type="search"].dark-search{
 	}
 }
 
-.comment-toggle{
+.activity-replies-indicator{
 	cursor: pointer;
 }
 

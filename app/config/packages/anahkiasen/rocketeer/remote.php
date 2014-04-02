@@ -1,5 +1,11 @@
 <?php return array(
 
+	// The strategory to deploy with
+	// Availables are:
+	// - clone | Clones the repository from scratch on every deploy
+	// - copy  | Copies the previous release and then updates it
+	'strategy' => 'clone',
+
 	// Remote server
 	//////////////////////////////////////////////////////////////////////
 
@@ -12,6 +18,14 @@
 
 	// The root directory where your applications will be deployed
 	'root_directory'   => '/var/www/vhosts',
+
+	// The process that will be executed by Composer
+	'composer' => function ($task) {
+		return array(
+			$task->composer('self-update'),
+			$task->composer('install --no-interaction --no-dev --prefer-dist'),
+		);
+	},
 
 	// The name of the application to deploy
 	// This will create a folder of the same name in the root directory
@@ -28,6 +42,9 @@
 		'{path.storage}/logs',
 		'{path.storage}/sessions',
 	),
+
+	// Permissions
+	////////////////////////////////////////////////////////////////////
 
 	'permissions' => array(
 
@@ -46,7 +63,7 @@
 			return array(
 				sprintf('chmod -R 775 %s', $file),
 				sprintf('chmod -R g+s %s', $file),
-				sprintf('chgrp -R madison %s', $file)
+				sprintf('chgrp -R madison %s', $file),
 			);
 		},
 

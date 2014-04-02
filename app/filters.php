@@ -78,3 +78,9 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+Route::filter('disable profiler', function()
+{
+	$profiler = App::make('profiler');
+	$profiler->disable();
+});
