@@ -16,6 +16,7 @@
     	"way/phpunit-wrappers": "dev-master"
     },
 	"require": {
+		"zizaco/entrust" : "dev-master",
 		"laravel/framework": "4.1.*",
 		"roumen/sitemap": "dev-master",
 		"elasticsearch/elasticsearch": "~0.4",

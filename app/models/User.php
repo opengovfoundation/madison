@@ -8,6 +8,8 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface{
 	
+	use Zizaco\Entrust\HasRole;
+	
 	protected $hidden = array('password');
 
 	public function verified(){
@@ -82,7 +84,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 			}
 		}
 
-		if($this->user_level != 1){
+		if(!$this->hasRole('Admin')){
 			return false;
 		}
 
