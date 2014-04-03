@@ -4,7 +4,7 @@
  */
 class DocMeta extends Eloquent{
 	protected $table = 'doc_meta';
-	public static $timestamp = true;
+	//public static $timestamp = true;
 	
 	//Document this meta is describing
 	public function doc(){
@@ -12,7 +12,7 @@ class DocMeta extends Eloquent{
 	}
 
 	public function user(){
-		return $this->belongs_to('User');
+		return $this->belongsTo('User');
 	}
 	
 	

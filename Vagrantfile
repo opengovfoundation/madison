@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       config.vm.box_url = "http://files.vagrantup.com/precise64.box"
     
       config.vm.network :forwarded_port, guest: 80,    host: 10080    # apache http
-      config.vm.network :forwarded_port, guest: 3306,  host: 3306  # mysql
+      config.vm.network :forwarded_port, guest: 3306,  host: 3308  # mysql
       config.vm.network :forwarded_port, guest: 10081, host: 10081 # zend http
       config.vm.network :forwarded_port, guest: 10082, host: 10082 # zend https
     

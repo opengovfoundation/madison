@@ -51,6 +51,16 @@ class AnnotationApiController extends ApiController{
 		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $annotation->id, 303);
 	}
 
+	public function postSeen($docId, $annotationId) {
+
+		$annotation= Annotation::find($annotationId);
+		$annotation->seen = 1;
+		$annotation->save();
+		
+		return Response::json($annotationId);
+	
+	}
+
 	/**
 	 * Update an existing annotation
 	 * @param string $id

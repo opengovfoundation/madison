@@ -18,13 +18,15 @@ function ParticipateController($scope, $http, annotationService){
 	$scope.activities = [];
 	$scope.supported = false;
 	$scope.opposed = false;
+	$scope.issponsor = false;
 
 	$scope.init = function(docId){
 		$scope.getDocComments(docId);
 		$scope.user = user;
 		$scope.doc = doc;
-
+		
 		if(user.id !== ''){
+			
 			$http.get('/api/users/' + user.id + '/support/' + doc.id)
 			.success(function(data){
 				switch(data.meta_value){
@@ -41,6 +43,22 @@ function ParticipateController($scope, $http, annotationService){
 			}).error(function(data){
 				console.error("Unable to get support info for user %o and doc %o", user, doc);
 			});
+	
+			// Check if the current user is the sponsor of the document, which lets them mark activities as seen
+			$http.get('/api/docs/' + doc.id + '/sponsor/' + user.id)
+			.success(function(data){
+				if (data.id === user.id) {
+					$scope.issponsor = true;
+				} else {
+					$scope.issponsor = false;
+			}
+
+			}).error(function(data){
+				console.error(data);
+			});		
+
+
+			
 		}
 	};
 
@@ -90,6 +108,24 @@ function ParticipateController($scope, $http, annotationService){
 
 		return popularity;
 	};
+
+
+	$scope.notifyAuthor = function(activity){
+
+	    // If the current user is a sponsor and the activity hasn't been seen yet, 
+	    // post to API route depending on comment/annotation label
+		if ($scope.issponsor && activity.seen === 0) {			
+			$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + 'seen')
+			.success(function(data){
+				// Email user identified by activity.user_id or activity.user.id here
+				console.log(data);
+			}).error(function(data){
+				console.error(data);
+			});
+		}
+
+	};
+
 
 	$scope.addAction = function(activity, action){
 		$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)

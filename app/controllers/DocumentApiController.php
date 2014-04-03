@@ -21,8 +21,7 @@ class DocumentApiController extends ApiController{
 		$doc->title = Input::get('title');
 		$doc->slug = Input::get('slug');
 
-		$doc_content = DocContent::firstOrCreate(array('doc_id' => $doc->id));
-
+		$doc_content = DocContent::firstOrCreate(array('doc_id' => $doc->id));				
 		$doc_content->content = Input::get('content.content');
 		$doc_content->save();
 
@@ -93,6 +92,13 @@ class DocumentApiController extends ApiController{
 
 		return Response::json($categoryIds);
 	}
+
+	public function hasSponsor($doc, $sponsor){
+
+		$result = Doc::find($doc)->sponsor()->find($sponsor);
+		return Response::json($result);
+	} 
+	
 
 	public function getSponsor($doc){
 		$doc = Doc::find($doc);
