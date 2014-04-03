@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/opengovfoundation/madison.git"
   },
-  "author": "",
+  "author": "Chris Birk",
   "license": "GPLv.3",
   "bugs": {
     "url": "https://github.com/opengovfoundation/madison/issues"
