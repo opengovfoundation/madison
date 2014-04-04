@@ -11,7 +11,7 @@ class Annotation extends Eloquent
 	const ACTION_FLAG = 'flag';
 	
 	protected $table = "annotations";
-	protected $fillable = array('quote', 'text', 'uri');
+	protected $fillable = array('quote', 'text', 'uri', 'seen');
 
 	static protected $_esInstance = null;
 	static protected $_esIndex;
@@ -299,11 +299,12 @@ class Annotation extends Eloquent
 		$item['likes'] = $this->likes();
 		$item['dislikes'] = $this->dislikes();
 		$item['flags'] = $this->flags();
+		$item['seen'] = $this->seen;
 		
 		$item = array_intersect_key($item, array_flip(array(
 			'id', 'annotator_schema_version', 'created', 'updated',
 			'text', 'quote', 'uri', 'ranges', 'user', 'consumer', 'tags',
-			'permissions', 'likes', 'dislikes', 'flags', 'comments', 'doc_id',
+			'permissions', 'likes', 'dislikes', 'flags', 'seen', 'comments', 'doc_id',
 			'user_action'
 		)));
 		
