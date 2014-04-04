@@ -53,7 +53,7 @@
                 <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1">Marked as seen!</span>
             </div>
         </div>  
-        <div class="row" ng-hide="user.isSponsor || activity.user.id != user.id">
+        <div class="row" ng-hide="user.isSponsor">
             <div class="col-md-12">
                 <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1"> A sponsor marked this as seen!</span>
             </div>
