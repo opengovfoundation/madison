@@ -16,17 +16,6 @@
                 <span ng-if="activity.label" == 'annotation'><% activity.text %></span>
             </div>
         </div>
-        <div class="row" ng-show="user.isSponsor">
-            <div class="col-md-12">
-                <span class="btn btn-default" ng-if="activity.seen === 0" ng-click="notifyAuthor(activity)">Mark as seen</span>
-                <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1">Marked as seen!</span>
-            </div>
-        </div>  
-        <div class="row" ng-hide="user.isSponsor || activity.user.id != user.id">
-            <div class="col-md-12">
-                <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1"> A sponsor marked this as seen!</span>
-            </div>
-        </div>
         <div class="row">
             <div class="col-md-6">
                 <span class="activity-replies-indicator" ng-click="collapseComments(activity)"><span class="glyphicon glyphicon-share-alt"></span><% activity.comments.length || '0' %> Replies</span>
@@ -38,26 +27,37 @@
             </div>
         </div>
         <div class="activity-replies row" collapse="activity.commentsCollapsed">
-                <div class="activity-reply col-md-12" ng-repeat="comment in activity.comments">
-                    <div class="reply-author row">
-                        <div class="col-md-6">
-                                <span class="glyphicon glyphicon-share-alt"></span> <% comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) %>:
-                        </div>
-                    </div>
-                    <div class="reply-text row">
-                        <div class="col-md-12">
-                            <% comment.text %>
-                        </div>
+            <div class="activity-reply col-md-12" ng-repeat="comment in activity.comments">
+                <div class="reply-author row">
+                    <div class="col-md-6">
+                        <span class="glyphicon glyphicon-share-alt"></span> <% comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) %>:
                     </div>
                 </div>
-                @if(Auth::check())
-                    <div class="subcomment-field col-md-12">
-                        <form name="add-subcomment-form" ng-submit="subcommentSubmit(activity, subcomment)">
-                            <input ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
-                        </form>
+                <div class="reply-text row">
+                    <div class="col-md-12">
+                        <% comment.text %>
                     </div>
-                @endif
+                </div>
+            </div>
+            @if(Auth::check())
+                <div class="subcomment-field col-md-12">
+                    <form name="add-subcomment-form" ng-submit="subcommentSubmit(activity, subcomment)">
+                        <input ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
+                    </form>
+                </div>
+            @endif
+        </div>
+        <div class="row" ng-show="user.isSponsor && ((activity.user_id != user.id && activity.label === 'comment') || (activity.user.id != user.id && activity.label === 'annotation'))">
+            <div class="col-md-12">
+                <span class="btn btn-default" ng-if="activity.seen === 0" ng-click="notifyAuthor(activity)">Mark as seen</span>
+                <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1">Marked as seen!</span>
+            </div>
+        </div>  
+        <div class="row" ng-hide="user.isSponsor || activity.user.id != user.id">
+            <div class="col-md-12">
+                <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1"> A sponsor marked this as seen!</span>
             </div>
         </div>
+    </div>
     </div>
 </div>
