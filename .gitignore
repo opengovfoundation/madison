@@ -1,9 +1,7 @@
 VagrantConfig.json
 bootstrap/compiled.php
 public/.sass-cache/
-public/js/uservoice.js
-public/js/addthis.js
-public/js/ga.js
+public/private/*
 app/config/creds.yml
 app/config/smtp.yml
 app/config/remote.php

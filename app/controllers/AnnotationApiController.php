@@ -52,13 +52,28 @@ class AnnotationApiController extends ApiController{
 	}
 
 	public function postSeen($docId, $annotationId) {
+		$allowed = false;
+		$doc = Doc::find($docId);
 
+		//Loop through document sponsors
+		//TODO: This should be an operation of the document model
+		foreach($doc->sponsors() as $sponsor){
+			if(Auth::user()->id == $sponsor->id){
+				$allowed = true;
+				break;
+			}
+		}
+
+		if(!$allowed){
+			throw new Exception("You are not authorized to mark this annotation as seen.");
+		}
+
+		//The user is allowed to make this action		
 		$annotation= Annotation::find($annotationId);
 		$annotation->seen = 1;
 		$annotation->save();
-		
-		return Response::json($annotationId);
-	
+
+		return Response::json($annotation);		
 	}
 
 	/**

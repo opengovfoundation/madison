@@ -1,6 +1,6 @@
 <h3>Activity</h3>
 <div class="activity-thread col-md-12">
-    <div class="row activity-item" ng-repeat="activity in activities | orderBy:activityOrder:true" ng-mouseover="notifyAuthor(activity)" ng-class="activity.label">
+    <div class="row activity-item" ng-repeat="activity in activities | orderBy:activityOrder:true" ng-class="activity.label">
         <div class="row">
             <div class="activity-author col-md-10">
                 <span ng-if="activity.label == 'comment'"><% activity.user.fname %> <% activity.user.lname.substr(0,1) %></span>
@@ -16,17 +16,17 @@
                 <span ng-if="activity.label" == 'annotation'><% activity.text %></span>
             </div>
         </div>
-	    <div class="row" ng-show="issponsor && activity.user_id != user.id">
-		    <div class="col-md-12">
-			    <!-- <span class="glyphicon glyphicon-eye-open" ng-hide="activity.seen" ng-click="notifyAuthor(activity)"> Mark as seen</span> -->
-			    <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1"> Marked as seen!</span>
-		    </div>
-	    </div>	
-	    <div class="row" ng-hide="issponsor">
-		    <div class="col-md-12">
-		        <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1"> A sponsor marked this as seen!</span>
-	        </div>
-	    </div>
+        <div class="row" ng-show="user.isSponsor">
+            <div class="col-md-12">
+                <span class="btn btn-default" ng-if="activity.seen === 0" ng-click="notifyAuthor(activity)">Mark as seen</span>
+                <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1">Marked as seen!</span>
+            </div>
+        </div>  
+        <div class="row" ng-hide="user.isSponsor || activity.user.id != user.id">
+            <div class="col-md-12">
+                <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1"> A sponsor marked this as seen!</span>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <span class="activity-replies-indicator" ng-click="collapseComments(activity)"><span class="glyphicon glyphicon-share-alt"></span><% activity.comments.length || '0' %> Replies</span>

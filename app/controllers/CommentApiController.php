@@ -8,7 +8,7 @@ class CommentApiController extends ApiController{
 		parent::__construct();
 
 		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
-	}	
+	}
 	
 	public function getIndex($doc, $comment = null){
 		try{
@@ -45,7 +45,7 @@ class CommentApiController extends ApiController{
 		$comment->seen = 1;
 		$comment->save();
 		
-		return Response::json($commentId);
+		return Response::json($comment);
 	
 	}
 	
