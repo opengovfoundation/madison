@@ -53,12 +53,13 @@ class AnnotationApiController extends ApiController{
 
 	public function postSeen($docId, $annotationId) {
 		$allowed = false;
-		$doc = Doc::find($docId);
+
+		$user = Auth::user();
+		$user->load('docs');
 
 		//Loop through document sponsors
-		//TODO: This should be an operation of the document model
-		foreach($doc->sponsors() as $sponsor){
-			if(Auth::user()->id == $sponsor->id){
+		foreach($user->docs as $doc){
+			if($doc->id == $docId){
 				$allowed = true;
 				break;
 			}
