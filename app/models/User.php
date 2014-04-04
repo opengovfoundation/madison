@@ -8,9 +8,9 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface{
 	
-	protected $hidden = array('password', 'token', 'last_login', 'created_at', 'updated_at');
-	//protected $fillable = array('id', 'email', 'fname', 'lname', 'user_level');
-	protected $softDelete = true;
+	use Zizaco\Entrust\HasRole;
+	
+	protected $hidden = array('password');
 
 	public function verified(){
 		$request = $this->user_meta()->where('meta_key', 'verify')->first();
@@ -80,7 +80,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 			}
 		}
 
-		if($this->user_level != 1){
+		if(!$this->hasRole('Admin')){
 			return false;
 		}
 

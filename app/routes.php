@@ -182,12 +182,3 @@ Route::post('register', array('before' => 'csrf', function()
     return 'You gave a valid CSRF token!';
 }));
 */
-
-Route::filter('auth', function()
-{
-	if (!Auth::check()) return Redirect::to('user/login');
-});
-
-Route::filter('admin', function(){
-	if(Auth::guest() || Auth::user()->user_level != 1) return Redirect::home()->with('message', 'You are not authorized to view that page');
-});

@@ -32,6 +32,13 @@ class DashboardController extends BaseController{
 	 * 	Document Creation/List or Document Edit Views
 	 */
 	public function getDocs($id = ''){
+		
+		$user = Auth::user();
+		
+		if(!$user->can('admin_manage_documents')) {
+			return Redirect::to('/dashboard')->with('message', "You do not have permission");
+		}
+		
 		if($id == ''){
 			$docs = Doc::all();
 
@@ -66,6 +73,13 @@ class DashboardController extends BaseController{
 	 * 	Post route for creating / updating documents
 	 */
 	public function postDocs($id = ''){
+		
+		$user = Auth::user();
+		
+		if(!$user->can('admin_manage_documents')) {
+			return Redirect::to('/dashboard')->with('message', "You do not have permission");
+		}
+		
 		//Creating new document
 		if($id == ''){
 			$title = Input::get('title');
@@ -107,6 +121,13 @@ class DashboardController extends BaseController{
 	 * 	PUT route for saving documents
 	 */
 	public function putDocs($id = ''){
+		
+		$user = Auth::user();
+		
+		if(!$user->can('admin_manage_documents')) {
+			return Redirect::to('/dashboard')->with('message', "You do not have permission");
+		}
+		
 		$content = Input::get('content');
 		$content_id = Input::get('content_id');
 
@@ -135,6 +156,13 @@ class DashboardController extends BaseController{
 	 * 	Verification request view
 	 */
 	public function getVerifications(){
+		
+		$user = Auth::user();
+		
+		if(!$user->can('admin_verify_users')) {
+			return Redirect::to('/dashboard')->with('message', "You do not have permission");
+		}
+		
 		$requests = UserMeta::where('meta_key', 'verify')->with('user')->get();
 
 		$data = array(
@@ -156,10 +184,23 @@ class DashboardController extends BaseController{
 			'page_title'	=> 'Settings',
 		);
 
+		$user = Auth::user();
+		
+		if(!$user->can('admin_manage_settings')) {
+			return Redirect::to('/dashboard')->with('message', "You do not have permission");
+		}
+		
 		return View::make('dashboard.settings', $data);
 	}
 
 	public function postSettings(){
+		
+		$user = Auth::user();
+		
+		if(!$user->can('admin_manage_settings')) {
+			return Redirect::to('/dashboard')->with('message', "You do not have permission");
+		}
+		
 		$adminEmail = Input::get('contact-email');
 
 		$adminContact = User::where('email', '$adminEmail');
@@ -167,11 +208,6 @@ class DashboardController extends BaseController{
 		if(!isset($adminContact)){
 			return Redirect::back()->with('error', 'The admin account with this email was not found.  Please try a different email.');
 		}
-
-
-
-
-
 	}
 }
 

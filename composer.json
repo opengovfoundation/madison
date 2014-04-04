@@ -15,6 +15,7 @@
     },
 	"require": {
         "anahkiasen/rocketeer": "dev-master",
+		"zizaco/entrust" : "dev-master",
 		"laravel/framework": "4.1.*",
 		"roumen/sitemap": "dev-master",
 		"elasticsearch/elasticsearch": "~0.4",
