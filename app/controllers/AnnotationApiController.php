@@ -57,7 +57,7 @@ class AnnotationApiController extends ApiController{
 		$user = Auth::user();
 		$user->load('docs');
 
-		//Loop through document sponsors
+		// Check user documents against current document
 		foreach($user->docs as $doc){
 			if($doc->id == $docId){
 				$allowed = true;

@@ -40,6 +40,22 @@ class CommentApiController extends ApiController{
 	}
 
 	public function postSeen($docId, $commentId) {
+		$allowed = false;
+
+		$user = Auth::user();
+		$user->load('docs');
+
+		// Check user documents against current document
+		foreach($user->docs as $doc){
+			if($doc->id == $docId){
+				$allowed = true;
+				break;
+			}
+		}
+
+		if(!$allowed){
+			throw new Exception("You are not authorized to mark this annotation as seen.");
+		}
 
 		$comment = Comment::find($commentId);
 		$comment->seen = 1;
