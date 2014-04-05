@@ -75,10 +75,8 @@ class AnnotationApiController extends ApiController{
 		$annotation->save();
 
 		$doc = Doc::find($docId);
-
 		$vars = array('sponsor' => $user->fname . ' ' . $user->lname, 'label' => 'annotation', 'slug' => $doc->slug, 'title' => $doc->title, 'text' => $annotation->text);
 		$email = $annotation->user->email;
-
 
 		Mail::queue('email.read', $vars, function ($message) use ($email)
 		{
@@ -86,7 +84,6 @@ class AnnotationApiController extends ApiController{
     		$message->from('sayhello@opengovfoundation.org', 'Madison');
     		$message->to($email); // Recipient address
 		});
-
 
 		return Response::json($annotation);		
 	}
