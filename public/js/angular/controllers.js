@@ -113,11 +113,10 @@ function ParticipateController($scope, $http, annotationService){
 		// post to API route depending on comment/annotation label
 		$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + 'seen')
 		.success(function(data){
-			// Email user identified by activity.user_id or activity.user.id here
-			console.log(data);
+			//console.log(data);
 			activity.seen = data.seen;
 		}).error(function(data){
-			console.error("Unable to mark annotation as seen: %o", data);
+			console.error("Unable to mark activity as seen: %o", data);
 		});
 	};
 
