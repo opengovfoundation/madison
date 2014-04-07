@@ -11,7 +11,10 @@ app/config/socials.php
 composer.lock
 /vendor/*
 shared
-
+.DS_Store
+.buildpath
+.project
+.settings/
 
 public/js/angular/directives-ck.js
 
