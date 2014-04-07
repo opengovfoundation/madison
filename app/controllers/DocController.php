@@ -29,17 +29,34 @@ class DocController extends BaseController{
 		try{
 			
 			//Retrieve requested document
-			$doc = Doc::where('slug', $slug)->first();
+			$doc = Doc::where('slug', $slug)->with('statuses')->with('sponsor')->with('categories')->with('dates')->first();
 			
 			if(!isset($doc)){
 				App::abort('404');
+			}
+			
+			$showAnnotationThanks = false;
+			
+			if(Auth::check()) {
+				$userId = Auth::user()->id;
+				
+				$userMeta = UserMeta::where('user_id', '=', $userId)
+									->where('meta_key', '=', UserMeta::TYPE_SEEN_ANNOTATION_THANKS)
+									->take(1)->first();
+				
+				if($userMeta instanceof UserMeta) {
+					$showAnnotationThanks = !$userMeta->meta_value; 
+				} else {
+					$showAnnotationThanks = true;
+				}
 			}
 			
 			//Set data array
 			$data = array(
 				'doc'			=> $doc,
 				'page_id'		=> strtolower(str_replace(' ','-', $doc->title)),
-				'page_title'	=> $doc->title
+				'page_title'	=> $doc->title,
+				'showAnnotationThanks' => $showAnnotationThanks
 			);				
 			
 			//Render view and return

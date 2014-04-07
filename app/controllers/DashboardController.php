@@ -83,15 +83,14 @@ class DashboardController extends BaseController{
 		//Creating new document
 		if($id == ''){
 			$title = Input::get('title');
-			$slug = Input::get('slug');
+			$slug = str_replace(array(' ', '.'),array('-', ''), strtolower($title));
 			$doc_details = Input::all();
 
-			$rules = array('title' => 'required',
-							'slug' => 'required|unique:docs'
-							);
+			$rules = array('title' => 'required');
 			$validation = Validator::make($doc_details, $rules);
 			if($validation->fails()){
-				return Redirect::to('dashboard/docs')->with_input()->with_errors($validation);
+				die($validation);
+				return Redirect::to('dashboard/docs')->withInput()->withErrors($validation);
 			}
 
 			try{
@@ -110,7 +109,7 @@ class DashboardController extends BaseController{
 
 				return Redirect::to('dashboard/docs/' . $doc->id)->with('success_message', 'Document created successfully');
 			}catch(Exception $e){
-				return Redirect::to('dashboard/docs')->with_input()->with('error', $e->getMessage());
+				return Redirect::to('dashboard/docs')->withInput()->with('error', $e->getMessage());
 			}
 		}
 		else{

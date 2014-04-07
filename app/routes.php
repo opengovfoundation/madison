@@ -21,6 +21,14 @@ Route::model('user', 'User');
 |--------------------------------------------------------------------------
 */
 
+// Modal Routes
+Route::get('modals/annotation_thanks', array(
+	'uses' => 'ModalController@getAnnotationThanksModal',
+	'before' => 'disable profiler'
+));
+
+Route::post('modals/annotation_thanks', 'ModalController@seenAnnotationThanksModal');
+
 //Static Pages
 Route::get('about', 'PageController@getAbout');
 Route::get('faq', 'PageController@faq');
@@ -68,7 +76,6 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/annotations/search', 'AnnotationApiController@getSearch');
     Route::get('api/docs/{doc}/annotations/{annotation?}', 'AnnotationApiController@getIndex');
     Route::post('api/docs/{doc}/annotations', 'AnnotationApiController@postIndex');
-    //Route::get('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@getIndex');
     Route::put('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@putIndex');
     Route::delete('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@deleteIndex');
 
@@ -76,6 +83,10 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/comments', 'CommentApiController@postIndex');
     Route::get('api/docs/{doc}/comments', 'CommentApiController@getIndex');
     Route::get('api/docs/{doc}/comments/{comment?}', 'CommentApiController@getIndex');
+    Route::post('api/docs/{doc}/comments/{comment}/likes', 'CommentApiController@postLikes');
+    Route::post('api/docs/{doc}/comments/{comment}/dislikes', 'CommentApiController@postDislikes');
+    Route::post('api/docs/{doc}/comments/{comment}/flags', 'CommentApiController@postFlags');
+    Route::post('api/docs/{doc}/comments/{comment}/comments', 'CommentApiController@postComments');
 
     //Document Support / Oppose routes
     Route::post('api/docs/{doc}/support/', 'DocController@postSupport');

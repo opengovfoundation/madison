@@ -22,7 +22,7 @@ class UserController extends BaseController{
 	
 	public function getEdit($id=null){
 		if(!Auth::check()){
-			return Redirect::to('login')->with('error', 'Please log in to edit user profile');
+			return Redirect::to('user/login')->with('error', 'Please log in to edit user profile');
 		}else if(Auth::user()->id != $id){
 			return Redirect::back()->with('error', 'You do not have access to that profile.');
 		}else if($id == null){
@@ -40,7 +40,7 @@ class UserController extends BaseController{
 	
 	public function putEdit($id=null){
 		if(!Auth::check()){
-			return Redirect::to('login')->with('error', 'Please log in to edit user profile');
+			return Redirect::to('user/login')->with('error', 'Please log in to edit user profile');
 		}else if(Auth::user()->id != $id){
 			return Redirect::back()->with('error', 'You do not have access to that profile.');
 		}else if($id == null){

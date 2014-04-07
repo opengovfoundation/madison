@@ -13,9 +13,11 @@
 		@include('layouts.assets')
 	</head>
 	<body>
-		<div id="wrap">
+		<div id="wrap" class="wrap">
 			<div id="header-main" class="header row">
+				<div class="container">
 				@include('layouts.header')
+				</div>
 			</div>
 			<div class="row">
 				<div class="container">
@@ -36,7 +38,6 @@
 						@yield('content')
 					</div>
 				</div>
-				<div id="wrap-footer"></div>
 			</div>
 		</div>
 		<div id="footer" class="footer row">

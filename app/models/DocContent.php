@@ -1,6 +1,7 @@
 <?php
 class DocContent extends Eloquent{
 	protected $table = 'doc_contents';
+	protected $softDelete = true;
 
 	public function doc(){
 		return $this->belongsTo('Doc');

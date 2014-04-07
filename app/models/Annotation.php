@@ -11,6 +11,7 @@ class Annotation extends Eloquent
 	const ACTION_FLAG = 'flag';
 	
 	protected $table = "annotations";
+	protected $softDelete = true;
 	protected $fillable = array('quote', 'text', 'uri');
 
 	static protected $_esInstance = null;
@@ -47,6 +48,10 @@ class Annotation extends Eloquent
 		return static::$_esInstance;
 		
 	}
+
+	public function user(){
+		return $this->belongsTo('User');
+	}
 	
 	public function comments()
 	{
@@ -71,7 +76,7 @@ class Annotation extends Eloquent
 			$retval = new static();
 		}
 		
-		$retval->doc = (int)$input['doc'];
+		$retval->doc_id = (int)$input['doc_id'];
 		
 		if(isset($input['user']) && is_array($input['user'])) {
 			$retval->user_id = (int)$input['user']['id'];
@@ -271,14 +276,20 @@ class Annotation extends Eloquent
 		
 			if($perm->update) {
 				$item['permissions']['update'][] = $perm['user_id'];
+			}else{
+				$item['permissions']['update'][] = '0';
 			}
 		
 			if($perm->delete) {
 				$item['permissions']['delete'][] = $perm['user_id'];
+			}else{
+				$item['permissions']['delete'][] = '0';
 			}
 		
 			if($perm->admin) {
 				$item['permissions']['admin'][] = $perm['user_id'];
+			}else{
+				$item['permissions']['admin'][] = '0';
 			}
 		}
 		
@@ -299,7 +310,7 @@ class Annotation extends Eloquent
 		$item = array_intersect_key($item, array_flip(array(
 			'id', 'annotator_schema_version', 'created', 'updated',
 			'text', 'quote', 'uri', 'ranges', 'user', 'consumer', 'tags',
-			'permissions', 'likes', 'dislikes', 'flags', 'comments', 'doc',
+			'permissions', 'likes', 'dislikes', 'flags', 'comments', 'doc_id',
 			'user_action'
 		)));
 		
@@ -309,7 +320,7 @@ class Annotation extends Eloquent
 	
 	static public function loadAnnotationsForAnnotator($docId, $annotationId = null, $userId = null)
 	{
-		$annotations = static::where('doc', '=', $docId);
+		$annotations = static::where('doc_id', '=', $docId);
 		
 		if(!is_null($annotationId)) {
 			$annotations->where('id', '=', $annotationId);
@@ -320,10 +331,6 @@ class Annotation extends Eloquent
 		$retval = array();
 		foreach($annotations as $annotation) {
 			$retval[] = $annotation->toAnnotatorArray();
-		}
-		
-		if(count($retval) == 1) {
-			return $retval[0];
 		}
 		
 		return $retval;
@@ -361,12 +368,31 @@ class Annotation extends Eloquent
 		$esParams = array(
 			'index' => static::getEsIndex(),
 			'type' => static::INDEX_TYPE,
-			'id' => $this->id
+			'id' => $this->search_id
 		);
+		try{
+			$client->delete($esParams);
+		}catch(Exception $e){
+			$message = json_decode($e->getMessage());
+
+			if($message->ok){
+				Log::warning("The annotation with id: " . $this->search_id . " was not found in ElasticSearch.  Deleting annotation from the DB...");
+			}else{
+				throw new Exception("Unable to delete annotation from ElasticSearch: " . $e->getMessage());	
+			}
+		}
 		
-		$client->delete($esParams);
+		DB::transaction(function(){
+			$deletedMetas = NoteMeta::where('annotation_id', '=', $this->id)->delete();
+			$deletedComments = AnnotationComment::where('annotation_id', '=', $this->id)->delete();
+			$deletedPermissions = AnnotationPermission::where('annotation_id', '=', $this->id)->delete();
+			$deletedRanges = AnnotationRange::where('annotation_id', '=', $this->id)->delete();
+			$deletedTags = AnnotationTag::where('annotation_id', '=', $this->id)->delete();
+
+			return parent::delete();	
+		});
+
 		
-		return parent::delete();
 	}
 	
 	public function addOrUpdateComment(array $comment) {
@@ -380,7 +406,10 @@ class Annotation extends Eloquent
 		
 		$obj->annotation_id = $this->id;
 		
-		return $obj->save();
+		$obj->save();
+		$obj->load('user');
+
+		return $obj;
 	}
 	
 	static public function getMetaCount($id, $action) 
