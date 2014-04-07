@@ -7,7 +7,7 @@ class DashboardController extends BaseController{
 	public $restful = true;
 	
 	public function __construct(){
-		//Filter to ensure user is signed in and is user_level == 1
+		//Filter to ensure user is signed in has an admin role
 		$this->beforeFilter('admin');
 		
 		//Run csrf filter before all posts

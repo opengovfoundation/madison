@@ -237,7 +237,6 @@ class Annotation extends Eloquent
 				'updated' => $comment->updated_at->toRFC2822String(),
 				'user' => array(
 					'id' => $user->id,
-					'user_level' => $user->user_level,
 					'email' => $user->email,
 					'name' => "{$user->fname} {$user->lname[0]}"
 				)
@@ -256,7 +255,7 @@ class Annotation extends Eloquent
 		}
 			
 		$user = User::where('id', '=', $item['user_id'])->first();
-		$item['user'] = array_intersect_key($user->toArray(), array_flip(array('id', 'email', 'user_level')));
+		$item['user'] = array_intersect_key($user->toArray(), array_flip(array('id', 'email')));
 		$item['user']['name'] = $user->fname . ' ' . $user->lname{0};
 			
 		$item['consumer'] = static::ANNOTATION_CONSUMER;

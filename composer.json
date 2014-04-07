@@ -14,13 +14,13 @@
     	"way/phpunit-wrappers": "dev-master"
     },
 	"require": {
+        	"anahkiasen/rocketeer": "dev-master",
 		"zizaco/entrust" : "dev-master",
-        "anahkiasen/rocketeer": "dev-master",
 		"laravel/framework": "4.1.*",
 		"roumen/sitemap": "dev-master",
 		"elasticsearch/elasticsearch": "~0.4",
 		"illuminate/remote": "4.1.*",
-		"graham-campbell/markdown": "1.0.*",
+		"graham-campbell/markdown": "1.0.0",
 		"doctrine/dbal" : "2.3.*"
 	},
 	"autoload": {

@@ -5,7 +5,6 @@
 			var user = {
 				id: {{ Auth::user()->id }},
 				email: '{{ Auth::user()->email }}',
-				user_level: {{ Auth::user()->user_level }},
 				name: '{{ Auth::user()->fname . ' ' . substr(Auth::user()->lname, 0, 1) }}'
 			};
 		</script>
@@ -14,7 +13,6 @@
 			var user = {
 				id: '',
 				email: '',
-				user_level: '',
 				name: ''
 			}
 		</script>
