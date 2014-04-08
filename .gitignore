@@ -9,6 +9,8 @@ app/config/socials.php
 composer.lock
 /vendor/*
 shared
+node_modules
+public/bower_components
 
 
 public/js/angular/directives-ck.js
