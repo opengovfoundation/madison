@@ -30,24 +30,7 @@
 	{{ HTML::script('vendor/showdown/showdown.js') }}
 	{{ HTML::script('js/annotator-madison.js') }}
 	{{ HTML::script('js/doc.js') }}
-	
-	
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
+
 <div class="modal fade" id="annotationThanks" tabindex="-1" role="dialog" aria-labelledby="annotationThanks" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
