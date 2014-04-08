@@ -18,13 +18,44 @@
 		</script>
 	@endif
 	<script>
-		var doc = {{ $doc->toJSON() }}
+		var doc = {{ $doc->toJSON() }};
+		@if($showAnnotationThanks)
+			$.showAnnotationThanks = true;
+		@else
+			$.showAnnotationThanks = false;
+		@endif
 	</script>
 	{{ HTML::style('vendor/annotator/annotator.min.css') }}
 	{{ HTML::script('vendor/annotator/annotator-full.min.js') }}
 	{{ HTML::script('vendor/showdown/showdown.js') }}
 	{{ HTML::script('js/annotator-madison.js') }}
 	{{ HTML::script('js/doc.js') }}
+	
+	
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+<div class="modal fade" id="annotationThanks" tabindex="-1" role="dialog" aria-labelledby="annotationThanks" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    </div>
+  </div>
+</div>
+
+	
 	<div class="col-md-8" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
 		<div class="doc-info row">
 			<div class="col-md-12">

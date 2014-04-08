@@ -88,6 +88,10 @@ Route::filter('csrf', function()
 
 Route::filter('disable profiler', function()
 {
-	$profiler = App::make('profiler');
-	$profiler->disable();
+	try {
+		$profiler = App::make('profiler');
+		$profiler->disable();
+	} catch(\Exception $e) {
+		// do nothing.
+	}
 });
