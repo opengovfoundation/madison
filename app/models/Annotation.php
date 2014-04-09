@@ -12,6 +12,7 @@ class Annotation extends Eloquent
 	
 	protected $table = "annotations";
 	protected $fillable = array('quote', 'text', 'uri', 'seen');
+	protected $softDelete = true;
 
 	static protected $_esInstance = null;
 	static protected $_esIndex;
@@ -236,7 +237,6 @@ class Annotation extends Eloquent
 				'updated' => $comment->updated_at->toRFC2822String(),
 				'user' => array(
 					'id' => $user->id,
-					'user_level' => $user->user_level,
 					'email' => $user->email,
 					'name' => "{$user->fname} {$user->lname[0]}"
 				)
@@ -255,7 +255,7 @@ class Annotation extends Eloquent
 		}
 			
 		$user = User::where('id', '=', $item['user_id'])->first();
-		$item['user'] = array_intersect_key($user->toArray(), array_flip(array('id', 'email', 'user_level')));
+		$item['user'] = array_intersect_key($user->toArray(), array_flip(array('id', 'email')));
 		$item['user']['name'] = $user->fname . ' ' . $user->lname{0};
 			
 		$item['consumer'] = static::ANNOTATION_CONSUMER;
@@ -275,14 +275,20 @@ class Annotation extends Eloquent
 		
 			if($perm->update) {
 				$item['permissions']['update'][] = $perm['user_id'];
+			}else{
+				$item['permissions']['update'][] = '0';
 			}
 		
 			if($perm->delete) {
 				$item['permissions']['delete'][] = $perm['user_id'];
+			}else{
+				$item['permissions']['delete'][] = '0';
 			}
 		
 			if($perm->admin) {
 				$item['permissions']['admin'][] = $perm['user_id'];
+			}else{
+				$item['permissions']['admin'][] = '0';
 			}
 		}
 		
@@ -327,10 +333,6 @@ class Annotation extends Eloquent
 			$retval[] = $annotation->toAnnotatorArray();
 		}
 		
-		if(count($retval) == 1) {
-			return $retval[0];
-		}
-		
 		return $retval;
 	}
 	
@@ -366,12 +368,31 @@ class Annotation extends Eloquent
 		$esParams = array(
 			'index' => static::getEsIndex(),
 			'type' => static::INDEX_TYPE,
-			'id' => $this->id
+			'id' => $this->search_id
 		);
+		try{
+			$client->delete($esParams);
+		}catch(Exception $e){
+			$message = json_decode($e->getMessage());
+
+			if($message->ok){
+				Log::warning("The annotation with id: " . $this->search_id . " was not found in ElasticSearch.  Deleting annotation from the DB...");
+			}else{
+				throw new Exception("Unable to delete annotation from ElasticSearch: " . $e->getMessage());	
+			}
+		}
 		
-		$client->delete($esParams);
+		DB::transaction(function(){
+			$deletedMetas = NoteMeta::where('annotation_id', '=', $this->id)->delete();
+			$deletedComments = AnnotationComment::where('annotation_id', '=', $this->id)->delete();
+			$deletedPermissions = AnnotationPermission::where('annotation_id', '=', $this->id)->delete();
+			$deletedRanges = AnnotationRange::where('annotation_id', '=', $this->id)->delete();
+			$deletedTags = AnnotationTag::where('annotation_id', '=', $this->id)->delete();
+
+			return parent::delete();	
+		});
+
 		
-		return parent::delete();
 	}
 	
 	public function addOrUpdateComment(array $comment) {

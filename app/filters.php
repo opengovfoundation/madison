@@ -1,5 +1,6 @@
 <?php
 
+use Zizaco\Entrust\Entrust;
 /*
 |--------------------------------------------------------------------------
 | Application & Route Filters
@@ -35,9 +36,15 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest()) return Redirect::to('user/login');
 });
 
+Route::filter('admin', function(){
+	
+	$user = Auth::user();
+	
+	if(Auth::guest() || !$user->hasRole('Admin')) return Redirect::home()->with('message', 'You are not authorized to view that page');
+});
 
 Route::filter('auth.basic', function()
 {
@@ -81,6 +88,10 @@ Route::filter('csrf', function()
 
 Route::filter('disable profiler', function()
 {
-	$profiler = App::make('profiler');
-	$profiler->disable();
+	try {
+		$profiler = App::make('profiler');
+		$profiler->disable();
+	} catch(\Exception $e) {
+		// do nothing.
+	}
 });

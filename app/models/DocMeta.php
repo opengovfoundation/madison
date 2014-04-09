@@ -4,7 +4,9 @@
  */
 class DocMeta extends Eloquent{
 	protected $table = 'doc_meta';
-	//public static $timestamp = true;
+
+	protected $softDelete = true;
+	public static $timestamp = true;
 	
 	//Document this meta is describing
 	public function doc(){

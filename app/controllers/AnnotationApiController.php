@@ -34,6 +34,10 @@ class AnnotationApiController extends ApiController{
 			App::abort(500, $e->getMessage());
 		} 
 		
+		if(isset($annotationId)){
+			return Response::json($results[0]);
+		}
+
 		return Response::json($results);
 	}
 
@@ -45,10 +49,54 @@ class AnnotationApiController extends ApiController{
 		$body = Input::all();
 		$body['doc_id'] = $doc;
 
-		$annotation = Annotation::createFromAnnotatorArray($body);
-		$annotation->updateSearchIndex();
+		$id = DB::transaction(function() use ($body, $doc){
+			$annotation = new Annotation();
+			$annotation->doc_id = $doc;
+			$annotation->user_id = Auth::user()->id;
+			$annotation->quote = $body['quote'];
+			$annotation->text = $body['text'];
+			$annotation->uri = $body['uri'];
+
+			$annotation->save();
+
+			foreach($body['ranges'] as $range){
+				$rangeObj = new AnnotationRange();
+				$rangeObj->annotation_id = $annotation->id;
+				$rangeObj->start_offset = $range['startOffset'];
+				$rangeObj->end_offset = $range['endOffset'];
+				$rangeObj->start = $range['start'];
+				$rangeObj->end = $range['end'];
+
+				$rangeObj->save();
+			}
+			
+			$permissions = new AnnotationPermission();
+			$permissions->annotation_id = $annotation->id;
+			$permissions->user_id = Auth::user()->id;
+			$permissions->read = 1;
+			$permissions->update = 0;
+			$permissions->delete = 0;
+			$permissions->admin = 0;
+			$permissions->save();
+
+			foreach($body['tags'] as $tag){
+				$tagObj = new AnnotationTag();
+				$tagObj->annotation_id = $annotation->id;
+				$tagObj->tag = $tag;
+				$tagObj->save();
+			}
+
+			$annotation->updateSearchIndex();
+
+			return $annotation->id;
+		});
+
 		
-		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $annotation->id, 303);
+
+		//$annotation = Annotation::createFromAnnotatorArray($body);
+		
+		
+		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $id, 303);
 	}
 
 	public function postSeen($docId, $annotationId) {

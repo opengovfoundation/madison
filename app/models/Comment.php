@@ -1,6 +1,7 @@
 <?php
 class Comment extends Eloquent{
 	protected $table = 'comments';
+    protected $softDelete = true;
 
     const ACTION_LIKE = 'like';
     const ACTION_DISLIKE = 'dislike';
@@ -105,7 +106,7 @@ class Comment extends Eloquent{
     }    
 
     static public function loadComments($docId, $commentId, $userId){
-        $comments = static::where('doc_id', '=', $docId)->whereNull('parent_id')->with('comments');
+        $comments = static::where('doc_id', '=', $docId)->whereNull('parent_id')->with('comments')->with('user');
 
         if(!is_null($commentId)){
             $comments->where('id', '=', $commentId);

@@ -8,9 +8,9 @@
 
 	// Adding entries to this array will split the remote folder in stages
 	// Like /var/www/yourapp/staging and /var/www/yourapp/production
-	'stages' => array('sf', 'mymadison'),
+	'stages' => array('dc', 'sf', 'mymadison'),
 
 	// The default stage to execute tasks on when --stage is not provided
-	'default' => array('sf', 'mymadison'),
+	'default' => array('dc', 'sf', 'mymadison'),
 
 );

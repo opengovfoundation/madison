@@ -2,7 +2,7 @@
 *	Document Viewer Controllers
 */
 
-function ReaderController($scope, annotationService){
+function ReaderController($scope, $http, annotationService){
 	$scope.annotations = [];
 	$scope.doc = doc;
 
@@ -10,23 +10,17 @@ function ReaderController($scope, annotationService){
 		$scope.annotations = annotationService.annotations;
 		$scope.$apply();
 	});
-}
-
-function ParticipateController($scope, $http, annotationService){
-	$scope.annotations = [];
-	$scope.comments = [];
-	$scope.activities = [];
-	$scope.supported = false;
-	$scope.opposed = false;
 
 	$scope.init = function(docId){
-		$scope.getDocComments(docId);
 		$scope.user = user;
 		$scope.doc = doc;
 		$scope.user.isSponsor = $scope.isSponsor();
 
-		if(user.id !== ''){
-			
+		$scope.getSupported();
+	};
+
+	$scope.getSupported = function(){
+		if($scope.user.id !== ''){
 			$http.get('/api/users/' + user.id + '/support/' + doc.id)
 			.success(function(data){
 				switch(data.meta_value){
@@ -46,11 +40,45 @@ function ParticipateController($scope, $http, annotationService){
 		}
 	};
 
+	$scope.support = function(supported, $event){
+		$http.post('/api/docs/' + $scope.doc.id + '/support', {'support': supported})
+		.success(function(data, status, headers, config){
+			//Parse data to see what user's action is currently
+			if(data.support === null){
+				$scope.supported = false;
+				$scope.opposed = false;
+			}else{
+				$scope.supported = data.support;
+				$scope.opposed = !data.support;
+			}
+		})
+		.error(function(data, status, headers, config){
+			console.error("Error posting support: %o", data);
+		});
+	};
+}
+
+function ParticipateController($scope, $http, annotationService, createLoginPopup){
+	$scope.annotations = [];
+	$scope.comments = [];
+	$scope.activities = [];
+	$scope.supported = null;
+	$scope.opposed = false;
+
+	$scope.init = function(docId){
+		$scope.getDocComments(docId);
+		$scope.user = user;
+		$scope.doc = doc;
+	};
+
 	$scope.$on('annotationsUpdated', function(){
 		angular.forEach(annotationService.annotations, function(annotation){
-			annotation.label = 'annotation';
-			annotation.commentsCollapsed = true;
-			$scope.activities.push(annotation);
+			if($.inArray(annotation, $scope.activities) < 0){
+				annotation.label = 'annotation';
+				annotation.commentsCollapsed = true;
+				$scope.activities.push(annotation);
+			}
+			
 		});
 		
 		$scope.$apply();
@@ -106,7 +134,6 @@ function ParticipateController($scope, $http, annotationService){
 		return popularity;
 	};
 
-
 	$scope.notifyAuthor = function(activity){
 
 		// If the current user is a sponsor and the activity hasn't been seen yet, 
@@ -120,16 +147,19 @@ function ParticipateController($scope, $http, annotationService){
 		});
 	};
 
-
-	$scope.addAction = function(activity, action){
-		$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
-		.success(function(data){
-			activity.likes = data.likes;
-			activity.dislikes = data.dislikes;
-			activity.flags = data.flags;
-		}).error(function(data){
-			console.error(data);
-		});
+	$scope.addAction = function(activity, action, $event){
+		if($scope.user.id !== ''){
+			$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
+			.success(function(data){
+				activity.likes = data.likes;
+				activity.dislikes = data.dislikes;
+				activity.flags = data.flags;
+			}).error(function(data){
+				console.error(data);
+			});
+		}else{
+			createLoginPopup($event);
+		}
 	};
 
 	$scope.collapseComments = function(activity) {
@@ -147,23 +177,6 @@ function ParticipateController($scope, $http, annotationService){
 			$scope.$apply();
 		}).error(function(data){
 			console.error(data);
-		});
-	};
-
-	$scope.support = function(supported, $event){
-		$http.post('/api/docs/' + $scope.doc.id + '/support', {'support': supported})
-		.success(function(data, status, headers, config){
-			//Parse data to see what user's action is currently
-			if(data.support === null){
-				$scope.supported = false;
-				$scope.opposed = false;
-			}else{
-				$scope.supported = data.support;
-				$scope.opposed = !data.support;
-			}
-		})
-		.error(function(data, status, headers, config){
-			console.error("Error posting support: %o", data);
 		});
 	};
 }
@@ -725,7 +738,7 @@ DashboardVerifyController.$inject = ['$scope', '$http'];
 HomePageController.$inject = ['$scope', '$http', '$filter'];
 UserPageController.$inject = ['$scope', '$http', '$location'];
 
-ReaderController.$inject = ['$scope', 'annotationService'];
-ParticipateController.$inject = ['$scope', '$http', 'annotationService'];
+ReaderController.$inject = ['$scope', '$http', 'annotationService'];
+ParticipateController.$inject = ['$scope', '$http', 'annotationService', 'createLoginPopup'];
 
 
