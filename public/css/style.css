@@ -137,18 +137,17 @@
 
 /* line 2, ../sass/_animations.scss */
 .activity-item.ng-move {
-  position: relative;
-  top: -20px;
+  background: rgba(255, 255, 10, 0.3);
   opacity: 0;
   -webkit-transition: all 1.5s ease;
   -moz-transition: all 1.5s ease;
   -o-transition: all 1.5s ease;
   transition: all 1.5s ease;
 }
-/* line 8, ../sass/_animations.scss */
+/* line 7, ../sass/_animations.scss */
 .activity-item.ng-move.ng-move-active {
-  top: 0;
   opacity: 1;
+  background: #fff;
 }
 
 /* ==========================================================================
