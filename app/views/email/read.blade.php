@@ -2,33 +2,39 @@
 <html lang="en-US">
 	<head>
 		<meta charset="utf-8" />
+		<style>
+			blockquote {
+				background: #f9f9f9;
+				border-left: 10px solid #ccc;
+				margin: 1.5em 10px;
+				padding: 0.5em 10px;
+				quotes: "\201C""\201D""\2018""\2019";
+			}
+			blockquote:before {
+				color:#ccc;
+				content: open-quote;
+				font-size: 4em;
+				line-height: 0.1em;
+				margin-right: 0.25em;
+				vertical-align: -0.4em;
+			}
+			blockquote p{
+				display:inline;
+			}
+		</style>
 	</head>
 	<body>
-		<h1>Your feedback was viewed by a sponsor</h1>
+		<p>Congratulations!  {{ $sponsor }} has marked your {{ $label }} on <a href="{{ url('docs/' . $slug, $parameters = array(), $secure = null) }}">{{ $title }}</a> as seen:</p>
 
-		<p>Congratulations!  {{ $sponsor }} has seen your {{ $label }} on <a href="{{ url('docs/' . $slug, $parameters = array(), $secure = null) }}">{{ $title }}<a>:</p>
+		<blockquote>
+			<p>{{ $text }}</p>
+		</blockquote>
 
-		<p>
-			{{ $text }}
-		</p>
+		<p>Keep up the good work!</p>
 
-		<p>
-			What does this mean?  Your contribution to the policymaking process was viewed by {{ $sponsor }}, 
-			thanks to Madison.  That's the first step towards government that listens to you
-			and works for you, on your terms.
-		</p>
+		<a href="{{ url('docs/' . $slug, $parameters = array(), $secure = null) }}">Jump back in to the conversation</a>
 
-		<p>
-			What can you do next? Come back to <a href="{{ url('docs/' . $slug, $parameters = array(), $secure = null) }}">{{ $title }}<a> 
-			and rejoin the debate on the issues you care about
-			most.  Or add your voice to the laws being made right now by your neighbors,
-			your elected officials, and you.
-		</p>
-
-		<p>Have a question or suggestion for Madison? <a href="mailto:support@mymadison.io">Tell us</a> so we can improve Madison to serve you and your community better.</p>
-		<p>Thank you.  We can't wait to see what you do next with Madison.</p>
-
-		<p>The OpenGov Foundation Team</p>
+		<p>&ndash; The OpenGov Foundation Team</p>
 	</body>
 </html>
 

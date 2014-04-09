@@ -14,7 +14,6 @@ function ReaderController($scope, $http, annotationService){
 	$scope.init = function(docId){
 		$scope.user = user;
 		$scope.doc = doc;
-		$scope.user.isSponsor = $scope.isSponsor();
 
 		$scope.getSupported();
 	};
@@ -69,6 +68,7 @@ function ParticipateController($scope, $http, annotationService, createLoginPopu
 		$scope.getDocComments(docId);
 		$scope.user = user;
 		$scope.doc = doc;
+		$scope.user.isSponsor = $scope.isSponsor();
 	};
 
 	$scope.$on('annotationsUpdated', function(){
@@ -78,7 +78,6 @@ function ParticipateController($scope, $http, annotationService, createLoginPopu
 				annotation.commentsCollapsed = true;
 				$scope.activities.push(annotation);
 			}
-			
 		});
 		
 		$scope.$apply();
@@ -140,7 +139,6 @@ function ParticipateController($scope, $http, annotationService, createLoginPopu
 		// post to API route depending on comment/annotation label
 		$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + 'seen')
 		.success(function(data){
-			//console.log(data);
 			activity.seen = data.seen;
 		}).error(function(data){
 			console.error("Unable to mark activity as seen: %o", data);
