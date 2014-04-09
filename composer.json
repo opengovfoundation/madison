@@ -14,6 +14,8 @@
     	"way/phpunit-wrappers": "dev-master"
     },
 	"require": {
+        "zizaco/factory-muff": "dev-master",
+        "laravelbook/ardent": "dev-master",
         "anahkiasen/rocketeer": "dev-master",
 		"zizaco/entrust" : "dev-master",
 		"laravel/framework": "4.1.*",

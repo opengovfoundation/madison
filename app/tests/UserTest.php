@@ -2,8 +2,9 @@
 
 use Way\Tests\Assert;
 use Way\Tests\Should;
+use Zizaco\FactoryMuff\Facade\FactoryMuff;
 
-class PageTest extends TestCase {
+class User extends TestCase {
 
 	//TODO: methods to test
 		//verified
