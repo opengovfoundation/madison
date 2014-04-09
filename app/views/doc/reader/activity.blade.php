@@ -45,13 +45,13 @@
                 </div>
             @endif
         </div>
-        <div class="row" ng-show="user.isSponsor && ((activity.user_id != user.id && activity.label === 'comment') || (activity.user.id != user.id && activity.label === 'annotation'))">
+        <div class="row sponsor-seen" ng-show="user.isSponsor && activity.user.id != user.id">
             <div class="col-md-12">
                 <span class="btn btn-default" ng-if="activity.seen === 0" ng-click="notifyAuthor(activity)">Mark as seen</span>
-                <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1">Marked as seen!</span>
+                <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1"> Marked as seen!</span>
             </div>
         </div>  
-        <div class="row" ng-hide="user.isSponsor">
+        <div class="row user-seen" ng-hide="user.isSponsor">
             <div class="col-md-12">
                 <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1"> A sponsor marked this as seen!</span>
             </div>

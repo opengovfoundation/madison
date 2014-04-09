@@ -134,6 +134,10 @@
 .rightbar .activity-item .activity-replies .activity-reply .reply-text {
   padding-top: 5px;
 }
+/* line 87, ../sass/_rightbar.scss */
+.rightbar .activity-item .sponsor-seen, .rightbar .activity-item .user-seen {
+  margin-top: 10px;
+}
 
 /* line 2, ../sass/_animations.scss */
 .activity-item.ng-move {
