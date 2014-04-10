@@ -1,3 +1,35 @@
+/**
+*   Helpers
+**/
+
+.select2-full-width{
+    .select2-container{
+        width:100%;
+    }
+}
+
+.form-group.no-bottom-margin{
+    margin-bottom:0;
+}
+
+ol.breadcrumb{
+
+    a{
+        color:darkgray;
+
+        &:hover{
+            color:#666;
+        }
+    }
+
+    li.active{
+        color:#666;
+    }
+}
+
+/**
+*   Document Edit Page
+**/
 .existing-date{
     margin-top:10px;
     .form-group{
@@ -17,14 +49,4 @@
             width:100%;
         }
     }
-}
-
-.select2-full-width{
-    .select2-container{
-        width:100%;
-    }
-}
-
-.form-group.no-bottom-margin{
-    margin-bottom:0;
 }

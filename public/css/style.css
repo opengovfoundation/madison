@@ -5,34 +5,53 @@
   margin: 0 auto;
 }
 
-/* line 1, ../sass/_dashboard.scss */
+/**
+*   Helpers
+**/
+/* line 6, ../sass/_dashboard.scss */
+.select2-full-width .select2-container {
+  width: 100%;
+}
+
+/* line 11, ../sass/_dashboard.scss */
+.form-group.no-bottom-margin {
+  margin-bottom: 0;
+}
+
+/* line 17, ../sass/_dashboard.scss */
+ol.breadcrumb a {
+  color: darkgray;
+}
+/* line 20, ../sass/_dashboard.scss */
+ol.breadcrumb a:hover {
+  color: #666;
+}
+/* line 25, ../sass/_dashboard.scss */
+ol.breadcrumb li.active {
+  color: #666;
+}
+
+/**
+*   Document Edit Page
+**/
+/* line 33, ../sass/_dashboard.scss */
 .existing-date {
   margin-top: 10px;
 }
-/* line 4, ../sass/_dashboard.scss */
+/* line 36, ../sass/_dashboard.scss */
 .existing-date .form-group .date-label, .existing-date .form-group .close {
   display: inline-block;
 }
 
-/* line 10, ../sass/_dashboard.scss */
+/* line 42, ../sass/_dashboard.scss */
 .new-date {
   margin-top: 20px;
   border-radius: 10px;
   background: #f1f1f2;
 }
-/* line 16, ../sass/_dashboard.scss */
+/* line 48, ../sass/_dashboard.scss */
 .new-date .datetimepicker table {
   width: 100%;
-}
-
-/* line 23, ../sass/_dashboard.scss */
-.select2-full-width .select2-container {
-  width: 100%;
-}
-
-/* line 28, ../sass/_dashboard.scss */
-.form-group.no-bottom-margin {
-  margin-bottom: 0;
 }
 
 /* line 1, ../sass/_document.scss */
