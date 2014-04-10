@@ -547,7 +547,8 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 
 					return {results: returned};
 				}
-			}
+			},
+			allowClear: true
 		};
 	};
 
@@ -663,7 +664,11 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 	$scope.getDocSponsor = function(){
 		return $http.get('/api/docs/' + $scope.doc.id + '/sponsor')
 		.success(function(data){
-			$scope.sponsor = angular.copy({id: data.id, text: data.fname + " " + data.lname + " - " + data.email});
+			if(typeof data.id == 'undefined'){
+				$scope.sponsor = null;
+			}else{
+				$scope.sponsor = angular.copy({id: data.id, text: data.fname + " " + data.lname + " - " + data.email});	
+			}
 		}).error(function(data){
 			console.error("Error getting document sponsor: %o", data);
 		});

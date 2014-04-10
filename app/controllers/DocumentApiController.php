@@ -94,7 +94,6 @@ class DocumentApiController extends ApiController{
 	}
 
 	public function hasSponsor($doc, $sponsor){
-
 		$result = Doc::find($doc)->sponsor()->find($sponsor);
 		return Response::json($result);
 	} 
@@ -102,7 +101,6 @@ class DocumentApiController extends ApiController{
 
 	public function getSponsor($doc){
 		$doc = Doc::find($doc);
-
 		$sponsor = $doc->sponsor()->first();
 
 		return Response::json($sponsor);
@@ -110,13 +108,18 @@ class DocumentApiController extends ApiController{
 
 	public function postSponsor($doc){
 		$sponsor = Input::get('sponsor');
-
 		$doc = Doc::find($doc);
-		$user = User::find($sponsor['id']);
+		$response = null;
 
-		$doc->sponsor()->sync(array($user->id));
+		if(!isset($sponsor)){
+			$doc->sponsor()->sync(array());
+		}else{
+			$user = User::find($sponsor['id']);
+			$doc->sponsor()->sync(array($user->id));
+			$response = $user;
+		}
 
-		return Response::json($user);
+		return Response::json($response);
 
 	}
 
