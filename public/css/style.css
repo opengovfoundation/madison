@@ -81,6 +81,16 @@ ol.breadcrumb li.active {
 .doc-info div {
   color: #666;
 }
+/* line 23, ../sass/_document.scss */
+.doc-info .doc-support, .doc-info .doc-oppose {
+  background: #fff;
+  color: #555;
+}
+/* line 27, ../sass/_document.scss */
+.doc-info .doc-support:hover, .doc-info .doc-oppose:hover {
+  background: fff;
+  color: #111;
+}
 
 /* line 1, ../sass/_rightbar.scss */
 .rightbar {

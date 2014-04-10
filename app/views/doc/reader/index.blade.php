@@ -37,8 +37,6 @@
     </div>
   </div>
 </div>
-
-	
 	<div class="col-md-8" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
 		<div class="doc-info row">
 			<div class="col-md-12">
@@ -54,7 +52,7 @@
 				<div class="doc-date row" ng-repeat="date in doc.dates">
 					<strong><% date.label %>: </strong><span><% date.date | parseDate | date:'shortDate' %></span>
 				</div>
-				<div class="doc-support row" ng-show="user.id > 0">
+				<div class="row" ng-show="user.id > 0">
 						<a href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">Support This Document</a>
 						<a href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">Oppose This Document</a>
 				</div>
