@@ -1,6 +1,30 @@
 .existing-date{
-	background:lightgray; 
-	border-radius: 10px;
-	padding:10px 20px;
-	margin:0 10px;
+    margin-top:10px;
+    .form-group{
+        .date-label, .close{
+            display:inline-block;
+        }
+    }
+}
+
+.new-date{
+    margin-top:20px;
+    border-radius:10px;
+    background:#f1f1f2;
+
+    .datetimepicker{
+        table{
+            width:100%;
+        }
+    }
+}
+
+.select2-full-width{
+    .select2-container{
+        width:100%;
+    }
+}
+
+.form-group.no-bottom-margin{
+    margin-bottom:0;
 }

@@ -7,10 +7,32 @@
 
 /* line 1, ../sass/_dashboard.scss */
 .existing-date {
-  background: lightgray;
+  margin-top: 10px;
+}
+/* line 4, ../sass/_dashboard.scss */
+.existing-date .form-group .date-label, .existing-date .form-group .close {
+  display: inline-block;
+}
+
+/* line 10, ../sass/_dashboard.scss */
+.new-date {
+  margin-top: 20px;
   border-radius: 10px;
-  padding: 10px 20px;
-  margin: 0 10px;
+  background: #f1f1f2;
+}
+/* line 16, ../sass/_dashboard.scss */
+.new-date .datetimepicker table {
+  width: 100%;
+}
+
+/* line 23, ../sass/_dashboard.scss */
+.select2-full-width .select2-container {
+  width: 100%;
+}
+
+/* line 28, ../sass/_dashboard.scss */
+.form-group.no-bottom-margin {
+  margin-bottom: 0;
 }
 
 /* line 1, ../sass/_document.scss */
