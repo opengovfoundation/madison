@@ -525,7 +525,8 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 			},
 			createSearchChoice: function(term){
 				return { id: term, text: term};
-			}
+			},
+			allowClear: true
 		};
 
 		$scope.sponsorOptions = {

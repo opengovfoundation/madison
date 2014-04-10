@@ -129,19 +129,26 @@ class DocumentApiController extends ApiController{
 	}
 
 	public function postStatus($doc){
+		$toAdd = null;
+
 		$status = Input::get('status');
 
 		$doc = Doc::find($doc);
 
-		$toAdd = Status::where('label', $status['text'])->first();
+		if(!isset($status)){
+			$doc->statuses()->sync(array());
+		}else{
+			$toAdd = Status::where('label', $status['text'])->first();
 
-		if(!isset($toAdd)){
-			$toAdd = new Status();
-			$toAdd->label = $status['text'];
+			if(!isset($toAdd)){
+				$toAdd = new Status();
+				$toAdd->label = $status['text'];
+			}
+			$toAdd->save();
+
+			$doc->statuses()->sync(array($toAdd->id));
 		}
-		$toAdd->save();
 
-		$doc->statuses()->sync(array($toAdd->id));
 
 		return Response::json($toAdd);
 
