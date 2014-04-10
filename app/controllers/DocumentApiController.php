@@ -208,7 +208,8 @@ class DocumentApiController extends ApiController{
 
 	public function getAllStatuses(){
 		$doc = Doc::with('statuses')->first();
-		$statuses = $doc->status;
+
+		$statuses = $doc->statuses;
 
 		return Response::json($statuses);
 	}

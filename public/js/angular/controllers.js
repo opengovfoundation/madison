@@ -515,7 +515,7 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
                 results: function(data, page){
                     var returned = [];
                     angular.forEach(data, function(status) {
-                        returned.push(status);
+                        returned.push({id: status.id, text: status.label});
                     });
                     return {results: returned};
                 }
