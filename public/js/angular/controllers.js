@@ -420,8 +420,8 @@ function DashboardSettingsController($scope, $http){
 function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 {
 	$scope.doc = {};
-	$scope.sponsor = {};
-	$scope.status = {};
+    $scope.sponsor = {};
+    $scope.status = {};
 	$scope.newdate = {label: '', date: new Date()};
 	$scope.verifiedUsers = [];
 	$scope.categories = [];
@@ -506,18 +506,25 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 
 		$scope.statusOptions={
 			placeholder: "Select Document Status",
+            ajax: {
+                url: "/api/docs/statuses",
+                dataType: 'json',
+                data: function(term, page){
+                    return;
+                },
+                results: function(data, page){
+                    var returned = [];
+                    angular.forEach(data, function(status) {
+                        returned.push(status);
+                    });
+                    return {results: returned};
+                }
+            },
 			data: function(){
-				return $scope.suggestedStatuses;
-			},
-			results: function(){
-				console.log($scope.status, "Scope status");
 				return $scope.status;
 			},
 			createSearchChoice: function(term){
 				return { id: term, text: term};
-			},
-			initSelection: function(element, callback){
-				callback(angular.copy($scope.status));
 			}
 		};
 
@@ -539,9 +546,6 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 
 					return {results: returned};
 				}
-			},
-			initSelection: function(element, callback){
-				callback($scope.sponsor);
 			}
 		};
 	};
@@ -665,10 +669,15 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 
 	};
 
-	$scope.getDocStatus = function(){
+	$scope.getDocStatus = function() {
 		return $http.get('/api/docs/' + $scope.doc.id + '/status')
 		.success(function(data){
-			$scope.status = angular.copy({id: data.id, text: data.label});
+            if(typeof data.label == 'undefined'){
+                $scope.status = null;
+            }else{
+                $scope.status = angular.copy({id: data.id, text: data.label});
+            }
+			
 		}).error(function(data){
 			console.error("Error getting document status: %o", data);
 		});
