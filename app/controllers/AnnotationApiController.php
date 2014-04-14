@@ -99,6 +99,43 @@ class AnnotationApiController extends ApiController{
 		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $id, 303);
 	}
 
+	public function postSeen($docId, $annotationId) {
+		$allowed = false;
+
+		$user = Auth::user();
+		$user->load('docs');
+
+		// Check user documents against current document
+		foreach($user->docs as $doc){
+			if($doc->id == $docId){
+				$allowed = true;
+				break;
+			}
+		}
+
+		if(!$allowed){
+			throw new Exception("You are not authorized to mark this annotation as seen.");
+		}
+
+		//The user is allowed to make this action		
+		$annotation = Annotation::find($annotationId);
+		$annotation->seen = 1;
+		$annotation->save();
+
+		$doc = Doc::find($docId);
+		$vars = array('sponsor' => $user->fname . ' ' . $user->lname, 'label' => 'annotation', 'slug' => $doc->slug, 'title' => $doc->title, 'text' => $annotation->text);
+		$email = $annotation->user->email;
+
+		Mail::queue('email.read', $vars, function ($message) use ($email)
+		{
+    		$message->subject('Your feedback on Madison was viewed by a sponsor!');
+    		$message->from('sayhello@opengovfoundation.org', 'Madison');
+    		$message->to($email); // Recipient address
+		});
+
+		return Response::json($annotation);		
+	}
+
 	/**
 	 * Update an existing annotation
 	 * @param string $id

@@ -48,7 +48,8 @@ class UserApiController extends ApiController{
 	public function getAdmins(){
 		$this->beforeFilter('admin');
 
-		$admins = User::where('user_level', 1)->get();
+		$adminRole = Role::where('name', 'Admin')->first();
+		$admins = $adminRole->users()->get();
 
 		foreach($admins as $admin){
 			$admin->admin_contact();

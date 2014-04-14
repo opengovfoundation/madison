@@ -1,13 +1,12 @@
 .activity-item{
     &.ng-move{
-        position:relative;
-        top:-20px;
+        background: rgba(255, 255, 10, 0.3);
         opacity:0;
         @include transition(all 1.5s ease);
 
         &.ng-move-active{
-            top:0;
-            opacity:1
+            opacity:1;
+            background: #fff;
         }
     }
 }

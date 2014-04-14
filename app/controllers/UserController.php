@@ -105,10 +105,16 @@ class UserController extends BaseController{
 	}
 
 	public function getLogin(){
+		$previous_page = Input::old('previous_page');
+		
+		if(!isset($previous_page)){
+			$previous_page = URL::previous();
+		}
+
 		$data = array(
 			'page_id'		=> 'login',
 			'page_title'	=> 'Log In',
-			'previous_page'	=> URL::previous()
+			'previous_page'	=> $previous_page
 		);
 
 		return View::make('login.index', $data);
@@ -151,10 +157,9 @@ class UserController extends BaseController{
 			}else{
 				return Redirect::to('/docs/');
 			}
-			
 		}
 		else{
-			return Redirect::to('user/login')->with('error', 'Incorrect login credentials');
+			return Redirect::to('user/login')->with('error', 'Incorrect login credentials')->withInput(array('previous_page' => $previous_page));
 		}
 	}
 

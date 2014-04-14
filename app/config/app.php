@@ -109,6 +109,7 @@ return array(
 		'Roumen\Sitemap\SitemapServiceProvider',
 		'Rocketeer\RocketeerServiceProvider',
 		'GrahamCampbell\Markdown\MarkdownServiceProvider',
+		'Zizaco\Entrust\EntrustServiceProvider'
 
 	),
 
@@ -177,6 +178,7 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 		'Markdown'        => 'GrahamCampbell\Markdown\Facades\Markdown',
 		'Rocketeer'       => 'Rocketeer\Facades\Rocketeer',
+		'Entrust'         => 'Zizaco\Entrust\EntrustFacade'
 	),
 
 );
