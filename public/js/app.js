@@ -21,7 +21,6 @@ require('./services');
 require('./directives');
 require('./filters');
 window.getAnnotationService = require('./annotationServiceGlobal');
-require('./annotator-madison');
 
 imports = [
     'madisonApp.filters',
