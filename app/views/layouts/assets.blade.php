@@ -8,13 +8,6 @@
 
 <!-- Scripts -->
 {{ HTML::script('build/app.js') }}
-{{-- HTML::script('build/modules.js') --}}
-{{-- HTML::script('js/angular/app.js') --}}
-{{-- HTML::script('js/angular/controllers.js') --}}
-{{-- HTML::script('js/angular/services.js') --}}
-{{-- HTML::script('js/angular/directives.js') --}}
-{{-- HTML::script('js/angular/filters.js') --}}
-{{-- HTML::script('js/madison.js') --}}
 
 <?php 
 $fs = new Illuminate\Filesystem\Filesystem();

@@ -13032,11 +13032,1527 @@ return jQuery;
 }));
 
 },{}],6:[function(require,module,exports){
+var Markdown;
+
+if (typeof exports === "object" && typeof require === "function") // we're in a CommonJS (e.g. Node.js) module
+    Markdown = exports;
+else
+    Markdown = {};
+    
+// The following text is included for historical reasons, but should
+// be taken with a pinch of salt; it's not all true anymore.
+
+//
+// Wherever possible, Showdown is a straight, line-by-line port
+// of the Perl version of Markdown.
+//
+// This is not a normal parser design; it's basically just a
+// series of string substitutions.  It's hard to read and
+// maintain this way,  but keeping Showdown close to the original
+// design makes it easier to port new features.
+//
+// More importantly, Showdown behaves like markdown.pl in most
+// edge cases.  So web applications can do client-side preview
+// in Javascript, and then build identical HTML on the server.
+//
+// This port needs the new RegExp functionality of ECMA 262,
+// 3rd Edition (i.e. Javascript 1.5).  Most modern web browsers
+// should do fine.  Even with the new regular expression features,
+// We do a lot of work to emulate Perl's regex functionality.
+// The tricky changes in this file mostly have the "attacklab:"
+// label.  Major or self-explanatory changes don't.
+//
+// Smart diff tools like Araxis Merge will be able to match up
+// this file with markdown.pl in a useful way.  A little tweaking
+// helps: in a copy of markdown.pl, replace "#" with "//" and
+// replace "$text" with "text".  Be sure to ignore whitespace
+// and line endings.
+//
+
+
+//
+// Usage:
+//
+//   var text = "Markdown *rocks*.";
+//
+//   var converter = new Markdown.Converter();
+//   var html = converter.makeHtml(text);
+//
+//   alert(html);
+//
+// Note: move the sample code to the bottom of this
+// file before uncommenting it.
+//
+
+(function () {
+
+    function identity(x) { return x; }
+    function returnFalse(x) { return false; }
+
+    function HookCollection() { }
+
+    HookCollection.prototype = {
+
+        chain: function (hookname, func) {
+            var original = this[hookname];
+            if (!original)
+                throw new Error("unknown hook " + hookname);
+
+            if (original === identity)
+                this[hookname] = func;
+            else
+                this[hookname] = function (text) {
+                    var args = Array.prototype.slice.call(arguments, 0);
+                    args[0] = original.apply(null, args);
+                    return func.apply(null, args);
+                };
+        },
+        set: function (hookname, func) {
+            if (!this[hookname])
+                throw new Error("unknown hook " + hookname);
+            this[hookname] = func;
+        },
+        addNoop: function (hookname) {
+            this[hookname] = identity;
+        },
+        addFalse: function (hookname) {
+            this[hookname] = returnFalse;
+        }
+    };
+
+    Markdown.HookCollection = HookCollection;
+
+    // g_urls and g_titles allow arbitrary user-entered strings as keys. This
+    // caused an exception (and hence stopped the rendering) when the user entered
+    // e.g. [push] or [__proto__]. Adding a prefix to the actual key prevents this
+    // (since no builtin property starts with "s_"). See
+    // http://meta.stackoverflow.com/questions/64655/strange-wmd-bug
+    // (granted, switching from Array() to Object() alone would have left only __proto__
+    // to be a problem)
+    function SaveHash() { }
+    SaveHash.prototype = {
+        set: function (key, value) {
+            this["s_" + key] = value;
+        },
+        get: function (key) {
+            return this["s_" + key];
+        }
+    };
+
+    Markdown.Converter = function () {
+        var pluginHooks = this.hooks = new HookCollection();
+        
+        // given a URL that was encountered by itself (without markup), should return the link text that's to be given to this link
+        pluginHooks.addNoop("plainLinkText");
+        
+        // called with the orignal text as given to makeHtml. The result of this plugin hook is the actual markdown source that will be cooked
+        pluginHooks.addNoop("preConversion");
+        
+        // called with the text once all normalizations have been completed (tabs to spaces, line endings, etc.), but before any conversions have
+        pluginHooks.addNoop("postNormalization");
+        
+        // Called with the text before / after creating block elements like code blocks and lists. Note that this is called recursively
+        // with inner content, e.g. it's called with the full text, and then only with the content of a blockquote. The inner
+        // call will receive outdented text.
+        pluginHooks.addNoop("preBlockGamut");
+        pluginHooks.addNoop("postBlockGamut");
+        
+        // called with the text of a single block element before / after the span-level conversions (bold, code spans, etc.) have been made
+        pluginHooks.addNoop("preSpanGamut");
+        pluginHooks.addNoop("postSpanGamut");
+        
+        // called with the final cooked HTML code. The result of this plugin hook is the actual output of makeHtml
+        pluginHooks.addNoop("postConversion");
+
+        //
+        // Private state of the converter instance:
+        //
+
+        // Global hashes, used by various utility routines
+        var g_urls;
+        var g_titles;
+        var g_html_blocks;
+
+        // Used to track when we're inside an ordered or unordered list
+        // (see _ProcessListItems() for details):
+        var g_list_level;
+
+        this.makeHtml = function (text) {
+
+            //
+            // Main function. The order in which other subs are called here is
+            // essential. Link and image substitutions need to happen before
+            // _EscapeSpecialCharsWithinTagAttributes(), so that any *'s or _'s in the <a>
+            // and <img> tags get encoded.
+            //
+
+            // This will only happen if makeHtml on the same converter instance is called from a plugin hook.
+            // Don't do that.
+            if (g_urls)
+                throw new Error("Recursive call to converter.makeHtml");
+        
+            // Create the private state objects.
+            g_urls = new SaveHash();
+            g_titles = new SaveHash();
+            g_html_blocks = [];
+            g_list_level = 0;
+
+            text = pluginHooks.preConversion(text);
+
+            // attacklab: Replace ~ with ~T
+            // This lets us use tilde as an escape char to avoid md5 hashes
+            // The choice of character is arbitray; anything that isn't
+            // magic in Markdown will work.
+            text = text.replace(/~/g, "~T");
+
+            // attacklab: Replace $ with ~D
+            // RegExp interprets $ as a special character
+            // when it's in a replacement string
+            text = text.replace(/\$/g, "~D");
+
+            // Standardize line endings
+            text = text.replace(/\r\n/g, "\n"); // DOS to Unix
+            text = text.replace(/\r/g, "\n"); // Mac to Unix
+
+            // Make sure text begins and ends with a couple of newlines:
+            text = "\n\n" + text + "\n\n";
+
+            // Convert all tabs to spaces.
+            text = _Detab(text);
+
+            // Strip any lines consisting only of spaces and tabs.
+            // This makes subsequent regexen easier to write, because we can
+            // match consecutive blank lines with /\n+/ instead of something
+            // contorted like /[ \t]*\n+/ .
+            text = text.replace(/^[ \t]+$/mg, "");
+            
+            text = pluginHooks.postNormalization(text);
+
+            // Turn block-level HTML blocks into hash entries
+            text = _HashHTMLBlocks(text);
+
+            // Strip link definitions, store in hashes.
+            text = _StripLinkDefinitions(text);
+
+            text = _RunBlockGamut(text);
+
+            text = _UnescapeSpecialChars(text);
+
+            // attacklab: Restore dollar signs
+            text = text.replace(/~D/g, "$$");
+
+            // attacklab: Restore tildes
+            text = text.replace(/~T/g, "~");
+
+            text = pluginHooks.postConversion(text);
+
+            g_html_blocks = g_titles = g_urls = null;
+
+            return text;
+        };
+
+        function _StripLinkDefinitions(text) {
+            //
+            // Strips link definitions from text, stores the URLs and titles in
+            // hash references.
+            //
+
+            // Link defs are in the form: ^[id]: url "optional title"
+
+            /*
+            text = text.replace(/
+                ^[ ]{0,3}\[(.+)\]:  // id = $1  attacklab: g_tab_width - 1
+                [ \t]*
+                \n?                 // maybe *one* newline
+                [ \t]*
+                <?(\S+?)>?          // url = $2
+                (?=\s|$)            // lookahead for whitespace instead of the lookbehind removed below
+                [ \t]*
+                \n?                 // maybe one newline
+                [ \t]*
+                (                   // (potential) title = $3
+                    (\n*)           // any lines skipped = $4 attacklab: lookbehind removed
+                    [ \t]+
+                    ["(]
+                    (.+?)           // title = $5
+                    [")]
+                    [ \t]*
+                )?                  // title is optional
+                (?:\n+|$)
+            /gm, function(){...});
+            */
+
+            text = text.replace(/^[ ]{0,3}\[(.+)\]:[ \t]*\n?[ \t]*<?(\S+?)>?(?=\s|$)[ \t]*\n?[ \t]*((\n*)["(](.+?)[")][ \t]*)?(?:\n+)/gm,
+                function (wholeMatch, m1, m2, m3, m4, m5) {
+                    m1 = m1.toLowerCase();
+                    g_urls.set(m1, _EncodeAmpsAndAngles(m2));  // Link IDs are case-insensitive
+                    if (m4) {
+                        // Oops, found blank lines, so it's not a title.
+                        // Put back the parenthetical statement we stole.
+                        return m3;
+                    } else if (m5) {
+                        g_titles.set(m1, m5.replace(/"/g, "&quot;"));
+                    }
+
+                    // Completely remove the definition from the text
+                    return "";
+                }
+            );
+
+            return text;
+        }
+
+        function _HashHTMLBlocks(text) {
+
+            // Hashify HTML blocks:
+            // We only want to do this for block-level HTML tags, such as headers,
+            // lists, and tables. That's because we still want to wrap <p>s around
+            // "paragraphs" that are wrapped in non-block-level tags, such as anchors,
+            // phrase emphasis, and spans. The list of tags we're looking for is
+            // hard-coded:
+            var block_tags_a = "p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del"
+            var block_tags_b = "p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math"
+
+            // First, look for nested blocks, e.g.:
+            //   <div>
+            //     <div>
+            //     tags for inner block must be indented.
+            //     </div>
+            //   </div>
+            //
+            // The outermost tags must start at the left margin for this to match, and
+            // the inner nested divs must be indented.
+            // We need to do this before the next, more liberal match, because the next
+            // match will start at the first `<div>` and stop at the first `</div>`.
+
+            // attacklab: This regex can be expensive when it fails.
+
+            /*
+            text = text.replace(/
+                (                       // save in $1
+                    ^                   // start of line  (with /m)
+                    <($block_tags_a)    // start tag = $2
+                    \b                  // word break
+                                        // attacklab: hack around khtml/pcre bug...
+                    [^\r]*?\n           // any number of lines, minimally matching
+                    </\2>               // the matching end tag
+                    [ \t]*              // trailing spaces/tabs
+                    (?=\n+)             // followed by a newline
+                )                       // attacklab: there are sentinel newlines at end of document
+            /gm,function(){...}};
+            */
+            text = text.replace(/^(<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del)\b[^\r]*?\n<\/\2>[ \t]*(?=\n+))/gm, hashElement);
+
+            //
+            // Now match more liberally, simply from `\n<tag>` to `</tag>\n`
+            //
+
+            /*
+            text = text.replace(/
+                (                       // save in $1
+                    ^                   // start of line  (with /m)
+                    <($block_tags_b)    // start tag = $2
+                    \b                  // word break
+                                        // attacklab: hack around khtml/pcre bug...
+                    [^\r]*?             // any number of lines, minimally matching
+                    .*</\2>             // the matching end tag
+                    [ \t]*              // trailing spaces/tabs
+                    (?=\n+)             // followed by a newline
+                )                       // attacklab: there are sentinel newlines at end of document
+            /gm,function(){...}};
+            */
+            text = text.replace(/^(<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math)\b[^\r]*?.*<\/\2>[ \t]*(?=\n+)\n)/gm, hashElement);
+
+            // Special case just for <hr />. It was easier to make a special case than
+            // to make the other regex more complicated.  
+
+            /*
+            text = text.replace(/
+                \n                  // Starting after a blank line
+                [ ]{0,3}
+                (                   // save in $1
+                    (<(hr)          // start tag = $2
+                        \b          // word break
+                        ([^<>])*?
+                    \/?>)           // the matching end tag
+                    [ \t]*
+                    (?=\n{2,})      // followed by a blank line
+                )
+            /g,hashElement);
+            */
+            text = text.replace(/\n[ ]{0,3}((<(hr)\b([^<>])*?\/?>)[ \t]*(?=\n{2,}))/g, hashElement);
+
+            // Special case for standalone HTML comments:
+
+            /*
+            text = text.replace(/
+                \n\n                                            // Starting after a blank line
+                [ ]{0,3}                                        // attacklab: g_tab_width - 1
+                (                                               // save in $1
+                    <!
+                    (--(?:|(?:[^>-]|-[^>])(?:[^-]|-[^-])*)--)   // see http://www.w3.org/TR/html-markup/syntax.html#comments and http://meta.stackoverflow.com/q/95256
+                    >
+                    [ \t]*
+                    (?=\n{2,})                                  // followed by a blank line
+                )
+            /g,hashElement);
+            */
+            text = text.replace(/\n\n[ ]{0,3}(<!(--(?:|(?:[^>-]|-[^>])(?:[^-]|-[^-])*)--)>[ \t]*(?=\n{2,}))/g, hashElement);
+
+            // PHP and ASP-style processor instructions (<?...?> and <%...%>)
+
+            /*
+            text = text.replace(/
+                (?:
+                    \n\n            // Starting after a blank line
+                )
+                (                   // save in $1
+                    [ ]{0,3}        // attacklab: g_tab_width - 1
+                    (?:
+                        <([?%])     // $2
+                        [^\r]*?
+                        \2>
+                    )
+                    [ \t]*
+                    (?=\n{2,})      // followed by a blank line
+                )
+            /g,hashElement);
+            */
+            text = text.replace(/(?:\n\n)([ ]{0,3}(?:<([?%])[^\r]*?\2>)[ \t]*(?=\n{2,}))/g, hashElement);
+
+            return text;
+        }
+
+        function hashElement(wholeMatch, m1) {
+            var blockText = m1;
+
+            // Undo double lines
+            blockText = blockText.replace(/^\n+/, "");
+
+            // strip trailing blank lines
+            blockText = blockText.replace(/\n+$/g, "");
+
+            // Replace the element text with a marker ("~KxK" where x is its key)
+            blockText = "\n\n~K" + (g_html_blocks.push(blockText) - 1) + "K\n\n";
+
+            return blockText;
+        }
+        
+        var blockGamutHookCallback = function (t) { return _RunBlockGamut(t); }
+
+        function _RunBlockGamut(text, doNotUnhash) {
+            //
+            // These are all the transformations that form block-level
+            // tags like paragraphs, headers, and list items.
+            //
+            
+            text = pluginHooks.preBlockGamut(text, blockGamutHookCallback);
+            
+            text = _DoHeaders(text);
+
+            // Do Horizontal Rules:
+            var replacement = "<hr />\n";
+            text = text.replace(/^[ ]{0,2}([ ]?\*[ ]?){3,}[ \t]*$/gm, replacement);
+            text = text.replace(/^[ ]{0,2}([ ]?-[ ]?){3,}[ \t]*$/gm, replacement);
+            text = text.replace(/^[ ]{0,2}([ ]?_[ ]?){3,}[ \t]*$/gm, replacement);
+
+            text = _DoLists(text);
+            text = _DoCodeBlocks(text);
+            text = _DoBlockQuotes(text);
+            
+            text = pluginHooks.postBlockGamut(text, blockGamutHookCallback);
+
+            // We already ran _HashHTMLBlocks() before, in Markdown(), but that
+            // was to escape raw HTML in the original Markdown source. This time,
+            // we're escaping the markup we've just created, so that we don't wrap
+            // <p> tags around block-level tags.
+            text = _HashHTMLBlocks(text);
+            text = _FormParagraphs(text, doNotUnhash);
+
+            return text;
+        }
+
+        function _RunSpanGamut(text) {
+            //
+            // These are all the transformations that occur *within* block-level
+            // tags like paragraphs, headers, and list items.
+            //
+
+            text = pluginHooks.preSpanGamut(text);
+            
+            text = _DoCodeSpans(text);
+            text = _EscapeSpecialCharsWithinTagAttributes(text);
+            text = _EncodeBackslashEscapes(text);
+
+            // Process anchor and image tags. Images must come first,
+            // because ![foo][f] looks like an anchor.
+            text = _DoImages(text);
+            text = _DoAnchors(text);
+
+            // Make links out of things like `<http://example.com/>`
+            // Must come after _DoAnchors(), because you can use < and >
+            // delimiters in inline links like [this](<url>).
+            text = _DoAutoLinks(text);
+            
+            text = text.replace(/~P/g, "://"); // put in place to prevent autolinking; reset now
+            
+            text = _EncodeAmpsAndAngles(text);
+            text = _DoItalicsAndBold(text);
+
+            // Do hard breaks:
+            text = text.replace(/  +\n/g, " <br>\n");
+            
+            text = pluginHooks.postSpanGamut(text);
+
+            return text;
+        }
+
+        function _EscapeSpecialCharsWithinTagAttributes(text) {
+            //
+            // Within tags -- meaning between < and > -- encode [\ ` * _] so they
+            // don't conflict with their use in Markdown for code, italics and strong.
+            //
+
+            // Build a regex to find HTML tags and comments.  See Friedl's 
+            // "Mastering Regular Expressions", 2nd Ed., pp. 200-201.
+
+            // SE: changed the comment part of the regex
+
+            var regex = /(<[a-z\/!$]("[^"]*"|'[^']*'|[^'">])*>|<!(--(?:|(?:[^>-]|-[^>])(?:[^-]|-[^-])*)--)>)/gi;
+
+            text = text.replace(regex, function (wholeMatch) {
+                var tag = wholeMatch.replace(/(.)<\/?code>(?=.)/g, "$1`");
+                tag = escapeCharacters(tag, wholeMatch.charAt(1) == "!" ? "\\`*_/" : "\\`*_"); // also escape slashes in comments to prevent autolinking there -- http://meta.stackoverflow.com/questions/95987
+                return tag;
+            });
+
+            return text;
+        }
+
+        function _DoAnchors(text) {
+            //
+            // Turn Markdown link shortcuts into XHTML <a> tags.
+            //
+            //
+            // First, handle reference-style links: [link text] [id]
+            //
+
+            /*
+            text = text.replace(/
+                (                           // wrap whole match in $1
+                    \[
+                    (
+                        (?:
+                            \[[^\]]*\]      // allow brackets nested one level
+                            |
+                            [^\[]           // or anything else
+                        )*
+                    )
+                    \]
+
+                    [ ]?                    // one optional space
+                    (?:\n[ ]*)?             // one optional newline followed by spaces
+
+                    \[
+                    (.*?)                   // id = $3
+                    \]
+                )
+                ()()()()                    // pad remaining backreferences
+            /g, writeAnchorTag);
+            */
+            text = text.replace(/(\[((?:\[[^\]]*\]|[^\[\]])*)\][ ]?(?:\n[ ]*)?\[(.*?)\])()()()()/g, writeAnchorTag);
+
+            //
+            // Next, inline-style links: [link text](url "optional title")
+            //
+
+            /*
+            text = text.replace(/
+                (                           // wrap whole match in $1
+                    \[
+                    (
+                        (?:
+                            \[[^\]]*\]      // allow brackets nested one level
+                            |
+                            [^\[\]]         // or anything else
+                        )*
+                    )
+                    \]
+                    \(                      // literal paren
+                    [ \t]*
+                    ()                      // no id, so leave $3 empty
+                    <?(                     // href = $4
+                        (?:
+                            \([^)]*\)       // allow one level of (correctly nested) parens (think MSDN)
+                            |
+                            [^()\s]
+                        )*?
+                    )>?                
+                    [ \t]*
+                    (                       // $5
+                        (['"])              // quote char = $6
+                        (.*?)               // Title = $7
+                        \6                  // matching quote
+                        [ \t]*              // ignore any spaces/tabs between closing quote and )
+                    )?                      // title is optional
+                    \)
+                )
+            /g, writeAnchorTag);
+            */
+
+            text = text.replace(/(\[((?:\[[^\]]*\]|[^\[\]])*)\]\([ \t]*()<?((?:\([^)]*\)|[^()\s])*?)>?[ \t]*((['"])(.*?)\6[ \t]*)?\))/g, writeAnchorTag);
+
+            //
+            // Last, handle reference-style shortcuts: [link text]
+            // These must come last in case you've also got [link test][1]
+            // or [link test](/foo)
+            //
+
+            /*
+            text = text.replace(/
+                (                   // wrap whole match in $1
+                    \[
+                    ([^\[\]]+)      // link text = $2; can't contain '[' or ']'
+                    \]
+                )
+                ()()()()()          // pad rest of backreferences
+            /g, writeAnchorTag);
+            */
+            text = text.replace(/(\[([^\[\]]+)\])()()()()()/g, writeAnchorTag);
+
+            return text;
+        }
+
+        function writeAnchorTag(wholeMatch, m1, m2, m3, m4, m5, m6, m7) {
+            if (m7 == undefined) m7 = "";
+            var whole_match = m1;
+            var link_text = m2.replace(/:\/\//g, "~P"); // to prevent auto-linking withing the link. will be converted back after the auto-linker runs
+            var link_id = m3.toLowerCase();
+            var url = m4;
+            var title = m7;
+
+            if (url == "") {
+                if (link_id == "") {
+                    // lower-case and turn embedded newlines into spaces
+                    link_id = link_text.toLowerCase().replace(/ ?\n/g, " ");
+                }
+                url = "#" + link_id;
+
+                if (g_urls.get(link_id) != undefined) {
+                    url = g_urls.get(link_id);
+                    if (g_titles.get(link_id) != undefined) {
+                        title = g_titles.get(link_id);
+                    }
+                }
+                else {
+                    if (whole_match.search(/\(\s*\)$/m) > -1) {
+                        // Special case for explicit empty url
+                        url = "";
+                    } else {
+                        return whole_match;
+                    }
+                }
+            }
+            url = encodeProblemUrlChars(url);
+            url = escapeCharacters(url, "*_");
+            var result = "<a href=\"" + url + "\"";
+
+            if (title != "") {
+                title = attributeEncode(title);
+                title = escapeCharacters(title, "*_");
+                result += " title=\"" + title + "\"";
+            }
+
+            result += ">" + link_text + "</a>";
+
+            return result;
+        }
+
+        function _DoImages(text) {
+            //
+            // Turn Markdown image shortcuts into <img> tags.
+            //
+
+            //
+            // First, handle reference-style labeled images: ![alt text][id]
+            //
+
+            /*
+            text = text.replace(/
+                (                   // wrap whole match in $1
+                    !\[
+                    (.*?)           // alt text = $2
+                    \]
+
+                    [ ]?            // one optional space
+                    (?:\n[ ]*)?     // one optional newline followed by spaces
+
+                    \[
+                    (.*?)           // id = $3
+                    \]
+                )
+                ()()()()            // pad rest of backreferences
+            /g, writeImageTag);
+            */
+            text = text.replace(/(!\[(.*?)\][ ]?(?:\n[ ]*)?\[(.*?)\])()()()()/g, writeImageTag);
+
+            //
+            // Next, handle inline images:  ![alt text](url "optional title")
+            // Don't forget: encode * and _
+
+            /*
+            text = text.replace(/
+                (                   // wrap whole match in $1
+                    !\[
+                    (.*?)           // alt text = $2
+                    \]
+                    \s?             // One optional whitespace character
+                    \(              // literal paren
+                    [ \t]*
+                    ()              // no id, so leave $3 empty
+                    <?(\S+?)>?      // src url = $4
+                    [ \t]*
+                    (               // $5
+                        (['"])      // quote char = $6
+                        (.*?)       // title = $7
+                        \6          // matching quote
+                        [ \t]*
+                    )?              // title is optional
+                    \)
+                )
+            /g, writeImageTag);
+            */
+            text = text.replace(/(!\[(.*?)\]\s?\([ \t]*()<?(\S+?)>?[ \t]*((['"])(.*?)\6[ \t]*)?\))/g, writeImageTag);
+
+            return text;
+        }
+        
+        function attributeEncode(text) {
+            // unconditionally replace angle brackets here -- what ends up in an attribute (e.g. alt or title)
+            // never makes sense to have verbatim HTML in it (and the sanitizer would totally break it)
+            return text.replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+        }
+
+        function writeImageTag(wholeMatch, m1, m2, m3, m4, m5, m6, m7) {
+            var whole_match = m1;
+            var alt_text = m2;
+            var link_id = m3.toLowerCase();
+            var url = m4;
+            var title = m7;
+
+            if (!title) title = "";
+
+            if (url == "") {
+                if (link_id == "") {
+                    // lower-case and turn embedded newlines into spaces
+                    link_id = alt_text.toLowerCase().replace(/ ?\n/g, " ");
+                }
+                url = "#" + link_id;
+
+                if (g_urls.get(link_id) != undefined) {
+                    url = g_urls.get(link_id);
+                    if (g_titles.get(link_id) != undefined) {
+                        title = g_titles.get(link_id);
+                    }
+                }
+                else {
+                    return whole_match;
+                }
+            }
+            
+            alt_text = escapeCharacters(attributeEncode(alt_text), "*_[]()");
+            url = escapeCharacters(url, "*_");
+            var result = "<img src=\"" + url + "\" alt=\"" + alt_text + "\"";
+
+            // attacklab: Markdown.pl adds empty title attributes to images.
+            // Replicate this bug.
+
+            //if (title != "") {
+            title = attributeEncode(title);
+            title = escapeCharacters(title, "*_");
+            result += " title=\"" + title + "\"";
+            //}
+
+            result += " />";
+
+            return result;
+        }
+
+        function _DoHeaders(text) {
+
+            // Setext-style headers:
+            //  Header 1
+            //  ========
+            //  
+            //  Header 2
+            //  --------
+            //
+            text = text.replace(/^(.+)[ \t]*\n=+[ \t]*\n+/gm,
+                function (wholeMatch, m1) { return "<h1>" + _RunSpanGamut(m1) + "</h1>\n\n"; }
+            );
+
+            text = text.replace(/^(.+)[ \t]*\n-+[ \t]*\n+/gm,
+                function (matchFound, m1) { return "<h2>" + _RunSpanGamut(m1) + "</h2>\n\n"; }
+            );
+
+            // atx-style headers:
+            //  # Header 1
+            //  ## Header 2
+            //  ## Header 2 with closing hashes ##
+            //  ...
+            //  ###### Header 6
+            //
+
+            /*
+            text = text.replace(/
+                ^(\#{1,6})      // $1 = string of #'s
+                [ \t]*
+                (.+?)           // $2 = Header text
+                [ \t]*
+                \#*             // optional closing #'s (not counted)
+                \n+
+            /gm, function() {...});
+            */
+
+            text = text.replace(/^(\#{1,6})[ \t]*(.+?)[ \t]*\#*\n+/gm,
+                function (wholeMatch, m1, m2) {
+                    var h_level = m1.length;
+                    return "<h" + h_level + ">" + _RunSpanGamut(m2) + "</h" + h_level + ">\n\n";
+                }
+            );
+
+            return text;
+        }
+
+        function _DoLists(text) {
+            //
+            // Form HTML ordered (numbered) and unordered (bulleted) lists.
+            //
+
+            // attacklab: add sentinel to hack around khtml/safari bug:
+            // http://bugs.webkit.org/show_bug.cgi?id=11231
+            text += "~0";
+
+            // Re-usable pattern to match any entirel ul or ol list:
+
+            /*
+            var whole_list = /
+                (                                   // $1 = whole list
+                    (                               // $2
+                        [ ]{0,3}                    // attacklab: g_tab_width - 1
+                        ([*+-]|\d+[.])              // $3 = first list item marker
+                        [ \t]+
+                    )
+                    [^\r]+?
+                    (                               // $4
+                        ~0                          // sentinel for workaround; should be $
+                        |
+                        \n{2,}
+                        (?=\S)
+                        (?!                         // Negative lookahead for another list item marker
+                            [ \t]*
+                            (?:[*+-]|\d+[.])[ \t]+
+                        )
+                    )
+                )
+            /g
+            */
+            var whole_list = /^(([ ]{0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/gm;
+
+            if (g_list_level) {
+                text = text.replace(whole_list, function (wholeMatch, m1, m2) {
+                    var list = m1;
+                    var list_type = (m2.search(/[*+-]/g) > -1) ? "ul" : "ol";
+
+                    var result = _ProcessListItems(list, list_type);
+
+                    // Trim any trailing whitespace, to put the closing `</$list_type>`
+                    // up on the preceding line, to get it past the current stupid
+                    // HTML block parser. This is a hack to work around the terrible
+                    // hack that is the HTML block parser.
+                    result = result.replace(/\s+$/, "");
+                    result = "<" + list_type + ">" + result + "</" + list_type + ">\n";
+                    return result;
+                });
+            } else {
+                whole_list = /(\n\n|^\n?)(([ ]{0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/g;
+                text = text.replace(whole_list, function (wholeMatch, m1, m2, m3) {
+                    var runup = m1;
+                    var list = m2;
+
+                    var list_type = (m3.search(/[*+-]/g) > -1) ? "ul" : "ol";
+                    var result = _ProcessListItems(list, list_type);
+                    result = runup + "<" + list_type + ">\n" + result + "</" + list_type + ">\n";
+                    return result;
+                });
+            }
+
+            // attacklab: strip sentinel
+            text = text.replace(/~0/, "");
+
+            return text;
+        }
+
+        var _listItemMarkers = { ol: "\\d+[.]", ul: "[*+-]" };
+
+        function _ProcessListItems(list_str, list_type) {
+            //
+            //  Process the contents of a single ordered or unordered list, splitting it
+            //  into individual list items.
+            //
+            //  list_type is either "ul" or "ol".
+
+            // The $g_list_level global keeps track of when we're inside a list.
+            // Each time we enter a list, we increment it; when we leave a list,
+            // we decrement. If it's zero, we're not in a list anymore.
+            //
+            // We do this because when we're not inside a list, we want to treat
+            // something like this:
+            //
+            //    I recommend upgrading to version
+            //    8. Oops, now this line is treated
+            //    as a sub-list.
+            //
+            // As a single paragraph, despite the fact that the second line starts
+            // with a digit-period-space sequence.
+            //
+            // Whereas when we're inside a list (or sub-list), that line will be
+            // treated as the start of a sub-list. What a kludge, huh? This is
+            // an aspect of Markdown's syntax that's hard to parse perfectly
+            // without resorting to mind-reading. Perhaps the solution is to
+            // change the syntax rules such that sub-lists must start with a
+            // starting cardinal number; e.g. "1." or "a.".
+
+            g_list_level++;
+
+            // trim trailing blank lines:
+            list_str = list_str.replace(/\n{2,}$/, "\n");
+
+            // attacklab: add sentinel to emulate \z
+            list_str += "~0";
+
+            // In the original attacklab showdown, list_type was not given to this function, and anything
+            // that matched /[*+-]|\d+[.]/ would just create the next <li>, causing this mismatch:
+            //
+            //  Markdown          rendered by WMD        rendered by MarkdownSharp
+            //  ------------------------------------------------------------------
+            //  1. first          1. first               1. first
+            //  2. second         2. second              2. second
+            //  - third           3. third                   * third
+            //
+            // We changed this to behave identical to MarkdownSharp. This is the constructed RegEx,
+            // with {MARKER} being one of \d+[.] or [*+-], depending on list_type:
+        
+            /*
+            list_str = list_str.replace(/
+                (^[ \t]*)                       // leading whitespace = $1
+                ({MARKER}) [ \t]+               // list marker = $2
+                ([^\r]+?                        // list item text   = $3
+                    (\n+)
+                )
+                (?=
+                    (~0 | \2 ({MARKER}) [ \t]+)
+                )
+            /gm, function(){...});
+            */
+
+            var marker = _listItemMarkers[list_type];
+            var re = new RegExp("(^[ \\t]*)(" + marker + ")[ \\t]+([^\\r]+?(\\n+))(?=(~0|\\1(" + marker + ")[ \\t]+))", "gm");
+            var last_item_had_a_double_newline = false;
+            list_str = list_str.replace(re,
+                function (wholeMatch, m1, m2, m3) {
+                    var item = m3;
+                    var leading_space = m1;
+                    var ends_with_double_newline = /\n\n$/.test(item);
+                    var contains_double_newline = ends_with_double_newline || item.search(/\n{2,}/) > -1;
+
+                    if (contains_double_newline || last_item_had_a_double_newline) {
+                        item = _RunBlockGamut(_Outdent(item), /* doNotUnhash = */true);
+                    }
+                    else {
+                        // Recursion for sub-lists:
+                        item = _DoLists(_Outdent(item));
+                        item = item.replace(/\n$/, ""); // chomp(item)
+                        item = _RunSpanGamut(item);
+                    }
+                    last_item_had_a_double_newline = ends_with_double_newline;
+                    return "<li>" + item + "</li>\n";
+                }
+            );
+
+            // attacklab: strip sentinel
+            list_str = list_str.replace(/~0/g, "");
+
+            g_list_level--;
+            return list_str;
+        }
+
+        function _DoCodeBlocks(text) {
+            //
+            //  Process Markdown `<pre><code>` blocks.
+            //  
+
+            /*
+            text = text.replace(/
+                (?:\n\n|^)
+                (                               // $1 = the code block -- one or more lines, starting with a space/tab
+                    (?:
+                        (?:[ ]{4}|\t)           // Lines must start with a tab or a tab-width of spaces - attacklab: g_tab_width
+                        .*\n+
+                    )+
+                )
+                (\n*[ ]{0,3}[^ \t\n]|(?=~0))    // attacklab: g_tab_width
+            /g ,function(){...});
+            */
+
+            // attacklab: sentinel workarounds for lack of \A and \Z, safari\khtml bug
+            text += "~0";
+
+            text = text.replace(/(?:\n\n|^)((?:(?:[ ]{4}|\t).*\n+)+)(\n*[ ]{0,3}[^ \t\n]|(?=~0))/g,
+                function (wholeMatch, m1, m2) {
+                    var codeblock = m1;
+                    var nextChar = m2;
+
+                    codeblock = _EncodeCode(_Outdent(codeblock));
+                    codeblock = _Detab(codeblock);
+                    codeblock = codeblock.replace(/^\n+/g, ""); // trim leading newlines
+                    codeblock = codeblock.replace(/\n+$/g, ""); // trim trailing whitespace
+
+                    codeblock = "<pre><code>" + codeblock + "\n</code></pre>";
+
+                    return "\n\n" + codeblock + "\n\n" + nextChar;
+                }
+            );
+
+            // attacklab: strip sentinel
+            text = text.replace(/~0/, "");
+
+            return text;
+        }
+
+        function hashBlock(text) {
+            text = text.replace(/(^\n+|\n+$)/g, "");
+            return "\n\n~K" + (g_html_blocks.push(text) - 1) + "K\n\n";
+        }
+
+        function _DoCodeSpans(text) {
+            //
+            // * Backtick quotes are used for <code></code> spans.
+            // 
+            // * You can use multiple backticks as the delimiters if you want to
+            //   include literal backticks in the code span. So, this input:
+            //     
+            //      Just type ``foo `bar` baz`` at the prompt.
+            //     
+            //   Will translate to:
+            //     
+            //      <p>Just type <code>foo `bar` baz</code> at the prompt.</p>
+            //     
+            //   There's no arbitrary limit to the number of backticks you
+            //   can use as delimters. If you need three consecutive backticks
+            //   in your code, use four for delimiters, etc.
+            //
+            // * You can use spaces to get literal backticks at the edges:
+            //     
+            //      ... type `` `bar` `` ...
+            //     
+            //   Turns to:
+            //     
+            //      ... type <code>`bar`</code> ...
+            //
+
+            /*
+            text = text.replace(/
+                (^|[^\\])       // Character before opening ` can't be a backslash
+                (`+)            // $2 = Opening run of `
+                (               // $3 = The code block
+                    [^\r]*?
+                    [^`]        // attacklab: work around lack of lookbehind
+                )
+                \2              // Matching closer
+                (?!`)
+            /gm, function(){...});
+            */
+
+            text = text.replace(/(^|[^\\])(`+)([^\r]*?[^`])\2(?!`)/gm,
+                function (wholeMatch, m1, m2, m3, m4) {
+                    var c = m3;
+                    c = c.replace(/^([ \t]*)/g, ""); // leading whitespace
+                    c = c.replace(/[ \t]*$/g, ""); // trailing whitespace
+                    c = _EncodeCode(c);
+                    c = c.replace(/:\/\//g, "~P"); // to prevent auto-linking. Not necessary in code *blocks*, but in code spans. Will be converted back after the auto-linker runs.
+                    return m1 + "<code>" + c + "</code>";
+                }
+            );
+
+            return text;
+        }
+
+        function _EncodeCode(text) {
+            //
+            // Encode/escape certain characters inside Markdown code runs.
+            // The point is that in code, these characters are literals,
+            // and lose their special Markdown meanings.
+            //
+            // Encode all ampersands; HTML entities are not
+            // entities within a Markdown code span.
+            text = text.replace(/&/g, "&amp;");
+
+            // Do the angle bracket song and dance:
+            text = text.replace(/</g, "&lt;");
+            text = text.replace(/>/g, "&gt;");
+
+            // Now, escape characters that are magic in Markdown:
+            text = escapeCharacters(text, "\*_{}[]\\", false);
+
+            // jj the line above breaks this:
+            //---
+
+            //* Item
+
+            //   1. Subitem
+
+            //            special char: *
+            //---
+
+            return text;
+        }
+
+        function _DoItalicsAndBold(text) {
+
+            // <strong> must go first:
+            text = text.replace(/([\W_]|^)(\*\*|__)(?=\S)([^\r]*?\S[\*_]*)\2([\W_]|$)/g,
+            "$1<strong>$3</strong>$4");
+
+            text = text.replace(/([\W_]|^)(\*|_)(?=\S)([^\r\*_]*?\S)\2([\W_]|$)/g,
+            "$1<em>$3</em>$4");
+
+            return text;
+        }
+
+        function _DoBlockQuotes(text) {
+
+            /*
+            text = text.replace(/
+                (                           // Wrap whole match in $1
+                    (
+                        ^[ \t]*>[ \t]?      // '>' at the start of a line
+                        .+\n                // rest of the first line
+                        (.+\n)*             // subsequent consecutive lines
+                        \n*                 // blanks
+                    )+
+                )
+            /gm, function(){...});
+            */
+
+            text = text.replace(/((^[ \t]*>[ \t]?.+\n(.+\n)*\n*)+)/gm,
+                function (wholeMatch, m1) {
+                    var bq = m1;
+
+                    // attacklab: hack around Konqueror 3.5.4 bug:
+                    // "----------bug".replace(/^-/g,"") == "bug"
+
+                    bq = bq.replace(/^[ \t]*>[ \t]?/gm, "~0"); // trim one level of quoting
+
+                    // attacklab: clean up hack
+                    bq = bq.replace(/~0/g, "");
+
+                    bq = bq.replace(/^[ \t]+$/gm, "");     // trim whitespace-only lines
+                    bq = _RunBlockGamut(bq);             // recurse
+
+                    bq = bq.replace(/(^|\n)/g, "$1  ");
+                    // These leading spaces screw with <pre> content, so we need to fix that:
+                    bq = bq.replace(
+                            /(\s*<pre>[^\r]+?<\/pre>)/gm,
+                        function (wholeMatch, m1) {
+                            var pre = m1;
+                            // attacklab: hack around Konqueror 3.5.4 bug:
+                            pre = pre.replace(/^  /mg, "~0");
+                            pre = pre.replace(/~0/g, "");
+                            return pre;
+                        });
+
+                    return hashBlock("<blockquote>\n" + bq + "\n</blockquote>");
+                }
+            );
+            return text;
+        }
+
+        function _FormParagraphs(text, doNotUnhash) {
+            //
+            //  Params:
+            //    $text - string to process with html <p> tags
+            //
+
+            // Strip leading and trailing lines:
+            text = text.replace(/^\n+/g, "");
+            text = text.replace(/\n+$/g, "");
+
+            var grafs = text.split(/\n{2,}/g);
+            var grafsOut = [];
+            
+            var markerRe = /~K(\d+)K/;
+
+            //
+            // Wrap <p> tags.
+            //
+            var end = grafs.length;
+            for (var i = 0; i < end; i++) {
+                var str = grafs[i];
+
+                // if this is an HTML marker, copy it
+                if (markerRe.test(str)) {
+                    grafsOut.push(str);
+                }
+                else if (/\S/.test(str)) {
+                    str = _RunSpanGamut(str);
+                    str = str.replace(/^([ \t]*)/g, "<p>");
+                    str += "</p>"
+                    grafsOut.push(str);
+                }
+
+            }
+            //
+            // Unhashify HTML blocks
+            //
+            if (!doNotUnhash) {
+                end = grafsOut.length;
+                for (var i = 0; i < end; i++) {
+                    var foundAny = true;
+                    while (foundAny) { // we may need several runs, since the data may be nested
+                        foundAny = false;
+                        grafsOut[i] = grafsOut[i].replace(/~K(\d+)K/g, function (wholeMatch, id) {
+                            foundAny = true;
+                            return g_html_blocks[id];
+                        });
+                    }
+                }
+            }
+            return grafsOut.join("\n\n");
+        }
+
+        function _EncodeAmpsAndAngles(text) {
+            // Smart processing for ampersands and angle brackets that need to be encoded.
+
+            // Ampersand-encoding based entirely on Nat Irons's Amputator MT plugin:
+            //   http://bumppo.net/projects/amputator/
+            text = text.replace(/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w+);)/g, "&amp;");
+
+            // Encode naked <'s
+            text = text.replace(/<(?![a-z\/?!]|~D)/gi, "&lt;");
+
+            return text;
+        }
+
+        function _EncodeBackslashEscapes(text) {
+            //
+            //   Parameter:  String.
+            //   Returns:    The string, with after processing the following backslash
+            //               escape sequences.
+            //
+
+            // attacklab: The polite way to do this is with the new
+            // escapeCharacters() function:
+            //
+            //     text = escapeCharacters(text,"\\",true);
+            //     text = escapeCharacters(text,"`*_{}[]()>#+-.!",true);
+            //
+            // ...but we're sidestepping its use of the (slow) RegExp constructor
+            // as an optimization for Firefox.  This function gets called a LOT.
+
+            text = text.replace(/\\(\\)/g, escapeCharacters_callback);
+            text = text.replace(/\\([`*_{}\[\]()>#+-.!])/g, escapeCharacters_callback);
+            return text;
+        }
+        
+        function handleTrailingParens(wholeMatch, lookbehind, protocol, link) {
+            if (lookbehind)
+                return wholeMatch;
+            if (link.charAt(link.length - 1) !== ")")
+                return "<" + protocol + link + ">";
+            var parens = link.match(/[()]/g);
+            var level = 0;
+            for (var i = 0; i < parens.length; i++) {
+                if (parens[i] === "(") {
+                    if (level <= 0)
+                        level = 1;
+                    else
+                        level++;
+                }
+                else {
+                    level--;
+                }
+            }
+            var tail = "";
+            if (level < 0) {
+                var re = new RegExp("\\){1," + (-level) + "}$");
+                link = link.replace(re, function (trailingParens) {
+                    tail = trailingParens;
+                    return "";
+                });
+            }
+            
+            return "<" + protocol + link + ">" + tail;
+        }
+
+        function _DoAutoLinks(text) {
+
+            // note that at this point, all other URL in the text are already hyperlinked as <a href=""></a>
+            // *except* for the <http://www.foo.com> case
+
+            // automatically add < and > around unadorned raw hyperlinks
+            // must be preceded by a non-word character (and not by =" or <) and followed by non-word/EOF character
+            // simulating the lookbehind in a consuming way is okay here, since a URL can neither and with a " nor
+            // with a <, so there is no risk of overlapping matches.
+            text = text.replace(/(="|<)?\b(https?|ftp)(:\/\/[-A-Z0-9+&@#\/%?=~_|\[\]\(\)!:,\.;]*[-A-Z0-9+&@#\/%=~_|\[\])])(?=$|\W)/gi, handleTrailingParens);
+
+            //  autolink anything like <http://example.com>
+            
+            var replacer = function (wholematch, m1) { return "<a href=\"" + m1 + "\">" + pluginHooks.plainLinkText(m1) + "</a>"; }
+            text = text.replace(/<((https?|ftp):[^'">\s]+)>/gi, replacer);
+
+            // Email addresses: <address@domain.foo>
+            /*
+            text = text.replace(/
+                <
+                (?:mailto:)?
+                (
+                    [-.\w]+
+                    \@
+                    [-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+
+                )
+                >
+            /gi, _DoAutoLinks_callback());
+            */
+
+            /* disabling email autolinking, since we don't do that on the server, either
+            text = text.replace(/<(?:mailto:)?([-.\w]+\@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)>/gi,
+                function(wholeMatch,m1) {
+                    return _EncodeEmailAddress( _UnescapeSpecialChars(m1) );
+                }
+            );
+            */
+            return text;
+        }
+
+        function _UnescapeSpecialChars(text) {
+            //
+            // Swap back in all the special characters we've hidden.
+            //
+            text = text.replace(/~E(\d+)E/g,
+                function (wholeMatch, m1) {
+                    var charCodeToReplace = parseInt(m1);
+                    return String.fromCharCode(charCodeToReplace);
+                }
+            );
+            return text;
+        }
+
+        function _Outdent(text) {
+            //
+            // Remove one level of line-leading tabs or spaces
+            //
+
+            // attacklab: hack around Konqueror 3.5.4 bug:
+            // "----------bug".replace(/^-/g,"") == "bug"
+
+            text = text.replace(/^(\t|[ ]{1,4})/gm, "~0"); // attacklab: g_tab_width
+
+            // attacklab: clean up hack
+            text = text.replace(/~0/g, "")
+
+            return text;
+        }
+
+        function _Detab(text) {
+            if (!/\t/.test(text))
+                return text;
+
+            var spaces = ["    ", "   ", "  ", " "],
+            skew = 0,
+            v;
+
+            return text.replace(/[\n\t]/g, function (match, offset) {
+                if (match === "\n") {
+                    skew = offset + 1;
+                    return match;
+                }
+                v = (offset - skew) % 4;
+                skew = offset + 1;
+                return spaces[v];
+            });
+        }
+
+        //
+        //  attacklab: Utility functions
+        //
+
+        var _problemUrlChars = /(?:["'*()[\]:]|~D)/g;
+
+        // hex-encodes some unusual "problem" chars in URLs to avoid URL detection problems 
+        function encodeProblemUrlChars(url) {
+            if (!url)
+                return "";
+
+            var len = url.length;
+
+            return url.replace(_problemUrlChars, function (match, offset) {
+                if (match == "~D") // escape for dollar
+                    return "%24";
+                if (match == ":") {
+                    if (offset == len - 1 || /[0-9\/]/.test(url.charAt(offset + 1)))
+                        return ":"
+                }
+                return "%" + match.charCodeAt(0).toString(16);
+            });
+        }
+
+
+        function escapeCharacters(text, charsToEscape, afterBackslash) {
+            // First we have to escape the escape characters so that
+            // we can build a character class out of them
+            var regexString = "([" + charsToEscape.replace(/([\[\]\\])/g, "\\$1") + "])";
+
+            if (afterBackslash) {
+                regexString = "\\\\" + regexString;
+            }
+
+            var regex = new RegExp(regexString, "g");
+            text = text.replace(regex, escapeCharacters_callback);
+
+            return text;
+        }
+
+
+        function escapeCharacters_callback(wholeMatch, m1) {
+            var charCodeToEscape = m1.charCodeAt(0);
+            return "~E" + charCodeToEscape + "E";
+        }
+
+    }; // end of the Markdown.Converter constructor
+
+})();
+
+},{}],7:[function(require,module,exports){
+(function () {
+    var output, Converter;
+    if (typeof exports === "object" && typeof require === "function") { // we're in a CommonJS (e.g. Node.js) module
+        output = exports;
+        Converter = require("./Markdown.Converter").Converter;
+    } else {
+        output = window.Markdown;
+        Converter = output.Converter;
+    }
+        
+    output.getSanitizingConverter = function () {
+        var converter = new Converter();
+        converter.hooks.chain("postConversion", sanitizeHtml);
+        converter.hooks.chain("postConversion", balanceTags);
+        return converter;
+    }
+
+    function sanitizeHtml(html) {
+        return html.replace(/<[^>]*>?/gi, sanitizeTag);
+    }
+
+    // (tags that can be opened/closed) | (tags that stand alone)
+    var basic_tag_whitelist = /^(<\/?(b|blockquote|code|del|dd|dl|dt|em|h1|h2|h3|i|kbd|li|ol|p|pre|s|sup|sub|strong|strike|ul)>|<(br|hr)\s?\/?>)$/i;
+    // <a href="url..." optional title>|</a>
+    var a_white = /^(<a\shref="((https?|ftp):\/\/|\/)[-A-Za-z0-9+&@#\/%?=~_|!:,.;\(\)]+"(\stitle="[^"<>]+")?\s?>|<\/a>)$/i;
+
+    // <img src="url..." optional width  optional height  optional alt  optional title
+    var img_white = /^(<img\ssrc="(https?:\/\/|\/)[-A-Za-z0-9+&@#\/%?=~_|!:,.;\(\)]+"(\swidth="\d{1,3}")?(\sheight="\d{1,3}")?(\salt="[^"<>]*")?(\stitle="[^"<>]*")?\s?\/?>)$/i;
+
+    function sanitizeTag(tag) {
+        if (tag.match(basic_tag_whitelist) || tag.match(a_white) || tag.match(img_white))
+            return tag;
+        else
+            return "";
+    }
+
+    /// <summary>
+    /// attempt to balance HTML tags in the html string
+    /// by removing any unmatched opening or closing tags
+    /// IMPORTANT: we *assume* HTML has *already* been 
+    /// sanitized and is safe/sane before balancing!
+    /// 
+    /// adapted from CODESNIPPET: A8591DBA-D1D3-11DE-947C-BA5556D89593
+    /// </summary>
+    function balanceTags(html) {
+
+        if (html == "")
+            return "";
+
+        var re = /<\/?\w+[^>]*(\s|$|>)/g;
+        // convert everything to lower case; this makes
+        // our case insensitive comparisons easier
+        var tags = html.toLowerCase().match(re);
+
+        // no HTML tags present? nothing to do; exit now
+        var tagcount = (tags || []).length;
+        if (tagcount == 0)
+            return html;
+
+        var tagname, tag;
+        var ignoredtags = "<p><img><br><li><hr>";
+        var match;
+        var tagpaired = [];
+        var tagremove = [];
+        var needsRemoval = false;
+
+        // loop through matched tags in forward order
+        for (var ctag = 0; ctag < tagcount; ctag++) {
+            tagname = tags[ctag].replace(/<\/?(\w+).*/, "$1");
+            // skip any already paired tags
+            // and skip tags in our ignore list; assume they're self-closed
+            if (tagpaired[ctag] || ignoredtags.search("<" + tagname + ">") > -1)
+                continue;
+
+            tag = tags[ctag];
+            match = -1;
+
+            if (!/^<\//.test(tag)) {
+                // this is an opening tag
+                // search forwards (next tags), look for closing tags
+                for (var ntag = ctag + 1; ntag < tagcount; ntag++) {
+                    if (!tagpaired[ntag] && tags[ntag] == "</" + tagname + ">") {
+                        match = ntag;
+                        break;
+                    }
+                }
+            }
+
+            if (match == -1)
+                needsRemoval = tagremove[ctag] = true; // mark for removal
+            else
+                tagpaired[match] = true; // mark paired
+        }
+
+        if (!needsRemoval)
+            return html;
+
+        // delete all orphaned tags from the string
+
+        var ctag = 0;
+        html = html.replace(re, function (match) {
+            var res = tagremove[ctag] ? "" : match;
+            ctag++;
+            return res;
+        });
+        return html;
+    }
+})();
+
+},{"./Markdown.Converter":6}],8:[function(require,module,exports){
+exports.Converter = require("./Markdown.Converter").Converter;
+exports.getSanitizingConverter = require("./Markdown.Sanitizer").getSanitizingConverter;
+
+},{"./Markdown.Converter":6,"./Markdown.Sanitizer":7}],9:[function(require,module,exports){
 
 require('../select2/select2.js');
 module.exports = window.Select2;
 
-},{"../select2/select2.js":7}],7:[function(require,module,exports){
+},{"../select2/select2.js":10}],10:[function(require,module,exports){
 /*
 Copyright 2012 Igor Vaynberg
 
@@ -16293,7 +17809,7 @@ the specific language governing permissions and limitations under the Apache Lic
 
 }(jQuery));
 
-},{}],8:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -17638,7 +19154,7 @@ the specific language governing permissions and limitations under the Apache Lic
   }
 }).call(this);
 
-},{}],9:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  * AngularUI - The companion suite for AngularJS
  * @version v0.4.0 - 2013-02-15
@@ -17646,16 +19162,250 @@ the specific language governing permissions and limitations under the Apache Lic
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
 angular.module("ui.config",[]).value("ui.config",{}),angular.module("ui.filters",["ui.config"]),angular.module("ui.directives",["ui.config"]),angular.module("ui",["ui.filters","ui.directives","ui.config"]),angular.module("ui.directives").directive("uiAnimate",["ui.config","$timeout",function(e,t){var n={};return angular.isString(e.animate)?n["class"]=e.animate:e.animate&&(n=e.animate),{restrict:"A",link:function(e,r,i){var s={};i.uiAnimate&&(s=e.$eval(i.uiAnimate),angular.isString(s)&&(s={"class":s})),s=angular.extend({"class":"ui-animate"},n,s),r.addClass(s["class"]),t(function(){r.removeClass(s["class"])},20,!1)}}}]),angular.module("ui.directives").directive("uiCalendar",["ui.config","$parse",function(e,t){return e.uiCalendar=e.uiCalendar||{},{require:"ngModel",restrict:"A",link:function(t,n,r,i){function a(){t.calendar=n.html("");var i=t.calendar.fullCalendar("getView");i&&(i=i.name);var o,u={defaultView:i,eventSources:s};r.uiCalendar?o=t.$eval(r.uiCalendar):o={},angular.extend(u,e.uiCalendar,o),t.calendar.fullCalendar(u)}var s=t.$eval(r.ngModel),o=0,u=function(){var e=t.$eval(r.equalsTracker);return o=0,angular.forEach(s,function(e,t){angular.isArray(e)&&(o+=e.length)}),angular.isNumber(e)?o+s.length+e:o+s.length};a(),t.$watch(u,function(e,t){a()})}}}]),angular.module("ui.directives").directive("uiCodemirror",["ui.config","$timeout",function(e,t){"use strict";var n=["cursorActivity","viewportChange","gutterClick","focus","blur","scroll","update"];return{restrict:"A",require:"ngModel",link:function(r,i,s,o){var u,a,f,l,c;if(i[0].type!=="textarea")throw new Error("uiCodemirror3 can only be applied to a textarea element");u=e.codemirror||{},a=angular.extend({},u,r.$eval(s.uiCodemirror)),f=function(e){return function(t,n){var i=t.getValue();i!==o.$viewValue&&(o.$setViewValue(i),r.$apply()),typeof e=="function"&&e(t,n)}},l=function(){c=CodeMirror.fromTextArea(i[0],a),c.on("change",f(a.onChange));for(var e=0,u=n.length,l;e<u;++e){l=a["on"+n[e].charAt(0).toUpperCase()+n[e].slice(1)];if(l===void 0)continue;if(typeof l!="function")continue;c.on(n[e],l)}o.$formatters.push(function(e){if(angular.isUndefined(e)||e===null)return"";if(angular.isObject(e)||angular.isArray(e))throw new Error("ui-codemirror cannot use an object or an array as a model");return e}),o.$render=function(){c.setValue(o.$viewValue)},s.uiRefresh&&r.$watch(s.uiRefresh,function(e,n){e!==n&&t(c.refresh)})},t(l)}}}]),angular.module("ui.directives").directive("uiCurrency",["ui.config","currencyFilter",function(e,t){var n={pos:"ui-currency-pos",neg:"ui-currency-neg",zero:"ui-currency-zero"};return e.currency&&angular.extend(n,e.currency),{restrict:"EAC",require:"ngModel",link:function(e,r,i,s){var o,u,a;o=angular.extend({},n,e.$eval(i.uiCurrency)),u=function(e){var n;return n=e*1,r.toggleClass(o.pos,n>0),r.toggleClass(o.neg,n<0),r.toggleClass(o.zero,n===0),e===""?r.text(""):r.text(t(n,o.symbol)),!0},s.$render=function(){a=s.$viewValue,r.val(a),u(a)}}}}]),angular.module("ui.directives").directive("uiDate",["ui.config",function(e){"use strict";var t;return t={},angular.isObject(e.date)&&angular.extend(t,e.date),{require:"?ngModel",link:function(t,n,r,i){var s=function(){return angular.extend({},e.date,t.$eval(r.uiDate))},o=function(){var e=s();if(i){var r=function(){t.$apply(function(){var e=n.datepicker("getDate");n.datepicker("setDate",n.val()),i.$setViewValue(e),n.blur()})};if(e.onSelect){var o=e.onSelect;e.onSelect=function(e,n){r(),t.$apply(function(){o(e,n)})}}else e.onSelect=r;n.bind("change",r),i.$render=function(){var e=i.$viewValue;if(angular.isDefined(e)&&e!==null&&!angular.isDate(e))throw new Error("ng-Model value must be a Date object - currently it is a "+typeof e+" - use ui-date-format to convert it from a string");n.datepicker("setDate",e)}}n.datepicker("destroy"),n.datepicker(e),i&&i.$render()};t.$watch(s,o,!0)}}}]).directive("uiDateFormat",["ui.config",function(e){var t={require:"ngModel",link:function(t,n,r,i){var s=r.uiDateFormat||e.dateFormat;s?(i.$formatters.push(function(e){if(angular.isString(e))return $.datepicker.parseDate(s,e)}),i.$parsers.push(function(e){if(e)return $.datepicker.formatDate(s,e)})):(i.$formatters.push(function(e){if(angular.isString(e))return new Date(e)}),i.$parsers.push(function(e){if(e)return e.toISOString()}))}};return t}]),angular.module("ui.directives").directive("uiEvent",["$parse",function(e){return function(t,n,r){var i=t.$eval(r.uiEvent);angular.forEach(i,function(r,i){var s=e(r);n.bind(i,function(e){var n=Array.prototype.slice.call(arguments);n=n.splice(1),t.$apply(function(){s(t,{$event:e,$params:n})})})})}}]),angular.module("ui.directives").directive("uiIf",[function(){return{transclude:"element",priority:1e3,terminal:!0,restrict:"A",compile:function(e,t,n){return function(e,t,r){var i,s;e.$watch(r.uiIf,function(r){i&&(i.remove(),i=undefined),s&&(s.$destroy(),s=undefined),r&&(s=e.$new(),n(s,function(e){i=e,t.after(e)}))})}}}}]),angular.module("ui.directives").directive("uiJq",["ui.config","$timeout",function(t,n){return{restrict:"A",compile:function(r,i){if(!angular.isFunction(r[i.uiJq]))throw new Error('ui-jq: The "'+i.uiJq+'" function does not exist');var s=t.jq&&t.jq[i.uiJq];return function(t,r,i){function u(){n(function(){r[i.uiJq].apply(r,o)},0,!1)}var o=[];i.uiOptions?(o=t.$eval("["+i.uiOptions+"]"),angular.isObject(s)&&angular.isObject(o[0])&&(o[0]=angular.extend({},s,o[0]))):s&&(o=[s]),i.ngModel&&r.is("select,input,textarea")&&r.on("change",function(){r.trigger("input")}),i.uiRefresh&&t.$watch(i.uiRefresh,function(e){u()}),u()}}}}]),angular.module("ui.directives").factory("keypressHelper",["$parse",function(t){var n={8:"backspace",9:"tab",13:"enter",27:"esc",32:"space",33:"pageup",34:"pagedown",35:"end",36:"home",37:"left",38:"up",39:"right",40:"down",45:"insert",46:"delete"},r=function(e){return e.charAt(0).toUpperCase()+e.slice(1)};return function(e,i,s,o){var u,a=[];u=i.$eval(o["ui"+r(e)]),angular.forEach(u,function(e,n){var r,i;i=t(e),angular.forEach(n.split(" "),function(e){r={expression:i,keys:{}},angular.forEach(e.split("-"),function(e){r.keys[e]=!0}),a.push(r)})}),s.bind(e,function(t){var r=t.metaKey||t.altKey,s=t.ctrlKey,o=t.shiftKey,u=t.keyCode;e==="keypress"&&!o&&u>=97&&u<=122&&(u-=32),angular.forEach(a,function(e){var u=e.keys[n[t.keyCode]]||e.keys[t.keyCode.toString()]||!1,a=e.keys.alt||!1,f=e.keys.ctrl||!1,l=e.keys.shift||!1;u&&a==r&&f==s&&l==o&&i.$apply(function(){e.expression(i,{$event:t})})})})}}]),angular.module("ui.directives").directive("uiKeydown",["keypressHelper",function(e){return{link:function(t,n,r){e("keydown",t,n,r)}}}]),angular.module("ui.directives").directive("uiKeypress",["keypressHelper",function(e){return{link:function(t,n,r){e("keypress",t,n,r)}}}]),angular.module("ui.directives").directive("uiKeyup",["keypressHelper",function(e){return{link:function(t,n,r){e("keyup",t,n,r)}}}]),function(){function t(e,t,n,r){angular.forEach(t.split(" "),function(t){var i={type:"map-"+t};google.maps.event.addListener(n,t,function(t){r.triggerHandler(angular.extend({},i,t)),e.$$phase||e.$apply()})})}function n(n,r){e.directive(n,[function(){return{restrict:"A",link:function(e,i,s){e.$watch(s[n],function(n){t(e,r,n,i)})}}}])}var e=angular.module("ui.directives");e.directive("uiMap",["ui.config","$parse",function(e,n){var r="bounds_changed center_changed click dblclick drag dragend dragstart heading_changed idle maptypeid_changed mousemove mouseout mouseover projection_changed resize rightclick tilesloaded tilt_changed zoom_changed",i=e.map||{};return{restrict:"A",link:function(e,s,o){var u=angular.extend({},i,e.$eval(o.uiOptions)),a=new google.maps.Map(s[0],u),f=n(o.uiMap);f.assign(e,a),t(e,r,a,s)}}}]),e.directive("uiMapInfoWindow",["ui.config","$parse","$compile",function(e,n,r){var i="closeclick content_change domready position_changed zindex_changed",s=e.mapInfoWindow||{};return{link:function(e,o,u){var a=angular.extend({},s,e.$eval(u.uiOptions));a.content=o[0];var f=n(u.uiMapInfoWindow),l=f(e);l||(l=new google.maps.InfoWindow(a),f.assign(e,l)),t(e,i,l,o),o.replaceWith("<div></div>");var c=l.open;l.open=function(n,i,s,u,a,f){r(o.contents())(e),c.call(l,n,i,s,u,a,f)}}}}]),n("uiMapMarker","animation_changed click clickable_changed cursor_changed dblclick drag dragend draggable_changed dragstart flat_changed icon_changed mousedown mouseout mouseover mouseup position_changed rightclick shadow_changed shape_changed title_changed visible_changed zindex_changed"),n("uiMapPolyline","click dblclick mousedown mousemove mouseout mouseover mouseup rightclick"),n("uiMapPolygon","click dblclick mousedown mousemove mouseout mouseover mouseup rightclick"),n("uiMapRectangle","bounds_changed click dblclick mousedown mousemove mouseout mouseover mouseup rightclick"),n("uiMapCircle","center_changed click dblclick mousedown mousemove mouseout mouseover mouseup radius_changed rightclick"),n("uiMapGroundOverlay","click dblclick")}(),angular.module("ui.directives").directive("uiMask",[function(){return{require:"ngModel",link:function(e,t,n,r){r.$render=function(){var i=r.$viewValue||"";t.val(i),t.mask(e.$eval(n.uiMask))},r.$parsers.push(function(e){var n=t.isMaskValid()||angular.isUndefined(t.isMaskValid())&&t.val().length>0;return r.$setValidity("mask",n),n?e:undefined}),t.bind("keyup",function(){e.$apply(function(){r.$setViewValue(t.mask())})})}}}]),angular.module("ui.directives").directive("uiReset",["ui.config",function(e){var t=null;return e.reset!==undefined&&(t=e.reset),{require:"ngModel",link:function(e,n,r,i){var s;s=angular.element('<a class="ui-reset" />'),n.wrap('<span class="ui-resetwrap" />').after(s),s.bind("click",function(n){n.preventDefault(),e.$apply(function(){r.uiReset?i.$setViewValue(e.$eval(r.uiReset)):i.$setViewValue(t),i.$render()})})}}}]),angular.module("ui.directives").directive("uiRoute",["$location","$parse",function(e,t){return{restrict:"AC",compile:function(n,r){var i;if(r.uiRoute)i="uiRoute";else if(r.ngHref)i="ngHref";else{if(!r.href)throw new Error("uiRoute missing a route or href property on "+n[0]);i="href"}return function(n,r,s){function a(t){(hash=t.indexOf("#"))>-1&&(t=t.substr(hash+1)),u=function(){o(n,e.path().indexOf(t)>-1)},u()}function f(t){(hash=t.indexOf("#"))>-1&&(t=t.substr(hash+1)),u=function(){var i=new RegExp("^"+t+"$",["i"]);o(n,i.test(e.path()))},u()}var o=t(s.ngModel||s.routeModel||"$uiRoute").assign,u=angular.noop;switch(i){case"uiRoute":s.uiRoute?f(s.uiRoute):s.$observe("uiRoute",f);break;case"ngHref":s.ngHref?a(s.ngHref):s.$observe("ngHref",a);break;case"href":a(s.href)}n.$on("$routeChangeSuccess",function(){u()})}}}}]),angular.module("ui.directives").directive("uiScrollfix",["$window",function(e){"use strict";return{link:function(t,n,r){var i=n.offset().top;r.uiScrollfix?r.uiScrollfix.charAt(0)==="-"?r.uiScrollfix=i-r.uiScrollfix.substr(1):r.uiScrollfix.charAt(0)==="+"&&(r.uiScrollfix=i+parseFloat(r.uiScrollfix.substr(1))):r.uiScrollfix=i,angular.element(e).on("scroll.ui-scrollfix",function(){var t;if(angular.isDefined(e.pageYOffset))t=e.pageYOffset;else{var i=document.compatMode&&document.compatMode!=="BackCompat"?document.documentElement:document.body;t=i.scrollTop}!n.hasClass("ui-scrollfix")&&t>r.uiScrollfix?n.addClass("ui-scrollfix"):n.hasClass("ui-scrollfix")&&t<r.uiScrollfix&&n.removeClass("ui-scrollfix")})}}}]),angular.module("ui.directives").directive("uiSelect2",["ui.config","$timeout",function(e,t){var n={};return e.select2&&angular.extend(n,e.select2),{require:"?ngModel",compile:function(e,r){var i,s,o,u=e.is("select"),a=r.multiple!==undefined;return e.is("select")&&(s=e.find("option[ng-repeat], option[data-ng-repeat]"),s.length&&(o=s.attr("ng-repeat")||s.attr("data-ng-repeat"),i=jQuery.trim(o.split("|")[0]).split(" ").pop())),function(e,r,s,o){var f=angular.extend({},n,e.$eval(s.uiSelect2));u?(delete f.multiple,delete f.initSelection):a&&(f.multiple=!0);if(o){o.$render=function(){u?r.select2("val",o.$modelValue):a?o.$modelValue?angular.isArray(o.$modelValue)?r.select2("data",o.$modelValue):r.select2("val",o.$modelValue):r.select2("data",[]):angular.isObject(o.$modelValue)?r.select2("data",o.$modelValue):r.select2("val",o.$modelValue)},i&&e.$watch(i,function(e,n,i){if(!e)return;t(function(){r.select2("val",o.$viewValue),r.trigger("change")})});if(!u){r.bind("change",function(){e.$apply(function(){o.$setViewValue(r.select2("data"))})});if(f.initSelection){var l=f.initSelection;f.initSelection=function(e,t){l(e,function(e){o.$setViewValue(e),t(e)})}}}}s.$observe("disabled",function(e){r.select2(e&&"disable"||"enable")}),s.ngMultiple&&e.$watch(s.ngMultiple,function(e){r.select2(f)}),r.val(e.$eval(s.ngModel)),t(function(){r.select2(f),!f.initSelection&&!u&&o.$setViewValue(r.select2("data"))})}}}}]),angular.module("ui.directives").directive("uiShow",[function(){return function(e,t,n){e.$watch(n.uiShow,function(e,n){e?t.addClass("ui-show"):t.removeClass("ui-show")})}}]).directive("uiHide",[function(){return function(e,t,n){e.$watch(n.uiHide,function(e,n){e?t.addClass("ui-hide"):t.removeClass("ui-hide")})}}]).directive("uiToggle",[function(){return function(e,t,n){e.$watch(n.uiToggle,function(e,n){e?t.removeClass("ui-hide").addClass("ui-show"):t.removeClass("ui-show").addClass("ui-hide")})}}]),angular.module("ui.directives").directive("uiSortable",["ui.config",function(e){return{require:"?ngModel",link:function(t,n,r,i){var s,o,u,a,f,l,c,h,p;f=angular.extend({},e.sortable,t.$eval(r.uiSortable)),i&&(i.$render=function(){n.sortable("refresh")},u=function(e,t){t.item.sortable={index:t.item.index()}},a=function(e,t){t.item.sortable.resort=i},s=function(e,t){t.item.sortable.relocate=!0,i.$modelValue.splice(t.item.index(),0,t.item.sortable.moved)},o=function(e,t){i.$modelValue.length===1?t.item.sortable.moved=i.$modelValue.splice(0,1)[0]:t.item.sortable.moved=i.$modelValue.splice(t.item.sortable.index,1)[0]},onStop=function(e,n){if(n.item.sortable.resort&&!n.item.sortable.relocate){var r,i;i=n.item.sortable.index,r=n.item.index(),i<r&&r--,n.item.sortable.resort.$modelValue.splice(r,0,n.item.sortable.resort.$modelValue.splice(i,1)[0])}(n.item.sortable.resort||n.item.sortable.relocate)&&t.$apply()},h=f.start,f.start=function(e,t){u(e,t),typeof h=="function"&&h(e,t)},_stop=f.stop,f.stop=function(e,t){onStop(e,t),typeof _stop=="function"&&_stop(e,t)},p=f.update,f.update=function(e,t){a(e,t),typeof p=="function"&&p(e,t)},l=f.receive,f.receive=function(e,t){s(e,t),typeof l=="function"&&l(e,t)},c=f.remove,f.remove=function(e,t){o(e,t),typeof c=="function"&&c(e,t)}),n.sortable(f)}}}]),angular.module("ui.directives").directive("uiTinymce",["ui.config",function(e){return e.tinymce=e.tinymce||{},{require:"ngModel",link:function(t,n,r,i){var s,o={onchange_callback:function(e){e.isDirty()&&(e.save(),i.$setViewValue(n.val()),t.$$phase||t.$apply())},handle_event_callback:function(e){return this.isDirty()&&(this.save(),i.$setViewValue(n.val()),t.$$phase||t.$apply()),!0},setup:function(e){e.onSetContent.add(function(e,r){e.isDirty()&&(e.save(),i.$setViewValue(n.val()),t.$$phase||t.$apply())})}};r.uiTinymce?s=t.$eval(r.uiTinymce):s={},angular.extend(o,e.tinymce,s),setTimeout(function(){n.tinymce(o)})}}}]),angular.module("ui.directives").directive("uiValidate",function(){return{restrict:"A",require:"ngModel",link:function(e,t,n,r){var i,s,o={},u=e.$eval(n.uiValidate);if(!u)return;angular.isString(u)&&(u={validator:u}),angular.forEach(u,function(t,n){i=function(i){return e.$eval(t,{$value:i})?(r.$setValidity(n,!0),i):(r.$setValidity(n,!1),undefined)},o[n]=i,r.$formatters.push(i),r.$parsers.push(i)}),n.uiValidateWatch&&(s=e.$eval(n.uiValidateWatch),angular.isString(s)?e.$watch(s,function(){angular.forEach(o,function(e,t){e(r.$modelValue)})}):angular.forEach(s,function(t,n){e.$watch(t,function(){o[n](r.$modelValue)})}))}}}),angular.module("ui.filters").filter("format",function(){return function(e,t){if(!e)return e;var n=e.toString(),r;return t===undefined?n:!angular.isArray(t)&&!angular.isObject(t)?n.split("$0").join(t):(r=angular.isArray(t)&&"$"||":",angular.forEach(t,function(e,t){n=n.split(r+t).join(e)}),n)}}),angular.module("ui.filters").filter("highlight",function(){return function(e,t,n){return t||angular.isNumber(t)?(e=e.toString(),t=t.toString(),n?e.split(t).join('<span class="ui-match">'+t+"</span>"):e.replace(new RegExp(t,"gi"),'<span class="ui-match">$&</span>')):e}}),angular.module("ui.filters").filter("inflector",function(){function e(e){return e.replace(/^([a-z])|\s+([a-z])/g,function(e){return e.toUpperCase()})}function t(e,t){return e.replace(/[A-Z]/g,function(e){return t+e})}var n={humanize:function(n){return e(t(n," ").split("_").join(" "))},underscore:function(e){return e.substr(0,1).toLowerCase()+t(e.substr(1),"_").toLowerCase().split(" ").join("_")},variable:function(t){return t=t.substr(0,1).toLowerCase()+e(t.split("_").join(" ")).substr(1).split(" ").join(""),t}};return function(e,t,r){return t!==!1&&angular.isString(e)?(t=t||"humanize",n[t](e)):e}}),angular.module("ui.filters").filter("unique",function(){return function(e,t){if(t===!1)return e;if((t||angular.isUndefined(t))&&angular.isArray(e)){var n={},r=[],i=function(e){return angular.isObject(e)&&angular.isString(t)?e[t]:e};angular.forEach(e,function(e){var t,n=!1;for(var s=0;s<r.length;s++)if(angular.equals(i(r[s]),i(e))){n=!0;break}n||r.push(e)}),e=r}return e}});
-},{}],10:[function(require,module,exports){
-function getAnnotationService(){
-    var elem = angular.element($('html'));
-    var injector = elem.injector();
-    annotationService = injector.get('annotationService');
+},{}],13:[function(require,module,exports){
+var angular = require('angular');
 
-    return annotationService;
+module.exports = function () {
+  var elem = angular.element($('html'));
+  var injector = elem.injector();
+  var annotationService = injector.get('annotationService');
+
+  return annotationService;
+};
+},{"angular":3}],14:[function(require,module,exports){
+function addLike(annotation, element){
+	$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/likes', function(data){
+		element = $(element);
+		element.children('.action-count').text(data.likes);
+		element.siblings('.glyphicon').removeClass('selected');
+
+		if(data.action){
+			element.addClass('selected');
+		}else{
+			element.removeClass('selected');
+		}
+
+		element.siblings('.glyphicon-thumbs-down').children('.action-count').text(data.dislikes);
+		element.siblings('.glyphicon-flag').children('.action-count').text(data.flags);
+
+		annotation.likes = data.likes;
+		annotation.dislikes = data.dislikes;
+		annotation.flags = data.flags;
+		annotation.user_action = 'like';
+	});
 }
-},{}],11:[function(require,module,exports){
-var $ = require('jquery');
+
+function addDislike(annotation, element){
+	$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/dislikes', function(data){
+		element = $(element);
+		element.children('.action-count').text(data.dislikes);
+		element.siblings('.glyphicon').removeClass('selected');
+
+		if(data.action){
+			element.addClass('selected');
+		}else{
+			element.removeClass('selected');
+		}
+
+		element.siblings('.glyphicon-thumbs-up').children('.action-count').text(data.likes);
+		element.siblings('.glyphicon-flag').children('.action-count').text(data.flags);
+
+		annotation.likes = data.likes;
+		annotation.dislikes = data.dislikes;
+		annotation.flags = data.flags;
+		annotation.user_action = 'dislike';
+	});
+}
+
+function addFlag(annotation, element){
+	$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/flags', function(data){
+		element = $(element);
+		element.children('.action-count').text(data.flags);
+		element.siblings('.glyphicon').removeClass('selected');
+
+		if(data.action){
+			element.addClass('selected');
+		}else{
+			element.removeClass('selected');
+		}
+
+		element.siblings('.glyphicon-thumbs-up').children('.action-count').text(data.likes);
+		element.siblings('.glyphicon-thumbs-down ').children('.action-count').text(data.dislikes);
+
+		annotation.likes = data.likes;
+		annotation.dislikes = data.dislikes;
+		annotation.flags = data.flags;
+		annotation.user_action = 'flag';
+	});
+}
+
+Annotator.Plugin.Madison = function(element, options){
+	Annotator.Plugin.apply(this, arguments);
+}
+
+$.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
+	events: {},
+	options: {},
+	pluginInit: function(){
+
+		/**
+		*	Subscribe to Store's `annotationsLoaded` event
+		*		Stores all annotation objects provided by Store in the window
+		*		Adds all annotations to the sidebar
+		**/
+		this.annotator.subscribe('annotationsLoaded', function(annotations){
+
+			//Set the annotations in the annotationService
+			var annotationService = getAnnotationService();
+			annotationService.setAnnotations(annotations);
+		});
+
+		/**
+		*	Subscribe to Annotator's `annotationCreated` event
+		*		Adds new annotation to the sidebar
+		*/
+		this.annotator.subscribe('annotationCreated', function(annotation){
+			var annotationService = getAnnotationService();
+			annotationService.addAnnotation(annotation);
+			
+			if($.showAnnotationThanks) {
+				$('#annotationThanks').modal({
+					remote : '/modals/annotation_thanks',
+					keyboard : true
+				});
+			}
+		});
+
+		this.annotator.subscribe('commentCreated', function(comment){
+			comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
+			currentComments.append(comment);
+			currentComments.removeClass('hidden');
+
+			$('#current-comments').collapse(true);
+		});
+
+		//Add Madison-specific fields to the viewer when Annotator loads it
+		this.annotator.viewer.addField({
+			load: function(field, annotation){
+				this.addNoteLink(field, annotation);
+				this.addNoteActions(field, annotation);
+				this.addComments(field, annotation);		
+			}.bind(this)
+		});
+	},
+	addComments: function(field, annotation){
+		//Add comment wrapper and collapse the comment thread
+		commentsHeader = $('<div class="comment-toggle" data-toggle-"collapse" data-target="#current-comments">Comments <span id="comment-caret" class="caret caret-right"></span></button>').click(function(){
+			$('#current-comments').collapse('toggle');
+			$('#comment-caret').toggleClass('caret-right');
+		});
+
+		//If there are no comments, hide the comment wrapper
+		if($(annotation.comments).length == 0){
+			commentsHeader.addClass('hidden');
+		}
+
+		//Add all current comments to the annotation viewer
+		currentComments = $('<div id="current-comments" class="current-comments collapse"></div>');
+		$.each(annotation.comments, function(index, comment){
+			comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
+			currentComments.append(comment);
+		});
+
+		//Collapse the comment thread on load
+		currentComments.ready(function(){
+			$('#existing-comments').collapse({toggle: false});
+		});
+
+		//If the user is logged in, allow them to comment
+		if(user.id != ''){
+			annotationComments = $('<div class="annotation-comments"></div>');
+			commentText = $('<input type="text" class="form-control" />');
+			commentSubmit = $('<button type="button" class="btn btn-primary" >Submit</button>');
+			commentSubmit.click(function(){
+				this.createComment(commentText, annotation);
+			}.bind(this));
+			annotationComments.append(commentText);
+
+			annotationComments.append(commentSubmit);
+
+			$(field).append(annotationComments);
+		}
+
+		$(field).append(commentsHeader, currentComments);	
+	},
+	addNoteActions: function(field, annotation){
+		//Add actions ( like / dislike / error) to annotation viewer
+		annotationAction = $('<div></div>').addClass('annotation-action');
+		generalAction = $('<span></span>').addClass('glyphicon').data('annotation-id', annotation.id);
+		
+		annotationLike = generalAction.clone().addClass('glyphicon-thumbs-up').append('<span class="action-count">' + annotation.likes + '</span>');
+		annotationDislike = generalAction.clone().addClass('glyphicon-thumbs-down').append('<span class="action-count">' + annotation.dislikes + '</span>');
+		annotationFlag = generalAction.clone().addClass('glyphicon-flag').append('<span class="action-count">' + annotation.flags + '</span>');
+
+		annotationAction.append(annotationLike, annotationDislike, annotationFlag);
+
+		//If user is logged in add his current action and enable the action buttons
+		if(user.id != ''){
+			if(annotation.user_action){
+				if(annotation.user_action == 'like'){
+					annotationLike.addClass('selected');
+				}else if(annotation.user_action == 'dislike'){
+					annotationDislike.addClass('selected');
+				}else if(annotation.user_action == 'flag'){
+					annotationFlag.addClass('selected');
+				}else{
+					// This user doesn't have any actions on this annotation
+				}
+			}
+
+			annotationLike.addClass('logged-in').click(function(){
+				addLike(annotation, this);
+			});
+
+			annotationDislike.addClass('logged-in').click(function(){
+				addDislike(annotation, this);
+			});
+
+			annotationFlag.addClass('logged-in').click(function(){
+				addFlag(annotation, this);
+			});
+		}
+
+		$(field).append(annotationAction);
+	},
+	addNoteLink: function(field, annotation){
+		//Add link to annotation
+		noteLink = $('<div class="annotation-link"></div>');
+		annotationLink = $('<a></a>').attr('href', window.location.origin + '/note/' + annotation.id).text('View Note');
+		noteLink.append(annotationLink);
+		$(field).append(noteLink);
+	},
+	createComment: function(textElement, annotation){
+		text = textElement.val();
+		textElement.val('');
+
+		comment = {
+			text: text,
+			user: user
+		}
+
+		//POST request to add user's comment
+		$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/comments', {comment: comment}, function(response){
+			annotation.comments.push(comment);
+
+			return this.annotator.publish('commentCreated', comment);
+		}.bind(this));
+	}
+});
+	
+},{}],15:[function(require,module,exports){
+// Hacks to get build process working.
+// TODO: These need to be cleaned up.
+window.$ = require('jquery');
+window.jQuery = window.$;
+window.Markdown = require('pagedown');
+
 select2 = require('select2-browserify');
 
 require('underscore');
@@ -17665,8 +19415,6 @@ require('angular-bootstrap');
 require('angular-animate');
 require('../bower_components/angular-ui/build/angular-ui.min.js');
 
-
-
 //require('../bower_components/angular-select2/dist/angular-select2.min.js');
 
 //Require custom angular modules
@@ -17674,7 +19422,8 @@ require('./controllers');
 require('./services');
 require('./directives');
 require('./filters');
-require('./annotationServiceGlobal');
+window.getAnnotationService = require('./annotationServiceGlobal');
+require('./annotator-madison');
 
 imports = [
     'madisonApp.filters',
@@ -17686,11 +19435,11 @@ imports = [
     'ngAnimate',
 ];
 
-var app = angular.module('madisonApp', imports, function($interpolateProvider){
+var app = angular.module('madisonApp', imports, function ($interpolateProvider){
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
 });
-},{"../bower_components/angular-ui/build/angular-ui.min.js":9,"./annotationServiceGlobal":10,"./controllers":12,"./directives":13,"./filters":14,"./services":15,"angular":3,"angular-animate":1,"angular-bootstrap":2,"jquery":5,"select2-browserify":6,"underscore":8}],12:[function(require,module,exports){
+},{"../bower_components/angular-ui/build/angular-ui.min.js":12,"./annotationServiceGlobal":13,"./annotator-madison":14,"./controllers":16,"./directives":17,"./filters":18,"./services":19,"angular":3,"angular-animate":1,"angular-bootstrap":2,"jquery":5,"pagedown":8,"select2-browserify":9,"underscore":11}],16:[function(require,module,exports){
 angular.module('madisonApp.controllers', [])
 .controller('HomePageController', ['$scope', '$http', '$filter',
     function($scope, $http, $filter){
@@ -18404,7 +20153,7 @@ DashboardVerifyController.$inject = ['$scope', '$http'];
 
 
 
-},{}],13:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 angular.module('madisonApp.directives', []).directive('docComments', function(){
     return {
         restrict: 'AECM',
@@ -18436,14 +20185,14 @@ angular.module('madisonApp.directives', []).directive('docComments', function(){
 		link: link
 	};
 });
-},{}],14:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 angular.module('madisonApp.filters', [])
 .filter('parseDate', function() {
     return function(date){
         return Date.parse(date);
     };
 });
-},{}],15:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 angular.module('madisonApp.services', [])
 .factory('createLoginPopup', ['$document', '$timeout',
     function($document, $timeout){
@@ -18570,4 +20319,4 @@ angular.module('madisonApp.services', [])
 
     return annotationService;
 });
-},{}]},{},[11]);
+},{}]},{},[15]);
