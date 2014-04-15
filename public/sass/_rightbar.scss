@@ -41,6 +41,7 @@
         padding-bottom:16px;
         margin-bottom: 10px;
         border-bottom:1px solid lightgrey;
+        @include transition(opacity, .5s);
         .activity-author{
             font-weight: bold;
         }
@@ -51,6 +52,7 @@
         .activity-actions, .activity-replies-indicator{
             cursor:pointer;
             opacity:.25;
+            @include transition(opacity, .5s);
             span.glyphicon{
                 padding-right: 4px;
             }

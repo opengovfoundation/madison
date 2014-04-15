@@ -7,6 +7,35 @@
 	margin-bottom: 165px;
 }
 
+.annotator-widget{
+	padding: 6px 10px 10px 10px !important;
+	.annotator-item{
+		p{
+			font-style: normal;
+			color: #333;
+			line-height: 130%;
+		}
+	}
+	.existing-comment{
+		padding-left: 0px;
+		blockquote{
+			font-size: 12px;
+			padding-left: 10px;
+		}
+	}
+	.annotation-link, .annotation-action, .annotation-toggle, .comment-toggle, .current-comments, .annotation-comments{
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+	.annotat-user{
+		padding-top: 0px;
+	}
+}
+
+.annotator-viewer div{
+	border-top: none !important;
+}
+
 .doc-info{
 	margin-left: -15px;
 	margin-right: -15px;
@@ -15,6 +44,7 @@
 	h1{
 		text-align: left;
 		font-size: 28px;
+		color: #333;
 	}
 	div{
 		color: #666;
