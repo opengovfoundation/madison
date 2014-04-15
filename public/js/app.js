@@ -4,16 +4,12 @@ window.$ = require('jquery');
 window.jQuery = window.$;
 window.Markdown = require('pagedown');
 
-select2 = require('select2-browserify');
-
+require('select2-browserify');
 require('underscore');
-
 require('angular');
 require('angular-bootstrap');
 require('angular-animate');
 require('../bower_components/angular-ui/build/angular-ui.min.js');
-
-//require('../bower_components/angular-select2/dist/angular-select2.min.js');
 
 //Require custom angular modules
 require('./controllers');
@@ -35,4 +31,5 @@ imports = [
 var app = angular.module('madisonApp', imports, function ($interpolateProvider){
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
-});
+})
+.config;

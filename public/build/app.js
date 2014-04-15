@@ -19179,16 +19179,12 @@ window.$ = require('jquery');
 window.jQuery = window.$;
 window.Markdown = require('pagedown');
 
-select2 = require('select2-browserify');
-
+require('select2-browserify');
 require('underscore');
-
 require('angular');
 require('angular-bootstrap');
 require('angular-animate');
 require('../bower_components/angular-ui/build/angular-ui.min.js');
-
-//require('../bower_components/angular-select2/dist/angular-select2.min.js');
 
 //Require custom angular modules
 require('./controllers');
@@ -19210,7 +19206,9 @@ imports = [
 var app = angular.module('madisonApp', imports, function ($interpolateProvider){
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
-});
+})
+.config;
+
 },{"../bower_components/angular-ui/build/angular-ui.min.js":12,"./annotationServiceGlobal":13,"./controllers":15,"./directives":16,"./filters":17,"./services":18,"angular":3,"angular-animate":1,"angular-bootstrap":2,"jquery":5,"pagedown":8,"select2-browserify":9,"underscore":11}],15:[function(require,module,exports){
 angular.module('madisonApp.controllers', [])
 .controller('HomePageController', ['$scope', '$http', '$filter',
@@ -20067,7 +20065,7 @@ angular.module('madisonApp.services', [])
         angular.forEach(annotations, function(annotation, key){
             annotation.html = $sce.trustAsHtml(converter.makeHtml(annotation.text));
             this.annotations.push(annotation);
-        }, this);       
+        }, this);
 
         this.broadcastUpdate();
     };
@@ -20075,9 +20073,9 @@ angular.module('madisonApp.services', [])
     annotationService.addAnnotation = function(annotation){
         if(typeof annotation.id == 'undefined'){
             interval = window.setInterval(function(){
-                this.annotationService.addAnnotation(annotation);
+                this.addAnnotation(annotation);
                 window.clearInterval(interval);
-            }, 500);
+            }.bind(this), 500);
         }else{
             annotation.html = $sce.trustAsHtml(converter.makeHtml(annotation.text));
             this.annotations.push(annotation);

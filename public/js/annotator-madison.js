@@ -1,70 +1,4 @@
-function addLike(annotation, element){
-	$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/likes', function(data){
-		element = $(element);
-		element.children('.action-count').text(data.likes);
-		element.siblings('.glyphicon').removeClass('selected');
-
-		if(data.action){
-			element.addClass('selected');
-		}else{
-			element.removeClass('selected');
-		}
-
-		element.siblings('.glyphicon-thumbs-down').children('.action-count').text(data.dislikes);
-		element.siblings('.glyphicon-flag').children('.action-count').text(data.flags);
-
-		annotation.likes = data.likes;
-		annotation.dislikes = data.dislikes;
-		annotation.flags = data.flags;
-		annotation.user_action = 'like';
-	});
-}
-
-function addDislike(annotation, element){
-	$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/dislikes', function(data){
-		element = $(element);
-		element.children('.action-count').text(data.dislikes);
-		element.siblings('.glyphicon').removeClass('selected');
-
-		if(data.action){
-			element.addClass('selected');
-		}else{
-			element.removeClass('selected');
-		}
-
-		element.siblings('.glyphicon-thumbs-up').children('.action-count').text(data.likes);
-		element.siblings('.glyphicon-flag').children('.action-count').text(data.flags);
-
-		annotation.likes = data.likes;
-		annotation.dislikes = data.dislikes;
-		annotation.flags = data.flags;
-		annotation.user_action = 'dislike';
-	});
-}
-
-function addFlag(annotation, element){
-	$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/flags', function(data){
-		element = $(element);
-		element.children('.action-count').text(data.flags);
-		element.siblings('.glyphicon').removeClass('selected');
-
-		if(data.action){
-			element.addClass('selected');
-		}else{
-			element.removeClass('selected');
-		}
-
-		element.siblings('.glyphicon-thumbs-up').children('.action-count').text(data.likes);
-		element.siblings('.glyphicon-thumbs-down ').children('.action-count').text(data.dislikes);
-
-		annotation.likes = data.likes;
-		annotation.dislikes = data.dislikes;
-		annotation.flags = data.flags;
-		annotation.user_action = 'flag';
-	});
-}
-
-Annotator.Plugin.Madison = function(element, options){
+Annotator.Plugin.Madison = function (element, options) {
 	Annotator.Plugin.apply(this, arguments);
 }
 
@@ -126,7 +60,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 		});
 
 		//If there are no comments, hide the comment wrapper
-		if($(annotation.comments).length == 0){
+		if($(annotation.comments).length === 0){
 			commentsHeader.addClass('hidden');
 		}
 
@@ -138,12 +72,12 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 		});
 
 		//Collapse the comment thread on load
-		currentComments.ready(function(){
+		currentComments.ready( function(){
 			$('#existing-comments').collapse({toggle: false});
 		});
 
 		//If the user is logged in, allow them to comment
-		if(user.id != ''){
+		if(user.id != '') {
 			annotationComments = $('<div class="annotation-comments"></div>');
 			commentText = $('<input type="text" class="form-control" />');
 			commentSubmit = $('<button type="button" class="btn btn-primary" >Submit</button>');
@@ -184,16 +118,18 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 				}
 			}
 
-			annotationLike.addClass('logged-in').click(function(){
-				addLike(annotation, this);
+			var that = this;
+
+			annotationLike.addClass('logged-in').click(function () {
+				that.addLike(annotation, this);
 			});
 
-			annotationDislike.addClass('logged-in').click(function(){
-				addDislike(annotation, this);
+			annotationDislike.addClass('logged-in').click(function () {
+				that.addDislike(annotation, this);
 			});
 
-			annotationFlag.addClass('logged-in').click(function(){
-				addFlag(annotation, this);
+			annotationFlag.addClass('logged-in').click(function () {
+				that.addFlag(annotation, this);
 			});
 		}
 
@@ -213,7 +149,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 		comment = {
 			text: text,
 			user: user
-		}
+		};
 
 		//POST request to add user's comment
 		$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/comments', {comment: comment}, function(response){
@@ -221,6 +157,71 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
 			return this.annotator.publish('commentCreated', comment);
 		}.bind(this));
+	},
+	addLike: function (annotation, element) {
+		$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/likes', function (data) {
+			element = $(element);
+			element.children('.action-count').text(data.likes);
+			element.siblings('.glyphicon').removeClass('selected');
+
+			if(data.action){
+				element.addClass('selected');
+			}else{
+				element.removeClass('selected');
+			}
+
+			element.siblings('.glyphicon-thumbs-up').children('.action-count').text(data.likes);
+			element.siblings('.glyphicon-thumbs-down').children('.action-count').text(data.dislikes);
+			element.siblings('.glyphicon-flag').children('.action-count').text(data.flags);
+
+			annotation.likes = data.likes;
+			annotation.dislikes = data.dislikes;
+			annotation.flags = data.flags;
+			annotation.user_action = 'like';
+		});
+	},
+	addDislike: function (annotation, element) {
+		$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/dislikes', function(data){
+			element = $(element);
+			element.children('.action-count').text(data.dislikes);
+			element.siblings('.glyphicon').removeClass('selected');
+
+			if(data.action){
+				element.addClass('selected');
+			}else{
+				element.removeClass('selected');
+			}
+
+			element.siblings('.glyphicon-thumbs-up').children('.action-count').text(data.likes);
+			element.siblings('.glyphicon-thumbs-down').children('.action-count').text(data.dislikes);
+			element.siblings('.glyphicon-flag').children('.action-count').text(data.flags);
+
+			annotation.likes = data.likes;
+			annotation.dislikes = data.dislikes;
+			annotation.flags = data.flags;
+			annotation.user_action = 'dislike';
+		});
+	},
+	addFlag: function (annotation, element){
+		$.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/flags', function(data){
+			element = $(element);
+			element.children('.action-count').text(data.flags);
+			element.siblings('.glyphicon').removeClass('selected');
+
+			if(data.action){
+				element.addClass('selected');
+			}else{
+				element.removeClass('selected');
+			}
+
+			element.siblings('.glyphicon-thumbs-up').children('.action-count').text(data.likes);
+			element.siblings('.glyphicon-thumbs-down ').children('.action-count').text(data.dislikes);
+
+			annotation.likes = data.likes;
+			annotation.dislikes = data.dislikes;
+			annotation.flags = data.flags;
+			annotation.user_action = 'flag';
+		});
 	}
 });
 	

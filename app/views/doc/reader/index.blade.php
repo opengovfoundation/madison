@@ -28,6 +28,8 @@
 	{{ HTML::style('vendor/annotator/annotator.min.css') }}
 	{{ HTML::script('vendor/annotator/annotator-full.min.js') }}
 	{{ HTML::script('vendor/showdown/showdown.js') }}
+	{{ HTML::script('bower_components/bootstrap/js/collapse.js') }}
+	{{ HTML::script('bower_components/bootstrap/js/modal.js') }}
 	{{ HTML::script('js/annotator-madison.js') }}
 	{{ HTML::script('js/doc.js') }}
 

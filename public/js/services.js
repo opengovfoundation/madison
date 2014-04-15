@@ -100,7 +100,7 @@ angular.module('madisonApp.services', [])
         angular.forEach(annotations, function(annotation, key){
             annotation.html = $sce.trustAsHtml(converter.makeHtml(annotation.text));
             this.annotations.push(annotation);
-        }, this);       
+        }, this);
 
         this.broadcastUpdate();
     };
@@ -108,9 +108,9 @@ angular.module('madisonApp.services', [])
     annotationService.addAnnotation = function(annotation){
         if(typeof annotation.id == 'undefined'){
             interval = window.setInterval(function(){
-                this.annotationService.addAnnotation(annotation);
+                this.addAnnotation(annotation);
                 window.clearInterval(interval);
-            }, 500);
+            }.bind(this), 500);
         }else{
             annotation.html = $sce.trustAsHtml(converter.makeHtml(annotation.text));
             this.annotations.push(annotation);
