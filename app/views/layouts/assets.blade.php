@@ -1,4 +1,5 @@
 <!-- Stylesheets -->
+{{ HTML::style('vendor/pagedown/assets/demo.css') }}
 {{ HTML::style('vendor/datetimepicker/datetimepicker.css') }}
 {{ HTML::style('vendor/jquery/jquery-ui-smoothness.css') }}
 {{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
@@ -7,6 +8,9 @@
 {{ HTML::style('css/style.css') }}
 
 <!-- Scripts -->
+{{ HTML::script('bower_components/pagedown/Markdown.Converter.js') }}
+{{ HTML::script('bower_components/pagedown/Markdown.Sanitizer.js') }}
+{{ HTML::script('bower_components/pagedown/Markdown.Editor.js') }}
 {{ HTML::script('build/app.js') }}
 
 <?php 

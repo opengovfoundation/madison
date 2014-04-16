@@ -1,6 +1,8 @@
 {
   "name": "madison",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "pagedown": "~1.1.0",
     "angular-ui": "~0.4.0",
     "angular-select2": "*",
     "angular-ui-select2": "~0.0.5",
