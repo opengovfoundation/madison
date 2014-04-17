@@ -1,3 +1,5 @@
+/*global Markdown*/
+/*global clean_slug*/
 angular.module('madisonApp.dashboardControllers', [])
   .controller('DashboardVerifyController', ['$scope', '$http',
     function ($scope, $http) {
@@ -145,6 +147,7 @@ angular.module('madisonApp.dashboardControllers', [])
           initSelection: true
         };
 
+        /*jslint unparam: true*/
         $scope.statusOptions = {
           placeholder: "Select Document Status",
           data: function () {
@@ -185,6 +188,7 @@ angular.module('madisonApp.dashboardControllers', [])
             callback($scope.sponsor);
           }
         };
+        /*jslint unparam: false*/
       };
 
       $scope.statusChange = function (status) {
