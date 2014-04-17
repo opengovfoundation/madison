@@ -17703,6 +17703,8 @@ var app = angular.module('madisonApp', imports, function ($interpolateProvider) 
   });
 
 },{"../../node_modules/twitter-bootstrap-3.0.0/dist/js/bootstrap.min.js":8,"../bower_components/angular-ui/build/angular-ui.min.js":10,"./annotationServiceGlobal":11,"./controllers":13,"./dashboardControllers":14,"./directives":15,"./filters":16,"./services":17,"angular":3,"angular-animate":1,"angular-bootstrap":2,"jquery":5,"select2-browserify":6,"underscore":9}],13:[function(require,module,exports){
+/*global user*/
+/*global doc*/
 angular.module('madisonApp.controllers', [])
   .controller('HomePageController', ['$scope', '$http', '$filter',
     function ($scope, $http, $filter) {
@@ -18041,6 +18043,8 @@ angular.module('madisonApp.controllers', [])
     }
     ]);
 },{}],14:[function(require,module,exports){
+/*global Markdown*/
+/*global clean_slug*/
 angular.module('madisonApp.dashboardControllers', [])
   .controller('DashboardVerifyController', ['$scope', '$http',
     function ($scope, $http) {
@@ -18188,6 +18192,7 @@ angular.module('madisonApp.dashboardControllers', [])
           initSelection: true
         };
 
+        /*jslint unparam: true*/
         $scope.statusOptions = {
           placeholder: "Select Document Status",
           data: function () {
@@ -18228,6 +18233,7 @@ angular.module('madisonApp.dashboardControllers', [])
             callback($scope.sponsor);
           }
         };
+        /*jslint unparam: false*/
       };
 
       $scope.statusChange = function (status) {
@@ -18409,169 +18415,177 @@ angular.module('madisonApp.dashboardControllers', [])
     }
     ]);
 },{}],15:[function(require,module,exports){
-angular.module('madisonApp.directives', []).directive('docComments', function(){
-    return {
-        restrict: 'AECM',
-        templateUrl: '/templates/doc-comments.html'
-    };
-}).directive('ngBlur', function() {
-  return function( scope, elem, attrs ) {
-    elem.bind('blur', function() {
+angular.module('madisonApp.directives', []).directive('docComments', function () {
+  return {
+    restrict: 'AECM',
+    templateUrl: '/templates/doc-comments.html'
+  };
+}).directive('ngBlur', function () {
+  return function (scope, elem, attrs) {
+    elem.bind('blur', function () {
       scope.$apply(attrs.ngBlur);
     });
   };
-}).directive('docLink', function($http, $compile){
+}).directive('docLink', function ($http, $compile) {
 
-	function link(scope, elem, attrs){
+  function link(scope, elem, attrs) {
 
-		$http.get('/api/docs/' + attrs.docId)
-		.success(function(data){
-			html = '<a href="/docs/' + data.slug + '">' + data.title + '</a>';
-			e = $compile(html)(scope);
-			elem.replaceWith(e);
-		}).error(function(data){
-			console.error("Unable to retrieve document %o: %o", attrs.docId, data);
-		});
-		
-	}
+    $http.get('/api/docs/' + attrs.docId)
+      .success(function (data) {
+        var html = '<a href="/docs/' + data.slug + '">' + data.title + '</a>';
+        var e = $compile(html)(scope);
+        elem.replaceWith(e);
+      }).error(function (data) {
+        console.error("Unable to retrieve document %o: %o", attrs.docId, data);
+      });
 
-	return {
-		restrict: 'AECM',
-		link: link
-	};
+  }
+
+  return {
+    restrict: 'AECM',
+    link: link
+  };
 });
 },{}],16:[function(require,module,exports){
 angular.module('madisonApp.filters', [])
-.filter('parseDate', function() {
-    return function(date){
-        return Date.parse(date);
+  .filter('parseDate', function () {
+    return function (date) {
+      return Date.parse(date);
     };
-});
+  });
 },{}],17:[function(require,module,exports){
+/*jslint browser: true*/
+/*global alert*/
+/*global Markdown*/
 angular.module('madisonApp.services', [])
-.factory('createLoginPopup', ['$document', '$timeout',
-    function($document, $timeout){
-		var body = $document.find('body');
-		var html = $document.find('html');
+  .factory('createLoginPopup', ['$document', '$timeout',
+    function ($document, $timeout) {
+      var body = $document.find('body');
+      var html = $document.find('html');
 
-		var attach_handlers = (function(){
-			html.on('click.popup', function() {
-				$('.popup').remove();
+      var attach_handlers = function () {
+        html.on('click.popup', function () {
+          $('.popup').remove();
 
-				html.off('click.popup');
-			});
-		});
+          html.off('click.popup');
+        });
+      };
 
-		var ajaxify_form = (function(inForm, callback){
-			var form = $(inForm);
-			form.submit(function(e) {
-				e.preventDefault();
+      var ajaxify_form = function (inForm, callback) {
+        var form = $(inForm);
+        form.submit(function (e) {
+          e.preventDefault();
 
-				$.post(form.attr('action'), form.serialize(), function(response) {
+          $.post(form.attr('action'), form.serialize(), function (response) {
 
-					if(response.errors && Object.keys(response.errors).length){
-						var error_html = $('<ul></ul>');
+            if (response.errors && Object.keys(response.errors).length) {
+              var error_html = $('<ul></ul>');
 
-						for(var key in response.errors){
-							error_html.append('<li>' + response.errors[key][0] + '</li>');
-						}
-						console.log(form.find('.errors').length);
-						form.find('.errors').html(error_html);
-					}
-					else {
-						callback(response);
-					}
-				});
+              /*jslint unparam:true*/
+              $(response.errors).each(function (i, key) {
+                error_html.append('<li>' + response.errors[key][0] + '</li>');
+              });
+              /*jslint unparam:false*/
 
-			});
-		});
+              form.find('.errors').html(error_html);
+            } else {
+              callback(response);
+            }
+          });
 
-		return function LoginPopup(event){
-			console.log(event);
-			var popup = $('<div class="popup unauthed-popup"><p>Please log in.</p>' +
-                    '<input type="button" id="login" value="Login" class="btn btn-primary"/>' +
-                    '<input type="button" id="signup" value="Sign up" class="btn btn-primary" /></div>');
+        });
+      };
+
+      return function LoginPopup(event) {
+        console.log(event);
+        var popup = $('<div class="popup unauthed-popup"><p>Please log in.</p>' +
+          '<input type="button" id="login" value="Login" class="btn btn-primary"/>' +
+          '<input type="button" id="signup" value="Sign up" class="btn btn-primary" /></div>');
 
 
-			popup.on('click.popup', function(event){
-				event.stopPropagation();
-			});
+        popup.on('click.popup', function (event) {
+          event.stopPropagation();
+        });
 
-			$('#login', popup).click(function(event){
-                event.stopPropagation();
-                event.preventDefault();
+        $('#login', popup).click(function (event) {
+          event.stopPropagation();
+          event.preventDefault();
 
-                $.get('/api/user/login/', {}, function(data) {
-                    data = $(data);
+          $.get('/api/user/login/', {}, function (data) {
+            data = $(data);
 
-                    ajaxify_form(data.find('form'), function(result) {
-                        $('html').trigger('click.popup');
+            ajaxify_form(data.find('form'), function () {
+              $('html').trigger('click.popup');
 
-                        location.reload(false);
-                    });
-
-                    popup.html(data);
-                });
+              location.reload(false);
             });
 
-            $('#signup', popup).click(function(event){
-                event.stopPropagation();
-                event.preventDefault();
+            popup.html(data);
+          });
+        });
 
-                $.get('/api/user/signup/', {}, function(data) {
-                    data = $(data);
+        $('#signup', popup).click(function (event) {
+          event.stopPropagation();
+          event.preventDefault();
 
-                    ajaxify_form(data.find('form'), function(result) {
-                        $('html').trigger('click.popup');
-                        alert(result.message);
-                    });
+          $.get('/api/user/signup/', {}, function (data) {
+            data = $(data);
 
-                    popup.html(data);
-                });
+            ajaxify_form(data.find('form'), function (result) {
+              $('html').trigger('click.popup');
+              alert(result.message);
             });
 
-            body.append(popup);
+            popup.html(data);
+          });
+        });
 
-            var position = {'top': event.clientY - popup.height(), 'left': event.clientX};
-            popup.css(position).css('position', 'absolute');
+        body.append(popup);
 
-            $timeout(function(){
-				attach_handlers();
-            }, 50);
-		};
-}])
-.factory('annotationService', function($rootScope, $sce){
+        var position = {
+          'top': event.clientY - popup.height(),
+          'left': event.clientX
+        };
+        popup.css(position).css('position', 'absolute');
+
+        $timeout(function () {
+          attach_handlers();
+        }, 50);
+      };
+    }
+    ])
+  .factory('annotationService', function ($rootScope, $sce) {
     var annotationService = {};
     var converter = new Markdown.Converter();
     annotationService.annotations = [];
 
-    annotationService.setAnnotations = function(annotations){
+    annotationService.setAnnotations = function (annotations) {
 
-        angular.forEach(annotations, function(annotation, key){
-            annotation.html = $sce.trustAsHtml(converter.makeHtml(annotation.text));
-            this.annotations.push(annotation);
-        }, this);
+      angular.forEach(annotations, function (annotation) {
+        annotation.html = $sce.trustAsHtml(converter.makeHtml(annotation.text));
+        this.annotations.push(annotation);
+      }, this);
 
+      this.broadcastUpdate();
+    };
+
+    annotationService.addAnnotation = function (annotation) {
+      if (annotation.id === undefined) {
+        var interval = window.setInterval(function () {
+          this.addAnnotation(annotation);
+          window.clearInterval(interval);
+        }.bind(this), 500);
+      } else {
+        annotation.html = $sce.trustAsHtml(converter.makeHtml(annotation.text));
+        this.annotations.push(annotation);
         this.broadcastUpdate();
+      }
     };
 
-    annotationService.addAnnotation = function(annotation){
-        if(typeof annotation.id == 'undefined'){
-            interval = window.setInterval(function(){
-                this.addAnnotation(annotation);
-                window.clearInterval(interval);
-            }.bind(this), 500);
-        }else{
-            annotation.html = $sce.trustAsHtml(converter.makeHtml(annotation.text));
-            this.annotations.push(annotation);
-            this.broadcastUpdate();
-        }
-    };
-
-    annotationService.broadcastUpdate = function(){
-        $rootScope.$broadcast('annotationsUpdated');
+    annotationService.broadcastUpdate = function () {
+      $rootScope.$broadcast('annotationsUpdated');
     };
 
     return annotationService;
-});
+  });
 },{}]},{},[12]);

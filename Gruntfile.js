@@ -63,5 +63,5 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-browserify');
 
   // Task definition
-  grunt.registerTask('default', ['browserify', 'watch']);
+  grunt.registerTask('default', ['jshint', 'browserify', 'watch']);
 };
