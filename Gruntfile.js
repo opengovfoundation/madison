@@ -18,9 +18,8 @@ module.exports = function (grunt) {
       }
     },
     jshint: {
-      options: {
-        force: true
-      }
+      options: {},
+      all: ['public/js/*.js']
     },
     browserify: {
       js: {
@@ -46,7 +45,7 @@ module.exports = function (grunt) {
     watch: {
       scripts: {
         files: ['public/js/*.js'],
-        tasks: ['browserify']
+        tasks: ['jshint', 'browserify']
       },
       sass: {
         files: './public/sass/**/*.scss',
