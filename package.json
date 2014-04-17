@@ -38,7 +38,8 @@
     "select2": "~3.4.5",
     "moment": "~2.5.1",
     "angular-bootstrap": "0.0.4",
-    "select2-browserify": "~3.4.5"
+    "select2-browserify": "~3.4.5",
+    "karma": "~0.12.9"
   },
   "dependencies": {}
 }
