@@ -12,7 +12,7 @@
     "way/phpunit-wrappers": "dev-master"
   },
   "require": {
-    "anahkiasen/rocketeer": "dev-master",
+    "anahkiasen/rocketeer": "1.2.1",
     "zizaco/entrust": "dev-master",
     "laravel/framework": "4.1.25",
     "roumen/sitemap": "dev-master",
