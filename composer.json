@@ -1,53 +1,51 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
-	"keywords": ["framework", "laravel"],
-	"license": "MIT",
-	"repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/changwuf31/remote"
-        }
+  "name": "laravel/laravel",
+  "description": "The Laravel Framework.",
+  "keywords": ["framework", "laravel"],
+  "license": "MIT",
+  "repositories": [{
+    "type": "vcs",
+    "url": "https://github.com/changwuf31/remote"
+  }],
+  "require-dev": {
+    "way/guard-laravel": "dev-master",
+    "way/phpunit-wrappers": "dev-master"
+  },
+  "require": {
+    "anahkiasen/rocketeer": "dev-master",
+    "zizaco/entrust": "dev-master",
+    "laravel/framework": "4.1.25",
+    "roumen/sitemap": "dev-master",
+    "elasticsearch/elasticsearch": "~0.4",
+    "illuminate/remote": "4.1.*",
+    "graham-campbell/markdown": "1.0.0",
+    "doctrine/dbal": "2.3.*"
+  },
+  "autoload": {
+    "classmap": [
+      "app/commands",
+      "app/controllers",
+      "app/models",
+      "app/database/migrations",
+      "app/database/seeds",
+      "app/tests/TestCase.php",
+      "app/config/packages/anahkiasen/rocketeer/tasks"
+    ]
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "php artisan optimize"
     ],
-    "require-dev":{
-    	"way/guard-laravel": "dev-master",
-    	"way/phpunit-wrappers": "dev-master"
-    },
-	"require": {
-        "anahkiasen/rocketeer": "1.2.0",
-		"zizaco/entrust" : "dev-master",
-		"laravel/framework": "4.1.*",
-		"roumen/sitemap": "dev-master",
-		"elasticsearch/elasticsearch": "~0.4",
-		"illuminate/remote": "4.1.*",
-		"graham-campbell/markdown": "1.0.0",
-		"doctrine/dbal" : "2.3.*"
-	},
-	"autoload": {
-		"classmap": [
-			"app/commands",
-			"app/controllers",
-			"app/models",
-			"app/database/migrations",
-			"app/database/seeds",
-			"app/tests/TestCase.php",
-            "app/config/packages/anahkiasen/rocketeer/tasks"
-		]
-	},
-	"scripts": {
-		"post-install-cmd": [
-			"php artisan optimize"
-		],
-		"post-update-cmd": [
-			"php artisan clear-compiled",
-			"php artisan optimize"
-		],
-		"post-create-project-cmd": [
-			"php artisan key:generate"
-		]
-	},
-	"config": {
-		"preferred-install": "dist"
-	},
-	"minimum-stability": "dev"
+    "post-update-cmd": [
+      "php artisan clear-compiled",
+      "php artisan optimize"
+    ],
+    "post-create-project-cmd": [
+      "php artisan key:generate"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "dev"
 }
