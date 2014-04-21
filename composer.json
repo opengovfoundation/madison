@@ -12,11 +12,9 @@
     "way/phpunit-wrappers": "dev-master"
   },
   "require": {
-    "anahkiasen/rocketeer": "1.2.0",
-    "zizaco/factory-muff": "dev-master",
-    "laravelbook/ardent": "dev-master",
+    "anahkiasen/rocketeer": "1.2.1",
     "zizaco/entrust": "dev-master",
-    "laravel/framework": "4.1.*",
+    "laravel/framework": "4.1.25",
     "roumen/sitemap": "dev-master",
     "elasticsearch/elasticsearch": "~0.4",
     "illuminate/remote": "4.1.*",

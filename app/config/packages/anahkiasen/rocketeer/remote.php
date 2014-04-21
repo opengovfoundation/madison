@@ -30,7 +30,7 @@
 	// The name of the application to deploy
 	// This will create a folder of the same name in the root directory
 	// configured above, so be careful about the characters used
-	'application_name' => 'madison',
+	'app_directory' => 'madison',
 
 	// The number of releases to keep at all times
 	'keep_releases'    => 5,
@@ -61,9 +61,9 @@
 		// a single command as a string or an array of commands
 		'callback' => function ($task, $file) {
 			return array(
-				sprintf('chgrp -R madison %s', $file),
 				sprintf('chmod -R 775 %s', $file),
 				sprintf('chmod -R g+s %s', $file),
+				sprintf('chgrp -R madison %s', $file),
 			);
 		},
 
