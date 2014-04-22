@@ -12,3 +12,4 @@
 */
 
 Artisan::add(new CreateUser);
+Artisan::add(new UserRole);
