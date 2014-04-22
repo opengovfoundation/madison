@@ -98,7 +98,8 @@ class DashboardController extends BaseController{
 				$doc->title = $title;
 				$doc->slug = $slug;
 				$doc->save();
-
+				$doc->sponsor()->sync(array($user->id));
+				
 				$starter = new DocContent();
 				$starter->doc_id = $doc->id;
 				$starter->content = "New Doc Content";
