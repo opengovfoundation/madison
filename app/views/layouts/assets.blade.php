@@ -1,3 +1,11 @@
+<!-- Polyfills -->
+<!--[if lt IE 9]>
+<script src="/polyfills/eventListener.js"></script>
+<script src="/polyfills/ie9.js"></script>
+<script src="/polyfills/es5-shim.min.js"></script>
+<![endif]-->
+ 
+
 <!-- Stylesheets -->
 {{ HTML::style('vendor/pagedown/assets/demo.css') }}
 {{ HTML::style('vendor/datetimepicker/datetimepicker.css') }}

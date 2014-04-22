@@ -237,7 +237,7 @@ angular.module('madisonApp.dashboardControllers', [])
       };
 
       $scope.deleteDate = function (date) {
-        $http.delete('/api/docs/' + $scope.doc.id + '/dates/' + date.id)
+        $http['delete']('/api/docs/' + $scope.doc.id + '/dates/' + date.id)
           .success(function () {
             var index = $scope.dates.indexOf(date);
             $scope.dates.splice(index, 1);

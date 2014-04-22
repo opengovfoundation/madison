@@ -18,7 +18,9 @@ module.exports = function (grunt) {
       }
     },
     jshint: {
-      options: {},
+      options: {
+        'proto': true
+      },
       all: ['public/js/*.js']
     },
     browserify: {

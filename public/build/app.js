@@ -18282,7 +18282,7 @@ angular.module('madisonApp.dashboardControllers', [])
       };
 
       $scope.deleteDate = function (date) {
-        $http.delete('/api/docs/' + $scope.doc.id + '/dates/' + date.id)
+        $http['delete']('/api/docs/' + $scope.doc.id + '/dates/' + date.id)
           .success(function () {
             var index = $scope.dates.indexOf(date);
             $scope.dates.splice(index, 1);
@@ -18447,13 +18447,24 @@ angular.module('madisonApp.directives', []).directive('docComments', function ()
   };
 });
 },{}],16:[function(require,module,exports){
+_ = require('underscore');
 angular.module('madisonApp.filters', [])
   .filter('parseDate', function () {
     return function (date) {
       return Date.parse(date);
     };
+  }).filter('toArray', function () {
+    return function (obj) {
+      if (!(obj instanceof Object)) {
+        return obj;
+      }
+      return _.map(obj, function (val, key) {
+        val.$key = key;
+        return val;
+      });
+    };
   });
-},{}],17:[function(require,module,exports){
+},{"underscore":9}],17:[function(require,module,exports){
 /*jslint browser: true*/
 /*global alert*/
 /*global Markdown*/
