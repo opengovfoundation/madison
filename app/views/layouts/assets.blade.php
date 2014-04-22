@@ -2,6 +2,7 @@
 <!--[if lt IE 9]>
 <script src="/polyfills/es5.js"></script>
 <script src="/polyfills/eventListener.js"></script>
+<script src="/polyfills/html5shiv.js"></script>
 <![endif]-->
  
 
