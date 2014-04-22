@@ -1,8 +1,7 @@
 <!-- Polyfills -->
 <!--[if lt IE 9]>
+<script src="/polyfills/es5.js"></script>
 <script src="/polyfills/eventListener.js"></script>
-<script src="/polyfills/ie9.js"></script>
-<script src="/polyfills/es5-shim.min.js"></script>
 <![endif]-->
  
 
