@@ -15,7 +15,7 @@
 	<div class="col-md-12">
 	{{ Form::open(array('url' => 'dashboard/docs/' . $doc->id, 'method' => 'put', 'id'=>'doc_content_form',
 		'class' => 'form-horizontal', 'style' => 'style="padding: 0 50px; border: 1px dotted lightgray;"')) }}
-		<tabset justified="true">
+		<tabset>
 			<tab heading="Document Content">
 				<div class="row">
 					<input type="hidden" name="content_id" value="{{{ $contentItem->id }}}"/>
