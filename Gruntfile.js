@@ -32,16 +32,6 @@ module.exports = function (grunt) {
     uglify: {
       options: {
         mangle: false
-      },
-      components: {
-        files: {
-          './public/components.js': './public/components.js'
-        }
-      },
-      main: {
-        files: {
-          './public/main.js': './public/main.js'
-        }
       }
     },
     watch: {
@@ -53,6 +43,20 @@ module.exports = function (grunt) {
         files: './public/sass/**/*.scss',
         tasks: ['compass']
       }
+    },
+    exec: {
+      install_composer: {
+        cmd: 'composer install'
+      },
+      install_bower: {
+        cmd: 'bower install'
+      },
+      install_npm: {
+        cmd: 'npm install'
+      },
+      vagrant_setup: {
+        cmd: 'vagrant up'
+      }
     }
   });
 
@@ -63,7 +67,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-exec');
 
   // Task definition
   grunt.registerTask('default', ['jshint', 'browserify', 'watch']);
+  grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower', 'exec:install_npm']);
 };
