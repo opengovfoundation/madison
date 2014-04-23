@@ -7,7 +7,7 @@
 		</ol>
 	</div>
 	<div class="row content">
-		<div class="col-md-6">
+		<div class="col-md-8 admin-document-list">
 			<h2>Documents</h2>
 			<ul>
 				@if(0 == count($docs))
@@ -22,7 +22,7 @@
 
 			</ul>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-4 admin-add-documents">
 			<div class="row">
 				<h2>Create Document</h2>
 				{{ Form::open(array('url' => 'dashboard/docs', 'method' => 'post', 'id' => 'create-document-form')) }}

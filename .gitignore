@@ -1,6 +1,7 @@
 VagrantConfig.json
 bootstrap/compiled.php
-public/.sass-cache/*
+public/.sass-cache
+public/sass/.sass-cache
 public/private/*
 app/config/creds.yml
 app/config/smtp.yml
