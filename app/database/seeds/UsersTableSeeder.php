@@ -6,11 +6,22 @@ class UsersTableSeeder extends Seeder
 {
 	public function run()
 	{
+		if(file_exists(app_path() . '/config/creds.yml')){
+			$creds = yaml_parse_file(app_path() . '/config/creds.yml');
+		}else{
+			$creds = array(
+			  'admin_email' => 'admin@example.com',
+			  'admin_fname' => 'First',
+			  'admin_lname' => 'Last',
+			  'admin_password' => 'password'
+			);
+		}
+
 		DB::table('users')->insert(array(
-			'email' => 'john@coggeshall.org',
-			'password' => '$2y$10$uIX./LUQwWBW3Orqd.E7LOY8KdCHHkIM9dGmZe95lFlf0OrH8YzOK',
-			'fname' => 'John',
-			'lname' => 'Coggeshall',
+			'email' => $creds['admin_email'],
+			'password' => Hash::make($creds['admin_password']),
+			'fname' => $creds['admin_fname'],
+			'lname' => $creds['admin_lname'],
 			'token' => '',
 		));
 	}

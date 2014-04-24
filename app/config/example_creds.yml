@@ -6,3 +6,8 @@
 database: madison_database
 username: username
 password: password
+
+admin_email: admin@example.com
+admin_fname: First
+admin_lname: Last
+admin_password: password
