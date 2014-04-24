@@ -37,3 +37,29 @@ ol.breadcrumb{
         color: #FFF;
     }
 }
+
+#doc_content_form{
+    input.btn{
+        background: $blue_header;
+        color: #FFF;
+        margin-top: 10px;
+    }
+}
+
+.wmd-input{
+    background: #F5F5F5 !important;
+    padding: 10px;
+}
+
+.wmd-preview{
+    background: none !important;
+    padding: 10px;
+}
+
+.public-link{
+    color: #888 !important;
+    &:hover{
+        color: #333 !important;
+        text-decoration: underline;
+    }
+}
