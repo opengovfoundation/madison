@@ -532,17 +532,17 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 		$scope.sponsorOptions = {
 			placeholder: "Select Document Sponsor",
 			ajax: {
-				url: "/api/user/verify",
+				url: "/api/user/admin",
 				dataType: 'json',
 				data: function(term, page){
 					return;
 				},
 				results: function(data, page){
 					var returned = [];
-					angular.forEach(data, function(verified){
-						var text = verified.user.fname + " " + verified.user.lname + " - " + verified.user.email;
+					angular.forEach(data, function(admin){
+						var text = admin.fname + " " + admin.lname + " - " + admin.email;
 
-						returned.push({ id: verified.user.id, text: text });
+						returned.push({ id: admin.id, text: text });
 					});
 
 					return {results: returned};
