@@ -29,6 +29,11 @@ Route::get('modals/annotation_thanks', array(
 
 Route::post('modals/annotation_thanks', 'ModalController@seenAnnotationThanksModal');
 
+
+Route::get('groups', 'GroupsController@getIndex');
+Route::put('groups/edit', 'GroupsController@putEdit');
+Route::get('groups/edit/{groupId?}', 'GroupsController@getEdit');
+
 //Static Pages
 Route::get('about', 'PageController@getAbout');
 Route::get('faq', 'PageController@faq');

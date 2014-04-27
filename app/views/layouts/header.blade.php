@@ -15,6 +15,7 @@
 					<!-- <li class="link-bookmarked"><a href="#" class="disabled coming-feature">Bookmarked Documents</a></li> -->
 					<!-- <li class="link-points"><a href="#" class="disabled coming-feature">Your Points</a></li> -->
 					<li class="link-settings"><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}">Account Settings</a></li>
+					<li class="link-settings"><a href="{{ URL::to('groups') }}">Group Management</a></li>
 					@if(Auth::user()->hasRole('Admin'))
 					<li><a href="{{ URL::to('dashboard') }}">Administrative Dashboard</a></li>
 					@endif

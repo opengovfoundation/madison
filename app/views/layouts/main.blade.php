@@ -2,7 +2,9 @@
 <html id="ng-app" ng-app="madisonApp" lang="en">
 	<head>
 		<meta charset="utf-8" />
+		@if(isset($page_title)) 
 		<title>{{ $page_title }}</title>
+		@endif
 		<!-- Mobile Optimization -->
 		<meta name="HandheldFriendly" content="True" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
