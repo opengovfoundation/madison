@@ -1,0 +1,65 @@
+ol.breadcrumb{
+    background: #ececec;
+    li{
+        a{
+            color: #ccc;
+            &:hover{
+                color: #555;
+                text-decoration: underline;
+            }
+        }
+        &.active{
+            color: #555;
+        }
+    }
+}
+
+.admin-document-list ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    padding-right: 20px;
+    li{
+        border-top: 1px solid #ddd;
+        padding: 12px 8px;
+        a{
+            &:hover{
+                text-decoration: underline;
+                color: inherit;
+            }
+        }
+    }
+}
+
+.admin-add-documents{
+    input.btn{
+        background: $blue_header;
+        color: #FFF;
+    }
+}
+
+#doc_content_form{
+    input.btn{
+        background: $blue_header;
+        color: #FFF;
+        margin-top: 10px;
+    }
+}
+
+.wmd-input{
+    background: #F5F5F5 !important;
+    padding: 10px;
+}
+
+.wmd-preview{
+    background: none !important;
+    padding: 10px;
+}
+
+.public-link{
+    color: #888 !important;
+    &:hover{
+        color: #333 !important;
+        text-decoration: underline;
+    }
+}

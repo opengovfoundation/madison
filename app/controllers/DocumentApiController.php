@@ -21,8 +21,7 @@ class DocumentApiController extends ApiController{
 		$doc->title = Input::get('title');
 		$doc->slug = Input::get('slug');
 
-		$doc_content = DocContent::firstOrCreate(array('doc_id' => $doc->id));
-
+		$doc_content = DocContent::firstOrCreate(array('doc_id' => $doc->id));				
 		$doc_content->content = Input::get('content.content');
 		$doc_content->save();
 
@@ -94,9 +93,14 @@ class DocumentApiController extends ApiController{
 		return Response::json($categoryIds);
 	}
 
+	public function hasSponsor($doc, $sponsor){
+		$result = Doc::find($doc)->sponsor()->find($sponsor);
+		return Response::json($result);
+	} 
+	
+
 	public function getSponsor($doc){
 		$doc = Doc::find($doc);
-
 		$sponsor = $doc->sponsor()->first();
 
 		return Response::json($sponsor);
@@ -104,13 +108,18 @@ class DocumentApiController extends ApiController{
 
 	public function postSponsor($doc){
 		$sponsor = Input::get('sponsor');
-
 		$doc = Doc::find($doc);
-		$user = User::find($sponsor['id']);
+		$response = null;
 
-		$doc->sponsor()->sync(array($user->id));
+		if(!isset($sponsor)){
+			$doc->sponsor()->sync(array());
+		}else{
+			$user = User::find($sponsor['id']);
+			$doc->sponsor()->sync(array($user->id));
+			$response = $user;
+		}
 
-		return Response::json($user);
+		return Response::json($response);
 
 	}
 
@@ -123,19 +132,26 @@ class DocumentApiController extends ApiController{
 	}
 
 	public function postStatus($doc){
+		$toAdd = null;
+
 		$status = Input::get('status');
 
 		$doc = Doc::find($doc);
 
-		$toAdd = Status::where('label', $status['text'])->first();
+		if(!isset($status)){
+			$doc->statuses()->sync(array());
+		}else{
+			$toAdd = Status::where('label', $status['text'])->first();
 
-		if(!isset($toAdd)){
-			$toAdd = new Status();
-			$toAdd->label = $status['text'];
+			if(!isset($toAdd)){
+				$toAdd = new Status();
+				$toAdd->label = $status['text'];
+			}
+			$toAdd->save();
+
+			$doc->statuses()->sync(array($toAdd->id));
 		}
-		$toAdd->save();
 
-		$doc->statuses()->sync(array($toAdd->id));
 
 		return Response::json($toAdd);
 
@@ -202,7 +218,8 @@ class DocumentApiController extends ApiController{
 
 	public function getAllStatuses(){
 		$doc = Doc::with('statuses')->first();
-		$statuses = $doc->status;
+
+		$statuses = $doc->statuses;
 
 		return Response::json($statuses);
 	}

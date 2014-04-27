@@ -68,9 +68,11 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/annotations/{annotation}/likes', 'AnnotationApiController@postLikes');
     Route::post('api/docs/{doc}/annotations/{annotation}/dislikes', 'AnnotationApiController@postDislikes');
     Route::post('api/docs/{doc}/annotations/{annotation}/flags', 'AnnotationApiController@postFlags');
+    Route::post('api/docs/{doc}/annotations/{annotation}/seen', 'AnnotationApiController@postSeen');
     Route::get('api/docs/{doc}/annotations/{annotation}/likes', 'AnnotationApiController@getLikes');
     Route::get('api/docs/{doc}/annotations/{annotation}/dislikes', 'AnnotationApiController@getDislikes');
     Route::get('api/docs/{doc}/annotations/{annotation}/flags', 'AnnotationApiController@getFlags');
+
 
     //Annotation Comment Routes
     Route::get('api/docs/{doc}/annotations/{annotation}/comments', 'AnnotationApiController@getComments');
@@ -92,6 +94,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/comments/{comment}/dislikes', 'CommentApiController@postDislikes');
     Route::post('api/docs/{doc}/comments/{comment}/flags', 'CommentApiController@postFlags');
     Route::post('api/docs/{doc}/comments/{comment}/comments', 'CommentApiController@postComments');
+    Route::post('api/docs/{doc}/comments/{comment}/seen', 'CommentApiController@postSeen');
 
     //Document Support / Oppose routes
     Route::post('api/docs/{doc}/support/', 'DocController@postSupport');
@@ -104,6 +107,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/docs/sponsors', 'DocumentApiController@getAllSponsors');
     Route::get('api/docs/{doc}/categories', 'DocumentApiController@getCategories');
     Route::post('api/docs/{doc}/categories', 'DocumentApiController@postCategories');
+    Route::get('api/docs/{doc}/sponsor/{sponsor}', 'DocumentApiController@hasSponsor');
     Route::get('api/docs/{doc}/sponsor', 'DocumentApiController@getSponsor');
     Route::post('api/docs/{doc}/sponsor', 'DocumentApiController@postSponsor');
     Route::get('api/docs/{doc}/status', 'DocumentApiController@getStatus');

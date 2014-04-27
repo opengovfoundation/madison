@@ -19,6 +19,7 @@
 @import "dashboard";
 @import "document";
 @import "rightbar";
+@import "administration";
 @import "animations";
 
 /* ==========================================================================
@@ -234,14 +235,25 @@ textarea.form-inline{
 			color: #FFF;
 		}
 		ul{
+			background: #2673C4;
+			border: none;
+			padding-top: 5px;
+			padding-bottom: 5px;
 			li{
 				margin-left: 0px;
 				display: block;
 				width: 100%;
+				padding-left: 5px;
+				padding-right: 5px;
 				a{
-					color: $blue-header;
-					padding-left: 5px;
-
+					color: #e3f4ff;
+					padding: 7px 9px;
+					font-weight: bold;
+					@include border-radius(3px);
+					&:hover{
+						background: $blue-header;
+						color: #fff;
+					}
 				}
 			}
 		}
@@ -250,7 +262,7 @@ textarea.form-inline{
 
 
 	.dropdown-menu {
-		margin-top: 0;
+		margin-top: 5px;
 	}
 }
 
@@ -369,9 +381,6 @@ textarea.form-inline{
 
 	a{
 		color:black;
-	}
-	a:hover{
-		color:$light-gray;
 	}
 	ul{
 		list-style:none;

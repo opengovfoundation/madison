@@ -1,6 +1,7 @@
 VagrantConfig.json
 bootstrap/compiled.php
-public/.sass-cache/*
+public/.sass-cache
+public/sass/.sass-cache
 public/private/*
 app/config/creds.yml
 app/config/smtp.yml
@@ -13,6 +14,8 @@ shared
 .buildpath
 .project
 .settings/
+node_modules
+public/bower_components
 
 public/js/angular/directives-ck.js
 

@@ -68,6 +68,7 @@ function ParticipateController($scope, $http, annotationService, createLoginPopu
 		$scope.getDocComments(docId);
 		$scope.user = user;
 		$scope.doc = doc;
+		$scope.user.isSponsor = $scope.isSponsor();
 	};
 
 	$scope.$on('annotationsUpdated', function(){
@@ -77,11 +78,23 @@ function ParticipateController($scope, $http, annotationService, createLoginPopu
 				annotation.commentsCollapsed = true;
 				$scope.activities.push(annotation);
 			}
-			
 		});
 		
 		$scope.$apply();
 	});
+
+	$scope.isSponsor = function(){
+		var currentId = $scope.user.id;
+		var sponsored = false;
+
+		angular.forEach($scope.doc.sponsor, function(sponsor){
+			if(currentId === sponsor.id){
+				sponsored = true;
+			}
+		});
+
+		return sponsored;
+	};
 
 	$scope.getDocComments = function(docId){
 		$http({method: 'GET', url: '/api/docs/' + docId + '/comments'})
@@ -120,6 +133,18 @@ function ParticipateController($scope, $http, annotationService, createLoginPopu
 		return popularity;
 	};
 
+	$scope.notifyAuthor = function(activity){
+
+		// If the current user is a sponsor and the activity hasn't been seen yet, 
+		// post to API route depending on comment/annotation label
+		$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + 'seen')
+		.success(function(data){
+			activity.seen = data.seen;
+		}).error(function(data){
+			console.error("Unable to mark activity as seen: %o", data);
+		});
+	};
+
 	$scope.addAction = function(activity, action, $event){
 		if($scope.user.id !== ''){
 			$http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
@@ -133,7 +158,6 @@ function ParticipateController($scope, $http, annotationService, createLoginPopu
 		}else{
 			createLoginPopup($event);
 		}
-		
 	};
 
 	$scope.collapseComments = function(activity) {
@@ -396,8 +420,8 @@ function DashboardSettingsController($scope, $http){
 function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 {
 	$scope.doc = {};
-	$scope.sponsor = {};
-	$scope.status = {};
+    $scope.sponsor = {};
+    $scope.status = {};
 	$scope.newdate = {label: '', date: new Date()};
 	$scope.verifiedUsers = [];
 	$scope.categories = [];
@@ -482,43 +506,49 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 
 		$scope.statusOptions={
 			placeholder: "Select Document Status",
+            ajax: {
+                url: "/api/docs/statuses",
+                dataType: 'json',
+                data: function(term, page){
+                    return;
+                },
+                results: function(data, page){
+                    var returned = [];
+                    angular.forEach(data, function(status) {
+                        returned.push({id: status.id, text: status.label});
+                    });
+                    return {results: returned};
+                }
+            },
 			data: function(){
-				return $scope.suggestedStatuses;
-			},
-			results: function(){
-				console.log($scope.status, "Scope status");
 				return $scope.status;
 			},
 			createSearchChoice: function(term){
 				return { id: term, text: term};
 			},
-			initSelection: function(element, callback){
-				callback(angular.copy($scope.status));
-			}
+			allowClear: true
 		};
 
 		$scope.sponsorOptions = {
 			placeholder: "Select Document Sponsor",
 			ajax: {
-				url: "/api/user/verify",
+				url: "/api/user/admin",
 				dataType: 'json',
 				data: function(term, page){
 					return;
 				},
 				results: function(data, page){
 					var returned = [];
-					angular.forEach(data, function(verified){
-						var text = verified.user.fname + " " + verified.user.lname + " - " + verified.user.email;
+					angular.forEach(data, function(admin){
+						var text = admin.fname + " " + admin.lname + " - " + admin.email;
 
-						returned.push({ id: verified.user.id, text: text });
+						returned.push({ id: admin.id, text: text });
 					});
 
 					return {results: returned};
 				}
 			},
-			initSelection: function(element, callback){
-				callback($scope.sponsor);
-			}
+			allowClear: true
 		};
 	};
 
@@ -634,17 +664,26 @@ function DashboardEditorController($scope, $http, $timeout, $location, $filter)
 	$scope.getDocSponsor = function(){
 		return $http.get('/api/docs/' + $scope.doc.id + '/sponsor')
 		.success(function(data){
-			$scope.sponsor = angular.copy({id: data.id, text: data.fname + " " + data.lname + " - " + data.email});
+			if(typeof data.id == 'undefined'){
+				$scope.sponsor = null;
+			}else{
+				$scope.sponsor = angular.copy({id: data.id, text: data.fname + " " + data.lname + " - " + data.email});	
+			}
 		}).error(function(data){
 			console.error("Error getting document sponsor: %o", data);
 		});
 
 	};
 
-	$scope.getDocStatus = function(){
+	$scope.getDocStatus = function() {
 		return $http.get('/api/docs/' + $scope.doc.id + '/status')
 		.success(function(data){
-			$scope.status = angular.copy({id: data.id, text: data.label});
+            if(typeof data.label == 'undefined'){
+                $scope.status = null;
+            }else{
+                $scope.status = angular.copy({id: data.id, text: data.label});
+            }
+			
 		}).error(function(data){
 			console.error("Error getting document status: %o", data);
 		});

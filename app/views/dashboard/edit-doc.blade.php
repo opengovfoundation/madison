@@ -11,16 +11,15 @@
 	</ol>
 </div>
 <div class="row content" ng-controller="DashboardEditorController" ng-init="init()">
-	<a href="/docs/{{ $doc->slug }}">View document's public view</a>
+	<a href="/docs/{{ $doc->slug }}" style="float:right" class="public-link"><span class="glyphicon glyphicon-eye-open"></span> Public View</a>
 	<div class="col-md-12">
 	{{ Form::open(array('url' => 'dashboard/docs/' . $doc->id, 'method' => 'put', 'id'=>'doc_content_form',
 		'class' => 'form-horizontal', 'style' => 'style="padding: 0 50px; border: 1px dotted lightgray;"')) }}
-		<tabset justified="true">
+		<tabset>
 			<tab heading="Document Content">
 				<div class="row">
 					<input type="hidden" name="content_id" value="{{{ $contentItem->id }}}"/>
 					<div class="row">
-						<h2>Content</h2>
 							<input type="hidden" name="content_id" value="{{{ $contentItem->id }}}" ng-model="doc.content.id"/>
 
 							<div class="doc_item_content">
@@ -41,66 +40,73 @@
 			<tab heading="Document Information">
 				<div class="row">
 					<h2>Document Information</h2>
-					<div class="form-group">
-						<label for="title" class="col-sm-2">Title: </label>
-						<div class="col-sm-10">
-							<input type="text" name="title" id="title" value="{{{ $doc->title }}}" ng-model="doc.title" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="slug" class="col-sm-2">Slug: </label>
-						<div class="col-sm-10">
-							<input type="text" name="slug" id="slug" value="{{{ $doc->slug }}}" ng-model="doc.slug" class="form-control"/>
-							<p class="help-block">a-z (lowercase), 0-9, and "-" only.</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="status" class="col-sm-2">Status: </label>
-						<div class="col-sm-10">
-							<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" ng-change="statusChange(status)" data-placeholder="">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="sponsor" class="col-sm-2">Sponsor: </label>
-						<div class="col-sm-10">
-							<input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" ng-change="sponsorChange(sponsor)" id="sponsor">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="categories" class="col-sm-2">Categories: </label>
-						<div class="col-sm-10">
-							<input type="hidden" ui-select2="categoryOptions" ng-model="categories" ng-change="categoriesChange(categories)" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="dates">Dates: </label>
-						<hr>
-						<div class="dates row">
-							<div class="new-date col-sm-3">
-								<label for="newdate-label">New Date:</label><br>
-								<input name="newdate-label" class="form-control" ng-model="newdate.label" type="text" placeholder="Date Label" />
-								<datetimepicker ng-model="newdate.date" on-set-time="createDate"></datetimepicker>
-							</div>
-							<div class="existing-dates col-sm-9">
-								<strong>Existing Dates:</strong>
-								<div class="row">
-									<div class="existing-date col-sm-2" ng-repeat="date in dates">
-										<div class="form-group">
-											<a class="close" ng-click="deleteDate(date)">&times;</a>
-											<input class="date-label form-control" ng-model="date.label" />
-										</div>
-										<div class="dropdown">
-											<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
-												<% date.date | date:'short' %>
-											</a>
-											<ul class="dropdown-menu">
-												<datetimepicker ng-model="date.date" datetimepicker-config="{dropdownSelector: '.dropdown-toggle' }"></datetimepicker>
-											</ul>
-										</div>
-										<div class="btn btn-info" ng-show="date.$changed" ng-click="saveDate(date)">Update</div>
-									</div>
+					<div class="col-md-7">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label for="title" class="col-sm-2 control-label">Title: </label>
+								<div class="col-sm-10">
+									<input type="text" name="title" id="title" value="{{{ $doc->title }}}" ng-model="doc.title" class="form-control" />
 								</div>
 							</div>
+							<div class="form-group">
+								<label for="slug" class="col-sm-2 control-label">Slug: </label>
+								<div class="col-sm-10">
+									<input type="text" name="slug" id="slug" value="{{{ $doc->slug }}}" ng-model="doc.slug" class="form-control"/>
+									<p class="help-block">a-z (lowercase), 0-9, and "-" only.</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="status" class="col-sm-2 control-label">Status: </label>
+								<div class="col-sm-10 select2-full-width">
+									<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" ng-change="statusChange(status)" data-placeholder="">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="sponsor" class="col-sm-2 control-label">Sponsor: </label>
+								<div class="col-sm-10 select2-full-width">
+									<input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" ng-change="sponsorChange(sponsor)" id="sponsor">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="categories" class="col-sm-2 control-label">Categories: </label>
+								<div class="col-sm-10 select2-full-width">
+									<input type="hidden" ui-select2="categoryOptions" ng-model="categories" ng-change="categoriesChange(categories)" />
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="col-md-4 col-md-offset-1">
+						<div class="row" ng-if="dates.length > 0">
+							<strong>Existing Dates:</strong>	
+						</div>
+						<div class="existing-date row" ng-repeat="date in dates">
+							<form class="form-horizontal">
+								<div class="form-group no-bottom-margin">
+									<div class="col-sm-10">
+										<input class="date-label form-control" ng-model="date.label" />
+									</div>
+									<label class="control-label col-sm-1"><a class="close" ng-click="deleteDate(date)">&times;</a></label>
+								</div>
+								<div class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+										<% date.date | date:'short' %>
+									</a>
+									<ul class="dropdown-menu">
+										<datetimepicker ng-model="date.date" datetimepicker-config="{dropdownSelector: '.dropdown-toggle' }"></datetimepicker>
+									</ul>
+								</div>
+								<div class="btn btn-info" ng-show="date.$changed" ng-click="saveDate(date)">Update</div>
+							</form>
+						</div>
+						<div class="dates row">
+							<form>
+								<div class="form-group">
+									<div class="new-date col-sm-10">
+										<input name="newdate-label" class="form-control" ng-model="newdate.label" type="text" placeholder="Date Label" />
+										<datetimepicker ng-model="newdate.date" on-set-time="createDate"></datetimepicker>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
