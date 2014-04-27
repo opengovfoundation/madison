@@ -22,6 +22,10 @@
 						<input type="text" class="form-control" name="gname" id="gname" placeholder="Enter Group Name" value="{{ $group->name }}"/>
 					</div>
 					<div class="form-group">
+						<label for="dname">Display Name:</label>
+						<input type="text" class="form-control" name="dname" id="dname" placeholder="Enter the Display Name" value="{{ $group->display_name }}"/>
+					</div>
+					<div class="form-group">
 						<label for="address1">Address 1:</label>
 						<input type="text" class="form-control" name="address1" id="address1" placeholder="Enter Address Line 1" value="{{ $group->address1 }}"/>
 					</div>
