@@ -380,7 +380,7 @@ textarea.form-inline{
 	@include border-radius(4px);
 
 	a{
-		color:black;
+		color:$blue-grad-end;
 	}
 	ul{
 		list-style:none;
