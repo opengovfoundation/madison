@@ -14,4 +14,20 @@ class GroupMember extends Eloquent
 	{
 		return $this->belongsTo('Group');
 	}
+	
+	static public function findByGroupId($groupId)
+	{
+		return static::where('group_id', '=', $groupId)->get();
+	}
+	
+	public function getUserName()
+	{
+		$user = User::where('id', '=', $this->user_id)->first();
+		
+		if(!$user) {
+			throw new \Exception("Could not locate user with ID");
+		}
+		
+		return "{$user->fname} {$user->lname}";
+	}
 }

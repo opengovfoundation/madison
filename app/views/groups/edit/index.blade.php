@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="md-col-12">
 				<h1>Edit / Create Group Profile</h1>
-				<p>If you would like to manage the members of your group, <a href="#">click here</a></p>
+				<p>If you would like to manage the members of your group, <a href="/groups/members/{{ $group->id }}">click here</a></p>
 			</div>
 		</div>
 		<div class="row">
@@ -15,6 +15,7 @@
 					<div class="form-group">
 						<b>Group Status: {{ $group->status }}</b>
 					</div>
+					<input type="hidden" name="groupId" value="{{ $group->id }}"/>
 					@endif
 					
 					<div class="form-group">

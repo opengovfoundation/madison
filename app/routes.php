@@ -33,6 +33,9 @@ Route::post('modals/annotation_thanks', 'ModalController@seenAnnotationThanksMod
 Route::get('groups', 'GroupsController@getIndex');
 Route::put('groups/edit', 'GroupsController@putEdit');
 Route::get('groups/edit/{groupId?}', 'GroupsController@getEdit');
+Route::get('groups/members/{groupId}', 'GroupsController@getMembers');
+Route::get('groups/member/{memberId}/delete', 'GroupsController@removeMember');
+Route::post('groups/member/{memberId}/role', 'GroupsController@changeMemberRole');
 
 //Static Pages
 Route::get('about', 'PageController@getAbout');

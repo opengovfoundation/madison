@@ -26,9 +26,14 @@
 				<?php foreach($userGroups as $groupMember): ?>
 				<?php $group = $groupMember->group()->first(); ?>
 					<tr>
-						<td><a href="/groups/edit/{{ $group->id }}">{{ $group->display_name }}</a></td>
+						<?php if($group->isGroupOwner(Auth::user()->id)): ?>
+						<td><a href="/groups/edit/{{ $group->id }}">{{ $group->display_name ? $group->display_name : "N/A" }}</a></td>
 						<td><a href="/groups/edit/{{ $group->id }}">{{ $group->name }}</a></td>
-						<td>{{ $group->findMember(Auth::user()->id)->role }}</td>
+						<?php else: ?>
+						<td>{{ $group->display_name ? $group->display_name : "N/A" }}</td>
+						<td>{{ $group->name }}</td>
+						<?php endif; ?>
+						<td>{{ $group->findMemberByUserId(Auth::user()->id)->role }}</td>
 						<td>{{ $group->status }}</td>
 					</tr>
 				<?php endforeach; ?>
