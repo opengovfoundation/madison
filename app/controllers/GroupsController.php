@@ -3,6 +3,65 @@
 class GroupsController extends Controller
 {
 	
+	public function processMemberInvite($groupId)
+	{
+		$group = Group::where('id', '=', $groupId)->first();
+		
+		if(!$group) {
+			return Redirect::back()->with('error', 'Invalid Group ID');
+		}
+		
+		if(!$group->isGroupOwner(Auth::user()->id)) {
+			return Redirect::back()->with('error', 'You cannot add people to a group unless you are the group owner');
+		}
+		
+		$email = Input::all()['email'];
+		$role = Input::all()['role'];
+		
+		if(!Group::isValidRole($role)) {
+			return Redirect::back()->with('error', "Invalid Role Type");
+		}
+		
+		$user = User::where('email', '=', $email)->first();
+		
+		if(!$user) {
+			return Redirect::back()->with('error', "Invalid User");
+		}
+		
+		$userExists = (bool)GroupMember::where('user_id', '=', $user->id)
+									->where('group_id', '=', $group->id)
+									->count();
+		
+		if($userExists) {
+			return Redirect::back()->with('error', 'This user is already a member of the group!');
+		}
+		
+		$newMember = new GroupMember();
+		$newMember->user_id = $user->id;
+		$newMember->group_id = $group->id;
+		$newMember->role = $role;
+		
+		$newMember->save();
+		
+		return Redirect::to('groups/members/' . (int)$group->id)
+						->with('success_message', 'User added successfully!');
+	}
+	
+	public function inviteMember($groupId)
+	{
+		$group = Group::where('id', '=', $groupId)->first();
+		
+		if(!$group) {
+			return Redirect::back()->with('error', 'Invalid Group ID');
+		}
+		
+		if(!$group->isGroupOwner(Auth::user()->id)) {
+			return Redirect::back()->with('error', 'You cannot add people to a group unless you are the group owner');
+		}
+		
+		return View::make('groups.invite.index', compact('group'));
+	}
+	
 	public function getMembers($groupId) 
 	{
 		$groupMembers = GroupMember::findByGroupId($groupId);
