@@ -131,6 +131,11 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/user/verify/', 'UserApiController@postVerify');
     Route::get('api/user/admin/', 'UserApiController@getAdmins');
     Route::post('api/user/admin/', 'UserApiController@postAdmin');
+    
+    // Group Routes
+    Route::get('api/groups/verify/', 'GroupsApiController@getVerify');
+    Route::post('api/groups/verify/', 'GroupsApiController@postVerify');
+    
     // User Login / Signup AJAX requests
     Route::get('api/user/login', 'UserManageApiController@getLogin');
     Route::post('api/user/login', 'UserManageApiController@postLogin');

@@ -17,6 +17,16 @@ class Group extends Eloquent
 		return array(static::STATUS_ACTIVE, static::STATUS_PENDING);
 	}
 	
+	static public function isValidStatus($status) {
+		switch($status) {
+			case static::STATUS_ACTIVE:
+			case static::STATUS_PENDING:
+				return true;
+		}
+		
+		return false;
+	}
+	
 	static public function isValidRole($role) 
 	{
 		switch($role) {
