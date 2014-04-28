@@ -59,6 +59,10 @@ class GroupsController extends Controller
 			return Redirect::back()->with('error', 'You cannot add people to a group unless you are the group owner');
 		}
 		
+		if($group->status != Group::STATUS_ACTIVE) {
+			return Redirect::to('groups')->with('error', 'You cannot add people to an unverified group');
+		}
+		
 		return View::make('groups.invite.index', compact('group'));
 	}
 	

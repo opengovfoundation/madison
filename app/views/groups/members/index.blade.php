@@ -12,7 +12,9 @@
 	<div class="row">
 		<div class="content col-md-12">
 			<h1>Members of '{{ $group->name }}'</h1>
+			<?php if($group->status == Group::STATUS_ACTIVE): ?>
 			<p><a href="/groups/invite/{{ $group->id }}">Add new member</a></p>
+			<?php endif; ?>
 			<table class="table table-striped" id="groupsTable">
 				<thead>
 					<th>Name</th>
