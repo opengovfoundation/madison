@@ -7,13 +7,13 @@ module.exports = function (grunt) {
     compass: {
       dist: {
         options: {
-          config: './public/config.rb',
+          config: './config.rb',
           environment: 'production'
         }
       },
       dev: {
         options: {
-          config: './public/config.rb',
+          config: './config.rb',
         }
       }
     },
