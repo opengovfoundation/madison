@@ -20,7 +20,7 @@
 		<option value="updated_at">Last Updated</option>
 	</select>
 	<ul>
-		<li ng-repeat="doc in docs | orderBy:dateSort:reverse" ng-show="docFilter(doc)">
+		<li ng-repeat="doc in docs | toArray | orderBy:dateSort:reverse" ng-show="docFilter(doc)">
 			<a href="/docs/<% doc.slug %>">
 				<% doc.title %>
 			</a>
