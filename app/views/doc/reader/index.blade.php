@@ -39,7 +39,21 @@
     </div>
   </div>
 </div>
-<div class="col-md-12">
+<div class="col-md-12" ng-controller="DocumentPageController">
+	<div class="row how-to-annotate" ng-if="!hideIntro">
+		<span class="how-to-annotate-close glyphicon glyphicon-remove" ng-click="hideHowToAnnotate()"></span>
+		<h2>How to Participate</h2>
+		<div class="col-md-6">
+			<img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
+		</div>
+		<div class="col-md-6">
+			<ol>
+				<li>Read the policy document.</li>
+				<li>Sign up to add your voice.</li>
+				<li>Annotate, Comment, Support or Oppose!</li>
+			</ol>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-8" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
 			<div class="doc-info row">

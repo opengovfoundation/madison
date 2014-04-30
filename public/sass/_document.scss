@@ -7,6 +7,34 @@
 	margin-bottom: 165px;
 }
 
+.how-to-annotate{
+	@include bg($light-gray);
+	border-radius:10px;
+	line-height:2em;
+	font-size:1.5em;
+
+	h2{
+		text-align:center;
+	}
+
+	ol{
+		margin-top:50px;
+	}
+
+	.how-to-annotate-close{
+		position:absolute;
+		top:10px;
+		right:10px;
+		cursor:pointer;
+	}
+
+	.how-to-annotate-img{
+		max-width:300px;
+		margin:10px 20px 10px 0;
+		float:right;
+	}
+}
+
 .annotator-widget{
 	padding: 6px 10px 10px 10px !important;
 	.annotator-item{
