@@ -18,25 +18,6 @@ class CreateSettingsTable extends Migration{
 			$table->string('meta_value')->nullable();
 			$table->timestamps();
 		});
-		
-		DB::table('settings')->insert(
-			array(
-				'meta_key' => 'title',
-				'meta_value' => ''
-			),
-			array(
-				'meta_key' => 'nav_menu',
-				'meta_value' => ''
-			),
-			array(
-				'meta_key' => 'fb_app_id',
-				'meta_value' => ''
-			),
-			array(
-				'meta_key' => 'fb_app_secret',
-				'meta_value' => ''
-			)
-		);
 	}
 
 	/**

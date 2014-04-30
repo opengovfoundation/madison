@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="ng-app" ng-app="madisonApp" lang="en">
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="madisonApp" lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<title>{{ $page_title }}</title>
@@ -11,6 +11,16 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		@include('layouts.socials')
 		@include('layouts.assets')
+		<!--[if lt IE 9]>
+		<script>
+		window.console = window.console || {};
+		window.console.log = window.console.log || function () {};
+
+		$(document).ready(function () {
+			angular.bootstrap(document);
+		});
+		</script>
+		<![endif]-->
 	</head>
 	<body>
 		<!--[if lt IE 8]>

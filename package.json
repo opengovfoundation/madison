@@ -17,7 +17,30 @@
   },
   "homepage": "http://mymadison.io",
   "devDependencies": {
-    "karma": "~0.12.9"
+    "grunt": "~0.4.4",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-less": "~0.10.0",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-watch": "~0.6.0",
+    "grunt-phpunit": "~0.3.3",
+    "grunt-contrib-compass": "~0.7.2",
+    "grunt-contrib-jshint": "~0.9.1",
+    "browserify": "~3.38.1",
+    "grunt-browserify": "~2.0.3",
+    "angular": "~1.2.15",
+    "twitter-bootstrap-3.0.0": "~3.0.0",
+    "jquery": "~2.1.0",
+    "grunt-modernizr": "~0.5.2",
+    "underscore": "~1.6.0",
+    "pagedown": "~1.1.0",
+    "angular-md5": "~0.1.7",
+    "angular-animate": "0.0.2",
+    "select2": "~3.4.5",
+    "moment": "~2.5.1",
+    "angular-bootstrap": "0.0.4",
+    "select2-browserify": "~3.4.5",
+    "karma": "~0.12.9",
+    "grunt-exec": "~0.4.5"
   },
   "dependencies": {}
 }

@@ -1,4 +1,13 @@
+<!-- Polyfills -->
+<!--[if lt IE 9]>
+<script src="/polyfills/es5.js"></script>
+<script src="/polyfills/eventListener.js"></script>
+<script src="/polyfills/html5shiv.js"></script>
+<![endif]-->
+ 
+
 <!-- Stylesheets -->
+{{ HTML::style('vendor/pagedown/assets/demo.css') }}
 {{ HTML::style('vendor/datetimepicker/datetimepicker.css') }}
 {{ HTML::style('vendor/jquery/jquery-ui-smoothness.css') }}
 {{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
@@ -7,27 +16,10 @@
 {{ HTML::style('css/style.css') }}
 
 <!-- Scripts -->
-{{ HTML::script('vendor/jquery/jquery-1.10.2.min.js') }}
-{{ HTML::script('vendor/jquery/jquery.browser.min.js') }}
-{{ HTML::script('vendor/bootstrap/js/bootstrap.min.js') }}
-{{ HTML::script('vendor/modernizr-latest.js') }}
-{{ HTML::script('vendor/underscore.min.js') }}
-{{ HTML::script('vendor/pagedown/assets/Markdown.Converter.js') }}
-{{ HTML::script('vendor/angular/angular.min.js') }}
-{{ HTML::script('vendor/angular/angular-animate.min.js') }}
-{{ HTML::script('vendor/angular-md5.js') }}
-{{ HTML::script('vendor/ui-bootstrap-tpls-0.10.0.min.js') }}
-{{ HTML::script('vendor/ui-utils.min.js') }}
-{{ HTML::script('vendor/select2/select2.js') }}
-{{ HTML::script('vendor/select2/ui-select2.js') }}
-{{ HTML::script('vendor/moment.js') }}
-{{ HTML::script('vendor/datetimepicker/datetimepicker.js') }}
-{{ HTML::script('js/angular/app.js') }}
-{{ HTML::script('js/angular/controllers.js') }}
-{{ HTML::script('js/angular/services.js') }}
-{{ HTML::script('js/angular/directives.js') }}
-{{ HTML::script('js/angular/filters.js') }}
-{{ HTML::script('js/madison.js') }}
+{{ HTML::script('bower_components/pagedown/Markdown.Converter.js') }}
+{{ HTML::script('bower_components/pagedown/Markdown.Sanitizer.js') }}
+{{ HTML::script('bower_components/pagedown/Markdown.Editor.js') }}
+{{ HTML::script('build/app.js') }}
 
 <?php 
 $fs = new Illuminate\Filesystem\Filesystem();

@@ -21,6 +21,14 @@ class RbacSeeder extends Seeder
 	
 	public function run()
 	{
+		if(file_exists(app_path() . '/config/creds.yml')){
+			$creds = yaml_parse_file(app_path() . '/config/creds.yml');
+		}else{
+			$creds = array(
+			  'admin_email' => 'admin@example.com',
+			);
+		}
+
 		$admin = new Role();
 		$admin->name = 'Admin';
 		$admin->save();
@@ -40,7 +48,7 @@ class RbacSeeder extends Seeder
 		
 		$admin->perms()->sync($permIds);
 		
-		$user = User::where('email', '=', 'john@coggeshall.org')->first();
+		$user = User::where('email', '=', $creds['admin_email'])->first();
 		$user->attachRole($admin);
 	}
 }
