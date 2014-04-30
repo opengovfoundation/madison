@@ -18021,8 +18021,6 @@ angular.module('madisonApp.controllers', [])
               }
             });
 
-            $scope.user.created_at = Date.parse($scope.user.created_at);
-
           }).error(function (data) {
             console.error("Unable to retrieve user: %o", data);
           });
