@@ -153,6 +153,25 @@ class DashboardController extends BaseController{
 		return Redirect::to('dashboard/docs/' . $id)->with('success_message', 'Document Saved Successfully');
 	}
 	
+	public function getGroupverifications() 
+	{
+		$user = Auth::user();
+		
+		if(!$user->can('admin_verify_users')) {
+			return Redirect::to('/dashboard')->with('message', "You do not have permission"); 
+		}
+		
+		$groups = Group::where('status', '!=', Group::STATUS_ACTIVE)->get();
+		
+		$data = array(
+			'page_id' => 'verify_groups',
+			'page_title' => 'Verify Groups',
+			'requests' => $groups
+		);
+		
+		return View::make('dashboard.verify-group', $data);
+	}
+	
 	/**
 	 * 	Verification request view
 	 */

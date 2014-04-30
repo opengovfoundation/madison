@@ -29,6 +29,16 @@ Route::get('modals/annotation_thanks', array(
 
 Route::post('modals/annotation_thanks', 'ModalController@seenAnnotationThanksModal');
 
+
+Route::get('groups', 'GroupsController@getIndex');
+Route::put('groups/edit', 'GroupsController@putEdit');
+Route::get('groups/edit/{groupId?}', 'GroupsController@getEdit');
+Route::get('groups/members/{groupId}', 'GroupsController@getMembers');
+Route::get('groups/member/{memberId}/delete', 'GroupsController@removeMember');
+Route::post('groups/member/{memberId}/role', 'GroupsController@changeMemberRole');
+Route::get('groups/invite/{groupId}', 'GroupsController@inviteMember');
+Route::put('groups/invite/{groupId}', 'GroupsController@processMemberInvite');
+
 //Static Pages
 Route::get('about', 'PageController@getAbout');
 Route::get('faq', 'PageController@faq');
@@ -121,6 +131,11 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/user/verify/', 'UserApiController@postVerify');
     Route::get('api/user/admin/', 'UserApiController@getAdmins');
     Route::post('api/user/admin/', 'UserApiController@postAdmin');
+    
+    // Group Routes
+    Route::get('api/groups/verify/', 'GroupsApiController@getVerify');
+    Route::post('api/groups/verify/', 'GroupsApiController@postVerify');
+    
     // User Login / Signup AJAX requests
     Route::get('api/user/login', 'UserManageApiController@getLogin');
     Route::post('api/user/login', 'UserManageApiController@postLogin');

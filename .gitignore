@@ -10,9 +10,12 @@ app/config/socials.php
 composer.lock
 /vendor/*
 shared
+.DS_Store
+.buildpath
+.project
+.settings/
 node_modules
 public/bower_components
-
 
 public/js/angular/directives-ck.js
 
