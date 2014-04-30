@@ -1,0 +1,23 @@
+{
+  "name": "madison",
+  "version": "0.0.0",
+  "description": "Madison is an open-source, collaborative document editing platform.  While Madison can be used to collaborate on many different kinds of documents, the official version is being built with legislative and policy documents in mind.",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opengovfoundation/madison.git"
+  },
+  "author": "Chris Birk",
+  "license": "GPLv.3",
+  "bugs": {
+    "url": "https://github.com/opengovfoundation/madison/issues"
+  },
+  "homepage": "http://mymadison.io",
+  "devDependencies": {
+    "karma": "~0.12.9"
+  },
+  "dependencies": {}
+}
