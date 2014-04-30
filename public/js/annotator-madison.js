@@ -146,7 +146,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   addNoteLink: function (field, annotation) {
     //Add link to annotation
     var noteLink = $('<div class="annotation-link"></div>');
-    var annotationLink = $('<a></a>').attr('href', window.location.origin + '/note/' + annotation.id).text('View Note');
+    var annotationLink = $('<a></a>').attr('href', window.location.origin + '/annotation/' + annotation.id).text('View Annotation');
     noteLink.append(annotationLink);
     $(field).append(noteLink);
   },

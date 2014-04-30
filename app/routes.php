@@ -59,11 +59,8 @@ Route::post('password/remind', 'RemindersController@postRemind');
 Route::get( 'password/reset/{token}',  'RemindersController@getReset');
 Route::post('password/reset',  'RemindersController@postReset');
 
-//Note Routes
-Route::get('note/{annotation}', 'NoteController@getIndex');
-Route::post('note/{annotation}', 'NoteController@postIndex');
-Route::put('note/{annotation}', 'NoteController@putIndex');
-Route::controller('note', 'NoteController');
+//Annotation Routes
+Route::get('annotation/{annotation}', 'AnnotationController@getIndex');
 
 //Dashboard Routes
 Route::controller('dashboard', 'DashboardController');
@@ -172,10 +169,10 @@ Route::get('sitemap', function(){
         $sitemap->add('doc/'.$doc->slug);
     }
 
-    $notes = Note::all();
+    $annotations = Annotation::all();
 
-    foreach($notes as $note){
-    	$sitemap->add('note/'.$note->id);
+    foreach($annotations as $annotation){
+    	$sitemap->add('annotation/'.$annotation->id);
     }
 
     $users = User::all();

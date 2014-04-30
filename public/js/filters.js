@@ -1,3 +1,4 @@
+/*global CryptoJS*/
 _ = require('underscore');
 angular.module('madisonApp.filters', [])
   .filter('parseDate', function () {
@@ -13,5 +14,16 @@ angular.module('madisonApp.filters', [])
         val.$key = key;
         return val;
       });
+    };
+  }).filter('gravatar', function () {
+    return function (email) {
+      var hash = '';
+
+      if (email !== undefined) {
+        hash = CryptoJS.MD5(email.toLowerCase());
+      }
+
+
+      return hash;
     };
   });
