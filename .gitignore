@@ -14,8 +14,6 @@ shared
 .buildpath
 .project
 .settings/
-node_modules
-public/bower_components
 
 public/js/angular/directives-ck.js
 

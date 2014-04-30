@@ -1,0 +1,32 @@
+{
+  "name": "pagedown",
+  "version": "1.1.0",
+  "authors": [
+    "Original Showdown code copyright (c) 2007 John Fraser",
+    "Original Markdown Copyright (c) 2004-2005 John Gruber <http://daringfireball.net/projects/markdown/>",
+    "Modifications and bugfixes (c) 2009 Dana Robinson",
+    "Modifications and bugfixes (c) 2009-2013 Stack Exchange Inc.",
+    "PageDown-Extra by Justin McManus <https://github.com/jmcmanus/pagedown-extra>",
+    "Ryan Billingsley <https://github.com/ryanbillingsley>"
+  ],
+  "description": "PageDown from the fine folks at StackExchange as well as PageDown-Extra from Justin McManus",
+  "keywords": [
+    "markdown",
+    "stackoverflow",
+    "pagedown",
+    "highlight"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "package.json",
+    "demo/",
+    "local/",
+    "resources/",
+    "node-pagedown.js"
+  ]
+}

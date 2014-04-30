@@ -1,0 +1,18 @@
+{
+  "name": "angular-animate",
+  "version": "0.0.2",
+  "main": "angular-animate.min.js",
+  "description": "Angular ng-animate module",
+  "ignore": [
+    "**/.*",
+    "*.yml",
+    "*.xml",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.10"
+  }
+}
