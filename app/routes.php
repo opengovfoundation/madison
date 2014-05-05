@@ -45,9 +45,10 @@ Route::get('faq', 'PageController@faq');
 Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 
 //Document Routes
-Route::get('docs/search', 'DocController@getSearch');
-Route::get('docs', 'DocController@index');
-Route::get('docs/{slug}', 'DocController@index');
+Route::get('docs/search', 'DocumentsController@getSearch');
+Route::get('docs', 'DocumentsController@index');
+Route::get('docs/view/{slug}', 'DocumentsController@index');
+Route::get('docs/edit/{slug}', 'DocumentsController@editDocument');
 
 //User Routes
 Route::get('user/{user}', 'UserController@getIndex');
