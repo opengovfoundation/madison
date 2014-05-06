@@ -40,7 +40,7 @@ module.exports = function (grunt) {
         tasks: ['jshint', 'browserify']
       },
       sass: {
-        files: './public/sass/**/*.scss',
+        files: './public/sass/**.scss',
         tasks: ['compass']
       }
     },

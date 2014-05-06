@@ -109,6 +109,16 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
+  .controller('DocumentPageController', ['$scope', '$cookies',
+    function ($scope, $cookies) {
+      $scope.hideIntro = $cookies.hideIntro;
+
+      $scope.hideHowToAnnotate = function () {
+        $cookies.hideIntro = true;
+        $scope.hideIntro = true;
+      };
+    }
+    ])
   .controller('ReaderController', ['$scope', '$http', 'annotationService',
     function ($scope, $http, annotationService) {
       $scope.annotations = [];
@@ -165,7 +175,8 @@ angular.module('madisonApp.controllers', [])
           });
       };
     }
-    ]).controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup',
+    ])
+  .controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup',
     function ($scope, $http, annotationService, createLoginPopup) {
       $scope.annotations = [];
       $scope.comments = [];
@@ -271,7 +282,8 @@ angular.module('madisonApp.controllers', [])
           });
       };
     }
-    ]).controller('UserPageController', ['$scope', '$http', '$location',
+    ])
+  .controller('UserPageController', ['$scope', '$http', '$location',
     function ($scope, $http, $location) {
       $scope.user = {};
       $scope.meta = '';

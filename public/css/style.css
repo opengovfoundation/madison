@@ -66,65 +66,108 @@ ol.breadcrumb li.active {
 }
 
 /* line 10, ../sass/_document.scss */
+.how-to-annotate {
+  background-color: #fafafa;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+/* line 15, ../sass/_document.scss */
+.how-to-annotate h2 {
+  text-align: center;
+}
+/* line 19, ../sass/_document.scss */
+.how-to-annotate ol {
+  margin-top: 15px;
+}
+/* line 23, ../sass/_document.scss */
+.how-to-annotate .how-to-annotate-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+/* line 31, ../sass/_document.scss */
 .annotator-widget {
   padding: 6px 10px 10px 10px !important;
 }
-/* line 13, ../sass/_document.scss */
+/* line 34, ../sass/_document.scss */
 .annotator-widget .annotator-item p {
   font-style: normal;
   color: #333;
   line-height: 130%;
 }
-/* line 19, ../sass/_document.scss */
+/* line 40, ../sass/_document.scss */
 .annotator-widget .existing-comment {
   padding-left: 0px;
 }
-/* line 21, ../sass/_document.scss */
+/* line 42, ../sass/_document.scss */
 .annotator-widget .existing-comment blockquote {
   font-size: 12px;
   padding-left: 10px;
 }
-/* line 26, ../sass/_document.scss */
+/* line 47, ../sass/_document.scss */
 .annotator-widget .annotation-link, .annotator-widget .annotation-action, .annotator-widget .annotation-toggle, .annotator-widget .comment-toggle, .annotator-widget .current-comments, .annotator-widget .annotation-comments {
   padding-left: 0px;
   padding-right: 0px;
 }
-/* line 30, ../sass/_document.scss */
+/* line 51, ../sass/_document.scss */
 .annotator-widget .annotat-user {
   padding-top: 0px;
 }
 
-/* line 35, ../sass/_document.scss */
+/* line 56, ../sass/_document.scss */
 .annotator-viewer div {
   border-top: none !important;
 }
 
-/* line 39, ../sass/_document.scss */
+/* line 60, ../sass/_document.scss */
 .doc-info {
   margin-left: -15px;
   margin-right: -15px;
   padding-left: 0px;
   margin-bottom: 25px;
 }
-/* line 44, ../sass/_document.scss */
+/* line 65, ../sass/_document.scss */
 .doc-info h1 {
   text-align: left;
   font-size: 28px;
   color: #333;
 }
-/* line 49, ../sass/_document.scss */
+/* line 70, ../sass/_document.scss */
 .doc-info div {
   color: #666;
 }
-/* line 53, ../sass/_document.scss */
+/* line 74, ../sass/_document.scss */
 .doc-info .doc-support, .doc-info .doc-oppose {
   background: #fff;
   color: #555;
 }
-/* line 57, ../sass/_document.scss */
+/* line 78, ../sass/_document.scss */
 .doc-info .doc-support:hover, .doc-info .doc-oppose:hover {
   background: fff;
   color: #111;
+}
+
+/* line 86, ../sass/_document.scss */
+.how-to-annotate .how-to-annotate-img {
+  border: 1px solid #ccc;
+}
+/* line 89, ../sass/_document.scss */
+.how-to-annotate h2 {
+  font-size: 24px;
+  text-align: left;
+  padding-left: 15px;
+  margin-top: 10px;
+}
+/* line 95, ../sass/_document.scss */
+.how-to-annotate ol {
+  padding-left: 22px;
+}
+
+/* line 100, ../sass/_document.scss */
+.doc-sponsor {
+  padding-bottom: 5px;
 }
 
 /* line 1, ../sass/_rightbar.scss */

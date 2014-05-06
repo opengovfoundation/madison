@@ -39,7 +39,7 @@
     </div>
   </div>
 </div>
-<div class="col-md-12">
+<div class="col-md-12" ng-controller="DocumentPageController">
 	<div class="row">
 		<div class="col-md-8" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
 			<div class="doc-info row">
@@ -70,12 +70,27 @@
 				<div id="doc_content" class="col-md-12">{{ $doc->get_content('html') }}</div>
 			</div>
 		</div>
-		<div ng-controller="ParticipateController" ng-init="init({{ $doc->id }})" class="col-md-3 col-md-offset-1 rightbar participate">
-			@include('doc.reader.participate')
+		<div class="col-md-3 col-md-offset-1">
+			<!-- Start Introduction GIF -->
+			<div class="row how-to-annotate" ng-if="!hideIntro">
+				<span class="how-to-annotate-close glyphicon glyphicon-remove" ng-click="hideHowToAnnotate()"></span>
+				<h2>How to Participate</h2>
+				<div class="col-md-12">
+					<img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
+				</div>
+				<div class="col-md-12">
+					<ol>
+						<li>Read the policy document.</li>
+						<li>Sign up to add your voice.</li>
+						<li>Annotate, Comment, Support or Oppose!</li>
+					</ol>
+				</div>
+			</div>
+			<!-- End Introduction GIF -->
+			<div ng-controller="ParticipateController" ng-init="init({{ $doc->id }})" class="row rightbar participate">
+				@include('doc.reader.participate')
+			</div>
 		</div>
 	</div>
-</div>
-	
-	
 </div>
 @endsection

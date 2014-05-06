@@ -6,6 +6,7 @@ require('underscore');
 require('angular');
 require('angular-bootstrap');
 require('angular-animate');
+require('../bower_components/angular-cookies/angular-cookies.min.js');
 require('../bower_components/angular-ui/build/angular-ui.min.js');
 require('../../node_modules/twitter-bootstrap-3.0.0/dist/js/bootstrap.min.js');
 
@@ -27,6 +28,7 @@ var imports = [
     'ui',
     'ui.bootstrap',
     'ngAnimate',
+    'ngCookies'
   ];
 
 var app = angular.module('madisonApp', imports, function ($interpolateProvider) {
