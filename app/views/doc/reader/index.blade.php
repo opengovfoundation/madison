@@ -48,13 +48,13 @@
 						<h1>{{ $doc->title }}</h1>
 					</div>
 					<div class="doc-sponsor row" ng-repeat="sponsor in doc.sponsor">
-						<strong>Sponsored by </strong><span><% sponsor.fname %> <% sponsor.lname %></span>
+						<strong>Sponsored by </strong><span>@{{ sponsor.fname }} @{{ sponsor.lname }}</span>
 					</div>
 					<div class="doc-status row" ng-repeat="status in doc.statuses">
-						<strong>Status: </strong><span><% status.label %></span>
+						<strong>Status: </strong><span>@{{ status.label }}</span>
 					</div>
 					<div class="doc-date row" ng-repeat="date in doc.dates">
-						<strong><% date.label %>: </strong><span><% date.date | parseDate | date:'shortDate' %></span>
+						<strong>@{{ date.label }}: </strong><span>@{{ date.date | parseDate | date:'shortDate' }}</span>
 					</div>
 					<div class="row" ng-show="user.id > 0">
 							<a href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">Support This Document</a>

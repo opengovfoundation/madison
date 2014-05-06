@@ -20,9 +20,9 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="request in requests">
-						<td><% request.id %></td>
-						<td><% request.name %></td>
-						<td><% request.display_name %></td>
+						<td>@{{ request.id }}</td>
+						<td>@{{ request.name }}</td>
+						<td>@{{ request.display_name }}</td>
 						<td>
 							<div class="btn-group">
 								<button type="button" class="btn btn-success" ng-class="{active: request.status == '{{ Group::STATUS_ACTIVE }}'}" ng-click="update(request, '{{ Group::STATUS_ACTIVE }}')">Active</button>

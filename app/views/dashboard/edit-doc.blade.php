@@ -86,7 +86,7 @@
 								</div>
 								<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
-										<% date.date | date:'short' %>
+										@{{ date.date | date:'short' }}
 									</a>
 									<ul class="dropdown-menu">
 										<datetimepicker ng-model="date.date" datetimepicker-config="{dropdownSelector: '.dropdown-toggle' }"></datetimepicker>

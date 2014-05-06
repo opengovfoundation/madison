@@ -68,8 +68,6 @@ angular.module('madisonApp.controllers', [])
           .success(function (data) {
 
             angular.forEach(data, function (doc) {
-              doc.updated_at = Date.parse(doc.updated_at);
-              doc.created_at = Date.parse(doc.created_at);
 
               $scope.docs.push(doc);
 

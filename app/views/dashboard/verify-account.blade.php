@@ -21,10 +21,10 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="request in requests">
-						<td><% request.id %></td>
-						<td><% request.user.fname%></td>
-						<td><% request.user.lname %></td>
-						<td><% request.user.email %></td>
+						<td>@{{ request.id }}</td>
+						<td>@{{ request.user.fname}}</td>
+						<td>@{{ request.user.lname }}</td>
+						<td>@{{ request.user.email }}</td>
 						<td>
 							<div class="btn-group">
 								<button type="button" class="btn btn-success" ng-class="{active: request.meta_value == 'verified'}" ng-click="update(request, 'verified')">Verified</button>

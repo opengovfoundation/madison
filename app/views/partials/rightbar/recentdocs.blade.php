@@ -2,8 +2,8 @@
 	<h3>Featured Documents</h3>	
 	<ul>
 		<li ng-repeat="doc in docs">
-			<a href="/docs/<% doc.slug %>">
-				<h4><% doc.title %></h4>	
+			<a href="/docs/@{{ doc.slug }}">
+				<h4>@{{ doc.title }}</h4>	
 			</a>
 		</li>
 	</ul>

@@ -1,6 +1,6 @@
-var angular = require('angular');
+//var angular = require('angular');
 
-module.exports = function () {
+window.getAnnotationService = function () {
   var elem = angular.element($('html'));
   var injector = elem.injector();
   var annotationService = injector.get('annotationService');
