@@ -21,7 +21,15 @@ module.exports = function (grunt) {
       options: {
         'proto': true
       },
-      all: ['public/js/*.js']
+      all: [
+        'public/js/controllers.js',
+        'public/js/dashboardControllers.js',
+        'public/js/services.js',
+        'public/js/directives.js',
+        'public/js/filters.js',
+        'public/js/annotationServiceGlobal.js',
+        'public/js/app.js'
+      ]
     },
     // browserify: {
     //   js: {
@@ -40,6 +48,7 @@ module.exports = function (grunt) {
             //'public/js/angular.js',
             'node_modules/angular-bootstrap/ui-bootstrap.js',
             'node_modules/angular-animate/angular-animate.min.js',
+            'public/bower_components/angular-cookies/angular-cookies.js',
             'public/bower_components/angular-ui/build/angular-ui.min.js',
             'node_modules/twitter-bootstrap-3.0.0/dist/js/bootstrap.min.js',
             'public/js/controllers.js',
@@ -59,11 +68,11 @@ module.exports = function (grunt) {
     },
     watch: {
       scripts: {
-        files: ['public/js/*.js'],
+        files: ['public/js/*.js', 'Gruntfile.js'],
         tasks: ['jshint', 'uglify']
       },
       sass: {
-        files: './public/sass/**/*.scss',
+        files: './public/sass/**.scss',
         tasks: ['compass']
       }
     },

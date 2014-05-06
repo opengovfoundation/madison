@@ -8,7 +8,8 @@ var imports = [
     'madisonApp.dashboardControllers',
     'ui',
     'ui.bootstrap',
-    'ngAnimate'
+    'ngAnimate',
+    'ngCookies'
   ];
 
 var app = angular.module('madisonApp', imports, function ($interpolateProvider) {});
