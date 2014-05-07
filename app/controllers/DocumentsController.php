@@ -10,6 +10,6 @@ class DocumentsController extends Controller
 		
 		$docs = Doc::allOwnedBy(Auth::user()->id);
 		
-		return View::make('documents.list', $docs);
+		return View::make('documents.list', compact('docs'));
 	}
 }
