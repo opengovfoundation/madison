@@ -45,6 +45,18 @@ class Doc extends Eloquent{
 		return $this->hasMany('DocMeta');
 	}
 
+	static public function allOwnedBy($userId)
+	{
+		$docs = static::join('doc_user', 'docs.id', '=', 'doc_user.doc_id')
+					  ->join('doc_group', 'docs.id', '=', 'doc_group.doc_id')
+					  ->join('group_members', 'group_members.group_id', '=', 'doc_group.group_id')
+					  ->where('group_members.user_id', '=', $userId)
+					  ->orWhere('doc_user.user_id', '=', $userId);
+		
+		var_dump($docs->toSql());
+		return $docs->get();
+	}
+	
 	public function setActionCount(){
 		$es = self::esConnect();
 

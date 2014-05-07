@@ -46,13 +46,13 @@ Route::get('faq', 'PageController@faq');
 Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 
 //Document Routes
-Route::get('docs/search', 'DocumentsController@getSearch');
-Route::get('docs', 'DocumentsController@listDocuments');
-Route::get('docs/view/{slug}', 'DocumentsController@viewDocument');
-Route::get('docs/edit/{slug}', 'DocumentsController@editDocument');
-Route::get('docs/create', 'DocumentsController@createDocument');
-Route::post('docs/save', 'DocumentsController@saveDocument');
-Route::delete('/docs/delete/{slug}', 'DocumentsController@deleteDocument');
+Route::get('documents/search', 'DocumentsController@getSearch');
+Route::get('documents', 'DocumentsController@listDocuments');
+Route::get('documents/view/{slug}', 'DocumentsController@viewDocument');
+Route::get('documents/edit/{slug}', 'DocumentsController@editDocument');
+Route::get('documents/create', 'DocumentsController@createDocument');
+Route::post('documents/save', 'DocumentsController@saveDocument');
+Route::delete('/documents/delete/{slug}', 'DocumentsController@deleteDocument');
 
 //User Routes
 Route::get('user/{user}', 'UserController@getIndex');
