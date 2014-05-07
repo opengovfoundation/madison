@@ -32,7 +32,7 @@
 			<?php if(count($userGroups) > 0): ?>
 			<li>
 				<select id="activeGroupSelector">
-					<option value="">No Active Group</option>
+					<option value="0">No Active Group</option>
 					<?php foreach($userGroups as $group): ?>
 					<option
 						{{ $group->id == $activeGroup ? 'selected' : '' }}

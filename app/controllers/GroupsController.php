@@ -109,6 +109,14 @@ class GroupsController extends Controller
 				return Response::json($retval);
 			}
 			
+			if($groupId == 0) {
+				Session::remove('activeGroupId');
+				
+				$retval['success'] = true;
+				$retval['message'] = "Deleted Active Group";
+				return Response::json($retval);
+			}
+			
 			if(!Group::isValidUserForGroup(Auth::user()->id, $groupId)) {
 				$retval['message'] = "Invalid Group ID";
 				return Response::json($retval);

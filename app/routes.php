@@ -50,7 +50,7 @@ Route::get('documents/search', 'DocumentsController@getSearch');
 Route::get('documents', 'DocumentsController@listDocuments');
 Route::get('documents/view/{slug}', 'DocumentsController@viewDocument');
 Route::get('documents/edit/{slug}', 'DocumentsController@editDocument');
-Route::get('documents/create', 'DocumentsController@createDocument');
+Route::post('documents/create', 'DocumentsController@createDocument');
 Route::post('documents/save', 'DocumentsController@saveDocument');
 Route::delete('/documents/delete/{slug}', 'DocumentsController@deleteDocument');
 

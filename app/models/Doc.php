@@ -8,44 +8,125 @@ class Doc extends Eloquent{
 
 	const TYPE = 'doc';
 
-	public function __construct(){
+	const SPONSOR_TYPE_INDIVIDUAL = "individual";
+	const SPONSOR_TYPE_GROUP = "group";
+	
+	public function __construct()
+	{
 		parent::__construct();
 
 		$this->index = Config::get('elasticsearch.annotationIndex');
 	}
 
-	public function dates(){
+	public function dates()
+	{
 		return $this->hasMany('Date');
 	}
 
-	public function sponsor(){
+	public function userSponsor()
+	{
 		return $this->belongsToMany('User');
 	}
+	
+	public function groupSponsor()
+	{
+		return $this->belongsToMany('Group');
+	}
 
-	public function statuses(){
+	public function statuses()
+	{
 		return $this->belongsToMany('Status');
 	}
 
-	public function categories(){
+	public function categories()
+	{
 		return $this->belongsToMany('Category');
 	}
 
-	public function comments(){
+	public function comments()
+	{
 		return $this->hasMany('Comment');
 	}
 
-	public function getLink(){
+	public function getLink()
+	{
 		return URL::to('doc/' . $this->slug);
 	}
 
-	public function content(){
+	public function content()
+	{
 		return $this->hasOne('DocContent');
 	}
 
-	public function doc_meta(){
+	public function doc_meta()
+	{
 		return $this->hasMany('DocMeta');
 	}
 
+	static public function createEmptyDocument(array $params)
+	{
+		$defaults = array(
+			'content' => "New Document Content",
+			'sponsor' => null,
+			'sponsorType' => null
+		);
+		
+		$params = array_replace_recursive($defaults, $params);
+		
+		if(is_null($params['sponsor'])) {
+			throw new \Exception("Sponsor Param Required");
+		}
+		
+		$document = new Doc();
+		
+		DB::transaction(function() use ($document, $params) {
+			$document->title = $params['title'];
+			$document->save();
+				
+			switch($params['sponsorType']) {
+				case static::SPONSOR_TYPE_INDIVIDUAL:
+					$document->userSponsor()->sync(array($params['sponsor']));
+					break;
+				case static::SPONSOR_TYPE_GROUP:
+					$document->groupSponsor()->sync(array($params['sponsor']));
+					break;
+				default:
+					throw new \Exception("Invalid Sponsor Type");
+			}
+			
+			$template = new DocContent();
+			$template->doc_id = $document->id;
+			$template->content = "New Document Content";
+			$template->save();
+				
+			$document->init_section = $template->id;
+			$document->save();
+		});
+		
+		return $document;
+	}
+	
+	public function save(array $options = array())
+	{
+		if(empty($this->slug)) {
+			$this->slug = $this->getSlug();
+		}
+		
+		return parent::save($options);
+	}
+	
+	public function getSlug()
+	{
+		if(empty($this->title)) {
+			throw new Exception("Can't get a slug - empty title");
+		}
+		
+		return str_replace(
+					array(' ', '.'),
+					array('-', ''),
+					strtolower($this->title));
+	}
+	
 	static public function allOwnedBy($userId)
 	{
 		$rawDocs = DB::select(

@@ -25,25 +25,11 @@
 		<div class="col-md-4 admin-add-documents">
 			<div class="row">
 				<h2>Create Document</h2>
-				{{ Form::open(array('url' => 'dashboard/docs', 'method' => 'post', 'id' => 'create-document-form')) }}
+				{{ Form::open(array('url' => 'documents/create', 'method' => 'post', 'id' => 'create-document-form')) }}
 				<div class="form-group">
 					{{ Form::label('title', 'Title:') . Form::text('title', Input::old('title'), array('placeholder' => 'Document Title', 'class'=>'form-control')) }}
 				</div>
-				<!-- div class="form-group" -->
-					<!-- {{ Form::label('slug', 'Slug:') }} -->
-					{{ Form::hidden('slug', Input::old('slug'), array('placeholder' => 'Document Slug', 'class' => 'input-slug form-control')) }}
-				<!-- /div -->
 				{{ Form::submit('Create Document', array('class' => 'btn')) }}
-				{{ Form::token() . Form::close() }}
-			</div>
-			<div class="row">
-				<h2>Import XML Document</h2>
-				{{ Form::open(array('url' => 'dashboard/import', 'method' => 'post')) }}
-				<div class="form-group">
-					<label for="url">URL:</label>
-					<input type="url" name="url" id="url" value="{{ Input::old('url') }}" placeholder="Enter URL" class="form-control" />
-				</div>
-				{{ Form::submit('Import Document', array('class'=>'btn')) }}
 				{{ Form::token() . Form::close() }}
 			</div>
 		</div>
