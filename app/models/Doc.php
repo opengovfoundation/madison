@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Database\Eloquent\Collection;
 class Doc extends Eloquent{
 	public static $timestamp = true;
 	
@@ -47,14 +48,37 @@ class Doc extends Eloquent{
 
 	static public function allOwnedBy($userId)
 	{
-		$docs = static::join('doc_user', 'docs.id', '=', 'doc_user.doc_id')
-					  ->join('doc_group', 'docs.id', '=', 'doc_group.doc_id')
-					  ->join('group_members', 'group_members.group_id', '=', 'doc_group.group_id')
-					  ->where('group_members.user_id', '=', $userId)
-					  ->orWhere('doc_user.user_id', '=', $userId);
+		$rawDocs = DB::select(
+			DB::raw(
+				"SELECT docs.* FROM
+					(SELECT doc_id 
+					   FROM doc_group, group_members
+					  WHERE doc_group.group_id = group_members.group_id
+					    AND group_members.user_id = ?
+					UNION ALL
+					 SELECT doc_id 
+					   FROM doc_user
+					  WHERE doc_user.user_id = ?
+				    ) DocUnion, docs
+				  WHERE docs.id = DocUnion.doc_id
+			   GROUP BY docs.id"
+			),
+			array($userId, $userId)
+		);
 		
-		var_dump($docs->toSql());
-		return $docs->get();
+		$results = new Collection();
+		
+		foreach($rawDocs as $row) {
+			$obj = new static();
+			
+			foreach($row as $key => $val) {
+				$obj->$key = $val;
+			}
+			
+			$results->add($obj);
+		}
+		
+		return $results;
 	}
 	
 	public function setActionCount(){

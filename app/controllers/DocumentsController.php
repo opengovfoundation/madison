@@ -10,7 +10,6 @@ class DocumentsController extends Controller
 		
 		$docs = Doc::allOwnedBy(Auth::user()->id);
 		
-		var_dump($docs);exit;
 		return View::make('documents.list', $docs);
 	}
 }
