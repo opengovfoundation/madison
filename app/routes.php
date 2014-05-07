@@ -38,6 +38,7 @@ Route::get('groups/member/{memberId}/delete', 'GroupsController@removeMember');
 Route::post('groups/member/{memberId}/role', 'GroupsController@changeMemberRole');
 Route::get('groups/invite/{groupId}', 'GroupsController@inviteMember');
 Route::put('groups/invite/{groupId}', 'GroupsController@processMemberInvite');
+Route::post('groups/active/{groupId}', 'GroupsController@setActiveGroup');
 
 //Static Pages
 Route::get('about', 'PageController@getAbout');
@@ -46,9 +47,12 @@ Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 
 //Document Routes
 Route::get('docs/search', 'DocumentsController@getSearch');
-Route::get('docs', 'DocumentsController@index');
-Route::get('docs/view/{slug}', 'DocumentsController@index');
+Route::get('docs', 'DocumentsController@listDocuments');
+Route::get('docs/view/{slug}', 'DocumentsController@viewDocument');
 Route::get('docs/edit/{slug}', 'DocumentsController@editDocument');
+Route::get('docs/create', 'DocumentsController@createDocument');
+Route::post('docs/save', 'DocumentsController@saveDocument');
+Route::delete('/docs/delete/{slug}', 'DocumentsController@deleteDocument');
 
 //User Routes
 Route::get('user/{user}', 'UserController@getIndex');

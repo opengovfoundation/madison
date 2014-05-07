@@ -57,6 +57,23 @@ class Group extends Eloquent
 		return $this->hasMany('GroupMember');
 	}
 	
+	static public function findByUserId($userId, $onlyActive = true)
+	{
+		$groupMember = static::join('group_members', 'groups.id', '=', 'group_members.group_id')
+							 ->where('group_members.user_id', '=', $userId);
+		
+		if($onlyActive) {
+			$groupMember->where('groups.status', '=', static::STATUS_ACTIVE);
+		}
+		
+		return $groupMember->get(array(
+			'groups.id', 'groups.name', 'groups.address1',
+			'groups.address2', 'groups.city', 'groups.state',
+			'groups.postal_code', 'groups.phone_number', 'groups.display_name',
+			'groups.status', 'groups.created_at', 'groups.updated_at',
+			'groups.deleted_at'));
+	}
+	
 	static public function findByMemberId($memberId)
 	{
 		$groupMember = GroupMember::where('id', '=', $memberId)->first();
@@ -66,6 +83,25 @@ class Group extends Eloquent
 		}
 		
 		return static::where('id', '=', $groupMember->group_id)->first();
+	}
+	
+	static public function isValidUserForGroup($user_id, $group_id) 
+	{
+		$group = static::where('id', '=', $group_id)->first();
+		
+		if(!$group) {
+			throw new Exception("Invalid Group ID $group_id");
+			return false;
+		}
+
+		$member = $group->findMemberByUserId($user_id);
+		
+		if(!$member) {
+			throw new Exception("Invalid Member ID");
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public function findMemberByUserId($userId) 

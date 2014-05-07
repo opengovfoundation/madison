@@ -6,6 +6,7 @@
 <div class="nav nav-main col-md-4 col-md-offset-4">
 
 	<ul>
+		
 		<li class="link-about"><a href="{{ URL::to('about') }}">About</a></li>
 		<li class="link-faq"><a href="{{ URL::to('faq') }}">FAQ</a></li>		
 		@if(Auth::check())
@@ -23,12 +24,44 @@
 					<li class="link-logout"><a href="{{ URL::to('logout') }}">Logout</a></li>
 				</ul>
 			</li>
+			<?php 
+				$userGroups = Auth::user()->groups();
+				$activeGroup = Session::get('activeGroupId'); 
+			?>
+			
+			<?php if(count($userGroups) > 0): ?>
+			<li>
+				<select id="activeGroupSelector">
+					<option value="">No Active Group</option>
+					<?php foreach($userGroups as $group): ?>
+					<option
+						{{ $group->id == $activeGroup ? 'selected' : '' }}
+						value="{{ $group->id }}"
+					>{{ !empty($group->display_name) ? $group->display_name : $group->name }}</option>
+					<?php endforeach;?>
+				</select>
+			<?php endif; ?>
 		@else
 			<li class="link-login"><a href="{{ URL::to('user/login') }}">Login</a></li>
 			<li class="link-signup"><a href="{{ URL::to('user/signup') }}">Sign Up</a></li>
 		@endif
 	</ul>
-
 </div>
+<script language="javascript">
+	$('#activeGroupSelector').change(function() {
+		var newGroup = $('select option:selected').val();
+
+		$.post('/groups/active/' + newGroup, {}, function(data) {
+			if(!data.success) {
+				alert("There was an error processing your request:\n\n" + data.message);
+				location.reload(true);
+				return;
+			}
+			
+			location.reload(true);
+		}, 'json');
+		
+	});
+</script>
 
 

@@ -95,6 +95,38 @@ class GroupsController extends Controller
 		return Redirect::to('groups/members/' . (int)$group->id)->with('success_message', 'Member removed');
 	}
 	
+	public function setActiveGroup($groupId)
+	{
+		$retval = array(
+			'success' => false,
+			'message' => 'Unknown Error'
+		);
+		
+		try {
+			
+			if(!Auth::check()) {
+				$retval['message'] = "Must be logged in";
+				return Response::json($retval);
+			}
+			
+			if(!Group::isValidUserForGroup(Auth::user()->id, $groupId)) {
+				$retval['message'] = "Invalid Group ID";
+				return Response::json($retval);
+			}
+			
+			Session::put('activeGroupId', $groupId);
+			
+			$retval['success'] = true;
+			$retval['message'] = "Active Group Set";
+			
+			return Response::json($retval);
+			
+		} catch(\Exception $e) {
+			$retval['message'] = "Exception Caught: {$e->getMessage()}";
+			return Response::json($retval);
+		}
+	}
+	
 	public function changeMemberRole($memberId)
 	{
 		$retval = array(
