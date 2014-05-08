@@ -194,7 +194,8 @@ class Doc extends Eloquent{
 		return $path;
 	}
 
-	public function store_content($doc, $doc_content){		
+	public function indexContent($doc_content)
+	{
 		$es = self::esConnect();
 
 		File::put($this->get_file_path('markdown'), $doc_content->content);

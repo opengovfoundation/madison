@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
 		<ol class="breadcrumb">
-			<li><a href="/dashboard">Dashboard</a></li>
+			<li><a href="/">Home</a></li>
 			<li class="active">Documents</li>
 		</ol>
 	</div>
