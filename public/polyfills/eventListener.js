@@ -1,87 +1,56 @@
-if (!document.addEventListener) {
-  var oListeners = {};
-  function runListeners(oEvent) {
-    if (!oEvent) { oEvent = window.event; }
-    for (var iLstId = 0, iElId = 0, oEvtListeners = oListeners[oEvent.type]; iElId < oEvtListeners.aEls.length; iElId++) {
-      if (oEvtListeners.aEls[iElId] === this) {
-        for (iLstId; iLstId < oEvtListeners.aEvts[iElId].length; iLstId++) { oEvtListeners.aEvts[iElId][iLstId].call(this, oEvent); }
-        break;
+// addEventListener polyfill IE6+
+!window.addEventListener && (function (window, document) {
+  function Event(e, element) {
+    var instance = this;
+ 
+    for (property in e) {
+      instance[property] = e[property];
+    }
+ 
+    instance.currentTarget =  element;
+    instance.target = e.srcElement || element;
+    instance.timeStamp = +new Date;
+ 
+    instance.preventDefault = function () {
+      e.returnValue = false;
+    };
+    instance.stopPropagation = function () {
+      e.cancelBubble = true;
+    };
+  }
+ 
+  function addEventListener(type, listener) {
+    var
+    element = this,
+    listeners = element.listeners = element.listeners || [],
+    index = listeners.push([listener, function (e) {
+      listener.call(element, new Event(e, element));
+    }]) - 1;
+ 
+    element.attachEvent('on' + type, listeners[index][1]);
+  }
+ 
+  function removeEventListener(type, listener) {
+    for (var element = this, listeners = element.listeners || [], length = listeners.length, index = 0; index < length; ++index) {
+      if (listeners[index][0] === listener) {
+        element.detachEvent('on' + type, listeners[index][1]);
       }
     }
   }
-  document.addEventListener = function (sEventType, fListener /*, useCapture (will be ignored!) */) {
-    if (oListeners.hasOwnProperty(sEventType)) {
-      var oEvtListeners = oListeners[sEventType];
-      for (var nElIdx = -1, iElId = 0; iElId < oEvtListeners.aEls.length; iElId++) {
-        if (oEvtListeners.aEls[iElId] === this) { nElIdx = iElId; break; }
-      }
-      if (nElIdx === -1) {
-        oEvtListeners.aEls.push(this);
-        oEvtListeners.aEvts.push([fListener]);
-        this["on" + sEventType] = runListeners;
-      } else {
-        var aElListeners = oEvtListeners.aEvts[nElIdx];
-        if (this["on" + sEventType] !== runListeners) {
-          aElListeners.splice(0);
-          this["on" + sEventType] = runListeners;
-        }
-        for (var iLstId = 0; iLstId < aElListeners.length; iLstId++) {
-          if (aElListeners[iLstId] === fListener) { return; }
-        }     
-        aElListeners.push(fListener);
-      }
-    } else {
-      oListeners[sEventType] = { aEls: [this], aEvts: [ [fListener] ] };
-      this["on" + sEventType] = runListeners;
-    }
-  };
-  document.removeEventListener = function (sEventType, fListener /*, useCapture (will be ignored!) */) {
-    if (!oListeners.hasOwnProperty(sEventType)) { return; }
-    var oEvtListeners = oListeners[sEventType];
-    for (var nElIdx = -1, iElId = 0; iElId < oEvtListeners.aEls.length; iElId++) {
-      if (oEvtListeners.aEls[iElId] === this) { nElIdx = iElId; break; }
-    }
-    if (nElIdx === -1) { return; }
-    for (var iLstId = 0, aElListeners = oEvtListeners.aEvts[nElIdx]; iLstId < aElListeners.length; iLstId++) {
-      if (aElListeners[iLstId] === fListener) { aElListeners.splice(iLstId, 1); }
-    }
-  };
-  window.addEventListener = function (sEventType, fListener /*, useCapture (will be ignored!) */) {
-    if (oListeners.hasOwnProperty(sEventType)) {
-      var oEvtListeners = oListeners[sEventType];
-      for (var nElIdx = -1, iElId = 0; iElId < oEvtListeners.aEls.length; iElId++) {
-        if (oEvtListeners.aEls[iElId] === this) { nElIdx = iElId; break; }
-      }
-      if (nElIdx === -1) {
-        oEvtListeners.aEls.push(this);
-        oEvtListeners.aEvts.push([fListener]);
-        this["on" + sEventType] = runListeners;
-      } else {
-        var aElListeners = oEvtListeners.aEvts[nElIdx];
-        if (this["on" + sEventType] !== runListeners) {
-          aElListeners.splice(0);
-          this["on" + sEventType] = runListeners;
-        }
-        for (var iLstId = 0; iLstId < aElListeners.length; iLstId++) {
-          if (aElListeners[iLstId] === fListener) { return; }
-        }     
-        aElListeners.push(fListener);
-      }
-    } else {
-      oListeners[sEventType] = { aEls: [this], aEvts: [ [fListener] ] };
-      this["on" + sEventType] = runListeners;
-    }
-  };
-  window.removeEventListener = function (sEventType, fListener /*, useCapture (will be ignored!) */) {
-    if (!oListeners.hasOwnProperty(sEventType)) { return; }
-    var oEvtListeners = oListeners[sEventType];
-    for (var nElIdx = -1, iElId = 0; iElId < oEvtListeners.aEls.length; iElId++) {
-      if (oEvtListeners.aEls[iElId] === this) { nElIdx = iElId; break; }
-    }
-    if (nElIdx === -1) { return; }
-    for (var iLstId = 0, aElListeners = oEvtListeners.aEvts[nElIdx]; iLstId < aElListeners.length; iLstId++) {
-      if (aElListeners[iLstId] === fListener) { aElListeners.splice(iLstId, 1); }
-    }
-  };
-
-}
+ 
+  window.addEventListener = document.addEventListener = addEventListener;
+  window.removeEventListener = document.removeEventListener = removeEventListener;
+ 
+  if ('Element' in window) {
+    Element.prototype.addEventListener    = addEventListener;
+    Element.prototype.removeEventListener = removeEventListener;
+  } else {
+    var
+    head = document.getElementsByTagName('head')[0],
+    style = document.createElement('style');
+ 
+    head.insertBefore(style, head.firstChild);
+ 
+    style.styleSheet.cssText = '*{-ms-event-prototype:expression(!this.addEventListener&&(this.addEventListener=addEventListener)&&(this.removeEventListener=removeEventListener))}';
+  }
+})(window, document) && scrollBy(0, 0);

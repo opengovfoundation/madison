@@ -11,18 +11,20 @@
 		<meta name="format-detection" content="telephone=no" />
 		<meta http-equiv="cleartype" content="on" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-		@include('layouts.socials')
-		@include('layouts.assets')
 		<!--[if lt IE 9]>
 		<script>
-		window.console = window.console || {};
-		window.console.log = window.console.log || function () {};
+          document.createElement('ng-include');
+          document.createElement('ng-pluralize');
+          document.createElement('ng-view');
 
-		$(document).ready(function () {
-			angular.bootstrap(document);
-		});
+          // Optionally these for CSS
+          document.createElement('ng:include');
+          document.createElement('ng:pluralize');
+          document.createElement('ng:view');
 		</script>
 		<![endif]-->
+		@include('layouts.socials')
+		@include('layouts.assets')
 	</head>
 	<body>
 		<!--[if lt IE 8]>

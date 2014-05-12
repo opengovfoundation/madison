@@ -35,11 +35,19 @@ class DocumentApiController extends ApiController{
 	public function getDocs(){
 		$docs = Doc::with('categories')->with('sponsor')->with('statuses')->with('dates')->orderBy('updated_at', 'DESC')->get();
 
+		$return_docs = array();
+
 		foreach($docs as $doc){
 			$doc->setActionCount();
+			$return_doc = $doc->toArray();
+
+			$return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
+			$return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
+
+			$return_docs[] = $return_doc;
 		}
 
-		return Response::json($docs);
+		return Response::json($return_docs);
 	}
 
 	public function getRecent($query = null){

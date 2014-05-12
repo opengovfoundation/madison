@@ -26,6 +26,7 @@
 								<div id="wmd-preview" class="wmd-panel wmd-preview"></div>
 							</div>
 						{{ Form::hidden('doc_id', $doc->id) }}
+						<small>Need help converting a Microsoft Word document?  <a href="http://word-to-markdown.herokuapp.com/" target="_blank">There's a tool for that.</a></small>
 						<div class="form_actions">
 							{{ Form::submit('Save Doc', array('name' => 'submit', 'id' => 'submit', 'class'=>'btn')) }}
 						</div>
@@ -86,7 +87,7 @@
 								</div>
 								<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
-										<% date.date | date:'short' %>
+										@{{ date.date | date:'short' }}
 									</a>
 									<ul class="dropdown-menu">
 										<datetimepicker ng-model="date.date" datetimepicker-config="{dropdownSelector: '.dropdown-toggle' }"></datetimepicker>

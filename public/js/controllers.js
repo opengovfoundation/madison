@@ -68,8 +68,6 @@ angular.module('madisonApp.controllers', [])
           .success(function (data) {
 
             angular.forEach(data, function (doc) {
-              doc.updated_at = Date.parse(doc.updated_at);
-              doc.created_at = Date.parse(doc.created_at);
 
               $scope.docs.push(doc);
 
@@ -106,6 +104,16 @@ angular.module('madisonApp.controllers', [])
           .error(function (data) {
             console.error("Unable to get documents: %o", data);
           });
+      };
+    }
+    ])
+  .controller('DocumentPageController', ['$scope', '$cookies',
+    function ($scope, $cookies) {
+      $scope.hideIntro = $cookies.hideIntro;
+
+      $scope.hideHowToAnnotate = function () {
+        $cookies.hideIntro = true;
+        $scope.hideIntro = true;
       };
     }
     ])
@@ -165,7 +173,8 @@ angular.module('madisonApp.controllers', [])
           });
       };
     }
-    ]).controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup',
+    ])
+  .controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup',
     function ($scope, $http, annotationService, createLoginPopup) {
       $scope.annotations = [];
       $scope.comments = [];
@@ -271,7 +280,8 @@ angular.module('madisonApp.controllers', [])
           });
       };
     }
-    ]).controller('UserPageController', ['$scope', '$http', '$location',
+    ])
+  .controller('UserPageController', ['$scope', '$http', '$location',
     function ($scope, $http, $location) {
       $scope.user = {};
       $scope.meta = '';

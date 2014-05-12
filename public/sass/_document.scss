@@ -7,6 +7,27 @@
 	margin-bottom: 165px;
 }
 
+.how-to-annotate{
+	@include bg($light-gray);
+	border-radius:10px;
+	margin-bottom:20px;
+
+	h2{
+		text-align:center;
+	}
+
+	ol{
+		margin-top:15px;
+	}
+
+	.how-to-annotate-close{
+		position:absolute;
+		top:10px;
+		right:10px;
+		cursor:pointer;
+	}
+}
+
 .annotator-widget{
 	padding: 6px 10px 10px 10px !important;
 	.annotator-item{
@@ -61,3 +82,21 @@
 	}
 }
 
+.how-to-annotate{
+	.how-to-annotate-img{
+		border: 1px solid #ccc;
+	}
+	h2{
+		font-size: 24px;
+		text-align: left;
+		padding-left: 15px;
+		margin-top: 10px;
+	}
+	ol{
+		padding-left: 22px;
+	}
+}
+
+.doc-sponsor{
+	padding-bottom: 5px;
+}
