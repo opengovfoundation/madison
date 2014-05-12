@@ -23,6 +23,21 @@ class Doc extends Eloquent{
 		return $this->hasMany('Date');
 	}
 
+	public function sponsor()
+	{
+		$sponsor = $this->groupSponsor()->first();
+		
+		if(!$groupSponsor) {
+			$sponsor = $this->userSponsor()->first();
+		}
+		
+		if(!$sponsor) {
+			throw new \Exception("Could not identify sponsor");
+		}
+		
+		return $sponsor;
+	}
+	
 	public function userSponsor()
 	{
 		return $this->belongsToMany('User');

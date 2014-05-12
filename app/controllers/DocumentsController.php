@@ -22,7 +22,7 @@ class DocumentsController extends Controller
 		$content = Input::get('content');
 		$contentId = Input::get('content_id');
 		
-		if(!empty($content)) {
+		if(empty($content)) {
 			return Redirect::to('documents')->with('error', "You must provide content to save");
 		}
 		
@@ -46,7 +46,7 @@ class DocumentsController extends Controller
 		$docContent->content = $content;
 		
 		try {
-			DB::transaction(function() use ($docContent, $content, $documentId) {
+			DB::transaction(function() use ($docContent, $content, $documentId, $document) {
 				$docContent->save();
 				$document->indexContent($docContent);
 			});

@@ -15,7 +15,7 @@
 				@else
 					@foreach($docs as $doc)
 						<li>
-							<?php echo HTML::link('dashboard/docs/' . $doc->id, $doc->title); ?>
+							<?php echo HTML::link('documents/edit/' . $doc->id, $doc->title); ?>
 						</li>
 					@endforeach
 				@endif

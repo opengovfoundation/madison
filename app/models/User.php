@@ -5,6 +5,7 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class User extends Eloquent implements UserInterface, RemindableInterface{
 	
@@ -100,6 +101,31 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 
 	public function doc_meta(){
 		return $this->hasMany('DocMeta');
+	}
+	
+	public function getValidSponsors()
+	{
+		$collection = new Collection();
+		
+		$groups = GroupMember::where('user_id', '=', $this->id)
+						     ->whereIn('role', array(Group::ROLE_EDITOR, Group::ROLE_OWNER))
+						     ->get();
+		
+		foreach($groups as $groupMember) {
+			
+			$collection->add($groupMember->group()->first());
+		}
+		
+		$users = UserMeta::where('user_id', '=', $this->id)
+		                  ->where('meta_key', '=', 'independent_author')
+		                  ->where('meta_value', '=', '1')
+		                  ->get();
+		
+		foreach($users as $userMeta) {
+			$collection->add($userMeta->user()->first());
+		}
+
+		return $collection;
 	}
 }
 

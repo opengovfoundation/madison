@@ -18211,17 +18211,37 @@ angular.module('madisonApp.dashboardControllers', [])
         $scope.sponsorOptions = {
           placeholder: "Select Document Sponsor",
           ajax: {
-            url: "/api/user/verify",
+            url: "/api/user/sponsors/all",
             dataType: 'json',
             data: function () {
               return;
             },
             results: function (data) {
               var returned = [];
-              angular.forEach(data, function (verified) {
-                var text = verified.user.fname + " " + verified.user.lname + " - " + verified.user.email;
-
-                returned.push({ id: verified.user.id, text: text });
+              
+              if(!data.success) {
+                  alert(data.message);
+                  return;
+              }
+              
+              angular.forEach(data.sponsors, function (sponsor) {
+                var text = "";
+                
+                switch(sponsor.sponsorType) {
+                	case 'group':
+                		text = "[Group] " + sponsor.name;
+                		break;
+                	case 'user':
+                		text = sponsor.fname + " " + sponsor.lname + " - " + sponsor.email;
+                		break;
+                } 
+                
+                returned.push({ 
+                    id : sponsor.id,
+                    type :  sponsor.sponsorType,
+                    text : text
+                }); 
+                
               });
 
               return {results: returned};

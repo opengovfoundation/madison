@@ -209,6 +209,49 @@ class DocumentApiController extends ApiController{
 		return Response::json($date);
 	}
 
+	public function getAllSponsorsForUser()
+	{
+		$retval = array(
+			'success' => false,
+			'sponsors' => array(),
+			'message' => ""
+		);
+		
+		if(!Auth::check()) {
+			$retval['message'] = "You must be logged in to perform this call";
+			return Response::json($retval);
+		}
+		
+		$sponsors = Auth::user()->getValidSponsors();
+		
+		foreach($sponsors as $sponsor) {
+			
+			switch(true) {
+				case ($sponsor instanceof User):
+					$userSponsor = $sponsor->toArray();
+					$userSponsor['sponsorType'] = 'user';
+					
+					$retval['sponsors'][] = $userSponsor;
+					
+					break;
+				case ($sponsor instanceof Group):
+					
+					$groupSponsor = $sponsor->toArray();
+					$groupSponsor['sponsorType'] = 'group';
+					
+					$retval['sponsors'][] = $groupSponsor;
+					break;
+				default:
+					break;
+			}
+			
+		}
+		
+		$retval['success'] = true;
+		
+		return Response::json($retval);
+	}
+	
 	public function getAllSponsors(){
 		$doc = Doc::with('sponsor')->first();
 		$sponsors = $doc->sponsor;
