@@ -44,7 +44,12 @@ module.exports = function (grunt) {
             'public/bower_components/angular-cookies/angular-cookies.js',
             'public/bower_components/angular-ui/build/angular-ui.min.js',
             'node_modules/twitter-bootstrap-3.0.0/dist/js/bootstrap.min.js',
+            
+            //Datetimepicker and dependencies
             'public/vendor/datetimepicker/datetimepicker.js',
+            'public/bower_components/moment/min/moment.min.js',
+
+            'public/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
             'public/js/controllers.js',
             'public/js/dashboardControllers.js',
             'public/js/services.js',
