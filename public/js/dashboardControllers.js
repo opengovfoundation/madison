@@ -85,6 +85,10 @@ angular.module('madisonApp.dashboardControllers', [])
         var abs = $location.absUrl();
         var id = abs.match(/.*\/(\d+)$/)[1];
 
+        function clean_slug(string) {
+          return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').replace(/ +/g, '-');
+        }
+
         var docDone = $scope.getDoc(id);
 
         $scope.getAllCategories();
@@ -264,8 +268,6 @@ angular.module('madisonApp.dashboardControllers', [])
             angular.forEach(data.categories, function (category) {
               $scope.categories.push(angular.copy(category.name));
             });
-
-            console.log($scope.categories);
           });
       };
 
