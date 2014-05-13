@@ -31,12 +31,6 @@ module.exports = function (grunt) {
         'public/js/app.js'
       ]
     },
-    // browserify: {
-    //   js: {
-    //     src: 'public/js/app.js',
-    //     dest: 'public/build/app.js'
-    //   }
-    // },
     uglify: {
       frontend_target: {
         files: {
@@ -63,7 +57,7 @@ module.exports = function (grunt) {
       },
       options: {
         mangle: false,
-        //beautify: true
+        sourceMap: 'public/build/app.map'
       }
     },
     watch: {
