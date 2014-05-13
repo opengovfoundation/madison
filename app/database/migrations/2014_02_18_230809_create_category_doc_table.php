@@ -16,7 +16,7 @@ class CreateCategoryDocTable extends Migration {
 			$table->integer('doc_id')->unsigned();
 			$table->integer('category_id')->unsigned();
 
-			$table->foreign('doc_id')->references('id')->on('users')->onDelete('cascade');
+			$table->foreign('doc_id')->references('id')->on('docs')->onDelete('cascade');
 			$table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 		});
 	}
