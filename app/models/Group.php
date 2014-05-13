@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
 class Group extends Eloquent
 {
 	public static $timestamp = true;
@@ -131,19 +132,49 @@ class Group extends Eloquent
 		$staffRole->name = "group_{$this->id}_staff";
 		$staffRole->save();
 		
+		$users = array(
+			static::ROLE_OWNER => $this->findUsersByRole(static::ROLE_OWNER),
+			static::ROLE_EDITOR => $this->findUsersByRole(static::ROLE_EDITOR),
+			static::ROLE_STAFF => $this->findUsersByRole(static::ROLE_STAFF)
+		);
+		
+		
+		foreach($users as $role => $userList) {
+			foreach($userList as $userObj) {
+				switch($role) {
+					case static::ROLE_OWNER:
+						$userObj->attachRole($ownerRole);
+						break;
+					case static::ROLE_EDITOR:
+						$userObj->attachRole($editorRole);
+						break;
+					case static::ROLE_STAFF:
+						$userObj->attachRole($staffRole);
+						break;
+				}
+			}
+		}
 	}
 	
 	public function destroyRbacRules()
 	{
 		$permissions = $this->getPermissionsArray();
 		
+		$members = GroupMember::where('group_id', '=', $this->id)->get();
+		
 		$roles = Role::where('name', '=', "group_{$this->id}_owner")
 					 ->orWhere('name', '=', "group_{$this->id}_editor")
 					 ->orWhere('name', '=', "group_{$this->id}_staff")
 					 ->get();
 		
+		var_dump($roles);
+		
 		foreach($roles as $role) {
 			
+			foreach($members as $member) {
+				$user = User::where('id', '=', $member->user_id)->first();
+				$user->detachRole($role);
+			}
 			if($role instanceof Role) {
 				$role->delete();
 			}
@@ -208,6 +239,27 @@ class Group extends Eloquent
 		}
 		
 		return true;
+	}
+	
+	static public function findUsersByRole($role)
+	{
+		if(!static::isValidRole($role)) {
+			return null;
+		}
+		
+		$members = GroupMember::where('role', '=', $role)->get();
+		
+		$retval = new Collection();
+		foreach($members as $member) {
+			
+			$userModel = User::where('id', '=', $member->user_id)->first();
+			
+			if($userModel) {
+				$retval->add($userModel);
+			}
+		}
+		
+		return $retval;
 	}
 	
 	public function findMemberByUserId($userId) 

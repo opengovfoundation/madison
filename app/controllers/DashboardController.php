@@ -38,7 +38,7 @@ class DashboardController extends BaseController{
 		}
 		
 		$groups = Group::where('status', '!=', Group::STATUS_ACTIVE)->get();
-		
+
 		$data = array(
 			'page_id' => 'verify_groups',
 			'page_title' => 'Verify Groups',
