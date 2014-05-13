@@ -20,7 +20,10 @@ angular.module('madisonApp.dashboardControllers', [])
       };
 
       $scope.update = function (request, status) {
-        $http.post('/api/user/verify', {'request': request, 'status': status})
+        $http.post('/api/user/verify', {
+          'request': request,
+          'status': status
+        })
           .success(function () {
             request.meta_value = status;
           })
@@ -47,7 +50,9 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.saveAdmin = function (admin) {
         admin.saved = false;
 
-        $http.post('/api/user/admin', {'admin': admin})
+        $http.post('/api/user/admin', {
+          'admin': admin
+        })
           .success(function () {
             admin.saved = true;
           })
@@ -66,7 +71,10 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.doc = {};
       $scope.sponsor = {};
       $scope.status = {};
-      $scope.newdate = {label: '', date: new Date()};
+      $scope.newdate = {
+        label: '',
+        date: new Date()
+      };
       $scope.verifiedUsers = [];
       $scope.categories = [];
       $scope.suggestedCategories = [];
@@ -94,7 +102,9 @@ angular.module('madisonApp.dashboardControllers', [])
           $scope.getDocSponsor().then(function () {
             $scope.$watch('sponsor', function () {
               if (initSponsor) {
-                $timeout(function () { initSponsor = false; });
+                $timeout(function () {
+                  initSponsor = false;
+                });
               } else {
                 $scope.saveSponsor();
               }
@@ -104,7 +114,9 @@ angular.module('madisonApp.dashboardControllers', [])
           $scope.getDocStatus().then(function () {
             $scope.$watch('status', function () {
               if (initStatus) {
-                $timeout(function () { initStatus = false; });
+                $timeout(function () {
+                  initStatus = false;
+                });
               } else {
                 $scope.saveStatus();
               }
@@ -114,7 +126,9 @@ angular.module('madisonApp.dashboardControllers', [])
           $scope.getDocCategories().then(function () {
             $scope.$watch('categories', function () {
               if (initCategories) {
-                $timeout(function () { initCategories = false; });
+                $timeout(function () {
+                  initCategories = false;
+                });
               } else {
                 $scope.saveCategories();
               }
@@ -125,7 +139,9 @@ angular.module('madisonApp.dashboardControllers', [])
 
           $scope.$watchCollection('[doc.slug, doc.title, doc.content.content]', function () {
             if (initDoc) {
-              $timeout(function () { initDoc = false; });
+              $timeout(function () {
+                initDoc = false;
+              });
             } else {
               $scope.doc.slug = clean_slug($scope.doc.slug);
               $scope.saveDoc();
@@ -136,37 +152,69 @@ angular.module('madisonApp.dashboardControllers', [])
 
       $scope.setSelectOptions = function () {
         $scope.categoryOptions = {
+          placeholder: "Add document categories",
           multiple: true,
           simple_tags: true,
+          tokenSeparators: [","],
           tags: function () {
             return $scope.suggestedCategories;
           },
           results: function () {
             return $scope.categories;
           },
-          initSelection: true
+          initSelection: function (element, callback) {
+            var returned = [];
+            angular.forEach($scope.categories, function (category, index) {
+              returned.push(angular.copy({id: index, text: category}));
+            });
+
+            callback(returned);
+          }
         };
 
         /*jslint unparam: true*/
         $scope.statusOptions = {
           placeholder: "Select Document Status",
+          ajax: {
+            url: "/api/docs/statuses",
+            dataType: 'json',
+            data: function (term, page) {
+              return;
+            },
+            results: function (data, page) {
+              var returned = [];
+              angular.forEach(data, function (status) {
+                returned.push({
+                  id: status.id,
+                  text: status.label
+                });
+              });
+              return {
+                results: returned
+              };
+            }
+          },
           data: function () {
             return $scope.suggestedStatuses;
           },
           results: function () {
-            console.log($scope.status, "Scope status");
             return $scope.status;
           },
           createSearchChoice: function (term) {
-            return { id: term, text: term};
+            return {
+              id: term,
+              text: term
+            };
           },
           initSelection: function (element, callback) {
-            callback(angular.copy($scope.status));
-          }
+            callback($scope.status);
+          },
+          allowClear: true
         };
 
         $scope.sponsorOptions = {
           placeholder: "Select Document Sponsor",
+          allowClear: true,
           ajax: {
             url: "/api/user/verify",
             dataType: 'json',
@@ -178,10 +226,15 @@ angular.module('madisonApp.dashboardControllers', [])
               angular.forEach(data, function (verified) {
                 var text = verified.user.fname + " " + verified.user.lname + " - " + verified.user.email;
 
-                returned.push({ id: verified.user.id, text: text });
+                returned.push({
+                  id: verified.user.id,
+                  text: text
+                });
               });
 
-              return {results: returned};
+              return {
+                results: returned
+              };
             }
           },
           initSelection: function (element, callback) {
@@ -207,6 +260,12 @@ angular.module('madisonApp.dashboardControllers', [])
         return $http.get('/api/docs/' + id)
           .success(function (data) {
             $scope.doc = data;
+
+            angular.forEach(data.categories, function (category) {
+              $scope.categories.push(angular.copy(category.name));
+            });
+
+            console.log($scope.categories);
           });
       };
 
@@ -223,13 +282,18 @@ angular.module('madisonApp.dashboardControllers', [])
         if ($scope.newdate.label !== '') {
           $scope.newdate.date = $filter('date')(newDate, 'short');
 
-          $http.post('/api/docs/' + $scope.doc.id + '/dates', {date: $scope.newdate})
+          $http.post('/api/docs/' + $scope.doc.id + '/dates', {
+            date: $scope.newdate
+          })
             .success(function (data) {
               data.date = Date.parse(data.date);
               data.$changed = false;
               $scope.dates.push(data);
 
-              $scope.newdate = {label: '', date: new Date()};
+              $scope.newdate = {
+                label: '',
+                date: new Date()
+              };
             }).error(function (data) {
               console.error("Unable to save date: %o", data);
             });
@@ -250,7 +314,9 @@ angular.module('madisonApp.dashboardControllers', [])
         var sendDate = angular.copy(date);
         sendDate.date = $filter('date')(sendDate.date, 'short');
 
-        return $http.put('/api/dates/' + date.id, {date: sendDate})
+        return $http.put('/api/dates/' + date.id, {
+          date: sendDate
+        })
           .success(function (data) {
             date.$changed = false;
             console.log("Date saved successfully: %o", data);
@@ -303,7 +369,10 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.getDocSponsor = function () {
         return $http.get('/api/docs/' + $scope.doc.id + '/sponsor')
           .success(function (data) {
-            $scope.sponsor = angular.copy({id: data.id, text: data.fname + " " + data.lname + " - " + data.email});
+            $scope.sponsor = {
+              id: data.id,
+              text: data.fname + " " + data.lname + " - " + data.email
+            };
           }).error(function (data) {
             console.error("Error getting document sponsor: %o", data);
           });
@@ -312,7 +381,14 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.getDocStatus = function () {
         return $http.get('/api/docs/' + $scope.doc.id + '/status')
           .success(function (data) {
-            $scope.status = angular.copy({id: data.id, text: data.label});
+            if (data.id === 'undefined') {
+              $scope.status = null;
+            } else {
+              $scope.status = {
+                id: data.id,
+                text: data.label
+              };
+            }
           }).error(function (data) {
             console.error("Error getting document status: %o", data);
           });
@@ -342,7 +418,9 @@ angular.module('madisonApp.dashboardControllers', [])
       };
 
       $scope.saveStatus = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/status', {status: $scope.status})
+        return $http.post('/api/docs/' + $scope.doc.id + '/status', {
+          status: $scope.status
+        })
           .success(function (data) {
             console.log("Status saved successfully: %o", data);
           }).error(function (data) {
@@ -351,7 +429,9 @@ angular.module('madisonApp.dashboardControllers', [])
       };
 
       $scope.saveSponsor = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/sponsor', {'sponsor': $scope.sponsor})
+        return $http.post('/api/docs/' + $scope.doc.id + '/sponsor', {
+          'sponsor': $scope.sponsor
+        })
           .success(function (data) {
             console.log("Sponsor saved successfully: %o", data);
           }).error(function (data) {
@@ -360,7 +440,9 @@ angular.module('madisonApp.dashboardControllers', [])
       };
 
       $scope.saveCategories = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/categories', {'categories': $scope.categories})
+        return $http.post('/api/docs/' + $scope.doc.id + '/categories', {
+          'categories': $scope.categories
+        })
           .success(function (data) {
             console.log("Categories saved successfully: %o", data);
           }).error(function (data) {

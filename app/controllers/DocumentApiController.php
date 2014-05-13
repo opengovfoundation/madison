@@ -11,7 +11,7 @@ class DocumentApiController extends ApiController{
 	}
 
 	public function getDoc($doc){
-		$doc = Doc::with('content')->find($doc);
+		$doc = Doc::with('content')->with('categories')->find($doc);
 
 		return Response::json($doc);
 	}
@@ -84,13 +84,13 @@ class DocumentApiController extends ApiController{
 		$categoryIds = array();
 
 		foreach($categories as $category){
-			$toAdd = Category::where('name', $category)->first();
+			$toAdd = Category::where('name', $category['text'])->first();
 
 			if(!isset($toAdd)){
 				$toAdd = new Category();
 			}
 
-			$toAdd->name = $category;
+			$toAdd->name = $category['text'];
 			$toAdd->save();
 
 			array_push($categoryIds, $toAdd->id);

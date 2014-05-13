@@ -68,7 +68,7 @@
 							<div class="form-group">
 								<label for="categories" class="col-sm-2 control-label">Categories: </label>
 								<div class="col-sm-10 select2-full-width">
-									<input type="hidden" ui-select2="categoryOptions" ng-model="categories" ng-change="categoriesChange(categories)" />
+									<div name="categories" type="hidden" ui-select2="categoryOptions" ng-model="categories" ng-change="categoriesChange(categories)" multiple ></div>
 								</div>
 							</div>
 						</form>
