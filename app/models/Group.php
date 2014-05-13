@@ -52,6 +52,112 @@ class Group extends Eloquent
 		return array(static::ROLE_OWNER, static::ROLE_EDITOR, static::ROLE_STAFF);
 	}
 	
+	protected function getPermissionsArray()
+	{
+		return array(
+			array(
+				'name' => "group_{$this->id}_create_document",
+				'display_name' => "Create Documents"
+			),
+			array(
+				'name' => "group_{$this->id}_edit_document",
+				'display_name' => 'Edit Documents'
+			),
+			array(
+				'name' => "group_{$this->id}_delete_document",
+				'display_name' => "Delete Documents"
+			),
+			array(
+				'name' => "group_{$this->id}_manage_document",
+				'display_name' => "Manage Documents"
+			)
+		);
+	}
+	
+	public function createRbacRules()
+	{
+		$this->destroyRbacRules();
+		
+		$ownerRole = new Role();
+		$ownerRole->name = "group_{$this->id}_owner";
+		$ownerRole->save();
+		
+		$permissions = $this->getPermissionsArray();
+		
+		$permIds = array();
+		
+		$permLookup = array();
+		
+		foreach($permissions as $perm) {
+			$permModel = new Permission();
+			
+			foreach($perm as $key => $val) {
+				$permModel->$key = $val;
+			}
+			
+			$permModel->save();
+			
+			$permIds[] = $permModel->id;
+			
+			switch($perm['name']) {
+				case "group_{$this->id}_create_document":
+					$permLookup['create'] = $permModel->id;
+					break;
+				case "group_{$this->id}_edit_document":
+					$permLookup['edit'] = $permModel->id;
+					break;
+				case "group_{$this->id}_delete_document":
+					$permLookup['delete'] = $permModel->id;
+					break;
+				case "group_{$this->id}_manage_document":
+					$permLookup['manage'] = $permModel->id;
+					break;
+			}
+		}
+		
+		$ownerRole->perms()->sync($permIds);
+		
+		$editorRole = new Role();
+		$editorRole->name = "group_{$this->id}_editor";
+		$editorRole->save();
+		
+		$editorRole->perms()->sync(array(
+			$permLookup['create'],
+			$permLookup['edit'],
+			$permLookup['manage']
+		));
+		
+		$staffRole = new Role();
+		$staffRole->name = "group_{$this->id}_staff";
+		$staffRole->save();
+		
+	}
+	
+	public function destroyRbacRules()
+	{
+		$permissions = $this->getPermissionsArray();
+		
+		$roles = Role::where('name', '=', "group_{$this->id}_owner")
+					 ->orWhere('name', '=', "group_{$this->id}_editor")
+					 ->orWhere('name', '=', "group_{$this->id}_staff")
+					 ->get();
+		
+		foreach($roles as $role) {
+			
+			if($role instanceof Role) {
+				$role->delete();
+			}
+		}
+		
+		foreach($permissions as $permData) {
+			$perm = Permission::where('name', '=', $permData['name'])->first();
+			
+			if($perm instanceof Permission) {
+				$perm->delete();
+			}
+		}
+	}
+	
 	public function members() 
 	{
 		return $this->hasMany('GroupMember');
