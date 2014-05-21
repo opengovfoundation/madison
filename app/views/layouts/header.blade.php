@@ -7,7 +7,8 @@
 
 	<ul>
 		<li class="link-about"><a href="{{ URL::to('about') }}">About</a></li>
-		<li class="link-faq"><a href="{{ URL::to('faq') }}">FAQ</a></li>		
+		<li class="link-faq"><a href="{{ URL::to('faq') }}">FAQ</a></li>	
+		<li class="link-support"><a href="https://rally.org/opengovfoundation" target="_blank">Donate</a></li>	
 		@if(Auth::check())
 			<li class="dropdown">
 				<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ Auth::user()->fname }} <span class="caret"></span></a>
