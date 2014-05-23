@@ -2,6 +2,7 @@
 /*global getAnnotationService*/
 /*global user*/
 /*global doc*/
+/*global diff_match_patch*/
 Annotator.Plugin.Madison = function () {
   Annotator.Plugin.apply(this, arguments);
 };
@@ -46,6 +47,14 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       currentComments.removeClass('hidden');
 
       $('#current-comments').collapse(true);
+    });
+
+    this.annotator.subscribe('annotationViewerTextField', function (field, annotation) {
+      var jField = $(field);
+      var differ = new diff_match_patch();
+      var diffs = differ.diff_main(annotation.quote, annotation.text);
+      var html = differ.diff_prettyHtml(diffs);
+      jField.find('p').html(html);
     });
 
     //Add Madison-specific fields to the viewer when Annotator loads it
