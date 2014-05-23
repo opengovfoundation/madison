@@ -3,21 +3,21 @@
 /*global user*/
 /*global doc*/
 /*global diff_match_patch*/
-Annotator.Plugin.Madison = function () {
+Annotator.Plugin.Madison = function() {
   Annotator.Plugin.apply(this, arguments);
 };
 
 $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   events: {},
   options: {},
-  pluginInit: function () {
+  pluginInit: function() {
 
     /**
      *  Subscribe to Store's `annotationsLoaded` event
      *    Stores all annotation objects provided by Store in the window
      *    Adds all annotations to the sidebar
      **/
-    this.annotator.subscribe('annotationsLoaded', function (annotations) {
+    this.annotator.subscribe('annotationsLoaded', function(annotations) {
 
       //Set the annotations in the annotationService
       var annotationService = getAnnotationService();
@@ -28,7 +28,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
      *  Subscribe to Annotator's `annotationCreated` event
      *    Adds new annotation to the sidebar
      */
-    this.annotator.subscribe('annotationCreated', function (annotation) {
+    this.annotator.subscribe('annotationCreated', function(annotation) {
       var annotationService = getAnnotationService();
       annotationService.addAnnotation(annotation);
 
@@ -40,7 +40,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       }
     });
 
-    this.annotator.subscribe('commentCreated', function (comment) {
+    this.annotator.subscribe('commentCreated', function(comment) {
       comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
       var currentComments = $('#current-comments');
       currentComments.append(comment);
@@ -49,7 +49,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       $('#current-comments').collapse(true);
     });
 
-    this.annotator.subscribe('annotationViewerTextField', function (field, annotation) {
+    this.annotator.subscribe('annotationViewerTextField', function(field, annotation) {
       var jField = $(field);
       var differ = new diff_match_patch();
       var diffs = differ.diff_main(annotation.quote, annotation.text);
@@ -59,16 +59,49 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
     //Add Madison-specific fields to the viewer when Annotator loads it
     this.annotator.viewer.addField({
-      load: function (field, annotation) {
+      load: function(field, annotation) {
         this.addNoteLink(field, annotation);
         this.addNoteActions(field, annotation);
         this.addComments(field, annotation);
       }.bind(this)
     });
+
+    this.annotator.editor.addField({
+      load: function(field, annotation) {
+        this.addEditFields(field, annotation);
+      }.bind(this)
+    });
   },
-  addComments: function (field, annotation) {
+  addEditFields: function(field, annotation) {
+
+    console.log(annotation);
+    var newField = $(field);
+    var toAdd = $('<div class="annotator-editor-edit-wrapper"></div>');
+    var buttonGroup = $('<div class="btn-group"></div>');
+    var annotateButton = $('<button type="button" class="btn btn-default active">Annotate</button>').click(function() {
+      $(this).addClass('active');
+      $(this).siblings().each(function (sibling) {
+        $(this).removeClass('active');
+      });
+      $('#annotator-field-0').val('');
+      $('$annotator-field-1').val('');
+    });
+    var editButton = $('<button type="button" class="btn btn-default">Edit</button>').click(function () {
+      $(this).addClass('active');
+      $(this).siblings().each(function (sibling) {
+        $(this).removeClass('active');
+      });
+      $('#annotator-field-0').val(annotation.quote);
+      $('#annotator-field-1').val('edit, ');
+    });
+
+    buttonGroup.append(annotateButton, editButton);
+    toAdd.append(buttonGroup);
+    newField.html(toAdd);
+  },
+  addComments: function(field, annotation) {
     //Add comment wrapper and collapse the comment thread
-    var commentsHeader = $('<div class="comment-toggle" data-toggle-"collapse" data-target="#current-comments">Comments <span id="comment-caret" class="caret caret-right"></span></button>').click(function () {
+    var commentsHeader = $('<div class="comment-toggle" data-toggle-"collapse" data-target="#current-comments">Comments <span id="comment-caret" class="caret caret-right"></span></button>').click(function() {
       $('#current-comments').collapse('toggle');
       $('#comment-caret').toggleClass('caret-right');
     });
@@ -82,14 +115,14 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     var currentComments = $('<div id="current-comments" class="current-comments collapse"></div>');
 
     /*jslint unparam: true*/
-    $.each(annotation.comments, function (index, comment) {
+    $.each(annotation.comments, function(index, comment) {
       comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
       currentComments.append(comment);
     });
     /*jslint unparam: false*/
 
     //Collapse the comment thread on load
-    currentComments.ready(function () {
+    currentComments.ready(function() {
       $('#existing-comments').collapse({
         toggle: false
       });
@@ -100,7 +133,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       var annotationComments = $('<div class="annotation-comments"></div>');
       var commentText = $('<input type="text" class="form-control" />');
       var commentSubmit = $('<button type="button" class="btn btn-primary" >Submit</button>');
-      commentSubmit.click(function () {
+      commentSubmit.click(function() {
         this.createComment(commentText, annotation);
       }.bind(this));
       annotationComments.append(commentText);
@@ -112,7 +145,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
     $(field).append(commentsHeader, currentComments);
   },
-  addNoteActions: function (field, annotation) {
+  addNoteActions: function(field, annotation) {
     //Add actions ( like / dislike / error) to annotation viewer
     var annotationAction = $('<div></div>').addClass('annotation-action');
     var generalAction = $('<span></span>').addClass('glyphicon').data('annotation-id', annotation.id);
@@ -137,29 +170,29 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
       var that = this;
 
-      annotationLike.addClass('logged-in').click(function () {
+      annotationLike.addClass('logged-in').click(function() {
         that.addLike(annotation, this);
       });
 
-      annotationDislike.addClass('logged-in').click(function () {
+      annotationDislike.addClass('logged-in').click(function() {
         that.addDislike(annotation, this);
       });
 
-      annotationFlag.addClass('logged-in').click(function () {
+      annotationFlag.addClass('logged-in').click(function() {
         that.addFlag(annotation, this);
       });
     }
 
     $(field).append(annotationAction);
   },
-  addNoteLink: function (field, annotation) {
+  addNoteLink: function(field, annotation) {
     //Add link to annotation
     var noteLink = $('<div class="annotation-link"></div>');
     var annotationLink = $('<a></a>').attr('href', window.location.origin + '/annotation/' + annotation.id).text('View Annotation');
     noteLink.append(annotationLink);
     $(field).append(noteLink);
   },
-  createComment: function (textElement, annotation) {
+  createComment: function(textElement, annotation) {
     var text = textElement.val();
     textElement.val('');
 
@@ -171,14 +204,14 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     //POST request to add user's comment
     $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/comments', {
       comment: comment
-    }, function () {
+    }, function() {
       annotation.comments.push(comment);
 
       return this.annotator.publish('commentCreated', comment);
     }.bind(this));
   },
-  addLike: function (annotation, element) {
-    $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/likes', function (data) {
+  addLike: function(annotation, element) {
+    $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/likes', function(data) {
       element = $(element);
       element.children('.action-count').text(data.likes);
       element.siblings('.glyphicon').removeClass('selected');
@@ -199,8 +232,8 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       annotation.user_action = 'like';
     });
   },
-  addDislike: function (annotation, element) {
-    $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/dislikes', function (data) {
+  addDislike: function(annotation, element) {
+    $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/dislikes', function(data) {
       element = $(element);
       element.children('.action-count').text(data.dislikes);
       element.siblings('.glyphicon').removeClass('selected');
@@ -221,8 +254,8 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       annotation.user_action = 'dislike';
     });
   },
-  addFlag: function (annotation, element) {
-    $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/flags', function (data) {
+  addFlag: function(annotation, element) {
+    $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/flags', function(data) {
       element = $(element);
       element.children('.action-count').text(data.flags);
       element.siblings('.glyphicon').removeClass('selected');
