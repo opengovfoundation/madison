@@ -474,6 +474,18 @@ textarea.form-inline{
 	}
 }
 
+.home-select2-container{
+	.select2-container{
+		margin-top:10px;
+		height:34px;
+
+		.select2-choice{
+			height:34px;
+			line-height:33px;
+		}
+	}
+}
+
 .select2-container{
 	width:100%;
 	margin-top: 5px;
