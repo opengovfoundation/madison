@@ -23,11 +23,29 @@ class Doc extends Eloquent{
 		return $this->hasMany('Date');
 	}
 
+	public function canUserEdit($user)
+	{
+		$sponsor = $this->sponsor();
+		
+		switch(true) {
+			case $sponsor instanceof User:
+				return $sponsor->can('independent_author_create_doc');
+				break;
+			case $sponsor instanceof Group:
+				return $sponsor->userHasRole($user, Group::ROLE_EDITOR) || $group->userHasRole($user, Group::ROLE_OWNER);
+				break;
+			default:
+				throw new \Exception("Unknown Sponsor Type");
+		}
+		
+		return false;
+	}
+	
 	public function sponsor()
 	{
 		$sponsor = $this->groupSponsor()->first();
 		
-		if(!$groupSponsor) {
+		if(!$sponsor) {
 			$sponsor = $this->userSponsor()->first();
 		}
 		

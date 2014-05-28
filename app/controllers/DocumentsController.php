@@ -42,6 +42,10 @@ class DocumentsController extends Controller
 			return Redirect::to('documents')->with('error', "Could not locate the document");
 		}
 		
+		if(!$document->canUserEdit(Auth::user())) {
+			return Response::error('401');
+		}
+		
 		$docContent->doc_id = $documentId;
 		$docContent->content = $content;
 		
@@ -67,6 +71,10 @@ class DocumentsController extends Controller
 		
 		if(is_null($doc)) {
 			return Response::error('404');
+		}
+		
+		if(!$doc->canUserEdit(Auth::user())) {
+			return Response::error('401');
 		}
 		
 		return View::make('documents.edit', array(
