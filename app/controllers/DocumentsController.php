@@ -101,12 +101,31 @@ class DocumentsController extends Controller
 				'title' => $input['title']
 			);
 			
+			$user = Auth::user();
+			
 			$activeGroup = Session::get('activeGroupId');
 			
 			if($activeGroup > 0) {
+				
+				$group = Group::where('id', '=', $activeGroup)->first();
+				
+				if(!$group) {
+					return Redirect::to('documents')->withInput()->with('error', 'Invalid Group');
+				}
+				
+				if(!$group->userHasRole($user, Group::ROLE_EDITOR) && !$group->userHasRole($user, Group::ROLE_OWNER)) {
+					return Redirect::to('documents')->withInput()->with('error', 'You do not have permission to create a document for this group');
+				}
+				
 				$docOptions['sponsor'] = $activeGroup;
 				$docOptions['sponsorType'] = Doc::SPONSOR_TYPE_GROUP;
+			
 			} else {
+				
+				if(!$user->can('independent_author_create_doc')) {
+					return Redirect::to('documents')->withInput()->with('error', 'You do not have permission to create a document as an individual');
+				}
+				
 				$docOptions['sponsor'] = Auth::user()->id;
 				$docOptions['sponsorType'] = Doc::SPONSOR_TYPE_INDIVIDUAL;
 			}

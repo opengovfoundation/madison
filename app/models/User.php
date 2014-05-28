@@ -65,6 +65,28 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		return $this->hasMany('UserMeta');
 	}
 
+	public function setIndependentAuthor($bool)
+	{
+		if($bool) {
+			DB::transaction(function() {
+				$metaKey = UserMeta::where('user_id', '=', $this->id)
+							       ->where('meta_key', '=', 'independent_author')
+								   ->first();
+				
+				if(!$metaKey) {
+					$metakey = new UserMeta();
+					$metaKey->user_id = $this->id;
+					$metaKey->meta_key = 'independent_author';
+				}
+				
+				$metaKey->meta_value = $bool ? 1 : 0;
+				$metaKey->save();
+				
+				
+			});
+		}
+	}
+	
 	public function admin_contact($setting = null){
 
 		if(isset($setting)){

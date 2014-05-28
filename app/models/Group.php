@@ -40,6 +40,24 @@ class Group extends Eloquent
 		return false;
 	}
 	
+	public function getRoleId($role)
+	{
+		$role = strtolower($role);
+		
+		if(!static::isValidRole($role)) {
+			throw new \Exception("Invalid Role");
+		}
+		
+		return "group_{$this->id}_$role";
+	}
+	
+	public function userHasRole($user, $role)
+	{
+		$roleId = $this->getRoleId($role);
+		
+		return $user->can($roleId);
+	}
+	
 	static public function getRoles($forHtml = false)
 	{
 		if($forHtml) {

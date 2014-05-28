@@ -16,7 +16,7 @@ class RbacSeeder extends Seeder
 		'VerifyUsers' => array(
 			'name' => "admin_verify_users",
 			'display_name' => "Verify Users"
-		)
+		),
 	);
 	
 	public function run()
@@ -50,5 +50,16 @@ class RbacSeeder extends Seeder
 		
 		$user = User::where('email', '=', $creds['admin_email'])->first();
 		$user->attachRole($admin);
+		
+		$independentAuthor = new Role();
+		$independentAuthor->name = "IndependentAuthor";
+		$independentAuthor->save();
+		
+		$createDocPerm = new Permission();
+		$createDocPerm->name = "independent_author_create_doc";
+		$createDocPerm->display_name = "Independent Authoring";
+		$createDocPerm->save();
+		
+		$independentAuthor->perms()->sync(array($createDocPerm->id));
 	}
 }
