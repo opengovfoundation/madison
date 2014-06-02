@@ -8,7 +8,9 @@
 	<ul>
 		
 		<li class="link-about"><a href="{{ URL::to('about') }}">About</a></li>
-		<li class="link-faq"><a href="{{ URL::to('faq') }}">FAQ</a></li>		
+		<li class="link-faq"><a href="{{ URL::to('faq') }}">FAQ</a></li>	
+		<li class="link-support"><a href="https://rally.org/opengovfoundation" target="_blank">Donate</a></li>	
+		<li class="link-subscribe"><a href="http://opengovfoundation.us6.list-manage.com/subscribe?u=9d450bf68b3df1185fc9f62b2&id=40a5a16e19" target="_blank">Subscribe</a></li>
 		@if(Auth::check())
 			<li class="dropdown">
 				<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ Auth::user()->fname }} <span class="caret"></span></a>
@@ -21,7 +23,6 @@
 					@if(Auth::user()->hasRole('Admin'))
 					<li><a href="{{ URL::to('dashboard') }}">Administrative Dashboard</a></li>
 					@endif
-					<!-- <li class="link-help"><a href="#" class="disabled coming-feature">Help</a></li> -->
 					<li class="link-logout"><a href="{{ URL::to('logout') }}">Logout</a></li>
 				</ul>
 			</li>

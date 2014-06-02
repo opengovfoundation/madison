@@ -31,12 +31,6 @@ module.exports = function (grunt) {
         'public/js/app.js'
       ]
     },
-    // browserify: {
-    //   js: {
-    //     src: 'public/js/app.js',
-    //     dest: 'public/build/app.js'
-    //   }
-    // },
     uglify: {
       frontend_target: {
         files: {
@@ -44,13 +38,19 @@ module.exports = function (grunt) {
             'public/vendor/jquery/jquery-1.10.2.js',
             'public/vendor/select2/select2.js',
             'public/vendor/underscore.min.js',
+            'public/bower_components/google-diff-match-patch-js/diff_match_patch.js',
             'node_modules/angular/lib/angular.min.js',
-            //'public/js/angular.js',
             'node_modules/angular-bootstrap/ui-bootstrap.js',
             'node_modules/angular-animate/angular-animate.min.js',
             'public/bower_components/angular-cookies/angular-cookies.js',
             'public/bower_components/angular-ui/build/angular-ui.min.js',
             'node_modules/twitter-bootstrap-3.0.0/dist/js/bootstrap.min.js',
+
+            //Datetimepicker and dependencies
+            'public/vendor/datetimepicker/datetimepicker.js',
+            'public/bower_components/moment/min/moment.min.js',
+
+            'public/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
             'public/js/controllers.js',
             'public/js/dashboardControllers.js',
             'public/js/services.js',
@@ -63,7 +63,7 @@ module.exports = function (grunt) {
       },
       options: {
         mangle: false,
-        //beautify: true
+        sourceMap: 'public/build/app.map'
       }
     },
     watch: {

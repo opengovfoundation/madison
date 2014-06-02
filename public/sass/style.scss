@@ -474,15 +474,21 @@ textarea.form-inline{
 	}
 }
 
-.select2-container{
-	width:72%;
-	float: left;
+.home-select2-container{
+	.select2-container{
+		margin-top:10px;
+		height:34px;
+
+		.select2-choice{
+			height:34px;
+			line-height:33px;
+		}
+	}
 }
 
-#s2id_dateSortSelect{
-	//margin-left: 8px;
-	float: right;
-	width: 25%;
+.select2-container{
+	width:100%;
+	margin-top: 5px;
 }
 
 .user-info h1{
