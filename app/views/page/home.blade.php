@@ -9,13 +9,13 @@
 		<select ui-select2="select2Config" ng-model="select2">
 			<option value=""></option>
 			<optgroup label="Category">
-				<option value="@{{ category }}" ng-repeat="category in categories">@{{ category }}</option>
+				<option value="category_@{{ category.id }}" ng-repeat="category in categories">@{{ category.name }}</option>
 			</optgroup>
 			<optgroup label="Sponsor">
-				<option value="@{{ sponsor.id }}" ng-repeat="sponsor in sponsors">@{{ sponsor.fname }} @{{ sponsor.lname }}</option>
+				<option value="sponsor_@{{ sponsor.id }}" ng-repeat="sponsor in sponsors">@{{ sponsor.fname }} @{{ sponsor.lname }}</option>
 			</optgroup>
 			<optgroup label="Status">
-				<option value="@{{ status.id}}" ng-repeat="status in statuses">@{{ status.label}}</option>
+				<option value="status_@{{ status.id}}" ng-repeat="status in statuses">@{{ status.label}}</option>
 			</optgroup>
 		</select>
 	</div>

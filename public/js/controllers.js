@@ -38,7 +38,7 @@ angular.module('madisonApp.controllers', [])
           $scope.docs.push(doc);
 
           $scope.parseDocMeta(doc.categories, 'categories');
-          $scope.parseDocMeta(doc.sponsor, 'sponsor');
+          $scope.parseDocMeta(doc.sponsor, 'sponsors');
           $scope.parseDocMeta(doc.statuses, 'statuses');
 
           angular.forEach(doc.dates, function (date) {
@@ -60,7 +60,7 @@ angular.module('madisonApp.controllers', [])
             case 'categories':
               $scope.categories.push(item);
               break;
-            case 'sponsor':
+            case 'sponsors':
               $scope.sponsors.push(item);
               break;
             case 'statuses':
@@ -80,27 +80,36 @@ angular.module('madisonApp.controllers', [])
         if ($scope.select2 !== undefined && $scope.select2 !== '') {
           var cont = true;
 
-          angular.forEach(doc.categories, function (category) {
-            if (category.name === $scope.select2 && cont) {
-              show = true;
-              cont = false;
-            }
-          });
+          var select2 = $scope.select2.split('_');
+          var type = select2[0];
+          var value = parseInt(select2[1], 10);
 
-          angular.forEach(doc.sponsor, function (sponsor) {
-            if (sponsor.id === $scope.select2 && cont) {
-              show = true;
-              cont = false;
-            }
-          });
-
-          angular.forEach(doc.statuses, function (status) {
-            if (status.id === $scope.select2 && cont) {
-              show = true;
-              cont = false;
-            }
-          });
-
+          switch (type) {
+          case 'category':
+            angular.forEach(doc.categories, function (category) {
+              if (category.id === value && cont) {
+                show = true;
+                cont = false;
+              }
+            });
+            break;
+          case 'sponsor':
+            angular.forEach(doc.sponsor, function (sponsor) {
+              if (+sponsor.id === value && cont) {
+                show = true;
+                cont = false;
+              }
+            });
+            break;
+          case 'status':
+            angular.forEach(doc.statuses, function (status) {
+              if (+status.id === value && cont) {
+                show = true;
+                cont = false;
+              }
+            });
+            break;
+          }
         } else {
           show = true;
         }
