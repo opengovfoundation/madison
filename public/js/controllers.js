@@ -13,19 +13,64 @@ angular.module('madisonApp.controllers', [])
       $scope.docSort = "created_at";
       $scope.reverse = true;
 
-      $scope.init = function () {
-        $scope.getDocs();
+      $scope.select2Config = {
+        multiple: true,
+        allowClear: true,
+        placeholder: "Filter documents by category, sponsor, or status"
+      };
 
-        $scope.select2Config = {
-          multiple: true,
-          allowClear: true,
-          placeholder: "Filter documents by category, sponsor, or status"
-        };
+      $scope.dateSortConfig = {
+        allowClear: true,
+        placeholder: "Sort By Date"
+      };
 
-        $scope.dateSortConfig = {
-          allowClear: true,
-          placeholder: "Sort By Date"
-        };
+      //Retrieve all docs
+      $http.get('/api/docs')
+        .success(function (data) {
+          $scope.parseDocs(data);
+        })
+        .error(function (data) {
+          console.error("Unable to get documents: %o", data);
+        });
+
+      $scope.parseDocs = function (docs) {
+        angular.forEach(docs, function (doc) {
+          $scope.docs.push(doc);
+
+          $scope.parseDocMeta(doc.categories, 'categories');
+          $scope.parseDocMeta(doc.sponsor, 'sponsor');
+          $scope.parseDocMeta(doc.statuses, 'statuses');
+
+          angular.forEach(doc.dates, function (date) {
+            date.date = Date.parse(date.date);
+          });
+        });
+      };
+
+      $scope.parseDocMeta = function (collection, name) {
+        if (collection.length === 0) {
+          return;
+        }
+
+        angular.forEach(collection, function (item) {
+          var found = $filter('getById')($scope[name], item.id);
+
+          if (found === null) {
+            switch (name) {
+            case 'categories':
+              $scope.categories.push(item);
+              break;
+            case 'sponsor':
+              $scope.sponsors.push(item);
+              break;
+            case 'statuses':
+              $scope.statuses.push(item);
+              break;
+            default:
+              console.error('Unknown meta name: ' + name);
+            }
+          }
+        });
       };
 
       $scope.docFilter = function (doc) {
@@ -61,49 +106,6 @@ angular.module('madisonApp.controllers', [])
         }
 
         return show;
-      };
-
-      $scope.getDocs = function () {
-        $http.get('/api/docs')
-          .success(function (data) {
-
-            angular.forEach(data, function (doc) {
-
-              $scope.docs.push(doc);
-
-              angular.forEach(doc.categories, function (category) {
-                var found = $filter('filter')($scope.categories, category, true);
-
-                if (!found.length) {
-                  $scope.categories.push(category.name);
-                }
-              });
-
-              angular.forEach(doc.sponsor, function (sponsor) {
-                var found = $filter('filter')($scope.sponsors, sponsor, true);
-
-                if (!found.length) {
-                  $scope.sponsors.push(sponsor);
-                }
-              });
-
-              angular.forEach(doc.statuses, function (status) {
-                var found = $filter('filter')($scope.statuses, status, true);
-
-                if (!found.length) {
-                  $scope.statuses.push(status);
-                }
-              });
-
-              angular.forEach(doc.dates, function (date) {
-                date.date = Date.parse(date.date);
-              });
-            });
-
-          })
-          .error(function (data) {
-            console.error("Unable to get documents: %o", data);
-          });
       };
     }
     ])
