@@ -87,7 +87,7 @@ angular.module('madisonApp.controllers', [])
           switch (type) {
           case 'category':
             angular.forEach(doc.categories, function (category) {
-              if (category.id === value && cont) {
+              if (+category.id === value && cont) {
                 show = true;
                 cont = false;
               }
