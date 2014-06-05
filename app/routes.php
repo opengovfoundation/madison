@@ -74,7 +74,8 @@ Route::controller('dashboard', 'DashboardController');
 //Api Routes
 	// Document API Routes
 	Route::get('api/user/sponsors/all', 'DocumentApiController@getAllSponsorsForUser');
-
+	Route::get('api/sponsors/all', 'SponsorApiController@getAllSponsors');
+	
     //Annotation Action Routes
     Route::post('api/docs/{doc}/annotations/{annotation}/likes', 'AnnotationApiController@postLikes');
     Route::post('api/docs/{doc}/annotations/{annotation}/dislikes', 'AnnotationApiController@postDislikes');

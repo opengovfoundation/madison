@@ -195,6 +195,48 @@ class Doc extends Eloquent{
 		return $results;
 	}
 	
+	static public function getAllValidSponsors()
+	{
+		$userMeta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+							->where('meta_value', '=', 1)
+							->get();
+		
+		$groups = Group::where('status', '=', Group::STATUS_ACTIVE)
+						->get();
+		
+		$results = new Collection();
+		
+		$userIds = array();
+		
+		foreach($userMeta as $m) {
+			$userIds[] = $m->user_id;
+		}
+		
+		$users = User::whereIn('id', $userIds)->get();
+		
+		foreach($users as $user) {
+			$row = array(
+					'display_name' => "{$user->fname} {$user->lname}",
+					'sponsor_type' => 'individual',
+					'id' => $user->id
+			);
+				
+			$results->add($row);
+		}
+		
+		foreach($groups as $group) {
+			$row = array(
+					'display_name' => $group->display_name,
+					'sponsor_type' => 'group',
+					'id' => $group->id
+			);
+				
+			$results->add($row);
+		}
+		
+		return $results;
+	}
+	
 	public function setActionCount(){
 		$es = self::esConnect();
 
