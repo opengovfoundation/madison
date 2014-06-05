@@ -21,6 +21,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       annotations.forEach(function (annotation) {
         annotation.highlights.forEach(function (highlight) {
           $(highlight).attr('id', 'annotation_' + annotation.id);
+          annotation.link = 'annotation_' + annotation.id;
         });
       });
 
@@ -170,7 +171,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   addNoteLink: function (field, annotation) {
     //Add link to annotation
     var noteLink = $('<div class="annotation-link"></div>');
-    var annotationLink = $('<a></a>').attr('href', window.location.origin + '/annotation/' + annotation.id).text('View Annotation');
+    var annotationLink = $('<a></a>').attr('href', window.location.origin + window.location.pathname + '/#' + annotation.link).text('Annotation Link');
     noteLink.append(annotationLink);
     $(field).append(noteLink);
   },
