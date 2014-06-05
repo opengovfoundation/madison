@@ -2,11 +2,12 @@
 <div class="activity-thread col-md-12">
     <div class="row activity-item" ng-repeat="activity in activities | orderBy:activityOrder:true track by $id(activity)" ng-class="activity.label">
         <div class="row">
-            <div class="activity-author col-md-10">
+            <div class="activity-author col-md-9">
                 <span>@{{ activity.user.name || (activity.user.fname + ' ' + activity.user.lname.substr(0,1)) }}</span>
             </div>
-            <div class="activity-icon col-md-2">
-                <span class="glyphicon" ng-class="{'glyphicon-comment': activity.label=='comment', 'glyphicon-edit': activity.label=='annotation'}"></span>
+            <div class="activity-icon col-md-3">
+                <a href="#@{{ activity.link }}" ng-if="activity.label==='annotation'"><span class="glyphicon glyphicon-screenshot" title="Jump to annotation"></span></a>
+                <span class="glyphicon" ng-class="{'glyphicon-comment': activity.label=='comment', 'glyphicon-edit': activity.label=='annotation'}" title="@{{ activity.label }}"></span>
             </div>
         </div>
         <div class="row">
