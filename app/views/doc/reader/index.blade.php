@@ -63,12 +63,24 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-8">
-			<div id="content" class="content doc_content @if(Auth::check())logged_in@endif">
-				<div id="doc_content" class="col-md-12">{{ $doc->get_content('html') }}</div>
+		<div class="col-md-3">
+			<div class="document-toc" id="toc">
+				<h2>Table of Contents</h2>
+				<div ng-controller="DocumentTocController" id="toc-container">
+					<ul>
+						<li ng-repeat="heading in headings">
+							<a class="toc-heading toc-@{{ heading.tag | lowercase }}" href="#@{{ heading.link }}">@{{ heading.title }}</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-		<div class="col-md-3 col-md-offset-1">
+		<div class="col-md-6">
+			<div id="content" class="content doc_content @if(Auth::check())logged_in@endif">
+				<div id="doc_content">{{ $doc->get_content('html') }}</div>
+			</div>
+		</div>
+		<div class="col-md-3">
 			<!-- Start Introduction GIF -->
 			<div class="how-to-annotate" ng-if="!hideIntro">
 				<span class="how-to-annotate-close glyphicon glyphicon-remove" ng-click="hideHowToAnnotate()"></span>
