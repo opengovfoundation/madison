@@ -128,13 +128,17 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('ReaderController', ['$scope', '$http', 'annotationService',
-    function ($scope, $http, annotationService) {
+  .controller('ReaderController', ['$scope', '$http', 'annotationService', '$timeout', '$anchorScroll',
+    function ($scope, $http, annotationService, $timeout, $anchorScroll) {
       $scope.annotations = [];
 
       $scope.$on('annotationsUpdated', function () {
         $scope.annotations = annotationService.annotations;
         $scope.$apply();
+        
+        $timeout(function () {
+          $anchorScroll();
+        }, 0);
       });
 
       $scope.init = function () {

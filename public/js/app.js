@@ -10,10 +10,14 @@ var imports = [
     'ui.bootstrap',
     'ui.bootstrap.datetimepicker',
     'ngAnimate',
-    'ngCookies'
+    'ngCookies',
   ];
 
 var app = angular.module('madisonApp', imports);
+
+app.config(function ($locationProvider) {
+    $locationProvider.html5Mode(true);
+});
 
 window.console = window.console || {};
 window.console.log = window.console.log || function () {};

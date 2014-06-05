@@ -21,6 +21,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       annotations.forEach(function (annotation) {
         annotation.highlights.forEach(function (highlight) {
           $(highlight).attr('id', 'annotation_' + annotation.id);
+          $(highlight).attr('name', 'annotation_' + annotation.id);
           annotation.link = 'annotation_' + annotation.id;
         });
       });
@@ -171,7 +172,12 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   addNoteLink: function (field, annotation) {
     //Add link to annotation
     var noteLink = $('<div class="annotation-link"></div>');
-    var annotationLink = $('<a></a>').attr('href', window.location.origin + window.location.pathname + '/#' + annotation.link).text('Annotation Link');
+    var linkPath = window.location.origin + window.location.pathname + '#' + annotation.link;
+    var annotationLink = $('<a></a>').attr('href', window.location.pathname + '#' + annotation.link).text('Copy Annotation Link').addClass('annotation-permalink');
+    annotationLink.attr('data-clipboard-text', linkPath);
+
+    var client = new ZeroClipboard(annotationLink);
+
     noteLink.append(annotationLink);
     $(field).append(noteLink);
   },
