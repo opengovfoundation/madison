@@ -10,7 +10,9 @@
 .how-to-annotate{
 	@include bg($light-gray);
 	border-radius:10px;
+	position: relative;
 	margin-bottom:20px;
+	padding: 10px 15px;
 
 	h2{
 		text-align:center;
@@ -58,8 +60,6 @@
 }
 
 .doc-info{
-	margin-left: -15px;
-	margin-right: -15px;
 	padding-left: 0px;
 	margin-bottom: 25px;
 	h1{
@@ -89,8 +89,9 @@
 	h2{
 		font-size: 24px;
 		text-align: left;
-		padding-left: 15px;
-		margin-top: 10px;
+	}
+	h2,h3{
+		margin-top: 0px;
 	}
 	ol{
 		padding-left: 22px;
