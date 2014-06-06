@@ -28,4 +28,9 @@ angular.module('madisonApp.directives', []).directive('docComments', function ()
     restrict: 'AECM',
     link: link
   };
+}).directive('docListItem', function () {
+  return {
+    restrict: 'A',
+    templateUrl: '/templates/doc-list-item.html'
+  };
 });
