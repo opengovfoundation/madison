@@ -4,7 +4,7 @@
 <script src="/polyfills/eventListener.js"></script>
 <script src="/polyfills/html5shiv.js"></script>
 <![endif]-->
- 
+
 
 <!-- Stylesheets -->
 {{ HTML::style('vendor/pagedown/assets/demo.css') }}
@@ -16,12 +16,13 @@
 {{ HTML::style('css/style.css') }}
 
 <!-- Scripts -->
+{{ HTML::script('vendor/bootstrap/js/bootstrap.min.js') }}
 {{ HTML::script('bower_components/pagedown/Markdown.Converter.js') }}
 {{ HTML::script('bower_components/pagedown/Markdown.Sanitizer.js') }}
 {{ HTML::script('bower_components/pagedown/Markdown.Editor.js') }}
 {{ HTML::script('build/app.js') }}
 
-<?php 
+<?php
 $fs = new Illuminate\Filesystem\Filesystem();
 ?>
 {{-- Include site-specific uservoice js file if it exists --}}

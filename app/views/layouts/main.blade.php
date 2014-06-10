@@ -2,7 +2,7 @@
 <html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="madisonApp" lang="en">
 	<head>
 		<meta charset="utf-8" />
-		@if(isset($page_title)) 
+		@if(isset($page_title))
 		<title>{{ $page_title }}</title>
 		@endif
 		<!-- Mobile Optimization -->
@@ -30,15 +30,10 @@
 		<!--[if lt IE 8]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
-		<div id="wrap" class="wrap">
-			<div id="header-main" class="header row">
+		<div id="wrap">
+			<div id="header-main" class="navbar navbar-fixed-top" role="navigation">
 				<div class="container">
 				@include('layouts.header')
-				</div>
-			</div>
-			<div class="row">
-				<div class="container">
-					<div class="md-col-12">&nbsp;</div>
 				</div>
 			</div>
 			<div class="row">
@@ -49,15 +44,13 @@
 				</div>
 			</div>
 
-			<div id="main" class="row">
+			<div id="main" class="">
 				<div class="container">
-					<div class="row">
 						@yield('content')
-					</div>
 				</div>
 			</div>
 		</div>
-		<div id="footer" class="footer row">
+		<div id="footer" class="footer">
 			@include('layouts.footer')
 		</div>
 	</body>
