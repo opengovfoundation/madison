@@ -368,16 +368,13 @@ textarea.form-inline{
 	}
 }
 
-.content{
+.content-container{
 	// @include single-box-shadow(black, 1em, 1em, 1em, -1em);
-
-	
-
 	background:white;
-	padding: 30px;
 	@include box-sizing(border-box);
 	border: 1px solid #f0f0f0;
 	@include border-radius(4px);
+	padding: 10px 15px;
 
 	a{
 		color:$blue-grad-end;
@@ -385,6 +382,12 @@ textarea.form-inline{
 	ul{
 		list-style:none;
 	}
+}
+
+.content{
+	@extend .content-container;
+	padding: 30px;
+
 }
 
 .content.col-md-12 .row{
@@ -468,7 +471,7 @@ textarea.form-inline{
 					margin-right: 4px;
 				}
 			}
-			
+
 
 		}
 	}
@@ -535,7 +538,7 @@ h1.user-name{
 	li{
 		border-top: none;
 		padding: 0px;
-		a{	
+		a{
 			color: #999;
 			border:none;
 			&:hover{
@@ -779,7 +782,7 @@ input[type="search"].blue-search{
 			padding: 0;
 			li{
 				background: #F9F2F4;
-				color: #c7254e; 
+				color: #c7254e;
 				@include border-radius(3px);
 				padding: 3px 6px;
 				margin-bottom: 4px;

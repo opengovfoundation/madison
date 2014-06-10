@@ -10,7 +10,9 @@
 .how-to-annotate{
 	@include bg($light-gray);
 	border-radius:10px;
+	position: relative;
 	margin-bottom:20px;
+	padding: 10px 15px;
 
 	h2{
 		text-align:center;
@@ -58,8 +60,6 @@
 }
 
 .doc-info{
-	margin-left: -15px;
-	margin-right: -15px;
 	padding-left: 0px;
 	margin-bottom: 25px;
 	h1{
@@ -89,8 +89,9 @@
 	h2{
 		font-size: 24px;
 		text-align: left;
-		padding-left: 15px;
-		margin-top: 10px;
+	}
+	h2,h3{
+		margin-top: 0px;
 	}
 	ol{
 		padding-left: 22px;
@@ -99,4 +100,52 @@
 
 .doc-sponsor{
 	padding-bottom: 5px;
+}
+
+.document-toc{
+	@extend .content-container;
+
+	h2{
+		font-size: 16px;
+		padding: 0;
+		margin: 0 0 0.5em;
+	}
+
+	ul{
+		margin: 0;
+		padding: 0;
+	}
+
+	.toc-heading{
+		display: block;
+	}
+	.toc-h1{
+		font-size: 20px;
+		font-weight: bold;
+		background-color: #cdf;
+	}
+	.toc-h2{
+		font-size: 18px;
+		font-weight: bold;
+	}
+	.toc-h3{
+		font-size: 16px;
+		font-weight: bold;
+		margin-left: 10px;
+	}
+	.toc-h4{
+		font-size: 14px;
+		font-weight: bold;
+		margin-left: 15px;
+	}
+	.toc-h5{
+		font-size: 12px;
+		font-weight: bold;
+		margin-left: 20px;
+	}
+	.toc-h6{
+		font-size: 12px;
+		margin-left: 25px;
+	}
+
 }

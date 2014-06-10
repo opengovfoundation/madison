@@ -1,5 +1,5 @@
 @extends('layouts/main')
-@section('content')	
+@section('content')
 	@if(Auth::check())
 		<script>
 			var user = {
@@ -39,46 +39,56 @@
     </div>
   </div>
 </div>
-<div class="col-md-12" ng-controller="DocumentPageController">
+<div ng-controller="DocumentPageController">
 	<div class="row">
 		<div class="col-md-8" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
-			<div class="doc-info row">
-				<div class="col-md-12">
-					<div class="row">
-						<h1>{{ $doc->title }}</h1>
-					</div>
-					<div class="doc-sponsor row" ng-repeat="sponsor in doc.sponsor">
-						<strong>Sponsored by </strong><span>@{{ sponsor.fname }} @{{ sponsor.lname }}</span>
-					</div>
-					<div class="doc-status row" ng-repeat="status in doc.statuses">
-						<strong>Status: </strong><span>@{{ status.label }}</span>
-					</div>
-					<div class="doc-date row" ng-repeat="date in doc.dates">
-						<strong>@{{ date.label }}: </strong><span>@{{ date.date | parseDate | date:'shortDate' }}</span>
-					</div>
-					<div class="row" ng-show="user.id > 0">
-							<a href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">Support This Document</a>
-							<a href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">Oppose This Document</a>
-					</div>
+			<div class="doc-info">
+				<div class="">
+					<h1>{{ $doc->title }}</h1>
+				</div>
+				<div class="doc-sponsor" ng-repeat="sponsor in doc.sponsor">
+					<strong>Sponsored by </strong><span>@{{ sponsor.fname }} @{{ sponsor.lname }}</span>
+				</div>
+				<div class="doc-status" ng-repeat="status in doc.statuses">
+					<strong>Status: </strong><span>@{{ status.label }}</span>
+				</div>
+				<div class="doc-date" ng-repeat="date in doc.dates">
+					<strong>@{{ date.label }}: </strong><span>@{{ date.date | parseDate | date:'shortDate' }}</span>
+				</div>
+				<div class="" ng-show="user.id > 0">
+						<a href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">Support This Document</a>
+						<a href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">Oppose This Document</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-8">
-			<div id="content" class="row content doc_content @if(Auth::check())logged_in@endif">
-				<div id="doc_content" class="col-md-12">{{ $doc->get_content('html') }}</div>
+		<div class="col-md-3">
+			<div class="document-toc" id="toc">
+				<h2>Table of Contents</h2>
+				<div ng-controller="DocumentTocController" id="toc-container">
+					<ul>
+						<li ng-repeat="heading in headings">
+							<a class="toc-heading toc-@{{ heading.tag | lowercase }}" href="#@{{ heading.link }}">@{{ heading.title }}</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-		<div class="col-md-3 col-md-offset-1">
+		<div class="col-md-6">
+			<div id="content" class="content doc_content @if(Auth::check())logged_in@endif">
+				<div id="doc_content">{{ $doc->get_content('html') }}</div>
+			</div>
+		</div>
+		<div class="col-md-3">
 			<!-- Start Introduction GIF -->
-			<div class="row how-to-annotate" ng-if="!hideIntro">
+			<div class="how-to-annotate" ng-if="!hideIntro">
 				<span class="how-to-annotate-close glyphicon glyphicon-remove" ng-click="hideHowToAnnotate()"></span>
 				<h2>How to Participate</h2>
-				<div class="col-md-12">
+				<div class="">
 					<img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
 				</div>
-				<div class="col-md-12">
+				<div class="">
 					<ol>
 						<li>Read the policy document.</li>
 						<li>Sign up to add your voice.</li>
@@ -87,7 +97,7 @@
 				</div>
 			</div>
 			<!-- End Introduction GIF -->
-			<div ng-controller="ParticipateController" ng-init="init({{ $doc->id }})" class="row rightbar participate">
+			<div ng-controller="ParticipateController" ng-init="init({{ $doc->id }})" class="rightbar participate">
 				@include('doc.reader.participate')
 			</div>
 		</div>
