@@ -16,11 +16,12 @@
 {{ HTML::style('css/style.css') }}
 
 <!-- Scripts -->
-{{ HTML::script('vendor/bootstrap/js/bootstrap.min.js') }}
+
 {{ HTML::script('bower_components/pagedown/Markdown.Converter.js') }}
 {{ HTML::script('bower_components/pagedown/Markdown.Sanitizer.js') }}
 {{ HTML::script('bower_components/pagedown/Markdown.Editor.js') }}
 {{ HTML::script('build/app.js') }}
+{{ HTML::script('vendor/bootstrap/js/bootstrap.min.js') }}
 
 <?php
 $fs = new Illuminate\Filesystem\Filesystem();

@@ -118,8 +118,8 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('DocumentPageController', ['$scope', '$cookies',
-    function ($scope, $cookies) {
+  .controller('DocumentPageController', ['$scope', '$cookies', '$location',
+    function ($scope, $cookies, $location) {
       $scope.hideIntro = $cookies.hideIntro;
 
       $scope.hideHowToAnnotate = function () {
