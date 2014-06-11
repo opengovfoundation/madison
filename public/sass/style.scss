@@ -39,7 +39,6 @@ html{
 
 body{
 	height:100%;
-	margin-top: 62px;
 	@include bg($bg-gray);
 }
 
@@ -156,6 +155,15 @@ textarea.form-inline{
 		margin-top: 5px;
 		margin-bottom: 5px;
 		margin-left: -30px;
+	}
+
+	.navbar-brand, .navbar-nav>li>a{
+		text-shadow: none;
+	}
+
+	.nav>li>a:hover, .nav>li>a:focus{
+		background-color: none;
+		text-decoration: underline;
 	}
 
 	.link-home { display: inline-block; }

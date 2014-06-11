@@ -31,7 +31,7 @@
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
 		<div id="wrap">
-			<div id="header-main" class="navbar navbar-fixed-top" role="navigation">
+			<div id="header-main" class="navbar" role="navigation">
 				<div class="container">
 				@include('layouts.header')
 				</div>
