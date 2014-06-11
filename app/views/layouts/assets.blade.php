@@ -16,7 +16,6 @@
 {{ HTML::style('css/style.css') }}
 
 <!-- Scripts -->
-
 {{ HTML::script('bower_components/pagedown/Markdown.Converter.js') }}
 {{ HTML::script('bower_components/pagedown/Markdown.Sanitizer.js') }}
 {{ HTML::script('bower_components/pagedown/Markdown.Editor.js') }}
