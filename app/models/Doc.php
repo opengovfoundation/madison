@@ -46,14 +46,11 @@ class Doc extends Eloquent{
 		$sponsor = $this->groupSponsor()->first();
 		
 		if(!$sponsor) {
-			$sponsor = $this->userSponsor()->first();
+			return $this->belongsToMany('User');
 		}
 		
-		if(!$sponsor) {
-			throw new \Exception("Could not identify sponsor");
-		}
+		return $this->belongsToMany('Group'); 
 		
-		return $sponsor;
 	}
 	
 	public function userSponsor()
@@ -212,16 +209,18 @@ class Doc extends Eloquent{
 			$userIds[] = $m->user_id;
 		}
 		
-		$users = User::whereIn('id', $userIds)->get();
+		if(!empty($userIds)) {
+			$users = User::whereIn('id', $userIds)->get();
 		
-		foreach($users as $user) {
-			$row = array(
-					'display_name' => "{$user->fname} {$user->lname}",
-					'sponsor_type' => 'individual',
-					'id' => $user->id
-			);
-				
-			$results->add($row);
+			foreach($users as $user) {
+				$row = array(
+						'display_name' => "{$user->fname} {$user->lname}",
+						'sponsor_type' => 'individual',
+						'id' => $user->id
+				);
+					
+				$results->add($row);
+			}
 		}
 		
 		foreach($groups as $group) {
