@@ -1,16 +1,8 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+class AddParentColumnToComments extends DualMigration {
 
-class AddParentColumnToComments extends Migration {
-
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
+	public function upMySQL()
 	{
 		Schema::table('comments', function($table){
 			$table->integer('parent_id')->unsigned()->after('doc_id')->nullable();
@@ -19,14 +11,25 @@ class AddParentColumnToComments extends Migration {
 		});
 	}
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
+	public function downMySQL()
 	{
 		Schema::table('comments', function($table){
+			$table->dropForeign('comments_parent_id_foreign');
+			$table->dropColumn('parent_id');
+		});
+	}
+
+	public function upSQLite(){
+		Schema::table('comments', function($table){
+			$table->integer('parent_id')->unsigned()->after('doc_id')->nullable();
+
+			$table->foreign('parent_id')->references('id')->on('comments')->onDelete('cascade');
+		});
+	}
+
+	public function downSQLite(){
+		Schema::table('comments', function($table){
+			$table->dropForeign('comments_parent_id_foreign');
 			$table->dropColumn('parent_id');
 		});
 	}
