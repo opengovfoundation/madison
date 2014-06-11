@@ -135,7 +135,7 @@ angular.module('madisonApp.controllers', [])
       $scope.$on('annotationsUpdated', function () {
         $scope.annotations = annotationService.annotations;
         $scope.$apply();
-        
+
         $timeout(function () {
           $anchorScroll();
         }, 0);
@@ -225,6 +225,7 @@ angular.module('madisonApp.controllers', [])
             angular.forEach(data, function (comment) {
               comment.label = 'comment';
               comment.commentsCollapsed = true;
+              comment.link = 'comment_' + comment.id;
               $scope.activities.push(comment);
             });
           })
