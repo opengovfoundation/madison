@@ -6,7 +6,7 @@
                 <span>@{{ activity.user.name || (activity.user.fname + ' ' + activity.user.lname.substr(0,1)) }}</span>
             </div>
             <div class="activity-icon col-md-3">
-                <a href="#@{{ activity.link }}"><span class="glyphicon glyphicon-screenshot" title="Jump to annotation"></span></a>
+                <a href="#@{{ activity.link }}"><span class="glyphicon glyphicon-screenshot" title="Jump to {{ activity.label }}"></span></a>
                 <span class="glyphicon" ng-class="{'glyphicon-comment': activity.label=='comment', 'glyphicon-edit': activity.label=='annotation'}" title="@{{ activity.label }}"></span>
             </div>
         </div>
