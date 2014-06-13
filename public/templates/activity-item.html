@@ -8,7 +8,7 @@
                 <span data-activity-link="{{ activity.link }}" class="glyphicon glyphicon-screenshot" title="Jump to {{ activity.label }}"></span>
             </a>
             <a class="comment-link">
-                <span ng-show="activity.label === 'comment'" class="glyphicon glyphicon-link" title="Copy comment link to clipboard"></span>
+                <span ng-show="activity.label === 'comment'" class="glyphicon glyphicon-link" title="Copy link to clipboard"></span>
             </a>
             <span class="glyphicon" ng-class="{'glyphicon-comment': activity.label=='comment', 'glyphicon-edit': activity.label=='annotation'}" title="{{ activity.label }}"></span>
         </div>
@@ -29,17 +29,8 @@
         </div>
     </div>
     <div class="activity-replies row" collapse="activity.commentsCollapsed">
-        <div class="activity-reply col-md-12" ng-repeat="comment in activity.comments">
-            <div class="reply-author row">
-                <div class="col-md-6">
-                    <span class="glyphicon glyphicon-share-alt"></span> {{ comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) }}:
-                </div>
-            </div>
-            <div class="reply-text row">
-                <div class="col-md-12">
-                    {{ comment.text }}
-                </div>
-            </div>
+        <div id="subcomment_{{ comment.id }}" class="activity-reply col-md-12" ng-repeat="comment in activity.comments">
+            <div activity-sub-comment sub-comment-id="{{ comment.id }}"></div>
         </div>
         <div class="subcomment-field col-md-12">
             <form name="add-subcomment-form" ng-submit="subcommentSubmit(activity, subcomment)">
