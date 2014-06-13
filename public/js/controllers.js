@@ -215,8 +215,18 @@ angular.module('madisonApp.controllers', [])
       $scope.$on('annotationsUpdated', function () {
         angular.forEach(annotationService.annotations, function (annotation) {
           if ($.inArray(annotation, $scope.activities) < 0) {
+            var collapsed = true;
+
+            if($scope.subCommentId){
+              angular.forEach(annotation.comments, function (subcomment) {
+                if(subcomment.id == $scope.subCommentId){
+                  collapsed = false;
+                }
+              });
+            }
+
             annotation.label = 'annotation';
-            annotation.commentsCollapsed = true;
+            annotation.commentsCollapsed = collapsed;
             $scope.activities.push(annotation);
           }
         });
@@ -240,7 +250,6 @@ angular.module('madisonApp.controllers', [])
                   }
                 });
               }
-              
 
               comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
