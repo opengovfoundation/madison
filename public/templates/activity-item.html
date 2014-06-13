@@ -41,13 +41,11 @@
                 </div>
             </div>
         </div>
-        @if(Auth::check())
-            <div class="subcomment-field col-md-12">
-                <form name="add-subcomment-form" ng-submit="subcommentSubmit(activity, subcomment)">
-                    <input ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
-                </form>
-            </div>
-        @endif
+        <div class="subcomment-field col-md-12">
+            <form name="add-subcomment-form" ng-submit="subcommentSubmit(activity, subcomment)">
+                <input ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
+            </form>
+        </div>
     </div>
     <div class="row sponsor-seen" ng-show="user.isSponsor && activity.user.id != user.id">
         <div class="col-md-12">
