@@ -52,12 +52,18 @@
         }
         .activity-actions, .activity-replies-indicator{
             cursor:pointer;
-            opacity:.25;
-            @include transition(opacity, .5s);
             span.glyphicon{
                 padding-right: 4px;
             }
         }
+        .activity-replies-indicator{
+            color: $blue-grad-start;
+
+            .glyphicon{
+                color:$blue-grad-start;
+            }
+        }
+
         &:hover{
             .activity-actions, .activity-replies-indicator{
                 opacity:1;
