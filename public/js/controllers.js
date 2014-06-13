@@ -189,8 +189,8 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup',
-    function ($scope, $http, annotationService, createLoginPopup) {
+  .controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup', 'growl',
+    function ($scope, $http, annotationService, createLoginPopup, growl) {
       $scope.annotations = [];
       $scope.comments = [];
       $scope.activities = [];

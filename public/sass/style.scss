@@ -42,6 +42,10 @@ body{
 	@include bg($bg-gray);
 }
 
+.growl{
+	z-index:10;
+}
+
 .wrap{
 	min-height: 100%;
 	height: auto !important;
