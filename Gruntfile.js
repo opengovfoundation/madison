@@ -45,6 +45,7 @@ module.exports = function (grunt) {
             'public/bower_components/angular-cookies/angular-cookies.js',
             'public/bower_components/angular-ui/build/angular-ui.min.js',
             'public/bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
+            'public/bower_components/angular-growl/build/angular-growl.min.js',
             'node_modules/twitter-bootstrap-3.0.0/dist/js/bootstrap.min.js',
 
             //Datetimepicker and dependencies

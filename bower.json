@@ -1,8 +1,8 @@
 {
   "name": "madison",
   "dependencies": {
-    "jquery-zclip": "~1.1.4",
-    "zeroclipboard": "~2.0.1"
+    "zeroclipboard": "~2.0.1",
+    "angular-growl": "~0.4.0"
   },
   "devDependencies": {
     "pagedown": "~1.1.0",

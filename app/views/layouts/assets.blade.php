@@ -7,6 +7,7 @@
 
 
 <!-- Stylesheets -->
+{{ HTML::style('bower_components/angular-growl/build/angular-growl.min.css') }}
 {{ HTML::style('vendor/pagedown/assets/demo.css') }}
 {{ HTML::style('vendor/datetimepicker/datetimepicker.css') }}
 {{ HTML::style('vendor/jquery/jquery-ui-smoothness.css') }}

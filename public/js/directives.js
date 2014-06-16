@@ -1,3 +1,5 @@
+/*global ZeroClipboard*/
+/*global window*/
 angular.module('madisonApp.directives', []).directive('docComments', function () {
   return {
     restrict: 'AECM',
@@ -33,4 +35,59 @@ angular.module('madisonApp.directives', []).directive('docComments', function ()
     restrict: 'A',
     templateUrl: '/templates/doc-list-item.html'
   };
-});
+}).directive('activityItem', ['growl', function (growl) {
+
+  return {
+    restrict: 'A',
+    transclude: true,
+    templateUrl: '/templates/activity-item.html',
+    compile: function () {
+      return {
+        post: function (scope, element, attrs) {
+          var commentLink = element.find('.comment-link').first();
+          var linkPath = window.location.origin + window.location.pathname + '#' + attrs.activityItemLink;
+          $(commentLink).attr('data-clipboard-text', linkPath);
+
+          var client = new ZeroClipboard(commentLink);
+
+          client.on('aftercopy', function (event) {
+            scope.$apply(function () {
+              growl.addSuccessMessage("Link copied to clipboard.");
+            });
+          });
+        }
+      };
+    }
+  };
+}]).directive('activitySubComment', ['growl', '$anchorScroll', '$timeout', function (growl, $anchorScroll, $timeout) {
+  return {
+    restrict: 'A',
+    transclude: true,
+    templateUrl: '/templates/activity-sub-comment.html',
+    compile: function () {
+      return {
+        pre: function () {
+
+        },
+        post: function (scope, element, attrs) {
+          var commentLink = element.find('.subcomment-link').first();
+          var linkPath = window.location.origin + window.location.pathname + '#subcomment_' + attrs.subCommentId;
+
+          $(commentLink).attr('data-clipboard-text', linkPath);
+
+          var client = new ZeroClipboard(commentLink);
+
+          client.on('aftercopy', function (event) {
+            scope.$apply(function () {
+              growl.addSuccessMessage("Link copied to clipboard.");
+            });
+          });
+
+          $timeout(function () {
+            $anchorScroll();
+          }, 0);
+        }
+      };
+    }
+  };
+}]);
