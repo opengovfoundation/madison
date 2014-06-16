@@ -104,47 +104,61 @@
 
 .document-toc{
 	@extend .content-container;
-
 	h2{
-		font-size: 16px;
-		padding: 0;
+		font-size: 24px;
+		padding: 0px 0px 6px 0px;
 		margin: 0 0 0.5em;
+		border-bottom: 1px solid #ccc;
+
 	}
 
 	ul{
 		margin: 0;
 		padding: 0;
+		li{
+			padding-bottom: 4px;
+			padding-top: 4px;
+			padding-left: 6px;
+			a{
+				color: #555;
+				&:hover{
+					color: #333;
+
+				}
+			}
+			&:hover{
+				background: #f2f2f2;
+				//border-left: 2px solid #ccc;
+				border-radius: 4px;
+			}
+		}
 	}
 
 	.toc-heading{
 		display: block;
+		font-weight: bold;
 	}
 	.toc-h1{
-		font-size: 20px;
-		font-weight: bold;
-		background-color: #cdf;
+		font-size: 14px;
+		//background-color: #cdf;
 	}
 	.toc-h2{
-		font-size: 18px;
-		font-weight: bold;
+		font-size: 12px;
 	}
 	.toc-h3{
-		font-size: 16px;
-		font-weight: bold;
+		font-size: 12px;
 		margin-left: 10px;
 	}
 	.toc-h4{
-		font-size: 14px;
-		font-weight: bold;
-		margin-left: 15px;
+		font-size: 12px;
+		margin-left: 18px;
 	}
 	.toc-h5{
-		font-size: 12px;
-		font-weight: bold;
+		font-size: 10px;
 		margin-left: 20px;
 	}
 	.toc-h6{
-		font-size: 12px;
+		font-size: 10px;
 		margin-left: 25px;
 	}
 
