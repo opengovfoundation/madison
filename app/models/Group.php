@@ -40,6 +40,11 @@ class Group extends Eloquent
 		return false;
 	}
 	
+	public function name()
+	{
+		return !empty($this->display_name) ? $this->display_name : !empty($this->name) ? $this->name : "";
+	}
+	
 	public function getRoleId($role)
 	{
 		$role = strtolower($role);

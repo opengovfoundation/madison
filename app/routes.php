@@ -38,7 +38,7 @@ Route::get('groups/member/{memberId}/delete', 'GroupsController@removeMember');
 Route::post('groups/member/{memberId}/role', 'GroupsController@changeMemberRole');
 Route::get('groups/invite/{groupId}', 'GroupsController@inviteMember');
 Route::put('groups/invite/{groupId}', 'GroupsController@processMemberInvite');
-Route::post('groups/active/{groupId}', 'GroupsController@setActiveGroup');
+Route::get('groups/active/{groupId}', 'GroupsController@setActiveGroup');
 
 //Static Pages
 Route::get('about', 'PageController@getAbout');

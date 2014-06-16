@@ -39,6 +39,7 @@ html{
 
 body{
 	height:100%;
+	margin-top: 62px;
 	@include bg($bg-gray);
 }
 
@@ -136,25 +137,33 @@ textarea.form-inline{
 
 /* MAIN HEADER
 ------------------------------ */
-.header {
+.navbar {
 	background: $blue-header;
 	padding-bottom: 7px;
+	height: 62px;
+	border-bottom: none;
 
 	.container{
-		padding-right: 0px;
+		/* padding-right: 0px;
 		padding-left: 0px;
 		.col-md-4{
 			padding-right: 0px;
 			padding-left: 0px;
-		}
+		} */
 	}
 
-	.logo-madison {
-		margin-top: 15px;
+	.navbar-brand.logo-madison {
+		margin-top: 5px;
 		margin-bottom: 5px;
+		margin-left: -30px;
 	}
 
 	.link-home { display: inline-block; }
+
+	.brand {
+		color: white;
+		font-size: 28px;
+	};
 
 	h1, h2 {
 		margin: 0;
@@ -163,20 +172,12 @@ textarea.form-inline{
 	}
 
 	h1 {
-		margin: 0 0 5px;
+		margin: 15px 0 5px;
 		font-size: 28px;
 	}
 
 	h2 {
 		font-size: 14px;
-	}
-
-
-
-	.logo-madison h1{
-		color: #FFF;
-		font-weight: normal;
-		position: relative;
 	}
 
 	.level {
@@ -188,11 +189,56 @@ textarea.form-inline{
 		text-transform: uppercase;
 		letter-spacing: 1px;
 		@include border-radius(2px);
-		top: 8px;
-		right: -45px;
-		position: absolute;
+		top: -4px;
+		position: relative;
 	}
 }
+
+@media (max-width: 767px) {
+	.navbar {
+
+		.navbar-toggle {
+			background-color: #ccc;
+			margin-top: 14px;
+		}
+
+		.navbar-nav {
+			background-color: rgba(244,244,244,0.9);
+
+			width: 100%;
+			text-align: center;
+			li a {
+				font-size: 20px;
+				font-weight: normal;
+				padding: 10px;
+				color: #666;
+
+				&:hover, &:active {
+					background-color: rgba(200, 200, 200, 0.9);
+				}
+			}
+		}
+
+		.navbar-brand.logo-madison {
+			margin-left: 0;
+		}
+	}
+}
+
+/* Selected pieces of the navbar from bootstrap */
+
+.navbar-toggle {
+  border-color: #ddd;
+}
+.navbar-toggle:hover,
+.navbar-toggle:focus {
+  background-color: #ddd;
+}
+.navbar-toggle .icon-bar {
+  background-color: #888;
+}
+
+
 
 /* NAVIGATION
 ------------------------------ */
@@ -202,7 +248,7 @@ textarea.form-inline{
 	// applied to all navs. Avoids duplicate code.
 
 	ul {
-		margin: 0;
+		margin: 6px 0 0;
 		padding: 0;
 		list-style: none;
 
@@ -211,6 +257,10 @@ textarea.form-inline{
 	li {
 		margin: 0;
 		padding: 0;
+
+		a {
+			padding: 15px 10px;
+		}
 	}
 }
 
@@ -222,13 +272,10 @@ textarea.form-inline{
 .nav-main {
 
 	ul {
-		margin-top: 22px; /* TO-DO: Needs to be dynamic */
 		float: right;
 	}
 
 	li {
-		margin-left: 20px;
-		float: left;
 		font-weight: bold;
 		font-size: 12px;
 		a{
@@ -329,29 +376,7 @@ textarea.form-inline{
 	position:relative;
 }
 
-.navbar{
-	@include grad-bg($blue-grad-start, $blue-grad-end);
 
-	margin-top:20px;
-	z-index:1;
-
-	.nav{
-		margin-top:0;
-	}
-
-	.navbar-form{
-		margin-top:0;
-		margin-bottom:0;
-
-		button{
-			margin-top:10px;
-			margin-bottom:10px;
-		}
-		input[type="text"]{
-			margin-bottom:10px;
-		}
-	}
-}
 .navbar-default{
 	.navbar-nav{
 		li{

@@ -28,8 +28,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		return $this->belongsToMany('Doc');
 	}
 
+	public function activeGroup() 
+	{
+		$activeGroupId = Session::get('activeGroupId');
+		
+		if($activeGroupId <= 0) {
+			return new Group();
+		}
+		
+		return Group::where('id', '=', $activeGroupId)->first();
+	}
+	
 	public function groups() {
-		return $this->hasMany('Group', 'user_id');
+		return $this->belongsToMany('Group', 'group_members');
 	}
 	
 	public function comments(){

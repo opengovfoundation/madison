@@ -97,41 +97,27 @@ class GroupsController extends Controller
 	
 	public function setActiveGroup($groupId)
 	{
-		$retval = array(
-			'success' => false,
-			'message' => 'Unknown Error'
-		);
-		
 		try {
 			
 			if(!Auth::check()) {
-				$retval['message'] = "Must be logged in";
-				return Response::json($retval);
+				return Redirect::back()->with('error', 'You must be logged in to set a group');
 			}
 			
 			if($groupId == 0) {
 				Session::remove('activeGroupId');
-				
-				$retval['success'] = true;
-				$retval['message'] = "Deleted Active Group";
-				return Response::json($retval);
+				return Redirect::back()->with('message', 'Active Group has been removed');
 			}
 			
 			if(!Group::isValidUserForGroup(Auth::user()->id, $groupId)) {
-				$retval['message'] = "Invalid Group ID";
-				return Response::json($retval);
+				return Redirect::back()->with('error', 'Invalid Group');
 			}
 			
 			Session::put('activeGroupId', $groupId);
 			
-			$retval['success'] = true;
-			$retval['message'] = "Active Group Set";
-			
-			return Response::json($retval);
+			return Redirect::back()->with('message', "Active Group Changed");
 			
 		} catch(\Exception $e) {
-			$retval['message'] = "Exception Caught: {$e->getMessage()}";
-			return Response::json($retval);
+			return Redirect::back()->with('error', 'There was an error processing your request');
 		}
 	}
 	
