@@ -189,13 +189,21 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup', 'growl',
-    function ($scope, $http, annotationService, createLoginPopup, growl) {
+  .controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
+    function ($scope, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
       $scope.annotations = [];
       $scope.comments = [];
       $scope.activities = [];
       $scope.supported = null;
       $scope.opposed = false;
+
+      //Parse sub-comment hash if there is one
+      var hash = $location.hash();
+      var subCommentId = hash.match(/^subcomment_([0-9]+)$/);
+      if(subCommentId){
+        $scope.subCommentId = subCommentId[1];  
+      }
+      
 
       $scope.init = function (docId) {
         $scope.getDocComments(docId);
@@ -203,14 +211,24 @@ angular.module('madisonApp.controllers', [])
         $scope.doc = doc;
       };
 
+      //Watch for annotationsUpdated broadcast
       $scope.$on('annotationsUpdated', function () {
         angular.forEach(annotationService.annotations, function (annotation) {
           if ($.inArray(annotation, $scope.activities) < 0) {
+            var collapsed = true;
+
+            if($scope.subCommentId){
+              angular.forEach(annotation.comments, function (subcomment) {
+                if(subcomment.id == $scope.subCommentId){
+                  collapsed = false;
+                }
+              });
+            }
+
             annotation.label = 'annotation';
-            annotation.commentsCollapsed = true;
+            annotation.commentsCollapsed = collapsed;
             $scope.activities.push(annotation);
           }
-
         });
 
         $scope.$apply();
@@ -223,8 +241,18 @@ angular.module('madisonApp.controllers', [])
         })
           .success(function (data) {
             angular.forEach(data, function (comment) {
+              var collapsed = true;
+
+              if($scope.subCommentId){
+                angular.forEach(comment.comments, function (subcomment) {
+                  if(subcomment.id == $scope.subCommentId){
+                    collapsed = false;
+                  }
+                });
+              }
+
+              comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
-              comment.commentsCollapsed = true;
               comment.link = 'comment_' + comment.id;
               $scope.activities.push(comment);
             });
