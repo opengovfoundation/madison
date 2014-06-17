@@ -2,8 +2,8 @@
 @section('content')
 <div class="row">
 	<ol class="breadcrumb">
-		<li><a href="/dashboard">Dashboard</a></li>
-		<li><a href="/dashboard/docs">Documents</a></li>
+		<li><a href="/dashboard" target="_self">Dashboard</a></li>
+		<li><a href="/dashboard/docs" target="_self">Documents</a></li>
 		<li class="active">{{ $doc->title }}</li>
 	</ol>
 </div>
