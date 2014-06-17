@@ -1,6 +1,9 @@
 {
   "name": "madison",
-  "dependencies": {},
+  "dependencies": {
+    "zeroclipboard": "~2.0.1",
+    "angular-growl": "~0.4.0"
+  },
   "devDependencies": {
     "pagedown": "~1.1.0",
     "angular-ui": "~0.4.0",

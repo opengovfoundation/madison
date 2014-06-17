@@ -4,9 +4,10 @@
 <script src="/polyfills/eventListener.js"></script>
 <script src="/polyfills/html5shiv.js"></script>
 <![endif]-->
- 
+
 
 <!-- Stylesheets -->
+{{ HTML::style('bower_components/angular-growl/build/angular-growl.min.css') }}
 {{ HTML::style('vendor/pagedown/assets/demo.css') }}
 {{ HTML::style('vendor/datetimepicker/datetimepicker.css') }}
 {{ HTML::style('vendor/jquery/jquery-ui-smoothness.css') }}
@@ -21,7 +22,7 @@
 {{ HTML::script('bower_components/pagedown/Markdown.Editor.js') }}
 {{ HTML::script('build/app.js') }}
 
-<?php 
+<?php
 $fs = new Illuminate\Filesystem\Filesystem();
 ?>
 {{-- Include site-specific uservoice js file if it exists --}}

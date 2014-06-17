@@ -13,3 +13,5 @@
 
 Artisan::add(new CreateUser);
 Artisan::add(new UserRole);
+Artisan::add(new ActivityExport);
+Artisan::add(new DatabaseBackup);

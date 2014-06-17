@@ -13,19 +13,64 @@ angular.module('madisonApp.controllers', [])
       $scope.docSort = "created_at";
       $scope.reverse = true;
 
-      $scope.init = function () {
-        $scope.getDocs();
+      $scope.select2Config = {
+        multiple: true,
+        allowClear: true,
+        placeholder: "Filter documents by category, sponsor, or status"
+      };
 
-        $scope.select2Config = {
-          multiple: true,
-          allowClear: true,
-          placeholder: "Filter documents by category, sponsor, or status"
-        };
+      $scope.dateSortConfig = {
+        allowClear: true,
+        placeholder: "Sort By Date"
+      };
 
-        $scope.dateSortConfig = {
-          allowClear: true,
-          placeholder: "Sort By Date"
-        };
+      //Retrieve all docs
+      $http.get('/api/docs')
+        .success(function (data) {
+          $scope.parseDocs(data);
+        })
+        .error(function (data) {
+          console.error("Unable to get documents: %o", data);
+        });
+
+      $scope.parseDocs = function (docs) {
+        angular.forEach(docs, function (doc) {
+          $scope.docs.push(doc);
+
+          $scope.parseDocMeta(doc.categories, 'categories');
+          $scope.parseDocMeta(doc.sponsor, 'sponsors');
+          $scope.parseDocMeta(doc.statuses, 'statuses');
+
+          angular.forEach(doc.dates, function (date) {
+            date.date = Date.parse(date.date);
+          });
+        });
+      };
+
+      $scope.parseDocMeta = function (collection, name) {
+        if (collection.length === 0) {
+          return;
+        }
+
+        angular.forEach(collection, function (item) {
+          var found = $filter('getById')($scope[name], item.id);
+
+          if (found === null) {
+            switch (name) {
+            case 'categories':
+              $scope.categories.push(item);
+              break;
+            case 'sponsors':
+              $scope.sponsors.push(item);
+              break;
+            case 'statuses':
+              $scope.statuses.push(item);
+              break;
+            default:
+              console.error('Unknown meta name: ' + name);
+            }
+          }
+        });
       };
 
       $scope.docFilter = function (doc) {
@@ -35,80 +80,46 @@ angular.module('madisonApp.controllers', [])
         if ($scope.select2 !== undefined && $scope.select2 !== '') {
           var cont = true;
 
-          angular.forEach(doc.categories, function (category) {
-            if (category.name === $scope.select2 && cont) {
-              show = true;
-              cont = false;
-            }
-          });
+          var select2 = $scope.select2.split('_');
+          var type = select2[0];
+          var value = parseInt(select2[1], 10);
 
-          angular.forEach(doc.sponsor, function (sponsor) {
-            if (sponsor.id === $scope.select2 && cont) {
-              show = true;
-              cont = false;
-            }
-          });
-
-          angular.forEach(doc.statuses, function (status) {
-            if (status.id === $scope.select2 && cont) {
-              show = true;
-              cont = false;
-            }
-          });
-
+          switch (type) {
+          case 'category':
+            angular.forEach(doc.categories, function (category) {
+              if (+category.id === value && cont) {
+                show = true;
+                cont = false;
+              }
+            });
+            break;
+          case 'sponsor':
+            angular.forEach(doc.sponsor, function (sponsor) {
+              if (+sponsor.id === value && cont) {
+                show = true;
+                cont = false;
+              }
+            });
+            break;
+          case 'status':
+            angular.forEach(doc.statuses, function (status) {
+              if (+status.id === value && cont) {
+                show = true;
+                cont = false;
+              }
+            });
+            break;
+          }
         } else {
           show = true;
         }
 
         return show;
       };
-
-      $scope.getDocs = function () {
-        $http.get('/api/docs')
-          .success(function (data) {
-
-            angular.forEach(data, function (doc) {
-
-              $scope.docs.push(doc);
-
-              angular.forEach(doc.categories, function (category) {
-                var found = $filter('filter')($scope.categories, category, true);
-
-                if (!found.length) {
-                  $scope.categories.push(category.name);
-                }
-              });
-
-              angular.forEach(doc.sponsor, function (sponsor) {
-                var found = $filter('filter')($scope.sponsors, sponsor, true);
-
-                if (!found.length) {
-                  $scope.sponsors.push(sponsor);
-                }
-              });
-
-              angular.forEach(doc.statuses, function (status) {
-                var found = $filter('filter')($scope.statuses, status, true);
-
-                if (!found.length) {
-                  $scope.statuses.push(status);
-                }
-              });
-
-              angular.forEach(doc.dates, function (date) {
-                date.date = Date.parse(date.date);
-              });
-            });
-
-          })
-          .error(function (data) {
-            console.error("Unable to get documents: %o", data);
-          });
-      };
     }
     ])
-  .controller('DocumentPageController', ['$scope', '$cookies',
-    function ($scope, $cookies) {
+  .controller('DocumentPageController', ['$scope', '$cookies', '$location',
+    function ($scope, $cookies, $location) {
       $scope.hideIntro = $cookies.hideIntro;
 
       $scope.hideHowToAnnotate = function () {
@@ -117,13 +128,17 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('ReaderController', ['$scope', '$http', 'annotationService',
-    function ($scope, $http, annotationService) {
+  .controller('ReaderController', ['$scope', '$http', 'annotationService', '$timeout', '$anchorScroll',
+    function ($scope, $http, annotationService, $timeout, $anchorScroll) {
       $scope.annotations = [];
 
       $scope.$on('annotationsUpdated', function () {
         $scope.annotations = annotationService.annotations;
         $scope.$apply();
+
+        $timeout(function () {
+          $anchorScroll();
+        }, 0);
       });
 
       $scope.init = function () {
@@ -137,7 +152,7 @@ angular.module('madisonApp.controllers', [])
         if ($scope.user.id !== '') {
           $http.get('/api/users/' + $scope.user.id + '/support/' + $scope.doc.id)
             .success(function (data) {
-              switch (data.meta_value) {
+              switch (data.support) {
               case "1":
                 $scope.supported = true;
                 break;
@@ -148,13 +163,18 @@ angular.module('madisonApp.controllers', [])
                 $scope.supported = null;
                 $scope.opposed = null;
               }
+
+              if($scope.supported !== null && $scope.opposed !== null){
+                $('#doc-support').text(data.supports + ' Support');
+                $('#doc-oppose').text(data.opposes + ' Oppose');
+              }
             }).error(function () {
               console.error("Unable to get support info for user %o and doc %o", $scope.user, $scope.doc);
             });
         }
       };
 
-      $scope.support = function (supported) {
+      $scope.support = function (supported, $event) {
         $http.post('/api/docs/' + $scope.doc.id + '/support', {
           'support': supported
         })
@@ -167,6 +187,18 @@ angular.module('madisonApp.controllers', [])
               $scope.supported = data.support;
               $scope.opposed = !data.support;
             }
+
+            var button = $($event.target);
+            var otherButton = $($event.target).siblings('a.btn');
+
+            if(button.hasClass('doc-support')){
+              button.text(data.supports + ' Support');
+              otherButton.text(data.opposes + ' Oppose');
+            }else{
+              button.text(data.opposes + ' Oppose');
+              otherButton.text(data.supports + ' Support');
+            }
+
           })
           .error(function (data) {
             console.error("Error posting support: %o", data);
@@ -174,13 +206,21 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup',
-    function ($scope, $http, annotationService, createLoginPopup) {
+  .controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
+    function ($scope, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
       $scope.annotations = [];
       $scope.comments = [];
       $scope.activities = [];
       $scope.supported = null;
       $scope.opposed = false;
+
+      //Parse sub-comment hash if there is one
+      var hash = $location.hash();
+      var subCommentId = hash.match(/^subcomment_([0-9]+)$/);
+      if(subCommentId){
+        $scope.subCommentId = subCommentId[1];  
+      }
+      
 
       $scope.init = function (docId) {
         $scope.getDocComments(docId);
@@ -188,14 +228,24 @@ angular.module('madisonApp.controllers', [])
         $scope.doc = doc;
       };
 
+      //Watch for annotationsUpdated broadcast
       $scope.$on('annotationsUpdated', function () {
         angular.forEach(annotationService.annotations, function (annotation) {
           if ($.inArray(annotation, $scope.activities) < 0) {
+            var collapsed = true;
+
+            if($scope.subCommentId){
+              angular.forEach(annotation.comments, function (subcomment) {
+                if(subcomment.id == $scope.subCommentId){
+                  collapsed = false;
+                }
+              });
+            }
+
             annotation.label = 'annotation';
-            annotation.commentsCollapsed = true;
+            annotation.commentsCollapsed = collapsed;
             $scope.activities.push(annotation);
           }
-
         });
 
         $scope.$apply();
@@ -208,8 +258,19 @@ angular.module('madisonApp.controllers', [])
         })
           .success(function (data) {
             angular.forEach(data, function (comment) {
+              var collapsed = true;
+
+              if($scope.subCommentId){
+                angular.forEach(comment.comments, function (subcomment) {
+                  if(subcomment.id == $scope.subCommentId){
+                    collapsed = false;
+                  }
+                });
+              }
+
+              comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
-              comment.commentsCollapsed = true;
+              comment.link = 'comment_' + comment.id;
               $scope.activities.push(comment);
             });
           })
@@ -344,4 +405,35 @@ angular.module('madisonApp.controllers', [])
       };
 
     }
+    ])
+    .controller('DocumentTocController', ['$scope',
+      function ($scope) {
+        $scope.headings = [];
+        // For now, we use the simplest possible method to render the TOC -
+        // just scraping the content.  We could use a real API callback here
+        // later if need be.  A huge stack of jQuery follows.
+        var headings = $('#doc_content').find('h1,h2,h3,h4,h5,h6');
+
+        if(headings.length > 0) {
+
+          headings.each(function(i, elm) {
+            elm = $(elm);
+            // Set an arbitrary id.
+            // TODO: use a better identifier here - preferably a title-based slug
+            if(!elm.attr('id'))
+            {
+              elm.attr('id', 'heading-' + i);
+            }
+            elm.addClass('anchor');
+            $scope.headings.push({'title': elm.text(), 'tag': elm.prop('tagName'), 'link': elm.attr('id')});
+          });
+        }
+        else {
+          $('#toc-column').remove();
+          var container = $('#content').parent();
+          container.removeClass('col-md-6');
+          container.addClass('col-md-9');
+        }
+
+      }
     ]);

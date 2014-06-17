@@ -1,35 +1,35 @@
-<div class="logo-madison col-md-4">
-	<a class="link-home" href="{{ URL::to('/') }}">
-		<h1 class="white">Madison <span class="level">Demo</span></h1>
-	</a>
+<div class="navbar-header ">
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <a class="brand logo-madison navbar-brand link-home" href="{{ URL::to('/') }}" target="_self">
+  	Madison <span class="level">Demo</span>
+  </a>
 </div>
-<div class="nav nav-main col-md-4 col-md-offset-4">
-
-	<ul>
-		<li class="link-about"><a href="{{ URL::to('about') }}">About</a></li>
-		<li class="link-faq"><a href="{{ URL::to('faq') }}">FAQ</a></li>	
-		<li class="link-support"><a href="https://rally.org/opengovfoundation" target="_blank">Donate</a></li>	
+<div class="nav nav-main navbar-collapse collapse">
+	<ul class="nav navbar-nav navbar-right">
+		<li class="link-about"><a href="{{ URL::to('about') }}" target="_self">About</a></li>
+		<li class="link-faq"><a href="{{ URL::to('faq') }}" target="_self">FAQ</a></li>
+		<li class="link-support"><a href="https://rally.org/opengovfoundation" target="_blank">Donate</a></li>
+		<li class="link-subscribe"><a href="http://opengovfoundation.us6.list-manage.com/subscribe?u=9d450bf68b3df1185fc9f62b2&id=40a5a16e19" target="_blank">Subscribe</a></li>
 		@if(Auth::check())
 			<li class="dropdown">
 				<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ Auth::user()->fname }} <span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
-					<!-- <li class="link-bookmarked"><a href="#" class="disabled coming-feature">Bookmarked Documents</a></li> -->
-					<!-- <li class="link-points"><a href="#" class="disabled coming-feature">Your Points</a></li> -->
-					<li class="link-settings"><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}">Account Settings</a></li>
-					<li class="link-settings"><a href="{{ URL::to('groups') }}">Group Management</a></li>
+					<li class="link-settings"><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}" target="_self">Account Settings</a></li>
+					<li class="link-settings"><a href="{{ URL::to('groups') }}" target="_self">Group Management</a></li>
 					@if(Auth::user()->hasRole('Admin'))
-					<li><a href="{{ URL::to('dashboard') }}">Administrative Dashboard</a></li>
+					<li><a href="{{ URL::to('dashboard') }}" target="_self">Administrative Dashboard</a></li>
 					@endif
-					<!-- <li class="link-help"><a href="#" class="disabled coming-feature">Help</a></li> -->
-					<li class="link-logout"><a href="{{ URL::to('logout') }}">Logout</a></li>
+					<li class="link-logout"><a href="{{ URL::to('logout') }}" target="_self">Logout</a></li>
 				</ul>
 			</li>
 		@else
-			<li class="link-login"><a href="{{ URL::to('user/login') }}">Login</a></li>
-			<li class="link-signup"><a href="{{ URL::to('user/signup') }}">Sign Up</a></li>
+			<li class="link-login"><a href="{{ URL::to('user/login') }}" target="_self">Login</a></li>
+			<li class="link-signup"><a href="{{ URL::to('user/signup') }}" target="_self">Sign Up</a></li>
 		@endif
 	</ul>
-
-</div>
-
-
+</div><!--/.navbar-collapse -->

@@ -122,7 +122,10 @@ class DocController extends BaseController{
 			$docMeta->save();
 		}
 
-		return Response::json(array('support' => $supported));
+		$supports = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $doc)->count();
+		$opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $doc)->count();
+
+		return Response::json(array('support' => $supported, 'supports' => $supports, 'opposes' => $opposes));
 	}
 }
 
