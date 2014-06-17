@@ -214,7 +214,6 @@ class GroupsController extends Controller
 				return Redirect::back()->with('error', 'You cannot edit the group you are not the owner');
 			}
 		}
-		
 		return View::make('groups.edit.index', compact('group'));
 	}
 	

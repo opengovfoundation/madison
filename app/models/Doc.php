@@ -25,14 +25,14 @@ class Doc extends Eloquent{
 
 	public function canUserEdit($user)
 	{
-		$sponsor = $this->sponsor();
+		$sponsor = $this->sponsor()->first();
 		
 		switch(true) {
 			case $sponsor instanceof User:
 				return $sponsor->can('independent_author_create_doc');
 				break;
 			case $sponsor instanceof Group:
-				return $sponsor->userHasRole($user, Group::ROLE_EDITOR) || $group->userHasRole($user, Group::ROLE_OWNER);
+				return $sponsor->userHasRole($user, Group::ROLE_EDITOR) || $sponsor->userHasRole($user, Group::ROLE_OWNER);
 				break;
 			default:
 				throw new \Exception("Unknown Sponsor Type");

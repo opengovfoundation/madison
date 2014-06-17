@@ -40,7 +40,7 @@ class Group extends Eloquent
 		return false;
 	}
 	
-	public function name()
+	public function getDisplayName()
 	{
 		return !empty($this->display_name) ? $this->display_name : !empty($this->name) ? $this->name : "";
 	}
@@ -60,7 +60,7 @@ class Group extends Eloquent
 	{
 		$roleId = $this->getRoleId($role);
 		
-		return $user->can($roleId);
+		return $user->hasRole($roleId);
 	}
 	
 	static public function getRoles($forHtml = false)

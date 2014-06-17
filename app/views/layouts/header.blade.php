@@ -20,7 +20,7 @@
 				$activeGroupId = Session::get('activeGroupId');
 			?>
 			<li class="dropdown">
-				<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ Auth::user()->fname }} <?php if($activeGroupId > 0): ?>({{ Auth::user()->activeGroup()->name() }})<?php endif; ?><span class="caret"></span></a>
+				<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ Auth::user()->fname }} <?php if($activeGroupId > 0): ?>({{ Auth::user()->activeGroup()->getDisplayName() }})<?php endif; ?><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
 					<!-- <li class="link-bookmarked"><a href="#" class="disabled coming-feature">Bookmarked Documents</a></li> -->
 					<!-- <li class="link-points"><a href="#" class="disabled coming-feature">Your Points</a></li> -->
@@ -46,7 +46,7 @@
 						<?php endif; ?>
 						<li class="divider"></li>
 							<?php foreach($userGroups->get() as $group): ?>
-								<li class="link-settings"><a href="/groups/active/{{ $group->id }}" target="_self">{{ $group->name() }} {{ $group->id == $activeGroupId ? '(active)' : '' }}</a></li>
+								<li class="link-settings"><a href="/groups/active/{{ $group->id }}" target="_self">{{ $group->getDisplayName() }} {{ $group->id == $activeGroupId ? '(active)' : '' }}</a></li>
 							<?php endforeach;?>
 							
 						</ul>
