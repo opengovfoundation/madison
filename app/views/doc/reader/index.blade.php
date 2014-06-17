@@ -66,7 +66,7 @@
 	<div class="row">
 		<div class="col-md-3" id="toc-column">
 			<div class="document-toc">
-				<div class="toc-container container row">
+				<div class="toc-container container row affix-elm" data-offset-top="210">
 					<div class="col-md-3 toc-content" id="toc">
 						<h2>Table of Contents</h2>
 						<div ng-controller="DocumentTocController" id="toc-container">

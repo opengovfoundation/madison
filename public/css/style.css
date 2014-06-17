@@ -123,72 +123,60 @@ ol.breadcrumb li.active {
   border-top: none !important;
 }
 
-/* line 62, ../sass/_document.scss */
-.doc-header {
-  height: 120px;
-}
 /* line 65, ../sass/_document.scss */
 .doc-header .doc-info-container {
-  position: fixed;
-  z-index: 100;
   /* background-color: whitesmoke; */
   /* padding: 0; */
   /* padding-bottom: 10px; */
 }
 
-/* Offset the top of anchor links by the height of the header */
-/* 62 + 107 + 10 + 10 */
-/* line 76, ../sass/_document.scss */
-.anchor:before {
-  content: '';
-  display: block;
-  position: relative;
-  width: 0;
-  height: 190px;
-  margin-top: -190px;
-}
-
-/* line 80, ../sass/_document.scss */
+/* line 74, ../sass/_document.scss */
 .doc-info {
-  box-shadow: 0px 5px 2px rgba(128, 128, 128, 0.3);
+  margin-bottom: 15px;
   padding-left: 0px;
 }
-/* line 85, ../sass/_document.scss */
+/* line 80, ../sass/_document.scss */
 .doc-info h1 {
   text-align: left;
   font-size: 28px;
   color: #333;
 }
-/* line 90, ../sass/_document.scss */
+/* line 85, ../sass/_document.scss */
 .doc-info div {
   color: #666;
 }
-/* line 94, ../sass/_document.scss */
+/* line 89, ../sass/_document.scss */
 .doc-info .doc-support, .doc-info .doc-oppose {
   text-shadow: none;
 }
 
-/* line 100, ../sass/_document.scss */
+/* line 95, ../sass/_document.scss */
 .how-to-annotate .how-to-annotate-img {
   border: 1px solid #ccc;
 }
-/* line 103, ../sass/_document.scss */
+/* line 98, ../sass/_document.scss */
 .how-to-annotate h2 {
   font-size: 24px;
   text-align: left;
 }
-/* line 107, ../sass/_document.scss */
+/* line 102, ../sass/_document.scss */
 .how-to-annotate h2, .how-to-annotate h3 {
   margin-top: 0px;
 }
-/* line 110, ../sass/_document.scss */
+/* line 105, ../sass/_document.scss */
 .how-to-annotate ol {
   padding-left: 22px;
 }
 
-/* line 115, ../sass/_document.scss */
+/* line 110, ../sass/_document.scss */
 .doc-sponsor {
   padding-bottom: 5px;
+}
+
+/* line 114, ../sass/_document.scss */
+.toc-container.affix {
+  top: 0;
+  margin-top: 10px;
 }
 
 /* line 121, ../sass/_document.scss */
@@ -254,10 +242,6 @@ ol.breadcrumb li.active {
 .document-toc .toc-h6 {
   font-size: 10px;
   margin-left: 25px;
-}
-/* line 179, ../sass/_document.scss */
-.document-toc .toc-container {
-  position: fixed;
 }
 
 /* line 1, ../sass/_rightbar.scss */

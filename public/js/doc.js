@@ -41,6 +41,25 @@ $(document).ready(function () {
     });
   }
 
+  $('.affix-elm').each(function(i, elm) {
+    elm = $(elm);
+    var elmtop = 0;
+    if(elm.data('offset-top')){
+      elmtop = elm.data('offset-top');
+    }
+    var elmbottom = 0;
+    if(elm.data('offset-bottom')){
+      elmbottom = elm.data('offset-bottom');
+    }
+
+    elm.affix({
+      offset: {
+        top: elmtop,
+        bottom: elmbottom
+      }
+    });
+  });
+
   if (user.id === '') {
     Annotator.prototype.checkForEndSelection = function (event) {
 
