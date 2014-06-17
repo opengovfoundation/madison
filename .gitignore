@@ -40,3 +40,5 @@ public/sass/style.css
 .vagrant/machines/default/virtualbox/action_set_name
 
 .vagrant/machines/default/virtualbox/action_provision
+
+tests/_log/*
