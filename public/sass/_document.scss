@@ -72,13 +72,7 @@
 	}
 
 	.doc-support, .doc-oppose{
-		background:#fff;
-		color:#555;
-
-		&:hover{
-			background:fff;
-			color:#111;
-		}
+		text-shadow:none;
 	}
 }
 

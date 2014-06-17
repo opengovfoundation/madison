@@ -152,7 +152,7 @@ angular.module('madisonApp.controllers', [])
         if ($scope.user.id !== '') {
           $http.get('/api/users/' + $scope.user.id + '/support/' + $scope.doc.id)
             .success(function (data) {
-              switch (data.meta_value) {
+              switch (data.support) {
               case "1":
                 $scope.supported = true;
                 break;
@@ -163,13 +163,18 @@ angular.module('madisonApp.controllers', [])
                 $scope.supported = null;
                 $scope.opposed = null;
               }
+
+              if($scope.supported !== null && $scope.opposed !== null){
+                $('#doc-support').text(data.supports + ' Support');
+                $('#doc-oppose').text(data.opposes + ' Oppose');
+              }
             }).error(function () {
               console.error("Unable to get support info for user %o and doc %o", $scope.user, $scope.doc);
             });
         }
       };
 
-      $scope.support = function (supported) {
+      $scope.support = function (supported, $event) {
         $http.post('/api/docs/' + $scope.doc.id + '/support', {
           'support': supported
         })
@@ -182,6 +187,18 @@ angular.module('madisonApp.controllers', [])
               $scope.supported = data.support;
               $scope.opposed = !data.support;
             }
+
+            var button = $($event.target);
+            var otherButton = $($event.target).siblings('a.btn');
+
+            if(button.hasClass('doc-support')){
+              button.text(data.supports + ' Support');
+              otherButton.text(data.opposes + ' Oppose');
+            }else{
+              button.text(data.opposes + ' Oppose');
+              otherButton.text(data.supports + ' Support');
+            }
+
           })
           .error(function (data) {
             console.error("Error posting support: %o", data);
