@@ -40,9 +40,9 @@
   </div>
 </div>
 <div ng-controller="DocumentPageController">
-	<div class="row">
-		<div class="col-md-8" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
-			<div class="doc-info">
+	<div class="doc-header row">
+		<div class="container doc-info-container" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
+			<div class="doc-info col-md-12">
 				<div class="">
 					<h1>{{ $doc->title }}</h1>
 				</div>
@@ -64,15 +64,19 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-3">
-			<div class="document-toc" id="toc">
-				<h2>Table of Contents</h2>
-				<div ng-controller="DocumentTocController" id="toc-container">
-					<ul>
-						<li ng-repeat="heading in headings">
-							<a class="toc-heading toc-@{{ heading.tag | lowercase }}" href="#@{{ heading.link }}">@{{ heading.title }}</a>
-						</li>
-					</ul>
+		<div class="col-md-3" id="toc-column">
+			<div class="document-toc">
+				<div class="toc-container container row">
+					<div class="col-md-3 toc-content" id="toc">
+						<h2>Table of Contents</h2>
+						<div ng-controller="DocumentTocController" id="toc-container">
+							<ul>
+								<li ng-repeat="heading in headings">
+									<a class="toc-heading toc-@{{ heading.tag | lowercase }}" href="#@{{ heading.link }}">@{{ heading.title }}</a>
+								</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

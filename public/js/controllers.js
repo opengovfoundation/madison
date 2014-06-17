@@ -424,11 +424,12 @@ angular.module('madisonApp.controllers', [])
             {
               elm.attr('id', 'heading-' + i);
             }
+            elm.addClass('anchor');
             $scope.headings.push({'title': elm.text(), 'tag': elm.prop('tagName'), 'link': elm.attr('id')});
           });
         }
         else {
-          $('#toc').parent().remove();
+          $('#toc-column').remove();
           var container = $('#content').parent();
           container.removeClass('col-md-6');
           container.addClass('col-md-9');
