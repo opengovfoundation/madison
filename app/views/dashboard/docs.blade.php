@@ -2,25 +2,52 @@
 @section('content')
 	<div class="row">
 		<ol class="breadcrumb">
-			<li><a href="/dashboard">Dashboard</a></li>
+			<li><a href="/dashboard" target="_self">Dashboard</a></li>
 			<li class="active">Documents</li>
 		</ol>
 	</div>
-	<div class="row content">
+	<div class="row content" ng-controller="DashboardDocumentsController">
 		<div class="col-md-8 admin-document-list">
-			<h2>Documents</h2>
-			<ul>
-				@if(0 == count($docs))
-					<li>No Documents Found</li>
-				@else
-					@foreach($docs as $doc)
-						<li>
-							<?php echo HTML::link('dashboard/docs/' . $doc->id, $doc->title); ?>
+			<div class="row">
+				<div class="col-md-12">
+					<h2>Documents</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<input type="text" ng-model="docSearch" class="form-control" placeholder="Filter document titles">
+				</div>
+				<div class="col-md-4">
+					<select ui-select2="select2Config" ng-model="select2">
+						<option value=""></option>
+						<optgroup label="Category">
+							<option value="category_@{{ category.id }}" ng-repeat="category in categories">@{{ category.name }}</option>
+						</optgroup>
+						<optgroup label="Sponsor">
+							<option value="sponsor_@{{ sponsor.id }}" ng-repeat="sponsor in sponsors">@{{ sponsor.fname }} @{{ sponsor.lname }}</option>
+						</optgroup>
+						<optgroup label="Status">
+							<option value="status_@{{ status.id}}" ng-repeat="status in statuses">@{{ status.label}}</option>
+						</optgroup>
+					</select>
+				</div>
+				<div class="col-md-2">
+					<select ui-select2="dateSortConfig" id="dateSortSelect" ng-model="dateSort">
+						<option value=""></option>
+						<option value="created_at">Date Posted</option>
+						<option value="updated_at">Last Updated</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<ul>
+						<li ng-repeat="doc in docs | toArray | filter:docSearch | orderBy:dateSort:reverse" ng-show="docFilter(doc)">
+							<a href="/dashboard/docs/@{{ doc.id }}">@{{ doc.title }}</a>
 						</li>
-					@endforeach
-				@endif
-
-			</ul>
+					</ul>
+				</div>
+			</div>
 		</div>
 		<div class="col-md-4 admin-add-documents">
 			<div class="row">
@@ -34,16 +61,6 @@
 					{{ Form::hidden('slug', Input::old('slug'), array('placeholder' => 'Document Slug', 'class' => 'input-slug form-control')) }}
 				<!-- /div -->
 				{{ Form::submit('Create Document', array('class' => 'btn')) }}
-				{{ Form::token() . Form::close() }}
-			</div>
-			<div class="row">
-				<h2>Import XML Document</h2>
-				{{ Form::open(array('url' => 'dashboard/import', 'method' => 'post')) }}
-				<div class="form-group">
-					<label for="url">URL:</label>
-					<input type="url" name="url" id="url" value="{{ Input::old('url') }}" placeholder="Enter URL" class="form-control" />
-				</div>
-				{{ Form::submit('Import Document', array('class'=>'btn')) }}
 				{{ Form::token() . Form::close() }}
 			</div>
 		</div>

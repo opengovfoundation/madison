@@ -75,7 +75,16 @@ class UserApiController extends ApiController{
 	public function getSupport($user, $doc){
 		$docMeta = DocMeta::where('user_id', $user->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
 
-		return Response::json($docMeta);
+		$supports = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $doc)->count();
+		$opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $doc)->count();
+
+		if(isset($docMeta)){
+			return Response::json(array('support' => $docMeta->meta_value, 'supports' => $supports, 'opposes' => $opposes));
+		}else{
+			return Response::json(array('support' => null, 'supports' => $supports, 'opposes' => $opposes));
+		}
+
+		
 	}
 }
 

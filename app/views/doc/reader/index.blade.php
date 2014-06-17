@@ -40,9 +40,9 @@
   </div>
 </div>
 <div ng-controller="DocumentPageController">
-	<div class="row">
-		<div class="col-md-8" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
-			<div class="doc-info">
+	<div class="doc-header row">
+		<div class="container doc-info-container" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
+			<div class="doc-info col-md-12">
 				<div class="">
 					<h1>{{ $doc->title }}</h1>
 				</div>
@@ -55,23 +55,28 @@
 				<div class="doc-date" ng-repeat="date in doc.dates">
 					<strong>@{{ date.label }}: </strong><span>@{{ date.date | parseDate | date:'shortDate' }}</span>
 				</div>
-				<div class="" ng-show="user.id > 0">
-						<a href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">Support This Document</a>
-						<a href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">Oppose This Document</a>
+				<div class="btn-group" ng-show="user.id > 0">
+
+					<a id="doc-support" href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">Support This Document</a>
+					<a id="doc-oppose" href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">Oppose This Document</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-3">
-			<div class="document-toc" id="toc">
-				<h2>Table of Contents</h2>
-				<div ng-controller="DocumentTocController" id="toc-container">
-					<ul>
-						<li ng-repeat="heading in headings">
-							<a class="toc-heading toc-@{{ heading.tag | lowercase }}" href="#@{{ heading.link }}">@{{ heading.title }}</a>
-						</li>
-					</ul>
+		<div class="col-md-3" id="toc-column">
+			<div class="document-toc">
+				<div class="toc-container container row affix-elm" data-offset-top="210">
+					<div class="col-md-3 toc-content" id="toc">
+						<h2>Table of Contents</h2>
+						<div ng-controller="DocumentTocController" id="toc-container">
+							<ul>
+								<li ng-repeat="heading in headings">
+									<a class="toc-heading toc-@{{ heading.tag | lowercase }}" href="#@{{ heading.link }}">@{{ heading.title }}</a>
+								</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
