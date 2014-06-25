@@ -22,11 +22,9 @@
 			<li class="dropdown">
 				<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ Auth::user()->fname }} <?php if($activeGroupId > 0): ?>({{ Auth::user()->activeGroup()->getDisplayName() }})<?php endif; ?><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
-					<!-- <li class="link-bookmarked"><a href="#" class="disabled coming-feature">Bookmarked Documents</a></li> -->
-					<!-- <li class="link-points"><a href="#" class="disabled coming-feature">Your Points</a></li> -->
-					<li class="link-settings"><a href="{{ URL::to('documents') }}">My Documents</a>
-					<li class="link-settings"><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}">Account Settings</a></li>
-					<li class="link-settings"><a href="{{ URL::to('groups') }}">Group Management</a></li>
+					<li class="link-settings"><a href="{{ URL::to('documents') }}" target="_self">My Documents</a>
+					<li class="link-settings"><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}" target="_self">Account Settings</a></li>
+					<li class="link-settings"><a href="{{ URL::to('groups') }}" target="_self">Group Management</a></li>
 					@if(Auth::user()->hasRole('Admin'))
 					<li><a href="{{ URL::to('dashboard') }}" target="_self">Administrative Dashboard</a></li>
 					@endif
