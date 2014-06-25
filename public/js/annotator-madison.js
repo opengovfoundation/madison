@@ -82,6 +82,105 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
         this.addComments(field, annotation);
       }.bind(this)
     });
+
+    this.annotator.editor.submit = function (e) {
+      //Clear previous errors
+      this.annotation._error = false;
+      
+      var field, _i, _len, _ref;
+      Annotator.Util.preventEventDefault(e);
+
+      _ref = this.fields;
+
+      for (_i = 0, _len = _ref.length; _i < _len; _i++){
+        field = _ref[_i];
+        field.submit(field.element, this.annotation);
+      }
+
+      if(this.annotation._error !== true){
+        this.publish('save', [this.annotation]);
+
+        return this.hide();
+      }
+    };
+
+    this.annotator.editor.addField({
+      load: function (field, annotation) {
+        this.addEditFields(field, annotation);
+      }.bind(this),
+      submit: function(field, annotation) {
+        //check it is tagged 'edit'
+        if(this.hasEditTag(annotation.tags)){
+          //check we have explanatory content
+          var explanation = $(field).find('#explanation').val();
+
+          //If no explanatory content, show message and don't submit
+          if('' == explanation.trim()){
+            $('#annotation-error').text("Explanation required for edits.").toggle(true);
+
+            annotation._error = true;
+            return false;
+          }
+          
+          annotation.explanation = explanation;
+        }
+      },
+      hasEditTag: function (tags) {
+        var hasEditTag = false;
+
+        if(tags === undefined || tags.length  === 0){
+          return false;
+        }
+
+        tags.forEach(function (tag) {
+          if (tag === 'edit') {
+            hasEditTag = true;
+          }
+        });
+
+        return hasEditTag;
+      }
+    });
+  },
+  addEditFields: function (field, annotation) {
+    var newField = $(field);
+    var toAdd = $('<div class="annotator-editor-edit-wrapper"></div>');
+
+    var buttonGroup = $('<div class="btn-group"></div>');
+
+    var explanation = $('<input id="explanation" type="text" name="explanation" placeholder="Why did you make this edit?" style="display:none;" />');
+    var annotationError = $('<p id="annotation-error" style="display:none; color:red;"></p>');
+
+    var annotateButton = $('<button type="button" class="btn btn-default active">Annotate</button>').click(function () {
+      $(this).addClass('active');
+      $(this).siblings().each(function (sibling) {
+        $(this).removeClass('active');
+      });
+      $('#annotator-field-0').val('');
+      $('#annotator-field-1').val('');
+      $('#explanation').toggle(false);
+      $('#explanation').prop('required', false);
+      $('#annotator-error').text('').toggle(false);
+      $('#annotator-field-0').focus();
+    });
+
+    var editButton = $('<button type="button" class="btn btn-default">Edit</button>').click(function () {
+      $(this).addClass('active');
+      $(this).siblings().each(function (sibling) {
+        $(this).removeClass('active');
+      });
+      $('#annotator-field-0').val(annotation.quote);
+      $('#annotator-field-1').val('edit ');
+      $('#explanation').toggle(true);
+      $('#explanation').prop('required', true);
+      $('#annotator-field-0').focus();
+    });
+
+    buttonGroup.append(annotateButton, editButton);
+    toAdd.append(buttonGroup);
+    toAdd.append(explanation);
+    toAdd.append(annotationError);
+    newField.html(toAdd);
   },
   addComments: function (field, annotation) {
     //Add comment wrapper and collapse the comment thread

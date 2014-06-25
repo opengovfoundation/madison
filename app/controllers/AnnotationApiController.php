@@ -44,12 +44,25 @@ class AnnotationApiController extends ApiController{
 	/**
 	 * Create a new annotation
 	 * @param document ID $doc
+	 * @throws Exception
+	 * @return 303 redirect to annotation link
 	 */
 	public function postIndex($doc){
 		$body = Input::all();
 		$body['doc_id'] = $doc;
+		$is_edit = false;
 
-		$id = DB::transaction(function() use ($body, $doc){
+		//Check for edit tag
+		if(in_array('edit', $body['tags'])){
+			$is_edit = true;
+
+			//If no explanation present, throw error
+			if(!isset($body['explanation'])){
+				throw new Exception('Explanation required for edits');
+			}
+		}
+
+		$id = DB::transaction(function() use ($body, $doc, $is_edit){
 			$annotation = new Annotation();
 			$annotation->doc_id = $doc;
 			$annotation->user_id = Auth::user()->id;
@@ -86,15 +99,19 @@ class AnnotationApiController extends ApiController{
 				$tagObj->save();
 			}
 
+			if($is_edit){
+				$comment = new AnnotationComment();
+				$comment->text = $body['explanation'];
+				$comment->user_id = $annotation->user_id;
+				$comment->annotation_id = $annotation->id;
+
+				$comment->save();
+			}
+
 			$annotation->updateSearchIndex();
 
 			return $annotation->id;
 		});
-
-		
-
-		//$annotation = Annotation::createFromAnnotatorArray($body);
-		
 		
 		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $id, 303);
 	}
