@@ -84,17 +84,24 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     });
 
     this.annotator.editor.submit = function (e) {
-      var error = false;
-      Annotator.Util.preventEventDefault();
+      //Clear previous errors
+      this.annotation._error = false;
+      
+      var field, _i, _len, _ref;
+      Annotator.Util.preventEventDefault(e);
 
-      $.each(this.fields, function(field) {
-        var ret = field.submit(field.element, this.annotation);
-      });
-      this.fields[0].submit(this.fields[0].element, this.annotation);
-      this.fields[1].submit(this.fields[1].element, this.annotation);
-      this.fields[2].submit(this.fields[2].element, this.annotation);
+      _ref = this.fields;
 
-      console.log(this.annotation);
+      for (_i = 0, _len = _ref.length; _i < _len; _i++){
+        field = _ref[_i];
+        field.submit(field.element, this.annotation);
+      }
+
+      if(this.annotation._error !== true){
+        this.publish('save', [this.annotation]);
+
+        return this.hide();
+      }
     };
 
     this.annotator.editor.addField({
@@ -110,6 +117,8 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
           //If no explanatory content, show message and don't submit
           if('' == explanation.trim()){
             $('#annotation-error').text("Explanation required for edits.").toggle(true);
+
+            annotation._error = true;
             return false;
           }
           
@@ -152,6 +161,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       $('#explanation').toggle(false);
       $('#explanation').prop('required', false);
       $('#annotator-error').text('').toggle(false);
+      $('#annotator-field-0').focus();
     });
 
     var editButton = $('<button type="button" class="btn btn-default">Edit</button>').click(function () {
@@ -163,6 +173,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       $('#annotator-field-1').val('edit ');
       $('#explanation').toggle(true);
       $('#explanation').prop('required', true);
+      $('#annotator-field-0').focus();
     });
 
     buttonGroup.append(annotateButton, editButton);
