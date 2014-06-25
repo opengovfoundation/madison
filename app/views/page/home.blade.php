@@ -3,7 +3,7 @@
 </div>
 <div class="row" ng-controller="HomePageController" ng-init="init()">
 	<div class="col-sm-6">
-		<input type="text" ng-model="docSearch" class="form-control" placeholder="Search document titles">
+		<input type="text" ng-model="docSearch" class="form-control" placeholder="Filter document titles">
 	</div>
 	<div class="col-sm-4 home-select2-container">
 		<select ui-select2="select2Config" ng-model="select2">
