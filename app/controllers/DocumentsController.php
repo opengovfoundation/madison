@@ -43,7 +43,7 @@ class DocumentsController extends Controller
 		}
 		
 		if(!$document->canUserEdit(Auth::user())) {
-			return Response::error('401');
+			return Redirect::to('documents')->with('error', 'You are not authorized to save that document.');
 		}
 		
 		$docContent->doc_id = $documentId;
@@ -70,11 +70,11 @@ class DocumentsController extends Controller
 		$doc = Doc::find($documentId);
 		
 		if(is_null($doc)) {
-			return Response::error('404');
+			return Redirect::to('documents')->with('error', 'Document not found.');
 		}
 		
 		if(!$doc->canUserEdit(Auth::user())) {
-			return Response::error('401');
+			return Redirect::to('documents')->with('error', 'You are not authorized to view that document.');
 		}
 		
 		return View::make('documents.edit', array(
