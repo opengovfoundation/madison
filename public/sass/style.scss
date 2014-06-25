@@ -146,6 +146,7 @@ textarea.form-inline{
 	padding-bottom: 7px;
 	height: 62px;
 	border-bottom: none;
+	border-radius: 0px;
 
 	.container{
 		/* padding-right: 0px;
@@ -166,10 +167,7 @@ textarea.form-inline{
 		text-shadow: none;
 	}
 
-	.nav>li>a:hover, .nav>li>a:focus{
-		background-color: none;
-		text-decoration: underline;
-	}
+	
 
 	.link-home { display: inline-block; }
 
@@ -205,6 +203,11 @@ textarea.form-inline{
 		top: -4px;
 		position: relative;
 	}
+}
+
+.nav>li>a:hover, .nav>li>a:focus{
+	background-color: $blue-header !important;
+	text-decoration: underline;
 }
 
 @media (max-width: 767px) {
@@ -323,6 +326,8 @@ textarea.form-inline{
 
 	.dropdown-menu {
 		margin-top: 5px;
+		border-top-right-radius: 4px !important;
+		border-top-left-radius: 4px !important;
 	}
 }
 
