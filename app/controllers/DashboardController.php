@@ -257,7 +257,7 @@ class DashboardController extends BaseController{
 		$doc_content->save();
 	
 		$doc = Doc::find($id);
-		$doc->store_content($doc, $doc_content);
+		$doc->indexContent($doc_content);
 	
 		return Redirect::to('dashboard/docs/' . $id)->with('success_message', 'Document Saved Successfully');
 	}

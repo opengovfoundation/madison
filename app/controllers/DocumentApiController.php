@@ -38,7 +38,7 @@ class DocumentApiController extends ApiController{
 		$return_docs = array();
 
 		foreach($docs as $doc){
-			$doc->setActionCount();
+			// $doc->setActionCount();
 			$return_doc = $doc->toArray();
 
 			$return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));

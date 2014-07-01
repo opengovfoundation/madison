@@ -27,9 +27,13 @@ class Doc extends Eloquent{
 	{
 		$sponsor = $this->sponsor()->first();
 		
+		if($user->hasRole('Admin')){
+			return true;
+		}
+
 		switch(true) {
 			case $sponsor instanceof User:
-				return $sponsor->can('independent_author_create_doc');
+				return $sponsor->hasRole('Independent Sponsor');
 				break;
 			case $sponsor instanceof Group:
 				return $sponsor->userHasRole($user, Group::ROLE_EDITOR) || $sponsor->userHasRole($user, Group::ROLE_OWNER);

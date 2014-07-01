@@ -56,6 +56,7 @@ Route::put('documents/edit/{documentId}', 'DocumentsController@saveDocumentEdits
 Route::post('documents/create', 'DocumentsController@createDocument');
 Route::post('documents/save', 'DocumentsController@saveDocument');
 Route::delete('/documents/delete/{slug}', 'DocumentsController@deleteDocument');
+Route::get('/documents/sponsor/request', 'SponsorController@getRequest');
 
 //User Routes
 Route::get('user/{user}', 'UserController@getIndex');
