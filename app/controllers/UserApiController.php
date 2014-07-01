@@ -16,6 +16,51 @@ class UserApiController extends ApiController{
 		return Response::json($user);
 	}
 	
+	public function getIndependentVerify()
+	{
+		$this->beforeFilter('admin');
+		
+		$requests = UserMeta::where('meta_key', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+							->where('meta_value', '0')
+							->with('user')->get();
+		
+		return Response::json($requests);
+	}
+	
+	public function postIndependentVerify()
+	{
+		$this->beforeFilter('admin');
+		
+		$request = Input::get('request');
+		$status = Input::get('status');
+		
+		$accepted = array('verified', 'denied');
+		
+		if(!in_array($status, $accepted)) {
+			throw new Exception("Invalid value for verify request.");
+		}
+		
+		$meta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+					    ->where('user_id', '=', $request['user']['id'])
+					    ->first();
+		
+		if(!$meta) {
+			throw new Exception("Invalid ID {$request['user']['id']}");
+		}
+		
+		switch($status) {
+			case 'verified':
+				$meta->meta_value = 1;
+				$retval = $meta->save();
+				break;
+			case 'denied':
+				$retval = $meta->delete();
+				break;
+		}
+		
+		return Response::json($retval);
+	}
+	
 	public function getVerify(){
 		$this->beforeFilter('admin');
 

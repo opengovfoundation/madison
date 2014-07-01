@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Database\Eloquent\Collection;
+
 /**
  * 	Controller for admin dashboard
  */
@@ -46,6 +49,34 @@ class DashboardController extends BaseController{
 		);
 		
 		return View::make('dashboard.verify-group', $data);
+	}
+	
+	public function getUserverifications()
+	{
+		$user = Auth::user();
+	
+		if(!$user->can('admin_verify_users')) {
+			return Redirect::to('/dashboard')->with('message', "You do not have permission");
+		}
+		
+		$users = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+						 ->where('meta_value', '=', '0')
+						 ->get();
+		
+		$userResults = new Collection();
+		
+		foreach($users as $userMeta) {
+			$userObj = $userMeta->user()->first();
+			$userResults->add($userObj);
+		}
+		
+		$data = array(
+			'page_id' => 'verify_user_author',
+			'page_title' => 'Verify Independent Authors',
+			'requests' => $userResults
+		);
+	
+		return View::make('dashboard.verify-independent', $data);
 	}
 	
 	/**

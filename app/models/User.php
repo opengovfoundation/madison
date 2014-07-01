@@ -150,7 +150,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		}
 		
 		$users = UserMeta::where('user_id', '=', $this->id)
-		                  ->where('meta_key', '=', 'independent_author')
+		                  ->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_AUTHOR)
 		                  ->where('meta_value', '=', '1')
 		                  ->get();
 		
@@ -159,6 +159,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		}
 
 		return $collection;
+	}
+	
+	static public function findByRoleName($role) 
+	{
+		return Role::where('name', '=', $role)->first()->users()->get();
 	}
 }
 

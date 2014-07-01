@@ -11,6 +11,7 @@
 			<li>{{ HTML::link('dashboard/docs', 'Create / Edit Documents') }}</li>
 			<li>{{ HTML::link('dashboard/verifications', 'Verify Accounts') }}</li>
 			<li>{{ HTML::link('dashboard/groupverifications', 'Verify Groups') }}</li>
+			<li>{{ HTML::link('dashboard/userverifications', 'Verify Independent Authors') }}</li>
 		</ul>
 	</div>
 @endsection

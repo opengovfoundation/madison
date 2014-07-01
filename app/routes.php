@@ -140,6 +140,9 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/user/verify/', 'UserApiController@postVerify');
     Route::get('api/user/admin/', 'UserApiController@getAdmins');
     Route::post('api/user/admin/', 'UserApiController@postAdmin');
+    Route::get('api/user/independent/verify/', 'UserApiController@getIndependentVerify');
+    Route::post('api/user/independent/verify/', 'UserApiController@postIndependentVerify');
+    
     
     // Group Routes
     Route::get('api/groups/verify/', 'GroupsApiController@getVerify');
