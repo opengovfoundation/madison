@@ -29,6 +29,8 @@ class DocumentApiController extends ApiController{
 
 		$doc->save();
 
+		Event::fire(OpenGovEvent::DOC_EDITED, $doc);
+		
 		return Response::json(Doc::with('content')->find($id));
 	}
 

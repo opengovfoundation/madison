@@ -268,6 +268,10 @@ class GroupsController extends Controller
 		$group->save();
 		$group->addMember(Auth::user()->id, Group::ROLE_OWNER);
 
+		if($group->status == Group::STATUS_PENDING) {
+			Event::fire(OpenGovEvent::VERIFY_REQUEST_GROUP, $group);
+		}
+		
 		return Redirect::to('groups')->with('success_message', $message);
 		
 	}

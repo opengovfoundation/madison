@@ -90,6 +90,8 @@ class UserController extends BaseController{
 			$meta->user_id = $id;
 			$meta->save();
 
+			Event::fire(OpenGovEvent::VERIFY_REQUEST_USER, $user);
+			
 			return Redirect::back()->with('success_message', 'Your profile has been updated')->with('message', 'Your verified status has been requested.');
 		}
 		
@@ -208,6 +210,8 @@ class UserController extends BaseController{
 			$user->lname = $lname;
 			$user->token = $token;
 			$user->save();
+			
+			Event::fire(OpenGovEvent::NEW_USER_SIGNUP, $user);
 			
 			//Send email to user for email account verification
 			Mail::queue('email.signup', array('token'=>$token), function ($message) use ($email, $fname) {
