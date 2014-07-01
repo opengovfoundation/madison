@@ -48,6 +48,9 @@
 						@endif
 					</div>
 					<div class="form-group">
+						<p>Want to be a document sponsor? <a href="/documents/sponsor/request">Request to be an Independent Sponsor</a></p>
+					</div>
+					<div class="form-group">
 						<!-- Change avatar at gravatar.com -->
 						<a href="https://gravatar.com" target="_blank" class="red">Change your avatar at Gravatar.com</a>
 					</div>

@@ -9,7 +9,7 @@
 	<div class="row content">
 		@if(Auth::user()->hasRole('Independent Sponsor'))
 			<div class="col-md-8 admin-document-list">
-				<h2>Documents</h2>
+				<h1>Documents</h1>
 				<ul>
 					@if(0 == count($docs))
 						<li>No Documents Found</li>
@@ -34,7 +34,8 @@
 				</div>
 			</div>
 		@else
-			<div class="col-md-8">
+			<div class="col-md-12">
+				<h1>Documents</h1>
 				<p>Want to be a document sponsor? <a href="/documents/sponsor/request">Request to be an Independent Sponsor</a></p>
 			</div>
 		@endif
