@@ -16,4 +16,4 @@ modules:
             password: ''
             dump: tests/_data/dump.sql
             populate: true
-            cleanup: false
+            cleanup: true
