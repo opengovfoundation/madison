@@ -7,5 +7,4 @@ $I->fillField('Email', 'codeception@gmail.com');
 $I->fillField('Password', 'codeception');
 $I->click(['class' => 'btn']);
 $I->see('Please click the link sent to your email');
-$I->wait(3);
 ?>

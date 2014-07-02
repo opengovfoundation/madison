@@ -10,5 +10,4 @@ $I->fillField("Password", "codeception");
 $I->click(['class' => 'btn']);
 $I->seeInDatabase('users', ['email' => 'codeception@gmail.com']);
 $I->see("An email has been sent to your email address.");
-$I->wait(3);
 ?>
