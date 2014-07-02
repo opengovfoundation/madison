@@ -135,7 +135,7 @@ class DocumentsController extends Controller
 			
 			} else {
 				
-				if(!$user->can('independent_author_create_doc')) {
+				if(!$user->hasRole(Role::ROLE_INDEPENDENT_SPONSOR)) {
 					return Redirect::to('documents')->withInput()->with('error', 'You do not have permission to create a document as an individual');
 				}
 				
