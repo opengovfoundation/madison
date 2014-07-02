@@ -32,6 +32,10 @@ class RbacSeeder extends Seeder
 		$admin = new Role();
 		$admin->name = 'Admin';
 		$admin->save();
+
+		$independent_sponsor = new Role();
+		$independent_sponsor->name = 'Independent Sponsor';
+		$independent_sponsor->save();
 		
 		$permIds = array();
 		foreach($this->adminPermissions as $permClass => $data) {

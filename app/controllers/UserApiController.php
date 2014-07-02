@@ -33,6 +33,11 @@ class UserApiController extends ApiController{
 		
 		$request = Input::get('request');
 		$status = Input::get('status');
+
+		$user = User::find($request['user']['id']);
+		if(!isset($user)){
+			throw new Exception('User (' . $request['user']['id'] . ') not found.');
+		}
 		
 		$accepted = array('verified', 'denied');
 		
@@ -50,6 +55,10 @@ class UserApiController extends ApiController{
 		
 		switch($status) {
 			case 'verified':
+
+				$role = Role::where('name', 'Independent Sponsor')->first();
+				$user->attachRole($role);
+
 				$meta->meta_value = 1;
 				$retval = $meta->save();
 				break;

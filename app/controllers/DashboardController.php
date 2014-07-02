@@ -71,8 +71,8 @@ class DashboardController extends BaseController{
 		}
 		
 		$data = array(
-			'page_id' => 'verify_user_author',
-			'page_title' => 'Verify Independent Authors',
+			'page_id' => 'verify_user_sponsor',
+			'page_title' => 'Verify Independent Sponsors',
 			'requests' => $userResults
 		);
 	
