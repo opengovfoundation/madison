@@ -4,13 +4,13 @@
 		<div class="col-md-3">
 			<ol class="breadcrumb">
 				<li><a href="/dashboard">Dashboard</a></li>
-				<li class="active">Verify Independent Authors</li>
+				<li class="active">Verify Independent Sponsors</li>
 			</ol>
 		</div>
 	</div>
 	<div class="row">
 		<div class="content col-md-12" ng-controller="DashboardVerifyUserController" ng-init="init()">
-			<h1>Verify Groups</h1>
+			<h1>Verify Independent Sponsors</h1>
 			<table class="table table-striped">
 				<thead>
 					<th>ID</th>

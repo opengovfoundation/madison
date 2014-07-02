@@ -20,7 +20,7 @@ class UserApiController extends ApiController{
 	{
 		$this->beforeFilter('admin');
 		
-		$requests = UserMeta::where('meta_key', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+		$requests = UserMeta::where('meta_key', UserMeta::TYPE_INDEPENDENT_SPONSOR)
 							->where('meta_value', '0')
 							->with('user')->get();
 		
@@ -40,7 +40,7 @@ class UserApiController extends ApiController{
 			throw new Exception("Invalid value for verify request.");
 		}
 		
-		$meta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+		$meta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
 					    ->where('user_id', '=', $request['user']['id'])
 					    ->first();
 		
