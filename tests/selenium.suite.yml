@@ -1,0 +1,12 @@
+class_name: SeleniumTester
+modules:
+    enabled: 
+        - WebDriver
+        - Db
+    config:
+       WebDriver:
+         url: 'http://madison/'
+         browser: chrome
+         wait: 10
+         capabilities:
+           unexpectedAlertBehaviour: 'accept'
