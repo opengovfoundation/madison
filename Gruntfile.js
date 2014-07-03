@@ -90,6 +90,9 @@ module.exports = function (grunt) {
       },
       vagrant_setup: {
         cmd: 'vagrant up'
+      },
+      codeception: {
+        cmd: 'vendor/codeception/codeception/codecept build && vendor/codeception/codeception/codecept run'
       }
     }
   });
@@ -106,4 +109,5 @@ module.exports = function (grunt) {
   // Task definition
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower', 'exec:install_npm']);
+  grunt.registerTask('test', ['exec:codeception']);
 };
