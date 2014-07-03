@@ -11,7 +11,7 @@ class PageController extends BaseController
 	{
 		$data = array(
 			'page_id'		=> 'home',
-			'page_title'	=> 'The Madison Project',
+			'page_title'	=> 'Madison Home',
 		);
 
 		return View::make('page.index', $data);
