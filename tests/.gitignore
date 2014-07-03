@@ -2,4 +2,5 @@ _log/*
 _output/*
 acceptance/AcceptanceTester.php
 functional/FunctionalTester.php
+selenium/SeleniumTester.php
 unit/UnitTester.php
