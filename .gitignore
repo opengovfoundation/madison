@@ -16,6 +16,7 @@ shared
 .project
 .settings/
 .sass-cache
+codeception.yml
 
 public/js/angular/directives-ck.js
 
