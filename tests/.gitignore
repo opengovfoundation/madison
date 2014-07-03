@@ -1,3 +1,5 @@
-
 _log/*
 _output/*
+acceptance/AcceptanceTester.php
+functional/FunctionalTester.php
+unit/UnitTester.php
