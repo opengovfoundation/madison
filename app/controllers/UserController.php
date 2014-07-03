@@ -153,9 +153,9 @@ class UserController extends BaseController{
 		
 		if(Auth::attempt($credentials)){
 			if(isset($previous_page)){
-				return Redirect::to($previous_page);	
+				return Redirect::to($previous_page)->with('message', 'You have been successfully logged in.');	
 			}else{
-				return Redirect::to('/docs/');
+				return Redirect::to('/docs/')->with('message', 'You have been successfully logged in.');
 			}
 		}
 		else{
