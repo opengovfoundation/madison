@@ -5,9 +5,9 @@ $I->amOnPage('/');
 $I->click('Sign Up');
 $I->fillField("First Name", 'Codeception');
 $I->fillField("Last Name", 'McIntire');
-$I->fillField("Email", "codeception@gmail.com");
+$I->fillField("Email", "test@opengovfoundation.org");
 $I->fillField("Password", "codeception");
 $I->click(['class' => 'btn']);
-$I->seeInDatabase('users', ['email' => 'codeception@gmail.com']);
+$I->seeInDatabase('users', ['email' => 'test@opengovfoundation.org']);
 $I->see("An email has been sent to your email address.");
 ?>

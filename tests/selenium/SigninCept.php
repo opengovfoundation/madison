@@ -1,6 +1,6 @@
 <?php 
 $I = new SeleniumTester($scenario);
-$I->haveInDatabase('users', array('email' => 'codeception@gmail.com', 
+$I->haveInDatabase('users', array('email' => 'test@opengovfoundation.org', 
 								  'password' => '$2y$10$sESIh1sRtuINotOAPXsjOeVSXQ8wpW/vi4yLnnunKTTrkCfRpIi3W', 
 								  'fname' => 'Codeception', 
 								  'lname' => 'McIntire', 
@@ -9,7 +9,7 @@ $I->haveInDatabase('users', array('email' => 'codeception@gmail.com',
 $I->wantTo('check that user cannot login without verifying account');
 $I->amOnPage('/');
 $I->amOnPage('/user/login');
-$I->fillField('Email', 'codeception@gmail.com');
+$I->fillField('Email', 'test@opengovfoundation.org');
 $I->fillField('Password', 'codeception');
 $I->click(['class' => 'btn']);
 $I->see('Please click the link sent to your email');
