@@ -1,11 +1,11 @@
 <?php 
+/*
+	Tests signing in a regular user without verifying
+	the email, checking to see that the proper error
+	is triggered.
+*/
 $I = new AcceptanceTester($scenario);
-$I->haveInDatabase('users', array('email' => 'test@opengovfoundation.org', 
-								  'password' => '$2y$10$sESIh1sRtuINotOAPXsjOeVSXQ8wpW/vi4yLnnunKTTrkCfRpIi3W', 
-								  'fname' => 'Codeception', 
-								  'lname' => 'McIntire', 
-								  'token' => '7IU1u49GhrBsY5oP')
-                  );
+$I->createTestUser();
 $I->wantTo('check that user cannot login without verifying account');
 $I->amOnPage('/');
 $I->amOnPage('/user/login');

@@ -1,11 +1,10 @@
-<?php 
+<?php
+/*
+	Tests signing in a regular user through the
+	click interface.
+*/
 $I = new AcceptanceTester($scenario);
-$I->haveInDatabase('users', array('email' => 'test@opengovfoundation.org', 
-								  'password' => '$2y$10$sESIh1sRtuINotOAPXsjOeVSXQ8wpW/vi4yLnnunKTTrkCfRpIi3W', 
-								  'fname' => 'Codeception', 
-								  'lname' => 'McIntire', 
-								  'token' => '')
-                  );
+$I->createTestUser();
 $I->wantTo('check that user can login normally');
 $I->amOnPage('/');
 $I->amOnPage('/user/login');
