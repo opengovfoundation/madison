@@ -26,7 +26,7 @@ class GroupsApiController extends ApiController
 		$status = Input::get('status');
 		
 		if(!Group::isValidStatus($status)) {
-			throw new \Exception("Invalid value for veirfy request");
+			throw new \Exception("Invalid value for verify request");
 		}
 		
 		$group = Group::where('id', '=', $request['id'])->first();
