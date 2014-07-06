@@ -5,9 +5,9 @@
 	admin account.
 */
 $I = new AcceptanceTester($scenario);
-// Create user record in database
+// Create user record in database and login
 $I->createTestUser();
-$I->wantTo('check that user can request a verified account');
+$I->wantTo('check that user can request a verified account and be verified');
 $I->amOnPage('/');
 $I->amOnPage('/user/login');
 $I->fillField('Email', 'test@opengovfoundation.org');
@@ -35,6 +35,8 @@ $admin->does(function(AcceptanceTester $I) {
     $I->sendAjaxPostRequest('/api/user/verify/', array('request' => array('id' => 1), 'status' => 'verified'));
 });
 // Check verification in DB and interface
+// An argument can be made here that we should also check the role attachment, 
+// but then this turns completely into a functional test
 $I->seeInDatabase('user_meta', ['user_id' => $userid, 'meta_value' => 'verified']);
 $I->amOnPage('/user/edit/' . $userid);
 $I->see("Request 'Verified Account' is 'verified'");

@@ -29,7 +29,7 @@
 					<div class="form-group">
 						{{ Form::label('title', 'Title:') . Form::text('title', Input::old('title'), array('placeholder' => 'Document Title', 'class'=>'form-control')) }}
 					</div>
-					{{ Form::submit('Create Document', array('class' => 'btn')) }}
+					{{ Form::submit('Create Document', array('class' => 'btn', 'name' => 'createdoc')) }}
 					{{ Form::token() . Form::close() }}
 				</div>
 			</div>

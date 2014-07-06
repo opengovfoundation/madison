@@ -17,4 +17,20 @@ class AcceptanceHelper extends \Codeception\Module
 							       'token' => '')
                             );
 	}
+
+	function verifyTestIndependent() {
+		// Instead of relying on the test user to have a user id of 2
+		// all the time, let's grab the ID first
+		$dbh = $this->getModule('Db');
+		$userid = $dbh->grabFromDatabase('users', 'id', array('email' => 'test@opengovfoundation.org'));
+		$dbh->haveInDatabase('user_meta', 
+							 array('user_id' => $userid, 
+						     	   'meta_key' => 'independent_author', 
+						           'meta_value' => '1')
+                            );		
+		$dbh->haveInDatabase('assigned_roles', 
+							 array('user_id' => $userid, 
+						     	   'role_id' => 2)
+                            );	
+	}
 }
