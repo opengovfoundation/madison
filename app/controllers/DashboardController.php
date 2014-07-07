@@ -59,7 +59,7 @@ class DashboardController extends BaseController{
 			return Redirect::to('/dashboard')->with('message', "You do not have permission");
 		}
 		
-		$users = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+		$users = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
 						 ->where('meta_value', '=', '0')
 						 ->get();
 		
@@ -71,8 +71,8 @@ class DashboardController extends BaseController{
 		}
 		
 		$data = array(
-			'page_id' => 'verify_user_author',
-			'page_title' => 'Verify Independent Authors',
+			'page_id' => 'verify_user_sponsor',
+			'page_title' => 'Verify Independent Sponsors',
 			'requests' => $userResults
 		);
 	

@@ -32,10 +32,6 @@
 					<!-- TODO: Organization -->
 					<!-- Location -->
 					<!-- TODO: autofill / check location exists -->
-					<div class="form-group">
-						<label for="location">Location:</label>
-						<input type="text" class="form-control" name="location" id="location" placeholder="Enter Location" value="{{ Auth::user()->location }}"/>
-					</div>
 					<div class="checkbox">
 						@if(Auth::user()->verified())
 							<label>

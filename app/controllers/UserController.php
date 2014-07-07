@@ -51,7 +51,6 @@ class UserController extends BaseController{
 		$fname = Input::get('fname');
 		$lname = Input::get('lname');
 		$url = Input::get('url');
-		$location = Input::get('location');
 		$verify = Input::get('verify');
 
 		$user_details = Input::all();
@@ -80,7 +79,6 @@ class UserController extends BaseController{
 		$user->fname = $fname;
 		$user->lname = $lname;
 		$user->url = $url;
-		$user->location = $location;
 		$user->save();
 
 		if(isset($verify)){
@@ -155,9 +153,9 @@ class UserController extends BaseController{
 		
 		if(Auth::attempt($credentials)){
 			if(isset($previous_page)){
-				return Redirect::to($previous_page);	
+				return Redirect::to($previous_page)->with('message', 'You have been successfully logged in.');	
 			}else{
-				return Redirect::to('/docs/');
+				return Redirect::to('/docs/')->with('message', 'You have been successfully logged in.');
 			}
 		}
 		else{

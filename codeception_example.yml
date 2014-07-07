@@ -11,7 +11,9 @@ settings:
 modules:
     config:
         Db:
-            dsn: 'mysql:host=localhost;dbname=madison_testing_database'
+            dsn: 'mysql:host=localhost;dbname=madison_test'
             user: 'root'
-            password: 'password'
-            dump: tests/_data/testing.sql
+            password: ''
+            dump: tests/_data/dump.sql
+            populate: true
+            cleanup: true

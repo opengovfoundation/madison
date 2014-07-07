@@ -20,7 +20,7 @@ class UserApiController extends ApiController{
 	{
 		$this->beforeFilter('admin');
 		
-		$requests = UserMeta::where('meta_key', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+		$requests = UserMeta::where('meta_key', UserMeta::TYPE_INDEPENDENT_SPONSOR)
 							->where('meta_value', '0')
 							->with('user')->get();
 		
@@ -33,6 +33,11 @@ class UserApiController extends ApiController{
 		
 		$request = Input::get('request');
 		$status = Input::get('status');
+
+		$user = User::find($request['user']['id']);
+		if(!isset($user)){
+			throw new Exception('User (' . $request['user']['id'] . ') not found.');
+		}
 		
 		$accepted = array('verified', 'denied');
 		
@@ -40,7 +45,7 @@ class UserApiController extends ApiController{
 			throw new Exception("Invalid value for verify request.");
 		}
 		
-		$meta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+		$meta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
 					    ->where('user_id', '=', $request['user']['id'])
 					    ->first();
 		
@@ -50,6 +55,10 @@ class UserApiController extends ApiController{
 		
 		switch($status) {
 			case 'verified':
+
+				$role = Role::where('name', 'Independent Sponsor')->first();
+				$user->attachRole($role);
+
 				$meta->meta_value = 1;
 				$retval = $meta->save();
 				break;
