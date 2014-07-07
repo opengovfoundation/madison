@@ -1,0 +1,23 @@
+{
+    "mysql": {
+        "options": {
+            "title": "Local `mysql` DB",
+
+            "database": "mysql",
+            "user": "root",
+            "pass": "",
+            "host": "127.0.0.1"
+        }
+    },
+    
+    "info_schema": {        
+        "options": {
+            "title": "Local `information_schema` DB",
+            
+            "database": "information_schema",
+            "user": "root",
+            "pass": "",
+            "host": "localhost"
+        }
+    }
+}
