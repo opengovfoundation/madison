@@ -1,4 +1,8 @@
 <?php 
+/*
+	Tests registering a new regular user through
+	the click interface.
+*/
 $I = new AcceptanceTester($scenario);
 $I->wantTo('register a new user');
 $I->amOnPage('/');
