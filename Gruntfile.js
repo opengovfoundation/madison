@@ -94,6 +94,25 @@ module.exports = function (grunt) {
       codeception: {
         cmd: 'vendor/codeception/codeception/codecept build && vendor/codeception/codeception/codecept run'
       }
+    },
+    db_dump: {
+      testing: {
+        options: (function () {
+          var creds = grunt.file.readYAML('codeception.yml');
+          var returned = {
+            title: "Dump for test suite",
+            database: creds.modules.config.Db.dsn.split('=')[2],
+            user: creds.modules.config.Db.user,
+            pass: creds.modules.config.Db.password,
+            host: creds.modules.config.Db.dsn.split('=')[1].replace(';', ''),
+            backup_to: "tests/_data/dump.sql"
+          };
+
+          console.log(returned);
+
+          return returned;
+        }())
+      }
     }
   });
 
@@ -109,5 +128,5 @@ module.exports = function (grunt) {
   // Task definition
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower', 'exec:install_npm']);
-  grunt.registerTask('test', ['exec:codeception']);
+  grunt.registerTask('test', ['db_dump:testing', 'exec:codeception']);
 };

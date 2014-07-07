@@ -40,6 +40,9 @@
 
 				$task->command->info('Linking ' . $homeFolder . '/ga.js -> current/public/js/ga.js');
 				$ga_ret = $task->runInFolder('/', 'ln -s ' . $homeFolder . '/ga.js current/public/js/ga.js');
+
+				$task->command->info('Running Migrations');
+				$task->runForCurrentRelease('php artisan migrate');
 			}
 		),
 		'cleanup' => array(),
