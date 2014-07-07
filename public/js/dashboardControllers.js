@@ -21,7 +21,7 @@ angular.module('madisonApp.dashboardControllers', [])
     $scope.update = function(request, status, event){
         $http.post('/api/groups/verify', {'request': request, 'status': status})
         .success(function(data){
-            request.meta_value = status;
+            request.status = status;
         })
         .error(function(data, status, headers, config){
             console.error(data);
