@@ -19,7 +19,7 @@
     "roumen/sitemap": "dev-master",
     "elasticsearch/elasticsearch": "~0.4",
     "illuminate/remote": "4.1.*",
-    "graham-campbell/markdown": "1.0.0",
+    "graham-campbell/markdown": "~2.0",
     "doctrine/dbal": "2.3.*",
     "codeception/codeception": "*"
   },
