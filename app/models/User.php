@@ -81,7 +81,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		if($bool) {
 			DB::transaction(function() {
 				$metaKey = UserMeta::where('user_id', '=', $this->id)
-							       ->where('meta_key', '=', 'independent_author')
+							       ->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
 								   ->first();
 				
 				if(!$metaKey) {
@@ -150,7 +150,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		}
 		
 		$users = UserMeta::where('user_id', '=', $this->id)
-		                  ->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+		                  ->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
 		                  ->where('meta_value', '=', '1')
 		                  ->get();
 		
