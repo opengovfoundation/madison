@@ -91,6 +91,7 @@ angular.module('madisonApp.services', [])
           'left': event.clientX
         };
         popup.css(position).css('position', 'absolute');
+        popup.css('z-index', '999');
 
         $timeout(function () {
           attach_handlers();
