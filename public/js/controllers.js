@@ -128,8 +128,8 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('ReaderController', ['$scope', '$http', 'annotationService', '$timeout', '$anchorScroll',
-    function ($scope, $http, annotationService, $timeout, $anchorScroll) {
+  .controller('ReaderController', ['$scope', '$http', 'annotationService', 'createLoginPopup', '$timeout', '$anchorScroll',
+    function ($scope, $http, annotationService, createLoginPopup, $timeout, $anchorScroll) {
       $scope.annotations = [];
 
       $scope.$on('annotationsUpdated', function () {
@@ -175,6 +175,10 @@ angular.module('madisonApp.controllers', [])
       };
 
       $scope.support = function (supported, $event) {
+
+        if ($scope.user.id === '') {
+          createLoginPopup($event);
+        } else {
         $http.post('/api/docs/' + $scope.doc.id + '/support', {
           'support': supported
         })
@@ -203,6 +207,7 @@ angular.module('madisonApp.controllers', [])
           .error(function (data) {
             console.error("Error posting support: %o", data);
           });
+        }
       };
     }
     ])

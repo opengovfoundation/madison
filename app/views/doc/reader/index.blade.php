@@ -55,8 +55,7 @@
 				<div class="doc-date" ng-repeat="date in doc.dates">
 					<strong>@{{ date.label }}: </strong><span>@{{ date.date | parseDate | date:'shortDate' }}</span>
 				</div>
-				<div class="btn-group" ng-show="user.id > 0">
-
+				<div class="btn-group">
 					<a id="doc-support" href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">Support This Document</a>
 					<a id="doc-oppose" href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">Oppose This Document</a>
 				</div>
