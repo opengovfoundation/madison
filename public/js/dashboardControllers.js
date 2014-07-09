@@ -383,7 +383,7 @@ angular.module('madisonApp.dashboardControllers', [])
             };
           },
           initSelection: function (element, callback) {
-            callback($scope.status);
+            callback($scope.status);  
           },
           allowClear: true
         };
@@ -572,7 +572,7 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.getDocStatus = function () {
         return $http.get('/api/docs/' + $scope.doc.id + '/status')
           .success(function (data) {
-            if (data.id === 'undefined') {
+            if (data.id === undefined) {
               $scope.status = null;
             } else {
               $scope.status = {

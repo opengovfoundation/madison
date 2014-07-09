@@ -55,7 +55,7 @@
 							<div class="form-group">
 								<label for="status" class="col-sm-2 control-label">Status: </label>
 								<div class="col-sm-10 select2-full-width">
-									<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" ng-change="statusChange(status)" data-placeholder="">
+									<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" ng-change="statusChange(status)">
 								</div>
 							</div>
 							<div class="form-group">
