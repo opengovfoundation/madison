@@ -112,37 +112,100 @@ class NotificationEventHandler
 	
 	public function onDocCommented($data)
 	{
+		$notices = Notification::getActiveNotifications(OpenGovEvent::DOC_COMMENTED);
 		
+		$notifications = $this->processNotices($notices, OpenGovEvent::DOC_COMMENTED);
+		
+		$this->doNotificationActions($notifications, array(
+			'data' => $data,
+			'subject' => "A new comment on a doc!",
+			'from_email_address' => 'sayhello@opengovfoundation.org',
+			'from_email_name' => 'Madison'
+		));
 	}
 	
 	public function onDocCommentCommented($data)
 	{
+		$notices = Notification::getActiveNotifications(OpenGovEvent::DOC_COMMENT_COMMENTED);
 		
+		$notifications = $this->processNotices($notices, OpenGovEvent::DOC_COMMENT_COMMENTED);
+		
+		$this->doNotificationActions($notifications, array(
+			'data' => $data,
+			'subject' => "A new comment on a doc comment!",
+			'from_email_address' => 'sayhello@opengovfoundation.org',
+			'from_email_name' => 'Madison'
+		));
 	}
 	
 	public function onDocEdited($data)
 	{
+		$notices = Notification::getActiveNotifications(OpenGovEvent::DOC_EDITED);
 		
+		$notifications = $this->processNotices($notices, OpenGovEvent::DOC_EDITED);
+		
+		$this->doNotificationActions($notifications, array(
+			'data' => $data,
+			'subject' => "A document has been edited!",
+			'from_email_address' => 'sayhello@opengovfoundation.org',
+			'from_email_name' => 'Madison'
+		));
 	}
 	
 	public function onNewDocument($data)
 	{
+		$notices = Notification::getActiveNotifications(OpenGovEvent::NEW_DOCUMENT);
 		
+		$notifications = $this->processNotices($notices, OpenGovEvent::NEW_DOCUMENT);
+		
+		$this->doNotificationActions($notifications, array(
+			'data' => $data,
+			'subject' => "A document has been created!",
+			'from_email_address' => 'sayhello@opengovfoundation.org',
+			'from_email_name' => 'Madison'
+		));
 	}
 	
 	public function onVerifyAdminRequest($data)
 	{
+		$notices = Notification::getActiveNotifications(OpenGovEvent::VERIFY_REQUEST_ADMIN);
 		
+		$notifications = $this->processNotices($notices, OpenGovEvent::VERIFY_REQUEST_ADMIN);
+		
+		$this->doNotificationActions($notifications, array(
+			'data' => $data,
+			'subject' => "An admin requests verification!",
+			'from_email_address' => 'sayhello@opengovfoundation.org',
+			'from_email_name' => 'Madison'
+		));
 	}
 	
 	public function onVerifyGroupRequest($data)
 	{
+		$notices = Notification::getActiveNotifications(OpenGovEvent::VERIFY_REQUEST_GROUP);
 		
+		$notifications = $this->processNotices($notices, OpenGovEvent::VERIFY_REQUEST_GROUP);
+		
+		$this->doNotificationActions($notifications, array(
+			'data' => $data,
+			'subject' => "A group requests verification!",
+			'from_email_address' => 'sayhello@opengovfoundation.org',
+			'from_email_name' => 'Madison'
+		));
 	}
 	
 	public function onVerifyUserRequest($data)
 	{
+		$notices = Notification::getActiveNotifications(OpenGovEvent::VERIFY_REQUEST_USER);
 		
+		$notifications = $this->processNotices($notices, OpenGovEvent::VERIFY_REQUEST_USER);
+		
+		$this->doNotificationActions($notifications, array(
+			'data' => $data,
+			'subject' => "An individual requests verification!",
+			'from_email_address' => 'sayhello@opengovfoundation.org',
+			'from_email_name' => 'Madison'
+		));
 	}
 	
 	public function onTestEvent($data)
