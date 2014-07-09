@@ -8,9 +8,29 @@ class DocumentsController extends Controller
 			return Redirect::to('/')->with('error', 'You must be logged in');
 		}
 		
-		$docs = Doc::allOwnedBy(Auth::user()->id);
+		$raw_docs = Doc::allOwnedBy(Auth::user()->id);
+
+		// Get all user groups and create array from their names
+		$groups = Auth::user()->groups()->get();
+		$group_names = array();
+		foreach ($groups as $group) {
+				array_push($group_names, $group->getDisplayName());
+		}
+
+		// Create master documents array and prefill group subarray
+		$documents = array('independent' => array(), 'group' => array());
+		$documents['group'] = array_fill_keys($group_names, array());
 		
-		return View::make('documents.list', compact('docs'));
+		// Copy document to appropriate array
+		foreach($raw_docs as $doc) {
+			if ($doc->userSponsor()->exists()) {
+				array_push($documents['independent'], $doc);
+			} elseif ($doc->groupSponsor()->exists()) {
+				array_push($documents['group'][$doc->sponsor()->first()->getDisplayName()], $doc);
+			}
+		}
+
+		return View::make('documents.list', array('doc_count'=>count($raw_docs), 'documents'=>$documents));
 	}
 	
 	public function saveDocumentEdits($documentId)
