@@ -76,6 +76,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		return $this->hasMany('UserMeta');
 	}
 
+	public function getSponsorStatus(){
+		return $this->user_meta()->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)->first();
+	}
+
 	public function setIndependentAuthor($bool)
 	{
 		if($bool) {

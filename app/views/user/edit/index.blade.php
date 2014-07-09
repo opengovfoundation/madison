@@ -44,7 +44,13 @@
 						@endif
 					</div>
 					<div class="form-group">
-						<p>Want to be a document sponsor? <a href="/documents/sponsor/request">Request to be an Independent Sponsor</a></p>
+						@if(Auth::user()->hasRole('Independent Sponsor'))
+							<p><span class="glyphicon glyphicon-check"></span> Your account is able to sponsor documents as an individual.</p>
+						@elseif(Auth::user()->getSponsorStatus() && Auth::user()->getSponsorStatus()->meta_value == 0)
+							<p>Your request to become an Independent Sponsor is 'pending'</p>
+						@else
+							<p>Want to be a document sponsor? <a href="/documents/sponsor/request">Request to be an Independent Sponsor</a></p>
+						@endif
 					</div>
 					<div class="form-group">
 						<!-- Change avatar at gravatar.com -->
