@@ -7,7 +7,7 @@
 		</ol>
 	</div>
 	<div class="row content">
-		@if(Auth::user()->hasRole('Independent Sponsor') or Auth::user()->hasGroup())
+		@if(Auth::user()->hasRole('Independent Sponsor') || Auth::user()->groups()->exists())
 			<div class="col-md-8 admin-document-list">
 				<h1>Documents</h1>
 				<ul>
