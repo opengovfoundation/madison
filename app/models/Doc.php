@@ -198,7 +198,7 @@ class Doc extends Eloquent{
 	
 	static public function getAllValidSponsors()
 	{
-		$userMeta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+		$userMeta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
 							->where('meta_value', '=', 1)
 							->get();
 		
