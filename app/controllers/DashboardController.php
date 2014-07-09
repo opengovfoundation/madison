@@ -170,7 +170,7 @@ class DashboardController extends BaseController{
 						'contentItem' => $doc->content()->where('parent_id')->first()
 				);
 	
-				return View::make('dashboard.edit-doc', $data);
+				return View::make('documents.edit', $data);
 			}
 			else{
 				return Response::error('404');

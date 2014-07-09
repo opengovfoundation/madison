@@ -2,7 +2,7 @@
 @section('content')
 <div class="row">
 	<ol class="breadcrumb">
-		<li><a href="/">Home</a></li>
+		<li><a href="/" target="_self">Home</a></li>
 		<li><a href="/documents" target="_self">Documents</a></li>
 		<li class="active">{{ $doc->title }}</li>
 	</ol>
@@ -55,7 +55,7 @@
 							<div class="form-group">
 								<label for="status" class="col-sm-2 control-label">Status: </label>
 								<div class="col-sm-10 select2-full-width">
-									<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" ng-change="statusChange(status)" data-placeholder="">
+									<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" ng-change="statusChange(status)">
 								</div>
 							</div>
 							<div class="form-group">
@@ -86,7 +86,7 @@
 								</div>
 								<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
-										<% date.date | date:'short' %>
+										@{{ date.date | date:'short' }}
 									</a>
 									<ul class="dropdown-menu">
 										<datetimepicker ng-model="date.date" datetimepicker-config="{dropdownSelector: '.dropdown-toggle' }"></datetimepicker>
