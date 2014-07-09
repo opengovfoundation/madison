@@ -2,7 +2,7 @@
 @section('content')
 <div class="row">
 	<ol class="breadcrumb">
-		<li><a href="/">Home</a></li>
+		<li><a href="/" target="_self">Home</a></li>
 		<li><a href="/documents" target="_self">Documents</a></li>
 		<li class="active">{{ $doc->title }}</li>
 	</ol>
