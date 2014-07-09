@@ -27,7 +27,7 @@
 							</div>
 						{{ Form::hidden('doc_id', $doc->id) }}
 						<p><small>Need help converting a Microsoft Word document?  <a href="http://word-to-markdown.herokuapp.com/" target="_blank">There's a tool for that.</a></small></p>
-						<p><small>New to Markdown? Check out our <a href="/pdf/MarkdownCheatSheet.pdf" target="_blank">Markdown Cheat Sheet.</a></p>
+						<p><small>New to Markdown? Check out our <a href="/pdf/MarkdownCheatSheet.pdf" target="_blank">Markdown Cheat Sheet.</a></small></p>
 						<div class="form_actions">
 							{{ Form::submit('Save Doc', array('name' => 'submit', 'id' => 'submit', 'class'=>'btn')) }}
 						</div>
