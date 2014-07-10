@@ -51,26 +51,29 @@ class UserController extends BaseController{
 		$fname = Input::get('fname');
 		$lname = Input::get('lname');
 		$url = Input::get('url');
+		$phone = Input::get('phone');
 		$verify = Input::get('verify');
 
 		$user_details = Input::all();
-
-		if(Auth::user()->email != $email){
+		
+		if(Auth::user()->email != $email) {
 			$rules = array(
 				'fname'		=> 'required',
 				'lname'		=> 'required',
 				'email'		=> 'required|unique:users'
 			);
-		}else{
+		} else {
 			$rules = array(
 				'fname'		=> 'required',
-				'lname'		=> 'required'
+				'lname'		=> 'required',
+				'phone'		=> 'required'
 			);
 		}
 		
 		$validation = Validator::make($user_details, $rules);
 		
 		if($validation->fails()){
+			var_dump($validation->errors());
 			return Redirect::to('user/edit/' . $id)->withInput()->withErrors($validation);
 		}
 		
@@ -79,6 +82,7 @@ class UserController extends BaseController{
 		$user->fname = $fname;
 		$user->lname = $lname;
 		$user->url = $url;
+		$user->phone = $phone;
 		$user->save();
 
 		if(isset($verify)){
