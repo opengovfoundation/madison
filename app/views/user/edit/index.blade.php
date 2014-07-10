@@ -8,6 +8,11 @@
 		</div>
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
+				@if($errors->has())
+  					@foreach ($errors->all() as $error)
+      					<div class="alert alert-danger">{{ $error }}</div>
+  					@endforeach
+				@endif
 				{{ Form::open(array('url'=>'user/edit/' . Auth::user()->id, 'method'=>'PUT' )) }}
 					<!-- First Name -->
 					<div class="form-group">
@@ -28,6 +33,11 @@
 					<div class="form-group">
 						<label for="url">URL:</label>
 						<input type="url" class="form-control" name="url" id="url" placeholder="Enter URL" value="{{ Auth::user()->url }}"/>
+					</div>
+					<!-- Phone -->
+					<div class="form-group">
+						<label for="phone">Phone number:</label>
+						<input type="tel" class="form-control" name="phone" id="phone" placeholder="Enter phone" value="{{ Auth::user()->phone }}"/>
 					</div>
 					<!-- TODO: Organization -->
 					<!-- Location -->

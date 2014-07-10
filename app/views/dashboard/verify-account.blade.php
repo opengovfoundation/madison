@@ -17,6 +17,7 @@
 					<th>First Name</th>
 					<th>Last Name</th>
 					<th>Email</th>
+					<th>Phone</th>
 					<th>Status</th>
 				</thead>
 				<tbody>
@@ -25,6 +26,7 @@
 						<td>@{{ request.user.fname}}</td>
 						<td>@{{ request.user.lname }}</td>
 						<td>@{{ request.user.email }}</td>
+						<td>@{{ request.user.phone }}</td>
 						<td>
 							<div class="btn-group">
 								<button type="button" class="btn btn-success" ng-class="{active: request.meta_value == 'verified'}" ng-click="update(request, 'verified')">Verified</button>
