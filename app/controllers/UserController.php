@@ -73,7 +73,6 @@ class UserController extends BaseController{
 		$validation = Validator::make($user_details, $rules);
 		
 		if($validation->fails()){
-			var_dump($validation->errors());
 			return Redirect::to('user/edit/' . $id)->withInput()->withErrors($validation);
 		}
 		
