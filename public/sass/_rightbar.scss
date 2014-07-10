@@ -57,6 +57,14 @@
             }
         }
         .activity-replies-indicator{
+            &.activity-replies-indicator-inactive{
+                color: #888;
+                .glyphicon{
+                    color: #888;
+                }
+            }
+
+
             color: $blue-grad-start;
 
             .glyphicon{
@@ -65,7 +73,7 @@
         }
 
         &:hover{
-            .activity-actions, .activity-replies-indicator{
+            .activity-actions, .activity-replies-indicator {
                 opacity:1;
             }
         }
