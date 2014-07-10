@@ -43,6 +43,8 @@ Route::get('groups/active/{groupId}', 'GroupsController@setActiveGroup');
 //Static Pages
 Route::get('about', 'PageController@getAbout');
 Route::get('faq', 'PageController@faq');
+Route::get('privacy-policy', 'PageController@privacyPolicy');
+Route::get('terms-and-conditions', 'PageController@terms');
 Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 
 //Document Routes

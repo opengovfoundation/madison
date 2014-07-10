@@ -47,14 +47,16 @@ class Doc extends Eloquent{
 	
 	public function sponsor()
 	{
-		$sponsor = $this->groupSponsor()->first();
-		
+		//$sponsor = $this->groupSponsor()->addConstraints();
+		$sponsor = $this->belongsToMany('Group');
+		dd($this->get_content());
+		dd($this->groupSponsor->where());
+
 		if(!$sponsor) {
-			return $this->belongsToMany('User');
+		 	return $this->belongsToMany('User');
 		}
 		
 		return $this->belongsToMany('Group'); 
-		
 	}
 	
 	public function userSponsor()

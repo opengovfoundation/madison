@@ -30,10 +30,21 @@ class DocController extends BaseController{
 			
 			//Retrieve requested document
 			$doc = Doc::where('slug', $slug)->with('statuses')->with('sponsor')->with('categories')->with('dates')->first();
+
+			dd($doc->toJSON());
+
+			//dd($doc->sponsor()->get());
+			//dd($doc->userSponsor()->get());
+			//dd($doc->groupSponsor()->get());
 			
 			if(!isset($doc)){
 				App::abort('404');
 			}
+
+			return Response::json($doc->sponsor());
+			// if($doc->sponsor->isEmpty()){
+			// 	throw new Exception("Unable to load sponsor for document ($doc->id)");
+			// }
 			
 			$showAnnotationThanks = false;
 			
@@ -63,7 +74,7 @@ class DocController extends BaseController{
 			return View::make('doc.reader.index', $data);
 						
 		}catch(Exception $e){
-			return Redirect::to('docs')->with('error', $e->getMessage());
+			return Redirect::to('/')->with('error', $e->getMessage());
 		}
 		App::abort('404');
 	}
