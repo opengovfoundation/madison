@@ -145,13 +145,16 @@ angular.module('madisonApp.controllers', [])
         $scope.user = user;
         $scope.doc = doc;
 
-        $scope.setSponsorDisplayName();
+        $scope.setSponsor();
         $scope.getSupported();
       };
 
-      $scope.setSponsorDisplayName = function () {
-        if($scope.doc.sponsor.display_name === undefined){
-          $scope.doc.sponsor.display_name = $scope.doc.sponsor.fname + ' ' + $scope.doc.sponsor.lname;
+      $scope.setSponsor = function () {
+        if($scope.doc.group_sponsor.length !== 0){
+          $scope.doc.sponsor = $scope.doc.group_sponsor;
+        }else{
+          $scope.doc.sponsor = $scope.doc.user_sponsor;
+          $scope.doc.sponsor[0].display_name = $scope.doc.sponsor[0].fname + ' ' + $scope.doc.sponsor[0].lname;
         }
       };
 

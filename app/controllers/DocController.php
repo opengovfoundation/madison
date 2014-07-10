@@ -29,16 +29,11 @@ class DocController extends BaseController{
 		try{
 			
 			//Retrieve requested document
-			$doc = Doc::where('slug', $slug)->with('statuses')->with('sponsor')->with('categories')->with('dates')->first();
-			
+			$doc = Doc::where('slug', $slug)->with('statuses')->with('userSponsor')->with('groupSponsor')->with('categories')->with('dates')->first();
+
 			if(!isset($doc)){
 				App::abort('404');
 			}
-
-			return Response::json($doc->sponsor());
-			// if($doc->sponsor->isEmpty()){
-			// 	throw new Exception("Unable to load sponsor for document ($doc->id)");
-			// }
 			
 			$showAnnotationThanks = false;
 			
