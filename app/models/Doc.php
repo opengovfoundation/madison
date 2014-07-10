@@ -156,8 +156,8 @@ class Doc extends Eloquent{
 		}
 		
 		return str_replace(
-					array(' ', '.'),
-					array('-', ''),
+					array(' ', '.', ','),
+					array('-', '', ''),
 					strtolower($this->title));
 	}
 	
