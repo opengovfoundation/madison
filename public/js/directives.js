@@ -90,4 +90,20 @@ angular.module('madisonApp.directives', []).directive('docComments', function ()
       };
     }
   };
-}]);
+}]).directive('parseURL', function () {
+  var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+  return {    
+    restrict: 'A',    
+    require: 'ngModel',
+    replace: true,   
+    scope: { ngModel: '=ngModel' },
+    link: function compile(scope, element, attrs, controller) {         
+        scope.$watch('ngModel', function(value) {         
+            angular.forEach(value.match(urlPattern), function(url) {
+                value = value.replace(url, '<a href='+ url + '>' + url + '</a>');
+            });
+            element.html(value);        
+          });                
+    }
+  }; 
+});
