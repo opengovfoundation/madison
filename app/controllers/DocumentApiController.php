@@ -111,20 +111,36 @@ class DocumentApiController extends ApiController{
 		$doc = Doc::find($doc);
 		$sponsor = $doc->sponsor()->first();
 
+		$sponsor->sponsorType = get_class($sponsor);
+
 		return Response::json($sponsor);
 	}
 
 	public function postSponsor($doc){
 		$sponsor = Input::get('sponsor');
+
 		$doc = Doc::find($doc);
 		$response = null;
 
 		if(!isset($sponsor)){
 			$doc->sponsor()->sync(array());
 		}else{
-			$user = User::find($sponsor['id']);
-			$doc->sponsor()->sync(array($user->id));
-			$response = $user;
+			switch($sponsor['type']){
+				case 'user':
+					$user = User::find($sponsor['id']);
+					$doc->userSponsor()->sync(array($user->id));
+					$doc->groupSponsor()->sync(array());
+					$response = $user;
+					break;
+				case 'group':
+					$group = Group::find($sponsor['id']);
+					$doc->groupSponsor()->sync(array($group->id));
+					$doc->userSponsor()->sync(array());
+					$response = $group;
+					break;
+				default:
+					throw new Exception('Unknown sponsor type ' . $type);
+			}
 		}
 
 		return Response::json($response);

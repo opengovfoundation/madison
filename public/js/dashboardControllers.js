@@ -560,9 +560,21 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.getDocSponsor = function () {
         return $http.get('/api/docs/' + $scope.doc.id + '/sponsor')
           .success(function (data) {
+            var text = "";
+
+            switch(data.sponsorType.toLowerCase()) {
+                case 'group':
+                    text = "[Group] " + data.name;
+                    break;
+                case 'user':
+                    text = data.fname + " " + data.lname + " - " + data.email;
+                    break;
+            }
+
             $scope.sponsor = {
-              id: data.id,
-              text: data.fname + " " + data.lname + " - " + data.email
+                id : data.id,
+                type :  data.sponsorType.toLowerCase(),
+                text : text
             };
           }).error(function (data) {
             console.error("Error getting document sponsor: %o", data);
