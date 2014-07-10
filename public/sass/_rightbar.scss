@@ -50,13 +50,21 @@
             padding-top: 5px;
             word-wrap: break-word;
         }
-        .activity-actions, .activity-replies-indicator, .activity-replies-indicator-inactive{
+        .activity-actions, .activity-replies-indicator{
             cursor:pointer;
             span.glyphicon{
                 padding-right: 4px;
             }
         }
         .activity-replies-indicator{
+            &.activity-replies-indicator-inactive{
+                color: #888;
+                .glyphicon{
+                    color: #888;
+                }
+            }
+
+
             color: $blue-grad-start;
 
             .glyphicon{
