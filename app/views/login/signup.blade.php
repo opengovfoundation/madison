@@ -10,11 +10,6 @@
 		</div>
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
-				@if($errors->has())
-					@foreach ($errors->all() as $error)
-						<div class="alert alert-danger">{{ $error }}</div>
- 					@endforeach
-				@endif
 				{{ Form::open(array('url'=>'user/signup', 'method'=>'post')) }}
 				<!-- First Name -->
 				<div class="form-group">
