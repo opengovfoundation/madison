@@ -8,7 +8,7 @@
 	</ol>
 </div>
 <div class="row content" ng-controller="DashboardEditorController" ng-init="init()">
-	<a href="/documents/view/{{ $doc->id }}" style="float:right" class="public-link"><span class="glyphicon glyphicon-eye-open"></span> Public View</a>
+	<a href="/docs/{{ $doc->slug }}" style="float:right" class="public-link"><span class="glyphicon glyphicon-eye-open"></span> Public View</a>
 	<div class="col-md-12">
 	{{ Form::open(array('url' => '/documents/edit/' . $doc->id, 'method' => 'put', 'id'=>'doc_content_form',
 		'class' => 'form-horizontal', 'style' => 'style="padding: 0 50px; border: 1px dotted lightgray;"')) }}
