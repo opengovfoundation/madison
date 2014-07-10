@@ -104,11 +104,9 @@ module.exports = function (grunt) {
             database: creds.modules.config.Db.dsn.split('=')[2],
             user: creds.modules.config.Db.user,
             pass: creds.modules.config.Db.password,
-            host: creds.modules.config.Db.dsn.split('=')[1].replace(';', ''),
+            host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
             backup_to: "tests/_data/dump.sql"
           };
-
-          console.log(returned);
 
           return returned;
         }())
@@ -124,6 +122,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-exec');
+  grunt.loadNpmTasks('grunt-mysql-dump');
 
   // Task definition
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
