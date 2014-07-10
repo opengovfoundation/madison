@@ -47,7 +47,7 @@
 					<h1>{{ $doc->title }}</h1>
 				</div>
 				<div class="doc-sponsor" ng-repeat="sponsor in doc.sponsor">
-					<strong>Sponsored by </strong><span>@{{ sponsor.fname }} @{{ sponsor.lname }}</span>
+					<strong>Sponsored by </strong><span>@{{ sponsor.display_name }}</span>
 				</div>
 				<div class="doc-status" ng-repeat="status in doc.statuses">
 					<strong>Status: </strong><span>@{{ status.label }}</span>

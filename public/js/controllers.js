@@ -145,7 +145,14 @@ angular.module('madisonApp.controllers', [])
         $scope.user = user;
         $scope.doc = doc;
 
+        $scope.setSponsorDisplayName();
         $scope.getSupported();
+      };
+
+      $scope.setSponsorDisplayName = function () {
+        if($scope.doc.sponsor.display_name === undefined){
+          $scope.doc.sponsor.display_name = $scope.doc.sponsor.fname + ' ' + $scope.doc.sponsor.lname;
+        }
       };
 
       $scope.getSupported = function () {
