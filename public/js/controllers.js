@@ -221,8 +221,8 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
-    function ($scope, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
+  .controller('ParticipateController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
+    function ($scope, $sce, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
       $scope.annotations = [];
       $scope.comments = [];
       $scope.activities = [];
@@ -274,7 +274,6 @@ angular.module('madisonApp.controllers', [])
           .success(function (data) {
             angular.forEach(data, function (comment) {
               var collapsed = true;
-
               if($scope.subCommentId){
                 angular.forEach(comment.comments, function (subcomment) {
                   if(subcomment.id == $scope.subCommentId){
@@ -282,7 +281,6 @@ angular.module('madisonApp.controllers', [])
                   }
                 });
               }
-
               comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
