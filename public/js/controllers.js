@@ -290,7 +290,7 @@ angular.module('madisonApp.controllers', [])
       };
       $scope.parseURL = function(html_code) {
         var urlRegEx = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
-        var html = html_code.replace(urlRegEx, "<a href='$1'>$1</a>");
+        var html = html_code.replace(urlRegEx, "<a href='$1' target='_blank'>$1</a>");
         return $sce.trustAsHtml(html);
       };
 
