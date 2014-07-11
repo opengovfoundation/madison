@@ -1,6 +1,6 @@
 /*global user*/
 /*global doc*/
-angular.module('madisonApp.controllers', [])
+angular.module('madisonApp.controllers', ['ngSanitize'])
   .controller('HomePageController', ['$scope', '$http', '$filter',
     function ($scope, $http, $filter) {
       $scope.docs = [];
@@ -281,17 +281,13 @@ angular.module('madisonApp.controllers', [])
               comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
+              comment.text = comment.text + " <script>console.log('pwned');</script>";
               $scope.activities.push(comment);
             });
           })
           .error(function (data) {
             console.error("Error loading comments: %o", data);
           });
-      };
-      $scope.parseURL = function(html_code) {
-        var urlRegEx = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
-        var html = html_code.replace(urlRegEx, "<a href='$1' target='_blank'>$1</a>");
-        return $sce.trustAsHtml(html);
       };
 
       $scope.commentSubmit = function () {

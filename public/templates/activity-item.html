@@ -15,7 +15,7 @@
     </div>
     <div class="row">
         <div class="activity-content col-md-12">
-            <span ng-bind-html="parseURL(activity.text)"></span>
+            <span ng-bind-html="activity.text | linky:'_blank'"></span>
         </div>
     </div>
     <div class="row">
