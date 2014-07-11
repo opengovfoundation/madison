@@ -281,7 +281,6 @@ angular.module('madisonApp.controllers', ['ngSanitize'])
               comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
-              comment.text = comment.text + " <script>console.log('pwned');</script>";
               $scope.activities.push(comment);
             });
           })
