@@ -218,8 +218,8 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
-    function ($scope, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
+  .controller('ParticipateController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
+    function ($scope, $sce, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
       $scope.annotations = [];
       $scope.comments = [];
       $scope.activities = [];
@@ -271,7 +271,6 @@ angular.module('madisonApp.controllers', [])
           .success(function (data) {
             angular.forEach(data, function (comment) {
               var collapsed = true;
-
               if($scope.subCommentId){
                 angular.forEach(comment.comments, function (subcomment) {
                   if(subcomment.id == $scope.subCommentId){
@@ -279,7 +278,6 @@ angular.module('madisonApp.controllers', [])
                   }
                 });
               }
-
               comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
@@ -289,6 +287,11 @@ angular.module('madisonApp.controllers', [])
           .error(function (data) {
             console.error("Error loading comments: %o", data);
           });
+      };
+      $scope.parseURL = function(html_code) {
+        var urlRegEx = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
+        var html = html_code.replace(urlRegEx, "<a href='$1'>$1</a>");
+        return $sce.trustAsHtml(html);
       };
 
       $scope.commentSubmit = function () {
