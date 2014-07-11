@@ -16,7 +16,11 @@ var imports = [
 
 var app = angular.module('madisonApp', imports);
 
-app.config(['growlProvider', function (growlProvider) {
+app.config(['growlProvider', '$httpProvider', function (growlProvider, $httpProvider) {
+    growlProvider.messagesKey("messages");
+    growlProvider.messageTextKey("text");
+    growlProvider.messageSeverityKey("severity");
+    $httpProvider.responseInterceptors.push(growlProvider.serverMessagesInterceptor);
     growlProvider.onlyUniqueMessages(false);
     growlProvider.globalTimeToLive(5000);
 }]);
