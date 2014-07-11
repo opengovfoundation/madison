@@ -11,6 +11,7 @@ var imports = [
     'ui.bootstrap.datetimepicker',
     'ngAnimate',
     'ngCookies',
+    'ngSanitize',
     'angular-growl'
   ];
 

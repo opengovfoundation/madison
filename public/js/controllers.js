@@ -1,6 +1,6 @@
 /*global user*/
 /*global doc*/
-angular.module('madisonApp.controllers', ['ngSanitize'])
+angular.module('madisonApp.controllers', [])
   .controller('HomePageController', ['$scope', '$http', '$filter',
     function ($scope, $http, $filter) {
       $scope.docs = [];
