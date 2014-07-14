@@ -253,9 +253,11 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.suggestedStatuses = [];
       $scope.dates = [];
 
+
       $scope.init = function () {
         var abs = $location.absUrl();
         var id = abs.match(/.*\/(\d+)$/)[1];
+
 
         function clean_slug(string) {
           return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').replace(/ +/g, '-');
@@ -274,7 +276,10 @@ angular.module('madisonApp.dashboardControllers', [])
 
         docDone.then(function () {
           new Markdown.Editor(Markdown.getSanitizingConverter()).run();
-
+          $("#wmd-preview").css("overflow", "scroll");
+          $("#wmd-input").scroll(function () { 
+            $("#wmd-preview").scrollTop($("#wmd-input").scrollTop());
+          });
           $scope.getDocSponsor().then(function () {
             $scope.$watch('sponsor', function () {
               if (initSponsor) {
