@@ -8,10 +8,10 @@ Additionally, make sure your PHP installation includes the mcrypt and libyaml mo
 4. Install composer. See https://getcomposer.org/, or through homebrew.
 5. Install node and npm. http://nodejs.org/, or through homebrew.
 6. Install bower (easiest through npm). Yes, that's 3 package managers we've installed.
-7. Run npm install so that it can grab the packages in packages.json.
+7. Run `npm install` so that it can grab the packages in packages.json.
 8. Run `grunt install` which will run some more install commands, 
 downloading and installing the required packages. You may run into an issue
-with Github's API ratelimiting your requests for composer install, see this workaround
+with Github's API ratelimiting your requests for composer install, see this workaround - 
 https://coderwall.com/p/kz4egw.
 9. Install compass. If you do not have any ruby gems installed, you can get away with
 `sudo gem update --system` and `sudo gem install compass`, installing the compass gem
@@ -19,8 +19,8 @@ on top of Mac OSX's ruby. In general, you will want to use something like RVM to
 a separate version of ruby which does not interfere with OSX.
 
 10. Set up the site as an Apache vhost, create a clean database in MySQL. Rename
-example_creds.yml to creds.yml and enter your DB info, as well as admin info
-for the initial admin user seed. Additionally, do the same for example_smtp.yml
+`example_creds.yml` to `creds.yml` and enter your DB info, as well as admin info
+for the initial admin user seed. Additionally, do the same for `example_smtp.yml`
 if you want to enable email functionality (required for registering new users).
 
 11. Run `php artisan migrate` and `php artisan db:seed` from the root directory to 
