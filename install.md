@@ -5,7 +5,7 @@ Dependencies:
 * LAMP 
 * libyaml  
 * mcrypt
-* stuff
+
 
 1.  Install [Composer](http://getcomposer.org/)
 1.  Install and enable the yaml php extension
