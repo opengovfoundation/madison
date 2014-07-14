@@ -3,7 +3,6 @@
 1. Make sure you have a LAMP (Apache, MySQL, PHP) installation running. Madison has not been tested
 with Nginx. MySQL drop-in alternatives like MariaDB may work, but have not been tested. PHP 5.3+ is required.
 Additionally, make sure your PHP installation includes the mcrypt and libyaml modules.
-
 2. Install Xcode + CLI tools, if not already done.
 3. Install homebrew. Although this is optional, it will make things faster and easier.
 4. Install composer. See https://getcomposer.org/, or through homebrew.
