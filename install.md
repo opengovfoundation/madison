@@ -2,8 +2,9 @@
 
 For Mac OSX installation instructions, see INSTALL.OSX.md. 
 Dependencies:
-* LAMP 
-* libyaml  
+
+* LAMP
+* libyaml
 * mcrypt
 
 
