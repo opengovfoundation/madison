@@ -39,7 +39,7 @@
     </div>
   </div>
 </div>
-<div ng-controller="DocumentPageController">
+<div ng-controller="DocumentPageController" class="document-wrapper">
 	<div class="doc-header row">
 		<div class="container doc-info-container" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
 			<div class="doc-info col-md-12">

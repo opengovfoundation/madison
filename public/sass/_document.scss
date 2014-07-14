@@ -1,5 +1,42 @@
+.document-wrapper{
+	.nav-tabs{
+		border-bottom:none;
+
+		&.nav{
+			li > a{
+				&:hover{
+					background-color:transparent !important;
+					cursor:pointer;
+					border:none;
+				}
+
+				&:focus{
+					background-color:transparent !important;
+					border:none;
+					outline:none;
+				}
+
+				color:black;
+			}
+		}
+		
+
+		li.active > a{
+			background-color:transparent;
+			border:none;
+
+		}
+	}
+}
+
 .doc-tabs{
 	background:white;
+	border: 1px solid #ccc;
+	border-radius:10px;
+
+	.toc-content{
+
+	}
 }
 
 .toc-container.affix-top{
