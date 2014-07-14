@@ -62,48 +62,57 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-3" id="toc-column">
-			<div class="document-toc">
-				<div class="toc-container container row affix-elm" data-offset-top="210">
-					<div class="col-md-3 toc-content" id="toc">
-						<h2>Table of Contents</h2>
-						<div ng-controller="DocumentTocController" id="toc-container">
-							<ul>
-								<li ng-repeat="heading in headings">
-									<a class="toc-heading toc-@{{ heading.tag | lowercase }}" href="#@{{ heading.link }}">@{{ heading.title }}</a>
-								</li>
-							</ul>
+	<ul class="nav nav-tabs" role="tablist">
+		<li class="active"><a href="#tab-activity" role="tab" data-toggle="tab">Activity</a></li>
+		<li><a href="#tab-info" role="tab" data-toggle="tab">Document Info</a></li>
+	</ul>
+	<div class="tab-content doc-tabs">
+		<div id="tab-activity" class="tab-pane active row">
+			<div class="col-md-3" id="toc-column">
+				<div class="document-toc">
+					<div class="toc-container container row affix-elm" data-offset-top="210">
+						<div class="col-md-3 toc-content" id="toc">
+							<h2>Table of Contents</h2>
+							<div ng-controller="DocumentTocController" id="toc-container">
+								<ul>
+									<li ng-repeat="heading in headings">
+										<a class="toc-heading toc-@{{ heading.tag | lowercase }}" href="#@{{ heading.link }}">@{{ heading.title }}</a>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div id="content" class="content doc_content @if(Auth::check())logged_in@endif">
-				<div id="doc_content">{{ $doc->get_content('html') }}</div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<!-- Start Introduction GIF -->
-			<div class="how-to-annotate" ng-if="!hideIntro">
-				<span class="how-to-annotate-close glyphicon glyphicon-remove" ng-click="hideHowToAnnotate()"></span>
-				<h2>How to Participate</h2>
-				<div class="">
-					<img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
-				</div>
-				<div class="">
-					<ol>
-						<li>Read the policy document.</li>
-						<li>Sign up to add your voice.</li>
-						<li>Annotate, Comment, Support or Oppose!</li>
-					</ol>
+			<div class="col-md-6">
+				<div id="content" class="content doc_content @if(Auth::check())logged_in@endif">
+					<div id="doc_content">{{ $doc->get_content('html') }}</div>
 				</div>
 			</div>
-			<!-- End Introduction GIF -->
-			<div ng-controller="ParticipateController" ng-init="init({{ $doc->id }})" class="rightbar participate">
-				@include('doc.reader.participate')
+			<div class="col-md-3">
+				<!-- Start Introduction GIF -->
+				<div class="how-to-annotate" ng-if="!hideIntro">
+					<span class="how-to-annotate-close glyphicon glyphicon-remove" ng-click="hideHowToAnnotate()"></span>
+					<h2>How to Participate</h2>
+					<div class="">
+						<img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
+					</div>
+					<div class="">
+						<ol>
+							<li>Read the policy document.</li>
+							<li>Sign up to add your voice.</li>
+							<li>Annotate, Comment, Support or Oppose!</li>
+						</ol>
+					</div>
+				</div>
+				<!-- End Introduction GIF -->
+				<div ng-controller="ParticipateController" ng-init="init({{ $doc->id }})" class="rightbar participate">
+					@include('doc.reader.participate')
+				</div>
 			</div>
+		</div>
+		<div id="tab-info" class="tab-pane row">
+			
 		</div>
 	</div>
 </div>

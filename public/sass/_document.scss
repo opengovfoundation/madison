@@ -1,3 +1,19 @@
+.doc-tabs{
+	background:white;
+}
+
+.toc-container.affix-top{
+	.toc-content{
+		border-radius:none;
+		border:none;
+	}
+}
+
+.content.doc_content{
+	border:none;
+	border-radius:none;
+}
+
 .doc_content{
 	/* max-height:700px;
 	overflow-y:scroll; */
