@@ -1,5 +1,12 @@
 #Installation
 
+For Mac OSX installation instructions, see INSTALL.OSX.md. 
+Dependencies:
+* LAMP 
+* libyaml  
+* mcrypt
+
+
 1.  Install [Composer](http://getcomposer.org/)
 1.  Install and enable the yaml php extension
   * CentOS
