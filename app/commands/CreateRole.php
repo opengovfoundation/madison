@@ -37,23 +37,52 @@ class CreateRole extends Command {
 	 */
 	public function fire()
 	{
-		$roles = Role::all();
+		if($this->argument('name')){
+			$name = trim($this->argument('name'));
 
-		$this->info('Existing Roles:');
+			$role = Role::where('name', '=', $name)->first();
 
-		foreach($roles as $role){
-			$this->info($role->name);
-		}
+			if($role){
+				$this->info("Role '$name' already exists.");
+				exit;
+			}
 
-		$continue = $this->ask("Would you still like to add a new role? (yes/no)");
-
-		if('yes' === trim(strtolower($continue))){
-			$name = $this->ask("What's the new role's name?");
 			$role = new Role();
-			$role->name = trim($name);
+			$role->name = $name;
 			$role->save();
 
 			$this->info('Role saved successfully.');
+		} else {
+			$roles = Role::all();
+
+			$this->info('Existing Roles:');
+
+			foreach($roles as $role){
+				$this->info($role->name);
+			}
+
+			$continue = $this->ask("Would you still like to add a new role? (yes/no)");
+
+			if('yes' === trim(strtolower($continue))){
+				$name = $this->ask("What's the new role's name?");
+				$role = new Role();
+				$role->name = trim($name);
+				$role->save();
+
+				$this->info('Role saved successfully.');
+			}
 		}
+	}
+
+	/**
+	 * Get the console command arguments.
+	 *
+	 * @return array
+	 */
+	protected function getArguments()
+	{
+		return array(
+			array('name', InputArgument::OPTIONAL, 'The role name to create'),
+		);
 	}
 }
