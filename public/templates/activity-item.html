@@ -18,6 +18,9 @@
             <span ng-bind-html="activity.text | linky:'_blank'"></span>
         </div>
     </div>
+    <div class="annotator-tags">
+        <span class="annotator-tag" ng-repeat="tag in activity.tags">{{ tag }}</span>
+    </div>
     <div class="row">
         <div class="col-md-5">
             <span class="activity-replies-indicator" ng-class="{'activity-replies-indicator-inactive': activity.comments.length == 0}"ng-click="collapseComments(activity)"><span class="glyphicon glyphicon-comment"></span>{{ activity.comments.length || '0' }}</span>
