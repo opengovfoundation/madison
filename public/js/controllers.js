@@ -266,6 +266,32 @@ angular.module('madisonApp.controllers', [])
         $scope.$apply();
       });
 
+      $scope.isSponsor = function(){
+        var currentId = $scope.user.id;
+        var sponsored = false;
+ 
+        angular.forEach($scope.doc.sponsor, function(sponsor){
+          if(currentId === sponsor.id){
+            sponsored = true;
+          }
+        });
+
+        return sponsored;
+      };
+
+      $scope.notifyAuthor = function(activity){
+ 
+    // If the current user is a sponsor and the activity hasn't been seen yet, 
+     // post to API route depending on comment/annotation label
+        $http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + 'seen')
+        .success(function(data){
+          activity.seen = data.seen;
+        }).error(function(data){
+          console.error("Unable to mark activity as seen: %o", data);
+        });
+      };
+
+
       $scope.getDocComments = function (docId) {
         $http({
           method: 'GET',
