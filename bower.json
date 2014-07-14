@@ -17,6 +17,6 @@
     "google-diff-match-patch-js": "~1.0.0"
   },
   "resolutions": {
-    "angular": "1.2.16"
+    "angular": "1.2.17"
   }
 }
