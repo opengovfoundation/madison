@@ -135,7 +135,9 @@ Route::controller('dashboard', 'DashboardController');
     Route::put('api/dates/{date}', 'DocumentApiController@putDate');
     Route::delete('api/docs/{doc}/dates/{date}', 'DocumentApiController@deleteDate');
     Route::get('api/docs/{doc}', 'DocumentApiController@getDoc');
-    Route::post('api/docs/{doc}', 'DocumentApiController@postDoc');
+    Route::post('api/docs/{doc}/title', 'DocumentApiController@postTitle');
+    Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug');
+    Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent');
     Route::get('api/docs/', 'DocumentApiController@getDocs');
 
     //User Routes

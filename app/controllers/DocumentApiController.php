@@ -16,20 +16,42 @@ class DocumentApiController extends ApiController{
 		return Response::json($doc);
 	}
 
-	public function postDoc($id){
+	public function postTitle($id){
 		$doc = Doc::find($id);
 		$doc->title = Input::get('title');
-		$doc->slug = Input::get('slug');
-
-		$doc_content = DocContent::firstOrCreate(array('doc_id' => $doc->id));				
-		$doc_content->content = Input::get('content.content');
-		$doc_content->save();
-
-		$doc->content(array($doc_content));
-
 		$doc->save();
 
-		$response['messages'][0] = array('text'=>'Document saved', 'severity'=>'info');
+		$response['messages'][0] = array('text'=>'Document title saved', 'severity'=>'info');
+		return Response::json($response);
+	}
+
+	public function postSlug($id){
+		$doc = Doc::find($id);
+		// Compare current and new slug
+		$old_slug = $doc->slug;
+		// If the new slug is different, save it
+		if ($old_slug != Input::get('slug')) {
+			$doc->slug = Input::get('slug');
+			$doc->save();
+			$response['messages'][0] = array('text'=>'Document slug saved', 'severity'=>'info');
+		} else {
+			// If the slugs are identical, the only way this could have happened is if the sanitize
+			// function took out an invalid character and tried to submit an identical slug
+			$response['messages'][0] = array('text'=>'Invalid slug character', 'severity'=>'error');
+		}
+		
+		return Response::json($response);
+	}
+
+	public function postContent($id){
+		$doc = Doc::find($id);
+		$doc_content = DocContent::firstOrCreate(array('doc_id' => $doc->id));				
+		$doc_content->content = Input::get('content');
+		$doc_content->save();
+		$doc->content(array($doc_content));
+		$doc->save();
+
+		$response['messages'][0] = array('text'=>'Document content saved', 'severity'=>'info');
 		return Response::json($response);
 	}
 
