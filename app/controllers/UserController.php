@@ -126,8 +126,9 @@ class UserController extends BaseController{
 		$email = Input::get('email');
 		$password = Input::get('password');
 		$previous_page = Input::get('previous_page');
+		$remember = Input::get('remember');
 		$user_details = Input::all();
-		
+
 		//Rules for login form submission
 		$rules = array('email' => 'required', 'password' => 'required');
 		$validation = Validator::make($user_details, $rules);
@@ -152,7 +153,7 @@ class UserController extends BaseController{
 		//Attempt to log user in
 		$credentials = array('email' => $email, 'password' => $password);
 		
-		if(Auth::attempt($credentials)){
+		if(Auth::attempt($credentials, ($remember == 'true') ? true : false)){
 			if(isset($previous_page)){
 				return Redirect::to($previous_page)->with('message', 'You have been successfully logged in.');	
 			}else{
