@@ -29,7 +29,8 @@ class DocumentApiController extends ApiController{
 
 		$doc->save();
 
-		return Response::json(Doc::with('content')->find($id));
+		$response['messages'][0] = array('text'=>'Document saved', 'severity'=>'info');
+		return Response::json($response);
 	}
 
 	public function getDocs(){
@@ -102,8 +103,8 @@ class DocumentApiController extends ApiController{
 		}
 
 		$doc->categories()->sync($categoryIds);
-
-		return Response::json($categoryIds);
+		$response['messages'][0] = array('text'=>'Categories saved', 'severity'=>'info');
+		return Response::json($response);
 	}
 
 	public function hasSponsor($doc, $sponsor){
@@ -148,6 +149,7 @@ class DocumentApiController extends ApiController{
 			}
 		}
 
+		$response['messages'][0] = array('text'=>'Sponsor saved', 'severity'=>'info');
 		return Response::json($response);
 
 	}
@@ -181,8 +183,8 @@ class DocumentApiController extends ApiController{
 			$doc->statuses()->sync(array($toAdd->id));
 		}
 
-
-		return Response::json($toAdd);
+		$response['messages'][0] = array('text'=>'Document saved', 'severity'=>'info');
+		return Response::json($response);
 
 	}
 
@@ -234,8 +236,9 @@ class DocumentApiController extends ApiController{
 		$date->date = $newDate;
 
 		$date->save();
-
-		return Response::json($date);
+		
+		$response['messages'][0] = array('text'=>'Document saved', 'severity'=>'info');
+		return Response::json($response);
 	}
 
 	public function getAllSponsorsForUser()
