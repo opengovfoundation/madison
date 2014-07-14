@@ -155,7 +155,7 @@ class UserController extends BaseController{
 		
 		if(Auth::attempt($credentials, ($remember == 'true') ? true : false)){
 			Auth::user()->last_login = new DateTime;
-    		Auth::user()->save();
+			Auth::user()->save();
 			if(isset($previous_page)){
 				return Redirect::to($previous_page)->with('message', 'You have been successfully logged in.');	
 			}else{
