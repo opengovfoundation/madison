@@ -97,28 +97,27 @@ class DocController extends BaseController{
 
 		$supported = (bool)$input['support'];
 
-		$docMeta = DocMeta::where('user_id', Auth::user()->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
-
+		$docMeta = DocMeta::withTrashed()->where('user_id', Auth::user()->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
 
 		if(!isset($docMeta)){
 			$docMeta = new DocMeta();
-
 			$docMeta->doc_id = $doc;
 			$docMeta->user_id = Auth::user()->id;
 			$docMeta->meta_key = 'support';
 			$docMeta->meta_value = (string)$supported;
-
 			$docMeta->save();
 		}
-		elseif($docMeta->meta_value == (string)$supported){
+		elseif($docMeta->meta_value == (string)$supported && !$docMeta->trashed()){
 			$docMeta->delete();
 			$supported = null;
 		}else{
+			if ($docMeta->trashed()) {
+				$docMeta->restore();
+			}
 			$docMeta->doc_id = $doc;
 			$docMeta->user_id = Auth::user()->id;
 			$docMeta->meta_key = 'support';
-			$docMeta->meta_value = (string)$supported;
-
+			$docMeta->meta_value = (string)(bool)$input['support'];
 			$docMeta->save();
 		}
 
