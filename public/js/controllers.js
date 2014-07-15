@@ -193,7 +193,6 @@ angular.module('madisonApp.controllers', [])
           'support': supported
         })
           .success(function (data) {
-            console.log(data);
             //Parse data to see what user's action is currently
             if (data.support === null) {
               $scope.supported = false;
