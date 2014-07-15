@@ -71,6 +71,10 @@ Route::post('password/remind', 'RemindersController@postRemind');
 Route::get( 'password/reset/{token}',  'RemindersController@getReset');
 Route::post('password/reset',  'RemindersController@postReset');
 
+// Confirmation email resend
+Route::get('verification/remind',  'RemindersController@getConfirmation');
+Route::post('verification/remind',  'RemindersController@postConfirmation');
+
 //Annotation Routes
 Route::get('annotation/{annotation}', 'AnnotationController@getIndex');
 
