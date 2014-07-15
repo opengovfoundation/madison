@@ -253,9 +253,11 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.suggestedStatuses = [];
       $scope.dates = [];
 
+
       $scope.init = function () {
         var abs = $location.absUrl();
         var id = abs.match(/.*\/(\d+)$/)[1];
+
 
         function clean_slug(string) {
           return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').replace(/ +/g, '-');
@@ -274,6 +276,18 @@ angular.module('madisonApp.dashboardControllers', [])
 
         docDone.then(function () {
           new Markdown.Editor(Markdown.getSanitizingConverter()).run();
+
+          // We don't control the pagedown CSS, and this DIV needs to be scrollable
+          $("#wmd-preview").css("overflow", "scroll");
+
+          // Resizing dynamically according to the textarea is hard, 
+          // so just set the height once (22 is padding)
+          $("#wmd-preview").css("height", ($("#wmd-input").height() + 22));
+          $("#wmd-input").scroll(function () { 
+            $("#wmd-preview").scrollTop($("#wmd-input").scrollTop());
+          });
+
+
 
           $scope.getDocSponsor().then(function () {
             $scope.$watch('sponsor', function () {
