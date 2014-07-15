@@ -2,6 +2,11 @@
 	.nav-tabs{
 		border-bottom:none;
 
+		&>li>a{
+			border:none;
+			border-radius:none;
+		}
+
 		&.nav{
 			li > a{
 				&:hover{
