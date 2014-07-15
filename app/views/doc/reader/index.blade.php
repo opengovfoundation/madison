@@ -64,7 +64,7 @@
 	</div>
 	<ul class="nav nav-tabs" role="tablist">
 		<li class="active"><a href="#tab-activity" role="tab" data-toggle="tab">Activity</a></li>
-		<li><a href="#tab-info" role="tab" data-toggle="tab">Document Info</a></li>
+		<li><a href="#tab-discussion" role="tab" data-toggle="tab">Discussion</a></li>
 	</ul>
 	<div class="tab-content doc-tabs">
 		<div id="tab-activity" class="tab-pane active row">
@@ -111,7 +111,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="tab-info" class="tab-pane row">
+		<div id="tab-discussion" class="tab-pane row">
 			
 		</div>
 	</div>
