@@ -12,10 +12,11 @@
     "bootstrap": "~3.1.1",
     "angular-mocks": "~1.2.16",
     "angular-cookies": "~1.2.16",
+    "angular-sanitize": "~1.2.16",
     "angular-bootstrap-datetimepicker": "~0.2.2",
     "google-diff-match-patch-js": "~1.0.0"
   },
   "resolutions": {
-    "angular": "1.2.16"
+    "angular": "1.2.17"
   }
 }

@@ -42,7 +42,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	public function groups() {
 		return $this->belongsToMany('Group', 'group_members');
 	}
-	
+
 	public function comments(){
 		return $this->hasMany('Comment');
 	}
@@ -76,12 +76,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		return $this->hasMany('UserMeta');
 	}
 
+	public function getSponsorStatus(){
+		return $this->user_meta()->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)->first();
+	}
+
 	public function setIndependentAuthor($bool)
 	{
 		if($bool) {
 			DB::transaction(function() {
 				$metaKey = UserMeta::where('user_id', '=', $this->id)
-							       ->where('meta_key', '=', 'independent_author')
+							       ->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
 								   ->first();
 				
 				if(!$metaKey) {
@@ -150,7 +154,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		}
 		
 		$users = UserMeta::where('user_id', '=', $this->id)
-		                  ->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+		                  ->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
 		                  ->where('meta_value', '=', '1')
 		                  ->get();
 		

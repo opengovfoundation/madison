@@ -11,13 +11,18 @@ var imports = [
     'ui.bootstrap.datetimepicker',
     'ngAnimate',
     'ngCookies',
+    'ngSanitize',
     'angular-growl'
   ];
 
 var app = angular.module('madisonApp', imports);
 
-app.config(['growlProvider', function (growlProvider) {
-    growlProvider.onlyUniqueMessages(false);
+app.config(['growlProvider', '$httpProvider', function (growlProvider, $httpProvider) {
+    growlProvider.messagesKey("messages");
+    growlProvider.messageTextKey("text");
+    growlProvider.messageSeverityKey("severity");
+    $httpProvider.responseInterceptors.push(growlProvider.serverMessagesInterceptor);
+    growlProvider.onlyUniqueMessages(true);
     growlProvider.globalTimeToLive(5000);
 }]);
 

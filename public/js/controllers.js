@@ -128,8 +128,8 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('ReaderController', ['$scope', '$http', 'annotationService', '$timeout', '$anchorScroll',
-    function ($scope, $http, annotationService, $timeout, $anchorScroll) {
+  .controller('ReaderController', ['$scope', '$http', 'annotationService', 'createLoginPopup', '$timeout', '$anchorScroll',
+    function ($scope, $http, annotationService, createLoginPopup, $timeout, $anchorScroll) {
       $scope.annotations = [];
 
       $scope.$on('annotationsUpdated', function () {
@@ -145,7 +145,17 @@ angular.module('madisonApp.controllers', [])
         $scope.user = user;
         $scope.doc = doc;
 
+        $scope.setSponsor();
         $scope.getSupported();
+      };
+
+      $scope.setSponsor = function () {
+        if($scope.doc.group_sponsor.length !== 0){
+          $scope.doc.sponsor = $scope.doc.group_sponsor;
+        }else{
+          $scope.doc.sponsor = $scope.doc.user_sponsor;
+          $scope.doc.sponsor[0].display_name = $scope.doc.sponsor[0].fname + ' ' + $scope.doc.sponsor[0].lname;
+        }
       };
 
       $scope.getSupported = function () {
@@ -175,6 +185,10 @@ angular.module('madisonApp.controllers', [])
       };
 
       $scope.support = function (supported, $event) {
+
+        if ($scope.user.id === '') {
+          createLoginPopup($event);
+        } else {
         $http.post('/api/docs/' + $scope.doc.id + '/support', {
           'support': supported
         })
@@ -203,11 +217,12 @@ angular.module('madisonApp.controllers', [])
           .error(function (data) {
             console.error("Error posting support: %o", data);
           });
+        }
       };
     }
     ])
-  .controller('ParticipateController', ['$scope', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
-    function ($scope, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
+  .controller('ParticipateController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
+    function ($scope, $sce, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
       $scope.annotations = [];
       $scope.comments = [];
       $scope.activities = [];
@@ -251,6 +266,32 @@ angular.module('madisonApp.controllers', [])
         $scope.$apply();
       });
 
+      $scope.isSponsor = function(){
+        var currentId = $scope.user.id;
+        var sponsored = false;
+ 
+        angular.forEach($scope.doc.sponsor, function(sponsor){
+          if(currentId === sponsor.id){
+            sponsored = true;
+          }
+        });
+
+        return sponsored;
+      };
+
+      $scope.notifyAuthor = function(activity){
+ 
+    // If the current user is a sponsor and the activity hasn't been seen yet, 
+     // post to API route depending on comment/annotation label
+        $http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + 'seen')
+        .success(function(data){
+          activity.seen = data.seen;
+        }).error(function(data){
+          console.error("Unable to mark activity as seen: %o", data);
+        });
+      };
+
+
       $scope.getDocComments = function (docId) {
         $http({
           method: 'GET',
@@ -259,7 +300,6 @@ angular.module('madisonApp.controllers', [])
           .success(function (data) {
             angular.forEach(data, function (comment) {
               var collapsed = true;
-
               if($scope.subCommentId){
                 angular.forEach(comment.comments, function (subcomment) {
                   if(subcomment.id == $scope.subCommentId){
@@ -267,7 +307,6 @@ angular.module('madisonApp.controllers', [])
                   }
                 });
               }
-
               comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;

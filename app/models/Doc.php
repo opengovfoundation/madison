@@ -47,14 +47,13 @@ class Doc extends Eloquent{
 	
 	public function sponsor()
 	{
-		$sponsor = $this->groupSponsor()->first();
-		
+		$sponsor = $this->belongsToMany('Group')->first();
+
 		if(!$sponsor) {
-			return $this->belongsToMany('User');
+		 	return $this->belongsToMany('User');
 		}
 		
 		return $this->belongsToMany('Group'); 
-		
 	}
 	
 	public function userSponsor()
@@ -158,8 +157,8 @@ class Doc extends Eloquent{
 		}
 		
 		return str_replace(
-					array(' ', '.'),
-					array('-', ''),
+					array(' ', '.', ','),
+					array('-', '', ''),
 					strtolower($this->title));
 	}
 	
@@ -200,7 +199,7 @@ class Doc extends Eloquent{
 	
 	static public function getAllValidSponsors()
 	{
-		$userMeta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_AUTHOR)
+		$userMeta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
 							->where('meta_value', '=', 1)
 							->get();
 		

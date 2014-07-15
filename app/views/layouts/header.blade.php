@@ -22,7 +22,7 @@
 			<li class="dropdown">
 				<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ Auth::user()->fname }} <?php if($activeGroupId > 0): ?>({{ Auth::user()->activeGroup()->getDisplayName() }})<?php endif; ?><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
-					@if(Auth::user()->hasRole('Independent Sponsor'))
+					@if(Auth::user()->hasRole('Independent Sponsor') || Auth::user()->groups()->exists())
 					<li class="link-settings"><a href="{{ URL::to('documents') }}" target="_self">My Documents</a>
 					@endif
 					<li class="link-settings"><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}" target="_self">Account Settings</a></li>
@@ -37,12 +37,10 @@
 					
 					<?php if($userGroups->count() > 0): ?>
 					<li class="dropdown-submenu">
-						<a class="dropdown-trigger" href="#" data-toggle="dropdown">Change Group</a>
+						<a class="dropdown-trigger" href="#" data-toggle="dropdown">Use Madison As</a>
 						<ul class="dropdown-menu" role="menu">
-						<?php if($activeGroupId == 0): ?>
-							<li class="link-settings"><a href="/groups/active/0" target="_self">No Active Group</a></li>
-						<?php else: ?>
-							<li class="link-settings"><a href="/groups/active/0" target="_self">Remove Active Group</a></li>
+						<?php if($activeGroupId !== 0): ?>
+							<li class="link-settings"><a href="/groups/active/0" target="_self">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</a></li>
 						<?php endif; ?>
 						<li class="divider"></li>
 							<?php foreach($userGroups->get() as $group): ?>

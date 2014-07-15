@@ -16,22 +16,45 @@ class DocumentApiController extends ApiController{
 		return Response::json($doc);
 	}
 
-	public function postDoc($id){
+	public function postTitle($id){
 		$doc = Doc::find($id);
 		$doc->title = Input::get('title');
-		$doc->slug = Input::get('slug');
+		$doc->save();
 
+		$response['messages'][0] = array('text'=>'Document title saved', 'severity'=>'info');
+		return Response::json($response);
+	}
+
+	public function postSlug($id){
+		$doc = Doc::find($id);
+		// Compare current and new slug
+		$old_slug = $doc->slug;
+		// If the new slug is different, save it
+		if ($old_slug != Input::get('slug')) {
+			$doc->slug = Input::get('slug');
+			$doc->save();
+			$response['messages'][0] = array('text'=>'Document slug saved', 'severity'=>'info');
+		} else {
+			// If the slugs are identical, the only way this could have happened is if the sanitize
+			// function took out an invalid character and tried to submit an identical slug
+			$response['messages'][0] = array('text'=>'Invalid slug character', 'severity'=>'error');
+		}
+		
+		return Response::json($response);
+	}
+
+	public function postContent($id){
+		$doc = Doc::find($id);
 		$doc_content = DocContent::firstOrCreate(array('doc_id' => $doc->id));				
-		$doc_content->content = Input::get('content.content');
+		$doc_content->content = Input::get('content');
 		$doc_content->save();
-
 		$doc->content(array($doc_content));
-
 		$doc->save();
 
 		Event::fire(OpenGovEvent::DOC_EDITED, $doc);
 		
-		return Response::json(Doc::with('content')->find($id));
+		$response['messages'][0] = array('text'=>'Document content saved', 'severity'=>'info');
+		return Response::json($response);
 	}
 
 	public function getDocs(){
@@ -40,7 +63,12 @@ class DocumentApiController extends ApiController{
 		$return_docs = array();
 
 		foreach($docs as $doc){
-			// $doc->setActionCount();
+			try { 
+				$doc->setActionCount();
+			} catch(Exception $e) {
+				throw $e;
+			}
+			
 			$return_doc = $doc->toArray();
 
 			$return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
@@ -99,8 +127,8 @@ class DocumentApiController extends ApiController{
 		}
 
 		$doc->categories()->sync($categoryIds);
-
-		return Response::json($categoryIds);
+		$response['messages'][0] = array('text'=>'Categories saved', 'severity'=>'info');
+		return Response::json($response);
 	}
 
 	public function hasSponsor($doc, $sponsor){
@@ -113,22 +141,39 @@ class DocumentApiController extends ApiController{
 		$doc = Doc::find($doc);
 		$sponsor = $doc->sponsor()->first();
 
+		$sponsor->sponsorType = get_class($sponsor);
+
 		return Response::json($sponsor);
 	}
 
 	public function postSponsor($doc){
 		$sponsor = Input::get('sponsor');
+
 		$doc = Doc::find($doc);
 		$response = null;
 
 		if(!isset($sponsor)){
 			$doc->sponsor()->sync(array());
 		}else{
-			$user = User::find($sponsor['id']);
-			$doc->sponsor()->sync(array($user->id));
-			$response = $user;
+			switch($sponsor['type']){
+				case 'user':
+					$user = User::find($sponsor['id']);
+					$doc->userSponsor()->sync(array($user->id));
+					$doc->groupSponsor()->sync(array());
+					$response = $user;
+					break;
+				case 'group':
+					$group = Group::find($sponsor['id']);
+					$doc->groupSponsor()->sync(array($group->id));
+					$doc->userSponsor()->sync(array());
+					$response = $group;
+					break;
+				default:
+					throw new Exception('Unknown sponsor type ' . $type);
+			}
 		}
 
+		$response['messages'][0] = array('text'=>'Sponsor saved', 'severity'=>'info');
 		return Response::json($response);
 
 	}
@@ -162,8 +207,8 @@ class DocumentApiController extends ApiController{
 			$doc->statuses()->sync(array($toAdd->id));
 		}
 
-
-		return Response::json($toAdd);
+		$response['messages'][0] = array('text'=>'Document saved', 'severity'=>'info');
+		return Response::json($response);
 
 	}
 
@@ -215,8 +260,9 @@ class DocumentApiController extends ApiController{
 		$date->date = $newDate;
 
 		$date->save();
-
-		return Response::json($date);
+		
+		$response['messages'][0] = array('text'=>'Document saved', 'severity'=>'info');
+		return Response::json($response);
 	}
 
 	public function getAllSponsorsForUser()

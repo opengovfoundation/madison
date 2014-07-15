@@ -7,17 +7,31 @@
 		</ol>
 	</div>
 	<div class="row content">
-		@if(Auth::user()->hasRole('Independent Sponsor'))
+		@if(Auth::user()->hasRole('Independent Sponsor') || Auth::user()->groups()->exists())
 			<div class="col-md-8 admin-document-list">
 				<h1>Documents</h1>
 				<ul>
-					@if(0 == count($docs))
+					@if($doc_count == 0)
 						<li>No Documents Found</li>
 					@else
-						@foreach($docs as $doc)
+						Independently authored documents:
+						@foreach($documents['independent'] as $doc)
 							<li>
 								<?php echo HTML::link('documents/edit/' . $doc->id, $doc->title); ?>
 							</li>
+						@endforeach
+						@foreach($documents['group'] as $groupname=>$groupdocuments)
+							Group '{{ $groupname }}'
+							@if(empty($groupdocuments))
+							<li>
+								There are no documents for this group.
+							</li>
+							@endif
+							@foreach($groupdocuments as $doc)
+								<li>
+									<?php echo HTML::link('documents/edit/' . $doc->id, $doc->title); ?>
+								</li>
+							@endforeach
 						@endforeach
 					@endif
 				</ul>

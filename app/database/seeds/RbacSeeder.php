@@ -55,15 +55,11 @@ class RbacSeeder extends Seeder
 		$user = User::where('email', '=', $creds['admin_email'])->first();
 		$user->attachRole($admin);
 		
-		$independentAuthor = new Role();
-		$independentAuthor->name = "IndependentAuthor";
-		$independentAuthor->save();
-		
 		$createDocPerm = new Permission();
-		$createDocPerm->name = "independent_author_create_doc";
-		$createDocPerm->display_name = "Independent Authoring";
+		$createDocPerm->name = "independent_sponsor_create_doc";
+		$createDocPerm->display_name = "Independent Sponsoring";
 		$createDocPerm->save();
 		
-		$independentAuthor->perms()->sync(array($createDocPerm->id));
+		$independent_sponsor->perms()->sync(array($createDocPerm->id));
 	}
 }

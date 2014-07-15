@@ -4,7 +4,9 @@
 		<div class="row">
 			<div class="md-col-12">
 				<h1>Edit / Create Group Profile</h1>
+				@if($group->id > 0)
 				<p>If you would like to manage the members of your group, <a href="/groups/members/{{ $group->id }}">click here</a></p>
+				@endif
 			</div>
 		</div>
 		<div class="row">

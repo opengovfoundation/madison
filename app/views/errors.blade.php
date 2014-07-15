@@ -1,7 +1,7 @@
-@if(is_object($errors) && isset($errors->messages))
-	@foreach($errors->messages as $e)
+@if($errors->has())
+	@foreach($errors->all() as $error)
 		<div class="alert alert-danger">
-			{{ $e[0] }}
+			{{ $error }}
 		</div>
 	@endforeach
 @endif

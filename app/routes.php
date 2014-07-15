@@ -45,6 +45,8 @@ Route::get('groups/active/{groupId}', 'GroupsController@setActiveGroup');
 //Static Pages
 Route::get('about', 'PageController@getAbout');
 Route::get('faq', 'PageController@faq');
+Route::get('privacy-policy', 'PageController@privacyPolicy');
+Route::get('terms-and-conditions', 'PageController@terms');
 Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 
 //Document Routes
@@ -70,6 +72,10 @@ Route::get( 'password/remind', 'RemindersController@getRemind');
 Route::post('password/remind', 'RemindersController@postRemind');
 Route::get( 'password/reset/{token}',  'RemindersController@getReset');
 Route::post('password/reset',  'RemindersController@postReset');
+
+// Confirmation email resend
+Route::get('verification/remind',  'RemindersController@getConfirmation');
+Route::post('verification/remind',  'RemindersController@postConfirmation');
 
 //Annotation Routes
 Route::get('annotation/{annotation}', 'AnnotationController@getIndex');
@@ -135,7 +141,9 @@ Route::controller('dashboard', 'DashboardController');
     Route::put('api/dates/{date}', 'DocumentApiController@putDate');
     Route::delete('api/docs/{doc}/dates/{date}', 'DocumentApiController@deleteDate');
     Route::get('api/docs/{doc}', 'DocumentApiController@getDoc');
-    Route::post('api/docs/{doc}', 'DocumentApiController@postDoc');
+    Route::post('api/docs/{doc}/title', 'DocumentApiController@postTitle');
+    Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug');
+    Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent');
     Route::get('api/docs/', 'DocumentApiController@getDocs');
 
     //User Routes

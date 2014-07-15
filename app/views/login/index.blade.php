@@ -17,9 +17,14 @@
 				<div class="form-group">
 					{{ Form::label('password', 'Password') . Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control')) }}
 				</div>
+				<!-- Remember checkbox -->
+				<div class="checkbox">
+					{{ Form::label('remember', 'Remember me') . Form::checkbox('remember', 'true') }}
+				</div>
 				<!-- Submit -->
 				{{ Form::submit('Login', array('class'=>'btn btn-default')) }}
 				<a class="forgot-password" href="{{ URL::to('password/remind') }}">Forgot your password?</a>
+				<a class="forgot-password" href="{{ URL::to('verification/remind') }}">Resend confirmation email</a>
 				{{ Form::hidden('previous_page', $previous_page) }}
 				{{ Form::token() . Form::close() }}
 			</div>

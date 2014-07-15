@@ -34,9 +34,10 @@ class UserApiController extends ApiController{
 		$request = Input::get('request');
 		$status = Input::get('status');
 
-		$user = User::find($request['user']['id']);
+		$user = User::find($request['user_id']);
+
 		if(!isset($user)){
-			throw new Exception('User (' . $request['user']['id'] . ') not found.');
+			throw new Exception('User (' . $user->id . ') not found.');
 		}
 		
 		$accepted = array('verified', 'denied');
@@ -46,17 +47,21 @@ class UserApiController extends ApiController{
 		}
 		
 		$meta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
-					    ->where('user_id', '=', $request['user']['id'])
+					    ->where('user_id', '=', $user->id)
 					    ->first();
 		
 		if(!$meta) {
-			throw new Exception("Invalid ID {$request['user']['id']}");
+			throw new Exception("Invalid ID {$user->id}");
 		}
 		
 		switch($status) {
 			case 'verified':
 
 				$role = Role::where('name', 'Independent Sponsor')->first();
+				if(!isset($role)){
+					throw new Exception("Role 'Independent Sponsor' doesn't exist.");
+				}
+
 				$user->attachRole($role);
 
 				$meta->meta_value = 1;

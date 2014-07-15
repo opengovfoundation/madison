@@ -15,12 +15,15 @@
     </div>
     <div class="row">
         <div class="activity-content col-md-12">
-            <span>{{ activity.text }}</span>
+            <span ng-bind-html="activity.text | linky:'_blank'"></span>
         </div>
+    </div>
+    <div class="annotator-tags">
+        <span class="annotator-tag" ng-repeat="tag in activity.tags">{{ tag }}</span>
     </div>
     <div class="row">
         <div class="col-md-5">
-            <span class="activity-replies-indicator" ng-click="collapseComments(activity)"><span class="glyphicon glyphicon-comment"></span>{{ activity.comments.length || '0' }}</span>
+            <span class="activity-replies-indicator" ng-class="{'activity-replies-indicator-inactive': activity.comments.length == 0}"ng-click="collapseComments(activity)"><span class="glyphicon glyphicon-comment"></span>{{ activity.comments.length || '0' }}</span>
         </div>
         <div class="col-md-7 activity-actions">
             <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(activity, 'likes', $event)">({{ activity.likes || '0' }})</span>
@@ -38,13 +41,13 @@
             </form>
         </div>
     </div>
-    <div class="row sponsor-seen" ng-show="user.isSponsor && activity.user.id != user.id">
+    <div class="row sponsor-seen" ng-show="isSponsor() && activity.user.id != user.id">
         <div class="col-md-12">
             <span class="btn btn-default" ng-if="activity.seen === 0" ng-click="notifyAuthor(activity)">Mark as seen</span>
             <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1"> Marked as seen!</span>
         </div>
     </div>  
-    <div class="row user-seen" ng-hide="user.isSponsor">
+    <div class="row user-seen" ng-hide="isSponsor()">
         <div class="col-md-12">
             <span class="glyphicon glyphicon-ok" ng-if="activity.seen === 1"> A sponsor marked this as seen!</span>
         </div>

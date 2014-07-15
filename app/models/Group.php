@@ -39,6 +39,10 @@ class Group extends Eloquent
 		
 		return false;
 	}
+
+	public function docs(){
+		return $this->belongsToMany('Doc');
+	}
 	
 	public function getDisplayName()
 	{
