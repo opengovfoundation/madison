@@ -22,7 +22,7 @@ app.config(['growlProvider', '$httpProvider', function (growlProvider, $httpProv
     growlProvider.messageTextKey("text");
     growlProvider.messageSeverityKey("severity");
     $httpProvider.responseInterceptors.push(growlProvider.serverMessagesInterceptor);
-    growlProvider.onlyUniqueMessages(false);
+    growlProvider.onlyUniqueMessages(true);
     growlProvider.globalTimeToLive(5000);
 }]);
 

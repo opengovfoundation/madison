@@ -253,9 +253,11 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.suggestedStatuses = [];
       $scope.dates = [];
 
+
       $scope.init = function () {
         var abs = $location.absUrl();
         var id = abs.match(/.*\/(\d+)$/)[1];
+
 
         function clean_slug(string) {
           return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').replace(/ +/g, '-');
@@ -270,10 +272,25 @@ angular.module('madisonApp.dashboardControllers', [])
         var initCategories = true;
         var initSponsor = true;
         var initStatus = true;
-        var initDoc = true;
+
+        var initTitle = true;
+        var initSlug = true;
+        var initContent = true;
 
         docDone.then(function () {
           new Markdown.Editor(Markdown.getSanitizingConverter()).run();
+
+          // We don't control the pagedown CSS, and this DIV needs to be scrollable
+          $("#wmd-preview").css("overflow", "scroll");
+
+          // Resizing dynamically according to the textarea is hard, 
+          // so just set the height once (22 is padding)
+          $("#wmd-preview").css("height", ($("#wmd-input").height() + 22));
+          $("#wmd-input").scroll(function () { 
+            $("#wmd-preview").scrollTop($("#wmd-input").scrollTop());
+          });
+
+
 
           $scope.getDocSponsor().then(function () {
             $scope.$watch('sponsor', function () {
@@ -313,15 +330,51 @@ angular.module('madisonApp.dashboardControllers', [])
 
           $scope.getDocDates();
 
-          $scope.$watchCollection('[doc.slug, doc.title, doc.content.content]', function () {
-            if (initDoc) {
+          $scope.$watch('doc.title', function () {
+            if (initTitle) {
               $timeout(function () {
-                initDoc = false;
+                initTitle = false;
               });
             } else {
-              $scope.doc.slug = clean_slug($scope.doc.slug);
-              $scope.saveDoc();
-            }
+                $scope.saveTitle();
+              }
+          });
+
+          $scope.$watch('doc.slug', function () {
+            if (initSlug) {
+              $timeout(function () {
+                initSlug = false;
+              });
+            } else {
+                // Changing doc.slug in-place will trigger the $watch
+                var safe_slug = $scope.doc.slug;
+                var sanitized_slug = clean_slug(safe_slug);
+                // If cleaning the slug didn't change anything, we have a valid NEW slug, 
+                // and we can save it
+                if (safe_slug == sanitized_slug) {
+                  $scope.saveSlug();
+                } else {
+                  // Change the slug in-place, which will trigger another watch
+                  // (handled by the POST function)
+                  console.log('Invalid slug, reverting');
+                  $scope.doc.slug = sanitized_slug;
+                }
+              }
+          });
+
+          // Save the content every 5 seconds
+          var timeout = null;
+          $scope.$watch('doc.content.content', function () {
+            if (initContent) {
+              $timeout(function () {
+                initContent = false;
+              });
+            } else {
+                if (timeout) { 
+                    $timeout.cancel(timeout);
+                }
+                timeout = $timeout(function () { $scope.saveContent(); }, 5000);
+              }
           });
         });
       };
@@ -460,12 +513,30 @@ angular.module('madisonApp.dashboardControllers', [])
           });
       };
 
-      $scope.saveDoc = function () {
-        return $http.post('/api/docs/' + $scope.doc.id, $scope.doc)
+      $scope.saveTitle = function () {
+        return $http.post('/api/docs/' + $scope.doc.id + '/title', {'title': $scope.doc.title})
           .success(function (data) {
-            console.log("Document saved successfully: %o", data);
+            console.log("Title saved successfully: %o", data);
           }).error(function (data) {
-            console.error("Error saving categories for document %o: %o \n %o", $scope.doc, $scope.categories, data);
+            console.error("Error saving title for document:", data);
+          });
+      };
+
+      $scope.saveSlug = function () {
+        return $http.post('/api/docs/' + $scope.doc.id + '/slug', {'slug': $scope.doc.slug})
+          .success(function (data) {
+            console.log("Slug sent: %o", data);
+          }).error(function (data) {
+            console.error("Error saving slug for document:", data);
+          });
+      };
+
+      $scope.saveContent = function () {
+        return $http.post('/api/docs/' + $scope.doc.id + '/content', {'content':$scope.doc.content.content})
+          .success(function (data) {
+            console.log("Content saved successfully: %o", data);
+          }).error(function (data) {
+            console.error("Error saving content for document:", data);
           });
       };
 
