@@ -4,7 +4,7 @@ class DevController extends Controller
 {
 	public function testEvent()
 	{
-		Event::fire(OpenGovEvent::TEST, Auth::user());
+		Event::fire(MadisonEvent::TEST, Auth::user());
 		
 		var_dump("HERE");exit;
 	}

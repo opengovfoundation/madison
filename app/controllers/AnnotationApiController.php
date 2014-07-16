@@ -271,7 +271,7 @@ class AnnotationApiController extends ApiController{
 
 		$result = $annotation->addOrUpdateComment($comment);
 		
-		Event::fire(OpenGovEvent::DOC_COMMENTED, array('annotation' => $annotation, 'comment' => $comment));
+		Event::fire(MadisonEvent::DOC_COMMENTED, array('annotation' => $annotation, 'comment' => $comment));
 		
 		return Response::json($result);
 	}

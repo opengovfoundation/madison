@@ -3,7 +3,9 @@
 class NotificationEventHandler
 {
 	protected $eventEmailTemplates = array(
-		OpenGovEvent::NEW_USER_SIGNUP => "email.notification.newuser",
+		MadisonEvent::
+		MadisonEvent::NEW_USER_SIGNUP => "email.notification.newuser",
+		MadisonEvent::
 	);
 	
 	protected function processNotices($notices, $event)
@@ -98,9 +100,9 @@ class NotificationEventHandler
 	}
 	public function onNewUserSignup($data)
 	{
-		$notices = Notification::getActiveNotifications(OpenGovEvent::NEW_USER_SIGNUP);
+		$notices = Notification::getActiveNotifications(MadisonEvent::NEW_USER_SIGNUP);
 		
-		$notifications = $this->processNotices($notices, OpenGovEvent::NEW_USER_SIGNUP);
+		$notifications = $this->processNotices($notices, MadisonEvent::NEW_USER_SIGNUP);
 		
 		$this->doNotificationActions($notifications, array(
 			'data' => $data,
@@ -112,9 +114,9 @@ class NotificationEventHandler
 	
 	public function onDocCommented($data)
 	{
-		$notices = Notification::getActiveNotifications(OpenGovEvent::DOC_COMMENTED);
+		$notices = Notification::getActiveNotifications(MadisonEvent::DOC_COMMENTED);
 		
-		$notifications = $this->processNotices($notices, OpenGovEvent::DOC_COMMENTED);
+		$notifications = $this->processNotices($notices, MadisonEvent::DOC_COMMENTED);
 		
 		$this->doNotificationActions($notifications, array(
 			'data' => $data,
@@ -126,9 +128,9 @@ class NotificationEventHandler
 	
 	public function onDocCommentCommented($data)
 	{
-		$notices = Notification::getActiveNotifications(OpenGovEvent::DOC_COMMENT_COMMENTED);
+		$notices = Notification::getActiveNotifications(MadisonEvent::DOC_COMMENT_COMMENTED);
 		
-		$notifications = $this->processNotices($notices, OpenGovEvent::DOC_COMMENT_COMMENTED);
+		$notifications = $this->processNotices($notices, MadisonEvent::DOC_COMMENT_COMMENTED);
 		
 		$this->doNotificationActions($notifications, array(
 			'data' => $data,
@@ -140,9 +142,9 @@ class NotificationEventHandler
 	
 	public function onDocEdited($data)
 	{
-		$notices = Notification::getActiveNotifications(OpenGovEvent::DOC_EDITED);
+		$notices = Notification::getActiveNotifications(MadisonEvent::DOC_EDITED);
 		
-		$notifications = $this->processNotices($notices, OpenGovEvent::DOC_EDITED);
+		$notifications = $this->processNotices($notices, MadisonEvent::DOC_EDITED);
 		
 		$this->doNotificationActions($notifications, array(
 			'data' => $data,
@@ -154,9 +156,9 @@ class NotificationEventHandler
 	
 	public function onNewDocument($data)
 	{
-		$notices = Notification::getActiveNotifications(OpenGovEvent::NEW_DOCUMENT);
+		$notices = Notification::getActiveNotifications(MadisonEvent::NEW_DOCUMENT);
 		
-		$notifications = $this->processNotices($notices, OpenGovEvent::NEW_DOCUMENT);
+		$notifications = $this->processNotices($notices, MadisonEvent::NEW_DOCUMENT);
 		
 		$this->doNotificationActions($notifications, array(
 			'data' => $data,
@@ -168,9 +170,9 @@ class NotificationEventHandler
 	
 	public function onVerifyAdminRequest($data)
 	{
-		$notices = Notification::getActiveNotifications(OpenGovEvent::VERIFY_REQUEST_ADMIN);
+		$notices = Notification::getActiveNotifications(MadisonEvent::VERIFY_REQUEST_ADMIN);
 		
-		$notifications = $this->processNotices($notices, OpenGovEvent::VERIFY_REQUEST_ADMIN);
+		$notifications = $this->processNotices($notices, MadisonEvent::VERIFY_REQUEST_ADMIN);
 		
 		$this->doNotificationActions($notifications, array(
 			'data' => $data,
@@ -182,9 +184,9 @@ class NotificationEventHandler
 	
 	public function onVerifyGroupRequest($data)
 	{
-		$notices = Notification::getActiveNotifications(OpenGovEvent::VERIFY_REQUEST_GROUP);
+		$notices = Notification::getActiveNotifications(MadisonEvent::VERIFY_REQUEST_GROUP);
 		
-		$notifications = $this->processNotices($notices, OpenGovEvent::VERIFY_REQUEST_GROUP);
+		$notifications = $this->processNotices($notices, MadisonEvent::VERIFY_REQUEST_GROUP);
 		
 		$this->doNotificationActions($notifications, array(
 			'data' => $data,
@@ -196,9 +198,9 @@ class NotificationEventHandler
 	
 	public function onVerifyUserRequest($data)
 	{
-		$notices = Notification::getActiveNotifications(OpenGovEvent::VERIFY_REQUEST_USER);
+		$notices = Notification::getActiveNotifications(MadisonEvent::VERIFY_REQUEST_USER);
 		
-		$notifications = $this->processNotices($notices, OpenGovEvent::VERIFY_REQUEST_USER);
+		$notifications = $this->processNotices($notices, MadisonEvent::VERIFY_REQUEST_USER);
 		
 		$this->doNotificationActions($notifications, array(
 			'data' => $data,
@@ -215,15 +217,15 @@ class NotificationEventHandler
 	
 	public function subscribe($eventManager)
 	{
-		$eventManager->listen(OpenGovEvent::TEST, 'NotificationEventHandler@onNewUserSignup');
+		$eventManager->listen(MadisonEvent::TEST, 'NotificationEventHandler@onNewUserSignup');
 		
-		$eventManager->listen(OpenGovEvent::NEW_USER_SIGNUP, 'NotificationEventHandler@onNewUserSignup');
-		$eventManager->listen(OpenGovEvent::DOC_COMMENT_COMMENTED, 'NotificationEventHandler@onDocCommentCommented');
-		$eventManager->listen(OpenGovEvent::DOC_COMMENTED, 'NotificationEventHandler@onDocCommented');
-		$eventManager->listen(OpenGovEvent::DOC_EDITED, 'NotificationEventHandler@onDocEdited');
-		$eventManager->listen(OpenGovEvent::NEW_DOCUMENT, 'NotificationEventHandler@onNewDocument');
-		$eventManager->listen(OpenGovEvent::VERIFY_REQUEST_ADMIN, 'NotificationEventHandler@onVerifyAdminRequest');
-		$eventManager->listen(OpenGovEvent::VERIFY_REQUEST_GROUP, 'NotificationEventHandler@onVerifyGroupRequest');
-		$eventManager->listen(OpenGovEvent::VERIFY_REQUEST_USER, 'NotificationEventHandler@onVerifyUserRequest');
+		$eventManager->listen(MadisonEvent::NEW_USER_SIGNUP, 'NotificationEventHandler@onNewUserSignup');
+		$eventManager->listen(MadisonEvent::DOC_COMMENT_COMMENTED, 'NotificationEventHandler@onDocCommentCommented');
+		$eventManager->listen(MadisonEvent::DOC_COMMENTED, 'NotificationEventHandler@onDocCommented');
+		$eventManager->listen(MadisonEvent::DOC_EDITED, 'NotificationEventHandler@onDocEdited');
+		$eventManager->listen(MadisonEvent::NEW_DOCUMENT, 'NotificationEventHandler@onNewDocument');
+		$eventManager->listen(MadisonEvent::VERIFY_REQUEST_ADMIN, 'NotificationEventHandler@onVerifyAdminRequest');
+		$eventManager->listen(MadisonEvent::VERIFY_REQUEST_GROUP, 'NotificationEventHandler@onVerifyGroupRequest');
+		$eventManager->listen(MadisonEvent::VERIFY_REQUEST_USER, 'NotificationEventHandler@onVerifyUserRequest');
 	}
 }

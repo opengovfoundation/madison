@@ -51,7 +51,7 @@ class DocumentApiController extends ApiController{
 		$doc->content(array($doc_content));
 		$doc->save();
 
-		Event::fire(OpenGovEvent::DOC_EDITED, $doc);
+		Event::fire(MadisonEvent::DOC_EDITED, $doc);
 		
 		$response['messages'][0] = array('text'=>'Document content saved', 'severity'=>'info');
 		return Response::json($response);

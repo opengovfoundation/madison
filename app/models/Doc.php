@@ -136,7 +136,7 @@ class Doc extends Eloquent{
 			$document->save();
 		});
 		
-		Event::fire(OpenGovEvent::NEW_DOCUMENT, $document);
+		Event::fire(MadisonEvent::NEW_DOCUMENT, $document);
 		
 		return $document;
 	}

@@ -27,14 +27,14 @@ class Notification extends Eloquent
 	static public function getValidNotifications()
 	{
 		return array(
-			OpenGovEvent::DOC_COMMENT_COMMENTED => "When a comment is made on a comment",
-			OpenGovEvent::DOC_COMMENTED => "When a document is commented on",
-			OpenGovEvent::DOC_EDITED => "When a document is edited",
-			OpenGovEvent::NEW_DOCUMENT => "When a new document is created",
-			OpenGovEvent::NEW_USER_SIGNUP => "When a new user signs up",
-			OpenGovEvent::VERIFY_REQUEST_ADMIN => "When a new admin verification is requested",
-			OpenGovEvent::VERIFY_REQUEST_GROUP => "When a new group verification is requested",
-			OpenGovEvent::VERIFY_REQUEST_USER => "When a new independent author verification is requested"
+			MadisonEvent::DOC_COMMENT_COMMENTED => "When a comment is made on a comment",
+			MadisonEvent::DOC_COMMENTED => "When a document is commented on",
+			MadisonEvent::DOC_EDITED => "When a document is edited",
+			MadisonEvent::NEW_DOCUMENT => "When a new document is created",
+			MadisonEvent::NEW_USER_SIGNUP => "When a new user signs up",
+			MadisonEvent::VERIFY_REQUEST_ADMIN => "When a new admin verification is requested",
+			MadisonEvent::VERIFY_REQUEST_GROUP => "When a new group verification is requested",
+			MadisonEvent::VERIFY_REQUEST_USER => "When a new independent author verification is requested"
 		);
 	}
 	
