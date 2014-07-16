@@ -3,9 +3,14 @@
 class NotificationEventHandler
 {
 	protected $eventEmailTemplates = array(
-		MadisonEvent::
-		MadisonEvent::NEW_USER_SIGNUP => "email.notification.newuser",
-		MadisonEvent::
+		MadisonEvent::NEW_USER_SIGNUP => "email.notification.new_user",
+		MadisonEvent::DOC_EDITED => "email.notification.doc_edited",
+		MadisonEvent::DOC_COMMENTED => "email.notification.doc_commented",
+		MadisonEvent::DOC_COMMENT_COMMENTED => "email.notification.comment_commented",
+		MadisonEvent::VERIFY_REQUEST_ADMIN => "email.notification.verify_admin",
+		MadisonEvent::VERIFY_REQUEST_GROUP => "email.notification.verify_group",
+		MadisonEvent::VERIFY_REQUEST_USER => "email.notification.verify_user",
+		MadisonEvent::NEW_DOCUMENT => "email.notification.new_document"
 	);
 	
 	protected function processNotices($notices, $event)
@@ -81,7 +86,7 @@ class NotificationEventHandler
 					if(!Config::get('app.debug')) {
 						Mail::queue(
 							$notification['template'],
-							array('user' => $meta['data']),
+							$meta['data'],
 							function($message) use($notification, $meta)
 							{
 								$message->subject($meta['subject']);
@@ -100,12 +105,13 @@ class NotificationEventHandler
 	}
 	public function onNewUserSignup($data)
 	{
+
 		$notices = Notification::getActiveNotifications(MadisonEvent::NEW_USER_SIGNUP);
 		
 		$notifications = $this->processNotices($notices, MadisonEvent::NEW_USER_SIGNUP);
 		
 		$this->doNotificationActions($notifications, array(
-			'data' => $data,
+			'data' => array('user' => $data->toArray()),
 			'subject' => "New User has Signed up!",
 			'from_email_address' => 'sayhello@opengovfoundation.org',
 			'from_email_name' => 'Madison' 
