@@ -45,6 +45,7 @@ Route::get('about', 'PageController@getAbout');
 Route::get('faq', 'PageController@faq');
 Route::get('privacy-policy', 'PageController@privacyPolicy');
 Route::get('terms-and-conditions', 'PageController@terms');
+Route::get('copyright', 'PageController@copyright');
 Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 
 //Document Routes
