@@ -123,7 +123,13 @@ class NotificationEventHandler
 		$notices = Notification::getActiveNotifications(MadisonEvent::DOC_COMMENTED);
 		
 		$notifications = $this->processNotices($notices, MadisonEvent::DOC_COMMENTED);
-		
+
+		$doc = Doc::find($data->doc_id);
+
+		$data = $data->toArray();
+
+		$data['doc'] = $doc->toArray();
+
 		$this->doNotificationActions($notifications, array(
 			'data' => $data,
 			'subject' => "A new comment on a doc!",
@@ -153,7 +159,7 @@ class NotificationEventHandler
 		$notifications = $this->processNotices($notices, MadisonEvent::DOC_EDITED);
 		
 		$this->doNotificationActions($notifications, array(
-			'data' => $data,
+			'data' => array('doc' => $data->toArray()),
 			'subject' => "A document has been edited!",
 			'from_email_address' => 'sayhello@opengovfoundation.org',
 			'from_email_name' => 'Madison'
