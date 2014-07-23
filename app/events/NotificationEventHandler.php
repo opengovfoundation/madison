@@ -2,17 +2,30 @@
 
 class NotificationEventHandler
 {
+
+	/**
+	*	Array of event templates used for each notification event
+	* 
+	* @var array
+	*/
 	protected $eventEmailTemplates = array(
 		MadisonEvent::NEW_USER_SIGNUP => "email.notification.new_user",
 		MadisonEvent::DOC_EDITED => "email.notification.doc_edited",
 		MadisonEvent::DOC_COMMENTED => "email.notification.doc_commented",
 		MadisonEvent::DOC_COMMENT_COMMENTED => "email.notification.comment_commented",
 		MadisonEvent::VERIFY_REQUEST_ADMIN => "email.notification.verify_admin",
-		MadisonEvent::VERIFY_REQUEST_GROUP => "email.notification.verify_group",
-		MadisonEvent::VERIFY_REQUEST_USER => "email.notification.verify_user",
+		MadisonEvent::VERIFY_REQUEST_GROUP => "email.notification.verify_request_group",
+		MadisonEvent::VERIFY_REQUEST_USER => "email.notification.verify__request_user",
 		MadisonEvent::NEW_DOCUMENT => "email.notification.new_document"
 	);
 	
+	/**
+	*	Process notices to send out
+	* 
+	* @param array $notices
+	* @param string $event
+	* @return array $retval['type' => (Notification::<type>), 'email' => (string), 'template' => (string)]
+	*/
 	protected function processNotices($notices, $event)
 	{
 		if(!isset($this->eventEmailTemplates[$event])) {
@@ -126,12 +139,8 @@ class NotificationEventHandler
 
 		$doc = Doc::find($data->doc_id);
 
-		$data = $data->toArray();
-
-		$data['doc'] = $doc->toArray();
-
 		$this->doNotificationActions($notifications, array(
-			'data' => $data,
+			'data' => array('comment' => $data->toArray(), 'doc' => $doc->toArray()),
 			'subject' => "A new comment on a doc!",
 			'from_email_address' => 'sayhello@opengovfoundation.org',
 			'from_email_name' => 'Madison'
@@ -201,7 +210,7 @@ class NotificationEventHandler
 		$notifications = $this->processNotices($notices, MadisonEvent::VERIFY_REQUEST_GROUP);
 		
 		$this->doNotificationActions($notifications, array(
-			'data' => $data,
+			'data' => array('group' => $data->toArray()),
 			'subject' => "A group requests verification!",
 			'from_email_address' => 'sayhello@opengovfoundation.org',
 			'from_email_name' => 'Madison'

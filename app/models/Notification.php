@@ -19,11 +19,21 @@ class Notification extends Eloquent
 		return $this->belongsTo('User', 'user_id');
 	}
 	
+	/**
+	*	Return notifications registered for a given event
+	* 
+	* @param string $event
+	*/
 	static public function getActiveNotifications($event)
 	{
 		return static::where('event', '=', $event)->get();
 	}
 	
+	/**
+	*	Return array of valid notifications
+	*
+	*	@return array 
+	*/
 	static public function getValidNotifications()
 	{
 		return array(

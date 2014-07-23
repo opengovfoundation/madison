@@ -17,7 +17,7 @@ class AnnotationApiController extends ApiController{
 	
 	/**
 	 * Get annotations by document ID and annotation ID
-	 * @param interger $docId
+	 * @param integer $docId
 	 * @param string $annotationId optional, if not provided get all
 	 * @throws Exception
 	 */

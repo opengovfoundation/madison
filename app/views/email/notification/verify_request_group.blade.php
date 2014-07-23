@@ -5,9 +5,10 @@
 	</head>
 	<body>
 
-		<p>A comment has been added to - {{ $doc['title'] }} ({{ $doc['slug'] }})</p>
-    <blockquote>{{ $comment['text'] }}</blockquote>
-		
+		<p><strong>A group has requested verification:</strong></p>
+    {{ var_dump($group, true) }}
+
+
 		<p>&ndash; The OpenGov Foundation Team</p>
 	</body>
 </html>
