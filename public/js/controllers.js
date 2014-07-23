@@ -225,6 +225,7 @@ angular.module('madisonApp.controllers', [])
     function ($scope, $sce, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
       $scope.annotations = [];
       $scope.comments = [];
+      $scope.stream = [];
       $scope.activities = [];
       $scope.supported = null;
       $scope.opposed = false;
@@ -310,7 +311,8 @@ angular.module('madisonApp.controllers', [])
               comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
-              $scope.activities.push(comment);
+              // $scope.activities.push(comment);
+              $scope.stream.push(comment);
             });
           })
           .error(function (data) {
@@ -330,7 +332,8 @@ angular.module('madisonApp.controllers', [])
           .success(function () {
             comment.label = 'comment';
             comment.user.fname = comment.user.name;
-            $scope.activities.push(comment);
+            //$scope.activities.push(comment);
+            $scope.stream.push(comment);
             $scope.comment.text = '';
           })
           .error(function (data) {

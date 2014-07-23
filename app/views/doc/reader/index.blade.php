@@ -63,11 +63,14 @@
 		</div>
 	</div>
 	<ul class="nav nav-tabs" role="tablist">
-		<li class="active"><a href="#tab-activity" role="tab" data-toggle="tab">Activity</a></li>
+		<li class="active"><a href="#tab-activity" role="tab" data-toggle="tab">Bill</a></li>
 		<li><a href="#tab-discussion" role="tab" data-toggle="tab">Discussion</a></li>
+		<li><a href="#tab-description" role="tab" data-toggle="tab">Description</a></li>
 	</ul>
 	<div class="tab-content doc-tabs">
+
 		<div id="tab-activity" class="tab-pane active row">
+
 			<div class="col-md-3" id="toc-column">
 				<div class="document-toc">
 					<div class="toc-container container row affix-elm" data-offset-top="309">
@@ -111,8 +114,20 @@
 				</div>
 			</div>
 		</div>
+
 		<div id="tab-discussion" class="tab-pane row">
-			
+			<div class="col-md-12">
+				<div ng-controller="ParticipateController" ng-init="init({{ $doc->id }})" class="rightbar participate">
+					@include('doc.reader.discussion')
+				</div>
+			</div>
+		</div>
+		<div id="tab-contributors" class="tab-pane row">
+			<div class="col-md-12">
+				<div ng-controller="ParticipateController" ng-init="init({{ $doc->id }})" class="rightbar participate">
+					@include('doc.reader.participate')
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
