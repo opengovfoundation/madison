@@ -93,7 +93,7 @@ module.exports = function (grunt) {
         cmd: 'vagrant up'
       },
       codeception: {
-        cmd: 'vendor/codeception/codeception/codecept build && vendor/codeception/codeception/codecept run'
+        cmd: 'vendor/codeception/codeception/codecept build && vendor/codeception/codeception/codecept run acceptance'
       }
     },
     db_dump: {
@@ -124,9 +124,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-mysql-dump');
+  grunt.loadNpmTasks('grunt-selenium-webdriver');
 
   // Task definition
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower', 'exec:install_npm']);
   grunt.registerTask('test', ['db_dump:testing', 'exec:codeception']);
+  grunt.registerTask('selenium', ['selenium_phantom_hub', 'exec:codeception', 'selenium_stop']);
+
 };

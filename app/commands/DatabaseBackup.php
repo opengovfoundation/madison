@@ -72,8 +72,6 @@ class DatabaseBackup extends Command {
 			$timestamp_a = $this->getTimestamp($a);
 			$timestamp_b = $this->getTimestamp($b);
 
-			$this->info($timestamp_a . " < " . $timestamp_b);
-
 			return $timestamp_a < $timestamp_b;
 
 		});
