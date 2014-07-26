@@ -108,6 +108,14 @@
 					</div>
 				</div>
 			</tab>
+			<tab heading="Embed Document">
+				<div class="row">
+					<p>Simply paste the following code into a web page to embed the contents of this document into your website.</p>
+				</div>
+				<div class="row">
+					<textarea rows="5" cols="80"/>{{ $doc->getEmbedCode() }}</textarea>
+				</div>
+			</tab>
 		</tabset>
 	</div>
 </div>

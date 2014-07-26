@@ -18,6 +18,25 @@ class Doc extends Eloquent{
 		$this->index = Config::get('elasticsearch.annotationIndex');
 	}
 
+	public function getEmbedCode()
+	{
+		$dom = new DOMDocument();
+
+		$docSrc = URL::to('docs/embed', $this->slug);
+		
+		$insertElement = $dom->createElement('div');
+		
+		$containerElement = $dom->createElement('iframe');
+		$containerElement->setAttribute('id', '__ogFrame');
+		$containerElement->setAttribute('width', 300);
+		$containerElement->setAttribute('height', 500);
+		$containerElement->setAttribute('src', $docSrc);
+		
+		$insertElement->appendChild($containerElement);
+		
+		return $dom->saveHtml($insertElement);
+	}
+	
 	public function dates()
 	{
 		return $this->hasMany('Date');
@@ -328,6 +347,25 @@ class Doc extends Eloquent{
 		$es = new Elasticsearch\Client($esParams);
 
 		return $es;
+	}
+	
+	static public function findDocBySlug($slug = null)
+	{
+		//Retrieve requested document
+		$doc = static::where('slug', $slug)
+					 ->with('statuses')
+					 ->with('userSponsor')
+					 ->with('groupSponsor')
+					 ->with('categories')
+					 ->with('dates')
+					 ->first();
+		
+		if(!isset($doc)) {
+			return null;
+		}
+		
+		return $doc;
+		
 	}
 }
 
