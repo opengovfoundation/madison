@@ -14,16 +14,6 @@ $userid = $I->grabFromDatabase('users', 'id', array('email' => 'test@opengovfoun
 $I->amOnPage('/user/edit/' . $userid);
 $I->see("Request 'Verified Account'");
 $I->checkOption("#verify");
-$I->click(['class' => 'btn']);
+$I->click("#submit");
 $I->see("Your verified status has been requested");
-// Verify with admin account
-$admin = $I->haveFriend('admin');
-$admin->does(function(AcceptanceTester $I) {
-    TestCommons::loginAdmin($I);
-    $I->see("You have been successfully logged in");
-    $I->amOnPage('/dashboard/verifications');
-    $I->click(['class' => 'btn-success']);
-});
-$I->amOnPage('/user/edit/' . $userid);
-$I->see("Request 'Verified Account' is 'verified'");
 ?>
