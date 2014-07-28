@@ -30,16 +30,42 @@
             <span class="glyphicon glyphicon-flag" ng-click="addAction(activity, 'flags', $event)">({{ activity.flags || '0' }})</span>
         </div>
     </div>
-    <div class="activity-replies row" collapse="activity.commentsCollapsed">
-        <div id="subcomment_{{ comment.id }}" class="activity-reply col-md-12" ng-repeat="comment in activity.comments">
-            <div activity-sub-comment sub-comment-id="{{ comment.id }}"></div>
-        </div>
-        <div class="subcomment-field col-md-12">
-            <form name="add-subcomment-form" ng-submit="subcommentSubmit(activity, subcomment)">
-                <input ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
-            </form>
-        </div>
+
+<script type="text/ng-template" id="subcomment_renderer.html">
+    <div class="reply-author row">
+    <div class="col-md-8">
+        <span class="glyphicon glyphicon-share-alt"></span> {{ comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) }}:
     </div>
+    <div class="col-md-1 col-md-offset-2">
+      <a class="subcomment-link">
+        <span class="glyphicon glyphicon-link" title="Copy link to clipboard"></span>
+      </a>
+    </div>
+    </div>
+    <div class="reply-text row">
+    <div class="col-md-12">
+        {{ comment.text }}
+    </div>
+    </div>
+    <div class="activity-reply col-md-12" ng-repeat="comment in comment.subcomments" ng-include="'subcomment_renderer.html'"></div>
+</script>
+
+    <div class="activity-replies row" collapse="activity.commentsCollapsed">
+
+    <div id="subcomment_{{ comment.id }}" class="activity-reply col-md-12" ng-repeat="comment in activity.subcomments" ng-include="'subcomment_renderer.html'">
+  
+    </div>
+
+
+    <div class="subcomment-field col-md-12">
+        <form name="add-subcomment-form" ng-submit="subcommentSubmit(activity, subcomment)">
+            <input ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
+        </form>
+    </div>
+
+    </div>
+
+
     <div class="row sponsor-seen" ng-show="isSponsor() && activity.user.id != user.id">
         <div class="col-md-12">
             <span class="btn btn-default" ng-if="activity.seen === 0" ng-click="notifyAuthor(activity)">Mark as seen</span>

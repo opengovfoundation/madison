@@ -26,6 +26,22 @@ class CommentApiController extends ApiController{
 		return Response::json($results);
 	}
 
+	public function getSubcomments($doc, $comment){
+		try{
+			$userId = null;
+			if(Auth::check()){
+				$userId = Auth::user()->id;
+			}
+
+			$results = Comment::loadSubcomments($doc, $comment, $userId);
+		}catch(Exception $e){
+			throw $e;
+			App::abort(500, $e->getMessage());
+		}
+
+		return Response::json($results);
+	}	
+
 	public function postIndex($doc){
 		$comment = Input::get('comment');
 

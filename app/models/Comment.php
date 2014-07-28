@@ -56,6 +56,7 @@ class Comment extends Eloquent{
         $item['likes'] = $this->likes();
         $item['dislikes'] = $this->dislikes();
         $item['flags'] = $this->flags();
+        $item['subcomments'] = array();
 
         return $item;
     }
@@ -106,7 +107,8 @@ class Comment extends Eloquent{
     }    
 
     static public function loadComments($docId, $commentId, $userId){
-        $comments = static::where('doc_id', '=', $docId)->whereNull('parent_id')->with('comments')->with('user');
+        $comments = static::where('doc_id', '=', $docId)->with('user');
+
 
         if(!is_null($commentId)){
             $comments->where('id', '=', $commentId);
@@ -115,10 +117,26 @@ class Comment extends Eloquent{
         $comments = $comments->get();
 
         $retval = array();
+        foreach($comments as $comment) {
+            $retval[] = $comment->loadArray();
+        }
+
+        return $retval;
+    }
+
+    static public function loadSubcomments($docId, $commentId, $userId){
+        $comments = static::where('doc_id', '=', $docId)->where('parent_id', '=', $commentId)->with('user')->get();
+
+        /*
+        while ($comments->last()->parent_id !== null)
+        {
+            $parent = static::where('id', '=', $comments->last()->parent_id)->get();
+            $comments = $comments->merge($parent);
+        }
+        */
+
+        $retval = array();
         foreach($comments as $comment){
-            foreach($comment->comments as $subcomment){
-                $subcomment->load('user');
-            }
             $retval[] = $comment->loadArray();
         }
 

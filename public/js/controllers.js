@@ -299,7 +299,16 @@ angular.module('madisonApp.controllers', [])
           url: '/api/docs/' + docId + '/comments'
         })
           .success(function (data) {
+
             angular.forEach(data, function (comment) {
+              
+              if (comment.parent_id !== null) {
+                parent = $scope.parentSearch(data, comment.parent_id);
+                console.log('My id = ' + comment.id + ' My parents index: ' + parent);
+                // This comment is a subcomment, so move it to the correct parent array
+                data[parent].subcomments.push(comment);
+              }
+
               var collapsed = true;
               if($scope.subCommentId){
                 angular.forEach(comment.comments, function (subcomment) {
@@ -308,15 +317,42 @@ angular.module('madisonApp.controllers', [])
                   }
                 });
               }
+
               comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
-              // $scope.activities.push(comment);
-              $scope.stream.push(comment);
+              if (comment.parent_id === null) {
+                $scope.stream.push(comment);
+              }
+
             });
+            console.log($scope.stream);
           })
           .error(function (data) {
             console.error("Error loading comments: %o", data);
+          });
+
+      };
+
+      $scope.parentSearch = function (arr,val) {
+        for (var i=0; i<arr.length; i++)
+          if (arr[i].id === val)                    
+            return i;
+        return false;
+      };
+
+
+      $scope.loadSubcomments = function (docid, commentid) {
+        $http({
+          method: 'GET',
+          url: '/api/docs/' + docid + '/comments/' + commentid + '/subcomments'
+        })
+          .success(function (data) {
+            return data;
+        })
+          .error(function(data){
+            console.error("Unable to load subcomments: %o", data);
+            return data;
           });
       };
 
