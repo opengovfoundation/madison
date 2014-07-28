@@ -56,7 +56,7 @@ class Comment extends Eloquent{
         $item['likes'] = $this->likes();
         $item['dislikes'] = $this->dislikes();
         $item['flags'] = $this->flags();
-        $item['subcomments'] = array();
+        $item['comments'] = array();
 
         return $item;
     }

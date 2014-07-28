@@ -305,7 +305,7 @@ angular.module('madisonApp.controllers', [])
               if (comment.parent_id !== null) {
                 parent = $scope.parentSearch(data, comment.parent_id);
                 // This comment is a subcomment, so move it to the correct parent array
-                data[parent].subcomments.push(comment);
+                data[parent].comments.push(comment);
               }
 
               var collapsed = true;
