@@ -123,24 +123,5 @@ class Comment extends Eloquent{
 
         return $retval;
     }
-
-    static public function loadSubcomments($docId, $commentId, $userId){
-        $comments = static::where('doc_id', '=', $docId)->where('parent_id', '=', $commentId)->with('user')->get();
-
-        /*
-        while ($comments->last()->parent_id !== null)
-        {
-            $parent = static::where('id', '=', $comments->last()->parent_id)->get();
-            $comments = $comments->merge($parent);
-        }
-        */
-
-        $retval = array();
-        foreach($comments as $comment){
-            $retval[] = $comment->loadArray();
-        }
-
-        return $retval;
-    }
 }
 

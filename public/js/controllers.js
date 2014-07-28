@@ -304,7 +304,6 @@ angular.module('madisonApp.controllers', [])
               
               if (comment.parent_id !== null) {
                 parent = $scope.parentSearch(data, comment.parent_id);
-                console.log('My id = ' + comment.id + ' My parents index: ' + parent);
                 // This comment is a subcomment, so move it to the correct parent array
                 data[parent].subcomments.push(comment);
               }
@@ -326,7 +325,6 @@ angular.module('madisonApp.controllers', [])
               }
 
             });
-            console.log($scope.stream);
           })
           .error(function (data) {
             console.error("Error loading comments: %o", data);
@@ -339,21 +337,6 @@ angular.module('madisonApp.controllers', [])
           if (arr[i].id === val)                    
             return i;
         return false;
-      };
-
-
-      $scope.loadSubcomments = function (docid, commentid) {
-        $http({
-          method: 'GET',
-          url: '/api/docs/' + docid + '/comments/' + commentid + '/subcomments'
-        })
-          .success(function (data) {
-            return data;
-        })
-          .error(function(data){
-            console.error("Unable to load subcomments: %o", data);
-            return data;
-          });
       };
 
       $scope.commentSubmit = function () {
