@@ -6,7 +6,7 @@
 		<title>{{ $page_title }}</title>
 		@endif
 		<!-- Google Translate -->
-		<meta name="google-translate-customization" content="19900b71be66fa3e-c7a4cada9ba5142e-ga892644a3bc21b57-8"></meta>
+		<meta name="google-translate-customization" content="589165f361d3b68a-3fb5022ec4ca7c0f-g8659cb2e70f3cda3-d"></meta>
 		<!-- Mobile Optimization -->
 		<meta name="HandheldFriendly" content="True" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
@@ -32,15 +32,6 @@
 		<!--[if lt IE 8]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
-		<!-- Google Translate code -->
-		<div id="google_translate_element"></div>
-		<script type="text/javascript">
-			function googleTranslateElementInit() {
-  				new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT}, 'google_translate_element');
-			}
-		</script>
-		<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-        
 		<div growl></div>
 		<div id="wrap">
 			<div id="header-main" class="navbar" role="navigation">
