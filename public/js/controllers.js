@@ -351,7 +351,6 @@ angular.module('madisonApp.controllers', [])
           .success(function () {
             comment.label = 'comment';
             comment.user.fname = comment.user.name;
-            //$scope.activities.push(comment);
             $scope.stream.push(comment);
             $scope.comment.text = '';
           })
