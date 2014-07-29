@@ -37,7 +37,7 @@
             <span>{{ comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) }}</span>
         </div>
         <div class="activity-icon col-md-8">
-            <a class="subcomment-link">
+            <a class="comment-link">
                 <span class="glyphicon glyphicon-link" title="Copy link to clipboard"></span>
             </a>
         </div>
@@ -64,8 +64,8 @@
 
     <div class="activity-replies row" collapse="comment.commentsCollapsed">
         <div class="subcomment-field col-md-12">
-            <form name="add-subcomment-form" ng-submit="subcommentSubmit(comment, subcomment)">
-                <input ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
+            <form name="add-subcomment-form" ng-submit="subcommentSubmit(comment, comment.subcomment)">
+                <input ng-model="comment.subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
             </form>
         </div>
         <div id="subcomment_{{ comment.id }}" class="activity-reply col-md-12" ng-repeat="comment in comment.comments" ng-include="'subcomment_renderer.html'">
@@ -73,7 +73,6 @@
         </div>
 
     </div>
-
 </script>
 
     <div class="activity-replies row" collapse="activity.commentsCollapsed">
