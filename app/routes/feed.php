@@ -5,7 +5,7 @@
 */
 Route::get('docs/feed', function(){
     //Grab all documents
-    $docs = Doc::with('comments', 'annotations', 'sponsor', 'content')->orderBy('updated_at', 'DESC')->take(20)->get();
+    $docs = Doc::with('sponsor', 'content')->orderBy('updated_at', 'DESC')->take(20)->get();
 
     $feed = Feed::make();
 
