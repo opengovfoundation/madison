@@ -110,6 +110,8 @@ class AnnotationApiController extends ApiController{
 
 			$annotation->updateSearchIndex();
 
+			Event::fire(MadisonEvent::DOC_ANNOTATED, array('annotation' => $annotation));
+
 			return $annotation->id;
 		});
 		

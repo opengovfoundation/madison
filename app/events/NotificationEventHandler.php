@@ -9,14 +9,15 @@ class NotificationEventHandler
 	* @var array
 	*/
 	protected $eventEmailTemplates = array(
-		MadisonEvent::NEW_USER_SIGNUP => "email.notification.new_user",
-		MadisonEvent::DOC_EDITED => "email.notification.doc_edited",
-		MadisonEvent::DOC_COMMENTED => "email.notification.doc_commented",
-		MadisonEvent::DOC_COMMENT_COMMENTED => "email.notification.comment_commented",
-		MadisonEvent::VERIFY_REQUEST_ADMIN => "email.notification.verify_admin",
-		MadisonEvent::VERIFY_REQUEST_GROUP => "email.notification.verify_request_group",
-		MadisonEvent::VERIFY_REQUEST_USER => "email.notification.verify__request_user",
-		MadisonEvent::NEW_DOCUMENT => "email.notification.new_document"
+		MadisonEvent::NEW_USER_SIGNUP 				=> "email.notification.new_user",
+		MadisonEvent::DOC_EDITED 							=> "email.notification.doc_edited",
+		MadisonEvent::DOC_COMMENTED 					=> "email.notification.doc_commented",
+		MadisonEvent::DOC_ANNOTATED						=> "email.notification.doc_annotated",
+		MadisonEvent::DOC_COMMENT_COMMENTED 	=> "email.notification.comment_commented",
+		MadisonEvent::VERIFY_REQUEST_ADMIN 		=> "email.notification.verify_admin",
+		MadisonEvent::VERIFY_REQUEST_GROUP 		=> "email.notification.verify_request_group",
+		MadisonEvent::VERIFY_REQUEST_USER 		=> "email.notification.verify_request_user",
+		MadisonEvent::NEW_DOCUMENT 						=> "email.notification.new_document"
 	);
 	
 	/**
@@ -146,6 +147,29 @@ class NotificationEventHandler
 			'from_email_name' => 'Madison'
 		));
 	}
+
+	/**
+	*	Method for handling annotation notifications
+	*	
+	*	@param array $data
+	* @return null
+	*/
+	public function onDocAnnotated($data)
+	{
+		$notices = Notification::getActiveNotifications(MadisonEvent::DOC_ANNOTATED);
+		$notifications = $this->processNotices($notices, MadisonEvent::DOC_ANNOTATED);
+
+		$doc = Doc::find($data['annotation']->doc_id);
+		$data['doc'] = $doc;
+		
+		$this->doNotificationActions($notifications, array(
+			'data' 								=> $data,
+			'subject'							=> 'A new annotation on a document!',
+			'from_email_address'	=> 'sayhello@opengovfoundation.org',
+			'from_email_name'			=> 'Madison'
+		));
+
+	}
 	
 	public function onDocCommentCommented($data)
 	{
@@ -224,7 +248,7 @@ class NotificationEventHandler
 		$notifications = $this->processNotices($notices, MadisonEvent::VERIFY_REQUEST_USER);
 		
 		$this->doNotificationActions($notifications, array(
-			'data' => $data,
+			'data' => array('user' => $data->toArray()),
 			'subject' => "An individual requests verification!",
 			'from_email_address' => 'sayhello@opengovfoundation.org',
 			'from_email_name' => 'Madison'
@@ -243,6 +267,7 @@ class NotificationEventHandler
 		$eventManager->listen(MadisonEvent::NEW_USER_SIGNUP, 'NotificationEventHandler@onNewUserSignup');
 		$eventManager->listen(MadisonEvent::DOC_COMMENT_COMMENTED, 'NotificationEventHandler@onDocCommentCommented');
 		$eventManager->listen(MadisonEvent::DOC_COMMENTED, 'NotificationEventHandler@onDocCommented');
+		$eventManager->listen(MadisonEvent::DOC_ANNOTATED, 'NotificationEventHandler@onDocAnnotated');
 		$eventManager->listen(MadisonEvent::DOC_EDITED, 'NotificationEventHandler@onDocEdited');
 		$eventManager->listen(MadisonEvent::NEW_DOCUMENT, 'NotificationEventHandler@onNewDocument');
 		$eventManager->listen(MadisonEvent::VERIFY_REQUEST_ADMIN, 'NotificationEventHandler@onVerifyAdminRequest');
