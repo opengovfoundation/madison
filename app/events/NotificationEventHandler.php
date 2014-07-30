@@ -206,7 +206,7 @@ class NotificationEventHandler
 		$notifications = $this->processNotices($notices, MadisonEvent::NEW_DOCUMENT);
 		
 		$this->doNotificationActions($notifications, array(
-			'data' => $data,
+			'data' => array('doc' => $data->toArray()),
 			'subject' => "A document has been created!",
 			'from_email_address' => 'sayhello@opengovfoundation.org',
 			'from_email_name' => 'Madison'
