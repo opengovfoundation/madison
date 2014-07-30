@@ -39,6 +39,7 @@ class Notification extends Eloquent
 		return array(
 			MadisonEvent::DOC_COMMENT_COMMENTED => "When a comment is made on a comment",
 			MadisonEvent::DOC_COMMENTED => "When a document is commented on",
+			MadisonEvent::DOC_ANNOTATED => "When a document is annotated",
 			MadisonEvent::DOC_EDITED => "When a document is edited",
 			MadisonEvent::NEW_DOCUMENT => "When a new document is created",
 			MadisonEvent::NEW_USER_SIGNUP => "When a new user signs up",
