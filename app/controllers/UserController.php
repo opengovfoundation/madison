@@ -54,6 +54,10 @@ class UserController extends BaseController{
 		$phone = Input::get('phone');
 		$verify = Input::get('verify');
 
+		if(empty($phone)) {
+			return Redirect::to('user/edit/' . $id)->with('error', 'A phone number is required to request verified status.');
+		}
+
 		$user_details = Input::all();
 		
 		if(Auth::user()->email != $email) {
