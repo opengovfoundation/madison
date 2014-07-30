@@ -15,11 +15,11 @@
   "require": {
     "anahkiasen/rocketeer": "1.2.1",
     "zizaco/entrust": "dev-master",
-    "laravel/framework": "4.1.x-dev",
+    "laravel/framework": "4.1.25",
     "roumen/sitemap": "dev-master",
     "elasticsearch/elasticsearch": "~0.4",
-    "illuminate/remote": "4.1.*",
-    "illuminate/support": "4.1.x-dev",
+    "illuminate/remote": "4.1.25",
+    "illuminate/support": "4.1.25",
     "graham-campbell/markdown": "1.0.0",
     "doctrine/dbal": "2.3.*",
     "codeception/codeception": "*"
