@@ -110,11 +110,13 @@ class AnnotationApiController extends ApiController{
 
 			$annotation->updateSearchIndex();
 
-			Event::fire(MadisonEvent::DOC_ANNOTATED, array('annotation' => $annotation));
-
 			return $annotation->id;
 		});
-		
+
+		$annotation = Annotation::find($id);
+
+		Event::fire(MadisonEvent::DOC_ANNOTATED, $annotation);
+
 		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $id, 303);
 	}
 
@@ -272,8 +274,11 @@ class AnnotationApiController extends ApiController{
 							    ->first();
 
 		$result = $annotation->addOrUpdateComment($comment);
-		
-		Event::fire(MadisonEvent::DOC_COMMENTED, array('annotation' => $annotation, 'comment' => $comment));
+
+		// TODO: Hack to allow notification events.  Needs cleaned up.
+		$result->doc_id = $docId;
+
+		Event::fire(MadisonEvent::DOC_COMMENTED, $result);
 		
 		return Response::json($result);
 	}

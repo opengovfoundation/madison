@@ -132,6 +132,12 @@ class NotificationEventHandler
 		));
 	}
 	
+	/**
+	*	Method for handling comment notifications
+	*	
+	*	@param Comment $data
+	*	@return null
+	*/
 	public function onDocCommented($data)
 	{
 		$notices = Notification::getActiveNotifications(MadisonEvent::DOC_COMMENTED);
@@ -151,7 +157,7 @@ class NotificationEventHandler
 	/**
 	*	Method for handling annotation notifications
 	*	
-	*	@param array $data
+	*	@param Annotation $data
 	* @return null
 	*/
 	public function onDocAnnotated($data)
@@ -159,11 +165,10 @@ class NotificationEventHandler
 		$notices = Notification::getActiveNotifications(MadisonEvent::DOC_ANNOTATED);
 		$notifications = $this->processNotices($notices, MadisonEvent::DOC_ANNOTATED);
 
-		$doc = Doc::find($data['annotation']->doc_id);
-		$data['doc'] = $doc;
+		$doc = Doc::find($data->doc_id);
 		
 		$this->doNotificationActions($notifications, array(
-			'data' 								=> $data,
+			'data' 								=> array('annotation' => $data->toArray(), 'doc' => $doc->toArray()),
 			'subject'							=> 'A new annotation on a document!',
 			'from_email_address'	=> 'sayhello@opengovfoundation.org',
 			'from_email_name'			=> 'Madison'
