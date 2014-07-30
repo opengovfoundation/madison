@@ -102,7 +102,7 @@ class Doc extends Eloquent{
 
 	public function getLink()
 	{
-		return URL::to('doc/' . $this->slug);
+		return URL::to('docs/' . $this->slug);
 	}
 
 	public function content()
