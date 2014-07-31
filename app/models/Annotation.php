@@ -508,4 +508,16 @@ class Annotation extends Eloquent implements ActivityInterface
 
 		return $item;
 	}
+
+	/**
+	*	Include link to annotation when converted to array
+	* 
+	*	@param null
+	* @return parent::toArray()
+	*/
+	public function toArray(){
+		$this->link = $this->getLink();
+
+		return parent::toArray();
+	}
 }
