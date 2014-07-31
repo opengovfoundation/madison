@@ -1,6 +1,14 @@
 <?php
 
 /**
+*   Include all partials in app/routes/
+*/
+foreach (File::allFiles(__DIR__ . '/routes') as $partial)
+{
+    require_once($partial->getPathname());
+}
+
+/**
 *   Global Route Patterns
 */
 
@@ -51,6 +59,7 @@ Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 //Document Routes
 Route::get('docs', 'DocController@index');
 Route::get('docs/{slug}', 'DocController@index');
+Route::get('docs/{slug}/feed', 'DocController@getFeed');
 Route::get('documents/search', 'DocumentsController@getSearch');
 Route::get('documents', 'DocumentsController@listDocuments');
 Route::get('documents/view/{documentId}', 'DocumentsController@viewDocument');
@@ -173,54 +182,3 @@ Route::get('logout', function(){
 	Session::flush(); //delete the session
 	return Redirect::to('/')->with('message', 'You have been successfully logged out.');
 });
-
-/**
-*	Sitemap Route
-*	TODO: What are the performance implications of this?  Are the results cached?  I would assume so, but not sure.
-*/
-Route::get('sitemap', function(){
-
-	$sitemap = App::make('sitemap');
-
-	$pages = array('about', 'faq', 'user/login', 'user/signup');
-
-	foreach($pages as $page){
-		$sitemap->add($page);
-	}
-
-    $docs = Doc::all();
-
-    foreach ($docs as $doc)
-    {
-        $sitemap->add('doc/'.$doc->slug);
-    }
-
-    $annotations = Annotation::all();
-
-    foreach($annotations as $annotation){
-    	$sitemap->add('annotation/'.$annotation->id);
-    }
-
-    $users = User::all();
-
-    foreach($users as $user){
-    	$sitemap->add('user/'.$user->id);
-    }
-
-    // show your sitemap (options: 'xml' (default), 'html', 'txt', 'ror-rss', 'ror-rdf')
-    return $sitemap->render('xml');
-});
-
-
-/*
-|--------------------------------------------------------------------------
-| Route Filters
-|--------------------------------------------------------------------------
-*/
-
-/*
-Route::post('register', array('before' => 'csrf', function()
-{
-    return 'You gave a valid CSRF token!';
-}));
-*/

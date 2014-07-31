@@ -1,5 +1,6 @@
 <?php
-class Comment extends Eloquent{
+class Comment extends Eloquent implements ActivityInterface
+{
 	protected $table = 'comments';
     protected $softDelete = true;
 
@@ -103,7 +104,37 @@ class Comment extends Eloquent{
         $obj->load('user');
 
         return $obj;
-    }    
+    }   
+
+    /**
+    *   Construct link for Comment
+    *
+    *   @param null
+    *   @return url 
+    */
+    public function getLink(){
+        $slug = DB::table('docs')->where('id', $this->doc_id)->pluck('slug');
+
+        return URL::to('docs/' . $slug . '#comment_' . $this->id);
+    }
+
+    /**
+    *   Create RSS item for Comment
+    *
+    *   @param null
+    *   @return array $item
+    */
+    public function getFeedItem(){
+        $user = $this->user()->get()->first();
+
+        $item['title'] = $user->fname . ' ' . $user->lname . "'s Comment";
+        $item['author'] = $user->fname . ' ' . $user->lname;
+        $item['link'] = $this->getLink();
+        $item['pubdate'] = $this->updated_at;
+        $item['description'] = $this->text; 
+
+        return $item;
+    }
 
     static public function loadComments($docId, $commentId, $userId){
         $comments = static::where('doc_id', '=', $docId)->whereNull('parent_id')->with('comments')->with('user');
