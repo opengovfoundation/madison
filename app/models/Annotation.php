@@ -1,6 +1,6 @@
 <?php
 
-class Annotation extends Eloquent
+class Annotation extends Eloquent implements ActivityInterface
 {
 	const INDEX_TYPE = 'annotation';
 	
@@ -477,5 +477,35 @@ class Annotation extends Eloquent
 						 ->count();
 	
 		return $flags;
+	}
+
+	/**
+  *   Construct link for Annotation
+  *
+  *   @param null
+  *   @return url 
+  */
+	public function getLink(){
+		$slug = DB::table('docs')->where('id', $this->doc_id)->pluck('slug');
+
+    return URL::to('docs/' . $slug . '#annotation_' . $this->id);
+	}
+
+	/**
+  *   Create RSS item for Annotation
+  *
+  *   @param null
+  *   @return array $item
+  */
+	public function getFeedItem(){
+		$user = $this->user()->get()->first();
+
+		$item['title'] = $user->fname . ' ' . $user->lname . "'s Annotation";
+		$item['author'] = $user->fname . ' ' . $user->lname;
+		$item['link'] = $this->getLink();
+		$item['pubdate'] = $this->updated_at;
+		$item['description'] = $this->text; 
+
+		return $item;
 	}
 }

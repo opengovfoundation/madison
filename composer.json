@@ -22,7 +22,8 @@
     "illuminate/support": "4.1.25",
     "graham-campbell/markdown": "1.0.0",
     "doctrine/dbal": "2.3.*",
-    "codeception/codeception": "*"
+    "codeception/codeception": "*",
+    "roumen/feed": "dev-master"
   },
   "autoload": {
     "classmap": [

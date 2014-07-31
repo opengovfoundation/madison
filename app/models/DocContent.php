@@ -18,5 +18,9 @@ class DocContent extends Eloquent{
 	public function content_parent(){
 		return $this->belongsTo('DocContent', 'parent_id');
 	}
+
+	public function html(){
+		return Markdown::render($this->content);
+	}
 }
 

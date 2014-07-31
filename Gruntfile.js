@@ -60,7 +60,8 @@ module.exports = function (grunt) {
             'public/js/directives.js',
             'public/js/filters.js',
             'public/js/annotationServiceGlobal.js',
-            'public/js/app.js'
+            'public/js/app.js',
+	    'public/js/googletranslate.js'
           ]
         }
       },

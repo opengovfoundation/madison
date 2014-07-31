@@ -22,6 +22,7 @@
 {{ HTML::script('bower_components/pagedown/Markdown.Sanitizer.js') }}
 {{ HTML::script('bower_components/pagedown/Markdown.Editor.js') }}
 {{ HTML::script('build/app.js') }}
+{{ HTML::script('https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit') }}
 
 <?php
 $fs = new Illuminate\Filesystem\Filesystem();
