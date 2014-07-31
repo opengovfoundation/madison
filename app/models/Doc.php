@@ -81,6 +81,11 @@ class Doc extends Eloquent{
 		return $this->hasMany('Comment');
 	}
 
+	public function annotations()
+	{
+		return $this->hasMany('Annotation');
+	}
+
 	public function getLink()
 	{
 		return URL::to('doc/' . $this->slug);

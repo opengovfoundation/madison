@@ -59,6 +59,7 @@ Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 //Document Routes
 Route::get('docs', 'DocController@index');
 Route::get('docs/{slug}', 'DocController@index');
+Route::get('docs/{slug}/feed', 'DocController@getFeed');
 Route::get('documents/search', 'DocumentsController@getSearch');
 Route::get('documents', 'DocumentsController@listDocuments');
 Route::get('documents/view/{documentId}', 'DocumentsController@viewDocument');
