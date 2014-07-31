@@ -5,8 +5,6 @@
 		@if(isset($page_title))
 		<title>{{ $page_title }}</title>
 		@endif
-		<!-- Google Translate -->
-		<meta name="google-translate-customization" content="589165f361d3b68a-3fb5022ec4ca7c0f-g8659cb2e70f3cda3-d"></meta>
 		<!-- Mobile Optimization -->
 		<meta name="HandheldFriendly" content="True" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
