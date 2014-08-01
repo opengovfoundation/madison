@@ -31,6 +31,7 @@ class Doc extends Eloquent{
 		$containerElement->setAttribute('width', 300);
 		$containerElement->setAttribute('height', 500);
 		$containerElement->setAttribute('src', $docSrc);
+		$containerElement->setAttribute('frameBorder', 0);
 		
 		$insertElement->appendChild($containerElement);
 		
