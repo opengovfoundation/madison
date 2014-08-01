@@ -60,7 +60,8 @@ module.exports = function (grunt) {
             'public/js/directives.js',
             'public/js/filters.js',
             'public/js/annotationServiceGlobal.js',
-            'public/js/app.js'
+            'public/js/app.js',
+	    'public/js/googletranslate.js'
           ]
         }
       },
@@ -130,6 +131,6 @@ module.exports = function (grunt) {
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower', 'exec:install_npm']);
   grunt.registerTask('test', ['db_dump:testing', 'exec:codeception']);
-  grunt.registerTask('selenium', ['selenium_phantom_hub', 'exec:codeception', 'selenium_stop']);
+  grunt.registerTask('selenium', ['selenium_phantom_hub', 'selenium_stop']);
 
 };

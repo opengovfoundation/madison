@@ -101,6 +101,11 @@ class Doc extends Eloquent{
 		return $this->hasMany('Comment');
 	}
 
+	public function annotations()
+	{
+		return $this->hasMany('Annotation');
+	}
+
 	public function getLink()
 	{
 		return URL::to('docs/' . $this->slug);
@@ -175,8 +180,8 @@ class Doc extends Eloquent{
 		}
 		
 		return str_replace(
-					array(' ', '.', ','),
-					array('-', '', ''),
+					array(' ', '.', ',', '#'),
+					array('-', '', '', ''),
 					strtolower($this->title));
 	}
 	

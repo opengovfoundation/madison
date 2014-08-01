@@ -105,6 +105,12 @@ class DocController extends BaseController{
 
 	}
 
+	/**
+	*	Method to handle posting support/oppose clicks on a document
+	* 
+	* @param int $doc
+	* @return json array
+	*/
 	public function postSupport($doc){
 		$input = Input::get();
 
@@ -138,6 +144,39 @@ class DocController extends BaseController{
 		$opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $doc)->count();
 
 		return Response::json(array('support' => $supported, 'supports' => $supports, 'opposes' => $opposes));
+	}
+
+	/**
+	*	Method to handle document RSS feeds
+	*
+	*	@param string $slug
+	* @return view $feed->render()
+	*/
+	public function getFeed($slug){
+		$doc = Doc::where('slug', $slug)->with('comments', 'annotations', 'userSponsor', 'groupSponsor')->first();
+
+		$feed = Feed::make();
+
+		$feed->title = $doc->title;
+		$feed->description = "Activity feed for '" . $doc->title . "'";
+		$feed->link = URL::to('docs/' . $slug);
+		$feed->pubdate = $doc->updated_at;
+		$feed->lang = 'en';
+
+		$activities = $doc->comments->merge($doc->annotations);
+
+		$activities = $activities->sort(function ($a, $b) {
+			return (strtotime($a['updated_at']) > strtotime($b['updated_at'])) ? -1 : 1;
+		});
+
+		foreach($activities as $activity){
+			$item = $activity->getFeedItem();
+			
+
+			array_push($feed->items, $item);
+		}
+
+		return $feed->render('atom');
 	}
 }
 
