@@ -420,17 +420,18 @@ angular.module('madisonApp.controllers', [])
 
 
       $scope.getDocComments = function (docId) {
+        // Get all doc comments, regardless of nesting level
         $http({
           method: 'GET',
           url: '/api/docs/' + docId + '/comments'
         })
           .success(function (data) {
-
+            // Build child-parent relationships for each comment
             angular.forEach(data, function (comment) {
               
+              // If this isn't a parent comment, we need to find the parent and push this comment there
               if (comment.parent_id !== null) {
                 parent = $scope.parentSearch(data, comment.parent_id);
-                // This comment is a subcomment, so move it to the correct parent array
                 data[parent].comments.push(comment);
               }
 
@@ -446,6 +447,8 @@ angular.module('madisonApp.controllers', [])
               comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
+              // We only want to push top-level comments, they will include
+              // subcomments in their comments array(s)
               if (comment.parent_id === null) {
                 $scope.comments.push(comment);
               }

@@ -29,7 +29,8 @@
 		li.active > a{
 			background-color:transparent;
 			border:none;
-
+			text-decoration: underline;
+			font-weight: bold;
 		}
 	}
 }
