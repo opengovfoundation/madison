@@ -1,0 +1,18 @@
+# This is an example credential file.
+# Make a copy named oauth_creds.yml to add your credentials.
+#
+# The raw credentials are separated from the config file in the case that
+# a change is needed in the database config file
+
+Facebook:
+  client_id: ''
+  client_secret: ''
+  scope: ['email']
+
+Twitter:
+  client_id: ''
+  client_secret: ''
+
+Linkedin:
+  client_id: ''
+  client_secret: ''

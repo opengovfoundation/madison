@@ -18,10 +18,12 @@
     "laravel/framework": "4.1.25",
     "roumen/sitemap": "dev-master",
     "elasticsearch/elasticsearch": "~0.4",
-    "illuminate/remote": "4.1.*",
+    "illuminate/remote": "4.1.25",
+    "illuminate/support": "4.1.25",
     "graham-campbell/markdown": "1.0.0",
     "doctrine/dbal": "2.3.*",
-    "codeception/codeception": "*"
+    "codeception/codeception": "*",
+    "artdarek/oauth-4-laravel": "dev-master"
   },
   "autoload": {
     "classmap": [

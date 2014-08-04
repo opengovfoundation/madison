@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => false,
+	'debug' => true,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -109,8 +109,8 @@ return array(
 		'Roumen\Sitemap\SitemapServiceProvider',
 		'Rocketeer\RocketeerServiceProvider',
 		'GrahamCampbell\Markdown\MarkdownServiceProvider',
-		'Zizaco\Entrust\EntrustServiceProvider'
-
+		'Zizaco\Entrust\EntrustServiceProvider',
+		'Artdarek\OAuth\OAuthServiceProvider'
 	),
 
 	/*
@@ -178,7 +178,8 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 		'Markdown'        => 'GrahamCampbell\Markdown\Facades\Markdown',
 		'Rocketeer'       => 'Rocketeer\Facades\Rocketeer',
-		'Entrust'         => 'Zizaco\Entrust\EntrustFacade'
+		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
+		'OAuth'           => 'Artdarek\OAuth\Facade\OAuth'
 	),
 
 );
