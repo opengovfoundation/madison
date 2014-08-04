@@ -3,4 +3,5 @@
 	<a href="mailto:OpenGov Foundation <sayhello@opengovfoundation.org>?subject=Media Inquiry" target="_blank">Media Inquiries</a>
 	<a href="/terms-and-conditions">Terms &amp; Conditions</a>
   <a href="/privacy-policy">Privacy Policy</a>
+  <a href="/copyright">Copyright Policy</a>
 </div>
