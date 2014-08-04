@@ -24,6 +24,7 @@
 				<!-- Submit -->
 				{{ Form::submit('Login', array('class'=>'btn btn-default')) }}
 				<a class="forgot-password" href="{{ URL::to('password/remind') }}">Forgot your password?</a>
+				<a class="forgot-password" href="{{ URL::to('verification/remind') }}">Resend confirmation email</a>
 				{{ Form::hidden('previous_page', $previous_page) }}
 				{{ Form::token() . Form::close() }}
 			</div>

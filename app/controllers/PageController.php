@@ -60,4 +60,13 @@ class PageController extends BaseController
 
 		return View::make('page.index', $data);
 	}
+
+	public function copyright(){
+		$data = array(
+			'page_id' => 'copyright',
+			'page_title' => 'Copyright Policy'
+		);
+
+		return View::make('page.index', $data);
+	}
 }

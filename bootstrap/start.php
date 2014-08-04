@@ -13,6 +13,8 @@
 
 $app = new Illuminate\Foundation\Application;
 
+$app->forgetMiddleware('Illuminate\Http\FrameGuard');
+
 /*
 |--------------------------------------------------------------------------
 | Detect The Application Environment

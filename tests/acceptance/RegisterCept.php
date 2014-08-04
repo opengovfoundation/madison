@@ -11,7 +11,7 @@ $I->fillField("First Name", 'Codeception');
 $I->fillField("Last Name", 'McIntire');
 $I->fillField("Email", "test@opengovfoundation.org");
 $I->fillField("Password", "codeception");
-$I->click('Signup', ['class' => 'btn']);
+$I->click('Signup');
 $I->seeInDatabase('users', ['email' => 'test@opengovfoundation.org']);
 $I->see("An email has been sent to your email address.");
 ?>

@@ -99,6 +99,7 @@ a{
 		text-decoration:underline;
 	}
 }
+
 p{
 	&.gray{
 		color:$light-gray;
@@ -513,6 +514,7 @@ textarea.form-inline{
 					padding: 3px 6px 4px 6px;
 					font-size: .8em;
 					margin-right: 4px;
+					display:inline-block;
 				}
 			}
 

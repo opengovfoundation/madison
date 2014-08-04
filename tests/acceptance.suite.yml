@@ -7,9 +7,16 @@
 class_name: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser
+        - WebDriver
         - AcceptanceHelper
         - Db
+        - REST
     config:
-        PhpBrowser:
-            url: 'http://madison'
+       WebDriver:
+         url: 'http://madison/'
+         browser: phantomjs
+         window_size: 1300x1000
+         wait: 5
+         capabilities:
+             webStorageEnabled: true
+             javascriptEnabled: true

@@ -40,11 +40,11 @@
 					<div class="checkbox">
 						@if(Auth::user()->verified())
 							<label>
-								<input name="verify" type="checkbox" checked disabled> Request 'Verified Account' is '{{ Auth::user()->verified() }}'
+								<input name="verify" id="verify" type="checkbox" checked disabled> Request 'Verified Account' is '{{ Auth::user()->verified() }}'
 							</label>
 						@else
 							<label>
-								<input name="verify" type="checkbox"> Request 'Verified Account'
+								<input name="verify" id="verify" type="checkbox"> Request 'Verified Account'
 							</label>
 						@endif
 					</div>
@@ -61,7 +61,7 @@
 						<!-- Change avatar at gravatar.com -->
 						<a href="https://gravatar.com" target="_blank" class="red">Change your avatar at Gravatar.com</a>
 					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
+					<button type="submit" class="btn btn-default" id="submit">Submit</button>
 					{{ Form::token() }}
 				{{ Form::close() }}
 			</div>
