@@ -120,15 +120,6 @@
 				</div>
 			</div>
 		</div>
-		<!--
-		<div id="tab-contributors" class="tab-pane row">
-			<div class="col-md-12">
-				<div ng-controller="ParticipateController" ng-init="init({{ $doc->id }})" class="rightbar participate">
-					@include('doc.reader.participate')
-				</div>
-			</div>
-		</div>
-	    -->
 	</div>
 </div>
 @endsection
