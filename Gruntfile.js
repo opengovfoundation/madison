@@ -100,7 +100,7 @@ module.exports = function (grunt) {
           var creds = grunt.file.readYAML('codeception.yml');
           var database = creds.modules.config.Db.dsn.split('=')[2];
           var user = creds.modules.config.Db.user;
-          var pass = (creds.modules.config.Db.password === null ? (' -p ' + creds.modules.config.Db.password) : '');
+          var pass = (creds.modules.config.Db.password !== null ? (' -p' + creds.modules.config.Db.password) : '');
           // host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
           return 'mysqladmin -u' + user + pass + " create " + database
         }
@@ -116,7 +116,7 @@ module.exports = function (grunt) {
           var creds = grunt.file.readYAML('codeception.yml');
           var database = creds.modules.config.Db.dsn.split('=')[2];
           var user = creds.modules.config.Db.user;
-          var pass = (creds.modules.config.Db.password === null ? (' -p ' + creds.modules.config.Db.password) : '');
+          var pass = (creds.modules.config.Db.password !== null ? (' -p' + creds.modules.config.Db.password) : '');
           // host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
           return 'mysql -u' + user + pass + " -e 'DROP DATABASE IF EXISTS " + database + ";'"
         }
