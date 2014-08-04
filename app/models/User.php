@@ -23,6 +23,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 			return null;
 		}
 	}
+	
+	public function getDisplayName()
+	{
+		return "{$this->fname} {$this->lname}";
+	}
 
 	public function docs(){
 		return $this->belongsToMany('Doc');

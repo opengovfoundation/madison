@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => true,
+	'debug' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -107,6 +107,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Roumen\Sitemap\SitemapServiceProvider',
+		'Roumen\Feed\FeedServiceProvider',
 		'Rocketeer\RocketeerServiceProvider',
 		'GrahamCampbell\Markdown\MarkdownServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
@@ -152,6 +153,7 @@ return array(
 		'DB'              => 'Illuminate\Support\Facades\DB',
 		'Eloquent'        => 'Illuminate\Database\Eloquent\Model',
 		'Event'           => 'Illuminate\Support\Facades\Event',
+		'Feed'            => 'Roumen\Feed\Facades\Feed',
 		'File'            => 'Illuminate\Support\Facades\File',
 		'Form'            => 'Illuminate\Support\Facades\Form',
 		'Hash'            => 'Illuminate\Support\Facades\Hash',
