@@ -26,6 +26,15 @@ class AcceptanceHelper extends \Codeception\Module
                             );
 	}
 
+	function createVerifyRequest($userid) {
+		$dbh = $this->getModule('Db');
+		$dbh->haveInDatabase('user_meta', 
+							 array('user_id' => $userid, 
+							 	   'meta_key' => 'verify',
+						     	   'meta_value' => 'pending')
+                            );
+	}	
+
 	// Give test user independent author status. Run createTestUser() first.
 	function verifyTestIndependent() {
 		// Instead of relying on the test user to have a user id of 2

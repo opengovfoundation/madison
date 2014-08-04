@@ -62,16 +62,32 @@ class UserController extends BaseController{
 				'lname'		=> 'required',
 				'email'		=> 'required|unique:users'
 			);
-		} else {
+		} else if(isset($verify)) {
 			$rules = array(
 				'fname'		=> 'required',
 				'lname'		=> 'required',
 				'phone'		=> 'required'
 			);
+			// More detailed error message for phone number
+			if(empty($phone)) {
+				return Redirect::to('user/edit/' . $id)->with('error', 'A phone number is required to request verified status.');
+			}
+
+		} else {
+			$rules = array(
+				'fname'		=> 'required',
+				'lname'		=> 'required'
+			);
 		}
 		
 		$validation = Validator::make($user_details, $rules);
-		
+		$nice_names = array(
+						'fname' => 'first name',
+						'lname' => 'last name'
+		);
+		$validation->setAttributeNames($nice_names); 
+
+
 		if($validation->fails()){
 			return Redirect::to('user/edit/' . $id)->withInput()->withErrors($validation);
 		}

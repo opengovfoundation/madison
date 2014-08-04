@@ -21,10 +21,15 @@
         <span class="annotator-tag" ng-repeat="tag in activity.tags">{{ tag }}</span>
     </div>
     <div class="row">
+<<<<<<< HEAD
         <div class="col-md-5">
             <span class="activity-replies-indicator" ng-class="{'activity-replies-indicator-inactive': activity.comments.length == 0}" ng-click="collapseComments(activity)"><span class="glyphicon glyphicon-comment"></span>{{ activity.comments.length || '0' }}</span>
+=======
+        <div class="col-md-4">
+            <span class="activity-replies-indicator" ng-class="{'activity-replies-indicator-inactive': activity.comments.length == 0}"ng-click="collapseComments(activity)"><span class="glyphicon glyphicon-comment"></span>{{ activity.comments.length || '0' }}</span>
+>>>>>>> master
         </div>
-        <div class="col-md-7 activity-actions">
+        <div class="col-md-8 activity-actions">
             <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(activity, 'likes', $event)">({{ activity.likes || '0' }})</span>
             <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(activity, 'dislikes', $event)">({{ activity.dislikes || '0' }})</span>
             <span class="glyphicon glyphicon-flag" ng-click="addAction(activity, 'flags', $event)">({{ activity.flags || '0' }})</span>
