@@ -6,8 +6,7 @@
 	</head>
 	<body>
 
-		<p><strong>A group has requested verification:</strong></p>
-
+	<p><strong>A group has requested verification:</strong></p>
     <p><strong>Name:</strong>  {{ $group['name'] }}</p>
     <p><strong>Display Name:</strong> {{ $group['display_name'] }}</p>
     <p><strong>Address 1:</strong> {{ $group['address1'] }}</p>
@@ -17,8 +16,9 @@
     <p><strong>Postal Code:</strong> {{ $group['postal_code'] }}</p>
     <p><strong>Phone Number:</strong> {{ $group['phone_number'] }}</p>
 
+    <a href="{{ URL::to('dashboard/groupverifications') }}">View Request</a>
 
-		<p>&ndash; The OpenGov Foundation Team</p>
+	<p>&ndash; The OpenGov Foundation Team</p>
 	</body>
 </html>
 

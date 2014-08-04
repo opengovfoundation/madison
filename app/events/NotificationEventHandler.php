@@ -167,6 +167,9 @@ class NotificationEventHandler
 
 		$doc = Doc::find($data->doc_id);
 		
+		//Load annotation link
+		$data->link = $data->getLink();
+
 		$this->doNotificationActions($notifications, array(
 			'data' 								=> array('annotation' => $data->toArray(), 'doc' => $doc->toArray()),
 			'subject'							=> 'A new annotation on a document!',

@@ -4,9 +4,10 @@
 		<meta charset="utf-8" />
 	</head>
 	<body>
-		<p>An annotation has been added to - {{ $doc['title'] }} ({{ $doc['slug'] }})</p>
+		<p>An annotation has been added to - {{ link_to('docs/' . $doc['slug'], $doc['title']) }}</p>
+    
+    <p>&quot;{{ $annotation['text'] }}&quot;</p>
     <blockquote>
-      <p>{{ $annotation['text'] }}</p>
       <p>{{ $annotation['quote'] }}</p>
     </blockquote>
 		

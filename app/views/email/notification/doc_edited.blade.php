@@ -5,7 +5,7 @@
 	</head>
 	<body>
 
-		<p>A document has been edited! - {{ $doc['title'] }} ({{ $doc['slug'] }})</p>
+		<p>A document has been edited! - {{ link_to('docs/' . $doc['slug'], $doc['title']) }}</p>
 		
 		<p>&ndash; The OpenGov Foundation Team</p>
 	</body>
