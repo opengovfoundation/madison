@@ -47,6 +47,15 @@ class UserController extends BaseController{
 			return Response::error('404');
 		}
 
+		if(strlen(Input::get('password_1')) > 0 || strlen(Input::get('password_2')) > 0){
+			if(Input::get('password_1') !== Input::get('password_2')){
+				return Redirect::to('user/edit/' . $id)->with('error', 'The passwords you\'ve entered do not match.');
+			}
+			else{
+				$password = Input::get('password_1');
+			}
+		}
+
 		$email = Input::get('email');
 		$fname = Input::get('fname');
 		$lname = Input::get('lname');
@@ -86,6 +95,9 @@ class UserController extends BaseController{
 		$user->lname = $lname;
 		$user->url = $url;
 		$user->phone = $phone;
+		if(isset($password)){
+			$user->password = Hash::make($password);
+		}
 		// Don't allow oauth logins to update the user's data anymore,
 		// since they've set values within Madison.
 		$user->oauth_update = false;

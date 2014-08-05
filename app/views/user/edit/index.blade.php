@@ -37,6 +37,15 @@
 					<!-- TODO: Organization -->
 					<!-- Location -->
 					<!-- TODO: autofill / check location exists -->
+					<!-- Password -->
+					<div class="form-group">
+						<label for="password_1">Change password:</label>
+						<input type="password" class="form-control" name="password_1" id="password_1" placeholder="New password" value=""/>
+					</div>
+					<div class="form-group">
+						<label for="password_2">Confirm password:</label>
+						<input type="password" class="form-control" name="password_2" id="password_2" placeholder="Repeat new password" value=""/>
+					</div>
 					<div class="checkbox">
 						@if(Auth::user()->verified())
 							<label>
