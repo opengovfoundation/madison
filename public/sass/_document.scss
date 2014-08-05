@@ -1,3 +1,62 @@
+.document-wrapper{
+	.nav-tabs{
+		border-bottom:none;
+
+		&>li>a{
+			border:none;
+			border-radius:none;
+		}
+
+		&.nav{
+			li > a{
+				&:hover{
+					background-color:transparent !important;
+					cursor:pointer;
+					border:none;
+				}
+
+				&:focus{
+					background-color:transparent !important;
+					border:none;
+					outline:none;
+				}
+
+				color:black;
+			}
+		}
+		
+
+		li.active > a{
+			background-color:transparent;
+			border:none;
+			text-decoration: underline;
+			font-weight: bold;
+		}
+	}
+}
+
+.doc-tabs{
+	background:white;
+	border: 1px solid #ccc;
+	border-radius:10px;
+
+	.toc-content{
+
+	}
+}
+
+.toc-container.affix-top{
+	.toc-content{
+		border-radius:10px;
+		border:none;
+	}
+}
+
+.content.doc_content{
+	border:none;
+	border-radius:none;
+}
+
 .doc_content{
 	/* max-height:700px;
 	overflow-y:scroll; */

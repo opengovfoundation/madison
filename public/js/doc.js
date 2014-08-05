@@ -61,6 +61,7 @@ $(document).ready(function () {
   });
 
   if (user.id === '') {
+    
     Annotator.prototype.checkForEndSelection = function (event) {
 
       // This is what normally happens.

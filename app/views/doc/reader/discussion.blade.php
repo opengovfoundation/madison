@@ -4,6 +4,6 @@
 </div>
 @endif
 <div id="participate-activity" class="row participate-activity">
-	@include('doc.reader.activity')
+	@include('doc.reader.stream')
 </div>
 
