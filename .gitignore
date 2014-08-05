@@ -4,6 +4,7 @@ public/.sass-cache
 public/sass/.sass-cache
 public/private/*
 app/config/creds.yml
+app/config/oauth_creds.yml
 app/config/smtp.yml
 app/config/remote.php
 app/config/socials.php
