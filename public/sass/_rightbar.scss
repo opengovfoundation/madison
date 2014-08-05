@@ -1,7 +1,7 @@
 .rightbar{
-    @include border-radius(10px);
+    @include border-radius(5px);
     padding:5px 30px;
-
+    @include bg($light-gray);
     > .row:last-child{
         border-bottom:none;
         margin-bottom:20px;
