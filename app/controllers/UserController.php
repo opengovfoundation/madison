@@ -425,10 +425,9 @@ class UserController extends BaseController{
 			if(isset($user_info['email'])){
 				$existing_user = User::where('email', $user_info['email'])->first();
 
-				if(isset($existing_user)){
-					return Redirect::to('user/login')->with('error',
-						'It appears that you already have an account with that email address. Please login below.');
-				}
+				Auth::login($existing_user);
+
+				return Redirect::to('/')->with('success_message', 'Logged in with email address ' . $existing_user->email);
 			}
 
 			// Create a new user since we don't have one.
