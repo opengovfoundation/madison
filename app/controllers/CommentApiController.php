@@ -36,6 +36,8 @@ class CommentApiController extends ApiController{
 
 		$return = $newComment->save();
 
+		Event::fire(MadisonEvent::DOC_COMMENTED, $newComment);
+
 		return Response::json($return);
 	}
 
@@ -105,6 +107,8 @@ class CommentApiController extends ApiController{
 							    ->first();
 
 		$result = $parent->addOrUpdateComment($comment);
+
+		Event::fire(MadisonEvent::DOC_COMMENTED, $result);
 		
 		return Response::json($result);
 	}

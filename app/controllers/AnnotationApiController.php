@@ -17,7 +17,7 @@ class AnnotationApiController extends ApiController{
 	
 	/**
 	 * Get annotations by document ID and annotation ID
-	 * @param interger $docId
+	 * @param integer $docId
 	 * @param string $annotationId optional, if not provided get all
 	 * @throws Exception
 	 */
@@ -112,7 +112,11 @@ class AnnotationApiController extends ApiController{
 
 			return $annotation->id;
 		});
-		
+
+		$annotation = Annotation::find($id);
+
+		Event::fire(MadisonEvent::DOC_ANNOTATED, $annotation);
+
 		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $id, 303);
 	}
 
@@ -270,6 +274,11 @@ class AnnotationApiController extends ApiController{
 							    ->first();
 
 		$result = $annotation->addOrUpdateComment($comment);
+
+		// TODO: Hack to allow notification events.  Needs cleaned up.
+		$result->doc_id = $docId;
+
+		Event::fire(MadisonEvent::DOC_COMMENTED, $result);
 		
 		return Response::json($result);
 	}

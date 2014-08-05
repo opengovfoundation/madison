@@ -29,6 +29,8 @@ Route::model('user', 'User');
 |--------------------------------------------------------------------------
 */
 
+Route::get('/dev/event/test', 'DevController@testEvent');
+
 // Modal Routes
 Route::get('modals/annotation_thanks', array(
 	'uses' => 'ModalController@getAnnotationThanksModal',

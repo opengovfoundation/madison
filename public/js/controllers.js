@@ -221,11 +221,9 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('ParticipateController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
+  .controller('AnnotationController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
     function ($scope, $sce, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
       $scope.annotations = [];
-      $scope.comments = [];
-      $scope.activities = [];
       $scope.supported = null;
       $scope.opposed = false;
 
@@ -236,9 +234,7 @@ angular.module('madisonApp.controllers', [])
         $scope.subCommentId = subCommentId[1];  
       }
       
-
       $scope.init = function (docId) {
-        $scope.getDocComments(docId);
         $scope.user = user;
         $scope.doc = doc;
       };
@@ -246,9 +242,8 @@ angular.module('madisonApp.controllers', [])
       //Watch for annotationsUpdated broadcast
       $scope.$on('annotationsUpdated', function () {
         angular.forEach(annotationService.annotations, function (annotation) {
-          if ($.inArray(annotation, $scope.activities) < 0) {
+          if ($.inArray(annotation, $scope.annotations) < 0) {
             var collapsed = true;
-
             if($scope.subCommentId){
               angular.forEach(annotation.comments, function (subcomment) {
                 if(subcomment.id == $scope.subCommentId){
@@ -259,7 +254,7 @@ angular.module('madisonApp.controllers', [])
 
             annotation.label = 'annotation';
             annotation.commentsCollapsed = collapsed;
-            $scope.activities.push(annotation);
+            $scope.annotations.push(annotation);
           }
         });
 
@@ -279,13 +274,11 @@ angular.module('madisonApp.controllers', [])
         return sponsored;
       };
 
-      $scope.notifyAuthor = function(activity){
- 
-    // If the current user is a sponsor and the activity hasn't been seen yet, 
-     // post to API route depending on comment/annotation label
-        $http.post('/api/docs/' + doc.id + '/' + activity.label + 's/' + activity.id + '/' + 'seen')
+      $scope.notifyAuthor = function(annotation){
+
+        $http.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/' + 'seen')
         .success(function(data){
-          activity.seen = data.seen;
+          annotation.seen = data.seen;
         }).error(function(data){
           console.error("Unable to mark activity as seen: %o", data);
         });
@@ -310,7 +303,7 @@ angular.module('madisonApp.controllers', [])
               comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
-              $scope.activities.push(comment);
+              $scope.annotations.push(comment);
             });
           })
           .error(function (data) {
@@ -330,7 +323,164 @@ angular.module('madisonApp.controllers', [])
           .success(function () {
             comment.label = 'comment';
             comment.user.fname = comment.user.name;
-            $scope.activities.push(comment);
+            $scope.stream.push(comment);
+            $scope.comment.text = '';
+          })
+          .error(function (data) {
+            console.error("Error posting comment: %o", data);
+          });
+      };
+
+      $scope.activityOrder = function (activity) {
+        var popularity = activity.likes - activity.dislikes;
+
+        return popularity;
+      };
+
+      $scope.addAction = function (activity, action, $event) {
+        if ($scope.user.id !== '') {
+          $http.post('/api/docs/' + $scope.doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
+            .success(function (data) {
+              activity.likes = data.likes;
+              activity.dislikes = data.dislikes;
+              activity.flags = data.flags;
+            }).error(function (data) {
+              console.error(data);
+            });
+        } else {
+          createLoginPopup($event);
+        }
+
+      };
+
+      $scope.collapseComments = function (activity) {
+        activity.commentsCollapsed = !activity.commentsCollapsed;
+      };
+
+      $scope.subcommentSubmit = function (activity, subcomment) {
+        subcomment.user = $scope.user;
+
+        $.post('/api/docs/' + $scope.doc.id + '/' + activity.label + 's/' + activity.id + '/comments', {
+          'comment': subcomment
+        })
+          .success(function (data) {
+            activity.comments.push(data);
+            subcomment.text = '';
+            subcomment.user = '';
+            $scope.$apply();
+          }).error(function (data) {
+            console.error(data);
+          });
+      };
+    }
+    ])
+  .controller('CommentController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
+    function ($scope, $sce, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
+      $scope.comments = [];
+      $scope.supported = null;
+      $scope.opposed = false;
+
+      //Parse sub-comment hash if there is one
+      var hash = $location.hash();
+      var subCommentId = hash.match(/^subcomment_([0-9]+)$/);
+      if(subCommentId){
+        $scope.subCommentId = subCommentId[1];  
+      }
+      
+      $scope.init = function (docId) {
+        $scope.getDocComments(docId);
+        $scope.user = user;
+        $scope.doc = doc;
+      };
+
+      $scope.isSponsor = function(){
+        var currentId = $scope.user.id;
+        var sponsored = false;
+ 
+        angular.forEach($scope.doc.sponsor, function(sponsor){
+          if(currentId === sponsor.id){
+            sponsored = true;
+          }
+        });
+
+        return sponsored;
+      };
+
+      $scope.notifyAuthor = function(activity){
+ 
+    // If the current user is a sponsor and the activity hasn't been seen yet, 
+     // post to API route depending on comment/annotation label
+        $http.post('/api/docs/' + doc.id + '/' + 'comments/' + activity.id + '/' + 'seen')
+        .success(function(data){
+          activity.seen = data.seen;
+        }).error(function(data){
+          console.error("Unable to mark activity as seen: %o", data);
+        });
+      };
+
+
+      $scope.getDocComments = function (docId) {
+        // Get all doc comments, regardless of nesting level
+        $http({
+          method: 'GET',
+          url: '/api/docs/' + docId + '/comments'
+        })
+          .success(function (data) {
+            // Build child-parent relationships for each comment
+            angular.forEach(data, function (comment) {
+              
+              // If this isn't a parent comment, we need to find the parent and push this comment there
+              if (comment.parent_id !== null) {
+                parent = $scope.parentSearch(data, comment.parent_id);
+                data[parent].comments.push(comment);
+              }
+
+              var collapsed = true;
+              if($scope.subCommentId){
+                angular.forEach(comment.comments, function (subcomment) {
+                  if(subcomment.id == $scope.subCommentId){
+                    collapsed = false;
+                  }
+                });
+              }
+
+              comment.commentsCollapsed = collapsed;
+              comment.label = 'comment';
+              comment.link = 'comment_' + comment.id;
+              // We only want to push top-level comments, they will include
+              // subcomments in their comments array(s)
+              if (comment.parent_id === null) {
+                $scope.comments.push(comment);
+              }
+
+            });
+          })
+          .error(function (data) {
+            console.error("Error loading comments: %o", data);
+          });
+
+      };
+
+      $scope.parentSearch = function (arr,val) {
+        for (var i=0; i<arr.length; i++)
+          if (arr[i].id === val)                    
+            return i;
+        return false;
+      };
+
+      $scope.commentSubmit = function () {
+
+        var comment = angular.copy($scope.comment);
+        comment.user = $scope.user;
+        comment.doc = $scope.doc;
+
+        $http.post('/api/docs/' + comment.doc.id + '/comments', {
+          'comment': comment
+        })
+          .success(function () {
+            comment.label = 'comment';
+            comment.user.fname = comment.user.name;
+            $scope.comments.push(comment);
             $scope.comment.text = '';
           })
           .error(function (data) {

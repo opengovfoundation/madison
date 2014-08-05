@@ -57,6 +57,7 @@ class Comment extends Eloquent implements ActivityInterface
         $item['likes'] = $this->likes();
         $item['dislikes'] = $this->dislikes();
         $item['flags'] = $this->flags();
+        $item['comments'] = array();
 
         return $item;
     }
@@ -137,7 +138,8 @@ class Comment extends Eloquent implements ActivityInterface
     }
 
     static public function loadComments($docId, $commentId, $userId){
-        $comments = static::where('doc_id', '=', $docId)->whereNull('parent_id')->with('comments')->with('user');
+        $comments = static::where('doc_id', '=', $docId)->with('user');
+
 
         if(!is_null($commentId)){
             $comments->where('id', '=', $commentId);
@@ -146,14 +148,24 @@ class Comment extends Eloquent implements ActivityInterface
         $comments = $comments->get();
 
         $retval = array();
-        foreach($comments as $comment){
-            foreach($comment->comments as $subcomment){
-                $subcomment->load('user');
-            }
+        foreach($comments as $comment) {
             $retval[] = $comment->loadArray();
         }
 
         return $retval;
     }
+
+    /**
+    *   Include link to annotation when converted to array
+    * 
+    *   @param null
+    * @return parent::toArray()
+    */
+    public function toArray(){
+        $this->link = $this->getLink();
+
+        return parent::toArray();
+    }
 }
+
 

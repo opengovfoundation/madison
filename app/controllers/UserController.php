@@ -63,10 +63,6 @@ class UserController extends BaseController{
 		$phone = Input::get('phone');
 		$verify = Input::get('verify');
 
-		if(empty($phone)) {
-			return Redirect::to('user/edit/' . $id)->with('error', 'A phone number is required to request verified status.');
-		}
-
 		$user_details = Input::all();
 
 		if(Auth::user()->email != $email) {
@@ -75,15 +71,31 @@ class UserController extends BaseController{
 				'lname'		=> 'required',
 				'email'		=> 'required|unique:users'
 			);
-		} else {
+		} else if(isset($verify)) {
 			$rules = array(
 				'fname'		=> 'required',
 				'lname'		=> 'required',
 				'phone'		=> 'required'
 			);
+			// More detailed error message for phone number
+			if(empty($phone)) {
+				return Redirect::to('user/edit/' . $id)->with('error', 'A phone number is required to request verified status.');
+			}
+
+		} else {
+			$rules = array(
+				'fname'		=> 'required',
+				'lname'		=> 'required'
+			);
 		}
 
 		$validation = Validator::make($user_details, $rules);
+
+		$nice_names = array(
+						'fname' => 'first name',
+						'lname' => 'last name'
+		);
+		$validation->setAttributeNames($nice_names); 
 
 		if($validation->fails()){
 			return Redirect::to('user/edit/' . $id)->withInput()->withErrors($validation);
@@ -110,6 +122,8 @@ class UserController extends BaseController{
 			$meta->user_id = $id;
 			$meta->save();
 
+			Event::fire(MadisonEvent::VERIFY_REQUEST_USER, $user);
+			
 			return Redirect::back()->with('success_message', 'Your profile has been updated')->with('message', 'Your verified status has been requested.');
 		}
 
@@ -231,7 +245,9 @@ class UserController extends BaseController{
 			$user->lname = $lname;
 			$user->token = $token;
 			$user->save();
-
+			
+			Event::fire(MadisonEvent::NEW_USER_SIGNUP, $user);
+			
 			//Send email to user for email account verification
 			Mail::queue('email.signup', array('token'=>$token), function ($message) use ($email, $fname) {
 				$message->subject('Welcome to the Madison Community');

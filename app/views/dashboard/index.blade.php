@@ -12,6 +12,7 @@
 			<li>{{ HTML::link('dashboard/verifications', 'Verify Accounts') }}</li>
 			<li>{{ HTML::link('dashboard/groupverifications', 'Verify Groups') }}</li>
 			<li>{{ HTML::link('dashboard/userverifications', 'Verify Independent Sponsors') }}</li>
+			<li>{{ HTML::link('dashboard/notifications', 'Notifications') }}</li>
 		</ul>
 	</div>
 @endsection
