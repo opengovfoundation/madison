@@ -46,7 +46,7 @@ module.exports = function (grunt) {
             'public/bower_components/angular-ui/build/angular-ui.min.js',
             'public/bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
             'public/bower_components/angular-growl/build/angular-growl.min.js',
-	          'public/bower_components/angular-sanitize/angular-sanitize.js',
+            'public/bower_components/angular-sanitize/angular-sanitize.js',
             'node_modules/twitter-bootstrap-3.0.0/dist/js/bootstrap.min.js',
 
             //Datetimepicker and dependencies
@@ -100,14 +100,17 @@ module.exports = function (grunt) {
           var creds = grunt.file.readYAML('codeception.yml');
           var database = creds.modules.config.Db.dsn.split('=')[2];
           var user = creds.modules.config.Db.user;
-          var pass = (creds.modules.config.Db.password === null ? (' -p ' + creds.modules.config.Db.password) : '');
+          var pass = (creds.modules.config.Db.password !== null ? (' -p' + creds.modules.config.Db.password) : '');
           // host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
-          return 'mysqladmin -u' + user + pass + " create " + database
+          var command = 'mysqladmin -u' + user + pass + " create " + database;
+
+          console.log(command);
+          return command;
         }
       },
       migrate: {
         cmd: "php artisan migrate"
-      }, 
+      },
       seed: {
         cmd: "php artisan db:seed"
       },
@@ -116,11 +119,11 @@ module.exports = function (grunt) {
           var creds = grunt.file.readYAML('codeception.yml');
           var database = creds.modules.config.Db.dsn.split('=')[2];
           var user = creds.modules.config.Db.user;
-          var pass = (creds.modules.config.Db.password === null ? (' -p ' + creds.modules.config.Db.password) : '');
+          var pass = (creds.modules.config.Db.password !== null ? (' -p' + creds.modules.config.Db.password) : '');
           // host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
-          return 'mysql -u' + user + pass + " -e 'DROP DATABASE IF EXISTS " + database + ";'"
+          return 'mysql -u' + user + pass + " -e 'DROP DATABASE IF EXISTS " + database + ";'";
         }
-      },      
+      }, 
 
     }
   });
