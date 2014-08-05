@@ -11,6 +11,19 @@ class DocController extends BaseController{
 		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
 	}
 	
+	
+	public function getEmbedded($slug = null)
+	{
+		$doc = Doc::findDocBySlug($slug);
+		
+		if(is_null($doc)) {
+			App::abort('404');
+		}
+		
+		$view = View::make('doc.reader.embed', compact('doc'));
+		return $view;
+	}
+	
 	//GET document view
 	public function index($slug = null){
 		//No document requested, list documents

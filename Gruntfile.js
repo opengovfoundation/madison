@@ -46,13 +46,12 @@ module.exports = function (grunt) {
             'public/bower_components/angular-ui/build/angular-ui.min.js',
             'public/bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
             'public/bower_components/angular-growl/build/angular-growl.min.js',
-	    'public/bower_components/angular-sanitize/angular-sanitize.js',
+            'public/bower_components/angular-sanitize/angular-sanitize.js',
             'node_modules/twitter-bootstrap-3.0.0/dist/js/bootstrap.min.js',
 
             //Datetimepicker and dependencies
             'public/vendor/datetimepicker/datetimepicker.js',
             'public/bower_components/moment/min/moment.min.js',
-
             'public/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
             'public/js/controllers.js',
             'public/js/dashboardControllers.js',
@@ -61,7 +60,7 @@ module.exports = function (grunt) {
             'public/js/filters.js',
             'public/js/annotationServiceGlobal.js',
             'public/js/app.js',
-	    'public/js/googletranslate.js'
+            'public/js/googletranslate.js'
           ]
         }
       },
@@ -95,24 +94,37 @@ module.exports = function (grunt) {
       },
       codeception: {
         cmd: 'vendor/codeception/codeception/codecept build && vendor/codeception/codeception/codecept run acceptance'
-      }
-    },
-    db_dump: {
-      testing: {
-        options: (function () {
+      },
+      create_testdb: {
+        cmd: function () {
           var creds = grunt.file.readYAML('codeception.yml');
-          var returned = {
-            title: "Dump for test suite",
-            database: creds.modules.config.Db.dsn.split('=')[2],
-            user: creds.modules.config.Db.user,
-            pass: creds.modules.config.Db.password,
-            host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
-            backup_to: "tests/_data/dump.sql"
-          };
+          var database = creds.modules.config.Db.dsn.split('=')[2];
+          var user = creds.modules.config.Db.user;
+          var pass = (creds.modules.config.Db.password !== null ? (' -p' + creds.modules.config.Db.password) : '');
+          // host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
+          var command = 'mysqladmin -u' + user + pass + " create " + database;
 
-          return returned;
-        }())
-      }
+          console.log(command);
+          return command;
+        }
+      },
+      migrate: {
+        cmd: "php artisan migrate"
+      },
+      seed: {
+        cmd: "php artisan db:seed"
+      },
+      drop_testdb: {
+        cmd: function () {
+          var creds = grunt.file.readYAML('codeception.yml');
+          var database = creds.modules.config.Db.dsn.split('=')[2];
+          var user = creds.modules.config.Db.user;
+          var pass = (creds.modules.config.Db.password !== null ? (' -p' + creds.modules.config.Db.password) : '');
+          // host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
+          return 'mysql -u' + user + pass + " -e 'DROP DATABASE IF EXISTS " + database + ";'";
+        }
+      }, 
+
     }
   });
 
@@ -130,7 +142,5 @@ module.exports = function (grunt) {
   // Task definition
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower', 'exec:install_npm']);
-  grunt.registerTask('test', ['db_dump:testing', 'exec:codeception']);
-  grunt.registerTask('selenium', ['selenium_phantom_hub', 'selenium_stop']);
-
+  grunt.registerTask('test', ['exec:create_testdb', 'exec:migrate', 'exec:seed', 'selenium_phantom_hub', 'exec:codeception', 'selenium_stop', 'exec:drop_testdb']);
 };
