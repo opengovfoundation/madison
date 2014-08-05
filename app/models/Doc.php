@@ -161,6 +161,8 @@ class Doc extends Eloquent{
 			$document->save();
 		});
 		
+		Event::fire(MadisonEvent::NEW_DOCUMENT, $document);
+		
 		return $document;
 	}
 	

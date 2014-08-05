@@ -399,7 +399,7 @@ class Annotation extends Eloquent implements ActivityInterface
 		$obj = new AnnotationComment();
 		$obj->text = $comment['text'];
 		$obj->user_id = $comment['user']['id'];
-		
+
 		if(isset($comment['id'])) {
 			$obj->id = $comment['id'];
 		}

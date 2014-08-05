@@ -21,6 +21,7 @@ ClassLoader::addDirectories(array(
 	app_path().'/controllers',
 	app_path().'/models',
 	app_path().'/database/seeds',
+	app_path().'/events'
 
 ));
 
@@ -73,6 +74,7 @@ App::down(function()
 	return Response::make("Be right back!", 503);
 });
 
+
 /*
 |--------------------------------------------------------------------------
 | Require The Filters File
@@ -83,5 +85,12 @@ App::down(function()
 | definitions instead of putting them all in the main routes file.
 |
 */
+
+
+/*
+ * Register Events
+ */
+
+Event::subscribe(new NotificationEventHandler());
 
 require app_path().'/filters.php';
