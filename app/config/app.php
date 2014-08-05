@@ -110,7 +110,8 @@ return array(
 		'Roumen\Feed\FeedServiceProvider',
 		'Rocketeer\RocketeerServiceProvider',
 		'GrahamCampbell\Markdown\MarkdownServiceProvider',
-		'Zizaco\Entrust\EntrustServiceProvider'
+		'Zizaco\Entrust\EntrustServiceProvider',
+		'Artdarek\OAuth\OAuthServiceProvider'
 	),
 
 	/*
@@ -152,7 +153,7 @@ return array(
 		'DB'              => 'Illuminate\Support\Facades\DB',
 		'Eloquent'        => 'Illuminate\Database\Eloquent\Model',
 		'Event'           => 'Illuminate\Support\Facades\Event',
-		'Feed'						=> 'Roumen\Feed\Facades\Feed',
+		'Feed'            => 'Roumen\Feed\Facades\Feed',
 		'File'            => 'Illuminate\Support\Facades\File',
 		'Form'            => 'Illuminate\Support\Facades\Form',
 		'Hash'            => 'Illuminate\Support\Facades\Hash',
@@ -179,7 +180,8 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 		'Markdown'        => 'GrahamCampbell\Markdown\Facades\Markdown',
 		'Rocketeer'       => 'Rocketeer\Facades\Rocketeer',
-		'Entrust'         => 'Zizaco\Entrust\EntrustFacade'
+		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
+		'OAuth'           => 'Artdarek\OAuth\Facade\OAuth'
 	),
 
 );
