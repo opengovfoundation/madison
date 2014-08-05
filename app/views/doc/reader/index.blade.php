@@ -63,8 +63,8 @@
 		</div>
 	</div>
 	<ul class="nav nav-tabs" role="tablist">
-		<li class="active"><a href="#tab-activity" role="tab" data-toggle="tab">Bill</a></li>
-		<li><a href="#tab-discussion" role="tab" data-toggle="tab">Discussion</a></li>
+		<li class="active"><a href="#tab-activity" target="_self" role="tab" data-toggle="tab">Bill</a></li>
+		<li><a href="#tab-discussion" target="_self" role="tab" data-toggle="tab">Discussion</a></li>
 	</ul>
 	<div class="tab-content doc-tabs">
 		<div id="tab-activity" class="tab-pane active row">
