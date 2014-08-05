@@ -23,6 +23,7 @@
     "graham-campbell/markdown": "1.0.0",
     "doctrine/dbal": "2.3.*",
     "codeception/codeception": "*",
+    "artdarek/oauth-4-laravel": "dev-master",
     "roumen/feed": "dev-master"
   },
   "autoload": {
