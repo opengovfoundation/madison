@@ -1,10 +1,13 @@
 .document-wrapper{
 	.nav-tabs{
 		border-bottom:none;
-
+		padding-left: 8px;
+		margin-bottom: -1px;
 		&>li>a{
 			border:none;
 			border-radius:none;
+			font-weight: bold;
+			padding-bottom: 6px;
 		}
 
 		&.nav{
@@ -12,16 +15,16 @@
 				&:hover{
 					background-color:transparent !important;
 					cursor:pointer;
-					border:none;
+					color: #111;
+
 				}
 
 				&:focus{
 					background-color:transparent !important;
-					border:none;
 					outline:none;
 				}
 
-				color:black;
+				color:#808184;
 			}
 		}
 		
@@ -29,8 +32,9 @@
 		li.active > a{
 			background-color:transparent;
 			border:none;
-			text-decoration: underline;
-			font-weight: bold;
+			text-decoration: none;
+			color: #333;
+			border-bottom: 3px solid $blue-header;
 		}
 	}
 }
@@ -38,7 +42,7 @@
 .doc-tabs{
 	background:white;
 	border: 1px solid #ccc;
-	border-radius:10px;
+	border-radius:5px;
 
 	.toc-content{
 
@@ -68,10 +72,9 @@
 
 .how-to-annotate{
 	@include bg($light-gray);
-	border-radius:10px;
+	border-radius:0px 5px 0px 0px;
 	position: relative;
-	margin-bottom:20px;
-	padding: 10px 15px;
+	padding: 10px 15px 30px 15px;
 
 	h2{
 		text-align:center;
