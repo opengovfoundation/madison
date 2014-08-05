@@ -20,7 +20,7 @@ class Doc extends Eloquent{
 
 	public function getEmbedCode()
 	{
-		$dom = new DOMDocument();
+		$dom = new \DOMDocument();
 
 		$docSrc = URL::to('docs/embed', $this->slug);
 		
