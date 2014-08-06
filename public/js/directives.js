@@ -114,4 +114,9 @@ angular.module('madisonApp.directives', []).directive('docComments', function ()
       };
     }
   };
+}]).directive('socialLogin', [ function () {
+  return {
+    restrict: 'A',
+    templateUrl: '/templates/social-login.html'
+  };
 }]);

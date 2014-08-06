@@ -29,5 +29,8 @@
 				{{ Form::token() . Form::close() }}
 			</div>
 		</div>
+		<div class="row">
+			<div social-login></div>
+		</div>
 	</div>
 @endsection
