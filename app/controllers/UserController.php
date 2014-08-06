@@ -453,7 +453,10 @@ class UserController extends BaseController{
 			$user->save();
 		}
 
-		Auth::login($user);
+		if($user instanceof User){
+			Auth::login($user);	
+		}
+		
 
 		if(isset($new_user)){
 			$message = 'Welcome ' . $user->fname;
