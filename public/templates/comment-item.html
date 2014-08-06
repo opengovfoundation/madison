@@ -1,12 +1,15 @@
 <div class="col-md-12">
     <div class="row">
-        <div class="activity-author col-md-8">
+        <div class="activity-author col-md-4">
             <span>{{ comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) }}</span>
         </div>
-        <div class="activity-icon col-md-8">
+        <div class="activity-icon col-md-2 col-md-offset-6">
             <a class="comment-link">
                 <span class="glyphicon glyphicon-link" title="Copy link to clipboard"></span>
-            </a>
+            </a> 
+            <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(comment, 'likes', $event)">{{ comment.likes || '0' }}</span>
+            <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(comment, 'dislikes', $event)">{{ comment.dislikes || '0' }}</span>
+            <span class="glyphicon glyphicon-flag" ng-click="addAction(comment, 'flags', $event)">{{ comment.flags || '0' }}</span>
         </div>
     </div>
     <div class="row">
@@ -21,22 +24,20 @@
         <div class="col-md-5">
             <span class="activity-replies-indicator" ng-class="{'activity-replies-indicator-inactive': comment.comments.length == 0}" ng-click="collapseComments(comment)"><span class="glyphicon glyphicon-comment"></span>{{ comment.comments.length || '0' }}</span>
         </div>
-        <div class="col-md-7 activity-actions">
-            <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(comment, 'likes', $event)">({{ comment.likes || '0' }})</span>
-            <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(comment, 'dislikes', $event)">({{ comment.dislikes || '0' }})</span>
-            <span class="glyphicon glyphicon-flag" ng-click="addAction(comment, 'flags', $event)">({{ comment.flags || '0' }})</span>
-        </div>
     </div>
 
     <script type="text/ng-template" id="subcomment_renderer.html">
      <div class="row">
-            <div class="activity-author col-md-8">
+            <div class="activity-author col-md-4">
                 <span>{{ comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) }}</span>
             </div>
-            <div class="activity-icon col-md-8">
+            <div class="activity-icon col-md-2 col-md-offset-6">
                 <a class="comment-link">
                     <span class="glyphicon glyphicon-link" title="Copy link to clipboard"></span>
                 </a>
+                <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(comment, 'likes', $event)">{{ comment.likes || '0' }}</span>
+                <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(comment, 'dislikes', $event)">{{ comment.dislikes || '0' }}</span>
+                <span class="glyphicon glyphicon-flag" ng-click="addAction(comment, 'flags', $event)">{{ comment.flags || '0' }}</span>
             </div>
         </div>
         <div class="row">
@@ -51,11 +52,6 @@
             <div class="col-md-5">
                 <span class="activity-replies-indicator" ng-class="{'activity-replies-indicator-inactive': comment.comments.length == 0}" ng-click="collapseComments(comment)">
                 <span class="glyphicon glyphicon-comment"></span>{{ comment.comments.length || '0' }}</span>
-            </div>
-            <div class="col-md-7 activity-actions">
-                <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(comment, 'likes', $event)">({{ comment.likes || '0' }})</span>
-                <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(comment, 'dislikes', $event)">({{ comment.dislikes || '0' }})</span>
-                <span class="glyphicon glyphicon-flag" ng-click="addAction(comment, 'flags', $event)">({{ comment.flags || '0' }})</span>
             </div>
         </div>
 
