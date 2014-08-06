@@ -455,6 +455,9 @@ class UserController extends BaseController{
 
 		if($user instanceof User){
 			Auth::login($user);	
+		}else{
+			Log::error('Trying to log in user of incorrect type');
+			Log::error($user);
 		}
 		
 
