@@ -5,15 +5,18 @@
 }
 
 .social-login-btn{
-  color:white;
+  color:white !important;
+  font-weight: bold;
   text-shadow:none;
   border:none;
   border-radius:3px;
   width:100%;
   text-align:left;
-
+  padding-bottom: 10px;
+  padding-top: 10px;
   img{
     height:20px;
+    padding-right: 5px;
   }
 
   &:hover{
