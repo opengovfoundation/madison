@@ -117,6 +117,9 @@ angular.module('madisonApp.directives', []).directive('docComments', function ()
 }]).directive('socialLogin', [ function () {
   return {
     restrict: 'A',
+    scope: {
+      message: '@message'
+    },
     templateUrl: '/templates/social-login.html'
   };
 }]);

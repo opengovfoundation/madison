@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div social-login></div>
+			<div social-login message="Log in"></div>
 		</div>
 	</div>
 @endsection
