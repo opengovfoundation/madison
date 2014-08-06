@@ -477,10 +477,9 @@ angular.module('madisonApp.controllers', [])
         $http.post('/api/docs/' + comment.doc.id + '/comments', {
           'comment': comment
         })
-          .success(function () {
-            comment.label = 'comment';
-            comment.user.fname = comment.user.name;
-            $scope.comments.push(comment);
+          .success(function (data) {
+            data[0].label = 'comment';
+            $scope.comments.push(data[0]);
             $scope.comment.text = '';
           })
           .error(function (data) {
@@ -521,6 +520,8 @@ angular.module('madisonApp.controllers', [])
           'comment': subcomment
         })
           .success(function (data) {
+            data.comments = [];
+            data.label = 'comment';
             activity.comments.push(data);
             subcomment.text = '';
             subcomment.user = '';

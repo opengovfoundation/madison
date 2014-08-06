@@ -3,7 +3,7 @@
         <div class="activity-author col-md-8">
             <span>{{ annotation.user.name || (annotation.user.fname + ' ' + annotation.user.lname.substr(0,1)) }}</span>
         </div>
-        <div class="activity-icon col-md-4">
+        <div class="activity-icon col-md-2 col-md-offset-2">
             <a href="#{{ annotation.link }}" ng-show="annotation.label === 'annotation'">
                 <span data-activity-link="{{ annotation.link }}" class="glyphicon glyphicon-screenshot" title="Jump to {{ annotation.label }}"></span>
             </a>
@@ -25,9 +25,9 @@
             <span class="activity-replies-indicator" ng-class="{'activity-replies-indicator-inactive': annotation.comments.length == 0}"ng-click="collapseComments(annotation)"><span class="glyphicon glyphicon-comment"></span>{{ annotation.comments.length || '0' }}</span>
         </div>
         <div class="col-md-8 activity-actions">
-            <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(annotation, 'likes', $event)">({{ annotation.likes || '0' }})</span>
-            <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(annotation, 'dislikes', $event)">({{ annotation.dislikes || '0' }})</span>
-            <span class="glyphicon glyphicon-flag" ng-click="addAction(annotation, 'flags', $event)">({{ annotation.flags || '0' }})</span>
+            <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(annotation, 'likes', $event)">{{ annotation.likes || '0' }}</span>
+            <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(annotation, 'dislikes', $event)">{{ annotation.dislikes || '0' }}</span>
+            <span class="glyphicon glyphicon-flag" ng-click="addAction(annotation, 'flags', $event)">{{ annotation.flags || '0' }}</span>
         </div>
     </div>
     <div class="activity-replies row" collapse="annotation.commentsCollapsed">

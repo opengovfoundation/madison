@@ -33,11 +33,11 @@ class CommentApiController extends ApiController{
 		$newComment->user_id = Auth::user()->id;
 		$newComment->doc_id = $comment['doc']['id'];
 		$newComment->text = $comment['text'];
-
-		$return = $newComment->save();
+		$newComment->save();
 
 		Event::fire(MadisonEvent::DOC_COMMENTED, $newComment);
 
+		$return = Comment::loadComments($newComment->doc_id, $newComment->id, $newComment->user_id);
 		return Response::json($return);
 	}
 
