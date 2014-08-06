@@ -2,41 +2,51 @@
   margin-top:20px;
   padding-top:20px;
   border-top:1px solid lightgray;
+}
 
-  .social-login-btn{
+.social-login-btn{
+  color:white;
+  text-shadow:none;
+  border:none;
+  border-radius:3px;
+  width:100%;
+  text-align:left;
+
+  img{
+    height:20px;
+  }
+
+  &:hover{
     color:white;
-    text-shadow:none;
-    border:none;
-    border-radius:3px;
-    width:100%;
-    text-align:left;
-
-    img{
-      height:20px;
-    }
   }
+}
 
-  .facebook-login-btn{
-    background: $facebook;
+.facebook-login-btn{
+  background: $facebook;
 
-    &:hover{
-      background: scale-lightness($facebook, 10%);
-    }
+  &:hover{
+    background: scale-lightness($facebook, 10%);
   }
+}
 
-  .twitter-login-btn{
-    background: $twitter;
+.twitter-login-btn{
+  background: $twitter;
 
-    &:hover{
-      background: scale-lightness($twitter, 10%);
-    }
+  &:hover{
+    background: scale-lightness($twitter, 10%);
   }
+}
 
-  .linkedin-login-btn{
-    background: $linkedin;
+.linkedin-login-btn{
+  background: $linkedin;
 
-    &:hover{
-      background:scale-lightness($linkedin, 10%);
-    }
+  &:hover{
+    background:scale-lightness($linkedin, 10%);
+  }
+}
+
+.unauthed-popup{
+  .social-login-btn{
+    margin:5px 0;
   }
 }
