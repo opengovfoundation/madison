@@ -153,7 +153,6 @@ angular.module('madisonApp.controllers', [])
       $scope.init = function () {
         $scope.user = user;
         $scope.doc = doc;
-        //$anchorScroll();
         $scope.setSponsor();
         $scope.getSupported();
       };
