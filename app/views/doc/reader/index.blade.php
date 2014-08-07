@@ -63,11 +63,11 @@
 		</div>
 	</div>
 	<ul class="nav nav-tabs" role="tablist">
-		<li class="active"><a href="#tab-activity" target="_self" role="tab" data-toggle="tab">Bill</a></li>
-		<li><a href="#tab-discussion" target="_self" role="tab" data-toggle="tab">Discussion</a></li>
+		<li ng-class="{'active':secondtab == false}"><a href="#tab-activity" target="_self" role="tab" data-toggle="tab">Bill</a></li>
+		<li ng-class="{'active':secondtab == true}"><a href="#tab-discussion" target="_self" role="tab" data-toggle="tab">Discussion</a></li>
 	</ul>
 	<div class="tab-content doc-tabs">
-		<div id="tab-activity" class="tab-pane active row">
+		<div id="tab-activity" ng-class="{'active':secondtab == false}" class="tab-pane row">
 			<div class="col-md-3" id="toc-column">
 				<div class="document-toc">
 					<div class="toc-container container row affix-elm" data-offset-top="309">
@@ -112,7 +112,7 @@
 			</div>
 		</div>
 
-		<div id="tab-discussion" class="tab-pane row">
+		<div id="tab-discussion" ng-class="{'active': secondtab == true}" class="tab-pane row">
 			<div class="col-md-12">
 				<div ng-controller="CommentController" ng-init="init({{ $doc->id }})" class="rightbar participate">
 					@include('doc.reader.comments')

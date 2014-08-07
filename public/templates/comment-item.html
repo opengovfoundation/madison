@@ -32,8 +32,7 @@
                 <span>{{ comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) }}</span>
             </div>
             <div class="activity-icon col-md-2 col-md-offset-6">
-                <a class="comment-link">
-                    <span class="glyphicon glyphicon-link" title="Copy link to clipboard"></span>
+                <a subcomment-link sub-comment-id="{{ comment.id }}" class="subcomment-link" >
                 </a>
                 <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(comment, 'likes', $event)">{{ comment.likes || '0' }}</span>
                 <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(comment, 'dislikes', $event)">{{ comment.dislikes || '0' }}</span>
@@ -77,9 +76,7 @@
         <div id="subcomment_{{ comment.id }}" class="activity-reply col-md-12" ng-repeat="comment in comment.comments" ng-include="'subcomment_renderer.html'">
             <div sub-comment-id="{{ comment.id }}"></div>
         </div>
-
     </div>
-
 
     <div class="row sponsor-seen" ng-show="isSponsor() && comment.user.id != user.id">
         <div class="col-md-12">

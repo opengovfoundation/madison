@@ -122,6 +122,15 @@ angular.module('madisonApp.controllers', [])
     function ($scope, $cookies, $location) {
       $scope.hideIntro = $cookies.hideIntro;
 
+      // Check which tab needs to be active - if the location hash
+      // is #annsubcomment or there is no hash, the annotation/bill tab needs to be active
+      // Otherwise, the hash is #subcomment/#comment and the discussion tab should be active
+      var annotationHash = $location.hash().match(/^annsubcomment_([0-9]+)$/);
+      $scope.secondtab = false;
+      if (!annotationHash && ($location.hash())) {
+        $scope.secondtab = true;
+      }
+
       $scope.hideHowToAnnotate = function () {
         $cookies.hideIntro = true;
         $scope.hideIntro = true;
@@ -144,7 +153,7 @@ angular.module('madisonApp.controllers', [])
       $scope.init = function () {
         $scope.user = user;
         $scope.doc = doc;
-
+        //$anchorScroll();
         $scope.setSponsor();
         $scope.getSupported();
       };
@@ -229,7 +238,7 @@ angular.module('madisonApp.controllers', [])
 
       //Parse sub-comment hash if there is one
       var hash = $location.hash();
-      var subCommentId = hash.match(/^subcomment_([0-9]+)$/);
+      var subCommentId = hash.match(/^annsubcomment_([0-9]+)$/);
       if(subCommentId){
         $scope.subCommentId = subCommentId[1];  
       }
@@ -292,7 +301,7 @@ angular.module('madisonApp.controllers', [])
         })
           .success(function (data) {
             angular.forEach(data, function (comment) {
-              var collapsed = true;
+              var collapsed = false;
               if($scope.subCommentId){
                 angular.forEach(comment.comments, function (subcomment) {
                   if(subcomment.id == $scope.subCommentId){
@@ -429,21 +438,12 @@ angular.module('madisonApp.controllers', [])
             // Build child-parent relationships for each comment
             angular.forEach(data, function (comment) {
               
+              var collapsed = true;
               // If this isn't a parent comment, we need to find the parent and push this comment there
               if (comment.parent_id !== null) {
                 parent = $scope.parentSearch(data, comment.parent_id);
                 data[parent].comments.push(comment);
               }
-
-              var collapsed = true;
-              if($scope.subCommentId){
-                angular.forEach(comment.comments, function (subcomment) {
-                  if(subcomment.id == $scope.subCommentId){
-                    collapsed = false;
-                  }
-                });
-              }
-
               comment.commentsCollapsed = collapsed;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
@@ -452,13 +452,11 @@ angular.module('madisonApp.controllers', [])
               if (comment.parent_id === null) {
                 $scope.comments.push(comment);
               }
-
             });
           })
           .error(function (data) {
             console.error("Error loading comments: %o", data);
           });
-
       };
 
       $scope.parentSearch = function (arr,val) {
