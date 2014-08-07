@@ -836,8 +836,8 @@ input[type="search"].blue-search{
 			}
 		}
 	}
-	.row{
-		min-width: 300px;
+	& > .row{
+		width: 300px;
 		padding-top: 28px;
 		padding-bottom: 28px;
 		.form-group{
@@ -846,6 +846,11 @@ input[type="search"].blue-search{
 			}
 		}
 	}
+	
+	& > .row:last-child{
+		padding-bottom:0;
+	}
+
 	input{
 
 	}

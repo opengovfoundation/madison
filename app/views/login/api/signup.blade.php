@@ -30,3 +30,27 @@
 		{{ Form::token() . Form::close() }}
 	</div>
 </div>
+<div class="row">
+	<div class="col-md-12 social-login-wrapper">
+	  <div class="row">
+	    <div class="col-md-12">
+	      <a href="/user/facebook-login" class="btn btn-default social-login-btn facebook-login-btn">
+	        <img src="/img/icon-facebook.png" alt="facebook icon" />
+	        Sign up with Facebook
+	      </a>
+	    </div> 
+	    <div class="col-md-12">
+	      <a href="/user/twitter-login" class="btn btn-default social-login-btn twitter-login-btn">
+	        <img src="/img/icon-twitter.png" alt="twitter icon" />
+	        Sign up with Twitter
+	      </a>
+	    </div>
+	    <div class="col-md-12">
+	      <a href="/user/linkedin-login" class="btn btn-default social-login-btn linkedin-login-btn">
+	        <img src="/img/icon-linkedin.png" alt="linkedin icon" />
+	        Sign up with LinkedIn
+	      </a>
+	    </div>
+	  </div>
+	</div>
+</div>
