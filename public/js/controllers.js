@@ -389,11 +389,10 @@ angular.module('madisonApp.controllers', [])
       $scope.opposed = false;
       $scope.collapsed_comment = {};
 
-      //Parse sub-comment hash if there is one
+      // Parse comment/subcomment direct links
       var hash = $location.hash();
       var subCommentId = hash.match(/(sub)?comment_([0-9]+)$/);
       if(subCommentId){
-        console.log(subCommentId[2]);
         $scope.subCommentId = subCommentId[2];  
       }
       
@@ -430,12 +429,14 @@ angular.module('madisonApp.controllers', [])
 
 
       $scope.getDocComments = function (docId) {
+
         // Get all doc comments, regardless of nesting level
         $http({
           method: 'GET',
           url: '/api/docs/' + docId + '/comments'
         })
           .success(function (data) {
+
             // Build child-parent relationships for each comment
             angular.forEach(data, function (comment) {
 
@@ -446,6 +447,7 @@ angular.module('madisonApp.controllers', [])
                 data[parent].comments.push(comment);
               }
 
+              // If this is the comment being linked to, save it
               if (comment.id == $scope.subCommentId) {
                 $scope.collapsed_comment = comment;
               }
@@ -453,6 +455,7 @@ angular.module('madisonApp.controllers', [])
               comment.commentsCollapsed = true;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
+
               // We only want to push top-level comments, they will include
               // subcomments in their comments array(s)
               if (comment.parent_id === null) {
@@ -460,10 +463,10 @@ angular.module('madisonApp.controllers', [])
               }
             });
 
-            // Follow the parents of the comment that needs to be expanded, 
-            // expanding as we go
+            // If we are linking directly to a comment, we need to expand comments
             if ($scope.subCommentId) {
               var not_parent = true;
+              // Expand comments, moving up towards the parent, until all are expanded
               do {
                 $scope.collapsed_comment.commentsCollapsed = false;
                 if ($scope.collapsed_comment.parent_id !== null) {
