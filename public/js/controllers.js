@@ -387,12 +387,14 @@ angular.module('madisonApp.controllers', [])
       $scope.comments = [];
       $scope.supported = null;
       $scope.opposed = false;
+      $scope.collapsed_comment = {};
 
       //Parse sub-comment hash if there is one
       var hash = $location.hash();
-      var subCommentId = hash.match(/^subcomment_([0-9]+)$/);
+      var subCommentId = hash.match(/(sub)?comment_([0-9]+)$/);
       if(subCommentId){
-        $scope.subCommentId = subCommentId[1];  
+        console.log(subCommentId[2]);
+        $scope.subCommentId = subCommentId[2];  
       }
       
       $scope.init = function (docId) {
@@ -416,8 +418,8 @@ angular.module('madisonApp.controllers', [])
 
       $scope.notifyAuthor = function(activity){
  
-    // If the current user is a sponsor and the activity hasn't been seen yet, 
-     // post to API route depending on comment/annotation label
+        // If the current user is a sponsor and the activity hasn't been seen yet, 
+        // post to API route depending on comment/annotation label
         $http.post('/api/docs/' + doc.id + '/' + 'comments/' + activity.id + '/' + 'seen')
         .success(function(data){
           activity.seen = data.seen;
@@ -436,14 +438,19 @@ angular.module('madisonApp.controllers', [])
           .success(function (data) {
             // Build child-parent relationships for each comment
             angular.forEach(data, function (comment) {
-              
-              var collapsed = true;
+
               // If this isn't a parent comment, we need to find the parent and push this comment there
               if (comment.parent_id !== null) {
                 parent = $scope.parentSearch(data, comment.parent_id);
+                comment.parentpointer = data[parent];
                 data[parent].comments.push(comment);
               }
-              comment.commentsCollapsed = collapsed;
+
+              if (comment.id == $scope.subCommentId) {
+                $scope.collapsed_comment = comment;
+              }
+
+              comment.commentsCollapsed = true;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
               // We only want to push top-level comments, they will include
@@ -452,10 +459,27 @@ angular.module('madisonApp.controllers', [])
                 $scope.comments.push(comment);
               }
             });
+
+            // Follow the parents of the comment that needs to be expanded, 
+            // expanding as we go
+            if ($scope.subCommentId) {
+              var not_parent = true;
+              do {
+                $scope.collapsed_comment.commentsCollapsed = false;
+                if ($scope.collapsed_comment.parent_id !== null) {
+                  $scope.collapsed_comment = $scope.collapsed_comment.parentpointer;
+                } else {
+                 // We have reached the first sublevel of comments, so set the top level
+                 // parent to expand and exit 
+                 not_parent = false;
+               } 
+              } while (not_parent === true);
+            }
           })
           .error(function (data) {
             console.error("Error loading comments: %o", data);
           });
+
       };
 
       $scope.parentSearch = function (arr,val) {
