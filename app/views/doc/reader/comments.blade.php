@@ -2,6 +2,10 @@
 <div id="participate-comment" class="row participate-comment">
 	@include('doc.reader.comment')
 </div>
+@else
+<div id="participate-comment" class="row participate-comment">
+	Please <a href="{{ url('/user/login', $parameters = array(), $secure = null) }}" target="_self">login</a> to comment.
+</div>
 @endif
 <div id="participate-activity" class="row participate-activity">
 	<h3>Comments</h3>
