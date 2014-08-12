@@ -47,6 +47,7 @@ module.exports = function (grunt) {
             'public/bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
             'public/bower_components/angular-growl/build/angular-growl.min.js',
             'public/bower_components/angular-sanitize/angular-sanitize.js',
+            'public/bower_components/angular-resource/angular-resource.min.js',
             'node_modules/twitter-bootstrap-3.0.0/dist/js/bootstrap.min.js',
 
             //Datetimepicker and dependencies
@@ -54,6 +55,7 @@ module.exports = function (grunt) {
             'public/bower_components/moment/min/moment.min.js',
             'public/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
             'public/js/controllers.js',
+            'public/js/resources.js',
             'public/js/dashboardControllers.js',
             'public/js/services.js',
             'public/js/directives.js',
@@ -123,7 +125,7 @@ module.exports = function (grunt) {
           // host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
           return 'mysql -u' + user + pass + " -e 'DROP DATABASE IF EXISTS " + database + ";'";
         }
-      }, 
+      },
 
     }
   });

@@ -1,8 +1,8 @@
 /*global user*/
 /*global doc*/
 angular.module('madisonApp.controllers', [])
-  .controller('HomePageController', ['$scope', '$http', '$filter',
-    function ($scope, $http, $filter) {
+  .controller('HomePageController', ['$scope', '$http', '$filter', 'Doc',
+    function ($scope, $http, $filter, Doc) {
       $scope.docs = [];
       $scope.categories = [];
       $scope.sponsors = [];
@@ -12,6 +12,13 @@ angular.module('madisonApp.controllers', [])
       $scope.select2 = '';
       $scope.docSort = "created_at";
       $scope.reverse = true;
+
+      //Retrieve all docs
+      Doc.query(function (data) {
+        $scope.parseDocs(data);
+      }).$promise.catch(function (data) {
+        console.error("Unable to get documents: %o", data);
+      });
 
       $scope.select2Config = {
         multiple: true,
@@ -23,15 +30,6 @@ angular.module('madisonApp.controllers', [])
         allowClear: true,
         placeholder: "Sort By Date"
       };
-
-      //Retrieve all docs
-      $http.get('/api/docs')
-        .success(function (data) {
-          $scope.parseDocs(data);
-        })
-        .error(function (data) {
-          console.error("Unable to get documents: %o", data);
-        });
 
       $scope.parseDocs = function (docs) {
         angular.forEach(docs, function (doc) {

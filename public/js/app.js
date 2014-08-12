@@ -3,6 +3,7 @@ window.jQuery = window.$;
 var imports = [
     'madisonApp.filters',
     'madisonApp.services',
+    'madisonApp.resources',
     'madisonApp.directives',
     'madisonApp.controllers',
     'madisonApp.dashboardControllers',
@@ -12,7 +13,8 @@ var imports = [
     'ngAnimate',
     'ngCookies',
     'ngSanitize',
-    'angular-growl'
+    'angular-growl',
+    'ngResource'
   ];
 
 var app = angular.module('madisonApp', imports);
