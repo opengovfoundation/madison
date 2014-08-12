@@ -10,6 +10,8 @@ php:
 before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
+  - npm install
+  - grunt install
 
 # Commands you want to run that will verify your build.
 script: grunt test
@@ -17,10 +19,6 @@ script: grunt test
 # allow_failures: Allow this build to fail under the specified environments.
 # fast_finish: If your build fails do not continue trying to build, just stop.
 matrix:
-  allow_failures:
-    - php: 5.4
-    - php: 5.5
-    - php: hhvm
   fast_finish: true
 
 # Customize when the notification emails are sent.
