@@ -287,6 +287,8 @@ class DashboardController extends BaseController{
 		$doc_content->doc_id = $id;
 		$doc_content->content = $content;
 		$doc_content->save();
+
+		Event::fire(MadisonEvent::DOC_EDITED, $doc);
 	
 		$doc = Doc::find($id);
 		$doc->indexContent($doc_content);

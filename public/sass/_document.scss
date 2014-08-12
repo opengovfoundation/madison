@@ -27,7 +27,6 @@
 				color:#808184;
 			}
 		}
-		
 
 		li.active > a{
 			background-color:transparent;
@@ -38,6 +37,19 @@
 		}
 	}
 }
+
+.rss-link{
+	position:relative;
+	float:right;
+	top:15px;
+	right:15px;
+
+	.rss-icon{
+		height:15px;
+		width:15px;
+	}
+}
+
 
 .doc-tabs{
 	background:white;

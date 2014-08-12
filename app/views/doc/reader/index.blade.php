@@ -65,6 +65,7 @@
 	<ul class="nav nav-tabs" role="tablist">
 		<li ng-class="{'active':secondtab == false}"><a href="#tab-activity" target="_self" role="tab" data-toggle="tab">Bill</a></li>
 		<li ng-class="{'active':secondtab == true}"><a href="#tab-discussion" target="_self" role="tab" data-toggle="tab">Discussion</a></li>
+		<a href="{{ $doc->slug }}/feed" class="rss-link" target="_self"><img src="/img/rss-fade.png" class="rss-icon" alt="RSS Icon"></a>
 	</ul>
 	<div class="tab-content doc-tabs">
 		<div id="tab-activity" ng-class="{'active':secondtab == false}" class="tab-pane row">

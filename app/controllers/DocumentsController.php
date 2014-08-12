@@ -77,12 +77,16 @@ class DocumentsController extends Controller
 			return Redirect::to('documents')->with('error', "There was an error saving the document: {$e->getMessage()}");
 		}
 
+		//Fire document edited event for admin notifications
+		$doc = Doc::find($docContent->doc_id);
+		Event::fire(MadisonEvent::DOC_EDITED, $doc);
+
 		try {
 			$document->indexContent($docContent);
 		} catch(\Exception $e) {
 			return Redirect::to('documents')->with('error', "Document saved, but there was an error with Elasticsearch: {$e->getMessage()}");
 		}
-		
+
 		return Redirect::to('documents')->with('success_message', 'Document Saved Successfully');
 	}
 	
