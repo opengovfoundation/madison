@@ -7,7 +7,7 @@ php:
 
 # Set environment variables
 env:
-  - DB_HOST=localhost DB_NAME=madison_grunt_test DB_USER=root
+  - DB_HOST=localhost DB_NAME=madison_grunt_test DB_USER=root ENV=testing
 
 # Commands to be run before your environment runs.
 before_script:
