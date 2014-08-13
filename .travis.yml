@@ -10,6 +10,7 @@ php:
 # Commands to be run before your environment runs.
 before_script:
   - npm install -g grunt-cli
+  - npm install -g bower
   - npm install
   - grunt install
   - grunt build
