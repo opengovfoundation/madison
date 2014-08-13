@@ -10,7 +10,6 @@ modules:
         - WebDriver
         - AcceptanceHelper
         - Db
-        - REST
     config:
        WebDriver:
          url: 'http://localhost/'
