@@ -256,3 +256,24 @@
 	}
 
 }
+
+#tab-discussion{
+	.rightbar{
+		background: #FFF !important;
+	}
+	.activity-icon{
+		text-align: right;
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 165px;
+		.glyphicon{
+			padding-right: 10px;
+		}
+	}
+	.activity-thread{
+		.activity-item{
+			position: relative;
+		}
+	}
+}

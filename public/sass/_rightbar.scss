@@ -32,8 +32,15 @@
     }
 
     .participate-comment{
-        border-bottom:1px solid lightgrey;
         padding-bottom:10px;
+        p{
+            padding-top: 23px;
+            margin-bottom: 0px;
+            a:hover{
+                text-decoration: underline;
+                color: $blue-header;
+            }
+        }
     }
 
     .activity-thread{

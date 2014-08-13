@@ -4,7 +4,7 @@
 </div>
 @else
 <div id="participate-comment" class="row participate-comment">
-	Please <a href="{{ url('/user/login', $parameters = array(), $secure = null) }}" target="_self">login</a> to comment.
+	<p>Please <a href="{{ url('/user/login', $parameters = array(), $secure = null) }}" target="_self">login</a> to comment.</p>
 </div>
 @endif
 <div id="participate-activity" class="row participate-activity">
