@@ -8,7 +8,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\Collection;
 use LaravelBook\Ardent\Ardent;
 
-class User extends Ardent implements UserInterface, RemindableInterface{
+class User extends Eloquent implements UserInterface, RemindableInterface{
 	
 	use Zizaco\Entrust\HasRole;
 	protected $hidden = array('password', 'token', 'last_login', 'updated_at');
