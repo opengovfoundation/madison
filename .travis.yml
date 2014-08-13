@@ -7,12 +7,17 @@ php:
   - 5.5
   - hhvm
 
+matrix:
+  allow_failures:
+    -php: hhvm
+
 # Commands to be run before your environment runs.
 before_script:
   - npm install -g grunt-cli
   - npm install -g bower
   - npm install
   - grunt install
+  - "mysql -e 'create database madison_grunt_test;'"
 
 # Commands you want to run that will verify your build.
 script: grunt test_unit
