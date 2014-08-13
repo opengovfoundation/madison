@@ -3,6 +3,7 @@ bootstrap/compiled.php
 public/.sass-cache
 public/sass/.sass-cache
 public/private/*
+public/bower_components/
 app/config/creds.yml
 app/config/oauth_creds.yml
 app/config/smtp.yml
