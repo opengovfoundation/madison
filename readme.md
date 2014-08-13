@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/opengovfoundation/madison.svg?branch=master)](https://travis-ci.org/opengovfoundation/madison)
+
 ## Madison
 
 Madison is an open-source, collaborative document editing platform.  While Madison can be used to collaborate on many different kinds of documents, the official version is being built with legislative and policy documents in mind.
