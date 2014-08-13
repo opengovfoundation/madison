@@ -201,123 +201,132 @@ ol.breadcrumb li.active {
 /* line 148, ../sass/_document.scss */
 .doc-info {
   margin-bottom: 15px;
+  background: none !important;
+  border: none !important;
+  text-align: center !important;
   padding-left: 0px;
 }
-/* line 154, ../sass/_document.scss */
+/* line 156, ../sass/_document.scss */
 .doc-info h1 {
-  text-align: left;
+  text-align: center;
   font-size: 28px;
   color: #333;
 }
-/* line 159, ../sass/_document.scss */
+/* line 161, ../sass/_document.scss */
 .doc-info div {
   color: #666;
 }
-/* line 163, ../sass/_document.scss */
+/* line 164, ../sass/_document.scss */
+.doc-info .btn-group {
+  margin-top: 6px;
+}
+/* line 168, ../sass/_document.scss */
 .doc-info .doc-support, .doc-info .doc-oppose {
   text-shadow: none;
   color: black;
+  transition: none;
+  -webkit-transition: none;
 }
 
-/* line 170, ../sass/_document.scss */
+/* line 177, ../sass/_document.scss */
 .how-to-annotate .how-to-annotate-img {
   border: 1px solid #ccc;
 }
-/* line 173, ../sass/_document.scss */
+/* line 180, ../sass/_document.scss */
 .how-to-annotate h2 {
   font-size: 24px;
   text-align: left;
 }
-/* line 177, ../sass/_document.scss */
+/* line 184, ../sass/_document.scss */
 .how-to-annotate h2, .how-to-annotate h3 {
   margin-top: 0px;
 }
-/* line 180, ../sass/_document.scss */
+/* line 187, ../sass/_document.scss */
 .how-to-annotate ol {
   padding-left: 22px;
 }
 
-/* line 185, ../sass/_document.scss */
+/* line 192, ../sass/_document.scss */
 .doc-sponsor {
   padding-bottom: 5px;
 }
 
-/* line 189, ../sass/_document.scss */
+/* line 196, ../sass/_document.scss */
 .toc-container.affix {
   top: 0;
   margin-top: 10px;
 }
 
-/* line 196, ../sass/_document.scss */
+/* line 203, ../sass/_document.scss */
 .document-toc h2 {
   font-size: 24px;
   padding: 0px 0px 6px 0px;
   margin: 0 0 0.5em;
   border-bottom: 1px solid #ccc;
 }
-/* line 204, ../sass/_document.scss */
+/* line 211, ../sass/_document.scss */
 .document-toc ul {
   margin: 0;
   padding: 0;
 }
-/* line 207, ../sass/_document.scss */
+/* line 214, ../sass/_document.scss */
 .document-toc ul li {
   padding-bottom: 4px;
   padding-top: 4px;
   padding-left: 6px;
 }
-/* line 211, ../sass/_document.scss */
+/* line 218, ../sass/_document.scss */
 .document-toc ul li a {
   color: #555;
 }
-/* line 213, ../sass/_document.scss */
+/* line 220, ../sass/_document.scss */
 .document-toc ul li a:hover {
   color: #333;
 }
-/* line 218, ../sass/_document.scss */
+/* line 225, ../sass/_document.scss */
 .document-toc ul li:hover {
   background: #f2f2f2;
   border-radius: 4px;
 }
-/* line 226, ../sass/_document.scss */
+/* line 233, ../sass/_document.scss */
 .document-toc .toc-heading {
   display: block;
   font-weight: bold;
 }
-/* line 230, ../sass/_document.scss */
+/* line 237, ../sass/_document.scss */
 .document-toc .toc-h1 {
   font-size: 14px;
 }
-/* line 234, ../sass/_document.scss */
+/* line 241, ../sass/_document.scss */
 .document-toc .toc-h2 {
   font-size: 12px;
 }
-/* line 237, ../sass/_document.scss */
+/* line 244, ../sass/_document.scss */
 .document-toc .toc-h3 {
   font-size: 12px;
   margin-left: 10px;
 }
-/* line 241, ../sass/_document.scss */
+/* line 248, ../sass/_document.scss */
 .document-toc .toc-h4 {
   font-size: 12px;
   margin-left: 18px;
 }
-/* line 245, ../sass/_document.scss */
+/* line 252, ../sass/_document.scss */
 .document-toc .toc-h5 {
   font-size: 10px;
   margin-left: 20px;
 }
-/* line 249, ../sass/_document.scss */
+/* line 256, ../sass/_document.scss */
 .document-toc .toc-h6 {
   font-size: 10px;
   margin-left: 25px;
 }
 
-/* line 261, ../sass/_document.scss */
+/* line 268, ../sass/_document.scss */
 #tab-discussion .rightbar {
   background: #FFF !important;
 }
-/* line 264, ../sass/_document.scss */
+/* line 271, ../sass/_document.scss */
 #tab-discussion .activity-icon {
   text-align: right;
   position: absolute;
@@ -325,11 +334,11 @@ ol.breadcrumb li.active {
   right: 0;
   width: 165px;
 }
-/* line 270, ../sass/_document.scss */
+/* line 277, ../sass/_document.scss */
 #tab-discussion .activity-icon .glyphicon {
   padding-right: 10px;
 }
-/* line 275, ../sass/_document.scss */
+/* line 282, ../sass/_document.scss */
 #tab-discussion .activity-thread .activity-item {
   position: relative;
 }
