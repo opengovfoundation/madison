@@ -12,6 +12,7 @@ before_script:
   - npm install -g grunt-cli
   - npm install
   - grunt install
+  - grunt build
 
 # Commands you want to run that will verify your build.
 script: grunt test_unit

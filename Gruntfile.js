@@ -40,8 +40,9 @@ module.exports = function (grunt) {
             'public/vendor/underscore.min.js',
             'public/bower_components/google-diff-match-patch-js/diff_match_patch.js',
             'node_modules/angular/lib/angular.min.js',
-            'node_modules/angular-bootstrap/ui-bootstrap.js',
             'node_modules/angular-animate/angular-animate.min.js',
+            'public/bower_components/angular-bootstrap/ui-bootstrap.min.js',
+            'public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
             'public/bower_components/angular-cookies/angular-cookies.js',
             'public/bower_components/angular-ui/build/angular-ui.min.js',
             'public/bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
@@ -149,6 +150,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-selenium-webdriver');
 
   // Task definition
+  grunt.registerTask('build', ['jshint', 'uglify', 'compass']);
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower']);
   grunt.registerTask('test_acceptance', ['exec:create_testdb', 'exec:migrate', 'exec:seed', 'selenium_phantom_hub', 'exec:codeception_build', 'exec:codeception', 'selenium_stop', 'exec:drop_testdb']);

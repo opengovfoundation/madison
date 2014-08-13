@@ -19,7 +19,6 @@
   "devDependencies": {
     "angular": "~1.2.15",
     "angular-animate": "0.0.2",
-    "angular-bootstrap": "0.0.4",
     "angular-md5": "~0.1.7",
     "browserify": "~3.38.1",
     "grunt": "~0.4.4",
