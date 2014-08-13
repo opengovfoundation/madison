@@ -97,7 +97,7 @@ module.exports = function (grunt) {
       },
       codeception_build: {
         cmd: 'vendor/codeception/codeception/codecept build -q -n --force',
-        exitCode: 255
+        exitCode: [255, 1]
       },
       codeception_acceptance: {
         cmd: 'vendor/codeception/codeception/codecept run acceptance'
