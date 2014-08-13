@@ -23,6 +23,11 @@ class User extends Ardent implements UserInterface, RemindableInterface{
 		'lname' => 'required'
 	);
 
+	public static $customMessages = array(
+		'fname.required' => 'The first name field is required.',
+		'lname.required' => 'The last name field is required.'
+	);
+
 	public function verified(){
 		$request = $this->user_meta()->where('meta_key', 'verify')->first();
 		

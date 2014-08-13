@@ -28,7 +28,7 @@ class UserTest extends \Codeception\TestCase\Test
         $errors = $user->errors()->all();
         $this->assertCount(1, $errors);
 
-        $this->assertEquals($errors[0], "The fname field is required.");
+        $this->assertEquals($errors[0], "The first name field is required.");
     }
 
     public function test_lname_is_required() {
@@ -42,7 +42,7 @@ class UserTest extends \Codeception\TestCase\Test
 
         $this->assertCount(1, $errors);
 
-        $this->assertEquals($errors[0], "The lname field is required.");
+        $this->assertEquals($errors[0], "The last name field is required.");
     }
 
 }
