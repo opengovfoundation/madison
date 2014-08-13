@@ -94,8 +94,15 @@ module.exports = function (grunt) {
       vagrant_setup: {
         cmd: 'vagrant up'
       },
-      codeception: {
-        cmd: 'vendor/codeception/codeception/codecept build && vendor/codeception/codeception/codecept run acceptance'
+      codeception_build: {
+        cmd: 'vendor/codeception/codeception/codecept build -q -n',
+        exitCode: 255
+      },
+      codeception_acceptance: {
+        cmd: 'vendor/codeception/codeception/codecept run acceptance'
+      },
+      codeception_unit: {
+        cmd: 'vendor/codeception/codeception/codecept run unit'
       },
       create_testdb: {
         cmd: function () {
@@ -144,5 +151,6 @@ module.exports = function (grunt) {
   // Task definition
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower', 'exec:install_npm']);
-  grunt.registerTask('test', ['exec:create_testdb', 'exec:migrate', 'exec:seed', 'selenium_phantom_hub', 'exec:codeception', 'selenium_stop', 'exec:drop_testdb']);
+  grunt.registerTask('test_acceptance', ['exec:create_testdb', 'exec:migrate', 'exec:seed', 'selenium_phantom_hub', 'exec:codeception_build', 'exec:codeception', 'selenium_stop', 'exec:drop_testdb']);
+  grunt.registerTask('test_unit', ['exec:codeception_build', 'exec:codeception_unit']);
 };
