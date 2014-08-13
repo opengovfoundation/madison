@@ -150,7 +150,7 @@ module.exports = function (grunt) {
 
   // Task definition
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
-  grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower', 'exec:install_npm']);
+  grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower']);
   grunt.registerTask('test_acceptance', ['exec:create_testdb', 'exec:migrate', 'exec:seed', 'selenium_phantom_hub', 'exec:codeception_build', 'exec:codeception', 'selenium_stop', 'exec:drop_testdb']);
   grunt.registerTask('test_unit', ['exec:codeception_build', 'exec:codeception_unit']);
 };

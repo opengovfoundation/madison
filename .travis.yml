@@ -9,6 +9,7 @@ php:
 # Commands to be run before your environment runs.
 before_script:
   - npm install -g grunt-cli
+  - npm install
   - grunt install
 
 # Commands you want to run that will verify your build.
