@@ -11,6 +11,11 @@ matrix:
   allow_failures:
     -php: hhvm
 
+# Set environment variables
+env:
+  - DB_HOST=localhost
+  - DB_NAME=madison_grunt_test 
+
 # Commands to be run before your environment runs.
 before_script:
   - npm install -g grunt-cli
