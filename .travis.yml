@@ -13,8 +13,7 @@ matrix:
 
 # Set environment variables
 env:
-  - DB_HOST=localhost
-  - DB_NAME=madison_grunt_test 
+  - DB_HOST=localhost DB_NAME=madison_grunt_test DB_USER=travis
 
 # Commands to be run before your environment runs.
 before_script:
