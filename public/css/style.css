@@ -95,8 +95,8 @@ ol.breadcrumb li.active {
 .rss-link {
   position: relative;
   float: right;
-  top: 15px;
-  right: 15px;
+  top: 14px;
+  right: 6px;
 }
 /* line 47, ../sass/_document.scss */
 .rss-link .rss-icon {
