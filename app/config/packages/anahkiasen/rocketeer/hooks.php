@@ -46,6 +46,9 @@
 
 				$task->command->info('Running Migrations');
 				$task->runForCurrentRelease('php artisan migrate');
+
+				$task->command->info('Running Bower Install');
+				$task->runForCurrentRelease('bower install');
 			}
 		),
 		'cleanup' => array(),
