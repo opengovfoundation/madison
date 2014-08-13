@@ -17,9 +17,6 @@
   },
   "homepage": "http://mymadison.io",
   "devDependencies": {
-    "angular": "~1.2.15",
-    "angular-animate": "0.0.2",
-    "angular-md5": "~0.1.7",
     "grunt": "~0.4.4",
     "grunt-contrib-compass": "~0.7.2",
     "grunt-contrib-concat": "~0.3.0",
