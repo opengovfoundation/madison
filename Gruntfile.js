@@ -49,7 +49,7 @@ module.exports = function (grunt) {
             'public/bower_components/angular-growl/build/angular-growl.min.js',
             'public/bower_components/angular-sanitize/angular-sanitize.js',
             'public/bower_components/angular-resource/angular-resource.min.js',
-            'node_modules/twitter-bootstrap-3.0.0/dist/js/bootstrap.min.js',
+            'public/bower_components/bootstrap/dist/js/bootstrap.min.js',
 
             //Datetimepicker and dependencies
             'public/vendor/datetimepicker/datetimepicker.js',
@@ -144,7 +144,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-mysql-dump');
   grunt.loadNpmTasks('grunt-selenium-webdriver');
