@@ -110,11 +110,9 @@ module.exports = function (grunt) {
           var creds = grunt.file.readYAML('codeception.yml');
           var database = creds.modules.config.Db.dsn.split('=')[2];
           var user = creds.modules.config.Db.user;
-          var pass = (creds.modules.config.Db.password !== null ? (' -p' + creds.modules.config.Db.password) : '');
+          var pass = (creds.modules.config.Db.password !== '' ? (' -p' + creds.modules.config.Db.password) : '');
           // host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
           var command = 'mysqladmin -u' + user + pass + " create " + database;
-
-          console.log(command);
           return command;
         }
       },
@@ -129,7 +127,7 @@ module.exports = function (grunt) {
           var creds = grunt.file.readYAML('codeception.yml');
           var database = creds.modules.config.Db.dsn.split('=')[2];
           var user = creds.modules.config.Db.user;
-          var pass = (creds.modules.config.Db.password !== null ? (' -p' + creds.modules.config.Db.password) : '');
+          var pass = (creds.modules.config.Db.password !== '' ? (' -p' + creds.modules.config.Db.password) : '');
           // host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
           return 'mysql -u' + user + pass + " -e 'DROP DATABASE IF EXISTS " + database + ";'";
         }
@@ -152,6 +150,6 @@ module.exports = function (grunt) {
   grunt.registerTask('build', ['jshint', 'uglify', 'compass']);
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower']);
-  grunt.registerTask('test_acceptance', ['selenium_phantom_hub', 'exec:codeception_build', 'exec:codeception_acceptance', 'selenium_stop']);
+  grunt.registerTask('test_acceptance', ['exec:drop_testdb', 'exec:create_testdb', 'exec:migrate', 'exec:seed', 'selenium_phantom_hub', 'exec:codeception_build', 'exec:codeception_acceptance', 'selenium_stop', 'exec:drop_testdb']);
   grunt.registerTask('test_unit', ['exec:codeception_build', 'exec:codeception_unit']);
 };
