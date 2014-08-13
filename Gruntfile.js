@@ -83,7 +83,7 @@ module.exports = function (grunt) {
     },
     exec: {
       install_composer: {
-        cmd: 'composer install'
+        cmd: 'composer self-update && composer install --prefer-dist --no-interaction'
       },
       install_bower: {
         cmd: 'bower install'

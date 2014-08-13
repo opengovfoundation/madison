@@ -8,13 +8,11 @@ php:
 
 # Commands to be run before your environment runs.
 before_script:
-  - composer self-update
-  - composer install --prefer-source --no-interaction --dev
-  - npm install
+  - npm install -g grunt
   - grunt install
 
 # Commands you want to run that will verify your build.
-script: grunt test
+script: grunt test_unit
 
 # allow_failures: Allow this build to fail under the specified environments.
 # fast_finish: If your build fails do not continue trying to build, just stop.
