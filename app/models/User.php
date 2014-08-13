@@ -6,13 +6,22 @@
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\Collection;
+use LaravelBook\Ardent\Ardent;
 
-class User extends Eloquent implements UserInterface, RemindableInterface{
+class User extends Ardent implements UserInterface, RemindableInterface{
 	
 	use Zizaco\Entrust\HasRole;
 	protected $hidden = array('password', 'token', 'last_login', 'updated_at');
 	//protected $fillable = array('id', 'email', 'fname', 'lname', 'user_level');
 	protected $softDelete = true;
+
+	/**
+	*	Ardent validation rules
+	*/
+	public static $rules = array(
+		'fname' => 'required',
+		'lname' => 'required'
+	);
 
 	public function verified(){
 		$request = $this->user_meta()->where('meta_key', 'verify')->first();

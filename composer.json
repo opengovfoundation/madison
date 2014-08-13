@@ -24,7 +24,8 @@
     "doctrine/dbal": "2.3.*",
     "codeception/codeception": "*",
     "artdarek/oauth-4-laravel": "dev-master",
-    "roumen/feed": "dev-master"
+    "roumen/feed": "dev-master",
+    "laravelbook/ardent": "~2.4"
   },
   "autoload": {
     "classmap": [
