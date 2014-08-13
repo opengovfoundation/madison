@@ -100,7 +100,7 @@ module.exports = function (grunt) {
         exitCode: [255, 1]
       },
       codeception_acceptance: {
-        cmd: 'vendor/codeception/codeception/codecept run acceptance'
+        cmd: 'vendor/codeception/codeception/codecept run --debug acceptance'
       },
       codeception_unit: {
         cmd: 'vendor/codeception/codeception/codecept run unit'
@@ -150,6 +150,8 @@ module.exports = function (grunt) {
   grunt.registerTask('build', ['jshint', 'uglify', 'compass']);
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower']);
+  grunt.registerTask('selenium', ['selenium_phantom_hub']);
+  grunt.registerTask('test', ['selenium_phantom_hub', 'exec:codeception_build', 'exec:codeception_acceptance', 'selenium_stop']);
   grunt.registerTask('test_acceptance', ['exec:drop_testdb', 'exec:create_testdb', 'exec:migrate', 'exec:seed', 'selenium_phantom_hub', 'exec:codeception_build', 'exec:codeception_acceptance', 'selenium_stop', 'exec:drop_testdb']);
   grunt.registerTask('test_unit', ['exec:drop_testdb', 'exec:create_testdb', 'exec:codeception_build', 'exec:codeception_unit', 'exec:drop_testdb']);
 };

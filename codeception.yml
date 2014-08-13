@@ -11,9 +11,9 @@ settings:
 modules:
     config:
         Db:
-            dsn: 'mysql:host=localhost;dbname=madison_grunt_test'
-            user: 'root'
-            password: ''
-            dump: tests/_data/dump.sql
-            populate: true
-            cleanup: true
+          dsn: 'mysql:host=localhost;dbname=madison_grunt_test'
+          user: 'root'
+          password: ''
+          dump: tests/_data/dump.sql
+          populate: true
+          cleanup: true
