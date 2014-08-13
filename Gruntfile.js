@@ -96,7 +96,7 @@ module.exports = function (grunt) {
         cmd: 'vagrant up'
       },
       codeception_build: {
-        cmd: 'vendor/codeception/codeception/codecept build -q -n',
+        cmd: 'vendor/codeception/codeception/codecept build -q -n --force',
         exitCode: 255
       },
       codeception_acceptance: {
