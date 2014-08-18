@@ -7,6 +7,8 @@
   "devDependencies": {
     "pagedown": "~1.1.0",
     "angular-ui": "~0.4.0",
+    "angular-animate": "*",
+    "angular-bootstrap": "*",
     "angular-select2": "*",
     "angular-ui-select2": "~0.0.5",
     "bootstrap": "~3.1.1",
