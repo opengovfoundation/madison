@@ -94,45 +94,7 @@ module.exports = function (grunt) {
       },
       vagrant_setup: {
         cmd: 'vagrant up'
-      },
-      codeception_build: {
-        cmd: 'vendor/codeception/codeception/codecept build -q -n --force',
-        exitCode: [255, 1]
-      },
-      codeception_acceptance: {
-        cmd: 'vendor/codeception/codeception/codecept run --debug acceptance'
-      },
-      codeception_unit: {
-        cmd: 'vendor/codeception/codeception/codecept run unit'
-      },
-      create_testdb: {
-        cmd: function () {
-          var creds = grunt.file.readYAML('codeception.yml');
-          var database = creds.modules.config.Db.dsn.split('=')[2];
-          var user = creds.modules.config.Db.user;
-          var pass = (creds.modules.config.Db.password !== '' ? (' -p' + creds.modules.config.Db.password) : '');
-          // host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
-          var command = 'mysqladmin -u' + user + pass + " create " + database;
-          return command;
-        }
-      },
-      migrate: {
-        cmd: "php artisan migrate"
-      },
-      seed: {
-        cmd: "php artisan db:seed"
-      },
-      drop_testdb: {
-        cmd: function () {
-          var creds = grunt.file.readYAML('codeception.yml');
-          var database = creds.modules.config.Db.dsn.split('=')[2];
-          var user = creds.modules.config.Db.user;
-          var pass = (creds.modules.config.Db.password !== '' ? (' -p' + creds.modules.config.Db.password) : '');
-          // host: creds.modules.config.Db.dsn.split('=')[1].replace(/;[\w]*/, ''),
-          return 'mysql -u' + user + pass + " -e 'DROP DATABASE IF EXISTS " + database + ";'";
-        }
-      },
-
+      }
     }
   });
 
@@ -144,14 +106,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-mysql-dump');
-  grunt.loadNpmTasks('grunt-selenium-webdriver');
 
   // Task definition
   grunt.registerTask('build', ['jshint', 'uglify', 'compass']);
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower']);
-  grunt.registerTask('selenium', ['selenium_phantom_hub']);
-  grunt.registerTask('test', ['selenium_phantom_hub', 'exec:codeception_build', 'exec:codeception_acceptance', 'selenium_stop']);
-  grunt.registerTask('test_acceptance', ['exec:drop_testdb', 'exec:create_testdb', 'exec:migrate', 'exec:seed', 'selenium_phantom_hub', 'exec:codeception_build', 'exec:codeception_acceptance', 'selenium_stop', 'exec:drop_testdb']);
-  grunt.registerTask('test_unit', ['exec:drop_testdb', 'exec:create_testdb', 'exec:codeception_build', 'exec:codeception_unit', 'exec:drop_testdb']);
 };

@@ -3,10 +3,16 @@
   "description": "The Laravel Framework.",
   "keywords": ["framework", "laravel"],
   "license": "MIT",
-  "repositories": [{
-    "type": "vcs",
-    "url": "https://github.com/changwuf31/remote"
-  }],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/changwuf31/remote"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/appium/php-client"
+    }
+  ],
   "require-dev": {
     "way/guard-laravel": "dev-master",
     "way/phpunit-wrappers": "dev-master",
@@ -22,7 +28,6 @@
     "illuminate/support": "4.1.25",
     "graham-campbell/markdown": "1.0.0",
     "doctrine/dbal": "2.3.*",
-    "codeception/codeception": "*",
     "artdarek/oauth-4-laravel": "dev-master",
     "roumen/feed": "dev-master",
     "laravelbook/ardent": "~2.4"
