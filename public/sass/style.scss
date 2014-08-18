@@ -222,6 +222,8 @@ textarea.form-inline{
 
 		.navbar-nav {
 			background-color: rgba(244,244,244,0.9);
+			z-index:1;
+			position:relative;
 
 			width: 100%;
 			text-align: center;
