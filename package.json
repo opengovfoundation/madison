@@ -17,6 +17,7 @@
   },
   "homepage": "http://mymadison.io",
   "devDependencies": {
+    "chai": "^1.9.1",
     "grunt": "~0.4.4",
     "grunt-contrib-compass": "~0.7.2",
     "grunt-contrib-concat": "~0.3.0",
@@ -28,9 +29,15 @@
     "grunt-modernizr": "~0.5.2",
     "grunt-mysql-dump": "~1.0.0",
     "jquery": "~2.1.0",
+    "karma": "^0.12.21",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.1.7",
+    "karma-sinon": "^1.0.3",
+    "mocha": "^1.21.4",
     "moment": "~2.5.1",
     "pagedown": "~1.1.0",
     "select2": "~3.4.5",
+    "sinon": "^1.10.3",
     "twitter-bootstrap-3.0.0": "~3.0.0",
     "uglify-js": "~2.4.13",
     "underscore": "~1.6.0"
