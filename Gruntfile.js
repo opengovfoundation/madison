@@ -55,11 +55,20 @@ module.exports = function (grunt) {
             'public/bower_components/pagedown/Markdown.Editor.js',
             'public/bower_components/crypto-js/index.js',
             'public/bower_components/google-translate/index.txt',
+            'public/bower_components/bootstrap/js/collapse.js',
+            'public/bower_components/bootstrap/js/modal.js',
 
             //Datetimepicker and dependencies
             'public/vendor/datetimepicker/datetimepicker.js',
             'public/bower_components/moment/min/moment.min.js',
             'public/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
+
+            //Annotator JS
+            'public/vendor/annotator/annotator-full.min.js',
+            'public/vendor/showdown/showdown.js',
+            'public/js/annotator-madison.js',
+
+            //Custom JS
             'public/js/controllers.js',
             'public/js/resources.js',
             'public/js/dashboardControllers.js',

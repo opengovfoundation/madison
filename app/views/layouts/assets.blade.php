@@ -14,6 +14,7 @@
 {{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
 {{ HTML::style('vendor/bootstrap/css/bootstrap-theme.min.css') }}
 {{ HTML::style('vendor/select2/select2.css') }}
+{{ HTML::style('vendor/annotator/annotator.min.css') }}
 {{ HTML::style('css/style.css') }}
 {{ HTML::style('css/dropdown-sub.css') }}
 
