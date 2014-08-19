@@ -53,6 +53,8 @@ module.exports = function (grunt) {
             'public/bower_components/pagedown/Markdown.Converter.js',
             'public/bower_components/pagedown/Markdown.Sanitizer.js',
             'public/bower_components/pagedown/Markdown.Editor.js',
+            'public/bower_components/crypto-js/index.js',
+            'public/bower_components/google-translate/index.txt',
 
             //Datetimepicker and dependencies
             'public/vendor/datetimepicker/datetimepicker.js',
@@ -72,7 +74,7 @@ module.exports = function (grunt) {
       },
       options: {
         mangle: false,
-        sourceMap: 'public/build/app.js.map'
+        sourceMap: 'public/build/app.map'
       }
     },
     watch: {
