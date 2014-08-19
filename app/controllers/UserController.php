@@ -223,15 +223,10 @@ class UserController extends BaseController{
 		$lname = Input::get('lname');
 		$user_details = Input::all();
 
-		//Rules for signup form submission
-		$rules = array('email'		=>	'required|unique:users',
-						'password'	=>	'required',
-						'fname'		=>	'required',
-						'lname'		=>	'required'
-						);
-		$validation = Validator::make($user_details, $rules);
-		if($validation->fails()){
-			return Redirect::to('user/signup')->withInput()->withErrors($validation);
+		$v = new Madison\Services\Validators\User;
+
+		if(!$v->passes()){
+			return Redirect::to('user/signup')->withInput()->withErrors($v->getErrors());
 		}
 		else{
 			//Create user token for email verification
@@ -257,7 +252,6 @@ class UserController extends BaseController{
 
 			return Redirect::to('user/login')->with('message', 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.');
 		}
-
 	}
 
 	/**

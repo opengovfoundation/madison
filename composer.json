@@ -40,7 +40,8 @@
       "app/database/migrations",
       "app/database/seeds",
       "app/tests/TestCase.php",
-      "app/config/packages/anahkiasen/rocketeer/tasks"
+      "app/config/packages/anahkiasen/rocketeer/tasks",
+      "app/lib"
     ]
   },
   "scripts": {

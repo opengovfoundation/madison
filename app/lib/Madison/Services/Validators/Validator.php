@@ -30,7 +30,7 @@ abstract class Validator{
   *   Otherwise sets $errors property and returns false
   */
   public function passes(){
-    $validation = \Validator::make($this->input, $static::$rules);
+    $validation = \Validator::make($this->input, static::$rules);
 
     if($validation->passes()){
       return true;
