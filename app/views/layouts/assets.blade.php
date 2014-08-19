@@ -18,10 +18,8 @@
 {{ HTML::style('css/dropdown-sub.css') }}
 
 <!-- Scripts -->
-{{ HTML::script('bower_components/pagedown/Markdown.Converter.js') }}
-{{ HTML::script('bower_components/pagedown/Markdown.Sanitizer.js') }}
-{{ HTML::script('bower_components/pagedown/Markdown.Editor.js') }}
 {{ HTML::script('build/app.js') }}
+{{ HTML::script('http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js') }}
 {{ HTML::script('https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit') }}
 
 <?php

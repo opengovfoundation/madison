@@ -2,7 +2,6 @@
 @section('content')
 	<div class="content col-md-12" ng-controller="UserPageController" ng-init="init()">
 		<div class="row user-info">
-			<script src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js"></script>
 			<img ng-src="http://www.gravatar.com/avatar/@{{ user.email | gravatar }}" class="img-rounded img-responsive user-gravatar" alt="" />
 			<h1 class="user-name">@{{ user.fname }} @{{ user.lname }}</h1>
 			<span class="user-verified" ng-show="verified">Verified</span>	

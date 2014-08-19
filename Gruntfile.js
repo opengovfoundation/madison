@@ -50,6 +50,9 @@ module.exports = function (grunt) {
             'public/bower_components/angular-sanitize/angular-sanitize.js',
             'public/bower_components/angular-resource/angular-resource.min.js',
             'public/bower_components/bootstrap/dist/js/bootstrap.min.js',
+            'public/bower_components/pagedown/Markdown.Converter.js',
+            'public/bower_components/pagedown/Markdown.Sanitizer.js',
+            'public/bower_components/pagedown/Markdown.Editor.js',
 
             //Datetimepicker and dependencies
             'public/vendor/datetimepicker/datetimepicker.js',
@@ -69,7 +72,7 @@ module.exports = function (grunt) {
       },
       options: {
         mangle: false,
-        sourceMap: 'public/build/app.map'
+        sourceMap: 'public/build/app.js.map'
       }
     },
     watch: {
