@@ -18,8 +18,8 @@ before_script:
 - grunt install
 script:
 - grunt test_setup
-- grunt connect
 - grunt karma
+- grunt connect
 - grunt protractor
 matrix:
   fast_finish: true

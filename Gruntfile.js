@@ -146,7 +146,8 @@ module.exports = function (grunt) {
         options: {
           hostname: 'localhost',
           port: 9001,
-          base: "./public/"
+          base: "public/",
+          debug: true
         }
       }
     }
