@@ -12,7 +12,7 @@ class UserTest extends TestCase
 
     protected function _before()
     {
-        Artisan::call('migrate');
+
     }
 
     protected function _after()
@@ -27,7 +27,7 @@ class UserTest extends TestCase
         $user->lname = 'User';
         $this->assertFalse($user->save());
 
-        $errors = $user->errors()->all();
+        $errors = $user->getErrors()->all();
         $this->assertCount(1, $errors);
 
         $this->assertEquals($errors[0], "The first name field is required.");
@@ -37,11 +37,10 @@ class UserTest extends TestCase
         $user = new User;
         $user->email = 'user@mymadison.io';
         $user->password = 'password';
-        $user->fname = "User";
+        $user->fname = 'User';
         $this->assertFalse($user->save());
 
-        $errors = $user->errors()->all();
-
+        $errors = $user->getErrors()->all();
         $this->assertCount(1, $errors);
 
         $this->assertEquals($errors[0], "The last name field is required.");

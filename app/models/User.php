@@ -6,14 +6,47 @@
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\Collection;
-use LaravelBook\Ardent\Ardent;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\MessageBag;
 
 class User extends Eloquent implements UserInterface, RemindableInterface{
 	
+	//TODO: Shouldn't this go before the class definition?
 	use Zizaco\Entrust\HasRole;
 	protected $hidden = array('password', 'token', 'last_login', 'updated_at');
-	//protected $fillable = array('id', 'email', 'fname', 'lname', 'user_level');
 	protected $softDelete = true;
+
+	/**
+	*	Validation rules
+	*/
+	protected static $rules = array(
+	  'save' => array(
+      'fname'	=> 'required',
+      'lname'	=> 'required'
+		),
+	  'create' => array(
+	    'email'			=> 'required|unique:users',
+	    'password'	=> 'required',
+	  ),
+	  'social-signup'	=> array(
+	    'email'			=> 'required|unique:users',
+		),
+		'twitter-signup'	=> array(
+      
+    ),
+    'update'	=> array(
+      'email'			=> 'required|unique:users',
+      'password'	=> 'required'
+		)
+	);
+
+	/**
+	*	Custom error messages for certain validation requirements
+	*/
+	protected static $customMessages = array(
+		'fname.required' => 'The first name field is required.',
+		'lname.required' => 'The last name field is required.'
+	);
 
 	/**
 	*	Constructor
@@ -26,19 +59,34 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		$this->validationErrors = new MessageBag;
 	}
 
+	/**
+	*	Save
+	*
+	*	Override Eloquent save() method
+	*		Returns output from $this->performSave($options)	
+	*
+	* @param array $options
+	* @return bool
+	*/
+	public function save(array $options = array()){
+		if(!$this->beforeSave()){
+			return false;
+		}
+
+		return parent::save($options);
+	}
 
 	/**
-	*	Ardent validation rules
+	*	getErrors
+	*
+	*	Returns errors from validation
+	* 
+	*	@param void
+	* @return MessageBag $this->validationErrors
 	*/
-	public static $rules = array(
-		'fname' => 'required',
-		'lname' => 'required'
-	);
-
-	public static $customMessages = array(
-		'fname.required' => 'The first name field is required.',
-		'lname.required' => 'The last name field is required.'
-	);
+	public function getErrors(){
+		return $this->validationErrors;
+	}
 
 	public function verified(){
 		$request = $this->user_meta()->where('meta_key', 'verify')->first();
@@ -50,11 +98,27 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		}
 	}
 	
+	/**
+	*	getDisplayName
+	*
+	*	Returns the user's display name
+	*
+	*	@param void
+	* @return string 
+	*/
 	public function getDisplayName()
 	{
 		return "{$this->fname} {$this->lname}";
 	}
 
+
+	/**
+	*	docs
+	*
+	*	Eloquent one-to-many relationship for User->Doc
+	* @param void
+	* @return TODO
+	*/
 	public function docs(){
 		return $this->belongsToMany('Doc');
 	}
@@ -199,6 +263,95 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	static public function findByRoleName($role) 
 	{
 		return Role::where('name', '=', $role)->first()->users()->get();
+	}
+
+	/**
+	*	beforeSave
+	*
+	*	Validates before saving.  Returns whether the User can be saved.
+	*
+	*	@param array $options
+	* @return bool
+	*/
+	private function beforeSave(array $options = array()){
+		$this->rules = $this->mergeRules();
+
+		if(!$this->validate()){
+			return false;
+		}
+
+		$this->attributes = $this->autoHash();
+
+		return true;
+	}
+
+	/**
+	*	mergeRules
+	*
+	*	Merge the rules arrays to form one set of rules
+	*
+	* @param void
+	* @return array $output
+	*
+	* @todo handle social login / signup rule merges
+	*/
+	private function mergeRules(){
+		$rules = static::$rules;
+		$output = array();
+
+		if($this->exists){
+			$merged = array_merge_recursive($rules['save'], $rules['update']);
+		} else {
+			$merged = array_merge_recursive($rules['save'], $rules['create']);
+		}
+
+		foreach($merged as $field => $rules){
+			if(is_array($rules)){
+				$output[$field] = implode("|", $rules);
+			}else{
+				$output[$field] = $rules;
+			}
+		}
+
+		return $output;
+	}
+
+	/**
+	*	Validate
+	*
+	*	Validate input against merged rules
+	*
+	*	@param array $attributes
+	* @return bool
+	*/
+	private function validate(){
+		$validation = Validator::make($this->attributes, $this->rules, static::$customMessages);
+
+		if($validation->passes()){
+			return true;
+		}
+
+		$this->validationErrors = $validation->messages();
+
+		return false;
+	}
+
+	/**
+	*	autoHash
+	*
+	*	Auto hash passwords
+	*
+	*	@param void
+	* @return array $this->attributes
+	*/
+	private function autoHash(){
+		if(isset($this->attributes['password'])){
+			if($this->attributes['password'] != $this->getOriginal('password')){
+				$this->attributes['password'] = Hash::make($this->attributes['password']);
+			}
+		}
+
+		return $this->attributes;
 	}
 }
 

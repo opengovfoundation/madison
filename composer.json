@@ -16,7 +16,8 @@
   "require-dev": {
     "way/guard-laravel": "dev-master",
     "way/phpunit-wrappers": "dev-master",
-    "way/laravel-test-helpers": "dev-master"
+    "way/laravel-test-helpers": "dev-master",
+    "league/factory-muffin": "~2.0"
   },
   "require": {
     "anahkiasen/rocketeer": "1.2.1",
