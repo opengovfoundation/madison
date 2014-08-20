@@ -14,10 +14,10 @@ addons:
 before_script:
 - npm install -g grunt-cli
 - npm install -g bower
-- npm install -g protractor
 - npm install
 - grunt install
 script:
+- grunt connect
 - grunt karma
 - grunt protractor
 matrix:

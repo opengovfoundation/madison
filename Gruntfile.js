@@ -126,6 +126,15 @@ module.exports = function (grunt) {
           configFile: "protractor.conf.js"
         }
       }
+    },
+    connect: {
+      server: {
+        options: {
+          hostname: 'localhost',
+          port: 9001,
+          base: "./public/"
+        }
+      }
     }
   });
 
