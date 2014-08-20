@@ -109,6 +109,23 @@ module.exports = function (grunt) {
       vagrant_setup: {
         cmd: 'vagrant up'
       }
+    }, 
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
+      }
+    },
+    protractor: {
+      options: {
+        configFile: "protractor.conf.js", // Default config file
+        keepAlive: false, // If false, the grunt process stops when the test fails.
+        noColor: false // If true, protractor will not use colors in its output.
+      },
+      dev: {
+        options: {
+          configFile: "protractor.conf.js"
+        }
+      }
     }
   });
 
@@ -120,7 +137,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-mysql-dump');
-
+  grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-protractor-runner');
+  
   // Task definition
   grunt.registerTask('build', ['jshint', 'uglify', 'compass']);
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
