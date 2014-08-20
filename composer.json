@@ -7,10 +7,6 @@
     {
       "type": "vcs",
       "url": "https://github.com/changwuf31/remote"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/appium/php-client"
     }
   ],
   "require-dev": {

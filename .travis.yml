@@ -1,6 +1,6 @@
-language: php
-php:
-- 5.4
+language: node_js
+node_js:
+  - "0.10"
 env:
   matrix:
   - DB_HOST=localhost DB_NAME=madison_grunt_test DB_USER=root ENV=testing

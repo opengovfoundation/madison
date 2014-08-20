@@ -3,7 +3,10 @@ exports.config = {
   sauceKey: process.env.SAUCE_ACCESS_KEY,
 
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+    'build': process.env.TRAVIS_BUILD_NUMBER,
+    'name': 'Test triggered by Git push'
   },
 
   // Spec patterns are relative to the current working directly when
