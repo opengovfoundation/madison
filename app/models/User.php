@@ -16,6 +16,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	protected $softDelete = true;
 
 	/**
+	*	Constructor
+	*
+	*	@param array $attributes
+	*	Extends Eloquent constructor
+	*/
+	public function __construct($attributes = array()){
+		parent::__construct($attributes);
+		$this->validationErrors = new MessageBag;
+	}
+
+
+	/**
 	*	Ardent validation rules
 	*/
 	public static $rules = array(
