@@ -12,7 +12,8 @@ class UserTest extends TestCase
 
     protected function _before()
     {
-
+        $this->model = new User;
+        User::boot();
     }
 
     protected function _after()
@@ -46,4 +47,14 @@ class UserTest extends TestCase
         $this->assertEquals($errors[0], "The last name field is required.");
     }
 
+    public function test_user_saved_correctly(){
+        $user = new User;
+        $user->email = 'user@mymadison.io';
+        $user->password = 'password';
+        $user->fname = 'First';
+        $user->lname = 'Last';
+
+        $this->assertTrue($user->save());
+        $this->assertTrue($user->exists);
+    }
 }

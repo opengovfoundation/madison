@@ -13,6 +13,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	
 	//TODO: Shouldn't this go before the class definition?
 	use Zizaco\Entrust\HasRole;
+	
 	protected $hidden = array('password', 'token', 'last_login', 'updated_at');
 	protected $softDelete = true;
 
@@ -72,6 +73,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		if(!$this->beforeSave()){
 			return false;
 		}
+
+		//Don't want user model trying to save validationErrors field.  
+		//	TODO: I'm sure Eloquent can handle this.  What's the setting for ignoring fields when saving?
+		unset($this->validationErrors);
+		unset($this->rules);
 
 		return parent::save($options);
 	}
