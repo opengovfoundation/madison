@@ -148,6 +148,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-mysql-dump');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   
   // Task definition
   grunt.registerTask('build', ['jshint', 'uglify', 'compass']);
