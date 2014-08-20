@@ -113,7 +113,7 @@ module.exports = function (grunt) {
         cmd: function () {
           var database = "madison_grunt_test";
           var user = "root";
-          var command = 'mysqladmin -u' + user " create " + database;
+          var command = 'mysqladmin -u' + user + " create " + database;
           return command;
         }
       },
