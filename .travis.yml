@@ -17,6 +17,7 @@ before_script:
 - npm install
 - grunt install
 script:
+- grunt test_setup
 - grunt connect
 - grunt karma
 - grunt protractor

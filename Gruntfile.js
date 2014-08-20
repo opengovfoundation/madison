@@ -108,6 +108,20 @@ module.exports = function (grunt) {
       },
       vagrant_setup: {
         cmd: 'vagrant up'
+      },
+      create_testdb: {
+        cmd: function () {
+          var database = "madison_grunt_test";
+          var user = "root";
+          var command = 'mysqladmin -u' + user " create " + database;
+          return command;
+        }
+      },
+      migrate: {
+        cmd: "php artisan migrate"
+      },
+      seed: {
+        cmd: "php artisan db:seed"
       }
     }, 
     karma: {
@@ -154,4 +168,5 @@ module.exports = function (grunt) {
   grunt.registerTask('build', ['jshint', 'uglify', 'compass']);
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower']);
+  grunt.registerTask('test_setup', ['exec:create_testdb', 'exec:migrate', 'exec:seed']);
 };
