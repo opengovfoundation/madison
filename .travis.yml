@@ -16,11 +16,11 @@ before_script:
 - npm install -g bower
 - npm install
 - grunt install
-script:
 - grunt test_setup
-- grunt karma
 - grunt connect
 - php artisan serve &
+script:
+- grunt karma
 - grunt protractor
 matrix:
   fast_finish: true
