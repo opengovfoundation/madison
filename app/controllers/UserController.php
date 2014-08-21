@@ -407,6 +407,8 @@ class UserController extends BaseController{
 
 	/**
 	 * Use OAuth data to login user.  Create account if necessary.
+	 *
+	 *	TODO: Should this be moved to the User model?
 	 */
 	public function oauthLogin($user_info){
 		// See if we already have a matching user in the system
