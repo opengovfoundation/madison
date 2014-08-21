@@ -17,7 +17,6 @@ before_script:
 - npm install
 - grunt install
 - grunt test_setup
-- grunt connect
 - php artisan serve &
 script:
 - grunt karma
