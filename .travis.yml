@@ -16,7 +16,6 @@ before_script:
 - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
 - grunt install
 - grunt test_setup
-- grunt connect
 - php artisan serve &
 script:
 - grunt karma
