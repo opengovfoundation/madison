@@ -17,7 +17,7 @@
     "way/guard-laravel": "dev-master",
     "way/phpunit-wrappers": "dev-master",
     "way/laravel-test-helpers": "dev-master",
-    "league/factory-muffin": "~2.0"
+    "mockery/mockery": "0.9.0"
   },
   "require": {
     "anahkiasen/rocketeer": "1.2.1",
@@ -31,7 +31,8 @@
     "doctrine/dbal": "2.3.*",
     "artdarek/oauth-4-laravel": "dev-master",
     "roumen/feed": "dev-master",
-    "laravelbook/ardent": "~2.4"
+    "laravelbook/ardent": "~2.4",
+    "mockery/mockery": "0.9.0"
   },
   "autoload": {
     "classmap": [
