@@ -1,8 +1,6 @@
 language: php
 php:
   - 5.4
-node_js:
-  - "0.10"
 env:
   matrix:
   - DB_HOST=localhost DB_NAME=madison_grunt_test DB_USER=root ENV=testing
@@ -17,7 +15,7 @@ before_script:
 - npm install
 - grunt install
 - grunt test_setup
-- php artisan serve &
+- php artisan serve
 script:
 - grunt karma
 - grunt protractor
