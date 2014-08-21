@@ -138,16 +138,10 @@ module.exports = function (grunt) {
       dev: {
         options: {
           configFile: "protractor.conf.js"
-        }
-      }
-    },
-    connect: {
-      server: {
-        options: {
-          hostname: 'localhost',
-          port: 80,
-          base: "public/",
-          debug: true
+          args: {
+            sauceUser: process.env.SAUCE_USERNAME,
+            sauceKey: process.env.SAUCE_ACCESS_KEY
+          }
         }
       }
     }
