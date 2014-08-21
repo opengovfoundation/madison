@@ -59,4 +59,30 @@ class UserTest extends TestCase
         //Test that the password gets hashed
         $this->assertNotEquals($user->password, 'password');
     }
+
+    public function test_twitter_signup_saves() {
+        $user = new User;
+        $user->fname = "Fname Lname";
+        $user->lname = "-";
+        $user->oauth_vendor = 'twitter';
+        $user->oauth_id = '11111111';
+        $user->oauth_update = 1;
+
+        $this->assertTrue($user->save(), "Save returned false");
+        $this->assertTrue($user->exists, "Exists returned false");
+    }
+
+    public function test_facebook_signup_saves(){
+        $user = new User;
+        $user->fname = "Fname";
+        $user->lname = "Lname";
+        $user->email = "user@mymadison.io";
+        $user->oauth_vendor = 'facebook';
+        $user->oauth_id = '11111111111111111';
+        $user->oauth_update = 1;
+
+        $this->assertTrue($user->save());
+        $this->assertTrue($user->exists); 
+    }
+
 }
