@@ -137,7 +137,7 @@ module.exports = function (grunt) {
       },
       dev: {
         options: {
-          configFile: "protractor.conf.js"
+          configFile: "protractor.conf.js",
           args: {
             sauceUser: process.env.SAUCE_USERNAME,
             sauceKey: process.env.SAUCE_ACCESS_KEY
