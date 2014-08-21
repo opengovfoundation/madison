@@ -12,8 +12,7 @@ class UserTest extends TestCase
 
     protected function _before()
     {
-        $this->model = new User;
-        User::boot();
+        
     }
 
     protected function _after()
@@ -56,5 +55,8 @@ class UserTest extends TestCase
 
         $this->assertTrue($user->save());
         $this->assertTrue($user->exists);
+
+        //Test that the password gets hashed
+        $this->assertNotEquals($user->password, 'password');
     }
 }

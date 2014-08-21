@@ -31,9 +31,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	  ),
 	  'social-signup'	=> array(
 	    'email'			=> 'required|unique:users',
+	    'oauth_vendor'	=> 'required',
+	    'oauth_id'			=> 'required',
+	    'oauth_update'	=> 'required'
 		),
 		'twitter-signup'	=> array(
-      
+      'oauth_vendor'	=> 'required',
+      'oauth_id'			=> 'required',
+      'oauth_update'	=> 'required'
     ),
     'update'	=> array(
       'email'			=> 'required|unique:users',
@@ -64,7 +69,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	*	Save
 	*
 	*	Override Eloquent save() method
-	*		Returns output from $this->performSave($options)	
+	*		Runs $this->beforeSave()
+	*		Unsets:
+	*			* $this->validationErrors
+	*			* $this->rules
 	*
 	* @param array $options
 	* @return bool
@@ -283,6 +291,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		$this->rules = $this->mergeRules();
 
 		if(!$this->validate()){
+			Log::error("Unable to validate user: ");
+			Log::error($this->getErrors()->toArray());
+			Log::error($this->attributes);
 			return false;
 		}
 
@@ -305,9 +316,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		$rules = static::$rules;
 		$output = array();
 
+		//If we're updating the user
 		if($this->exists){
 			$merged = array_merge_recursive($rules['save'], $rules['update']);
-		} else {
+		}
+		//If we're signing up via Oauth
+		else if (isset($this->oauth_vendor)){
+			switch($this->oauth_vendor){
+				case 'twitter':
+					$merged = array_merge_recursive($rules['save'], $rules['twitter-signup']);
+					break;
+				case 'facebook':
+				case 'linkedin':
+					$merged = array_merge_recursive($rules['save'], $rules['social-signup']);
+					break;
+				default:
+					throw new Exception("Unknown OAuth vendor: " . $this->oauth_vendor);
+			}
+		}
+		//If we're creating a user via Madison
+		else {
 			$merged = array_merge_recursive($rules['save'], $rules['create']);
 		}
 
