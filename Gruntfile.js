@@ -144,7 +144,7 @@ module.exports = function (grunt) {
     connect: {
       server: {
         options: {
-          hostname: 'local',
+          hostname: 'localhost',
           port: 80,
           base: "public/",
           debug: true,

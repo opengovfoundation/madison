@@ -12,7 +12,7 @@ exports.config = {
   // Spec patterns are relative to the current working directly when
   // protractor is called.
   specs: ['test/e2e/basic.spec.js'],
-  baseUrl: 'http://localhost:80/',
+  baseUrl: 'http://localhost:8000/',
   // Options to be passed to Jasmine-node.
   mochaOpts: { }
 };
