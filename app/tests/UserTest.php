@@ -9,6 +9,13 @@ class UserTest extends TestCase
 
     protected $user;
 
+    /**
+    *   setUp
+    *   
+    *   Runs before each test
+    *       Stubs $this->user
+    *       Truncates User table
+    */
     public function setUp(){
         parent::setUp();
 
@@ -22,6 +29,14 @@ class UserTest extends TestCase
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 
+    /**
+    *   stubUser
+    *
+    *   Helper function to stub a generic User
+    *  
+    *   @param void
+    *   @return User $user 
+    */
     protected function stubUser(){
         $user = new User;
         $user->email = 'user@mymadison.io';
@@ -32,6 +47,14 @@ class UserTest extends TestCase
         return $user;
     }
 
+    /**
+    *   stubOauthUser
+    *
+    *   Helper function to stub a Facebook Oauth User
+    *
+    *   @param void
+    *   @return User $user
+    */
     protected function stubOAuthUser(){
         $user = $this->stubUser();
         unset($user->password);
@@ -42,6 +65,14 @@ class UserTest extends TestCase
         return $user;
     }
 
+    /**
+    *   stubTwitterUser
+    *
+    *   Helper function to stub a Twitter OAuth User
+    *
+    *   @param void
+    *   @return User $user
+    */
     protected function stubTwitterUser(){
         $user = $this->stubUser();
         unset($user->email);
@@ -53,7 +84,10 @@ class UserTest extends TestCase
         return $user;
     }
 
-    public function test_fname_is_required() {
+    /**
+    *   @test
+    */
+    public function fname_is_required() {
         unset($this->user->fname);
         
         $this->assertFalse($this->user->save());
@@ -67,7 +101,10 @@ class UserTest extends TestCase
         $this->assertEquals($errors[0], "The first name field is required.");
     }
 
-    public function test_lname_is_required() {
+    /**
+    *   @test
+    */
+    public function lname_is_required() {
         unset($this->user->lname);
 
         $this->assertFalse($this->user->save());
@@ -78,6 +115,9 @@ class UserTest extends TestCase
         $this->assertEquals($errors[0], "The last name field is required.");
     }
 
+    /**
+    *   @test
+    */
     public function test_signup_rules_set_correctly(){
         $rules = $this->user->mergeRules();
 
@@ -92,6 +132,9 @@ class UserTest extends TestCase
         $this->assertEquals($rules['password'], 'required');
     }
 
+    /**
+    *   @test
+    */
     public function test_update_rules_set_correctly(){
         $this->user->save();
         $rules = $this->user->mergeRules();
@@ -106,6 +149,9 @@ class UserTest extends TestCase
         $this->assertEquals($expected_rules, $rules);
     }
 
+    /**
+    *   @test
+    */
     public function test_social_login_rules_set_correctly(){
         $oauth_user = $this->stubOAuthUser();
         $rules = $oauth_user->mergeRules();
@@ -122,6 +168,9 @@ class UserTest extends TestCase
         $this->assertEquals($expected_rules, $rules);
     }
 
+    /**
+    *   @test
+    */
     public function test_twitter_login_rules_set_correctly(){
         $twitter_user = $this->stubTwitterUser();
         $rules = $twitter_user->mergeRules();
@@ -137,6 +186,9 @@ class UserTest extends TestCase
         $this->assertEquals($expected_rules, $rules);
     }
 
+    /**
+    *   @test
+    */
     public function test_email_must_be_unique(){
         $this->user->save();
 
@@ -156,16 +208,25 @@ class UserTest extends TestCase
         $this->assertEquals($errors[0], "The email has already been taken.");
     }
 
+    /**
+    *   @test
+    */
     public function test_user_saved_correctly(){
         $this->assertTrue($this->user->save());
         $this->assertTrue($this->user->exists);
     }
 
+    /**
+    *   @test
+    */
     public function test_hashes_password(){
         //Test that the password gets hashed
         $this->assertNotEquals($this->user->password, 'password');
     }
 
+    /**
+    *   @test
+    */
     public function test_twitter_signup_saves() {
         unset($this->user->email);
         unset($this->user->password);
@@ -180,6 +241,9 @@ class UserTest extends TestCase
         $this->assertTrue($this->user->exists, "Exists returned false");
     }
 
+    /**
+    *   @test
+    */
     public function test_facebook_signup_saves(){
         unset($this->user->password);
 
