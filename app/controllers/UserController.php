@@ -8,6 +8,14 @@ class UserController extends BaseController{
 		parent::__construct();
 	}
 
+	/**
+	*	getIndex
+	*
+	*	Retrieve user by id and display user page
+	*
+	*	@param User $user
+	*	@return View user.index with array $data
+	*/
 	public function getIndex(User $user){
 		//Set data array
 		$data = array(
@@ -20,100 +28,72 @@ class UserController extends BaseController{
 		return View::make('user.index', $data);
 	}
 
-	public function getEdit($id=null){
+	/**
+	*	getEdit
+	*	
+	*	Allow user to edit their profile
+	*
+	*	@param User $user
+	*	@return View user.edit.index
+	*/
+	public function getEdit(User $user){
 		if(!Auth::check()){
 			return Redirect::to('user/login')->with('error', 'Please log in to edit user profile');
-		}else if(Auth::user()->id != $id){
+		}else if(Auth::user()->id != $user->id){
 			return Redirect::back()->with('error', 'You do not have access to that profile.');
-		}else if($id == null){
+		}else if($user == null){
 			return Response::error('404');
 		}
 
 		//Set data array
 		$data = array(
-			'page_id'		=> 'edit_profile',
-			'page_title'	=> 'Edit Your Profile'
+			'page_id'			=> 'edit_profile',
+			'page_title'	=> 'Edit Your Profile',
+			'user'				=> $user
 		);
 
 		return View::make('user.edit.index', $data);
 	}
 
-	public function putEdit($id=null){
+	/**
+	*	putEdit
+	*
+	*	User's put request to update their profile
+	*
+	*/
+	public function putEdit(User $user){
 		if(!Auth::check()){
 			return Redirect::to('user/login')->with('error', 'Please log in to edit user profile');
-		}else if(Auth::user()->id != $id){
+		}else if(Auth::user()->id != $user->id){
 			return Redirect::back()->with('error', 'You do not have access to that profile.');
-		}else if($id == null){
+		}else if($user == null){
 			return Response::error('404');
 		}
 
 		if(strlen(Input::get('password_1')) > 0 || strlen(Input::get('password_2')) > 0){
 			if(Input::get('password_1') !== Input::get('password_2')){
-				return Redirect::to('user/edit/' . $id)->with('error', 'The passwords you\'ve entered do not match.');
+				return Redirect::to('user/edit/' . $user->id)->with('error', 'The passwords you\'ve entered do not match.');
 			}
 			else{
 				$password = Input::get('password_1');
 			}
 		}
 
-		$email = Input::get('email');
-		$fname = Input::get('fname');
-		$lname = Input::get('lname');
-		$url = Input::get('url');
-		$phone = Input::get('phone');
 		$verify = Input::get('verify');
 
-		$user_details = Input::all();
-
-		if(Auth::user()->email != $email) {
-			$rules = array(
-				'fname'		=> 'required',
-				'lname'		=> 'required',
-				'email'		=> 'required|unique:users'
-			);
-		} else if(isset($verify)) {
-			$rules = array(
-				'fname'		=> 'required',
-				'lname'		=> 'required',
-				'phone'		=> 'required'
-			);
-			// More detailed error message for phone number
-			if(empty($phone)) {
-				return Redirect::to('user/edit/' . $id)->with('error', 'A phone number is required to request verified status.');
-			}
-
-		} else {
-			$rules = array(
-				'fname'		=> 'required',
-				'lname'		=> 'required'
-			);
-		}
-
-		$validation = Validator::make($user_details, $rules);
-
-		$nice_names = array(
-						'fname' => 'first name',
-						'lname' => 'last name'
-		);
-		$validation->setAttributeNames($nice_names); 
-
-		if($validation->fails()){
-			return Redirect::to('user/edit/' . $id)->withInput()->withErrors($validation);
-		}
-
-		$user = User::find($id);
-		$user->email = $email;
-		$user->fname = $fname;
-		$user->lname = $lname;
-		$user->url = $url;
-		$user->phone = $phone;
-		if(isset($password)){
-			$user->password = Hash::make($password);
-		}
+		$user->email = Input::get('email');
+		$user->fname = Input::get('fname');
+		$user->lname = Input::get('lname');
+		$user->url = Input::get('url');
+		$user->phone = Input::get('phone');
+		$user->verify = $verify;
+		
 		// Don't allow oauth logins to update the user's data anymore,
 		// since they've set values within Madison.
 		$user->oauth_update = false;
-		$user->save();
+		if(!$user->save()){
+			return Redirect::to('user/edit/' . $user->id)->withInput()->withErrors($user->getErrors());
+		}
 
 		if(isset($verify)){
 			$meta = new UserMeta();

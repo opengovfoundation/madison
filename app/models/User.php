@@ -43,6 +43,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
     'update'	=> array(
       'email'			=> 'required|unique:users',
       'password'	=> 'required'
+		),
+		'verify'	=> array(
+      'phone'			=> 'required'
 		)
 	);
 
@@ -86,6 +89,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		//	TODO: I'm sure Eloquent can handle this.  What's the setting for ignoring fields when saving?
 		unset($this->validationErrors);
 		unset($this->rules);
+		unset($this->verify);
 
 		return parent::save($options);
 	}
@@ -319,6 +323,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		//If we're updating the user
 		if($this->exists){
 			$merged = array_merge_recursive($rules['save'], $rules['update']);
+			$merged['email'] = 'required|unique:users,email,' . $this->id;
 		}
 		//If we're signing up via Oauth
 		else if (isset($this->oauth_vendor)){
@@ -337,6 +342,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		//If we're creating a user via Madison
 		else {
 			$merged = array_merge_recursive($rules['save'], $rules['create']);
+		}
+
+		//Include verify rules if requesting verification
+		if(isset($this->verify)){
+			$merged = array_merge_recursive($merged, $rules['verify']);
 		}
 
 		foreach($merged as $field => $rules){
