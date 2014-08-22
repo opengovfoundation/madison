@@ -118,7 +118,7 @@ class UserTest extends TestCase
     /**
     *   @test
     */
-    public function test_signup_rules_set_correctly(){
+    public function signup_rules_set_correctly(){
         $rules = $this->user->mergeRules();
 
         $this->assertArrayHasKey('fname', $rules);
@@ -135,7 +135,7 @@ class UserTest extends TestCase
     /**
     *   @test
     */
-    public function test_update_rules_set_correctly(){
+    public function update_rules_set_correctly(){
         $this->user->save();
         $rules = $this->user->mergeRules();
 
@@ -152,7 +152,7 @@ class UserTest extends TestCase
     /**
     *   @test
     */
-    public function test_social_login_rules_set_correctly(){
+    public function social_login_rules_set_correctly(){
         $oauth_user = $this->stubOAuthUser();
         $rules = $oauth_user->mergeRules();
 
@@ -171,7 +171,7 @@ class UserTest extends TestCase
     /**
     *   @test
     */
-    public function test_twitter_login_rules_set_correctly(){
+    public function twitter_login_rules_set_correctly(){
         $twitter_user = $this->stubTwitterUser();
         $rules = $twitter_user->mergeRules();
 
@@ -189,7 +189,7 @@ class UserTest extends TestCase
     /**
     *   @test
     */
-    public function test_email_must_be_unique(){
+    public function email_must_be_unique(){
         $this->user->save();
 
         $dupe = new User;
@@ -211,7 +211,7 @@ class UserTest extends TestCase
     /**
     *   @test
     */
-    public function test_user_saved_correctly(){
+    public function user_saved_correctly(){
         $this->assertTrue($this->user->save());
         $this->assertTrue($this->user->exists);
     }
@@ -219,7 +219,7 @@ class UserTest extends TestCase
     /**
     *   @test
     */
-    public function test_hashes_password(){
+    public function hashes_password(){
         //Test that the password gets hashed
         $this->assertNotEquals($this->user->password, 'password');
     }
@@ -227,7 +227,14 @@ class UserTest extends TestCase
     /**
     *   @test
     */
-    public function test_twitter_signup_saves() {
+    public function display_name(){
+        $this->assertEquals('First Last', $this->user->getDisplayName());
+    }
+
+    /**
+    *   @test
+    */
+    public function twitter_signup_saves() {
         unset($this->user->email);
         unset($this->user->password);
 
@@ -244,7 +251,7 @@ class UserTest extends TestCase
     /**
     *   @test
     */
-    public function test_facebook_signup_saves(){
+    public function facebook_signup_saves(){
         unset($this->user->password);
 
         $this->user->oauth_vendor = 'facebook';

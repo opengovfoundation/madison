@@ -11,7 +11,6 @@ use Illuminate\Support\MessageBag;
 
 class User extends Eloquent implements UserInterface, RemindableInterface{
 	
-	//TODO: Shouldn't this go before the class definition?
 	use Zizaco\Entrust\HasRole;
 	
 	protected $hidden = array('password', 'token', 'last_login', 'updated_at');
@@ -106,6 +105,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		return $this->validationErrors;
 	}
 
+	/**
+	*	verified
+	*
+	*	Returns the value of the UserMeta for this user with key 'verify'
+	*		The value of this is either 'verified' or 'pending'
+	*		If the user hasn't requested verified status, this will return null
+	*
+	*	@param void
+	* @return string||null
+	*/
 	public function verified(){
 		$request = $this->user_meta()->where('meta_key', 'verify')->first();
 		
