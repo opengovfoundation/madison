@@ -84,7 +84,17 @@ class UserTest extends TestCase
     }
 
     public function test_update_rules_set_correctly(){
+        $this->user->save();
+        $rules = $this->user->mergeRules();
 
+        $expected_rules = array(
+            'fname'     => 'required',
+            'lname'     => 'required',
+            'email'     => 'required|unique:users,email,' . $this->user->id,
+            'password'  => 'required'
+        );
+
+        $this->assertEquals($expected_rules, $rules);
     }
 
     public function test_social_login_rules_set_correctly(){
