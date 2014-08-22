@@ -17,7 +17,7 @@ before_script:
 - npm install
 - grunt install
 - grunt test_setup
-- php artisan serve &
+- php artisan serve --host 0.0.0.0 &
 script:
 - grunt karma
 - grunt protractor
