@@ -318,7 +318,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	*
 	* @todo handle social login / signup rule merges
 	*/
-	private function mergeRules(){
+	public function mergeRules(){
 		$rules = static::$rules;
 		$output = array();
 
@@ -370,7 +370,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	*	@param array $attributes
 	* @return bool
 	*/
-	private function validate(){
+	public function validate(){
 		$validation = Validator::make($this->attributes, $this->rules, static::$customMessages);
 
 		if($validation->passes()){
