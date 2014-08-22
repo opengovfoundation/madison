@@ -8,7 +8,9 @@ class UserTest extends TestCase
     public function setUp(){
         parent::setUp();
 
-        $this->db_reset();
+        Eloquent::unguard();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('users')->truncate();
 
         //Stub a generic user
         $this->user = $this->stubUser();
@@ -50,9 +52,13 @@ class UserTest extends TestCase
     }
 
     public function test_user_saved_correctly(){
-
         $this->assertTrue($this->user->save());
         $this->assertTrue($this->user->exists);
+    }
+
+    public function test_hashes_password(){
+        //TODO: Get the mock Hash class working ;)
+        //Hash::shouldReceive('make')->once()->andReturn('hashed');
 
         //Test that the password gets hashed
         $this->assertNotEquals($this->user->password, 'password');
