@@ -50,11 +50,25 @@ module.exports = function (grunt) {
             'public/bower_components/angular-sanitize/angular-sanitize.js',
             'public/bower_components/angular-resource/angular-resource.min.js',
             'public/bower_components/bootstrap/dist/js/bootstrap.min.js',
+            'public/bower_components/pagedown/Markdown.Converter.js',
+            'public/bower_components/pagedown/Markdown.Sanitizer.js',
+            'public/bower_components/pagedown/Markdown.Editor.js',
+            'public/bower_components/crypto-js/index.js',
+            'public/bower_components/google-translate/index.txt',
+            'public/bower_components/bootstrap/js/collapse.js',
+            'public/bower_components/bootstrap/js/modal.js',
 
             //Datetimepicker and dependencies
             'public/vendor/datetimepicker/datetimepicker.js',
             'public/bower_components/moment/min/moment.min.js',
             'public/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
+
+            //Annotator JS
+            'public/vendor/annotator/annotator-full.min.js',
+            'public/vendor/showdown/showdown.js',
+            'public/js/annotator-madison.js',
+
+            //Custom JS
             'public/js/controllers.js',
             'public/js/resources.js',
             'public/js/dashboardControllers.js',
@@ -94,6 +108,41 @@ module.exports = function (grunt) {
       },
       vagrant_setup: {
         cmd: 'vagrant up'
+      },
+      create_testdb: {
+        cmd: function () {
+          var database = "madison_grunt_test";
+          var user = "root";
+          var command = 'mysqladmin -u' + user + " create " + database;
+          return command;
+        }
+      },
+      migrate: {
+        cmd: "php artisan migrate"
+      },
+      seed: {
+        cmd: "php artisan db:seed"
+      }
+    }, 
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
+      }
+    },
+    protractor: {
+      options: {
+        configFile: "protractor.conf.js", // Default config file
+        keepAlive: false, // If false, the grunt process stops when the test fails.
+        noColor: false // If true, protractor will not use colors in its output.
+      },
+      dev: {
+        options: {
+          configFile: "protractor.conf.js"
+          args: {
+            sauceUser: process.env.SAUCE_USERNAME,
+            sauceKey: process.env.SAUCE_ACCESS_KEY
+          }
+        }
       }
     }
   });
@@ -106,9 +155,13 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-mysql-dump');
-
+  grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  
   // Task definition
   grunt.registerTask('build', ['jshint', 'uglify', 'compass']);
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower']);
+  grunt.registerTask('test_setup', ['exec:create_testdb', 'exec:migrate', 'exec:seed']);
 };

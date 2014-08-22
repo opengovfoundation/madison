@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/opengovfoundation/madison.svg?branch=master)](https://travis-ci.org/opengovfoundation/madison)
-[![Documentation Status](https://readthedocs.org/projects/madison/badge/?version=latest)](https://readthedocs.org/projects/madison/?badge=latest)
+
 
 ## Madison
 

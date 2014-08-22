@@ -14,15 +14,12 @@
 {{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
 {{ HTML::style('vendor/bootstrap/css/bootstrap-theme.min.css') }}
 {{ HTML::style('vendor/select2/select2.css') }}
+{{ HTML::style('vendor/annotator/annotator.min.css') }}
 {{ HTML::style('css/style.css') }}
 {{ HTML::style('css/dropdown-sub.css') }}
 
 <!-- Scripts -->
-{{ HTML::script('bower_components/pagedown/Markdown.Converter.js') }}
-{{ HTML::script('bower_components/pagedown/Markdown.Sanitizer.js') }}
-{{ HTML::script('bower_components/pagedown/Markdown.Editor.js') }}
 {{ HTML::script('build/app.js') }}
-{{ HTML::script('https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit') }}
 
 <?php
 $fs = new Illuminate\Filesystem\Filesystem();
