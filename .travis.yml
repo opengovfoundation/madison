@@ -1,8 +1,6 @@
 language: php
 php:
   - 5.4
-node_js:
-  - "0.10"
 env:
   matrix:
   - DB_HOST=localhost DB_NAME=madison_grunt_test DB_USER=root ENV=testing
@@ -11,13 +9,15 @@ env:
   - secure: eRHMypmB5JXiQXwa++FHjbNPg1LnLxJ97HTt/tcL4hrb9KTAioIg4vvOM07PaekLVkZnTtUnOUDDaOlkhSUzjUKaU+fnw4GcUvXTzj73efBSfkoSvWgkquiVCLV+8PJuYkske93ZcR5s91+4oPITQZ4IQVmviaUz3XdLFOgUUFk=
 addons:
   sauce_connect: true
+  hosts:
+   - madison
 before_script:
 - npm install -g grunt-cli
 - npm install -g bower
 - npm install
 - grunt install
 - grunt test_setup
-- php artisan serve &
+- php artisan serve --host 0.0.0.0 &
 script:
 - grunt karma
 - grunt protractor
