@@ -12,9 +12,10 @@ class UserController extends BaseController{
 	*	getIndex
 	*
 	*	Retrieve user by id and display user page
+	*		Passes User $user to the view
 	*
 	*	@param User $user
-	*	@return View user.index with array $data
+	*	@return Illuminate\View\View
 	*/
 	public function getIndex(User $user){
 		//Set data array
@@ -32,9 +33,10 @@ class UserController extends BaseController{
 	*	getEdit
 	*	
 	*	Allow user to edit their profile
+	*		Passes User $user to the view
 	*
 	*	@param User $user
-	*	@return View user.edit.index
+	*	@return Illuminate\View|View
 	*/
 	public function getEdit(User $user){
 		if(!Auth::check()){
@@ -60,6 +62,8 @@ class UserController extends BaseController{
 	*
 	*	User's put request to update their profile
 	*
+	*	@param User $user
+	*	@return Illuminate\Http\RedirectResponse
 	*/
 	public function putEdit(User $user){
 		if(!Auth::check()){
@@ -110,14 +114,40 @@ class UserController extends BaseController{
 		return Redirect::back()->with('success_message', 'Your profile has been updated.');
 	}
 
+	/**
+	*	putIndex
+	*
+	*	Returns 404 Response
+	*
+	*	@param $id
+	*	@return Response
+	*	@todo Remove route and method
+	*/
 	public function putIndex($id = null){
 		return Response::error('404');
 	}
 
+	/**
+	*	postIndex
+	*
+	*	Returns 404 Response
+	*
+	*	@param $id
+	*	@return Response
+	*	@todo remove route and method
+	*/
 	public function postIndex($id = null){
 		return Response::error('404');
 	}
 
+	/**
+	*	getLogin
+	*
+	*	Returns the login page view
+	*
+	*	@param void
+	*	@return Illuminate\View\View
+	*/
 	public function getLogin(){
 		$previous_page = Input::old('previous_page');
 
@@ -134,6 +164,14 @@ class UserController extends BaseController{
 		return View::make('login.index', $data);
 	}
 
+	/**
+	*	postLogin
+	*
+	*	Handles POST requests for users logging in
+	*
+	*	@param void
+	*	@return Illuminate\Http\RedirectResponse
+	*/
 	public function postLogin(){
 		//Retrieve POST values
 		$email = Input::get('email');
@@ -181,7 +219,12 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * 	GET Signup Page
+	 * 	getSignup
+	 *
+	 *	Returns signup page view
+	 *
+	 *	@param void
+	 *	@return Illuminate\View\View
 	 */
 	public function getSignup(){
 		$data = array(
@@ -193,7 +236,13 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * 	POST to create user account
+	 * 	postSignup
+	 *
+	 *	Handles POST requests for users signing up natively through Madison
+	 *		Fires MadisonEvent::NEW_USER_SIGNUP Event
+	 *
+	 *	@param void
+	 *	@return Illuminate\Http\RedirectResponse
 	 */
 	public function postSignup(){
 		//Retrieve POST values
@@ -229,7 +278,12 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * 	Verify users from link sent via email upon signup
+	 * 	getVerify
+	 *
+	 *	Handles GET requests for email verifications
+	 *
+	 *	@param string $token
+	 *	@return Illuminate\Http\RedirectRequest
 	 */
 	public function getVerify($token){
 		echo $token;
@@ -249,7 +303,15 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * Login user with Facebook
+	 * getFacebookLogin
+	 *
+	 *	Handles OAuth communication with Facebook for signup / login
+	 *		Calls $this->getAuthorizationUri() if the oauth code is passed via Input
+	 *		Otherwise calls $fb->getAuthorizationUri()
+	 *
+	 *	@param void
+	 *	@return Illuminate\Http\RedirectResponse || $this->oauthLogin($user_info)
+	 *	@todo clean up this doc block
 	 */
 	public function getFacebookLogin(){
 
@@ -292,7 +354,15 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * Login user with Twitter
+	 * getFacebookLogin
+	 *
+	 *	Handles OAuth communication with Twitter for signup / login
+	 *		Calls $this->oauthLogin() if the oauth code is passed via Input
+	 *		Otherwise calls $tw->requestRequestToken()
+	 *
+	 *	@param void
+	 *	@return Illuminate\Http\RedirectResponse || $this->oauthLogin($user_info)
+	 *	@todo clean up this doc block
 	 */
 	public function getTwitterLogin(){
 
@@ -337,7 +407,15 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * Login user with Linkedin
+	 * getFacebookLogin
+	 *
+	 *	Handles OAuth communication with Facebook for signup / login
+	 *		Calls $this->oauthLogin() if the oauth code is passed via Input
+	 *		Otherwise calls $linkedinService->getAuthorizationUri()
+	 *
+	 *	@param void
+	 *	@return Illuminate\Http\RedirectResponse || $this->oauthLogin($user_info)
+	 *	@todo clean up this doc block
 	 */
 	public function getLinkedinLogin(){
 
@@ -380,10 +458,14 @@ class UserController extends BaseController{
     }
 
 	/**
-	 * Use OAuth data to login user.  Create account if necessary.
-	 *
-	 *	TODO: Should this be moved to the User model?
-	 */
+	*	oauthLogin
+	*
+	* Use OAuth data to login user.  Create account if necessary.
+	*
+	*	@param array $user_info
+	*	@return Illuminate\Http\RedirectResponse
+	*	@todo Should this be moved to the User model?
+	*/
 	public function oauthLogin($user_info){
 		// See if we already have a matching user in the system
 		$user = User::where('oauth_vendor', $user_info['oauth_vendor'])
