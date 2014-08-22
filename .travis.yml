@@ -26,9 +26,10 @@ before_script:
 
 # Commands you want to run that will verify your build.
 script: 
-  - phpunit --coverage-clover=coverage.clover
   - grunt karma
   - grunt protractor
+  - phpunit --coverage-clover=coverage.clover
+  
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
