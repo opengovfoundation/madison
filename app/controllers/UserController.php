@@ -201,37 +201,31 @@ class UserController extends BaseController{
 		$password = Input::get('password');
 		$fname = Input::get('fname');
 		$lname = Input::get('lname');
-		$user_details = Input::all();
+		
+		//Create user token for email verification
+		$token = str_random();
 
-		$v = new Madison\Services\Validators\User;
-
-		if(!$v->passes()){
-			return Redirect::to('user/signup')->withInput()->withErrors($v->getErrors());
+		//Create new user
+		$user = new User();
+		$user->email = $email;
+		$user->password = $password;
+		$user->fname = $fname;
+		$user->lname = $lname;
+		$user->token = $token;
+		if( ! $user->save() ){
+			return Redirect::to('user/signup')->withInput()->withErrors($user->getErrors());
 		}
-		else{
-			//Create user token for email verification
-			$token = str_random();
-
-			//Create new user
-			$user = new User();
-			$user->email = $email;
-			$user->password = Hash::make($password);
-			$user->fname = $fname;
-			$user->lname = $lname;
-			$user->token = $token;
-			$user->save();
 			
-			Event::fire(MadisonEvent::NEW_USER_SIGNUP, $user);
+		Event::fire(MadisonEvent::NEW_USER_SIGNUP, $user);
 			
-			//Send email to user for email account verification
-			Mail::queue('email.signup', array('token'=>$token), function ($message) use ($email, $fname) {
-				$message->subject('Welcome to the Madison Community');
-				$message->from('sayhello@opengovfoundation.org', 'Madison');
-				$message->to($email); // Recipient address
-			});
+		//Send email to user for email account verification
+		Mail::queue('email.signup', array('token'=>$token), function ($message) use ($email, $fname) {
+			$message->subject('Welcome to the Madison Community');
+			$message->from('sayhello@opengovfoundation.org', 'Madison');
+			$message->to($email); // Recipient address
+		});
 
-			return Redirect::to('user/login')->with('message', 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.');
-		}
+		return Redirect::to('user/login')->with('message', 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.');
 	}
 
 	/**
