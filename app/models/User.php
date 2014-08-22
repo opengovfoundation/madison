@@ -151,6 +151,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		
 		return Group::where('id', '=', $activeGroupId)->first();
 	}
+
+	public function setPasswordAttribute($password){
+		$this->attributes['password'] = Hash::make($password);
+	}
 	
 	public function groups() {
 		return $this->belongsToMany('Group', 'group_members');
@@ -301,8 +305,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 			return false;
 		}
 
-		$this->attributes = $this->autoHash();
-
 		return true;
 	}
 
@@ -378,24 +380,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		$this->validationErrors = $validation->messages();
 
 		return false;
-	}
-
-	/**
-	*	autoHash
-	*
-	*	Auto hash passwords
-	*
-	*	@param void
-	* @return array $this->attributes
-	*/
-	private function autoHash(){
-		if(isset($this->attributes['password'])){
-			if($this->attributes['password'] != $this->getOriginal('password')){
-				$this->attributes['password'] = Hash::make($this->attributes['password']);
-			}
-		}
-
-		return $this->attributes;
 	}
 }
 
