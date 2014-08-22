@@ -142,14 +142,24 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	/**
 	*	docs
 	*
-	*	Eloquent one-to-many relationship for User->Doc
+	*	Eloquent one-to-many relationship for Doc
 	* @param void
-	* @return TODO
+	* @return Illuminate\Database\Eloquent\Relations\BelongsToMany
 	*/
 	public function docs(){
 		return $this->belongsToMany('Doc');
 	}
 
+	/**
+	*	activeGroup
+	*
+	*	Returns current active group for this user
+	*		Grabs the active group id from Session
+	*
+	*	@param void
+	*	@return Group|| new Group
+	*	@todo Why would this return a new group?  Should probalby return some falsy value.
+	*/
 	public function activeGroup() 
 	{
 		$activeGroupId = Session::get('activeGroupId');
@@ -161,51 +171,156 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		return Group::where('id', '=', $activeGroupId)->first();
 	}
 
+	/**
+	*	setPasswordAttribute
+	*
+	*	Mutator method for the password attribute
+	*		Hashes the password and sets the attribute
+	*
+	*	@param string $password
+	*	@return void
+	*/
 	public function setPasswordAttribute($password){
 		$this->attributes['password'] = Hash::make($password);
 	}
 	
+	/**
+	*	groups
+	*
+	*	Eloquent belongsToMany relationship for Group
+	*
+	*	@param void
+	*	@return Illuminate\Database\Eloquent\Relations\BelongsToMany
+	*/
 	public function groups() {
 		return $this->belongsToMany('Group', 'group_members');
 	}
 
+	/**
+	*	comments
+	*	
+	*	Eloquent hasMany relationship for Comment
+	*
+	*	@param void
+	*	@return Illuminate\Database\Eloquent\Relations\HasMany
+	*/
 	public function comments(){
 		return $this->hasMany('Comment');
 	}
 
+	/**
+	*	annotations
+	*
+	*	Eloquent hasMany relationship for Annoation
+	*
+	*	@param void
+	*	@return Illuminate\Database\Eloquent\Relations\HasMany
+	*/
 	public function annotations(){
 		return $this->hasMany('Annotation');
 	}
 
+	/**
+	*	getAuthIdentifier
+	*
+	*	Determines value used by Laravel's Auth class to identify users
+	*		Uses the user id
+	*
+	*	@param void
+	*	@return int $this->id
+	*/
 	public function getAuthIdentifier(){
 		return $this->id;
 	}
 
+	/**
+	*	getAuthPassword
+	*
+	*	Determines value used by Laravel's Auth class to authenticate users
+	*		Uses the user password
+	*
+	*	@param void
+	*	@return string $this->password
+	*/
 	public function getAuthPassword(){
 		return $this->password;
 	}
 
+	/**
+	*	getReminderEmail
+	*
+	*	Determines value to use for reminder emails
+	*		Uses the user email
+	*	
+	*	@param void
+	*	@return string $this->email
+	*/
 	public function getReminderEmail(){
 		return $this->email;
 	}
 	
-	//This user's organization
+	/**
+	*	organization
+	*
+	*	Eloquent belongsTo relationship for Organization
+	*
+	*	@param void
+	*	@return Illuminate\Database\Eloquent\Relations\BelongsTo
+	*	@todo This can be removed as we use Groups in place of Organizations
+	*/
 	public function organization(){
 		return $this->belongsTo('Organization');
 	}
 	
+	/**
+	*	note_meta
+	*
+	*	Eloquent hasMany relationship for NoteMeta
+	*
+	*	@param void
+	*	@return Illuminate\Database\Eloquent\Relations\HasMany
+	*/
 	public function note_meta(){
 		return $this->hasMany('NoteMeta');
 	}
 
+	/**
+	*	user_meta
+	*
+	*	Eloquent hasMany relationship for UserMeta
+	*
+	*	@param void
+	*	@return Illuminate\Database\Eloquent\Relations\HasMany
+	*
+	*/
 	public function user_meta(){
 		return $this->hasMany('UserMeta');
 	}
 
+	/**
+	*	getSponsorStatus
+	*
+	*	Returns the value of the UserMeta for this user with key 'independent_sponsor'
+	*		The value of this is either '1' or '0'
+	*		If the user hasn't requested independent sponsor status, this will return null
+	*
+	*	@param void
+	* @return string||null
+	*/
 	public function getSponsorStatus(){
 		return $this->user_meta()->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)->first();
 	}
 
+	/**
+	*	setIndependentAuthor
+	*
+	*	Sets the Independent Sponsor status for this user
+	*		Sets / Creates a UserMeta for this user with key = 'independent_sponsor' 
+	*		and value '1'||'0' based on input boolean
+	*		
+	*	@param bool $bool
+	*	@return void
+	*/
 	public function setIndependentAuthor($bool)
 	{
 		if($bool) {
@@ -222,12 +337,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 				
 				$metaKey->meta_value = $bool ? 1 : 0;
 				$metaKey->save();
-				
-				
 			});
 		}
 	}
 	
+	/**
+	*	admin_contact
+	*
+	*	Sets the user as an admin contact for the site
+	*
+	*	@param unknownType $setting
+	*	@return bool||void
+	*	@todo References to this should be removed.  We're allowing all admins to determine notification subscriptions
+	*/
 	public function admin_contact($setting = null){
 
 		if(isset($setting)){
@@ -262,10 +384,23 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		}
 	}
 
+	/**
+	*	doc_meta
+	*
+	*	Eloquent hasMany relationship for DocMeta
+	*
+	*	@param void
+	*	@return Illuminate\Database\Eloquent\Relations\HasMany
+	*/
 	public function doc_meta(){
 		return $this->hasMany('DocMeta');
 	}
 	
+	/**
+	*	getValidSponsors
+	*
+	*	@todo I'm not sure what exactly this does at first glance
+	*/
 	public function getValidSponsors()
 	{
 		$collection = new Collection();
@@ -291,6 +426,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		return $collection;
 	}
 	
+	/**
+	*	findByRoleName
+	*
+	*	Returns all users with a given role
+	*
+	*	@param string $role
+	*	@return Illuminate\Database\Eloquent\Collection
+	*/
 	static public function findByRoleName($role) 
 	{
 		return Role::where('name', '=', $role)->first()->users()->get();
