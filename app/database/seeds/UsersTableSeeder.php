@@ -10,7 +10,7 @@ class UsersTableSeeder extends Seeder
 			$creds = yaml_parse_file(app_path() . '/config/creds.yml');
 		}else{
 			$creds = array(
-			  'admin_email' => 'test@example.com',
+			  'admin_email' => 'admin@example.com',
 			  'admin_fname' => 'First',
 			  'admin_lname' => 'Last',
 			  'admin_password' => 'password'
