@@ -5,6 +5,8 @@ use Way\Tests\Should;
 
 class UserTest extends TestCase
 {
+    use ModelHelpers;
+
     protected $user;
 
     public function setUp(){
@@ -26,6 +28,18 @@ class UserTest extends TestCase
         $user->password = 'password';
         $user->fname = 'First';
         $user->lname = 'Last';
+
+        return $user;
+    }
+
+    protected function stubOAuthUser(){
+        $user = new User;
+        $user->email = 'user@mymadison.io';
+        $user->fname = 'First';
+        $user->lname = 'Last';
+        $user->oauth_vendor = 'facebook';
+        $user->oauth_id = '11111111111111111';
+        $user->oauth_update = 1;
 
         return $user;
     }
@@ -67,6 +81,32 @@ class UserTest extends TestCase
         $this->assertEquals($rules['lname'], 'required');
         $this->assertEquals($rules['email'], 'required|unique:users');
         $this->assertEquals($rules['password'], 'required');
+    }
+
+    public function test_update_rules_set_correctly(){
+
+    }
+
+    public function test_social_login_rules_set_correctly(){
+        $oauth_user = $this->stubOAuthUser();
+        $rules = $oauth_user->mergeRules();
+
+        $expected_rules = array(
+            'fname'         => 'required',
+            'lname'         => 'required',
+            'email'         => 'required|unique:users',
+            'oauth_vendor'  => 'required',
+            'oauth_id'      => 'required',
+            'oauth_update'  => 'required'
+        );
+
+        //$this->assertArrayHasKeys(array_keys($expected_rules), $rules);
+        
+        $this->assertEquals($expected_rules, $rules);
+    }
+
+    public function test_twitter_login_rules_set_correctly(){
+
     }
 
     public function test_email_must_be_unique(){
