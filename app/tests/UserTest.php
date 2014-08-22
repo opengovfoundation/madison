@@ -72,18 +72,20 @@ class UserTest extends TestCase
     public function test_email_must_be_unique(){
         $this->user->save();
 
-        $user = new User;
-        $user->fname = "Some";
-        $user->lname = "Name";
-        $user->email = "user@mymadison.io";
+        $dupe = new User;
+        $dupe->fname = "Some";
+        $dupe->lname = "Name";
+        $dupe->email = "user@mymadison.io";
+        $dupe->password = "something";
         
-        $this->user->rules = $this->user->mergeRules();
-        $this->assertFalse($this->user->validate());
+        $dupe->rules = $dupe->mergeRules();
+        $this->assertFalse($dupe->validate());
 
-        $errors = $this->user->getErrors()->all();
+        $errors = $dupe->getErrors()->all();
+
         $this->assertCount(1, $errors);
 
-        $this->assertEquals($errors[0], "Some message");
+        $this->assertEquals($errors[0], "The email has already been taken.");
     }
 
     public function test_user_saved_correctly(){
