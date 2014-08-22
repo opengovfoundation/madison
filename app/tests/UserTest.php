@@ -33,14 +33,23 @@ class UserTest extends TestCase
     }
 
     protected function stubOAuthUser(){
-        $user = new User;
-        $user->email = 'user@mymadison.io';
-        $user->fname = 'First';
-        $user->lname = 'Last';
+        $user = $this->stubUser();
+        unset($user->password);
         $user->oauth_vendor = 'facebook';
         $user->oauth_id = '11111111111111111';
         $user->oauth_update = 1;
 
+        return $user;
+    }
+
+    protected function stubTwitterUser(){
+        $user = $this->stubUser();
+        unset($user->email);
+        unset($user->password);
+        $user->oauth_vendor = 'twitter';
+        $user->oauth_id = '11111111';
+        $user->oauth_update = 1;
+        
         return $user;
     }
 
@@ -109,14 +118,23 @@ class UserTest extends TestCase
             'oauth_id'      => 'required',
             'oauth_update'  => 'required'
         );
-
-        //$this->assertArrayHasKeys(array_keys($expected_rules), $rules);
         
         $this->assertEquals($expected_rules, $rules);
     }
 
     public function test_twitter_login_rules_set_correctly(){
+        $twitter_user = $this->stubTwitterUser();
+        $rules = $twitter_user->mergeRules();
 
+        $expected_rules = array(
+            'fname' => 'required',
+            'lname' => 'required',
+            'oauth_vendor'  => 'required',
+            'oauth_id'      => 'required',
+            'oauth_update'  => 'required'
+        );
+
+        $this->assertEquals($expected_rules, $rules);
     }
 
     public function test_email_must_be_unique(){
