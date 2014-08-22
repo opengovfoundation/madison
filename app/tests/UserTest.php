@@ -5,6 +5,8 @@ use Way\Tests\Should;
 
 class UserTest extends TestCase
 {
+    protected $user;
+
     public function setUp(){
         parent::setUp();
 

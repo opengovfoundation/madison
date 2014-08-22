@@ -11,12 +11,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->prepareForTests();
 	}
 
-	public function tearDown(){
-		parent::tearDown();
-
-		$this->afterTests();
-	}
-
 	/**
 	 * Creates the application.
 	 *
@@ -37,14 +31,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	*/
 	public function prepareForTests(){
 		Mail::pretend(true);
-	}
-
-	/**
-	*	Runs after tests have completed
-	* Resets the database
-	*/
-	public function afterTests(){
-
 	}
 
 	/**
