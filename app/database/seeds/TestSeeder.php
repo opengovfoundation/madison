@@ -5,19 +5,27 @@ use Illuminate\Database\Seeder;
 class TestSeeder extends Seeder 
 {
 	public function run() {
-		$creds = array(
-			'test_email' => 'test@example.com',
-			'test_fname' => 'First',
-			'test_lname' => 'Last',
-			'test_password' => 'password'
-		);
 
+		$test_fname = "Alice";
+		$test_lname = "Wonderland";
+		$test_password = 'password';
+
+		// Sample user, confirmed email, id 2
 		DB::table('users')->insert(array(
-			'email' => $creds['test_email'],
-			'password' => Hash::make($creds['test_password']),
-			'fname' => $creds['test_fname'],
-			'lname' => $creds['test_lname'],
+			'email' => 'test@opengovfoundation.org',
+			'password' => Hash::make($test_password),
+			'fname' => $test_fname,
+			'lname' => $test_lname,
 			'token' => '',
+		));
+
+		// Sample user, unconfirmed email, id 3
+		DB::table('users')->insert(array(
+			'email' => 'test2@opengovfoundation.org',
+			'password' => Hash::make($test_password),
+			'fname' => $test_fname,
+			'lname' => $test_lname,
+			'token' => '12345',
 		));
 	}
 }
