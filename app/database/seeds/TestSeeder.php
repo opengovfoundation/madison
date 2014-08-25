@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class TestingSeeder extends Seeder 
+class TestSeeder extends Seeder 
 {
 	public function run() {
 		$creds = array(

@@ -11,7 +11,7 @@ describe('Auth tests', function() {
   it('should be able to sign in', function() {
 
     browser.get('/user/login');
-    element(by.id('email')).sendKeys('admin@example.com');
+    element(by.id('email')).sendKeys('test@example.com');
     element(by.id('password')).sendKeys('password');
 
     // Click the first button on the page - this may change
