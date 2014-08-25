@@ -1,8 +1,14 @@
 describe('Auth tests', function() {
 
-
+  // This is a sanity test to make sure Sauce is connecting
+  // If this fails first, it's easy to troubleshoot
+  it('should have a title', function() {
+    browser.get('/');
+    expect(browser.getTitle()).toEqual('Madison Home');
+  });
 
   // Check simple sign in
+  /*
   it('should be able to sign in', function() {
 
     browser.get('/user/login');
@@ -15,6 +21,6 @@ describe('Auth tests', function() {
     // Multiple alerts will make this unreliable
     expect(element(by.css('.alert-info')).getText()).toEqual('You have been successfully logged in.');
   });
-
+  */
 
 });
