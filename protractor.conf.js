@@ -11,8 +11,8 @@ exports.config = {
 
   // Spec patterns are relative to the current working directly when
   // protractor is called.
-  specs: ['test/e2e/basic.spec.js'],
-  baseUrl: 'http://madison:8000/',
+  specs: ['test/e2e/*.spec.js'],
+  baseUrl: 'http://madison/',
   // Options to be passed to Jasmine-node.
-  mochaOpts: { }
+  jasmineNodeOpts: {defaultTimeoutInterval: 100000 }
 };
