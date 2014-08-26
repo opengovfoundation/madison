@@ -14,7 +14,8 @@ var imports = [
     'ngCookies',
     'ngSanitize',
     'angular-growl',
-    'ngResource'
+    'ngResource',
+    'angular-tour'
   ];
 
 var app = angular.module('madisonApp', imports);

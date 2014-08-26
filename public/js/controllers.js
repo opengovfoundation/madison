@@ -1,8 +1,8 @@
 /*global user*/
 /*global doc*/
 angular.module('madisonApp.controllers', [])
-  .controller('HomePageController', ['$scope', '$http', '$filter', 'Doc',
-    function ($scope, $http, $filter, Doc) {
+  .controller('HomePageController', ['$scope', '$http', '$filter', '$cookies', 'Doc', 'tourConfig',
+    function ($scope, $http, $filter, $cookies, Doc, tourConfig) {
       $scope.docs = [];
       $scope.categories = [];
       $scope.sponsors = [];
@@ -29,6 +29,23 @@ angular.module('madisonApp.controllers', [])
       $scope.dateSortConfig = {
         allowClear: true,
         placeholder: "Sort By Date"
+      };
+
+      $scope.currentStep = $cookies.myTour || '0';
+      $cookies.myTour = $scope.currentStep;
+
+      if($scope.currentStep === '-1'){
+        closeTour();
+      }
+
+      $scope.stepComplete = function () {
+        console.log("step" + $scope.currentStep);
+        $cookies.myTour = $scope.currentStep;
+      };
+
+      $scope.tourComplete = function () {
+        console.log("completing tour");
+        $cookies.myTour = -1;
       };
 
       $scope.parseDocs = function (docs) {
