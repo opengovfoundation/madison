@@ -26,11 +26,18 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	}
 
 	/**
-	* Migrates the database and set the mailer to 'pretend'
-	* This will cause the tests to run quickly
+	* Run before each test
+	* 	Sets Mail::pretend(true)
 	*/
 	public function prepareForTests(){
-		Artisan::call('migrate');
 		Mail::pretend(true);
 	}
+
+	/**
+	*	Resets the database
+	*/
+	protected function db_reset(){
+    Artisan::call('db:clear');
+    Artisan::call('migrate');    
+  }
 }

@@ -123,7 +123,7 @@ module.exports = function (grunt) {
       seed: {
         cmd: "php artisan db:seed"
       }
-    }, 
+    },
     karma: {
       unit: {
         configFile: 'karma.conf.js'
@@ -158,7 +158,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  
+
   // Task definition
   grunt.registerTask('build', ['jshint', 'uglify', 'compass']);
   grunt.registerTask('default', ['jshint', 'uglify', 'watch']);

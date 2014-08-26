@@ -22,6 +22,7 @@ Route::pattern('date', '[0-9]+');
 *   Route - Model bindings
 */
 Route::model('user', 'User');
+Route::model('user/edit', 'User');
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +77,8 @@ Route::post('/documents/sponsor/request', 'SponsorController@postRequest');
 
 //User Routes
 Route::get('user/{user}', 'UserController@getIndex');
+Route::get('user/edit/{user}', 'UserController@getEdit');
+Route::put('user/edit/{user}', 'UserController@putEdit');
 Route::controller('user', 'UserController');
 
 //Password Routes

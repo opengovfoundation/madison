@@ -1,6 +1,11 @@
 language: php
 php:
   - 5.4
+  - 5.5
+
+# Set environment variables
+node_js:
+  - "0.10"
 env:
   matrix:
   - DB_HOST=localhost DB_NAME=madison_grunt_test DB_USER=root ENV=testing
@@ -12,15 +17,21 @@ addons:
   hosts:
    - madison
 before_script:
-- npm install -g grunt-cli
-- npm install -g bower
-- npm install
-- grunt install
-- grunt test_setup
-- php artisan serve --host 0.0.0.0 &
-script:
-- grunt karma
-- grunt protractor
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - npm install
+  - grunt install
+  - grunt test_setup
+  - php artisan serve --host 0.0.0.0 &
+
+# Commands you want to run that will verify your build.
+script: 
+  - grunt karma
+  #- grunt protractor
+  - phpunit
+
+# allow_failures: Allow this build to fail under the specified environments.
+# fast_finish: If your build fails do not continue trying to build, just stop.
 matrix:
   fast_finish: true
 notifications:
