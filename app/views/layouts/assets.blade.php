@@ -7,16 +7,7 @@
 
 
 <!-- Stylesheets -->
-{{ HTML::style('bower_components/angular-growl/build/angular-growl.min.css') }}
-{{ HTML::style('vendor/pagedown/assets/demo.css') }}
-{{ HTML::style('vendor/datetimepicker/datetimepicker.css') }}
-{{ HTML::style('vendor/jquery/jquery-ui-smoothness.css') }}
-{{ HTML::style('vendor/bootstrap/css/bootstrap.min.css') }}
-{{ HTML::style('vendor/bootstrap/css/bootstrap-theme.min.css') }}
-{{ HTML::style('vendor/select2/select2.css') }}
-{{ HTML::style('vendor/annotator/annotator.min.css') }}
-{{ HTML::style('css/style.css') }}
-{{ HTML::style('css/dropdown-sub.css') }}
+{{ HTML::style('build/app.css') }}
 
 <!-- Scripts -->
 {{ HTML::script('build/app.js') }}

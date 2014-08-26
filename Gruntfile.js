@@ -57,6 +57,7 @@ module.exports = function (grunt) {
             'public/bower_components/google-translate/index.txt',
             'public/bower_components/bootstrap/js/collapse.js',
             'public/bower_components/bootstrap/js/modal.js',
+            'public/bower_components/boostrap-tour/build/js/boostrap-tour.min.js',
 
             //Datetimepicker and dependencies
             'public/vendor/datetimepicker/datetimepicker.js',
@@ -86,6 +87,24 @@ module.exports = function (grunt) {
         sourceMap: 'public/build/app.map'
       }
     },
+    cssmin: {
+      combine: {
+        files: {
+          'public/build/app.css': [
+            'public/bower_components/angular-growl/build/angular-growl.min.css',
+            'public/vendor/pagedown/assets/demo.css',
+            'public/vendor/datetimepicker/datetimepicker.css',
+            'public/vendor/jquery/jquery-ui-smoothness.css',
+            'public/vendor/bootstrap/css/bootstrap.min.css',
+            'public/vendor/bootstrap/css/bootstrap-theme.min.css',
+            'public/vendor/select2/select2.css',
+            'public/vendor/annotator/annotator.min.css',
+            'public/css/style.css',
+            'public/css/dropdown-sub.css'
+          ]
+        }
+      }
+    },
     watch: {
       scripts: {
         files: ['public/js/*.js', 'Gruntfile.js'],
@@ -93,7 +112,7 @@ module.exports = function (grunt) {
       },
       sass: {
         files: './public/sass/**/*.scss',
-        tasks: ['compass']
+        tasks: ['compass', 'cssmin']
       }
     },
     exec: {
@@ -158,10 +177,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
   // Task definition
-  grunt.registerTask('build', ['jshint', 'uglify', 'compass']);
-  grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
+  grunt.registerTask('build', ['jshint', 'uglify', 'compass', 'cssmin']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'watch']);
   grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower']);
   grunt.registerTask('test_setup', ['exec:create_testdb', 'exec:migrate', 'exec:seed']);
 };
