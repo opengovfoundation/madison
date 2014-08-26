@@ -27,7 +27,7 @@ before_script:
 # Commands you want to run that will verify your build.
 script: 
   - grunt karma
-  - grunt protractor
+  #- grunt protractor
   - phpunit
 
 # allow_failures: Allow this build to fail under the specified environments.
