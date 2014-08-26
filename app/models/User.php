@@ -53,7 +53,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	*/
 	protected static $customMessages = array(
 		'fname.required' => 'The first name field is required.',
-		'lname.required' => 'The last name field is required.'
+		'lname.required' => 'The last name field is required.',
+		'phone.required' => 'A phone number is required to request verified status.'
 	);
 
 	/**
