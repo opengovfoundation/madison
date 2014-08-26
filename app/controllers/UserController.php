@@ -103,7 +103,7 @@ class UserController extends BaseController{
 			$meta = new UserMeta();
 			$meta->meta_key = 'verify';
 			$meta->meta_value = 'pending';
-			$meta->user_id = $id;
+			$meta->user_id = $user->id;
 			$meta->save();
 
 			Event::fire(MadisonEvent::VERIFY_REQUEST_USER, $user);
