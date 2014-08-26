@@ -14,5 +14,8 @@ exports.config = {
   specs: ['test/e2e/*.spec.js'],
   baseUrl: 'http://madison:8000/',
   // Options to be passed to Jasmine-node.
-  jasmineNodeOpts: {defaultTimeoutInterval: 100000 }
+  jasmineNodeOpts: {
+    defaultTimeoutInterval: 100000 
+  }
+  
 };
