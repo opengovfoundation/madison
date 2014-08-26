@@ -8,6 +8,15 @@ class UserController extends BaseController{
 		parent::__construct();
 	}
 
+	/**
+	*	getIndex
+	*
+	*	Retrieve user by id and display user page
+	*		Passes User $user to the view
+	*
+	*	@param User $user
+	*	@return Illuminate\View\View
+	*/
 	public function getIndex(User $user){
 		//Set data array
 		$data = array(
@@ -20,100 +29,75 @@ class UserController extends BaseController{
 		return View::make('user.index', $data);
 	}
 
-	public function getEdit($id=null){
+	/**
+	*	getEdit
+	*	
+	*	Allow user to edit their profile
+	*		Passes User $user to the view
+	*
+	*	@param User $user
+	*	@return Illuminate\View|View
+	*/
+	public function getEdit(User $user){
 		if(!Auth::check()){
 			return Redirect::to('user/login')->with('error', 'Please log in to edit user profile');
-		}else if(Auth::user()->id != $id){
+		}else if(Auth::user()->id != $user->id){
 			return Redirect::back()->with('error', 'You do not have access to that profile.');
-		}else if($id == null){
+		}else if($user == null){
 			return Response::error('404');
 		}
 
 		//Set data array
 		$data = array(
-			'page_id'		=> 'edit_profile',
-			'page_title'	=> 'Edit Your Profile'
+			'page_id'			=> 'edit_profile',
+			'page_title'	=> 'Edit Your Profile',
+			'user'				=> $user
 		);
 
 		return View::make('user.edit.index', $data);
 	}
 
-	public function putEdit($id=null){
+	/**
+	*	putEdit
+	*
+	*	User's put request to update their profile
+	*
+	*	@param User $user
+	*	@return Illuminate\Http\RedirectResponse
+	*/
+	public function putEdit(User $user){
 		if(!Auth::check()){
 			return Redirect::to('user/login')->with('error', 'Please log in to edit user profile');
-		}else if(Auth::user()->id != $id){
+		}else if(Auth::user()->id != $user->id){
 			return Redirect::back()->with('error', 'You do not have access to that profile.');
-		}else if($id == null){
+		}else if($user == null){
 			return Response::error('404');
 		}
 
 		if(strlen(Input::get('password_1')) > 0 || strlen(Input::get('password_2')) > 0){
 			if(Input::get('password_1') !== Input::get('password_2')){
-				return Redirect::to('user/edit/' . $id)->with('error', 'The passwords you\'ve entered do not match.');
+				return Redirect::to('user/edit/' . $user->id)->with('error', 'The passwords you\'ve entered do not match.');
 			}
 			else{
 				$password = Input::get('password_1');
 			}
 		}
 
-		$email = Input::get('email');
-		$fname = Input::get('fname');
-		$lname = Input::get('lname');
-		$url = Input::get('url');
-		$phone = Input::get('phone');
 		$verify = Input::get('verify');
 
-		$user_details = Input::all();
-
-		if(Auth::user()->email != $email) {
-			$rules = array(
-				'fname'		=> 'required',
-				'lname'		=> 'required',
-				'email'		=> 'required|unique:users'
-			);
-		} else if(isset($verify)) {
-			$rules = array(
-				'fname'		=> 'required',
-				'lname'		=> 'required',
-				'phone'		=> 'required'
-			);
-			// More detailed error message for phone number
-			if(empty($phone)) {
-				return Redirect::to('user/edit/' . $id)->with('error', 'A phone number is required to request verified status.');
-			}
-
-		} else {
-			$rules = array(
-				'fname'		=> 'required',
-				'lname'		=> 'required'
-			);
-		}
-
-		$validation = Validator::make($user_details, $rules);
-
-		$nice_names = array(
-						'fname' => 'first name',
-						'lname' => 'last name'
-		);
-		$validation->setAttributeNames($nice_names); 
-
-		if($validation->fails()){
-			return Redirect::to('user/edit/' . $id)->withInput()->withErrors($validation);
-		}
-
-		$user = User::find($id);
-		$user->email = $email;
-		$user->fname = $fname;
-		$user->lname = $lname;
-		$user->url = $url;
-		$user->phone = $phone;
-		if(isset($password)){
-			$user->password = Hash::make($password);
-		}
+		$user->email = Input::get('email');
+		$user->fname = Input::get('fname');
+		$user->lname = Input::get('lname');
+		$user->url = Input::get('url');
+		$user->phone = Input::get('phone');
+		$user->verify = $verify;
+		
 		// Don't allow oauth logins to update the user's data anymore,
 		// since they've set values within Madison.
 		$user->oauth_update = false;
-		$user->save();
+		if(!$user->save()){
+			return Redirect::to('user/edit/' . $user->id)->withInput()->withErrors($user->getErrors());
+		}
 
 		if(isset($verify)){
 			$meta = new UserMeta();
@@ -130,14 +114,40 @@ class UserController extends BaseController{
 		return Redirect::back()->with('success_message', 'Your profile has been updated.');
 	}
 
+	/**
+	*	putIndex
+	*
+	*	Returns 404 Response
+	*
+	*	@param $id
+	*	@return Response
+	*	@todo Remove route and method
+	*/
 	public function putIndex($id = null){
 		return Response::error('404');
 	}
 
+	/**
+	*	postIndex
+	*
+	*	Returns 404 Response
+	*
+	*	@param $id
+	*	@return Response
+	*	@todo remove route and method
+	*/
 	public function postIndex($id = null){
 		return Response::error('404');
 	}
 
+	/**
+	*	getLogin
+	*
+	*	Returns the login page view
+	*
+	*	@param void
+	*	@return Illuminate\View\View
+	*/
 	public function getLogin(){
 		$previous_page = Input::old('previous_page');
 
@@ -154,6 +164,14 @@ class UserController extends BaseController{
 		return View::make('login.index', $data);
 	}
 
+	/**
+	*	postLogin
+	*
+	*	Handles POST requests for users logging in
+	*
+	*	@param void
+	*	@return Illuminate\Http\RedirectResponse
+	*/
 	public function postLogin(){
 		//Retrieve POST values
 		$email = Input::get('email');
@@ -201,7 +219,12 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * 	GET Signup Page
+	 * 	getSignup
+	 *
+	 *	Returns signup page view
+	 *
+	 *	@param void
+	 *	@return Illuminate\View\View
 	 */
 	public function getSignup(){
 		$data = array(
@@ -213,7 +236,13 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * 	POST to create user account
+	 * 	postSignup
+	 *
+	 *	Handles POST requests for users signing up natively through Madison
+	 *		Fires MadisonEvent::NEW_USER_SIGNUP Event
+	 *
+	 *	@param void
+	 *	@return Illuminate\Http\RedirectResponse
 	 */
 	public function postSignup(){
 		//Retrieve POST values
@@ -221,47 +250,40 @@ class UserController extends BaseController{
 		$password = Input::get('password');
 		$fname = Input::get('fname');
 		$lname = Input::get('lname');
-		$user_details = Input::all();
+		
+		//Create user token for email verification
+		$token = str_random();
 
-		//Rules for signup form submission
-		$rules = array('email'		=>	'required|unique:users',
-						'password'	=>	'required',
-						'fname'		=>	'required',
-						'lname'		=>	'required'
-						);
-		$validation = Validator::make($user_details, $rules);
-		if($validation->fails()){
-			return Redirect::to('user/signup')->withInput()->withErrors($validation);
+		//Create new user
+		$user = new User();
+		$user->email = $email;
+		$user->password = $password;
+		$user->fname = $fname;
+		$user->lname = $lname;
+		$user->token = $token;
+		if( ! $user->save() ){
+			return Redirect::to('user/signup')->withInput()->withErrors($user->getErrors());
 		}
-		else{
-			//Create user token for email verification
-			$token = str_random();
-
-			//Create new user
-			$user = new User();
-			$user->email = $email;
-			$user->password = Hash::make($password);
-			$user->fname = $fname;
-			$user->lname = $lname;
-			$user->token = $token;
-			$user->save();
 			
-			Event::fire(MadisonEvent::NEW_USER_SIGNUP, $user);
+		Event::fire(MadisonEvent::NEW_USER_SIGNUP, $user);
 			
-			//Send email to user for email account verification
-			Mail::queue('email.signup', array('token'=>$token), function ($message) use ($email, $fname) {
-				$message->subject('Welcome to the Madison Community');
-				$message->from('sayhello@opengovfoundation.org', 'Madison');
-				$message->to($email); // Recipient address
-			});
+		//Send email to user for email account verification
+		Mail::queue('email.signup', array('token'=>$token), function ($message) use ($email, $fname) {
+			$message->subject('Welcome to the Madison Community');
+			$message->from('sayhello@opengovfoundation.org', 'Madison');
+			$message->to($email); // Recipient address
+		});
 
-			return Redirect::to('user/login')->with('message', 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.');
-		}
-
+		return Redirect::to('user/login')->with('message', 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.');
 	}
 
 	/**
-	 * 	Verify users from link sent via email upon signup
+	 * 	getVerify
+	 *
+	 *	Handles GET requests for email verifications
+	 *
+	 *	@param string $token
+	 *	@return Illuminate\Http\RedirectRequest
 	 */
 	public function getVerify($token){
 		echo $token;
@@ -281,7 +303,15 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * Login user with Facebook
+	 * getFacebookLogin
+	 *
+	 *	Handles OAuth communication with Facebook for signup / login
+	 *		Calls $this->getAuthorizationUri() if the oauth code is passed via Input
+	 *		Otherwise calls $fb->getAuthorizationUri()
+	 *
+	 *	@param void
+	 *	@return Illuminate\Http\RedirectResponse || $this->oauthLogin($user_info)
+	 *	@todo clean up this doc block
 	 */
 	public function getFacebookLogin(){
 
@@ -324,7 +354,15 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * Login user with Twitter
+	 * getFacebookLogin
+	 *
+	 *	Handles OAuth communication with Twitter for signup / login
+	 *		Calls $this->oauthLogin() if the oauth code is passed via Input
+	 *		Otherwise calls $tw->requestRequestToken()
+	 *
+	 *	@param void
+	 *	@return Illuminate\Http\RedirectResponse || $this->oauthLogin($user_info)
+	 *	@todo clean up this doc block
 	 */
 	public function getTwitterLogin(){
 
@@ -340,20 +378,20 @@ class UserController extends BaseController{
 	    // if code is provided get user data and sign in
 	    if ( !empty( $token ) && !empty( $verify ) ) {
 
-	        // This was a callback request from twitter, get the token
-	        $token = $tw->requestAccessToken( $token, $verify );
+        // This was a callback request from twitter, get the token
+        $token = $tw->requestAccessToken( $token, $verify );
 
-	        // Send a request with it
-	        $result = json_decode( $tw->request( 'account/verify_credentials.json' ), true );
+        // Send a request with it
+        $result = json_decode( $tw->request( 'account/verify_credentials.json' ), true );
 
-			$user_info = array(
-				'fname' => $result['name'],
-				'lname' => '',
-				'oauth_vendor' => 'twitter',
-				'oauth_id' => $result['id']
-			);
+				$user_info = array(
+					'fname' => $result['name'],
+					'lname' => '-',
+					'oauth_vendor' => 'twitter',
+					'oauth_id' => $result['id']
+				);
 
-			return $this->oauthLogin($user_info);
+				return $this->oauthLogin($user_info);
 	    }
 	    // if not ask for permission first
 	    else {
@@ -369,7 +407,15 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * Login user with Linkedin
+	 * getFacebookLogin
+	 *
+	 *	Handles OAuth communication with Facebook for signup / login
+	 *		Calls $this->oauthLogin() if the oauth code is passed via Input
+	 *		Otherwise calls $linkedinService->getAuthorizationUri()
+	 *
+	 *	@param void
+	 *	@return Illuminate\Http\RedirectResponse || $this->oauthLogin($user_info)
+	 *	@todo clean up this doc block
 	 */
 	public function getLinkedinLogin(){
 
@@ -381,25 +427,25 @@ class UserController extends BaseController{
 
         if ( !empty( $code ) ) {
 
-		    // retrieve the CSRF state parameter
-		    $state = isset($_GET['state']) ? $_GET['state'] : null;
+			    // retrieve the CSRF state parameter
+			    $state = isset($_GET['state']) ? $_GET['state'] : null;
 
-		    // This was a callback request from linkedin, get the token
-		    $token = $linkedinService->requestAccessToken($_GET['code'], $state);
+			    // This was a callback request from linkedin, get the token
+			    $token = $linkedinService->requestAccessToken($_GET['code'], $state);
 
             // Send a request with it. Please note that XML is the default format.
             $result = json_decode($linkedinService->request('/people/~:(id,first-name,last-name,email-address)?format=json'), true);
 
-			// Remap the $result to something that matches our schema.
-			$user_info = array(
-				'fname' => $result['firstName'],
-				'lname' => $result['lastName'],
-				'email' => $result['emailAddress'],
-				'oauth_vendor' => 'linkedin',
-				'oauth_id' => $result['id']
-			);
+					// Remap the $result to something that matches our schema.
+					$user_info = array(
+						'fname' => $result['firstName'],
+						'lname' => $result['lastName'],
+						'email' => $result['emailAddress'],
+						'oauth_vendor' => 'linkedin',
+						'oauth_id' => $result['id']
+					);
 
-			return $this->oauthLogin($user_info);
+					return $this->oauthLogin($user_info);
 
         }// if not ask for permission first
         else {
@@ -412,8 +458,14 @@ class UserController extends BaseController{
     }
 
 	/**
-	 * Use OAuth data to login user.  Create account if necessary.
-	 */
+	*	oauthLogin
+	*
+	* Use OAuth data to login user.  Create account if necessary.
+	*
+	*	@param array $user_info
+	*	@return Illuminate\Http\RedirectResponse
+	*	@todo Should this be moved to the User model?
+	*/
 	public function oauthLogin($user_info){
 		// See if we already have a matching user in the system
 		$user = User::where('oauth_vendor', $user_info['oauth_vendor'])
@@ -452,14 +504,15 @@ class UserController extends BaseController{
 		// Note: The oauth_update flag is turned to off the first time the user
 		// edits their account within Madison, locking in their info.
 		if(isset($new_user) || (isset($user->oauth_update) && $user->oauth_update == true)) {
-			$user->save();
+			if(!$user->save()){
+				Log::error('Unable to save user: ', $user_info);
+			}
 		}
 
 		if($user instanceof User){
 			Auth::login($user);	
 		}else{
-			Log::error('Trying to log in user of incorrect type');
-			Log::error($user);
+			Log::error('Trying to authenticate user of incorrect type', $user->toArray());
 		}
 		
 
