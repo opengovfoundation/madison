@@ -26,7 +26,7 @@ describe('Request test', function() {
     expect(element(by.css('.alert-info')).getText()).toEqual('Your verified status has been requested.');
     browser.get('/logout');
   });
-  /*
+  
   it('should be able to request independent sponsor status', function() {
     browser.get('/user/login');
     element(by.id('email')).sendKeys('test@opengovfoundation.org');
@@ -34,13 +34,24 @@ describe('Request test', function() {
     element.all(by.css('.btn')).get(0).click();
     expect(element(by.css('.alert-info')).getText()).toEqual('You have been successfully logged in.');
     browser.get('/documents/sponsor/request');
-    element(by.id('address1')).sendKeys('password');
-    element(by.id('address2')).sendKeys('password');    
-    element(by.id('city')).sendKeys('password');
-    element(by.id('city')).sendKeys('password');
+    element(by.id('address1')).sendKeys('test');
+    element(by.id('address2')).sendKeys('test');    
+    element(by.id('city')).sendKeys('test');
+    element(by.cssContainingText('option', 'Maryland')).click();
+    element(by.id('postal')).sendKeys('22222');
+    element(by.id('phone')).sendKeys('22222');
     element.all(by.css('.btn')).get(0).click();
-    expect(element(by.css('.alert-danger')).getText()).toEqual('A phone number is required to request verified status.');
-    browser.get('/user/logout');
+    expect(element(by.css('.alert-info')).getText()).toEqual('Your request has been received.');
+    browser.get('/logout');
   });
-*/
+
+  // verify both with admin, and check they are verified
+  // create group
+  // verify group
+  // add members, change member roles
+
+  // create document - here elasticsearch needs to be running
+  // edit document
+  // edit document metadata
+
 });
