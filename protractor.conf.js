@@ -26,12 +26,12 @@ exports.config = {
     'build': process.env.TRAVIS_BUILD_NUMBER,
     'name': process.env.TRAVIS_COMMIT_MSG
   }
-  ]
+  ],
 
   // Spec patterns are relative to the current working directly when
   // protractor is called.
   specs: ['test/e2e/*.spec.js'],
-  baseUrl: 'http://madison:8000/',
+  baseUrl: 'http://madison/',
   // Options to be passed to Jasmine-node.
   jasmineNodeOpts: {
     defaultTimeoutInterval: 100000 
