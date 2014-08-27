@@ -9,6 +9,7 @@ describe('Auth test', function() {
     element(by.id('email')).sendKeys('test@opengovfoundation.org');
     element(by.id('password')).sendKeys('password');
     element.all(by.css('.btn')).get(0).click();
+    browser.sleep(4000);
     expect(element(by.css('.alert-info')).getText()).toEqual('You have been successfully logged in.');
     browser.get('/logout');
   });
@@ -19,6 +20,7 @@ describe('Auth test', function() {
     element(by.id('email')).sendKeys('test@opengovfoundation.org');
     element(by.id('password')).sendKeys('wrongpassword');
     element.all(by.css('.btn')).get(0).click();
+    browser.sleep(4000);
     expect(element(by.css('.alert-danger')).getText()).toEqual('Incorrect login credentials');
   }); 
 
@@ -28,6 +30,7 @@ describe('Auth test', function() {
     element(by.id('email')).sendKeys('test2@opengovfoundation.org');
     element(by.id('password')).sendKeys('password');
     element.all(by.css('.btn')).get(0).click();
+    browser.sleep(4000);
     expect(element(by.css('.alert-danger')).getText()).toEqual('Please click the link sent to your email to verify your account.');
   });
 

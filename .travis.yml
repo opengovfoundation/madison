@@ -23,13 +23,15 @@ before_script:
   - npm install -g bower
   - npm install
   - grunt install
-  - grunt test_setup
   - php artisan serve --host 0.0.0.0 &
 
 # Commands you want to run that will verify your build.
 script: 
   - grunt karma
-  #- grunt protractor
+  - grunt test_firefox
+  - grunt test_chrome
+  - grunt test_ie
+  - grunt test_safari
   - phpunit
 
 # allow_failures: Allow this build to fail under the specified environments.
