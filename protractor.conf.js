@@ -5,7 +5,7 @@ exports.config = {
   capabilities: {
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
     'build': process.env.TRAVIS_BUILD_NUMBER,
-    'name': process.env.TRAVIS_COMMIT_MSG
+    'name': "PHP " + process.env.TRAVIS_PHP_VERSION + "-" + process.env.TRAVIS_COMMIT_MSG 
   },
 
   // Spec patterns are relative to the current working directly when
