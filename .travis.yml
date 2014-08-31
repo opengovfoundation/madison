@@ -23,7 +23,7 @@ before_script:
   - npm install -g bower
   - npm install
   - grunt install
-  - php artisan serve --host 0.0.0.0 &
+  - sudo php artisan serve --host 0.0.0.0 &
 
 # Commands you want to run that will verify your build.
 script: 
