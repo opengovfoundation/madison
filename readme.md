@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/opengovfoundation/madison.svg?branch=master)](https://travis-ci.org/opengovfoundation/madison)
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/opengovfoundation/madison/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/opengovfoundation/madison/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/opengovfoundation/madison/badges/build.png?b=master)](https://scrutinizer-ci.com/g/opengovfoundation/madison/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/opengovfoundation/madison/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/opengovfoundation/madison/?branch=master)
 
 ## Madison
 
