@@ -379,6 +379,12 @@ angular.module('madisonApp.dashboardControllers', [])
         });
       };
 
+      /**
+      * getShortUrl
+      *
+      * Makes API call to opngv.us/api
+      *   Runs when the 'Get Short Url' button is clicked on the 'Document Information' tab.
+      */
       $scope.getShortUrl = function () {
         /**
         * Hardcoded API Credentials
