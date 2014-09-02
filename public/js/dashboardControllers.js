@@ -238,8 +238,8 @@ angular.module('madisonApp.dashboardControllers', [])
       };
     }
     ])
-  .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$location', '$filter',
-    function ($scope, $http, $timeout, $location, $filter) {
+  .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$location', '$filter', 'growl',
+    function ($scope, $http, $timeout, $location, $filter, growl) {
       $scope.doc = {};
       $scope.sponsor = {};
       $scope.status = {};
@@ -376,6 +376,39 @@ angular.module('madisonApp.dashboardControllers', [])
                 timeout = $timeout(function () { $scope.saveContent(); }, 5000);
               }
           });
+        });
+      };
+
+      $scope.getShortUrl = function () {
+        /**
+        * Hardcoded API Credentials
+        */
+        var opngv = {
+          username: 'madison-robot',
+          password: 'MeV3MJJE',
+          api: 'http://opngv.us/yourls-api.php'
+        };
+
+        //Construct document url
+        var slug = $scope.doc.slug;
+        var long_url = $location.protocol() + '://' + $location.host() + '/docs/' + slug;
+
+        $http({
+          url: opngv.api,
+          method: 'JSONP',
+          params: {
+            callback: 'JSON_CALLBACK',
+            action: 'shorturl',
+            format: 'jsonp',
+            url: long_url,
+            username: opngv.username,
+            password: opngv.password
+          }
+        }).success(function (data) {
+          $scope.short_url = data.shorturl;
+        }).error(function (data) {
+          console.error(data);
+          growl.addErrorMessage('There was an error generating your short url.');
         });
       };
 

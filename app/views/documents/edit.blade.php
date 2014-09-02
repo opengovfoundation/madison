@@ -53,6 +53,14 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label for="short-url" class="col-sm-2 control-label">Short Url:</label>
+								<div class="col-sm-10">
+									<button class="btn btn-default" ng-show="!short_url" ng-click="getShortUrl()">Get Short Url</button>
+									<input type="text" class="form-control" ng-show="short_url" ng-model="short_url">
+								</div>
+								
+							</div>
+							<div class="form-group">
 								<label for="status" class="col-sm-2 control-label">Status: </label>
 								<div class="col-sm-10 select2-full-width">
 									<input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" ng-change="statusChange(status)">
