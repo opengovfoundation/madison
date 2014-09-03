@@ -27,7 +27,7 @@ before_script:
   
 # Commands you want to run that will verify your build.
 script: 
-  - grunt karma
+  #- grunt karma
   #- grunt test_firefox
   #- grunt test_chrome
   #- grunt test_ie
