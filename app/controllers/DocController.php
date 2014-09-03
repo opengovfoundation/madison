@@ -67,11 +67,11 @@ class DocController extends BaseController{
 			//Set data array
 			$data = array(
 				'doc'			=> $doc,
-				'page_id'		=> strtolower(str_replace(' ','-', $doc->title)),
+				'page_id'		=> strtolower(rtrim(str_replace(' ','-', $doc->title)),"-"),
 				'page_title'	=> $doc->title,
 				'showAnnotationThanks' => $showAnnotationThanks
 			);				
-			
+		
 			//Render view and return
 			return View::make('doc.reader.index', $data);
 						
