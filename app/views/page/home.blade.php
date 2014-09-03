@@ -1,10 +1,10 @@
-<tour step="currentStep" post-tour="tourComplete()" post-step="stepComplete">
-	<div class="row">
-		<h1>Welcome to Madison</h1>
-	</div>
-	<div class="row" ng-controller="HomePageController" ng-init="init()" tourtip="Welcome to Madison.  Click next for a brief intro!" tourtip-step="0">
+<div class="row">
+	<h1>Welcome to Madison</h1>
+</div>
+<div class="row" ng-controller="HomePageController">
+	<tour step="currentStep" post-tour="tourComplete()" post-step="stepComplete()" tourtip="@{{ step_messages[0] }}" tourtip-step="0">
 		<div class="col-sm-6">
-			<input tourtip="Tip 1" tourtip-step="1" id="doc-text-filter" type="text" ng-model="docSearch" class="form-control" placeholder="Filter document titles">
+			<input tourtip="@{{ step_messages[1] }}" tourtip-step="1" id="doc-text-filter" type="text" ng-model="docSearch" class="form-control" placeholder="Filter document titles">
 		</div>
 		<div class="col-sm-4 home-select2-container">
 			<select id="doc-category-filter" ui-select2="select2Config" ng-model="select2">
@@ -34,5 +34,5 @@
 				</li>
 			</ul>
 		</div>
-	</div>
-</tour>
+	</tour>
+</div>

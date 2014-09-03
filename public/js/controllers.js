@@ -1,8 +1,8 @@
 /*global user*/
 /*global doc*/
 angular.module('madisonApp.controllers', [])
-  .controller('HomePageController', ['$scope', '$http', '$filter', '$cookies', 'Doc', 'tourConfig',
-    function ($scope, $http, $filter, $cookies, Doc, tourConfig) {
+  .controller('HomePageController', ['$scope', '$http', '$filter', '$cookies', 'Doc',
+    function ($scope, $http, $filter, $cookies, Doc) {
       $scope.docs = [];
       $scope.categories = [];
       $scope.sponsors = [];
@@ -12,6 +12,11 @@ angular.module('madisonApp.controllers', [])
       $scope.select2 = '';
       $scope.docSort = "created_at";
       $scope.reverse = true;
+
+      $scope.step_messages = [
+        'Welcome to Madison!  Click next to continue',
+        'Filter Documents by Title'
+      ];
 
       //Retrieve all docs
       Doc.query(function (data) {
@@ -31,21 +36,21 @@ angular.module('madisonApp.controllers', [])
         placeholder: "Sort By Date"
       };
 
-      $scope.currentStep = $cookies.myTour || '0';
+      $scope.currentStep = $cookies.myTour || 0;
       $cookies.myTour = $scope.currentStep;
 
-      if($scope.currentStep === '-1'){
-        closeTour();
+      if($scope.currentStep < 0){
+        $scope.tourComplete();
       }
 
       $scope.stepComplete = function () {
-        console.log("step" + $scope.currentStep);
+        console.log('stepping', $scope.currentStep);
         $cookies.myTour = $scope.currentStep;
       };
 
       $scope.tourComplete = function () {
-        console.log("completing tour");
-        $cookies.myTour = -1;
+         //$cookies.myTour = -1;
+         //closeTour();
       };
 
       $scope.parseDocs = function (docs) {
