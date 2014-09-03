@@ -1,37 +1,17 @@
 exports.config = {
   sauceUser: process.env.SAUCE_USERNAME,
   sauceKey: process.env.SAUCE_ACCESS_KEY,
-  multiCapabilities: [
-  {
-    'browserName': 'chrome',
+
+  capabilities: {
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
     'build': process.env.TRAVIS_BUILD_NUMBER,
-    'name': process.env.TRAVIS_COMMIT_MSG
-  }, 
-  {
-    'browserName': 'firefox',
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_BUILD_NUMBER,
-    'name': process.env.TRAVIS_COMMIT_MSG
+    'name': "PHP " + process.env.TRAVIS_PHP_VERSION + "-" + process.env.TRAVIS_COMMIT_MSG 
   },
-  {
-    'browserName': 'internet explorer',
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_BUILD_NUMBER,
-    'name': process.env.TRAVIS_COMMIT_MSG
-  },
-  {
-    'browserName': 'safari',
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_BUILD_NUMBER,
-    'name': process.env.TRAVIS_COMMIT_MSG
-  }
-  ],
 
   // Spec patterns are relative to the current working directly when
   // protractor is called.
   specs: ['test/e2e/*.spec.js'],
-  baseUrl: 'http://madison/',
+  baseUrl: 'http://127.0.0.1:9000',
   // Options to be passed to Jasmine-node.
   jasmineNodeOpts: {
     defaultTimeoutInterval: 100000 

@@ -140,6 +140,13 @@ module.exports = function (grunt) {
           return command;
         }
       },
+      drop_testdb: {
+        cmd: function () {
+          var database = "madison_grunt_test";
+          var user = "root";
+          return 'mysql -u' + user + " -e 'DROP DATABASE IF EXISTS " + database + ";'";
+        }
+      },
       migrate: {
         cmd: "php artisan migrate"
       },
@@ -158,15 +165,42 @@ module.exports = function (grunt) {
         keepAlive: false, // If false, the grunt process stops when the test fails.
         noColor: false // If true, protractor will not use colors in its output.
       },
-      dev: {
+      chrome: {
         options: {
-          configFile: "protractor.conf.js",
           args: {
             sauceUser: process.env.SAUCE_USERNAME,
-            sauceKey: process.env.SAUCE_ACCESS_KEY
+            sauceKey: process.env.SAUCE_ACCESS_KEY,
+            browser: "chrome"
           }
         }
       },
+      firefox: {
+        options: {
+          args: {
+            sauceUser: process.env.SAUCE_USERNAME,
+            sauceKey: process.env.SAUCE_ACCESS_KEY,
+            browser: "firefox"
+          }
+        }
+      },
+      ie: {
+        options: {
+          args: {
+            sauceUser: process.env.SAUCE_USERNAME,
+            sauceKey: process.env.SAUCE_ACCESS_KEY,
+            browser: "internet explorer"
+          }
+        }
+      },
+      safari: {
+        options: {
+          args: {
+            sauceUser: process.env.SAUCE_USERNAME,
+            sauceKey: process.env.SAUCE_ACCESS_KEY,
+            browser: "safari"
+          }
+        }
+      }
     },
   });
 
@@ -186,6 +220,10 @@ module.exports = function (grunt) {
   // Task definition
   grunt.registerTask('build', ['jshint', 'uglify', 'compass', 'cssmin']);
   grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'watch']);
-  grunt.registerTask('install', ['exec:install_composer', 'exec:install_bower']);
-  grunt.registerTask('test_setup', ['exec:create_testdb', 'exec:migrate', 'exec:seed']);
+  grunt.registerTask('install', ['exec:install_composer']);
+  grunt.registerTask('test_setup', ['exec:drop_testdb', 'exec:create_testdb', 'exec:migrate', 'exec:seed']);
+  grunt.registerTask('test_chrome', ['test_setup', 'protractor:chrome']);
+  grunt.registerTask('test_firefox', ['test_setup', 'protractor:firefox']);
+  grunt.registerTask('test_ie', ['test_setup', 'protractor:ie']);
+  grunt.registerTask('test_safari', ['test_setup', 'protractor:safari']);
 };
