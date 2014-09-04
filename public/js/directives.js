@@ -1,6 +1,15 @@
 /*global ZeroClipboard*/
 /*global window*/
 angular.module('madisonApp.directives', [])
+  .directive('profileCompletionMessage', function () {
+      return {
+        restrict: 'A',
+        templateUrl: '/templates/profile-completion-message.html',
+        link: function (scope) {
+          console.log(scope);
+        }
+      };
+    })
   .directive('docComments', function () {
     return {
       restrict: 'AECM',
