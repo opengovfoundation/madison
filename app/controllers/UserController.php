@@ -9,6 +9,22 @@ class UserController extends BaseController{
 	}
 
 	/**
+	*	Api route to get logged in user
+	*
+	*	@param void
+	* @return JSON user
+	*/
+	public function getCurrent(){
+		if(!Auth::check()){
+			return Response::json(null);
+		}
+
+		return Response::json([
+      'user'	=> Auth::user()->toArray()
+		]);
+	}
+
+	/**
 	*	getIndex
 	*
 	*	Retrieve user by id and display user page

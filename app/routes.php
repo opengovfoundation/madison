@@ -79,6 +79,7 @@ Route::post('/documents/sponsor/request', 'SponsorController@postRequest');
 Route::get('user/{user}', 'UserController@getIndex');
 Route::get('user/edit/{user}', 'UserController@getEdit');
 Route::put('user/edit/{user}', 'UserController@putEdit');
+Route::get('api/user/current', 'UserController@getCurrent');
 Route::controller('user', 'UserController');
 
 //Password Routes
