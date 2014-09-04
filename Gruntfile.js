@@ -111,7 +111,7 @@ module.exports = function (grunt) {
         tasks: ['jshint', 'uglify']
       },
       sass: {
-        files: './public/sass/**/*.scss',
+        files: './public/sass/*.scss',
         tasks: ['compass', 'cssmin']
       }
     },
@@ -215,7 +215,7 @@ module.exports = function (grunt) {
 
   // Task definition
   grunt.registerTask('build', ['jshint', 'uglify', 'compass', 'cssmin']);
-  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'watch']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'compass', 'cssmin', 'watch']);
   grunt.registerTask('install', ['exec:install_composer']);
   grunt.registerTask('test_setup', ['exec:drop_testdb', 'exec:create_testdb', 'exec:migrate', 'exec:seed']);
   grunt.registerTask('test_chrome', ['test_setup', 'protractor:chrome']);

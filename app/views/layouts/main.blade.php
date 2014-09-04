@@ -38,13 +38,15 @@
 				</div>
 			</div>
 			<div class="row">
+				<div profile-completion-message></div>
+			</div>
+			<div class="row">
 				<div class="container alerts">
 					@include('errors')
 					@include('message')
 					@include('success')
 				</div>
 			</div>
-
 			<div id="main" class="">
 				<div class="container">
 						@yield('content')
