@@ -23,4 +23,22 @@ class BaseController extends Controller {
 
 		$this->es = new Elasticsearch\Client($params);
 	}
+
+	/**
+	*	Helper function to return error as growl message
+	*
+	*	@param string $message
+	*	@param string $severity
+	*	@return array $growled
+	* @todo this should accept an array of messages / severities
+	*/
+	protected function growlMessage($message, $severity){
+		$growled = array(
+			'messages'	=> array(
+				array('text' => $message, 'severity' => $severity)
+			)
+		);
+
+		return $growled;
+	}
 }
