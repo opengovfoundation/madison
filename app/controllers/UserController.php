@@ -22,9 +22,20 @@ class UserController extends BaseController{
 		}
 
 		$user->email = Input::get('email');
-		$user->save();
+		$user->password = Input::get('password');
+		
+		if($user->save()){
+			return Response::json($this->growlMessage("Email saved successfully.  Thank you.", 'success'), 200);	
+		} else {
+			$errors = $user->getErrors();
+			$messages = array();
 
-		return Response::json($this->growlMessage("Email saved successfully.  Thank you.", 'success'));
+			foreach($errors->all() as $error){
+				array_push($messages, $error);
+			}
+
+			return Response::json($this->growlMessage($messages, 'error'), 500);
+		}
 	}
 
 	/**
