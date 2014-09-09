@@ -9,6 +9,52 @@ class UserController extends BaseController{
 	}
 
 	/**
+	*	Api route to edit user's email
+	*
+	* @param User $user
+	* @return array $response
+	*/
+	public function editEmail(User $user){
+
+		//Check authorization
+		if(Auth::user()->id !== $user->id){
+			return Response::json($this->growlMessage("You are not authorized to change that user's email", "error"));
+		}
+
+		$user->email = Input::get('email');
+		$user->password = Input::get('password');
+		
+		if($user->save()){
+			return Response::json($this->growlMessage("Email saved successfully.  Thank you.", 'success'), 200);	
+		} else {
+			$errors = $user->getErrors();
+			$messages = array();
+
+			foreach($errors->all() as $error){
+				array_push($messages, $error);
+			}
+
+			return Response::json($this->growlMessage($messages, 'error'), 500);
+		}
+	}
+
+	/**
+	*	Api route to get logged in user
+	*
+	*	@param void
+	* @return JSON user
+	*/
+	public function getCurrent(){
+		if(!Auth::check()){
+			return Response::json(null);
+		}
+
+		return Response::json([
+      'user'	=> Auth::user()->toArray()
+		]);
+	}
+
+	/**
 	*	getIndex
 	*
 	*	Retrieve user by id and display user page

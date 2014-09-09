@@ -26,7 +26,7 @@
 		@include('layouts.socials')
 		@include('layouts.assets')
 	</head>
-	<body>
+	<body ng-controller="AppController">
 		<!--[if lt IE 8]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
@@ -38,13 +38,15 @@
 				</div>
 			</div>
 			<div class="row">
+				<div profile-completion-message></div>
+			</div>
+			<div class="row">
 				<div class="container alerts">
 					@include('errors')
 					@include('message')
 					@include('success')
 				</div>
 			</div>
-
 			<div id="main" class="">
 				<div class="container">
 						@yield('content')

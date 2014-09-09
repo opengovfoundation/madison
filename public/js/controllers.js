@@ -1,8 +1,21 @@
 /*global user*/
 /*global doc*/
 angular.module('madisonApp.controllers', [])
-  .controller('HomePageController', ['$scope', '$http', '$filter', 'Doc',
-    function ($scope, $http, $filter, Doc) {
+  /**
+  * Global controller, attached to the <body> tag
+  * 
+  * Handles global scope variables
+  */
+  .controller('AppController', ['$scope', 'UserService',
+    function ($scope, UserService) {
+      $scope.$on('userUpdated', function () {
+        $scope.user = UserService.user;
+      });
+
+      UserService.getUser();
+    }])
+  .controller('HomePageController', ['$scope', '$filter', 'Doc',
+    function ($scope, $filter, Doc) {
       $scope.docs = [];
       $scope.categories = [];
       $scope.sponsors = [];
@@ -156,9 +169,9 @@ angular.module('madisonApp.controllers', [])
       };
 
       $scope.setSponsor = function () {
-        if($scope.doc.group_sponsor.length !== 0){
+        if ($scope.doc.group_sponsor.length !== 0) {
           $scope.doc.sponsor = $scope.doc.group_sponsor;
-        }else{
+        } else {
           $scope.doc.sponsor = $scope.doc.user_sponsor;
           $scope.doc.sponsor[0].display_name = $scope.doc.sponsor[0].fname + ' ' + $scope.doc.sponsor[0].lname;
         }
@@ -180,7 +193,7 @@ angular.module('madisonApp.controllers', [])
                 $scope.opposed = null;
               }
 
-              if($scope.supported !== null && $scope.opposed !== null){
+              if ($scope.supported !== null && $scope.opposed !== null) {
                 $('#doc-support').text(data.supports + ' Support');
                 $('#doc-oppose').text(data.opposes + ' Oppose');
               }
@@ -195,38 +208,37 @@ angular.module('madisonApp.controllers', [])
         if ($scope.user.id === '') {
           createLoginPopup($event);
         } else {
-        $http.post('/api/docs/' + $scope.doc.id + '/support', {
-          'support': supported
-        })
-          .success(function (data) {
-            //Parse data to see what user's action is currently
-            if (data.support === null) {
-              $scope.supported = false;
-              $scope.opposed = false;
-            } else {
-              $scope.supported = data.support;
-              $scope.opposed = !data.support;
-            }
-
-            var button = $($event.target);
-            var otherButton = $($event.target).siblings('a.btn');
-
-            if(button.hasClass('doc-support')){
-              button.text(data.supports + ' Support');
-              otherButton.text(data.opposes + ' Oppose');
-            }else{
-              button.text(data.opposes + ' Oppose');
-              otherButton.text(data.supports + ' Support');
-            }
-
+          $http.post('/api/docs/' + $scope.doc.id + '/support', {
+            'support': supported
           })
-          .error(function (data) {
-            console.error("Error posting support: %o", data);
-          });
+            .success(function (data) {
+              //Parse data to see what user's action is currently
+              if (data.support === null) {
+                $scope.supported = false;
+                $scope.opposed = false;
+              } else {
+                $scope.supported = data.support;
+                $scope.opposed = !data.support;
+              }
+
+              var button = $($event.target);
+              var otherButton = $($event.target).siblings('a.btn');
+
+              if (button.hasClass('doc-support')) {
+                button.text(data.supports + ' Support');
+                otherButton.text(data.opposes + ' Oppose');
+              } else {
+                button.text(data.opposes + ' Oppose');
+                otherButton.text(data.supports + ' Support');
+              }
+
+            })
+            .error(function (data) {
+              console.error("Error posting support: %o", data);
+            });
         }
       };
-    }
-    ])
+    }])
   .controller('AnnotationController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
     function ($scope, $sce, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
       $scope.annotations = [];
@@ -236,10 +248,10 @@ angular.module('madisonApp.controllers', [])
       //Parse sub-comment hash if there is one
       var hash = $location.hash();
       var subCommentId = hash.match(/^annsubcomment_([0-9]+)$/);
-      if(subCommentId){
-        $scope.subCommentId = subCommentId[1];  
+      if (subCommentId) {
+        $scope.subCommentId = subCommentId[1]; 
       }
-      
+
       $scope.init = function (docId) {
         $scope.user = user;
         $scope.doc = doc;

@@ -13,7 +13,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	
 	use Zizaco\Entrust\HasRole;
 	
-	protected $hidden = array('password', 'token', 'last_login', 'updated_at');
+	protected $hidden = array('password', 'token', 'last_login', 'updated_at', 'deleted_at', 'oauth_vendor', 'oauth_id', 'oauth_update');
 	protected $softDelete = true;
 
 	/**

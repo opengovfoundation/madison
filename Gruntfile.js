@@ -3,7 +3,18 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    // Task configuration
+    notify: {
+      uglify: {
+        options: {
+          message: 'Uglify complete.'
+        }
+      },
+      cssmin: {
+        options: {
+          message: "Cssmin complete."
+        }
+      }
+    },
     compass: {
       dist: {
         options: {
@@ -108,11 +119,11 @@ module.exports = function (grunt) {
     watch: {
       scripts: {
         files: ['public/js/*.js', 'Gruntfile.js'],
-        tasks: ['jshint', 'uglify']
+        tasks: ['jshint', 'uglify', 'notify:uglify']
       },
       sass: {
-        files: './public/sass/**/*.scss',
-        tasks: ['compass', 'cssmin']
+        files: './public/sass/*.scss',
+        tasks: ['compass', 'cssmin', 'notify:cssmin']
       }
     },
     exec: {
@@ -212,10 +223,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-notify');
 
   // Task definition
-  grunt.registerTask('build', ['jshint', 'uglify', 'compass', 'cssmin']);
-  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'watch']);
+  grunt.registerTask('build', ['jshint', 'uglify', 'notify:uglify', 'compass', 'cssmin', 'notify:cssmin']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'notify:uglify', 'compass', 'cssmin', 'notify:cssmin', 'watch']);
   grunt.registerTask('install', ['exec:install_composer']);
   grunt.registerTask('test_setup', ['exec:drop_testdb', 'exec:create_testdb', 'exec:migrate', 'exec:seed']);
   grunt.registerTask('test_chrome', ['test_setup', 'protractor:chrome']);
