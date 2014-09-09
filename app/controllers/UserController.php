@@ -9,6 +9,25 @@ class UserController extends BaseController{
 	}
 
 	/**
+	*	Api route to edit user's email
+	*
+	* @param User $user
+	* @return array $response
+	*/
+	public function editEmail(User $user){
+
+		//Check authorization
+		if(Auth::user()->id !== $user->id){
+			return Response::json($this->growlMessage("You are not authorized to change that user's email", "error"));
+		}
+
+		$user->email = Input::get('email');
+		$user->save();
+
+		return Response::json($this->growlMessage("Email saved successfully.  Thank you.", 'success'));
+	}
+
+	/**
 	*	Api route to get logged in user
 	*
 	*	@param void

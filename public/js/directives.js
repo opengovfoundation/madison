@@ -1,15 +1,26 @@
 /*global ZeroClipboard*/
 /*global window*/
 angular.module('madisonApp.directives', [])
-  .directive('profileCompletionMessage', function () {
+  .directive('profileCompletionMessage', ['$http',
+    function ($http) {
       return {
         restrict: 'A',
         templateUrl: '/templates/profile-completion-message.html',
         link: function (scope) {
-          console.log(scope);
+
+          scope.updateEmail = function (newEmail) {
+            //Issue PUT request to update user
+            $http.put('/api/user/' + scope.user.id + '/edit/email', {email: newEmail})
+              .success(function () {
+                //Note: Growl message comes from server response
+                scope.user.email = newEmail;
+              }).error(function (data) {
+                console.error("Error updating user email: %o", data);
+              });
+          };
         }
       };
-    })
+    }])
   .directive('docComments', function () {
     return {
       restrict: 'AECM',

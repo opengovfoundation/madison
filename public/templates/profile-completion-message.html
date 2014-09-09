@@ -5,12 +5,14 @@
     </div>
     <div class="panel-body">
       <div class="col-md-6">
-        <div class="input-group">
-          <input type="email" placeholder="Email Address" class="form-control" name="email-completion">
-          <span class="input-group-btn">
-            <button class="btn btn-default">Submit</button>
-          </span>  
-        </div>
+        <form ng-submit="updateEmail(newEmail)">
+          <div class="input-group">
+            <input ng-model="newEmail" type="email" placeholder="Email Address" class="form-control" name="email-completion">
+            <span class="input-group-btn">
+              <input type="submit" class="btn btn-default" value="Submit">
+            </span>  
+          </div>
+        </form>
       </div>
       <div class="col-md-6">
         <p><span class="glyphicon glyphicon-info-sign"></span> Madison is a social community - we need a way to keep you updated on new policies posted on Madison and new activities on your posts!</p>
