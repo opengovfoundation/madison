@@ -119,11 +119,11 @@ module.exports = function (grunt) {
     watch: {
       scripts: {
         files: ['public/js/*.js', 'Gruntfile.js'],
-        tasks: ['jshint', 'uglify']
+        tasks: ['jshint', 'uglify', 'notify:uglify']
       },
       sass: {
         files: './public/sass/*.scss',
-        tasks: ['compass', 'cssmin']
+        tasks: ['compass', 'cssmin', 'notify:cssmin']
       }
     },
     exec: {
