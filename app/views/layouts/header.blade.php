@@ -26,6 +26,7 @@
 					<li class="link-settings"><a href="{{ URL::to('documents') }}" target="_self">My Documents</a>
 					@endif
 					<li class="link-settings"><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}" target="_self">Account Settings</a></li>
+					<li><a href="{{ URL::to('user/edit/' . Auth::user()->id) . '/notifications' }}">Notification Settings</a></li>
 					<li class="link-settings"><a href="{{ URL::to('groups') }}" target="_self">Group Management</a></li>
 					@if(Auth::user()->hasRole('Admin'))
 					<li><a href="{{ URL::to('dashboard') }}" target="_self">Administrative Dashboard</a></li>
