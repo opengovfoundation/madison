@@ -30,23 +30,23 @@ class Notification extends Eloquent
 	}
 	
 	/**
-	*	Return array of valid notifications
+	*	Return array of valid admin notifications
 	*
 	*	@return array 
 	*/
 	static public function getValidNotifications()
 	{
-		return array(
-			MadisonEvent::DOC_COMMENT_COMMENTED => "When a comment is made on a comment",
-			MadisonEvent::DOC_COMMENTED => "When a document is commented on",
-			MadisonEvent::DOC_ANNOTATED => "When a document is annotated",
-			MadisonEvent::DOC_EDITED => "When a document is edited",
-			MadisonEvent::NEW_DOCUMENT => "When a new document is created",
-			MadisonEvent::NEW_USER_SIGNUP => "When a new user signs up",
-			MadisonEvent::VERIFY_REQUEST_ADMIN => "When a new admin verification is requested",
-			MadisonEvent::VERIFY_REQUEST_GROUP => "When a new group verification is requested",
-			MadisonEvent::VERIFY_REQUEST_USER => "When a new independent author verification is requested"
-		);
+		return MadisonEvent::validAdminNotifications();
+	}
+
+	/**
+	*	Return array of valid user notifications
+	*
+	*	@param void
+	*	@return array
+	*/
+	static public function getUserNotifications(){
+		return MadisonEvent::validUserNotifications();
 	}
 	
 	static public function addNotificationForUser($event, $user_id, $type = self::TYPE_EMAIL)

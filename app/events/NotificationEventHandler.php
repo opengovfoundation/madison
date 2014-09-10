@@ -270,8 +270,6 @@ class NotificationEventHandler
 	
 	public function subscribe($eventManager)
 	{
-		$eventManager->listen(MadisonEvent::TEST, 'NotificationEventHandler@onNewUserSignup');
-		
 		$eventManager->listen(MadisonEvent::NEW_USER_SIGNUP, 'NotificationEventHandler@onNewUserSignup');
 		$eventManager->listen(MadisonEvent::DOC_COMMENT_COMMENTED, 'NotificationEventHandler@onDocCommentCommented');
 		$eventManager->listen(MadisonEvent::DOC_COMMENTED, 'NotificationEventHandler@onDocCommented');
