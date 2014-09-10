@@ -49,7 +49,8 @@
 			</div>
 			<div id="main" class="">
 				<div class="container">
-						@yield('content')
+					<div ng-view></div>
+					@yield('content')
 				</div>
 			</div>
 		</div>

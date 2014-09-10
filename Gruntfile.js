@@ -60,6 +60,7 @@ module.exports = function (grunt) {
             'public/bower_components/angular-growl/build/angular-growl.min.js',
             'public/bower_components/angular-sanitize/angular-sanitize.js',
             'public/bower_components/angular-resource/angular-resource.min.js',
+            'public/bower_components/angular-route/angular-route.min.js',
             'public/bower_components/bootstrap/dist/js/bootstrap.min.js',
             'public/bower_components/pagedown/Markdown.Converter.js',
             'public/bower_components/pagedown/Markdown.Sanitizer.js',

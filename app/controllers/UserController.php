@@ -15,20 +15,9 @@ class UserController extends BaseController{
 	*	@return Illuminate\View\View
 	*/
 	public function editNotifications(User $user){
-		$notifications = Notification::where('user_id', '=', Auth::user()->id)->get();
-		$validNotifications = Notification::getUserNotifications();
-
-		//Set data array
-		$data = array(
-			'user'			=> $user,
-			'page_id'		=> 'user_notifications',
-			'page_title'	=> $user->fname . "'s Notifications",
-			'notifications' => $notifications,
-			'validNotifications' => $validNotifications
-		);
 
 		//Render view and return
-		return View::make('user.edit.notifications', $data);
+		return View::make('single');
 	}
 
 	/**
