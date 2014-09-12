@@ -14,8 +14,16 @@ angular.module('madisonApp.controllers', [])
 
       UserService.getUser();
     }])
-  .controller('UserNotificationsController', ['$scope', function ($scope) {
-    //Do something here.
+  .controller('UserNotificationsController', ['$scope', '$http', 'UserService', function ($scope, $http, UserService) {
+    UserService.exists.then(function () {
+      $http.get('/api/user/' + $scope.user.id + '/notifications')
+        .success(function (data) {
+          $scope.notifications = data;
+          console.log($scope.notifications);
+        }).error(function (data) {
+          console.error("Error loading notifications: %o", data);
+        });
+    });
   }])
   .controller('HomePageController', ['$scope', '$filter', 'Doc',
     function ($scope, $filter, Doc) {

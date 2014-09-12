@@ -9,6 +9,48 @@ class UserController extends BaseController{
 	}
 
 	/**
+	*	API Route to get viable User notifications and notification statuses for current user
+	*
+	*	@param User $user
+	*	@return Response::json
+	*	@todo I'm sure this can be simplified...
+	*/
+	public function getNotifications(User $user){
+		if(Auth::user()->id !== $user->id){
+			return Response::json($this->growlMessage("You do not have permission to view this user's notification settings", "error"), 401);
+		}
+
+		//Retrieve all valid user notifications as associative array (event => description)
+		$validNotifications = Notification::getUserNotifications();
+		
+		//Filter out event keys
+		$events = array_keys($validNotifications);
+		
+		//Retreive all User Events for the current user
+		$currentNotifications = Notification::select('event')->where('user_id', '=', $user->id)->whereIn('event', $events)->get();
+
+		//Filter out event names from selected notifications
+		$currentNotifications = $currentNotifications->toArray();
+		$selectedEvents = array();
+		foreach($currentNotifications as $notification){
+			array_push($selectedEvents, $notification['event']);
+		}
+
+		//Build array of notifications and their selected status
+		$toReturn = array();
+		foreach($validNotifications as $event => $description){
+			$notification = array();
+			$notification['event'] = $event;
+			$notification['description'] = $description;
+			$notification['selected'] = in_array($event, $selectedEvents) ? true : false;
+
+			array_push($toReturn, $notification);
+		}
+		
+		return Response::json($toReturn);
+	}
+
+	/**
 	*	Notification Preference Page
 	*
 	*	@param User $user

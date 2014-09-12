@@ -8,11 +8,11 @@ angular.module('madisonApp.services', [])
       UserService.user = {};
 
       UserService.getUser = function () {
-        $http.get('/api/user/current')
-        .success(function (data) {
-          UserService.user = data.user;
-          $rootScope.$broadcast('userUpdated');
-        });
+        UserService.exists = $http.get('/api/user/current')
+          .success(function (data) {
+            UserService.user = data.user;
+            $rootScope.$broadcast('userUpdated');
+          });
       };
 
       return UserService;
