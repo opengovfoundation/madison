@@ -9,7 +9,59 @@ class UserController extends BaseController{
 	}
 
 	/**
-	*	API Route to get viable User notifications and notification statuses for current user
+	*	API PUT Route to update a user's notification settings
+	*
+	*	@param User $user
+	*	@return Response::json
+	* @todo There has to be a more efficient way to do this... We should probably only send changes from Angular
+	*/
+	public function putNotifications(User $user){
+		if(Auth::user()->id !== $user->id){
+			return Response::json($this->growlMessage("You do not have permissions to edit this user's notification settings", "error"));
+		}
+
+		//Grab notification array
+		$notifications = Input::get('notifications');
+
+		//Retrieve valid notification events
+		$validNotifications = Notification::getUserNotifications();
+		$events = array_keys($validNotifications);
+
+		//Loop through each notification
+		foreach($notifications as $notification) {
+
+			//Ensure this is a known user event.
+			if(!in_array($notification['event'], $events)){
+				return Response::json($this->growlMessage("Unable to save settings.  Unknown event: " . $notification['event']));
+			}			
+
+			//Grab this notification from the database
+			$model = Notification::where('user_id', '=', $user->id)->where('event', '=', $notification['event'])->first();
+
+			//If we don't want that notification (and it exists), delete it
+			if($notification['selected'] === false){
+				if(isset($model)){
+					$model->delete();
+				}
+			}else{
+				//If the entry doesn't already exist, create it.
+					//Otherwise, ignore ( there was no change )
+				if(!isset($model)){
+					$model = new Notification();
+					$model->user_id = $user->id;
+					$model->event = $notification['event'];
+					$model->type = "email";
+
+					$model->save();
+				}
+			}
+		}
+
+		return Response::json($this->growlMessage("Settings saved successfully.", "success"));
+	}
+
+	/**
+	*	API GET Route to get viable User notifications and notification statuses for current user
 	*
 	*	@param User $user
 	*	@return Response::json
@@ -57,7 +109,6 @@ class UserController extends BaseController{
 	*	@return Illuminate\View\View
 	*/
 	public function editNotifications(User $user){
-
 		//Render view and return
 		return View::make('single');
 	}

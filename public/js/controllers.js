@@ -28,7 +28,6 @@ angular.module('madisonApp.controllers', [])
       $http.get('/api/user/' + $scope.user.id + '/notifications')
         .success(function (data) {
           $scope.notifications = data;
-          console.log($scope.notifications);
         }).error(function (data) {
           console.error("Error loading notifications: %o", data);
         });
@@ -45,7 +44,7 @@ angular.module('madisonApp.controllers', [])
             console.error("Error updating notification settings: %o", data);
           });
       }
-    });
+    }, true);
 
   }])
   .controller('HomePageController', ['$scope', '$filter', 'Doc',
