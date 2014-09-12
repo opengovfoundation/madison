@@ -106,9 +106,12 @@ class CommentApiController extends ApiController{
 								->where('id', '=', $commentId)
 							    ->first();
 
+		$parent->load('user');
+
+		//Returns the new saved Comment with the User relationship loaded
 		$result = $parent->addOrUpdateComment($comment);
 
-		Event::fire(MadisonEvent::DOC_COMMENTED, $result);
+		Event::fire(MadisonEvent::DOC_SUBCOMMENT, array('comment' => $result, 'parent' => $parent));
 		
 		return Response::json($result);
 	}

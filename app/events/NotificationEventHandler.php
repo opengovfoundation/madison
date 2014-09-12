@@ -17,7 +17,8 @@ class NotificationEventHandler
 		MadisonEvent::VERIFY_REQUEST_ADMIN 		=> "email.notification.verify_admin",
 		MadisonEvent::VERIFY_REQUEST_GROUP 		=> "email.notification.verify_request_group",
 		MadisonEvent::VERIFY_REQUEST_USER 		=> "email.notification.verify_request_user",
-		MadisonEvent::NEW_DOCUMENT 						=> "email.notification.new_document"
+		MadisonEvent::NEW_DOCUMENT 						=> "email.notification.new_document",
+		MadisonEvent::NEW_ACTIVITY_COMMENT		=> "email.notification.user.new_activity_comment"
 	);
 	
 	/**
@@ -29,6 +30,10 @@ class NotificationEventHandler
 	*/
 	protected function processNotices($notices, $event)
 	{
+		Log::info("Processing Notices");
+		Log::info($notices);
+		Log::info($event);
+
 		if(!isset($this->eventEmailTemplates[$event])) {
 			throw new Exception("No Email Template found for event");
 		}
@@ -37,7 +42,12 @@ class NotificationEventHandler
 		
 		$retval = array();
 		
+		Log::info("Notices:");
+		Log::info($notices);
+
 		foreach($notices as $notice) {
+			Log::info("Notice:");
+			Log::info($notice);
 			switch($notice->type) {
 				case Notification::TYPE_EMAIL:
 					switch(true) {
@@ -94,6 +104,10 @@ class NotificationEventHandler
 	
 	protected function doNotificationActions($notifications, $meta) 
 	{
+		Log::info('Running doNotificationActions ($notifications, $meta)');
+		Log::info($notifications);
+		Log::info($meta);
+
 		foreach($notifications as $notification) {
 			switch($notification['type']) {
 				case Notification::TYPE_EMAIL:
@@ -192,6 +206,30 @@ class NotificationEventHandler
 			'from_email_name' => 'Madison'
 		));
 	}
+
+	public function onDocSubcomment($subcomment, $comment){
+		$subcomment = Comment::find($subcomment['id'])->first();
+
+		//Notify any admins watching for comments
+		$this->onDocCommented($subcomment);
+		
+		//Notify the user if he's subscribed to updates
+		$notice = Notification::where('user_id', '=', $comment['user_id'])
+			->where('event', '=', MadisonEvent::NEW_ACTIVITY_COMMENT)
+			->get();
+
+		//If the user has subscribed to activity subcomments
+		if(isset($notice)){
+			$notification = $this->processNotices($notice, MadisonEvent::NEW_ACTIVITY_COMMENT);
+
+			$this->doNotificationActions($notification, array(
+				'data' => array("subcomment" => $subcomment, "comment" => $comment),
+				'subject'	=> "A user has commented on your activity!",
+				'from_email_address'	=> 'sayhello@opengovfoundation.org',
+				'from_email_name'			=> 'Madison Email Robot'
+			));
+		}
+	}
 	
 	public function onDocEdited($data)
 	{
@@ -263,11 +301,6 @@ class NotificationEventHandler
 		));
 	}
 	
-	public function onTestEvent($data)
-	{
-		
-	}
-	
 	public function subscribe($eventManager)
 	{
 		$eventManager->listen(MadisonEvent::NEW_USER_SIGNUP, 'NotificationEventHandler@onNewUserSignup');
@@ -279,5 +312,6 @@ class NotificationEventHandler
 		$eventManager->listen(MadisonEvent::VERIFY_REQUEST_ADMIN, 'NotificationEventHandler@onVerifyAdminRequest');
 		$eventManager->listen(MadisonEvent::VERIFY_REQUEST_GROUP, 'NotificationEventHandler@onVerifyGroupRequest');
 		$eventManager->listen(MadisonEvent::VERIFY_REQUEST_USER, 'NotificationEventHandler@onVerifyUserRequest');
+		$eventManager->listen(Madisonevent::DOC_SUBCOMMENT, 'NotificationEventHandler@onDocSubcomment');
 	}
 }
