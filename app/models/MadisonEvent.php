@@ -48,7 +48,7 @@ class MadisonEvent
 	static function validUserNotifications() {
 		return array(
 			static::NEW_GROUP_DOCUMENT => "When a group a user belongs to posts a new document",
-			static::NEW_DOC_VERSION => "When a new version of a document is posted that a user has interacted with",
+			//static::NEW_DOC_VERSION => "When a new version of a document is posted that a user has interacted with",
 			static::NEW_ACTIVITY_VOTE => "When an upvote / downvote is made on a user's post",
 			static::NEW_ACTIVITY_COMMENT => "When a comment is posted on a user's activity"
 		);

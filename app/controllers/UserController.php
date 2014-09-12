@@ -13,7 +13,7 @@ class UserController extends BaseController{
 	*
 	*	@param User $user
 	*	@return Response::json
-	* @todo There has to be a more efficient way to do this... We should probably only send changes from Angular
+	* @todo There has to be a more efficient way to do this... We should probably only send changes from Angular.  We can also separate the array matching into helper functions
 	*/
 	public function putNotifications(User $user){
 		if(Auth::user()->id !== $user->id){
@@ -32,7 +32,7 @@ class UserController extends BaseController{
 
 			//Ensure this is a known user event.
 			if(!in_array($notification['event'], $events)){
-				return Response::json($this->growlMessage("Unable to save settings.  Unknown event: " . $notification['event']));
+				return Response::json($this->growlMessage("Unable to save settings.  Unknown event: " . $notification['event'], "error"));
 			}			
 
 			//Grab this notification from the database
