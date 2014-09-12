@@ -6,15 +6,24 @@ angular.module('madisonApp.controllers', [])
   * 
   * Handles global scope variables
   */
-  .controller('AppController', ['$scope', 'UserService',
-    function ($scope, UserService) {
+  .controller('AppController', ['$rootScope', '$scope', 'UserService',
+    function ($rootScope, $scope, UserService) {
+      //Update page title
+      $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+        $rootScope.pageTitle = current.$$route.title;
+      });
+
+      //Watch for user data change
       $scope.$on('userUpdated', function () {
         $scope.user = UserService.user;
       });
 
+      //Load user data
       UserService.getUser();
     }])
   .controller('UserNotificationsController', ['$scope', '$http', 'UserService', function ($scope, $http, UserService) {
+    
+    //Wait for AppController controller to load user
     UserService.exists.then(function () {
       $http.get('/api/user/' + $scope.user.id + '/notifications')
         .success(function (data) {
@@ -24,6 +33,20 @@ angular.module('madisonApp.controllers', [])
           console.error("Error loading notifications: %o", data);
         });
     });
+
+    //Watch for notification changes
+    $scope.$watch('notifications', function (newValue, oldValue) {
+      if (oldValue !== undefined) {
+        //Save notifications
+        $http.put('/api/user/' + $scope.user.id + '/notifications', {notifications: newValue})
+          .success(function (data) {
+            //Do nothing?
+          }).error(function (data) {
+            console.error("Error updating notification settings: %o", data);
+          });
+      }
+    });
+
   }])
   .controller('HomePageController', ['$scope', '$filter', 'Doc',
     function ($scope, $filter, Doc) {

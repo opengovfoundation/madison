@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="madisonApp" lang="en">
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="madisonApp"  ng-controller="AppController" lang="en">
 	<head>
 		<meta charset="utf-8" />
 		@if(isset($page_title))
 		<title>{{ $page_title }}</title>
+		@else
+		<title ng-bind="pageTitle">Madison</title>
 		@endif
 		<!-- Mobile Optimization -->
 		<meta name="HandheldFriendly" content="True" />
@@ -26,7 +28,7 @@
 		@include('layouts.socials')
 		@include('layouts.assets')
 	</head>
-	<body ng-controller="AppController">
+	<body>
 		<!--[if lt IE 8]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->

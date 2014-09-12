@@ -32,7 +32,8 @@ app.config(['growlProvider', '$httpProvider', '$routeProvider', function (growlP
     $routeProvider
         .when('/user/edit/:user/notifications', {
             templateUrl: "/templates/pages/user-notification-settings.html",
-            controller: "UserNotificationsController"
+            controller: "UserNotificationsController",
+            title: "Notification Settings"
         });
 }]);
 
