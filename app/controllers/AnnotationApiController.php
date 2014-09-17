@@ -273,12 +273,16 @@ class AnnotationApiController extends ApiController{
 								->where('id', '=', $annotationId)
 							    ->first();
 
+		$annotation->link = $annotation->getLink();
+		$annotation->type = 'annotation';
+
 		$result = $annotation->addOrUpdateComment($comment);
 
 		// TODO: Hack to allow notification events.  Needs cleaned up.
 		$result->doc_id = $docId;
+		$result->link = $result->getLink($docId);
 
-		Event::fire(MadisonEvent::DOC_COMMENTED, $result);
+		Event::fire(MadisonEvent::DOC_SUBCOMMENT, array('subcomment' => $result, 'parent' => $annotation));
 		
 		return Response::json($result);
 	}

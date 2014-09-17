@@ -194,13 +194,13 @@ class NotificationEventHandler
 		));
 	}
 
-	public function onDocSubcomment($subcomment, $comment){
+	public function onDocSubcomment($subcomment, $activity){
 
 		//Notify any admins watching for comments
 		$this->onDocCommented($subcomment);
 		
 		//Notify the user if he's subscribed to updates
-		$notice = Notification::where('user_id', '=', $comment['user_id'])
+		$notice = Notification::where('user_id', '=', $activity['user_id'])
 			->where('event', '=', MadisonEvent::NEW_ACTIVITY_COMMENT)
 			->get();
 
@@ -209,7 +209,7 @@ class NotificationEventHandler
 			$notification = $this->processNotices($notice, MadisonEvent::NEW_ACTIVITY_COMMENT);
 
 			$this->doNotificationActions($notification, array(
-				'data' => array("subcomment" => $subcomment->toArray(), "activity" => $comment->toArray()),
+				'data' => array("subcomment" => $subcomment->toArray(), "activity" => $activity->toArray()),
 				'subject'	=> "A user has commented on your activity!",
 				'from_email_address'	=> 'sayhello@opengovfoundation.org',
 				'from_email_name'			=> 'Madison Email Robot'

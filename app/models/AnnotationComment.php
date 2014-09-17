@@ -12,7 +12,20 @@ class AnnotationComment extends Eloquent
 		return $this->belongsTo('DBAnnotation');
 	}
 
-    public function user(){
-        return $this->belongsTo('User');
-    }
+  public function user(){
+      return $this->belongsTo('User');
+  }
+
+  /**
+  * getLink
+  *   Created direct link for this AnnotationComment
+  *
+  * @param int $doc_id
+  * @return URL::to()
+  */
+  public function getLink($doc_id){
+    $slug = DB::table('docs')->where('id', $doc_id)->pluck('slug');
+
+    return URL::to('docs/' . $slug . '#annsubcomment_' . $this->id);
+  }
 }
