@@ -240,6 +240,13 @@ class AnnotationApiController extends ApiController{
 		$annotation = Annotation::find($annotation);
 		$annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_LIKE);
 
+		//Load fields for notification
+		$annotation->link = $annotation->getLink();
+		$annotation->load('user');
+		$annotation->type = 'annotation';
+
+		Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'like', 'activity' => $annotation, 'user'	=> Auth::user()));
+
 		return Response::json($annotation->toAnnotatorArray());
 	}
 
@@ -250,6 +257,13 @@ class AnnotationApiController extends ApiController{
 
 		$annotation = Annotation::find($annotation);
 		$annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_DISLIKE);
+
+		//Load fields for notification
+		$annotation->link = $annotation->getLink();
+		$annotation->load('user');
+		$annotation->type = 'annotation';
+
+		Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'dislike', 'activity' => $annotation, 'user'	=> Auth::user()));
 
 		return Response::json($annotation->toAnnotatorArray());
 	}	
@@ -273,12 +287,16 @@ class AnnotationApiController extends ApiController{
 								->where('id', '=', $annotationId)
 							    ->first();
 
+		$annotation->link = $annotation->getLink();
+		$annotation->type = 'annotation';
+
 		$result = $annotation->addOrUpdateComment($comment);
 
 		// TODO: Hack to allow notification events.  Needs cleaned up.
 		$result->doc_id = $docId;
+		$result->link = $result->getLink($docId);
 
-		Event::fire(MadisonEvent::DOC_COMMENTED, $result);
+		Event::fire(MadisonEvent::DOC_SUBCOMMENT, array('subcomment' => $result, 'parent' => $annotation));
 		
 		return Response::json($result);
 	}

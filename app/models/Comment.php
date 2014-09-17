@@ -89,6 +89,14 @@ class Comment extends Eloquent implements ActivityInterface
         return $actionModel->save();
     }
 
+    /**
+    *   addOrUpdateComment
+    *
+    *   Updates or creates a Comment
+    *
+    *   @param array $comment
+    *   @return Comment $obj with User relationship loaded
+    */
     public function addOrUpdateComment(array $comment) {
         $obj = new Comment();
         $obj->text = $comment['text'];
