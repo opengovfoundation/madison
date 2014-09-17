@@ -3,6 +3,9 @@
 class NotificationEventHandler
 {
 
+	const FROM_EMAIL_ADDRESS = 'sayhello@opengovfoundation.org';
+	const FROM_EMAIL_NAME = 'Madison Email Robot';
+
 	/**
 	*	Array of event templates used for each notification event
 	* 
@@ -18,7 +21,8 @@ class NotificationEventHandler
 		MadisonEvent::VERIFY_REQUEST_GROUP 		=> "email.notification.verify_request_group",
 		MadisonEvent::VERIFY_REQUEST_USER 		=> "email.notification.verify_request_user",
 		MadisonEvent::NEW_DOCUMENT 						=> "email.notification.new_document",
-		MadisonEvent::NEW_ACTIVITY_COMMENT		=> "email.notification.user.new_activity_comment"
+		MadisonEvent::NEW_ACTIVITY_COMMENT		=> "email.notification.user.new_activity_comment",
+		MadisonEvent::NEW_ACTIVITY_VOTE				=> "email.notification.user.new_activity_vote"
 	);
 	
 	/**
@@ -216,6 +220,38 @@ class NotificationEventHandler
 			));
 		}
 	}
+
+	public function onNewActivityVote($vote_type, $activity, $user){
+		//Notify the user if he's subscribed to updates
+		$notice = Notification::where('user_id', '=', $activity['user_id'])
+			->where('event', '=', MadisonEvent::NEW_ACTIVITY_VOTE)
+			->get();
+
+		switch($vote_type){
+			case 'like':
+				$intro = 'Congrats';
+				break;
+			case 'dislike':
+				$intro = 'Oops';
+				break;
+			default:
+				$intro = 'Hey';
+				break;
+		}
+
+		//If the user has subscribed to activity votes
+		if(isset($notice)){
+			$notification = $this->processNotices($notice, MadisonEvent::NEW_ACTIVITY_VOTE);
+
+			$this->doNotificationActions($notification, array(
+				'data'	=> array('intro' => $intro, 'vote_type' => $vote_type, 'activity' => $activity->toArray(), 'user' => $user->toArray()),
+				'subject'	=> 'A user has voted on your activity!',
+				'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+				'from_email_name'			=> static::FROM_EMAIL_NAME
+			));
+		}
+
+	}
 	
 	public function onDocEdited($data)
 	{
@@ -299,5 +335,6 @@ class NotificationEventHandler
 		$eventManager->listen(MadisonEvent::VERIFY_REQUEST_GROUP, 'NotificationEventHandler@onVerifyGroupRequest');
 		$eventManager->listen(MadisonEvent::VERIFY_REQUEST_USER, 'NotificationEventHandler@onVerifyUserRequest');
 		$eventManager->listen(Madisonevent::DOC_SUBCOMMENT, 'NotificationEventHandler@onDocSubcomment');
+		$eventManager->listen(MadisonEvent::NEW_ACTIVITY_VOTE, 'NotificationEventHandler@onNewActivityVote');
 	}
 }

@@ -82,12 +82,24 @@ class CommentApiController extends ApiController{
 		$comment = Comment::find($commentId);
 		$comment->saveUserAction(Auth::user()->id, Comment::ACTION_LIKE);
 
+		//Load fields for notification
+		$comment->load('user');
+		$comment->type = 'comment';
+
+		Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'like', 'activity' => $comment, 'user'	=> Auth::user()));
+
 		return Response::json($comment->loadArray());
 	}
 
 	public function postDislikes($docId, $commentId) {
 		$comment = Comment::find($commentId);
 		$comment->saveUserAction(Auth::user()->id, Comment::ACTION_DISLIKE);
+
+		//Load fields for notification
+		$comment->load('user');
+		$comment->type = 'comment';
+
+		Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'dislike', 'activity' => $comment, 'user'	=> Auth::user()));
 
 		return Response::json($comment->loadArray());
 	}

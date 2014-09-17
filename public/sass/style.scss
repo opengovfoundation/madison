@@ -142,6 +142,12 @@ textarea.form-inline{
 	color:$light-gray;
 }
 
+/* Glyphicons */
+
+.glyphicon.glyphicon-thumbs-up, .glyphicon.glyphicon-thumbs-down, .glyphicon.glyphicon-flag{
+	cursor: pointer;
+}
+
 /* MAIN HEADER
 ------------------------------ */
 .navbar {
