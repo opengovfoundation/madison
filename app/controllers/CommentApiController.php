@@ -107,6 +107,7 @@ class CommentApiController extends ApiController{
 							    ->first();
 
 		$parent->load('user');
+		$parent->type = 'comment';
 
 		//Returns the new saved Comment with the User relationship loaded
 		$result = $parent->addOrUpdateComment($comment);
