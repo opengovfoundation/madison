@@ -156,7 +156,6 @@ class DocumentsController extends Controller
 				
 				$docOptions['sponsor'] = $activeGroup;
 				$docOptions['sponsorType'] = Doc::SPONSOR_TYPE_GROUP;
-			
 			} else {
 				
 				if(!$user->hasRole(Role::ROLE_INDEPENDENT_SPONSOR)) {
@@ -168,6 +167,10 @@ class DocumentsController extends Controller
 			}
 			
 			$document = Doc::createEmptyDocument($docOptions);
+
+			if($activeGroup > 0){
+				Event::fire(MadisonEvent::NEW_GROUP_DOCUMENT, array('document' => $document, 'group' => $group));	
+			}
 			
 			return Redirect::to("documents/edit/{$document->id}")->with('success_message', "Document Created Successfully");
 		

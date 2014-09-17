@@ -22,7 +22,8 @@ class NotificationEventHandler
 		MadisonEvent::VERIFY_REQUEST_USER 		=> "email.notification.verify_request_user",
 		MadisonEvent::NEW_DOCUMENT 						=> "email.notification.new_document",
 		MadisonEvent::NEW_ACTIVITY_COMMENT		=> "email.notification.user.new_activity_comment",
-		MadisonEvent::NEW_ACTIVITY_VOTE				=> "email.notification.user.new_activity_vote"
+		MadisonEvent::NEW_ACTIVITY_VOTE				=> "email.notification.user.new_activity_vote",
+		MadisonEvent::NEW_GROUP_DOCUMENT			=> "email.notification.user.new_group_document"
 	);
 	
 	/**
@@ -132,8 +133,8 @@ class NotificationEventHandler
 		$this->doNotificationActions($notifications, array(
 			'data' => array('user' => $data->toArray()),
 			'subject' => "New User has Signed up!",
-			'from_email_address' => 'sayhello@opengovfoundation.org',
-			'from_email_name' => 'Madison' 
+			'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+			'from_email_name'			=> static::FROM_EMAIL_NAME
 		));
 	}
 	
@@ -154,8 +155,8 @@ class NotificationEventHandler
 		$this->doNotificationActions($notifications, array(
 			'data' => array('comment' => $data->toArray(), 'doc' => $doc->toArray()),
 			'subject' => "A new comment on a doc!",
-			'from_email_address' => 'sayhello@opengovfoundation.org',
-			'from_email_name' => 'Madison'
+			'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+			'from_email_name'			=> static::FROM_EMAIL_NAME
 		));
 	}
 
@@ -178,8 +179,8 @@ class NotificationEventHandler
 		$this->doNotificationActions($notifications, array(
 			'data' 								=> array('annotation' => $data->toArray(), 'doc' => $doc->toArray()),
 			'subject'							=> 'A new annotation on a document!',
-			'from_email_address'	=> 'sayhello@opengovfoundation.org',
-			'from_email_name'			=> 'Madison'
+			'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+			'from_email_name'			=> static::FROM_EMAIL_NAME
 		));
 
 	}
@@ -193,8 +194,8 @@ class NotificationEventHandler
 		$this->doNotificationActions($notifications, array(
 			'data' => $data,
 			'subject' => "A new comment on a doc comment!",
-			'from_email_address' => 'sayhello@opengovfoundation.org',
-			'from_email_name' => 'Madison'
+			'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+			'from_email_name'			=> static::FROM_EMAIL_NAME
 		));
 	}
 
@@ -215,8 +216,8 @@ class NotificationEventHandler
 			$this->doNotificationActions($notification, array(
 				'data' => array("subcomment" => $subcomment->toArray(), "activity" => $activity->toArray()),
 				'subject'	=> "A user has commented on your activity!",
-				'from_email_address'	=> 'sayhello@opengovfoundation.org',
-				'from_email_name'			=> 'Madison Email Robot'
+				'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+				'from_email_name'			=> static::FROM_EMAIL_NAME
 			));
 		}
 	}
@@ -250,7 +251,28 @@ class NotificationEventHandler
 				'from_email_name'			=> static::FROM_EMAIL_NAME
 			));
 		}
+	}
 
+	public function onNewGroupDocument($doc, $group){
+		$members = $group->members()->get();
+
+		$member_ids = $members->lists('user_id');
+
+		$notices = Notification::whereIn('user_id', $member_ids)
+			->where('event', '=', MadisonEvent::NEW_GROUP_DOCUMENT)
+			->get();
+
+		//If we have subscriptions
+		if(isset($notices)){
+			$notifications = $this->processNotices($notices, MadisonEvent::NEW_GROUP_DOCUMENT);
+
+			$this->doNotificationActions($notifications, array(
+				'data'								=> array('user_id' => Auth::user()->id, 'doc' => $doc->toArray(), 'group' => $group->toArray()),
+				'subject'							=> 'One of your groups has posted a new document!',
+				'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+				'from_email_name'			=> static::FROM_EMAIL_NAME
+			));
+		}
 	}
 	
 	public function onDocEdited($data)
@@ -262,8 +284,8 @@ class NotificationEventHandler
 		$this->doNotificationActions($notifications, array(
 			'data' => array('doc' => $data->toArray()),
 			'subject' => "A document has been edited!",
-			'from_email_address' => 'sayhello@opengovfoundation.org',
-			'from_email_name' => 'Madison'
+			'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+			'from_email_name'			=> static::FROM_EMAIL_NAME
 		));
 	}
 	
@@ -276,8 +298,8 @@ class NotificationEventHandler
 		$this->doNotificationActions($notifications, array(
 			'data' => array('doc' => $data->toArray()),
 			'subject' => "A document has been created!",
-			'from_email_address' => 'sayhello@opengovfoundation.org',
-			'from_email_name' => 'Madison'
+			'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+			'from_email_name'			=> static::FROM_EMAIL_NAME
 		));
 	}
 	
@@ -290,8 +312,8 @@ class NotificationEventHandler
 		$this->doNotificationActions($notifications, array(
 			'data' => $data,
 			'subject' => "An admin requests verification!",
-			'from_email_address' => 'sayhello@opengovfoundation.org',
-			'from_email_name' => 'Madison'
+			'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+			'from_email_name'			=> static::FROM_EMAIL_NAME
 		));
 	}
 	
@@ -304,8 +326,8 @@ class NotificationEventHandler
 		$this->doNotificationActions($notifications, array(
 			'data' => array('group' => $data->toArray()),
 			'subject' => "A group requests verification!",
-			'from_email_address' => 'sayhello@opengovfoundation.org',
-			'from_email_name' => 'Madison'
+			'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+			'from_email_name'			=> static::FROM_EMAIL_NAME
 		));
 	}
 	
@@ -318,8 +340,8 @@ class NotificationEventHandler
 		$this->doNotificationActions($notifications, array(
 			'data' => array('user' => $data->toArray()),
 			'subject' => "An individual requests verification!",
-			'from_email_address' => 'sayhello@opengovfoundation.org',
-			'from_email_name' => 'Madison'
+			'from_email_address'	=> static::FROM_EMAIL_ADDRESS,
+			'from_email_name'			=> static::FROM_EMAIL_NAME
 		));
 	}
 	
@@ -336,5 +358,6 @@ class NotificationEventHandler
 		$eventManager->listen(MadisonEvent::VERIFY_REQUEST_USER, 'NotificationEventHandler@onVerifyUserRequest');
 		$eventManager->listen(Madisonevent::DOC_SUBCOMMENT, 'NotificationEventHandler@onDocSubcomment');
 		$eventManager->listen(MadisonEvent::NEW_ACTIVITY_VOTE, 'NotificationEventHandler@onNewActivityVote');
+		$eventManager->listen(MadisonEvent::NEW_GROUP_DOCUMENT, 'NotificationEventHandler@onNewGroupDocument');
 	}
 }
