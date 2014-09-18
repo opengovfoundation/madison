@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="madisonApp" lang="en">
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="madisonApp"  ng-controller="AppController" lang="en">
 	<head>
 		<meta charset="utf-8" />
 		@if(isset($page_title))
 		<title>{{ $page_title }}</title>
+		@else
+		<title ng-bind="pageTitle">Madison</title>
 		@endif
 		<!-- Mobile Optimization -->
 		<meta name="HandheldFriendly" content="True" />
@@ -38,16 +40,18 @@
 				</div>
 			</div>
 			<div class="row">
+				<div profile-completion-message></div>
+			</div>
+			<div class="row">
 				<div class="container alerts">
 					@include('errors')
 					@include('message')
 					@include('success')
 				</div>
 			</div>
-
 			<div id="main" class="">
 				<div class="container">
-						@yield('content')
+					@yield('content')
 				</div>
 			</div>
 		</div>

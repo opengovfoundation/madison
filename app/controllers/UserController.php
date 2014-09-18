@@ -9,6 +9,157 @@ class UserController extends BaseController{
 	}
 
 	/**
+	*	API PUT Route to update a user's notification settings
+	*
+	*	@param User $user
+	*	@return Response::json
+	* @todo There has to be a more efficient way to do this... We should probably only send changes from Angular.  We can also separate the array matching into helper functions
+	*/
+	public function putNotifications(User $user){
+		if(Auth::user()->id !== $user->id){
+			return Response::json($this->growlMessage("You do not have permissions to edit this user's notification settings", "error"));
+		}
+
+		//Grab notification array
+		$notifications = Input::get('notifications');
+
+		//Retrieve valid notification events
+		$validNotifications = Notification::getUserNotifications();
+		$events = array_keys($validNotifications);
+
+		//Loop through each notification
+		foreach($notifications as $notification) {
+
+			//Ensure this is a known user event.
+			if(!in_array($notification['event'], $events)){
+				return Response::json($this->growlMessage("Unable to save settings.  Unknown event: " . $notification['event'], "error"));
+			}			
+
+			//Grab this notification from the database
+			$model = Notification::where('user_id', '=', $user->id)->where('event', '=', $notification['event'])->first();
+
+			//If we don't want that notification (and it exists), delete it
+			if($notification['selected'] === false){
+				if(isset($model)){
+					$model->delete();
+				}
+			}else{
+				//If the entry doesn't already exist, create it.
+					//Otherwise, ignore ( there was no change )
+				if(!isset($model)){
+					$model = new Notification();
+					$model->user_id = $user->id;
+					$model->event = $notification['event'];
+					$model->type = "email";
+
+					$model->save();
+				}
+			}
+		}
+
+		return Response::json($this->growlMessage("Settings saved successfully.", "success"));
+	}
+
+	/**
+	*	API GET Route to get viable User notifications and notification statuses for current user
+	*
+	*	@param User $user
+	*	@return Response::json
+	*	@todo I'm sure this can be simplified...
+	*/
+	public function getNotifications(User $user){
+		if(Auth::user()->id !== $user->id){
+			return Response::json($this->growlMessage("You do not have permission to view this user's notification settings", "error"), 401);
+		}
+
+		//Retrieve all valid user notifications as associative array (event => description)
+		$validNotifications = Notification::getUserNotifications();
+		
+		//Filter out event keys
+		$events = array_keys($validNotifications);
+		
+		//Retreive all User Events for the current user
+		$currentNotifications = Notification::select('event')->where('user_id', '=', $user->id)->whereIn('event', $events)->get();
+
+		//Filter out event names from selected notifications
+		$currentNotifications = $currentNotifications->toArray();
+		$selectedEvents = array();
+		foreach($currentNotifications as $notification){
+			array_push($selectedEvents, $notification['event']);
+		}
+
+		//Build array of notifications and their selected status
+		$toReturn = array();
+		foreach($validNotifications as $event => $description){
+			$notification = array();
+			$notification['event'] = $event;
+			$notification['description'] = $description;
+			$notification['selected'] = in_array($event, $selectedEvents) ? true : false;
+
+			array_push($toReturn, $notification);
+		}
+		
+		return Response::json($toReturn);
+	}
+
+	/**
+	*	Notification Preference Page
+	*
+	*	@param User $user
+	*	@return Illuminate\View\View
+	*/
+	public function editNotifications(User $user){
+		//Render view and return
+		return View::make('single');
+	}
+
+	/**
+	*	Api route to edit user's email
+	*
+	* @param User $user
+	* @return array $response
+	*/
+	public function editEmail(User $user){
+
+		//Check authorization
+		if(Auth::user()->id !== $user->id){
+			return Response::json($this->growlMessage("You are not authorized to change that user's email", "error"));
+		}
+
+		$user->email = Input::get('email');
+		$user->password = Input::get('password');
+		
+		if($user->save()){
+			return Response::json($this->growlMessage("Email saved successfully.  Thank you.", 'success'), 200);	
+		} else {
+			$errors = $user->getErrors();
+			$messages = array();
+
+			foreach($errors->all() as $error){
+				array_push($messages, $error);
+			}
+
+			return Response::json($this->growlMessage($messages, 'error'), 500);
+		}
+	}
+
+	/**
+	*	Api route to get logged in user
+	*
+	*	@param void
+	* @return JSON user
+	*/
+	public function getCurrent(){
+		if(!Auth::check()){
+			return Response::json(null);
+		}
+
+		return Response::json([
+      'user'	=> Auth::user()->toArray()
+		]);
+	}
+
+	/**
 	*	getIndex
 	*
 	*	Retrieve user by id and display user page

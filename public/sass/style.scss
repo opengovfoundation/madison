@@ -24,6 +24,7 @@
 @import "annotator";
 @import "socials";
 @import "tour";
+@import "directives";
 
 /* ==========================================================================
    Browse Happy prompt
@@ -140,6 +141,12 @@ textarea.form-inline{
 	@include grad-bg($black-grad-start, $black-grad-end);
 
 	color:$light-gray;
+}
+
+/* Glyphicons */
+
+.glyphicon.glyphicon-thumbs-up, .glyphicon.glyphicon-thumbs-down, .glyphicon.glyphicon-flag{
+	cursor: pointer;
 }
 
 /* MAIN HEADER

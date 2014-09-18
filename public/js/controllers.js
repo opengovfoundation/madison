@@ -1,6 +1,52 @@
 /*global user*/
 /*global doc*/
 angular.module('madisonApp.controllers', [])
+  /**
+  * Global controller, attached to the <body> tag
+  * 
+  * Handles global scope variables
+  */
+  .controller('AppController', ['$rootScope', '$scope', 'UserService',
+    function ($rootScope, $scope, UserService) {
+      //Update page title
+      $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+        $rootScope.pageTitle = current.$$route.title;
+      });
+
+      //Watch for user data change
+      $scope.$on('userUpdated', function () {
+        $scope.user = UserService.user;
+      });
+
+      //Load user data
+      UserService.getUser();
+    }])
+  .controller('UserNotificationsController', ['$scope', '$http', 'UserService', function ($scope, $http, UserService) {
+    
+    //Wait for AppController controller to load user
+    UserService.exists.then(function () {
+      $http.get('/api/user/' + $scope.user.id + '/notifications')
+        .success(function (data) {
+          $scope.notifications = data;
+        }).error(function (data) {
+          console.error("Error loading notifications: %o", data);
+        });
+    });
+
+    //Watch for notification changes
+    $scope.$watch('notifications', function (newValue, oldValue) {
+      if (oldValue !== undefined) {
+        //Save notifications
+        $http.put('/api/user/' + $scope.user.id + '/notifications', {notifications: newValue})
+          .success(function (data) {
+            //Do nothing?
+          }).error(function (data) {
+            console.error("Error updating notification settings: %o", data);
+          });
+      }
+    }, true);
+
+  }])
   .controller('HomePageController', ['$scope', '$http', '$filter', '$cookies', 'Doc',
     function ($scope, $http, $filter, $cookies, Doc) {
       $scope.docs = [];
@@ -178,9 +224,9 @@ angular.module('madisonApp.controllers', [])
       };
 
       $scope.setSponsor = function () {
-        if($scope.doc.group_sponsor.length !== 0){
+        if ($scope.doc.group_sponsor.length !== 0) {
           $scope.doc.sponsor = $scope.doc.group_sponsor;
-        }else{
+        } else {
           $scope.doc.sponsor = $scope.doc.user_sponsor;
           $scope.doc.sponsor[0].display_name = $scope.doc.sponsor[0].fname + ' ' + $scope.doc.sponsor[0].lname;
         }
@@ -202,7 +248,7 @@ angular.module('madisonApp.controllers', [])
                 $scope.opposed = null;
               }
 
-              if($scope.supported !== null && $scope.opposed !== null){
+              if ($scope.supported !== null && $scope.opposed !== null) {
                 $('#doc-support').text(data.supports + ' Support');
                 $('#doc-oppose').text(data.opposes + ' Oppose');
               }
@@ -217,38 +263,37 @@ angular.module('madisonApp.controllers', [])
         if ($scope.user.id === '') {
           createLoginPopup($event);
         } else {
-        $http.post('/api/docs/' + $scope.doc.id + '/support', {
-          'support': supported
-        })
-          .success(function (data) {
-            //Parse data to see what user's action is currently
-            if (data.support === null) {
-              $scope.supported = false;
-              $scope.opposed = false;
-            } else {
-              $scope.supported = data.support;
-              $scope.opposed = !data.support;
-            }
-
-            var button = $($event.target);
-            var otherButton = $($event.target).siblings('a.btn');
-
-            if(button.hasClass('doc-support')){
-              button.text(data.supports + ' Support');
-              otherButton.text(data.opposes + ' Oppose');
-            }else{
-              button.text(data.opposes + ' Oppose');
-              otherButton.text(data.supports + ' Support');
-            }
-
+          $http.post('/api/docs/' + $scope.doc.id + '/support', {
+            'support': supported
           })
-          .error(function (data) {
-            console.error("Error posting support: %o", data);
-          });
+            .success(function (data) {
+              //Parse data to see what user's action is currently
+              if (data.support === null) {
+                $scope.supported = false;
+                $scope.opposed = false;
+              } else {
+                $scope.supported = data.support;
+                $scope.opposed = !data.support;
+              }
+
+              var button = $($event.target);
+              var otherButton = $($event.target).siblings('a.btn');
+
+              if (button.hasClass('doc-support')) {
+                button.text(data.supports + ' Support');
+                otherButton.text(data.opposes + ' Oppose');
+              } else {
+                button.text(data.opposes + ' Oppose');
+                otherButton.text(data.supports + ' Support');
+              }
+
+            })
+            .error(function (data) {
+              console.error("Error posting support: %o", data);
+            });
         }
       };
-    }
-    ])
+    }])
   .controller('AnnotationController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
     function ($scope, $sce, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
       $scope.annotations = [];
@@ -258,10 +303,10 @@ angular.module('madisonApp.controllers', [])
       //Parse sub-comment hash if there is one
       var hash = $location.hash();
       var subCommentId = hash.match(/^annsubcomment_([0-9]+)$/);
-      if(subCommentId){
-        $scope.subCommentId = subCommentId[1];  
+      if (subCommentId) {
+        $scope.subCommentId = subCommentId[1];
       }
-      
+
       $scope.init = function (docId) {
         $scope.user = user;
         $scope.doc = doc;
@@ -272,9 +317,9 @@ angular.module('madisonApp.controllers', [])
         angular.forEach(annotationService.annotations, function (annotation) {
           if ($.inArray(annotation, $scope.annotations) < 0) {
             var collapsed = true;
-            if($scope.subCommentId){
+            if ($scope.subCommentId) {
               angular.forEach(annotation.comments, function (subcomment) {
-                if(subcomment.id == $scope.subCommentId){
+                if (subcomment.id == $scope.subCommentId) {
                   collapsed = false;
                 }
               });
@@ -289,12 +334,12 @@ angular.module('madisonApp.controllers', [])
         $scope.$apply();
       });
 
-      $scope.isSponsor = function(){
+      $scope.isSponsor = function () {
         var currentId = $scope.user.id;
         var sponsored = false;
- 
-        angular.forEach($scope.doc.sponsor, function(sponsor){
-          if(currentId === sponsor.id){
+
+        angular.forEach($scope.doc.sponsor, function (sponsor) {
+          if (currentId === sponsor.id) {
             sponsored = true;
           }
         });
@@ -302,14 +347,14 @@ angular.module('madisonApp.controllers', [])
         return sponsored;
       };
 
-      $scope.notifyAuthor = function(annotation){
+      $scope.notifyAuthor = function (annotation) {
 
         $http.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/' + 'seen')
-        .success(function(data){
-          annotation.seen = data.seen;
-        }).error(function(data){
-          console.error("Unable to mark activity as seen: %o", data);
-        });
+          .success(function (data) {
+            annotation.seen = data.seen;
+          }).error(function (data) {
+            console.error("Unable to mark activity as seen: %o", data);
+          });
       };
 
 
@@ -321,9 +366,9 @@ angular.module('madisonApp.controllers', [])
           .success(function (data) {
             angular.forEach(data, function (comment) {
               var collapsed = false;
-              if($scope.subCommentId){
+              if ($scope.subCommentId) {
                 angular.forEach(comment.comments, function (subcomment) {
-                  if(subcomment.id == $scope.subCommentId){
+                  if (subcomment.id == $scope.subCommentId) {
                     collapsed = false;
                   }
                 });
@@ -412,22 +457,22 @@ angular.module('madisonApp.controllers', [])
       // Parse comment/subcomment direct links
       var hash = $location.hash();
       var subCommentId = hash.match(/(sub)?comment_([0-9]+)$/);
-      if(subCommentId){
-        $scope.subCommentId = subCommentId[2];  
+      if (subCommentId) {
+        $scope.subCommentId = subCommentId[2];
       }
-      
+
       $scope.init = function (docId) {
         $scope.getDocComments(docId);
         $scope.user = user;
         $scope.doc = doc;
       };
 
-      $scope.isSponsor = function(){
+      $scope.isSponsor = function () {
         var currentId = $scope.user.id;
         var sponsored = false;
- 
-        angular.forEach($scope.doc.sponsor, function(sponsor){
-          if(currentId === sponsor.id){
+
+        angular.forEach($scope.doc.sponsor, function (sponsor) {
+          if (currentId === sponsor.id) {
             sponsored = true;
           }
         });
@@ -435,16 +480,16 @@ angular.module('madisonApp.controllers', [])
         return sponsored;
       };
 
-      $scope.notifyAuthor = function(activity){
- 
+      $scope.notifyAuthor = function (activity) {
+
         // If the current user is a sponsor and the activity hasn't been seen yet, 
         // post to API route depending on comment/annotation label
         $http.post('/api/docs/' + doc.id + '/' + 'comments/' + activity.id + '/' + 'seen')
-        .success(function(data){
-          activity.seen = data.seen;
-        }).error(function(data){
-          console.error("Unable to mark activity as seen: %o", data);
-        });
+          .success(function (data) {
+            activity.seen = data.seen;
+          }).error(function (data) {
+            console.error("Unable to mark activity as seen: %o", data);
+          });
       };
 
 
@@ -462,7 +507,7 @@ angular.module('madisonApp.controllers', [])
 
               // If this isn't a parent comment, we need to find the parent and push this comment there
               if (comment.parent_id !== null) {
-                parent = $scope.parentSearch(data, comment.parent_id);
+                var parent = $scope.parentSearch(data, comment.parent_id);
                 comment.parentpointer = data[parent];
                 data[parent].comments.push(comment);
               }
@@ -492,10 +537,10 @@ angular.module('madisonApp.controllers', [])
                 if ($scope.collapsed_comment.parent_id !== null) {
                   $scope.collapsed_comment = $scope.collapsed_comment.parentpointer;
                 } else {
-                 // We have reached the first sublevel of comments, so set the top level
-                 // parent to expand and exit 
-                 not_parent = false;
-               } 
+                  // We have reached the first sublevel of comments, so set the top level
+                  // parent to expand and exit 
+                  not_parent = false;
+                }
               } while (not_parent === true);
             }
           })
@@ -505,7 +550,7 @@ angular.module('madisonApp.controllers', [])
 
       };
 
-      $scope.parentSearch = function (arr,val) {
+      $scope.parentSearch = function (arr, val) {
         for (var i=0; i<arr.length; i++)
           if (arr[i].id === val)                    
             return i;
