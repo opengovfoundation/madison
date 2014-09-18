@@ -2,7 +2,7 @@
 	http://mymadison.io/css/style.css */
 
 @import "compass/css3/box-shadow";
-@import "compass/css3/shared";
+@import "compass/css3/deprecated-support";
 @import "compass/css3/border-radius";
 @import "compass/css3/box-shadow";
 @import "compass/layout/sticky-footer";
@@ -23,6 +23,7 @@
 @import "animations";
 @import "annotator";
 @import "socials";
+@import "tour";
 @import "directives";
 
 /* ==========================================================================

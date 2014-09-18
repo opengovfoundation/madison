@@ -33,6 +33,7 @@ module.exports = function (grunt) {
         'proto': true
       },
       all: [
+        'public/js/bootstrap-tour.js',
         'public/js/controllers.js',
         'public/js/dashboardControllers.js',
         'public/js/services.js',
@@ -69,7 +70,9 @@ module.exports = function (grunt) {
             'public/bower_components/google-translate/index.txt',
             'public/bower_components/bootstrap/js/collapse.js',
             'public/bower_components/bootstrap/js/modal.js',
-            'public/bower_components/boostrap-tour/build/js/boostrap-tour.min.js',
+            'public/bower_components/angular-tour/dist/angular-tour.min.js',
+            'public/bower_components/angular-tour/dist/angular-tour-tpls.min.js',
+            'public/bower_components/angular-cookie/angular-cookie.min.js',
 
             //Datetimepicker and dependencies
             'public/vendor/datetimepicker/datetimepicker.js',
@@ -82,6 +85,7 @@ module.exports = function (grunt) {
             'public/js/annotator-madison.js',
 
             //Custom JS
+            'public/js/bootstrap-tour.js',
             'public/js/controllers.js',
             'public/js/resources.js',
             'public/js/dashboardControllers.js',
@@ -103,6 +107,7 @@ module.exports = function (grunt) {
       combine: {
         files: {
           'public/build/app.css': [
+            'public/bower_components/angular-tour/dist/angular-tour.css',
             'public/bower_components/angular-growl/build/angular-growl.min.css',
             'public/vendor/pagedown/assets/demo.css',
             'public/vendor/datetimepicker/datetimepicker.css',

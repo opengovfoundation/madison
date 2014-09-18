@@ -6,8 +6,8 @@ angular.module('madisonApp.controllers', [])
   * 
   * Handles global scope variables
   */
-  .controller('AppController', ['$rootScope', '$scope', 'UserService',
-    function ($rootScope, $scope, UserService) {
+  .controller('AppController', ['$rootScope', '$scope', 'ipCookie', 'UserService',
+    function ($rootScope, $scope, ipCookie, UserService) {
       //Update page title
       $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
         $rootScope.pageTitle = current.$$route.title;
@@ -20,6 +20,21 @@ angular.module('madisonApp.controllers', [])
 
       //Load user data
       UserService.getUser();
+
+      //Set up Angular Tour
+      $scope.step_messages = {
+        step_0: 'Welcome to Madison!  Help create better policy in your community.  Click Next to continue.',
+        step_1: 'Getting Started:  Choose a policy document.  You can browse, or filter by title, category, sponsor, or status. Go ahead, choose one!',
+        step_2: 'Next, dive in! Scroll or use the Table of Contents to get to the good stuff.',
+        step_3: 'Share ideas and questions with the document sponsor and other users in the Discussion tab.',
+        step_4: 'Suggest specific changes to the text.  Just highlight part of the document and add your thoughts!'
+      };
+
+      $scope.currentStep = ipCookie('myTour') || 0;
+
+      $scope.stepComplete = function () {
+        ipCookie('myTour', $scope.currentStep, {path: '/', expires: 10*365});
+      };
     }])
   .controller('UserNotificationsController', ['$scope', '$http', 'UserService', function ($scope, $http, UserService) {
     
@@ -47,8 +62,8 @@ angular.module('madisonApp.controllers', [])
     }, true);
 
   }])
-  .controller('HomePageController', ['$scope', '$filter', 'Doc',
-    function ($scope, $filter, Doc) {
+  .controller('HomePageController', ['$scope', '$http', '$filter', '$cookies', 'Doc',
+    function ($scope, $http, $filter, $cookies, Doc) {
       $scope.docs = [];
       $scope.categories = [];
       $scope.sponsors = [];
@@ -58,6 +73,7 @@ angular.module('madisonApp.controllers', [])
       $scope.select2 = '';
       $scope.docSort = "created_at";
       $scope.reverse = true;
+      $scope.startStep = 0;
 
       //Retrieve all docs
       Doc.query(function (data) {

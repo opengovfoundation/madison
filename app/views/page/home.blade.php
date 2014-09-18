@@ -1,12 +1,12 @@
 <div class="row">
 	<h1>Welcome to Madison</h1>
 </div>
-<div class="row" ng-controller="HomePageController" ng-init="init()">
+<div class="row" ng-controller="HomePageController" tourtip="@{{ step_messages.step_0 }}" tourtip-step="0">
 	<div class="col-sm-6">
-		<input type="text" ng-model="docSearch" class="form-control" placeholder="Filter document titles">
+		<input tourtip="@{{ step_messages.step_1 }}" tourtip-step="1" id="doc-text-filter" type="text" ng-model="docSearch" class="form-control" placeholder="Filter document titles">
 	</div>
 	<div class="col-sm-4 home-select2-container">
-		<select ui-select2="select2Config" ng-model="select2">
+		<select id="doc-category-filter" ui-select2="select2Config" ng-model="select2">
 			<option value=""></option>
 			<optgroup label="Category">
 				<option value="category_@{{ category.id }}" ng-repeat="category in categories">@{{ category.name }}</option>
@@ -20,7 +20,7 @@
 		</select>
 	</div>
 	<div class="col-sm-2 home-select2-container">
-		<select ui-select2="dateSortConfig" id="dateSortSelect" ng-model="dateSort">
+		<select id="doc-date-filter" ui-select2="dateSortConfig" id="dateSortSelect" ng-model="dateSort">
 			<option value=""></option>
 			<option value="created_at">Date Posted</option>
 			<option value="updated_at">Last Updated</option>
