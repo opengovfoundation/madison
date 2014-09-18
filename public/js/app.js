@@ -17,7 +17,8 @@ var imports = [
     'angular-growl',
     'ngResource',
     'angular-tour',
-    'ngRoute'
+    'ngRoute',
+    'ipCookie'
   ];
 
 var app = angular.module('madisonApp', imports);

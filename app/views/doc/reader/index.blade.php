@@ -80,7 +80,7 @@
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div id="content" class="content doc_content @if(Auth::check())logged_in@endif">
+				<div id="content" class="content doc_content @if(Auth::check())logged_in@endif" tourtip="@{{ step_messages.step_2 }}" tourtip-step="2">
 					<div id="doc_content">{{ $doc->get_content('html') }}</div>
 				</div>
 			</div>

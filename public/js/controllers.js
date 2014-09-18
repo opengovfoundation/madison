@@ -6,8 +6,8 @@ angular.module('madisonApp.controllers', [])
   * 
   * Handles global scope variables
   */
-  .controller('AppController', ['$rootScope', '$scope', 'UserService',
-    function ($rootScope, $scope, UserService) {
+  .controller('AppController', ['$rootScope', '$scope', 'ipCookie', 'UserService',
+    function ($rootScope, $scope, ipCookie, UserService) {
       //Update page title
       $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
         $rootScope.pageTitle = current.$$route.title;
@@ -20,6 +20,29 @@ angular.module('madisonApp.controllers', [])
 
       //Load user data
       UserService.getUser();
+
+      //Set up Angular Tour
+      $scope.step_messages = {
+        step_0: 'Welcome to Madison!  Help create better policy in your community.  Click Next to continue.',
+        step_1: 'Getting Started:  Choose a policy document.  You can browse, or filter by title, category, sponsor, or status. Go ahead, choose one!',
+        step_2: 'Next, dive in! Scroll or use the Table of Contents to get to the good stuff.'
+      };
+
+      $scope.currentStep = ipCookie('myTour') || 0;
+      
+      if($scope.currentStep < 0){
+        $scope.tourComplete();
+      }
+
+      $scope.stepComplete = function () {
+        ipCookie('myTour', $scope.currentStep, {path: '/'});
+        console.log(ipCookie('myTour'));
+      };
+
+      $scope.tourComplete = function () {
+         //$cookies.myTour = -1;
+         //closeTour();
+      };
     }])
   .controller('UserNotificationsController', ['$scope', '$http', 'UserService', function ($scope, $http, UserService) {
     
@@ -58,11 +81,7 @@ angular.module('madisonApp.controllers', [])
       $scope.select2 = '';
       $scope.docSort = "created_at";
       $scope.reverse = true;
-
-      $scope.step_messages = [
-        'Welcome to Madison!  Click next to continue',
-        'Filter Documents by Title'
-      ];
+      $scope.startStep = 0;
 
       //Retrieve all docs
       Doc.query(function (data) {
@@ -80,23 +99,6 @@ angular.module('madisonApp.controllers', [])
       $scope.dateSortConfig = {
         allowClear: true,
         placeholder: "Sort By Date"
-      };
-
-      $scope.currentStep = $cookies.myTour || 0;
-      $cookies.myTour = $scope.currentStep;
-
-      if($scope.currentStep < 0){
-        $scope.tourComplete();
-      }
-
-      $scope.stepComplete = function () {
-        console.log('stepping', $scope.currentStep);
-        $cookies.myTour = $scope.currentStep;
-      };
-
-      $scope.tourComplete = function () {
-         //$cookies.myTour = -1;
-         //closeTour();
       };
 
       $scope.parseDocs = function (docs) {
