@@ -56,7 +56,7 @@
 			</div>
 		</div>
 	</div>
-	<ul class="nav nav-tabs" role="tablist">
+	<ul class="nav nav-tabs" role="tablist" tourtip="@{{ step_messages.step_3 }}" tourtip-step="3">
 		<li ng-class="{'active':secondtab == false}"><a href="#tab-activity" target="_self" role="tab" data-toggle="tab">Bill</a></li>
 		<li ng-class="{'active':secondtab == true}"><a href="#tab-discussion" target="_self" role="tab" data-toggle="tab">Discussion</a></li>
 		<a href="{{ $doc->slug }}/feed" class="rss-link" target="_self"><img src="/img/rss-fade.png" class="rss-icon" alt="RSS Icon"></a>
@@ -81,7 +81,7 @@
 			</div>
 			<div class="col-md-6">
 				<div id="content" class="content doc_content @if(Auth::check())logged_in@endif" tourtip="@{{ step_messages.step_2 }}" tourtip-step="2">
-					<div id="doc_content">{{ $doc->get_content('html') }}</div>
+					<div id="doc_content" tourtip="@{{ step_messages.step_4 }}" tourtip-step="4">{{ $doc->get_content('html') }}</div>
 				</div>
 			</div>
 			<div class="col-md-3">

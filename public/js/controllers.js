@@ -25,23 +25,15 @@ angular.module('madisonApp.controllers', [])
       $scope.step_messages = {
         step_0: 'Welcome to Madison!  Help create better policy in your community.  Click Next to continue.',
         step_1: 'Getting Started:  Choose a policy document.  You can browse, or filter by title, category, sponsor, or status. Go ahead, choose one!',
-        step_2: 'Next, dive in! Scroll or use the Table of Contents to get to the good stuff.'
+        step_2: 'Next, dive in! Scroll or use the Table of Contents to get to the good stuff.',
+        step_3: 'Share ideas and questions with the document sponsor and other users in the Discussion tab.',
+        step_4: 'Suggest specific changes to the text.  Just highlight part of the document and add your thoughts!'
       };
 
       $scope.currentStep = ipCookie('myTour') || 0;
-      
-      if($scope.currentStep < 0){
-        $scope.tourComplete();
-      }
 
       $scope.stepComplete = function () {
-        ipCookie('myTour', $scope.currentStep, {path: '/'});
-        console.log(ipCookie('myTour'));
-      };
-
-      $scope.tourComplete = function () {
-         //$cookies.myTour = -1;
-         //closeTour();
+        ipCookie('myTour', $scope.currentStep, {path: '/', expires: 10*365});
       };
     }])
   .controller('UserNotificationsController', ['$scope', '$http', 'UserService', function ($scope, $http, UserService) {

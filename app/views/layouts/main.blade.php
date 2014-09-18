@@ -32,7 +32,7 @@
 		<!--[if lt IE 8]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
-		<tour step="currentStep" post-tour="tourComplete()" post-step="stepComplete()" ng-controller="TourController">
+		<tour step="currentStep" post-tour="tourComplete()" post-step="stepComplete()">
 			<div growl></div>
 			<div id="wrap">
 				<div id="header-main" class="navbar" role="navigation">
