@@ -1,11 +1,22 @@
 #Installation
 
 For Mac OSX installation instructions, see INSTALL.OSX.md. 
-Dependencies:
 
-* LAMP
-* libyaml
-* mcrypt
+**Dependencies:**
+* PHP ( >= 5.4 )
+  * libyaml
+  * mcrypt
+* MySQL
+* Laravel ( MVC PHP Framework )
+* AngularJS ( MVC JS Framework )
+* Grunt ( JS Task Runner )
+  * Gruntfile.js
+* Composer ( PHP Dependency Manager )
+  * composer.json
+* Bower ( Front-end Dependency Manager )
+  * bower.json
+* NPM ( Node Dependency Manager )
+  * package.json
 
 
 1.  Install [Composer](http://getcomposer.org/)
