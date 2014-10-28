@@ -63,11 +63,11 @@ class DocumentApiController extends ApiController{
 		$return_docs = array();
 
 		foreach($docs as $doc){
-			try { 
-				$doc->setActionCount();
-			} catch(Exception $e) {
-				throw $e;
-			}
+			// try { 
+			// 	$doc->setActionCount();
+			// } catch(Exception $e) {
+			// 	throw $e;
+			// }
 			
 			$return_doc = $doc->toArray();
 
