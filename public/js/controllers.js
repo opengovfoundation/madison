@@ -35,6 +35,11 @@ angular.module('madisonApp.controllers', [])
       $scope.stepComplete = function () {
         ipCookie('myTour', $scope.currentStep, {path: '/', expires: 10*365});
       };
+
+      $scope.tourComplete = function () {
+        ipCookie('myTour', 99, {path: '/', expires: 10*365});
+      };
+
     }])
   .controller('UserNotificationsController', ['$scope', '$http', 'UserService', function ($scope, $http, UserService) {
     
