@@ -230,7 +230,7 @@ class UserController extends BaseController{
 				return Redirect::to('user/edit/' . $user->id)->with('error', 'The passwords you\'ve entered do not match.');
 			}
 			else{
-				$password = Input::get('password_1');
+				$user->password = Input::get('password_1');
 			}
 		}
 
