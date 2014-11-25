@@ -99,8 +99,7 @@ module.exports = function (grunt) {
         }
       },
       options: {
-        mangle: false,
-        sourceMap: 'public/build/app.map'
+        mangle: false
       }
     },
     cssmin: {
