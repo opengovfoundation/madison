@@ -14,7 +14,9 @@ use Zizaco\Entrust\Entrust;
 
 App::before(function($request)
 {
-	//
+	if(! Request::secure()){
+		return Redirect::secure(Request::path());
+	}
 });
 
 
