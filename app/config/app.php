@@ -111,7 +111,8 @@ return array(
 		'Rocketeer\RocketeerServiceProvider',
 		'GrahamCampbell\Markdown\MarkdownServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
-		'Artdarek\OAuth\OAuthServiceProvider'
+		'Artdarek\OAuth\OAuthServiceProvider',
+		'Madison\Services\ServiceProviders\SessionRejectServiceProvider'
 	),
 
 	/*
