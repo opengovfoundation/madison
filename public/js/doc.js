@@ -102,7 +102,7 @@ $(document).ready(function () {
           event.stopPropagation();
           event.preventDefault();
 
-          $.get('/api/user/login/', {}, function (data) {
+          $.get('/api/user/login', {}, function (data) {
             data = $(data);
 
             ajaxify_form(data.find('form'), function () {
@@ -119,7 +119,7 @@ $(document).ready(function () {
           event.stopPropagation();
           event.preventDefault();
 
-          $.get('/api/user/signup/', {}, function (data) {
+          $.get('/api/user/signup', {}, function (data) {
             data = $(data);
 
             ajaxify_form(data.find('form'), function (result) {
