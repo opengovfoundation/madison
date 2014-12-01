@@ -249,6 +249,7 @@ angular.module('madisonApp.dashboardControllers', [])
       };
       $scope.verifiedUsers = [];
       $scope.categories = [];
+      $scope.introtext = "";
       $scope.suggestedCategories = [];
       $scope.suggestedStatuses = [];
       $scope.dates = [];
@@ -270,6 +271,7 @@ angular.module('madisonApp.dashboardControllers', [])
         $scope.setSelectOptions();
 
         var initCategories = true;
+        var initIntroText = true;
         var initSponsor = true;
         var initStatus = true;
 
@@ -290,7 +292,22 @@ angular.module('madisonApp.dashboardControllers', [])
             $("#wmd-preview").scrollTop($("#wmd-input").scrollTop());
           });
 
-
+          var introTextTimeout = null;
+          $scope.getIntroText().then(function () {
+            $scope.$watch('introtext', function () {
+              if (initIntroText) {
+                $timeout(function () {
+                  initIntroText = false;
+                });
+              } else {
+                  if (introTextTimeout) { 
+                      $timeout.cancel(introTextTimeout);
+                  }
+                  introTextTimeout = $timeout(function () { $scope.saveIntroText(); }, 5000);
+                }
+            });
+          });
+          
 
           $scope.getDocSponsor().then(function () {
             $scope.$watch('sponsor', function () {
@@ -475,7 +492,7 @@ angular.module('madisonApp.dashboardControllers', [])
             };
           },
           initSelection: function (element, callback) {
-            callback($scope.status);  
+            callback($scope.status);
           },
           allowClear: true
         };
@@ -507,13 +524,13 @@ angular.module('madisonApp.dashboardControllers', [])
                     case 'user':
                         text = sponsor.fname + " " + sponsor.lname + " - " + sponsor.email;
                         break;
-                } 
+                }
                 
-                returned.push({ 
+                returned.push({
                     id : sponsor.id,
                     type :  sponsor.sponsorType,
                     text : text
-                }); 
+                });
                 
               });
 
@@ -667,6 +684,15 @@ angular.module('madisonApp.dashboardControllers', [])
           });
       };
 
+      $scope.getIntroText = function () {
+        return $http.get('/api/docs/' + $scope.doc.id + '/introtext')
+          .success(function (data) {
+            $scope.introtext = data['meta-value'];
+          }).error(function (data) {
+            console.error("Unable to get Intro Text for document %o: %o", $scope.doc, data);
+          });
+      };
+
       $scope.getDocSponsor = function () {
         return $http.get('/api/docs/' + $scope.doc.id + '/sponsor')
           .success(function (data) {
@@ -765,6 +791,17 @@ angular.module('madisonApp.dashboardControllers', [])
             console.log("Categories saved successfully: %o", data);
           }).error(function (data) {
             console.error("Error saving categories for document %o: %o \n %o", $scope.doc, $scope.categories, data);
+          });
+      };
+
+      $scope.saveIntroText = function () {
+        return $http.post('/api/docs/' + $scope.doc.id + '/introtext', {
+          'intro-text': $scope.introtext
+        })
+          .success(function (data) {
+            console.log("Intro Text saved successfully: %o", data);
+          }).error(function (data) {
+            console.error("Error saving intro text for document %o: %o", $scope.doc, $scope.introtext);
           });
       };
     }

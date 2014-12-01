@@ -146,6 +146,8 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/docs/sponsors', 'DocumentApiController@getAllSponsors');
     Route::get('api/docs/{doc}/categories', 'DocumentApiController@getCategories');
     Route::post('api/docs/{doc}/categories', 'DocumentApiController@postCategories');
+    Route::get('api/docs/{doc}/introtext', 'DocumentApiController@getIntroText');
+    Route::post('api/docs/{doc}/introtext', 'DocumentApiController@postIntroText');
     Route::get('api/docs/{doc}/sponsor/{sponsor}', 'DocumentApiController@hasSponsor');
     Route::get('api/docs/{doc}/sponsor', 'DocumentApiController@getSponsor');
     Route::post('api/docs/{doc}/sponsor', 'DocumentApiController@postSponsor');

@@ -131,6 +131,14 @@ class DocumentApiController extends ApiController{
 		return Response::json($response);
 	}
 
+	public function getIntroText($doc){
+		$doc = Doc::find($doc);
+
+		$introText = DocMeta::where('meta_key', '=', 'intro-text')->where('doc_id', '=', $doc)->first();
+
+		return Response::json($introText);
+	}
+
 	public function hasSponsor($doc, $sponsor){
 		$result = Doc::find($doc)->sponsor()->find($sponsor);
 		return Response::json($result);
