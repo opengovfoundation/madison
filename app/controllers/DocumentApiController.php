@@ -141,9 +141,14 @@ class DocumentApiController extends ApiController{
 		$doc = Doc::find($doc);
 		$sponsor = $doc->sponsor()->first();
 
-		$sponsor->sponsorType = get_class($sponsor);
+		if($sponsor){
+			$sponsor->sponsorType = get_class($sponsor);	
 
-		return Response::json($sponsor);
+			return Response::json($sponsor);
+		}
+		
+		return Response::json();
+		
 	}
 
 	public function postSponsor($doc){

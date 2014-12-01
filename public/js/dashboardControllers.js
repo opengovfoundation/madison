@@ -670,6 +670,11 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.getDocSponsor = function () {
         return $http.get('/api/docs/' + $scope.doc.id + '/sponsor')
           .success(function (data) {
+            if(data.sponsorType === undefined){
+              $scope.sponsor = null;
+              return;
+            }
+
             var text = "";
 
             switch(data.sponsorType.toLowerCase()) {
