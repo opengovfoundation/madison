@@ -49,20 +49,10 @@
 				<div class="doc-date" ng-repeat="date in doc.dates">
 					<strong>@{{ date.label }}: </strong><span>@{{ date.date | parseDate | date:'shortDate' }}</span>
 				</div>
-				@if($doc->id == 90)
-				<div class="doc-intro">
+				<div class="doc-intro" ng-if="introtext">
 					<p><strong>Introduction:</strong></p>
-					<p>You are invited to join more than 30 federal managers  and collaborate on the U.S. Public Participation Playbook before its initial release. Your insights will help ensure it has a solid foundation which other organizations, government agencies and citizens themselves can build upon. It is critical to the success of this resource that it not only addresses the needs of open government, but is designed with open government principles in its DNA.</p>
-					<p>All sections of the playbook are under consideration. There are three main sections to each play you can suggest new content for:</p>
-					<ol>
-						<li>Checklist -- considerations or steps to follow when designing or evaluating a public participation program</li>
-						<li>Case Studies -- real world examples that exemplify the play</li>
-						<li>Metrics -- suggestions for how to measure the effectiveness of the play</li>
-					</ol
-					<p>This initial collaborative period will last until December, 17, 2014, and all comments will be reviewed and responded to by the Public Participation Working Group. By January 2015 an edited, formal version of the initial U.S. Public Participation Playbook will be released for piloting by agencies and further, ongoing public contribution. </p>
-					<p>Questions or ideas? Email <a href="mailto:justin.herman@gsa.gov" target="_blank">justin.herman@gsa.gov</a></p>
+					<div class="markdown" data-ng-bind-html="introtext"></div>
 				</div>
-				@endif
 				<div class="btn-group">
 					<a id="doc-support" href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">Support This Document</a>
 					<a id="doc-oppose" href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">Oppose This Document</a>

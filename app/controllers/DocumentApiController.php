@@ -11,7 +11,9 @@ class DocumentApiController extends ApiController{
 	}
 
 	public function getDoc($doc){
-		$doc = Doc::with('content')->with('categories')->find($doc);
+		$doc_id = $doc;
+
+		$doc = Doc::with('content')->with('categories')->with('introtext')->find($doc);
 
 		return Response::json($doc);
 	}
