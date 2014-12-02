@@ -82,6 +82,7 @@
 								<label for="intro-text" class="col-sm-2">Intro Text: </label>
 								<div class="col-sm-10">
 									<textarea class="form-control" rows="10" ng-model="introtext" ng-change="updateIntroText(introtext)"></textarea>
+									<span class="help-block">Auto-saves 3 seconds after you're done editing.</span>
 								</div>
 							</div>
 						</form>
