@@ -202,9 +202,13 @@ angular.module('madisonApp.controllers', [])
       };
 
       $scope.doc = Doc.get({id: doc.id}, function () {
-        var converter = new Markdown.Converter();
 
-        $scope.introtext = $sce.trustAsHtml(converter.makeHtml($scope.doc.introtext[0].meta_value));
+        //If intro text exists, convert & trust the markdown content
+        if(undefined !== $scope.doc.introtext[0]){
+          var converter = new Markdown.Converter();
+
+          $scope.introtext = $sce.trustAsHtml(converter.makeHtml($scope.doc.introtext[0].meta_value));  
+        }
       });
     }
     ])
