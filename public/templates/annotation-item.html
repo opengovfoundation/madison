@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="annotator-tags">
-        <span class="annotator-tag" ng-repeat="tag in annotation.tags">{{ tag }}</span>
+        <span class="annotator-tag" ng-repeat="tag in annotation.tags track by $index">{{ tag }}</span>
     </div>
     <div class="row">
         <div class="col-md-4">
