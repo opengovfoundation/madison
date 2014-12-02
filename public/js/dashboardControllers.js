@@ -292,22 +292,14 @@ angular.module('madisonApp.dashboardControllers', [])
             $("#wmd-preview").scrollTop($("#wmd-input").scrollTop());
           });
 
+          //Save intro text after a 3 second timeout
           var introTextTimeout = null;
-          $scope.getIntroText().then(function () {
-            $scope.$watch('introtext', function () {
-              if (initIntroText) {
-                $timeout(function () {
-                  initIntroText = false;
-                });
-              } else {
-                  if (introTextTimeout) { 
-                      $timeout.cancel(introTextTimeout);
-                  }
-                  introTextTimeout = $timeout(function () { $scope.saveIntroText(); }, 5000);
-                }
-            });
-          });
-          
+          $scope.updateIntroText = function (newValue) {
+            if(introTextTimeout) {
+              $timeout.cancel(introTextTimeout);
+            }
+            introTextTimeout = $timeout(function () { $scope.saveIntroText(newValue); }, 3000);
+          };
 
           $scope.getDocSponsor().then(function () {
             $scope.$watch('sponsor', function () {
@@ -344,6 +336,8 @@ angular.module('madisonApp.dashboardControllers', [])
               }
             });
           });
+
+          $scope.getIntroText();
 
           $scope.getDocDates();
 
@@ -687,7 +681,8 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.getIntroText = function () {
         return $http.get('/api/docs/' + $scope.doc.id + '/introtext')
           .success(function (data) {
-            $scope.introtext = data['meta-value'];
+            console.log(data);
+            $scope.introtext = data.meta_value;
           }).error(function (data) {
             console.error("Unable to get Intro Text for document %o: %o", $scope.doc, data);
           });
@@ -794,9 +789,10 @@ angular.module('madisonApp.dashboardControllers', [])
           });
       };
 
-      $scope.saveIntroText = function () {
+      //Triggered 5 seconds after last change to textarea with ng-model="introtext"
+      $scope.saveIntroText = function (introtext) {
         return $http.post('/api/docs/' + $scope.doc.id + '/introtext', {
-          'intro-text': $scope.introtext
+          'intro-text': introtext
         })
           .success(function (data) {
             console.log("Intro Text saved successfully: %o", data);
