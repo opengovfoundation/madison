@@ -681,7 +681,6 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.getIntroText = function () {
         return $http.get('/api/docs/' + $scope.doc.id + '/introtext')
           .success(function (data) {
-            console.log(data);
             $scope.introtext = data.meta_value;
           }).error(function (data) {
             console.error("Unable to get Intro Text for document %o: %o", $scope.doc, data);
