@@ -223,11 +223,15 @@ angular.module('madisonApp.controllers', [])
       };
 
       $scope.setSponsor = function () {
-        if ($scope.doc.group_sponsor.length !== 0) {
-          $scope.doc.sponsor = $scope.doc.group_sponsor;
-        } else {
-          $scope.doc.sponsor = $scope.doc.user_sponsor;
-          $scope.doc.sponsor[0].display_name = $scope.doc.sponsor[0].fname + ' ' + $scope.doc.sponsor[0].lname;
+        try{
+          if ($scope.doc.group_sponsor.length !== 0) {
+            $scope.doc.sponsor = $scope.doc.group_sponsor;
+          } else {
+            $scope.doc.sponsor = $scope.doc.user_sponsor;
+            $scope.doc.sponsor[0].display_name = $scope.doc.sponsor[0].fname + ' ' + $scope.doc.sponsor[0].lname;
+          }  
+        } catch (err) {
+          console.error(err);
         }
       };
 
