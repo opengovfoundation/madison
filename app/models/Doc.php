@@ -37,6 +37,10 @@ class Doc extends Eloquent{
 		
 		return $dom->saveHtml($insertElement);
 	}
+
+	public function introtext(){
+		return $this->hasMany('DocMeta')->where('meta_key', '=', 'intro-text');
+	}
 	
 	public function dates()
 	{

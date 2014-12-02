@@ -78,6 +78,12 @@
 									<input type="hidden" ui-select2="categoryOptions" ng-model="categories" ng-change="categoriesChange(categories)" />
 								</div>
 							</div>
+							<div class="form-group">
+								<label for="intro-text" class="col-sm-2">Intro Text: </label>
+								<div class="col-sm-10">
+									<textarea class="form-control" rows="10" ng-model="introtext" ng-change="updateIntroText(introtext)"></textarea>
+								</div>
+							</div>
 						</form>
 					</div>
 					<div class="col-md-4 col-md-offset-1">

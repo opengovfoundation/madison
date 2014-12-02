@@ -183,8 +183,8 @@ angular.module('madisonApp.controllers', [])
       };
     }
     ])
-  .controller('DocumentPageController', ['$scope', '$cookies', '$location',
-    function ($scope, $cookies, $location) {
+  .controller('DocumentPageController', ['$scope', '$cookies', '$location', 'Doc', '$sce',
+    function ($scope, $cookies, $location, Doc, $sce) {
       $scope.hideIntro = $cookies.hideIntro;
 
       // Check which tab needs to be active - if the location hash
@@ -200,6 +200,12 @@ angular.module('madisonApp.controllers', [])
         $cookies.hideIntro = true;
         $scope.hideIntro = true;
       };
+
+      $scope.doc = Doc.get({id: doc.id}, function () {
+        var converter = new Markdown.Converter();
+
+        $scope.introtext = $sce.trustAsHtml(converter.makeHtml($scope.doc.introtext[0].meta_value));
+      });
     }
     ])
   .controller('ReaderController', ['$scope', '$http', 'annotationService', 'createLoginPopup', '$timeout', '$anchorScroll',
@@ -223,11 +229,15 @@ angular.module('madisonApp.controllers', [])
       };
 
       $scope.setSponsor = function () {
-        if ($scope.doc.group_sponsor.length !== 0) {
-          $scope.doc.sponsor = $scope.doc.group_sponsor;
-        } else {
-          $scope.doc.sponsor = $scope.doc.user_sponsor;
-          $scope.doc.sponsor[0].display_name = $scope.doc.sponsor[0].fname + ' ' + $scope.doc.sponsor[0].lname;
+        try{
+          if ($scope.doc.group_sponsor.length !== 0) {
+            $scope.doc.sponsor = $scope.doc.group_sponsor;
+          } else {
+            $scope.doc.sponsor = $scope.doc.user_sponsor;
+            $scope.doc.sponsor[0].display_name = $scope.doc.sponsor[0].fname + ' ' + $scope.doc.sponsor[0].lname;
+          }  
+        } catch (err) {
+          console.error(err);
         }
       };
 
