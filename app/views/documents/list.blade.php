@@ -14,12 +14,15 @@
 					@if($doc_count == 0)
 						<li>No Documents Found</li>
 					@else
-						Independently authored documents:
+						<hr>
+						<strong>Independently authored documents:</strong><br>
 						@foreach($documents['independent'] as $doc)
 							<li>
 								<?php echo HTML::link('documents/edit/' . $doc->id, $doc->title); ?>
 							</li>
 						@endforeach
+						<hr>
+						<strong>Group authored documents:</strong><br><br>
 						@foreach($documents['group'] as $groupname=>$groupdocuments)
 							Group '{{ $groupname }}'
 							@if(empty($groupdocuments))
