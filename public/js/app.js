@@ -43,6 +43,11 @@ app.config(['growlProvider', '$httpProvider', '$routeProvider', function (growlP
   growlProvider.globalTimeToLive(5000);
 
   $routeProvider
+    .when('/faq', {
+      templateURL: "/templates/pages/faq.html",
+      controller: "StaticPageController",
+      title: "Frequently Asked Questions"
+    })
     .when('/user/edit/:user/notifications', {
       templateUrl: "/templates/pages/user-notification-settings.html",
       controller: "UserNotificationsController",
@@ -52,6 +57,11 @@ app.config(['growlProvider', '$httpProvider', '$routeProvider', function (growlP
       templateUrl: "/templates/pages/home.html",
       controller: "HomePageController",
       title: "Madison"
+    })
+    .when('/about', {
+      templateURL: "/templates/pages/about.html",
+      controller: "StaticPageController",
+      title: "About Madison"
     });
 }]);
 

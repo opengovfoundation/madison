@@ -1,15 +1,13 @@
-<div class="content col-md-12">
-  <div class="row">
-    <h1>Edit Notifications</h1>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="checkbox" ng-repeat="notification in notifications">
-        <label>
-          <input type="checkbox" name="{{ notification.event }}" ng-model="notification.selected">
-          {{ notification.description }}
-        </label>
-      </div>
+<div class="row">
+  <h1>Edit Notifications</h1>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="checkbox" ng-repeat="notification in notifications">
+      <label>
+        <input type="checkbox" name="{{ notification.event }}" ng-model="notification.selected">
+        {{ notification.description }}
+      </label>
     </div>
   </div>
 </div>

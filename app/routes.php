@@ -51,13 +51,6 @@ Route::get('groups/invite/{groupId}', 'GroupsController@inviteMember');
 Route::put('groups/invite/{groupId}', 'GroupsController@processMemberInvite');
 Route::get('groups/active/{groupId}', 'GroupsController@setActiveGroup');
 
-//Static Pages
-Route::get('about', 'PageController@getAbout');
-Route::get('faq', 'PageController@faq');
-Route::get('privacy-policy', 'PageController@privacyPolicy');
-Route::get('terms-and-conditions', 'PageController@terms');
-Route::get('copyright', 'PageController@copyright');
-
 //Document Routes
 Route::get('docs', 'DocController@index');
 Route::get('docs/{slug}', 'DocController@index');

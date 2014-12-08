@@ -11,8 +11,9 @@
 </div>
 <div class="nav nav-main navbar-collapse collapse">
 	<ul class="nav navbar-nav navbar-right">
-		<li class="link-about"><a href="{{ URL::to('about') }}" target="_self">About</a></li>
-		<li class="link-faq"><a href="{{ URL::to('faq') }}" target="_self">FAQ</a></li>
+		<li><a href="/">Home</a></li>
+		<li class="link-about"><a href="/about">About</a></li>
+		<li class="link-faq"><a href="/faq">FAQ</a></li>
 		<li class="link-support"><a href="https://rally.org/opengovfoundation" target="_blank">Donate</a></li>
 		<li class="link-subscribe"><a href="http://opengovfoundation.us6.list-manage.com/subscribe?u=9d450bf68b3df1185fc9f62b2&id=40a5a16e19" target="_blank">Subscribe</a></li>
 		@if(Auth::check())
@@ -26,7 +27,7 @@
 					<li class="link-settings"><a href="{{ URL::to('documents') }}" target="_self">My Documents</a>
 					@endif
 					<li class="link-settings"><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}" target="_self">Account Settings</a></li>
-					<li><a href="{{ URL::to('user/edit/' . Auth::user()->id) . '/notifications' }}" target="_self">Notification Settings</a></li>
+					<li><a href="{{ URL::to('user/edit/' . Auth::user()->id) . '/notifications' }}">Notification Settings</a></li>
 					<li class="link-settings"><a href="{{ URL::to('groups') }}" target="_self">Group Management</a></li>
 					@if(Auth::user()->hasRole('Admin'))
 					<li><a href="{{ URL::to('dashboard') }}" target="_self">Administrative Dashboard</a></li>
