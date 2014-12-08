@@ -23,6 +23,16 @@ var imports = [
 
 var app = angular.module('madisonApp', imports);
 
+if(!history.pushState){
+  if(window.location.hash){
+    if(window.location.pathname !== '/'){
+      window.location.replace('/#' + window.location.hash.substr(1));
+    } else {
+      window.location.replace('/#' + window.location.pathname);
+    }
+  }
+}
+
 app.config(['growlProvider', '$httpProvider', '$routeProvider', function (growlProvider, $httpProvider, $routeProvider) {
     //Set up growl notifications
   growlProvider.messagesKey("messages");
@@ -37,6 +47,11 @@ app.config(['growlProvider', '$httpProvider', '$routeProvider', function (growlP
       templateUrl: "/templates/pages/user-notification-settings.html",
       controller: "UserNotificationsController",
       title: "Notification Settings"
+    })
+    .when('/', {
+      templateUrl: "/templates/pages/home.html",
+      controller: "HomePageController",
+      title: "Madison"
     });
 }]);
 

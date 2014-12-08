@@ -57,7 +57,6 @@ Route::get('faq', 'PageController@faq');
 Route::get('privacy-policy', 'PageController@privacyPolicy');
 Route::get('terms-and-conditions', 'PageController@terms');
 Route::get('copyright', 'PageController@copyright');
-Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 
 //Document Routes
 Route::get('docs', 'DocController@index');
@@ -79,7 +78,6 @@ Route::post('/documents/sponsor/request', 'SponsorController@postRequest');
 Route::get('user/{user}', 'UserController@getIndex');
 Route::get('user/edit/{user}', 'UserController@getEdit');
 Route::put('user/edit/{user}', 'UserController@putEdit');
-Route::get('user/edit/{user}/notifications', 'UserController@editNotifications');
 Route::controller('user', 'UserController');
 
 //Password Routes

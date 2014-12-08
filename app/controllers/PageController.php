@@ -9,12 +9,13 @@ class PageController extends BaseController
 	 */
 	public function home()
 	{
-		$data = array(
-			'page_id'		=> 'home',
-			'page_title'	=> 'Madison Home',
-		);
+		// $data = array(
+		// 	'page_id'		=> 'home',
+		// 	'page_title'	=> 'Madison Home',
+		// );
 
-		return View::make('page.index', $data);
+		return View::make('single');
+		//return View::make('page.index', $data);
 	}
 
 	/**
