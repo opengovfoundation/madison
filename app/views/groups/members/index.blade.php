@@ -27,7 +27,7 @@
 					<tr>
 						<td>{{ $member->getUserName() }}</td>
 						<td>
-						{{ Form::select('role', Group::getRoles(true), $member->role, array('id' => 'memberRoleSelect', 'data-member-id' => $member->id)) }}
+						{{ Form::select('role', Group::getRoles(true), $member->role, array('class' => 'memberRoleSelect', 'data-member-id' => $member->id)) }}
 						</td>
 						<td>{{ $member->created_at }} </td>
 						<td><a href="/groups/member/{{ $member->id }}/delete">remove</a></td>
@@ -38,9 +38,10 @@
 		</div>
 	</div>
 	<script language="javascript">
-		$('#memberRoleSelect').change(function() {
-			var newRole = $('select option:selected').val();
-			var memberId = $('select').data('member-id');
+		$('.memberRoleSelect').change(function() {
+			
+			var newRole = $(this).val();
+			var memberId = $(this).data('member-id');
 
 			$.post('/groups/member/' + memberId + '/role', { role : newRole }, function(data) {
 
