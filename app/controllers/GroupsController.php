@@ -158,7 +158,7 @@ class GroupsController extends Controller
 			}
 			
 			$newRole = Input::all('role')['role'];
-			
+
 			if(!Group::isValidRole($newRole)) {
 				$retval['message'] = "Invalid Role: $newRole";
 				return Response::json($retval);
@@ -175,7 +175,7 @@ class GroupsController extends Controller
 				}
 				
 			}
-			
+
 			$groupMember->role = $newRole;
 			$groupMember->save();
 			
