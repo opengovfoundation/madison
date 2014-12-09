@@ -23,7 +23,8 @@
     "google-translate": "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit",
     "angular-tour": "~0.1.1",
     "angular-route": "~1.2.24",
-    "angular-cookie": "~4.0.2"
+    "angular-cookie": "~4.0.2",
+    "angular-ui-router": "~0.2.13"
   },
   "resolutions": {
     "select2": "~3.4",

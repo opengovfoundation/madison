@@ -9,6 +9,7 @@ var imports = [
     'madisonApp.controllers',
     'madisonApp.dashboardControllers',
     'ui',
+    'ui.router',
     'ui.bootstrap',
     'ui.bootstrap.datetimepicker',
     'ngAnimate',
@@ -33,7 +34,7 @@ if(!history.pushState){
   }
 }
 
-app.config(['growlProvider', '$httpProvider', '$routeProvider', function (growlProvider, $httpProvider, $routeProvider) {
+app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider', function (growlProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
     //Set up growl notifications
   growlProvider.messagesKey("messages");
   growlProvider.messageTextKey("text");
@@ -42,26 +43,30 @@ app.config(['growlProvider', '$httpProvider', '$routeProvider', function (growlP
   growlProvider.onlyUniqueMessages(true);
   growlProvider.globalTimeToLive(5000);
 
-  $routeProvider
-    .when('/faq', {
-      templateURL: "/templates/pages/faq.html",
-      controller: "StaticPageController",
-      title: "Frequently Asked Questions"
-    })
-    .when('/user/edit/:user/notifications', {
-      templateUrl: "/templates/pages/user-notification-settings.html",
-      controller: "UserNotificationsController",
-      title: "Notification Settings"
-    })
-    .when('/', {
-      templateUrl: "/templates/pages/home.html",
+  $urlRouterProvider.otherwise('/');
+
+  $stateProvider
+    .state('index', {
+      url: "/",
       controller: "HomePageController",
-      title: "Madison"
+      templateUrl: "/templates/pages/home.html",
+      data: {title: "Madison Home"}
     })
-    .when('/about', {
-      templateURL: "/templates/pages/about.html",
-      controller: "StaticPageController",
-      title: "About Madison"
+    .state('faq', {
+      url: "/faq",
+      templateUrl: "/templates/pages/faq.html",
+      data: {title: "Frequently Asked Questions"}
+    })
+    .state('about', {
+      url: "/about",
+      templateUrl: "/templates/pages/about.html",
+      data: {title: "About Madison"}
+    })
+    .state('user-notification-settings', {
+      url: "/user/edit/:user/notifications",
+      controller: "UserNotificationsController",
+      templateUrl: "/templates/pages/user-notification-settings.html",
+      data: {title: "Notification Settings"}
     });
 }]);
 

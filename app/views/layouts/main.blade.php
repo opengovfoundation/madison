@@ -5,7 +5,7 @@
 		@if(isset($page_title))
 		<title>{{ $page_title }}</title>
 		@else
-		<title ng-bind="pageTitle">Madison</title>
+		<title update-title>Madison</title>
 		@endif
 		<!-- Mobile Optimization -->
 		<meta name="HandheldFriendly" content="True" />

@@ -41,9 +41,6 @@ angular.module('madisonApp.controllers', [])
       };
 
     }])
-  .controller('StaticPageController', [], function () {
-    console.log("This is a static page!");
-  })
   .controller('UserNotificationsController', ['$scope', '$http', 'UserService', function ($scope, $http, UserService) {
     
     //Wait for AppController controller to load user
