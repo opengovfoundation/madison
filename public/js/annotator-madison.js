@@ -114,7 +114,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
           var explanation = $(field).find('#explanation').val();
 
           //If no explanatory content, show message and don't submit
-          if('' == explanation.trim()){
+          if('' === explanation.trim()){
             $('#annotation-error').text("Explanation required for edits.").toggle(true);
 
             annotation._error = true;
