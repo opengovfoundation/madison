@@ -33,14 +33,7 @@ module.exports = function (grunt) {
         'proto': true
       },
       all: [
-        'public/js/bootstrap-tour.js',
-        'public/js/controllers.js',
-        'public/js/dashboardControllers.js',
-        'public/js/services.js',
-        'public/js/directives.js',
-        'public/js/filters.js',
-        'public/js/annotationServiceGlobal.js',
-        'public/js/app.js'
+        'public/js/*',
       ]
     },
     uglify: {
@@ -86,16 +79,17 @@ module.exports = function (grunt) {
             'public/js/annotator-madison.js',
 
             //Custom JS
-            'public/js/bootstrap-tour.js',
-            'public/js/controllers.js',
-            'public/js/resources.js',
-            'public/js/dashboardControllers.js',
-            'public/js/services.js',
-            'public/js/directives.js',
-            'public/js/filters.js',
-            'public/js/annotationServiceGlobal.js',
-            'public/js/app.js',
-            'public/js/googletranslate.js'
+            'public/js/*.js'
+            //'public/js/bootstrap-tour.js',
+            // 'public/js/controllers.js',
+            // 'public/js/resources.js',
+            // 'public/js/dashboardControllers.js',
+            // 'public/js/services.js',
+            // 'public/js/directives.js',
+            // 'public/js/filters.js',
+            // 'public/js/annotationServiceGlobal.js',
+            // 'public/js/app.js',
+            // 'public/js/googletranslate.js'
           ]
         }
       },
