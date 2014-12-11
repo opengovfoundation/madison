@@ -728,4 +728,16 @@ angular.module('madisonApp.controllers', [])
         }
 
       }
-    ]);
+    ]).controller('LoginPageController', ['$scope', '$state', '$location', 'AuthService',
+    function ($scope, $state, $location, AuthService) {
+      $scope.credentials = {email: "", password: ""};
+
+      $scope.login = function () {
+        console.log($scope.credentials);
+        var login = AuthService.login($scope.credentials);
+
+        login.then(function (response) {
+          console.log(response);
+        });
+      };
+    }]);

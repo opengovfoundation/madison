@@ -17,6 +17,24 @@ angular.module('madisonApp.services', [])
 
       return UserService;
     }])
+  .factory('AuthService', ['$http', '$sanitize',
+    function ($http, $sanitize){
+      var sanitizeCredentials = function (credentials) {
+        return {
+          email: $sanitize(credentials.email),
+          password: $sanitize(credentials.password),
+          csrf_token: CSRF_TOKEN
+        };
+      };
+
+      return {
+        login: function (credentials) {
+          var login = $http.post('/api/user/login', credentials);
+          
+          return login;
+        }
+      };
+    }])
   .factory('createLoginPopup', ['$document', '$timeout',
     function ($document, $timeout) {
       var body = $document.find('body');

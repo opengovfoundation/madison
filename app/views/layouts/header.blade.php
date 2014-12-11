@@ -56,8 +56,8 @@
 				</ul>
 			</li>
 		@else
-			<li class="link-login"><a href="{{ URL::to('user/login') }}" target="_self">Login</a></li>
-			<li class="link-signup"><a href="{{ URL::to('user/signup') }}" target="_self">Sign Up</a></li>
+			<li class="link-login"><a href="/user/login">Login</a></li>
+			<li class="link-signup"><a href="/user/signup">Sign Up</a></li>
 		@endif
 	</ul>
 </div><!--/.navbar-collapse -->

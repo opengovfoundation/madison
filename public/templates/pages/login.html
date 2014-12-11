@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="md-col-12">
+    <h1>Login</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <form ng-submit="login()">
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" name="email" placeholder="Email" class="form-control" ng-model="credentials.email">
+      </div>
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" placeholder="Password" class="form-control" ng-model="credentials.password">
+      </div>
+      <!-- Remember checkbox -->
+      <div class="checkbox">
+        <label for="remember">Remember me</label>
+        <input type="checkbox" name="remember">
+      </div>
+      <!-- Submit -->
+      <button class="btn btn-default">Login</button>
+      <a class="forgot-password" href="/password/remind">Forgot your password?</a>
+      <a class="forgot-password" href="/verification/remind">Resend confirmation email</a>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div social-login message="Log in"></div>
+</div>

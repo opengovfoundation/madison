@@ -185,3 +185,7 @@ Route::get('logout', function(){
 	Session::flush(); //delete the session
 	return Redirect::to('/')->with('message', 'You have been successfully logged out.');
 });
+
+//Auth Token Route
+Route::get('/auth/token', 'AuthController@token');
+Route::get('/api/user/login', 'AuthController@login');

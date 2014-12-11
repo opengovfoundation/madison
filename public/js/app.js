@@ -24,6 +24,12 @@ var imports = [
 
 var app = angular.module('madisonApp', imports);
 
+var xhReq = new XMLHttpRequest();
+xhReq.open("GET", "/auth/token", false);
+xhReq.send(null);
+
+app.constant("CSRF_TOKEN", xhReq.responseText);
+
 if(!history.pushState){
   if(window.location.hash){
     if(window.location.pathname !== '/'){
@@ -43,14 +49,24 @@ app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvi
   growlProvider.onlyUniqueMessages(true);
   growlProvider.globalTimeToLive(5000);
 
-  $urlRouterProvider.otherwise('/');
-
   $stateProvider
     .state('index', {
       url: "/",
       controller: "HomePageController",
       templateUrl: "/templates/pages/home.html",
       data: {title: "Madison Home"}
+    })
+    .state('login', {
+      url: '/user/login',
+      controller: "LoginPageController",
+      templateUrl: "/templates/pages/login.html",
+      data: {title: "Login to Madison"}
+    })
+    .state('signup', {
+      url: '/user/signup',
+      controller: "SignupPageController",
+      templateUrl: "/templates/pages/signup.html",
+      data: {title: "Signup for Madison"}
     })
     .state('faq', {
       url: "/faq",
