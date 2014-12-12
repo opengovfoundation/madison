@@ -715,18 +715,43 @@ angular.module('madisonApp.controllers', [])
           container.addClass('col-md-9');
         }
       }
-    ]).controller('LoginPageController', ['$scope', '$location', 'AuthService', 'UserService', 'growl',
-    function ($scope, $location, AuthService, UserService, growl) {
+    ]).controller('LoginPageController', ['$scope', '$state', '$location', 'AuthService', 'UserService', 'growl',
+    function ($scope, $state, AuthService, UserService, growl) {
       $scope.credentials = {email: "", password: ""};
 
       $scope.login = function () {
         var login = AuthService.login($scope.credentials);
 
-        login.then(function (response) {
+        login.sucess(function (response) {
           $scope.credentials = {email: "", password: ""};
           UserService.getUser();
-          $location.path('/');
+          $state.go('index');
           growl.addSuccessMessage("You have been logged in successfully");
+        })
+        .error(function (response) {
+          console.error(response);
+          if(!response.messages){
+            growl.addErrorMessage("There was an error logging you in.  Check your console for details.");  
+          }
         });
       };
+    }]).controller('SignupPageController', ['$scope', '$state', 'AuthService', 'UserService', 'growl',
+      function ($scope, $state, AuthService, UserService, growl) {
+        
+        $scope.signup = function () {
+          var signup = AuthService.signup($scope.credentials);
+
+          signup.success(function (response) {
+            $scope.credentials = {fname: "", lname: "", email: "", password: ""};
+            UserService.getUser();
+            $state.go('index');
+            growl.addSuccessMessage("Welcome to Madison!  We just sent you an email.  Please click on the activation link to log in.");
+          })
+          .error(function (response) {
+            console.error(response);
+            if(!response.messages){
+              growl.addErrorMessage("There was an error signing you up.  Check your console for details.");
+            }
+          });
+        };
     }]);

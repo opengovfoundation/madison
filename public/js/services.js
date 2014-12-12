@@ -37,6 +37,11 @@ angular.module('madisonApp.services', [])
           var logout = $http.get('/api/user/logout');
 
           return logout;
+        },
+        signup: function (credentials) {
+          var signup = $http.post('/api/user/signup', credentials);
+
+          return signup;
         }
       };
     }])

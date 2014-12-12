@@ -300,19 +300,6 @@ class UserController extends BaseController{
 	*	@return Illuminate\View\View
 	*/
 	public function getLogin(){
-		//$previous_page = Input::old('previous_page');
-
-		//if(!isset($previous_page)){
-		//	$previous_page = URL::previous();
-		//}
-
-		//$data = array(
-		//	'page_id'		=> 'login',
-		//	'page_title'	=> 'Log In',
-		//	'previous_page'	=> $previous_page
-		//);
-
-		//return View::make('login.index', $data);
 		return View::make('single');
 	}
 
@@ -379,12 +366,7 @@ class UserController extends BaseController{
 	 *	@return Illuminate\View\View
 	 */
 	public function getSignup(){
-		$data = array(
-			'page_id'		=> 'signup',
-			'page_title'	=> 'Sign Up for Madison'
-		);
-
-		return View::make('login.signup', $data);
+		return View::make('single');
 	}
 
 	/**
