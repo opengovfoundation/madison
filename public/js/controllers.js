@@ -8,11 +8,6 @@ angular.module('madisonApp.controllers', [])
   */
   .controller('AppController', ['$rootScope', '$scope', 'ipCookie', 'UserService',
     function ($rootScope, $scope, ipCookie, UserService) {
-      //Update page title
-      $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-        $rootScope.pageTitle = current.$$route.title;
-      });
-
       //Watch for user data change
       $scope.$on('userUpdated', function () {
         $scope.user = UserService.user;
@@ -39,7 +34,6 @@ angular.module('madisonApp.controllers', [])
       $scope.tourComplete = function () {
         ipCookie('myTour', 99, {path: '/', expires: 10*365});
       };
-
     }])
   .controller('UserNotificationsController', ['$scope', '$http', 'UserService', function ($scope, $http, UserService) {
     

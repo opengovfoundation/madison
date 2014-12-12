@@ -194,4 +194,22 @@ angular.module('madisonApp.directives', [])
         restrict: 'A',
         templateUrl: '/templates/partials/footer.html'
       };
-    }]);
+    }]).directive('header', [function () {
+      return {
+        restrict: 'A',
+        templateUrl: '/templates/partials/header.html'
+      };
+    }]).directive('accountDropdown', ['UserService',
+      function (UserService) {
+        return {
+          scope: true,
+          link: function (scope, element, attrs) {
+            scope.$watch(function () {
+              return UserService.user;
+            }, function (newVal) {
+              scope.user = newVal;
+            });
+          },
+          templateUrl: '/templates/partials/account-dropdown.html'
+        };
+      }]);

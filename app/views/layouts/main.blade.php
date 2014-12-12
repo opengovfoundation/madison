@@ -33,7 +33,8 @@
 			<div id="wrap">
 				<div id="header-main" class="navbar" role="navigation">
 					<div class="container">
-					@include('layouts.header')
+					{{-- @include('layouts.header') --}}
+						<div header></div>
 					</div>
 				</div>
 				<div class="row">
