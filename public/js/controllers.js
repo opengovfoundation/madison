@@ -722,16 +722,18 @@ angular.module('madisonApp.controllers', [])
         }
 
       }
-    ]).controller('LoginPageController', ['$scope', '$state', '$location', 'AuthService',
-    function ($scope, $state, $location, AuthService) {
+    ]).controller('LoginPageController', ['$scope', '$location', 'AuthService', 'UserService', 'growl',
+    function ($scope, $location, AuthService, UserService, growl) {
       $scope.credentials = {email: "", password: ""};
 
       $scope.login = function () {
-        console.log($scope.credentials);
         var login = AuthService.login($scope.credentials);
 
         login.then(function (response) {
-          console.log(response);
+          $scope.credentials = {email: "", password: ""};
+          UserService.getUser();
+          $location.path('/');
+          growl.addSuccessMessage("You have been logged in successfully");
         });
       };
     }]);
