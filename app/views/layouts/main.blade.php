@@ -33,7 +33,6 @@
 			<div id="wrap">
 				<div id="header-main" class="navbar" role="navigation">
 					<div class="container">
-					{{-- @include('layouts.header') --}}
 						<div ng-include="'/templates/partials/header.html'"></div>
 					</div>
 				</div>
