@@ -189,3 +189,4 @@ Route::get('logout', function(){
 //Auth Token Route
 Route::get('/auth/token', 'AuthController@token');
 Route::get('/api/user/login', 'AuthController@login');
+Route::get('/api/user/logout', 'AuthController@logout');

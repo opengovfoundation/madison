@@ -15,6 +15,9 @@ class AuthController extends BaseController
 		} else {
 			return $this->growlMessage('invalid email / password', 'error');
 		}
+	}
 
+	public function logout() {
+		return Auth::logout();
 	}
 }

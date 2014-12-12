@@ -199,8 +199,8 @@ angular.module('madisonApp.directives', [])
         restrict: 'A',
         templateUrl: '/templates/partials/header.html'
       };
-    }]).directive('accountDropdown', ['UserService',
-      function (UserService) {
+    }]).directive('accountDropdown', ['UserService', 'AuthService', '$location', 'growl',
+      function (UserService, AuthService, $location, growl) {
         return {
           scope: true,
           link: function (scope, element, attrs) {
@@ -209,6 +209,16 @@ angular.module('madisonApp.directives', [])
             }, function (newVal) {
               scope.user = newVal;
             });
+
+            scope.logout = function () {
+              var logout = AuthService.logout();
+
+              logout.then(function () {
+                growl.addSuccessMessage('You have been successfully logged out.');
+                UserService.getUser();
+                $location.path('/');
+              });
+            };
           },
           templateUrl: '/templates/partials/account-dropdown.html'
         };
