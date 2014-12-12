@@ -189,4 +189,9 @@ angular.module('madisonApp.directives', [])
           $rootScope.$on('$stateChangeSuccess', listener);
         }
       };
+    }]).directive('footer', [function () {
+      return {
+        restrict: 'A',
+        templateUrl: '/templates/partials/footer.html'
+      };
     }]);

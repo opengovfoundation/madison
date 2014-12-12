@@ -53,7 +53,7 @@
 				</div>
 			</div>
 			<div id="footer" class="footer">
-				@include('layouts.footer')
+				<div footer></div>
 			</div>
 		</tour>
 	</body>
