@@ -78,6 +78,21 @@ app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvi
       templateUrl: "/templates/pages/about.html",
       data: {title: "About Madison"}
     })
+    .state('privacy-policy', {
+      url: '/privacy-policy',
+      templateUrl: "/templates/pages/privacy-policy.html",
+      data: {title: "Privacy Policy"}
+    })
+    .state('copyright', {
+      url: '/copyright',
+      templateUrl: "/templates/pages/copyright.html",
+      data: {title: "Copyright Policy"}
+    })
+    .state('terms-and-conditions', {
+      url: '/terms-and-conditions',
+      templateUrl: "/templates/pages/terms-and-conditions.html",
+      data: {title: "Terms and Conditions"}
+    })
     .state('user-notification-settings', {
       url: "/user/edit/:user/notifications",
       controller: "UserNotificationsController",
