@@ -1,13 +1,11 @@
-/*global user*/
-/*global doc*/
 angular.module('madisonApp.controllers', [])
   /**
   * Global controller, attached to the <body> tag
   * 
   * Handles global scope variables
   */
-  .controller('AppController', ['$rootScope', '$scope', 'ipCookie', 'UserService',
-    function ($rootScope, $scope, ipCookie, UserService) {
+  .controller('AppController', ['$scope', 'ipCookie', 'UserService',
+    function ($scope, ipCookie, UserService) {
       //Watch for user data change
       $scope.$on('userUpdated', function () {
         $scope.user = UserService.user;
@@ -28,15 +26,14 @@ angular.module('madisonApp.controllers', [])
       $scope.currentStep = ipCookie('myTour') || 0;
 
       $scope.stepComplete = function () {
-        ipCookie('myTour', $scope.currentStep, {path: '/', expires: 10*365});
+        ipCookie('myTour', $scope.currentStep, {path: '/', expires: 10 * 365});
       };
 
       $scope.tourComplete = function () {
-        ipCookie('myTour', 99, {path: '/', expires: 10*365});
+        ipCookie('myTour', 99, {path: '/', expires: 10 * 365});
       };
     }])
   .controller('UserNotificationsController', ['$scope', '$http', 'UserService', function ($scope, $http, UserService) {
-    
     //Wait for AppController controller to load user
     UserService.exists.then(function () {
       $http.get('/api/user/' + $scope.user.id + '/notifications')
@@ -52,17 +49,15 @@ angular.module('madisonApp.controllers', [])
       if (oldValue !== undefined) {
         //Save notifications
         $http.put('/api/user/' + $scope.user.id + '/notifications', {notifications: newValue})
-          .success(function (data) {
-            //Do nothing?
-          }).error(function (data) {
+          .error(function (data) {
             console.error("Error updating notification settings: %o", data);
           });
       }
     }, true);
 
   }])
-  .controller('HomePageController', ['$scope', '$http', '$filter', '$cookies', 'Doc',
-    function ($scope, $http, $filter, $cookies, Doc) {
+  .controller('HomePageController', ['$scope', '$filter', 'Doc',
+    function ($scope, $filter, Doc) {
       $scope.docs = [];
       $scope.categories = [];
       $scope.sponsors = [];
@@ -198,10 +193,10 @@ angular.module('madisonApp.controllers', [])
       $scope.doc = Doc.get({id: doc.id}, function () {
 
         //If intro text exists, convert & trust the markdown content
-        if(undefined !== $scope.doc.introtext[0]){
+        if (undefined !== $scope.doc.introtext[0]) {
           var converter = new Markdown.Converter();
 
-          $scope.introtext = $sce.trustAsHtml(converter.makeHtml($scope.doc.introtext[0].meta_value));  
+          $scope.introtext = $sce.trustAsHtml(converter.makeHtml($scope.doc.introtext[0].meta_value));
         }
       });
     }
@@ -227,13 +222,13 @@ angular.module('madisonApp.controllers', [])
       };
 
       $scope.setSponsor = function () {
-        try{
+        try {
           if ($scope.doc.group_sponsor.length !== 0) {
             $scope.doc.sponsor = $scope.doc.group_sponsor;
           } else {
             $scope.doc.sponsor = $scope.doc.user_sponsor;
             $scope.doc.sponsor[0].display_name = $scope.doc.sponsor[0].fname + ' ' + $scope.doc.sponsor[0].lname;
-          }  
+          }
         } catch (err) {
           console.error(err);
         }
@@ -689,7 +684,6 @@ angular.module('madisonApp.controllers', [])
       $scope.activityOrder = function (activity) {
         return Date.parse(activity.created_at);
       };
-
     }
     ])
     .controller('DocumentTocController', ['$scope',
@@ -720,7 +714,6 @@ angular.module('madisonApp.controllers', [])
           container.removeClass('col-md-6');
           container.addClass('col-md-9');
         }
-
       }
     ]).controller('LoginPageController', ['$scope', '$location', 'AuthService', 'UserService', 'growl',
     function ($scope, $location, AuthService, UserService, growl) {
