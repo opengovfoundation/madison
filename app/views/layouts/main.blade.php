@@ -34,7 +34,7 @@
 				<div id="header-main" class="navbar" role="navigation">
 					<div class="container">
 					{{-- @include('layouts.header') --}}
-						<div header></div>
+						<div ng-include="'/templates/partials/header.html'"></div>
 					</div>
 				</div>
 				<div class="row">
@@ -54,7 +54,7 @@
 				</div>
 			</div>
 			<div id="footer" class="footer">
-				<div footer></div>
+				<div ng-include="'/templates/partials/footer.html'"></div>
 			</div>
 		</tour>
 	</body>

@@ -189,16 +189,6 @@ angular.module('madisonApp.directives', [])
           $rootScope.$on('$stateChangeSuccess', listener);
         }
       };
-    }]).directive('footer', [function () {
-      return {
-        restrict: 'A',
-        templateUrl: '/templates/partials/footer.html'
-      };
-    }]).directive('header', [function () {
-      return {
-        restrict: 'A',
-        templateUrl: '/templates/partials/header.html'
-      };
     }]).directive('accountDropdown', ['UserService', 'AuthService', '$location', 'growl',
       function (UserService, AuthService, $location, growl) {
         return {
