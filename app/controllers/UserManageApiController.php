@@ -16,6 +16,7 @@ class UserManageApiController extends ApiController{
 		//Retrieve POST values
 		$email = Input::get('email');
 		$password = Input::get('password');
+		$remember = Input::get('remember');
 		$previous_page = Input::get('previous_page');
 		$user_details = Input::all();
 
@@ -44,7 +45,7 @@ class UserManageApiController extends ApiController{
 		//Attempt to log user in
 		$credentials = array('email' => $email, 'password' => $password);
 
-		if(Auth::attempt($credentials)){
+		if(Auth::attempt($credentials, ($remember === 'true') ? true: false)){
 			return Response::json( array( 'status' => 'ok', 'errors' => array() ) );
 		}
 		else {
