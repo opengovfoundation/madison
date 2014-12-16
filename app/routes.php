@@ -30,8 +30,6 @@ Route::model('user/edit', 'User');
 |--------------------------------------------------------------------------
 */
 
-Route::get('/dev/event/test', 'DevController@testEvent');
-
 // Modal Routes
 Route::get('modals/annotation_thanks', array(
 	'uses' => 'ModalController@getAnnotationThanksModal',
@@ -73,8 +71,6 @@ Route::get('user/edit/{user}', 'UserController@getEdit');
 Route::put('user/edit/{user}', 'UserController@putEdit');
 Route::controller('user', 'UserController');
 
-//Password Routes
-Route::get( 'password/remind', 'RemindersController@getRemind');
 Route::post('password/remind', 'RemindersController@postRemind');
 Route::get( 'password/reset/{token}',  'RemindersController@getReset');
 Route::post('password/reset',  'RemindersController@postReset');
@@ -176,15 +172,6 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/user/login', 'UserManageApiController@postLogin');
     Route::get('api/user/signup', 'UserManageApiController@getSignup');
     Route::post('api/user/signup', 'UserManageApiController@postSignup');
-
-
-
-//Logout Route
-Route::get('logout', function(){
-	Auth::logout();	//Logout the current user
-	Session::flush(); //delete the session
-	return Redirect::to('/')->with('message', 'You have been successfully logged out.');
-});
 
 //Auth Token Route
 Route::get('/auth/token', 'AuthController@token');
