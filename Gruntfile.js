@@ -14,9 +14,9 @@ module.exports = function (grunt) {
           message: "Cssmin complete."
         }
       },
-      rev: {
+      filerev: {
         options: {
-          message: "Rev complete."
+          message: "Filerev complete."
         }
       }
     },
@@ -42,7 +42,7 @@ module.exports = function (grunt) {
       ]
     },
     uglify: {
-      generated: {
+      frontend: {
         files: [{
           dest: 'public/build/app.js',
           src: [
@@ -99,33 +99,31 @@ module.exports = function (grunt) {
             'public/js/googletranslate.js'
           ]
         }]
-      },
+      }, 
       options: {
         mangle: false
       }
     },
     cssmin: {
-      generated: {
-        combine: {
-          files: {
-            'public/build/app.css': [
-              'public/bower_components/angular-tour/dist/angular-tour.css',
-              'public/bower_components/angular-growl/build/angular-growl.min.css',
-              'public/vendor/pagedown/assets/demo.css',
-              'public/vendor/datetimepicker/datetimepicker.css',
-              'public/vendor/jquery/jquery-ui-smoothness.css',
-              'public/vendor/bootstrap/css/bootstrap.min.css',
-              'public/vendor/bootstrap/css/bootstrap-theme.min.css',
-              'public/vendor/select2/select2.css',
-              'public/vendor/annotator/annotator.min.css',
-              'public/css/style.css',
-              'public/css/dropdown-sub.css'
-            ]
-          }
+      combine: {
+        files: {
+          'public/build/app.css': [
+            'public/bower_components/angular-tour/dist/angular-tour.css',
+            'public/bower_components/angular-growl/build/angular-growl.min.css',
+            'public/vendor/pagedown/assets/demo.css',
+            'public/vendor/datetimepicker/datetimepicker.css',
+            'public/vendor/jquery/jquery-ui-smoothness.css',
+            'public/vendor/bootstrap/css/bootstrap.min.css',
+            'public/vendor/bootstrap/css/bootstrap-theme.min.css',
+            'public/vendor/select2/select2.css',
+            'public/vendor/annotator/annotator.min.css',
+            'public/css/style.css',
+            'public/css/dropdown-sub.css'
+          ]
         }
       }
     },
-    rev: {
+    filerev: {
       options: {
         encoding: 'utf8',
         algorithm: 'md5',
@@ -139,17 +137,19 @@ module.exports = function (grunt) {
         }]
       }
     },
-    clean: {
-      build: ['public/build/*.app.js']
-    },
-    useminPrepare: {
-      html: 'public/index.html'
-    },
-    usemin: {
-      html: 'public/index.html',
+    filerev_replace: {
       options: {
-        assetDirs: ['build']
+        assets_root: "public"
+      },
+      compiled_assets: {
+        src: 'public/build/app.*.{js,css}'
+      },
+      views: {
+        src: 'public/index.html'
       }
+    },
+    clean: {
+      build: ['public/build/app.*.js']
     },
     watch: {
       scripts: {
@@ -259,15 +259,15 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-notify');
-  grunt.loadNpmTasks('grunt-rev');
-  grunt.loadNpmTasks('grunt-usemin');
+  grunt.loadNpmTasks('grunt-filerev');
+  grunt.loadNpmTasks('grunt-filerev-replace');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   // Task definition
-  grunt.registerTask('build:js', ['jshint', 'uglify:generated', 'notify:uglify']);
-  grunt.registerTask('build:css', ['compass', 'cssmin:generated', 'notify:cssmin']);
-  grunt.registerTask('build:rev', ['rev', 'notify:rev']);
-  grunt.registerTask('build', ['clean:build', 'useminPrepare', 'build:js', 'build:css', 'build:rev', 'usemin']);
+  grunt.registerTask('build:js', ['jshint', 'uglify', 'notify:uglify']);
+  grunt.registerTask('build:css', ['compass', 'cssmin', 'notify:cssmin']);
+  grunt.registerTask('build:filerev', ['filerev', 'notify:filerev']);
+  grunt.registerTask('build', ['clean:build', 'build:js', 'build:css', 'build:filerev', 'filerev_replace']);
   grunt.registerTask('default', ['build', 'watch']);
 
   //Tasks for testing
