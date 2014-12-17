@@ -151,12 +151,12 @@ module.exports = function (grunt) {
     watch: {
       scripts: {
         files: ['public/js/**/*.js', 'Gruntfile.js'],
-        tasks: ['build:js']
+        tasks: ['build']
       },
       sass: {
         files: './public/sass/*.scss',
-        tasks: ['build:css']
-      }
+        tasks: ['build']
+      },
     },
     exec: {
       install_composer: {
