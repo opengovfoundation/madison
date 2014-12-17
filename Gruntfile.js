@@ -42,9 +42,10 @@ module.exports = function (grunt) {
       ]
     },
     uglify: {
-      frontend_target: {
-        files: {
-          'public/build/app.js': [
+      generated: {
+        files: [{
+          dest: 'public/build/app.js',
+          src: [
             'public/vendor/jquery/jquery-1.10.2.js',
             'public/vendor/select2/select2.js',
             'public/vendor/underscore.min.js',
@@ -97,28 +98,30 @@ module.exports = function (grunt) {
             'public/js/app.js',
             'public/js/googletranslate.js'
           ]
-        }
+        }]
       },
       options: {
         mangle: false
       }
     },
     cssmin: {
-      combine: {
-        files: {
-          'public/build/app.css': [
-            'public/bower_components/angular-tour/dist/angular-tour.css',
-            'public/bower_components/angular-growl/build/angular-growl.min.css',
-            'public/vendor/pagedown/assets/demo.css',
-            'public/vendor/datetimepicker/datetimepicker.css',
-            'public/vendor/jquery/jquery-ui-smoothness.css',
-            'public/vendor/bootstrap/css/bootstrap.min.css',
-            'public/vendor/bootstrap/css/bootstrap-theme.min.css',
-            'public/vendor/select2/select2.css',
-            'public/vendor/annotator/annotator.min.css',
-            'public/css/style.css',
-            'public/css/dropdown-sub.css'
-          ]
+      generated: {
+        combine: {
+          files: {
+            'public/build/app.css': [
+              'public/bower_components/angular-tour/dist/angular-tour.css',
+              'public/bower_components/angular-growl/build/angular-growl.min.css',
+              'public/vendor/pagedown/assets/demo.css',
+              'public/vendor/datetimepicker/datetimepicker.css',
+              'public/vendor/jquery/jquery-ui-smoothness.css',
+              'public/vendor/bootstrap/css/bootstrap.min.css',
+              'public/vendor/bootstrap/css/bootstrap-theme.min.css',
+              'public/vendor/select2/select2.css',
+              'public/vendor/annotator/annotator.min.css',
+              'public/css/style.css',
+              'public/css/dropdown-sub.css'
+            ]
+          }
         }
       }
     },
@@ -134,6 +137,15 @@ module.exports = function (grunt) {
             'public/build/app.{js,css}'
           ]
         }]
+      }
+    },
+    useminPrepare: {
+      html: 'public/index.html'
+    },
+    usemin: {
+      html: 'public/index.html',
+      options: {
+        assetDirs: ['public/build']
       }
     },
     watch: {
@@ -245,12 +257,13 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-notify');
   grunt.loadNpmTasks('grunt-rev');
+  grunt.loadNpmTasks('grunt-usemin');
 
   // Task definition
-  grunt.registerTask('build:js', ['jshint', 'uglify', 'notify:uglify']);
-  grunt.registerTask('build:css', ['compass', 'cssmin', 'notify:cssmin']);
+  grunt.registerTask('build:js', ['jshint', 'uglify:generated', 'notify:uglify']);
+  grunt.registerTask('build:css', ['compass', 'cssmin:generated', 'notify:cssmin']);
   grunt.registerTask('build:rev', ['rev', 'notify:rev']);
-  grunt.registerTask('build', ['build:js', 'build:css', 'build:rev']);
+  grunt.registerTask('build', ['useminPrepare', 'build:js', 'build:css', 'build:rev', 'usemin']);
   grunt.registerTask('default', ['build', 'watch']);
 
   //Tasks for testing

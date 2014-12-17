@@ -34,6 +34,7 @@
     "grunt-notify": "^0.3.1",
     "grunt-protractor-runner": "1.1.0",
     "grunt-rev": "^0.1.0",
+    "grunt-usemin": "^3.0.0",
     "jquery": "~2.1.0",
     "karma": "^0.12.21",
     "karma-chai": "^0.1.0",
