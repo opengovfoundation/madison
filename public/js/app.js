@@ -116,7 +116,8 @@ app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvi
       url: '/404',
       templateUrl: '/templates/pages/404.html',
       data: {title: "Here Be Dragons"}
-    });
+    })
+    .otherwise('/');
 }]);
 
 app.config(function ($locationProvider) {

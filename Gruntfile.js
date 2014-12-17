@@ -140,7 +140,7 @@ module.exports = function (grunt) {
       }
     },
     clean: {
-      build: ["public/build/*.app.js, public/build/*.app.css"]
+      build: ['public/build/*.app.js']
     },
     useminPrepare: {
       html: 'public/index.html'
@@ -148,7 +148,7 @@ module.exports = function (grunt) {
     usemin: {
       html: 'public/index.html',
       options: {
-        assetDirs: ['public/build']
+        assetDirs: ['build']
       }
     },
     watch: {
@@ -267,7 +267,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build:js', ['jshint', 'uglify:generated', 'notify:uglify']);
   grunt.registerTask('build:css', ['compass', 'cssmin:generated', 'notify:cssmin']);
   grunt.registerTask('build:rev', ['rev', 'notify:rev']);
-  grunt.registerTask('build', ['clean', 'useminPrepare', 'build:js', 'build:css', 'build:rev', 'usemin']);
+  grunt.registerTask('build', ['clean:build', 'useminPrepare', 'build:js', 'build:css', 'build:rev', 'usemin']);
   grunt.registerTask('default', ['build', 'watch']);
 
   //Tasks for testing
