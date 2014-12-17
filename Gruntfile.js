@@ -13,6 +13,11 @@ module.exports = function (grunt) {
         options: {
           message: "Cssmin complete."
         }
+      },
+      rev: {
+        options: {
+          message: "Rev complete."
+        }
       }
     },
     compass: {
@@ -33,7 +38,7 @@ module.exports = function (grunt) {
         'proto': true
       },
       all: [
-        'public/js/*',
+        'public/js/**/*.js',
       ]
     },
     uglify: {
@@ -117,14 +122,28 @@ module.exports = function (grunt) {
         }
       }
     },
+    rev: {
+      options: {
+        encoding: 'utf8',
+        algorithm: 'md5',
+        length: 8
+      },
+      assets: {
+        files: [{
+          src: [
+            'public/build/app.{js,css}'
+          ]
+        }]
+      }
+    },
     watch: {
       scripts: {
         files: ['public/js/**/*.js', 'Gruntfile.js'],
-        tasks: ['jshint', 'uglify', 'notify:uglify']
+        tasks: ['build:js']
       },
       sass: {
         files: './public/sass/*.scss',
-        tasks: ['compass', 'cssmin', 'notify:cssmin']
+        tasks: ['build:css']
       }
     },
     exec: {
@@ -225,10 +244,16 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-notify');
+  grunt.loadNpmTasks('grunt-rev');
 
   // Task definition
-  grunt.registerTask('build', ['jshint', 'uglify', 'notify:uglify', 'compass', 'cssmin', 'notify:cssmin']);
-  grunt.registerTask('default', ['jshint', 'uglify', 'notify:uglify', 'compass', 'cssmin', 'notify:cssmin', 'watch']);
+  grunt.registerTask('build:js', ['jshint', 'uglify', 'notify:uglify']);
+  grunt.registerTask('build:css', ['compass', 'cssmin', 'notify:cssmin']);
+  grunt.registerTask('build:rev', ['rev', 'notify:rev']);
+  grunt.registerTask('build', ['build:js', 'build:css', 'build:rev']);
+  grunt.registerTask('default', ['build', 'watch']);
+
+  //Tasks for testing
   grunt.registerTask('install', ['exec:install_composer']);
   grunt.registerTask('test_setup', ['exec:drop_testdb', 'exec:create_testdb', 'exec:migrate', 'exec:seed']);
   grunt.registerTask('test_chrome', ['test_setup', 'protractor:chrome']);
