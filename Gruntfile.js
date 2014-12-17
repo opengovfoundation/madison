@@ -80,8 +80,9 @@ module.exports = function (grunt) {
 
             //Custom JS
             'public/js/bootstrap-tour.js',
-            'public/js/controllers/**/*.js',
-            'public/js/controllers.js',
+              //Controllers
+              'public/js/controllers.js',
+              'public/js/controllers/passwordResetController.js',
             'public/js/resources.js',
             'public/js/dashboardControllers.js',
             'public/js/services.js',
@@ -118,7 +119,7 @@ module.exports = function (grunt) {
     },
     watch: {
       scripts: {
-        files: ['public/js/*.js', 'Gruntfile.js'],
+        files: ['public/js/**/*.js', 'Gruntfile.js'],
         tasks: ['jshint', 'uglify', 'notify:uglify']
       },
       sass: {

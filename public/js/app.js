@@ -40,7 +40,8 @@ if(!history.pushState){
   }
 }
 
-app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider', function (growlProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
+app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider',
+  function (growlProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
     //Set up growl notifications
   growlProvider.messagesKey("messages");
   growlProvider.messageTextKey("text");
@@ -67,6 +68,12 @@ app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvi
       controller: "SignupPageController",
       templateUrl: "/templates/pages/signup.html",
       data: {title: "Signup for Madison"}
+    })
+    .state('password-reset', {
+      url: '/password/reset',
+      controller: 'PasswordResetController',
+      templateUrl: '/templates/pages/password-reset.html',
+      data: {title: 'Password Reset'}
     })
     .state('faq', {
       url: "/faq",
@@ -98,6 +105,11 @@ app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvi
       controller: "UserNotificationsController",
       templateUrl: "/templates/pages/user-notification-settings.html",
       data: {title: "Notification Settings"}
+    })
+    .state('404', {
+      url: '/404',
+      templateUrl: '/templates/pages/404.html',
+      data: {title: "Here Be Dragons"}
     });
 }]);
 
