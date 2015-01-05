@@ -53,5 +53,7 @@
     "uglify-js": "~2.4.13",
     "underscore": "~1.6.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "include-all": "^0.1.6"
+  }
 }
