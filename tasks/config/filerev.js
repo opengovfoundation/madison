@@ -8,7 +8,7 @@ module.exports = function (grunt) {
     assets: {
       files: [{
         src: [
-          'public/build/app.{js,css}'
+          'public/build/*.{js,css}'
         ]
       }]
     }
