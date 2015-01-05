@@ -54,6 +54,7 @@
     "underscore": "~1.6.0"
   },
   "dependencies": {
+    "grunt-contrib-copy": "^0.7.0",
     "include-all": "^0.1.6"
   }
 }

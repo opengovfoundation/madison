@@ -2,14 +2,15 @@ module.exports = function (grunt) {
   grunt.config.set('useminPrepare', {
     html: 'public/index.html',
     options: {
-      dest: 'public/'
+      dest: 'public/build'
     }
   });
 
   grunt.config.set('usemin', {
     html: 'public/build/index.html',
-    css: 'public/build/app.css',
-    js: 'public/build/app.*.js',
+    options: {
+      assetDirs: ['public/build']
+    }
   });
 
   grunt.loadNpmTasks('grunt-usemin');

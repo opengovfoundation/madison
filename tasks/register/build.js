@@ -1,5 +1,5 @@
 module.exports = function (grunt) {
   grunt.registerTask('build', [
-    'useminPrepare', 'buildJS', 'buildCSS', 'buildFilerev', 'usemin'
+    'clean', 'jshint', 'useminPrepare', 'concat', 'uglify', 'copy' ,'filerev', 'usemin'
   ]);
 };

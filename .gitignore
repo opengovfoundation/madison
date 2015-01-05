@@ -21,6 +21,7 @@ shared
 .settings/
 .sass-cache
 .env*
+.tmp
 
 public/js/angular/directives-ck.js
 

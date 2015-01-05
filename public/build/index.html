@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="madisonApp"  ng-controller="AppController" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title update-title></title>
+    <!-- Mobile Optimization -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="cleartype" content="on" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <!--[if lt IE 9]>
+    <script>
+          document.createElement('ng-include');
+          document.createElement('ng-pluralize');
+          document.createElement('ng-view');
+
+          // Optionally these for CSS
+          document.createElement('ng:include');
+          document.createElement('ng:pluralize');
+          document.createElement('ng:view');
+    </script>
+    <![endif]-->
+
+    <!-- Polyfills -->
+    <!--[if lt IE 9]>
+    <script src="/polyfills/es5.js"></script>
+    <script src="/polyfills/eventListener.js"></script>
+    <script src="/polyfills/html5shiv.js"></script>
+    <![endif]-->
+    
+
+    <link rel="stylesheet" href="build/app.css">
+    
+    <script src="app.1182ee57.js"></script>
+    
+    <!-- <script src="/js/uservoice.js"></script>
+    <script src="/js/ga.js"></script> -->
+  </head>
+  <body>
+    <!--[if lt IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <tour step="currentStep" post-tour="tourComplete()" post-step="stepComplete()">
+      <div growl></div>
+      <div id="wrap">
+        <div id="header-main" class="navbar" role="navigation">
+          <div class="container">
+            <div ng-include="'/templates/partials/header.html'"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div profile-completion-message></div>
+        </div>
+        <div id="main" class="">
+          <div class="container">
+            <div class="content col-md-12">
+              <div ui-view></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="footer" class="footer">
+        <div ng-include="'/templates/partials/footer.html'"></div>
+      </div>
+    </tour>
+  </body>
+</html>
