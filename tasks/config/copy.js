@@ -6,9 +6,12 @@ module.exports = function (grunt) {
           expand: true,
           cwd: 'public',
           src: [
-            'index.html'
+            'pre-build.html'
           ],
-          dest: 'public/build'
+          dest: 'public/',
+          rename: function (dest, src) {
+            return dest + 'index.html';
+          }
         }
       ]
     }
