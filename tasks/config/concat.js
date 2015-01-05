@@ -1,7 +1,13 @@
 module.exports = function (grunt) {
   grunt.config.set('concat', {
     options: {
-      separator: grunt.util.linefeed + ';' + grunt.util.linefeed
+      sourceMap: true,
+      stripBanners: {
+        options: {
+          block: true,
+          line: true
+        }
+      }
     },
     dist: {}
   });
