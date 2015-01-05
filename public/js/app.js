@@ -106,12 +106,6 @@ app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvi
       templateUrl: "/templates/pages/user-notification-settings.html",
       data: {title: "Notification Settings"}
     })
-    .state('docs.single', {
-      url: "/docs/{slug:[A-z0-9_-]+}",
-      templateUrl: '/templates/pages/document.html',
-      controller: "DocumentPageController",
-      data: {title: "Document Page"}
-    })
     .state('404', {
       url: '/404',
       templateUrl: '/templates/pages/404.html',
