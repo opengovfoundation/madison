@@ -1,15 +1,15 @@
 module.exports = function (grunt) {
   grunt.config.set('useminPrepare', {
-    html: 'public/index.html',
+    html: 'public/pre-build.html',
     options: {
-      dest: 'public/build'
+      dest: 'public'
     }
   });
 
   grunt.config.set('usemin', {
-    html: 'public/build/index.html',
+    html: 'public/index.html',
     options: {
-      assetDirs: ['public/build']
+      assetDirs: ['public']
     }
   });
 
