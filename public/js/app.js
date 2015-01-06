@@ -43,12 +43,12 @@ if (!history.pushState) {
 app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider',
   function (growlProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
     //Set up growl notifications
-    // growlProvider.messagesKey("messages");
-    // growlProvider.messageTextKey("text");
-    // growlProvider.messageSeverityKey("severity");
-    // $httpProvider.responseInterceptors.push(growlProvider.serverMessagesInterceptor);
-    // growlProvider.onlyUniqueMessages(true);
-    // growlProvider.globalTimeToLive(5000);
+    growlProvider.messagesKey("messages");
+    growlProvider.messageTextKey("text");
+    growlProvider.messageSeverityKey("severity");
+    growlProvider.onlyUniqueMessages(true);
+    growlProvider.globalTimeToLive(5000);
+    $httpProvider.interceptors.push(growlProvider.serverMessagesInterceptor);
 
     $urlRouterProvider.otherwise('404');
 
