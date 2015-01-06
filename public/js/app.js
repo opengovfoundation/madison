@@ -12,12 +12,11 @@ var imports = [
     'ui.router',
     // 'ui.bootstrap',
     // 'ui.bootstrap.datetimepicker',
-    // 'ngAnimate',
-    // 'ngCookies',
+    'ngAnimate',
     'ngSanitize',
     'angular-growl',
     'ngResource',
-    // 'angular-tour',
+    'angular-tour',
     'ipCookie'
   ];
 
@@ -41,8 +40,8 @@ if (!history.pushState) {
   }
 }
 
-app.config(['growlProvider', '$httpProvider', '$stateProvider',
-  function (growlProvider, $httpProvider, $stateProvider) {
+app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider',
+  function (growlProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
     //Set up growl notifications
     // growlProvider.messagesKey("messages");
     // growlProvider.messageTextKey("text");
@@ -50,6 +49,8 @@ app.config(['growlProvider', '$httpProvider', '$stateProvider',
     // $httpProvider.responseInterceptors.push(growlProvider.serverMessagesInterceptor);
     // growlProvider.onlyUniqueMessages(true);
     // growlProvider.globalTimeToLive(5000);
+
+    $urlRouterProvider.otherwise('404');
 
     $stateProvider
       .state('index', {

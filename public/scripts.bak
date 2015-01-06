@@ -1,13 +1,4 @@
-    <script src="bower_components/angular-tour/dist/angular-tour.min.js"></script>
-    <script src="bower_components/angular-tour/dist/angular-tour-tpls.min.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
-
-
     -- components --
-    <script src="bower_components/google-diff-match-patch-js/diff_match_patch.js"></script>
-    <script src="bower_components/zeroclipboard/dist/ZeroClipboard.min.js"></script>
     <script src="bower_components/pagedown/Markdown.Converter.js"></script>
     <script src="bower_components/pagedown/Markdown.Sanitizer.js"></script>
     <script src="bower_components/pagedown/Markdown.Editor.js"></script>
