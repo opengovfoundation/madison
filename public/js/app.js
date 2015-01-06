@@ -8,7 +8,7 @@ var imports = [
     'madisonApp.directives',
     'madisonApp.controllers',
     // 'madisonApp.dashboardControllers',
-    //'ui',
+    'ui',
     'ui.router',
     // 'ui.bootstrap',
     // 'ui.bootstrap.datetimepicker',

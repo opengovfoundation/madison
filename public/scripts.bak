@@ -5,7 +5,6 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-ui/build/angular-ui.min.js"></script>
     
     <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
 
@@ -13,8 +12,6 @@
     -- components --
 
     <script src="vendor/jquery/jquery-1.10.2.js"></script>
-    <script src="vendor/select2/select2.js"></script>
-    <script src="vendor/underscore.min.js"></script>
     <script src="bower_components/google-diff-match-patch-js/diff_match_patch.js"></script>
     <script src="bower_components/zeroclipboard/dist/ZeroClipboard.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
