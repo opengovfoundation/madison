@@ -1,6 +1,12 @@
 <?php
+/**
+ *	Group Model
+ */
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\MessageBag;
+
 class Group extends Eloquent
 {
 	public static $timestamp = true;
@@ -13,6 +19,114 @@ class Group extends Eloquent
 	const ROLE_EDITOR ='editor';
 	const ROLE_STAFF = 'staff';
 	
+	/**
+	 *	Validation Rules
+	 */
+	protected static $rules = array(
+	  'name' 					=> 'required',
+	  'address1'			=> 'required',
+	  'city'					=> 'required',
+	  'state'					=> 'required',
+	  'postal_code' 	=> 'required',
+	  'phone_number'	=> 'required',
+	  'display_name'	=> 'required',
+	);
+
+	protected static $customMessages = array(
+	  'name.required'					=> 'The group name is required',
+	  'address1.required'			=> 'The group address is required',
+	  'city.required'					=> 'The group city is required',
+	  'state.required'				=> 'The group state is required',
+	  'postal_code.required'	=> 'The group postal code is required',
+	  'phone_number.required'	=> 'The group phone number is required',
+	  'display_name.required'	=> 'The group display_name is required'
+	);
+
+	/**
+	 *	Constructor
+	 *	
+	 *	@param array $attributes
+	 *	Extends Eloquent constructor
+	 */
+	public function __construct($attributes = array()){
+		parent::__construct($attributes);
+		$this->validationErrors = new MessageBag;
+	}
+
+	/**
+	 *	Save
+	 *
+	 *	Override Eloquent save() method
+	 *		Runs $this->beforeSave()
+	 *		Unsets:
+	 *			* $this->validationErrors
+	 *			* $this->rules
+	 *
+	 *	@param array $options
+	 *	$return bool
+	 */
+	public function save(array $options = array()){
+		if(!$this->beforeSave()){
+			return false;
+		}
+
+		//Don't want Group model trying to save validationErrors field.
+		unset($this->validationErrors);
+
+		return parent::save($options);
+	}
+
+	/**
+	 *	getErrors
+	 *
+	 *	Returns errors from validation
+	 *
+	 *	@param void
+	 *	@return MessageBag $this->validationErrors
+	 */
+	public function getErrors(){
+		return $this->validationErrors;
+	}
+
+	/**
+	 *	beforeSave
+	 *
+	 *	Validates before saving.  Returns whether the Group can be saved.
+	 *
+	 *	@param array $options
+	 *	@return bool
+	 */
+	private function beforeSave(array $options = array()){
+		if(!$this->validate()) {
+			Log::error("Unable to validate group: ");
+			Log::error($this->getErrors()->toArray());
+			Log::error($this->attributes);
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 *	Validate
+	 *
+	 *	Validate input against merged rules
+	 *
+	 *	@param array $attributes
+	 *	@return bool
+	 */
+	public function validate(){
+		$validation = Validator::make($this->attributes, static::$rules, static::$customMessages);
+
+		if($validation->passes()){
+			return true;
+		}
+
+		$this->validationErrors = $validation->messages();
+
+		return false;
+	}
+
 	static public function getStatuses()
 	{
 		return array(static::STATUS_ACTIVE, static::STATUS_PENDING);
