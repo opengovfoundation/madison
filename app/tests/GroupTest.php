@@ -71,6 +71,32 @@ class GroupTest extends TestCase
     /**
     *   @test
     */
+    public function address_is_required() {
+        unset($this->group->address1);
+        
+        $this->assertFalse($this->group->save());
+
+        $errors = $this->group->getErrors()->all();
+
+        //Ensure we only have the error we expect
+        $this->assertCount(1, $errors);
+
+        //Check the string value for that error
+        $this->assertEquals($errors[0], "The group address is required");
+    }
+
+    /**
+    *   @test
+    */
+    public function address2_is_optional() {
+        unset($this->group->address2);
+
+        $this->assertTrue($this->group->save());
+    }
+
+    /**
+    *   @test
+    */
     public function group_saved_correctly(){
         $this->assertTrue($this->group->save());
         $this->assertTrue($this->group->exists);
