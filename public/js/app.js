@@ -111,6 +111,24 @@ try {
           templateUrl: "/templates/pages/user-notification-settings.html",
           data: {title: "Notification Settings"}
         })
+        .state('group-management', {
+          url: "/groups",
+          controller: "GroupManagementController",
+          templateUrl: "/templates/pages/group-management.html",
+          data: {title: "Group Management"}
+        })
+        .state('create-group', {
+          url: "/groups/edit",
+          controller: "GroupEditController",
+          templateUrl: "/templates/pages/group-edit.html",
+          data: {title: "Create Group"}
+        })
+        .state('edit-group', {
+          url: "/groups/edit/:groupId",
+          controller: "GroupEditController",
+          templateUrl: "/templates/pages/group-edit.html",
+          data: {title: "Edit Group"}
+        })
         .state('404', {
           url: '/404',
           templateUrl: '/templates/pages/404.html',

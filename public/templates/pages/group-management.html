@@ -1,0 +1,25 @@
+  <div class="row">
+    <h1>Your Groups</h1>
+  </div>
+  <div class="row">
+    <div class="content col-md-12">
+      <p>Want to create a group? <a href="/groups/edit">Click here</a>.
+      <p ng-if="user.groups.length = 0">You are not the member of any groups.</p>
+      <table class="table table-striped" id="groupsTable">
+        <thead>
+          <th>Display Name</th>
+          <th>Group Name</th>
+          <th>Your Role</th>
+          <th>Status</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="group in user.groups">
+            <td>{{ group.display_name || "N/A" }}</td>
+            <td>{{ group.name }}</td>
+            <td>@{{ $group->findMemberByUserId(Auth::user()->id)->role }}</td>
+            <td>{{ group.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -2,6 +2,60 @@
 
 class GroupsController extends Controller
 {
+
+	public function __construct(){
+		parent::__construct();
+
+		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
+	}
+
+	public function getGroup($id = null) {
+		$group = Group::find($id);
+
+		return Response::json($group);
+	}
+
+	public function postGroup($id = null){
+		$group_details = Input::all();
+		
+		if(isset($group_details['groupId'])) {
+			$groupId = $group_details['groupId'];
+		}
+		
+		if(is_null($groupId)) {
+			$group = new Group();
+			$group->status = Group::STATUS_PENDING;
+			
+			$message = "Your group has been created! It must be approved before you can invite others to join or create documents.";
+			
+		} else {
+			$group = Group::find($groupId);
+			
+			if(!$group->isGroupOwner(Auth::user()->id)) {
+				return Redirect::to('groups')->with('error', 'You cannot modify a group you do not own.');
+			}
+			$message = "Your group has been updated!";
+		}
+		
+		
+		$group->name = $group_details['gname'];
+		$group->display_name = $group_details['dname'];
+		$group->address1 = $group_details['address1'];
+		$group->address2 = $group_details['address2'];
+		$group->city = $group_details['city'];
+		$group->state = $group_details['state'];
+		$group->postal_code = $group_details['postal'];
+		$group->phone_number = $group_details['phone'];
+		
+		$group->save();
+		$group->addMember(Auth::user()->id, Group::ROLE_OWNER);
+
+		if($group->status == Group::STATUS_PENDING) {
+			Event::fire(MadisonEvent::VERIFY_REQUEST_GROUP, $group);
+		}
+		
+		return Redirect::to('groups')->with('success_message', $message);
+	}
 	
 	public function processMemberInvite($groupId)
 	{
