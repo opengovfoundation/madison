@@ -17,6 +17,7 @@ Route::pattern('comment', '[0-9a-zA-Z_-]+');
 Route::pattern('doc', '[0-9]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('date', '[0-9]+');
+Route::pattern('group', '[0-9]+');
 
 /**
 *   Route - Model bindings
@@ -48,6 +49,9 @@ Route::post('groups/member/{memberId}/role', 'GroupsController@changeMemberRole'
 Route::get('groups/invite/{groupId}', 'GroupsController@inviteMember');
 Route::put('groups/invite/{groupId}', 'GroupsController@processMemberInvite');
 Route::get('groups/active/{groupId}', 'GroupsController@setActiveGroup');
+
+Route::get('api/groups/{group?}', 'GroupsController@getGroup');
+Route::post('api/groups/{group?}', 'GroupsController@postGroup');
 
 //Document Routes
 Route::get('docs', 'DocController@index');
