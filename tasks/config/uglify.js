@@ -1,6 +1,9 @@
 module.exports = function (grunt) {
   grunt.config.set('uglify', {
-    dist: {}
+    dist: {},
+    options: {
+      mangle: false
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');

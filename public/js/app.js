@@ -20,9 +20,12 @@ var imports = [
     'ipCookie'
   ];
 
+try {
+  var app = angular.module('madisonApp', imports); 
+} catch (err) {
+  console.log(err);
+}
 
-
-var app = angular.module('madisonApp', imports);
 
 var xhReq = new XMLHttpRequest();
 xhReq.open("GET", "/auth/token", false);
@@ -40,84 +43,89 @@ if (!history.pushState) {
   }
 }
 
-app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider',
-  function (growlProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
-    //Set up growl notifications
-    growlProvider.messagesKey("messages");
-    growlProvider.messageTextKey("text");
-    growlProvider.messageSeverityKey("severity");
-    growlProvider.onlyUniqueMessages(true);
-    growlProvider.globalTimeToLive(5000);
-    $httpProvider.interceptors.push(growlProvider.serverMessagesInterceptor);
+try {
+  app.config(['growlProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider',
+    function (growlProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
+      //Set up growl notifications
+      growlProvider.messagesKey("messages");
+      growlProvider.messageTextKey("text");
+      growlProvider.messageSeverityKey("severity");
+      growlProvider.onlyUniqueMessages(true);
+      growlProvider.globalTimeToLive(5000);
+      $httpProvider.interceptors.push(growlProvider.serverMessagesInterceptor);
 
-    $urlRouterProvider.otherwise('404');
+      $urlRouterProvider.otherwise('404');
 
-    $stateProvider
-      .state('index', {
-        url: "/",
-        controller: "HomePageController",
-        templateUrl: "/templates/pages/home.html",
-        data: {title: "Madison Home"}
-      })
-      .state('login', {
-        url: '/user/login',
-        controller: "LoginPageController",
-        templateUrl: "/templates/pages/login.html",
-        data: {title: "Login to Madison"}
-      })
-      .state('signup', {
-        url: '/user/signup',
-        controller: "SignupPageController",
-        templateUrl: "/templates/pages/signup.html",
-        data: {title: "Signup for Madison"}
-      })
-      .state('password-reset', {
-        url: '/password/reset',
-        controller: 'PasswordResetController',
-        templateUrl: '/templates/pages/password-reset.html',
-        data: {title: 'Password Reset'}
-      })
-      .state('faq', {
-        url: "/faq",
-        templateUrl: "/templates/pages/faq.html",
-        data: {title: "Frequently Asked Questions"}
-      })
-      .state('about', {
-        url: "/about",
-        templateUrl: "/templates/pages/about.html",
-        data: {title: "About Madison"}
-      })
-      .state('privacy-policy', {
-        url: '/privacy-policy',
-        templateUrl: "/templates/pages/privacy-policy.html",
-        data: {title: "Privacy Policy"}
-      })
-      .state('copyright', {
-        url: '/copyright',
-        templateUrl: "/templates/pages/copyright.html",
-        data: {title: "Copyright Policy"}
-      })
-      .state('terms-and-conditions', {
-        url: '/terms-and-conditions',
-        templateUrl: "/templates/pages/terms-and-conditions.html",
-        data: {title: "Terms and Conditions"}
-      })
-      .state('user-notification-settings', {
-        url: "/user/edit/:user/notifications",
-        controller: "UserNotificationsController",
-        templateUrl: "/templates/pages/user-notification-settings.html",
-        data: {title: "Notification Settings"}
-      })
-      .state('404', {
-        url: '/404',
-        templateUrl: '/templates/pages/404.html',
-        data: {title: "Here Be Dragons"}
-      });
+      $stateProvider
+        .state('index', {
+          url: "/",
+          controller: "HomePageController",
+          templateUrl: "/templates/pages/home.html",
+          data: {title: "Madison Home"}
+        })
+        .state('login', {
+          url: '/user/login',
+          controller: "LoginPageController",
+          templateUrl: "/templates/pages/login.html",
+          data: {title: "Login to Madison"}
+        })
+        .state('signup', {
+          url: '/user/signup',
+          controller: "SignupPageController",
+          templateUrl: "/templates/pages/signup.html",
+          data: {title: "Signup for Madison"}
+        })
+        .state('password-reset', {
+          url: '/password/reset',
+          controller: 'PasswordResetController',
+          templateUrl: '/templates/pages/password-reset.html',
+          data: {title: 'Password Reset'}
+        })
+        .state('faq', {
+          url: "/faq",
+          templateUrl: "/templates/pages/faq.html",
+          data: {title: "Frequently Asked Questions"}
+        })
+        .state('about', {
+          url: "/about",
+          templateUrl: "/templates/pages/about.html",
+          data: {title: "About Madison"}
+        })
+        .state('privacy-policy', {
+          url: '/privacy-policy',
+          templateUrl: "/templates/pages/privacy-policy.html",
+          data: {title: "Privacy Policy"}
+        })
+        .state('copyright', {
+          url: '/copyright',
+          templateUrl: "/templates/pages/copyright.html",
+          data: {title: "Copyright Policy"}
+        })
+        .state('terms-and-conditions', {
+          url: '/terms-and-conditions',
+          templateUrl: "/templates/pages/terms-and-conditions.html",
+          data: {title: "Terms and Conditions"}
+        })
+        .state('user-notification-settings', {
+          url: "/user/edit/:user/notifications",
+          controller: "UserNotificationsController",
+          templateUrl: "/templates/pages/user-notification-settings.html",
+          data: {title: "Notification Settings"}
+        })
+        .state('404', {
+          url: '/404',
+          templateUrl: '/templates/pages/404.html',
+          data: {title: "Here Be Dragons"}
+        });
+    }]);
+} catch (err) {
+  console.error(err);
+}
+
+app.config(['$locationProvider',
+  function ($locationProvider) {
+    $locationProvider.html5Mode(true);
   }]);
-
-app.config(function ($locationProvider) {
-  $locationProvider.html5Mode(true);
-});
 
 window.console = window.console || {};
 window.console.log = window.console.log || function () {};
