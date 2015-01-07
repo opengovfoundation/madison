@@ -26,7 +26,14 @@ class UserManageApiController extends ApiController{
 
 		//Validate input against rules
 		if($validation->fails()){
-			return Response::json( array( 'status' => 'error', 'errors' => $validation->messages()->getMessages() ) );
+			$errors = $validation->messages()->getMessages();
+			$messages = array();
+
+			foreach($errors as $error){
+				array_push($messages, $error[0]);
+			}
+
+			return Response::json( $this->growlMessage( $messages, 'error') , 401);
 		}
 
 		//Check that the user account exists
@@ -49,8 +56,7 @@ class UserManageApiController extends ApiController{
 			return Response::json( array( 'status' => 'ok', 'errors' => array() ) );
 		}
 		else {
-			return Response::json( array( 'status' => 'error',
-				'errors' => array('The email address or password is incorrect.') ) );
+			return Response::json( $this->growlMessage('The email address or password is incorrect.', 'error'), 401 );
 		}
 	}
 
