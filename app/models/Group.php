@@ -39,7 +39,7 @@ class Group extends Eloquent
 	  'state.required'				=> 'The group state is required',
 	  'postal_code.required'	=> 'The group postal code is required',
 	  'phone_number.required'	=> 'The group phone number is required',
-	  'display_name.required'	=> 'The group display_name is required'
+	  'display_name.required'	=> 'The group display name is required'
 	);
 
 	/**
