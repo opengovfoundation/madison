@@ -1,9 +1,9 @@
 <div class="row">
-	<h1>Welcome to Madison</h1>
+	<h1>{{ trans('home.welcome') }}</h1>
 </div>
 <div class="row" ng-controller="HomePageController" tourtip="@{{ step_messages.step_0 }}" tourtip-step="0">
 	<div class="col-sm-6">
-		<input tourtip="@{{ step_messages.step_1 }}" tourtip-step="1" id="doc-text-filter" type="text" ng-model="docSearch" class="form-control" placeholder="Filter document titles">
+		<input tourtip="@{{ step_messages.step_1 }}" tourtip-step="1" id="doc-text-filter" type="text" ng-model="docSearch" class="form-control" placeholder="{{ trans('home.filter') }}">
 	</div>
 	<div class="col-sm-4 home-select2-container">
 		<select id="doc-category-filter" ui-select2="select2Config" ng-model="select2">
@@ -22,8 +22,8 @@
 	<div class="col-sm-2 home-select2-container">
 		<select id="doc-date-filter" ui-select2="dateSortConfig" id="dateSortSelect" ng-model="dateSort">
 			<option value=""></option>
-			<option value="created_at">Date Posted</option>
-			<option value="updated_at">Last Updated</option>
+			<option value="created_at">{{ trans('home.posted') }}</option>
+			<option value="updated_at">{{ trans('home.updated') }}</option>
 		</select>
 	</div>
 	<div class="col-sm-12">
