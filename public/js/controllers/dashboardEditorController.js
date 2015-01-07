@@ -1,243 +1,4 @@
-/*global Markdown*/
-/*global clean_slug*/
-angular.module('madisonApp.dashboardControllers', [])
-  .controller('DashboardVerifyGroupController', ['$scope', '$http', function($scope, $http) {
-    $scope.requests = [];
-
-    $scope.init = function(){
-        $scope.getRequests();
-    };
-
-    $scope.getRequests = function(){
-        $http.get('/api/groups/verify')
-        .success(function(data, status, headers, config){
-            $scope.requests = data;
-        })
-        .error(function(data, status, headers, config){
-            console.error(data);
-        });
-    };
-
-    $scope.update = function(request, status, event){
-        $http.post('/api/groups/verify', {'request': request, 'status': status})
-        .success(function(data){
-            request.status = status;
-        })
-        .error(function(data, status, headers, config){
-            console.error(data);
-        });
-    };
-  }])
-  .controller('DashboardVerifyUserController', ['$scope', '$http', function($scope, $http) {
-    $scope.requests = [];
-
-    $scope.init = function(){
-        $scope.getRequests();
-    };
-
-    $scope.getRequests = function(){
-        $http.get('/api/user/independent/verify')
-        .success(function(data, status, headers, config){
-            $scope.requests = data;
-        })
-        .error(function(data, status, headers, config){
-            console.error(data);
-        });
-    };
-
-    $scope.update = function(request, status, event){
-        $http.post('/api/user/independent/verify', {'request': request, 'status': status})
-        .success(function(data){
-            request.meta_value = status;
-            location.reload();
-        })
-        .error(function(data, status, headers, config){
-            console.error(data);
-        });
-    };
-  }])
-  .controller('DashboardDocumentsController', ['$scope', '$http', '$filter',
-    function ($scope, $http, $filter) {
-      $scope.docs = [];
-      $scope.categories = [];
-      $scope.sponsors = [];
-      $scope.statuses = [];
-      $scope.dates = [];
-      $scope.dateSort = '';
-      $scope.select2 = '';
-      $scope.docSort = "created_at";
-      $scope.reverse = true;
-
-      $scope.select2Config = {
-        multiple: true,
-        allowClear: true,
-        placeholder: "Filter documents by category, sponsor, or status"
-      };
-
-      $scope.dateSortConfig = {
-        allowClear: true,
-        placeholder: "Sort By Date"
-      };
-
-      //Retrieve all docs
-      $http.get('/api/docs')
-        .success(function (data) {
-          $scope.parseDocs(data);
-        })
-        .error(function (data) {
-          console.error("Unable to get documents: %o", data);
-        });
-
-      $scope.parseDocs = function (docs) {
-        angular.forEach(docs, function (doc) {
-          $scope.docs.push(doc);
-
-          $scope.parseDocMeta(doc.categories, 'categories');
-          $scope.parseDocMeta(doc.sponsor, 'sponsors');
-          $scope.parseDocMeta(doc.statuses, 'statuses');
-
-          angular.forEach(doc.dates, function (date) {
-            date.date = Date.parse(date.date);
-          });
-        });
-      };
-
-      $scope.parseDocMeta = function (collection, name) {
-        if (collection === undefined || collection.length === 0) {
-          return;
-        }
-
-        angular.forEach(collection, function (item) {
-          var found = $filter('getById')($scope[name], item.id);
-
-          if (found === null) {
-            switch (name) {
-            case 'categories':
-              $scope.categories.push(item);
-              break;
-            case 'sponsors':
-              $scope.sponsors.push(item);
-              break;
-            case 'statuses':
-              $scope.statuses.push(item);
-              break;
-            default:
-              console.error('Unknown meta name: ' + name);
-            }
-          }
-        });
-      };
-
-      $scope.docFilter = function (doc) {
-
-        var show = false;
-
-        if ($scope.select2 !== undefined && $scope.select2 !== '') {
-          var cont = true;
-
-          var select2 = $scope.select2.split('_');
-          var type = select2[0];
-          var value = parseInt(select2[1], 10);
-
-          switch (type) {
-          case 'category':
-            angular.forEach(doc.categories, function (category) {
-              if (+category.id === value && cont) {
-                show = true;
-                cont = false;
-              }
-            });
-            break;
-          case 'sponsor':
-            angular.forEach(doc.sponsor, function (sponsor) {
-              if (+sponsor.id === value && cont) {
-                show = true;
-                cont = false;
-              }
-            });
-            break;
-          case 'status':
-            angular.forEach(doc.statuses, function (status) {
-              if (+status.id === value && cont) {
-                show = true;
-                cont = false;
-              }
-            });
-            break;
-          }
-        } else {
-          show = true;
-        }
-
-        return show;
-      };
-    }
-    ])
-  .controller('DashboardVerifyController', ['$scope', '$http',
-    function ($scope, $http) {
-      $scope.requests = [];
-
-      $scope.init = function () {
-        $scope.getRequests();
-      };
-
-      $scope.getRequests = function () {
-        $http.get('/api/user/verify')
-          .success(function (data) {
-            $scope.requests = data;
-          })
-          .error(function (data) {
-            console.error(data);
-          });
-      };
-
-      $scope.update = function (request, status) {
-        $http.post('/api/user/verify', {
-          'request': request,
-          'status': status
-        })
-          .success(function () {
-            request.meta_value = status;
-          })
-          .error(function (data) {
-            console.error(data);
-          });
-      };
-    }
-    ])
-  .controller('DashboardSettingsController', ['$scope', '$http',
-    function ($scope, $http) {
-      $scope.admins = [];
-
-      $scope.getAdmins = function () {
-        $http.get('/api/user/admin')
-          .success(function (data) {
-            $scope.admins = data;
-          })
-          .error(function (data) {
-            console.error(data);
-          });
-      };
-
-      $scope.saveAdmin = function (admin) {
-        admin.saved = false;
-
-        $http.post('/api/user/admin', {
-          'admin': admin
-        })
-          .success(function () {
-            admin.saved = true;
-          })
-          .error(function (data) {
-            console.error(data);
-          });
-      };
-
-      $scope.init = function () {
-        $scope.getAdmins();
-      };
-    }
-    ])
+angular.module('madisonApp.controllers')
   .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$location', '$filter', 'growl',
     function ($scope, $http, $timeout, $location, $filter, growl) {
       $scope.doc = {};
@@ -288,14 +49,14 @@ angular.module('madisonApp.dashboardControllers', [])
           // Resizing dynamically according to the textarea is hard, 
           // so just set the height once (22 is padding)
           $("#wmd-preview").css("height", ($("#wmd-input").height() + 22));
-          $("#wmd-input").scroll(function () { 
+          $("#wmd-input").scroll(function () {
             $("#wmd-preview").scrollTop($("#wmd-input").scrollTop());
           });
 
           //Save intro text after a 3 second timeout
           var introTextTimeout = null;
           $scope.updateIntroText = function (newValue) {
-            if(introTextTimeout) {
+            if (introTextTimeout) {
               $timeout.cancel(introTextTimeout);
             }
             introTextTimeout = $timeout(function () { $scope.saveIntroText(newValue); }, 3000);
@@ -347,8 +108,8 @@ angular.module('madisonApp.dashboardControllers', [])
                 initTitle = false;
               });
             } else {
-                $scope.saveTitle();
-              }
+              $scope.saveTitle();
+            }
           });
 
           $scope.$watch('doc.slug', function () {
@@ -357,20 +118,20 @@ angular.module('madisonApp.dashboardControllers', [])
                 initSlug = false;
               });
             } else {
-                // Changing doc.slug in-place will trigger the $watch
-                var safe_slug = $scope.doc.slug;
-                var sanitized_slug = clean_slug(safe_slug);
-                // If cleaning the slug didn't change anything, we have a valid NEW slug, 
-                // and we can save it
-                if (safe_slug == sanitized_slug) {
-                  $scope.saveSlug();
-                } else {
-                  // Change the slug in-place, which will trigger another watch
-                  // (handled by the POST function)
-                  console.log('Invalid slug, reverting');
-                  $scope.doc.slug = sanitized_slug;
-                }
+              // Changing doc.slug in-place will trigger the $watch
+              var safe_slug = $scope.doc.slug;
+              var sanitized_slug = clean_slug(safe_slug);
+              // If cleaning the slug didn't change anything, we have a valid NEW slug, 
+              // and we can save it
+              if (safe_slug == sanitized_slug) {
+                $scope.saveSlug();
+              } else {
+                // Change the slug in-place, which will trigger another watch
+                // (handled by the POST function)
+                console.log('Invalid slug, reverting');
+                $scope.doc.slug = sanitized_slug;
               }
+            }
           });
 
           // Save the content every 5 seconds
@@ -381,11 +142,11 @@ angular.module('madisonApp.dashboardControllers', [])
                 initContent = false;
               });
             } else {
-                if (timeout) { 
-                    $timeout.cancel(timeout);
-                }
-                timeout = $timeout(function () { $scope.saveContent(); }, 5000);
+              if (timeout) {
+                $timeout.cancel(timeout);
               }
+              timeout = $timeout(function () { $scope.saveContent(); }, 5000);
+            }
           });
         });
       };
@@ -502,30 +263,30 @@ angular.module('madisonApp.dashboardControllers', [])
             },
             results: function (data) {
               var returned = [];
-              
-              if(!data.success) {
-                  alert(data.message);
-                  return;
+
+              if (!data.success) {
+                alert(data.message);
+                return;
               }
-              
+
               angular.forEach(data.sponsors, function (sponsor) {
                 var text = "";
-                
-                switch(sponsor.sponsorType) {
-                    case 'group':
-                        text = "[Group] " + sponsor.name;
-                        break;
-                    case 'user':
-                        text = sponsor.fname + " " + sponsor.lname + " - " + sponsor.email;
-                        break;
+
+                switch (sponsor.sponsorType) {
+                case 'group':
+                  text = "[Group] " + sponsor.name;
+                  break;
+                case 'user':
+                  text = sponsor.fname + " " + sponsor.lname + " - " + sponsor.email;
+                  break;
                 }
-                
+
                 returned.push({
-                    id : sponsor.id,
-                    type :  sponsor.sponsorType,
-                    text : text
+                  id : sponsor.id,
+                  type :  sponsor.sponsorType,
+                  text : text
                 });
-                
+
               });
 
               return {
@@ -582,7 +343,7 @@ angular.module('madisonApp.dashboardControllers', [])
       };
 
       $scope.saveContent = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/content', {'content':$scope.doc.content.content})
+        return $http.post('/api/docs/' + $scope.doc.id + '/content', {'content': $scope.doc.content.content})
           .success(function (data) {
             console.log("Content saved successfully: %o", data);
           }).error(function (data) {
@@ -690,26 +451,26 @@ angular.module('madisonApp.dashboardControllers', [])
       $scope.getDocSponsor = function () {
         return $http.get('/api/docs/' + $scope.doc.id + '/sponsor')
           .success(function (data) {
-            if(data.sponsorType === undefined){
+            if (data.sponsorType === undefined) {
               $scope.sponsor = null;
               return;
             }
 
             var text = "";
 
-            switch(data.sponsorType.toLowerCase()) {
-                case 'group':
-                    text = "[Group] " + data.name;
-                    break;
-                case 'user':
-                    text = data.fname + " " + data.lname + " - " + data.email;
-                    break;
+            switch (data.sponsorType.toLowerCase()) {
+            case 'group':
+              text = "[Group] " + data.name;
+              break;
+            case 'user':
+              text = data.fname + " " + data.lname + " - " + data.email;
+              break;
             }
 
             $scope.sponsor = {
-                id : data.id,
-                type :  data.sponsorType.toLowerCase(),
-                text : text
+              id : data.id,
+              type :  data.sponsorType.toLowerCase(),
+              text : text
             };
           }).error(function (data) {
             console.error("Error getting document sponsor: %o", data);

@@ -7,7 +7,6 @@ var imports = [
     'madisonApp.resources',
     'madisonApp.directives',
     'madisonApp.controllers',
-    // 'madisonApp.dashboardControllers',
     'ui',
     'ui.router',
     // 'ui.bootstrap',
