@@ -8,12 +8,12 @@ angular.module('madisonApp.controllers')
           $scope.credentials = {fname: "", lname: "", email: "", password: ""};
           UserService.getUser();
           $state.go('index');
-          growl.addSuccessMessage("Welcome to Madison!  We just sent you an email.  Please click on the activation link to log in.");
+          growl.success("Welcome to Madison!  We just sent you an email.  Please click on the activation link to log in.");
         })
           .error(function (response) {
             console.error(response);
             if (!response.messages) {
-              growl.addErrorMessage("There was an error signing you up.  Check your console for details.");
+              growl.error("There was an error signing you up.  Check your console for details.");
             }
           });
       };

@@ -154,8 +154,13 @@ class UserController extends BaseController{
 			return Response::json(null);
 		}
 
+		$user = Auth::user();
+		$user->load('groups');
+
+		$user->activeGroup = $user->activeGroup();
+
 		return Response::json([
-      'user'	=> Auth::user()->toArray()
+      'user'	=> $user->toArray()
 		]);
 	}
 

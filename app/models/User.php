@@ -166,7 +166,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		$activeGroupId = Session::get('activeGroupId');
 		
 		if($activeGroupId <= 0) {
-			return new Group();
+			//return new Group();
+			return null;
 		}
 		
 		return Group::where('id', '=', $activeGroupId)->first();

@@ -16,12 +16,12 @@ angular.module('madisonApp.controllers')
           $scope.credentials = {email: "", password: "", remember: false};
           UserService.getUser();
           $state.go('index');
-          growl.addSuccessMessage("You have been logged in successfully");
+          growl.success("You have been logged in successfully");
         })
           .error(function (response) {
             console.error(response);
             if (!response.messages) {
-              growl.addErrorMessage("There was an error logging you in.  Check your console for details.");
+              growl.error("There was an error logging you in.  Check your console for details.");
             }
           });
       };

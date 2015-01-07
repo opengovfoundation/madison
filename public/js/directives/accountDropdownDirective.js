@@ -14,7 +14,7 @@ angular.module('madisonApp.directives')
             var logout = AuthService.logout();
 
             logout.then(function () {
-              growl.addSuccessMessage('You have been successfully logged out.');
+              growl.success('You have been successfully logged out.');
               UserService.getUser();
               $location.path('/');
             });
