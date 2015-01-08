@@ -1,0 +1,29 @@
+<div class="row">
+  <div admin-breadcrumb></div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <h1>Verify Groups</h1>
+    <table class="table table-striped">
+      <thead>
+        <th>ID</th>
+        <th>Group Name</th>
+        <th>Display Name</th>
+        <th>Status</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="request in requests">
+          <td>{{ request.id }}</td>
+          <td>{{ request.name }}</td>
+          <td>{{ request.display_name }}</td>
+          <td>
+            <div class="btn-group">
+              <button type="button" class="btn btn-success" ng-class="{active: request.status == 'active'}" ng-click="update(request, 'active')">Active</button>
+              <button type="button" class="btn btn-warning" ng-class="{active: request.status == 'pending'}" ng-click="update(request, 'pending')">Pending</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

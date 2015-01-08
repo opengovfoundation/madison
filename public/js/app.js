@@ -140,6 +140,18 @@ try {
           controller: 'DashboardVerifyController',
           data: {title: 'Verify Account'}
         })
+        .state('verify-group', {
+          url: '/administrative-dashboard/verify-group',
+          templateUrl: '/templates/pages/verify-group.html',
+          controller: 'DashboardVerifyGroupController',
+          data: {title: 'Verify Group'}
+        })
+        .state('verify-independent', {
+          url: '/administrative-dashboard/verify-independent',
+          templateUrl: '/templates/pages/verify-independent.html',
+          controller: 'DashboardVerifyUserController',
+          data: {title: 'Verify Independent Sponsor'}
+        })
         .state('404', {
           url: '/404',
           templateUrl: '/templates/pages/404.html',
