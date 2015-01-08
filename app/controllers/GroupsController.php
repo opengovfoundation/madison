@@ -1,6 +1,6 @@
 <?php
 
-class GroupsController extends Controller
+class GroupsController extends BaseController
 {
 
 	public function __construct(){
@@ -22,7 +22,7 @@ class GroupsController extends Controller
 			$groupId = $group_details['groupId'];
 		}
 		
-		if(is_null($groupId)) {
+		if(!isset($groupId)) {
 			$group = new Group();
 			$group->status = Group::STATUS_PENDING;
 			
@@ -32,20 +32,24 @@ class GroupsController extends Controller
 			$group = Group::find($groupId);
 			
 			if(!$group->isGroupOwner(Auth::user()->id)) {
-				return Redirect::to('groups')->with('error', 'You cannot modify a group you do not own.');
+				return Response::json($this->growlMessage('You cannot modify a group you do not own.', 'error'));
 			}
+
 			$message = "Your group has been updated!";
 		}
 		
 		
-		$group->name = $group_details['gname'];
-		$group->display_name = $group_details['dname'];
+		$group->name = $group_details['name'];
+		$group->display_name = $group_details['display_name'];
 		$group->address1 = $group_details['address1'];
-		$group->address2 = $group_details['address2'];
+		if(isset($group_details['address2'])){
+			$group->address2 = $group_details['address2'];	
+		}
+		
 		$group->city = $group_details['city'];
 		$group->state = $group_details['state'];
-		$group->postal_code = $group_details['postal'];
-		$group->phone_number = $group_details['phone'];
+		$group->postal_code = $group_details['postal_code'];
+		$group->phone_number = $group_details['phone_number'];
 		
 		$group->save();
 		$group->addMember(Auth::user()->id, Group::ROLE_OWNER);
@@ -54,7 +58,7 @@ class GroupsController extends Controller
 			Event::fire(MadisonEvent::VERIFY_REQUEST_GROUP, $group);
 		}
 		
-		return Redirect::to('groups')->with('success_message', $message);
+		return Response::json($this->growlMessage($message, 'success'));
 	}
 	
 	public function processMemberInvite($groupId)

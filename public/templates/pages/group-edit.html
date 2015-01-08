@@ -35,11 +35,11 @@
       </div>
       <div class="form-group">
         <label for="postal">Postal Code:</label>
-        <input type="text" class="form-control" name="postal" id="postal" placeholder="Enter Postal / Zip Code" value="{{ group.postal_code }}"/>
+        <input type="text" class="form-control" name="postal" id="postal" placeholder="Enter Postal / Zip Code" ng-model="group.postal_code"/>
       </div>
       <div class="form-group">
         <label for="phone">Contact Phone:</label>
-        <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Contact Phone Number" value="{{ group.phone_number }}"/>
+        <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Contact Phone Number" ng-model="group.phone_number"/>
       </div>
       <button type="submit" class="btn btn-default">Submit</button>
     </form>

@@ -9,6 +9,23 @@ class UserController extends BaseController{
 	}
 
 	/**
+	*	getGroups
+	*		Returns a user's groups with the user's role included
+	*
+	*	@param User $user
+	* @return Response::json
+	*/
+	public function getGroups(User $user) {
+		$groups = $user->groups()->get();
+
+		foreach($groups as $group){
+			$group->role = $group->findMemberByUserId($user->id)->role;
+		}
+
+		return Response::json($groups);
+	}
+
+	/**
 	*	API PUT Route to update a user's notification settings
 	*
 	*	@param User $user
@@ -156,6 +173,10 @@ class UserController extends BaseController{
 
 		$user = Auth::user();
 		$user->load('groups');
+
+		foreach($user->groups as $group){
+			$group->role = $group->findMemberByUserId($user->id)->role;
+		}
 
 		$user->activeGroup = $user->activeGroup();
 

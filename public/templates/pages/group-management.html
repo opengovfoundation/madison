@@ -13,10 +13,10 @@
           <th>Status</th>
         </thead>
         <tbody>
-          <tr ng-repeat="group in user.groups">
+          <tr ng-repeat="group in groups">
             <td>{{ group.display_name || "N/A" }}</td>
             <td>{{ group.name }}</td>
-            <td>@{{ $group->findMemberByUserId(Auth::user()->id)->role }}</td>
+            <td>{{ group.role }}</td>
             <td>{{ group.status }}</td>
           </tr>
         </tbody>

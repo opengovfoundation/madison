@@ -12,5 +12,18 @@ angular.module('madisonApp.services')
           });
       };
 
+      UserService.getGroups = function () {
+        UserService.exists.then(function () {
+          $http.get('/api/user/' + UserService.user.id + '/groups')
+            .success(function (data) {
+              UserService.groups = data;
+              $rootScope.$broadcast('groupsUpdated');
+            }).error(function (data) {
+              console.error(data);
+            });
+        });
+
+      };
+
       return UserService;
     }]);

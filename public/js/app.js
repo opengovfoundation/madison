@@ -50,7 +50,7 @@ try {
       growlProvider.messageTextKey("text");
       growlProvider.messageSeverityKey("severity");
       growlProvider.onlyUniqueMessages(true);
-      growlProvider.globalTimeToLive(5000);
+      growlProvider.globalTimeToLive(3000);
       $httpProvider.interceptors.push(growlProvider.serverMessagesInterceptor);
 
       $urlRouterProvider.otherwise('404');

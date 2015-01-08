@@ -166,7 +166,8 @@ Route::controller('dashboard', 'DashboardController');
     Route::put('api/user/{user}/edit/email', 'UserController@editEmail');
     Route::get('api/user/{user}/notifications', 'UserController@getNotifications');
     Route::put('api/user/{user}/notifications', 'UserController@putNotifications');
-    
+    Route::get('api/user/{user}/groups', 'UserController@getGroups');
+
     // Group Routes
     Route::get('api/groups/verify/', 'GroupsApiController@getVerify');
     Route::post('api/groups/verify/', 'GroupsApiController@postVerify');

@@ -1,6 +1,6 @@
 angular.module('madisonApp.controllers')
-  .controller('GroupEditController', ['$scope', '$stateParams', 'Group',
-    function ($scope, $stateParams, Group) {
+  .controller('GroupEditController', ['$scope', '$state', '$stateParams', 'Group',
+    function ($scope, $state, $stateParams, Group) {
       $scope.groupId = $stateParams.groupId;
 
       if ($scope.groupId) {
@@ -10,8 +10,10 @@ angular.module('madisonApp.controllers')
       }
 
       $scope.saveGroup = function () {
-        console.log($scope.group);
-        $scope.group.$save();
+        var request = $scope.group.$save(function (group, headers) {
+          $state.go('group-management');
+          console.log(group, headers);
+        });
       };
 
     }]);
