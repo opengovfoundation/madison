@@ -17,9 +17,9 @@ class GroupsController extends BaseController
 
 	public function postGroup($id = null){
 		$group_details = Input::all();
-		
-		if(isset($group_details['groupId'])) {
-			$groupId = $group_details['groupId'];
+
+		if(isset($group_details['id'])) {
+			$groupId = $group_details['id'];
 		}
 		
 		if(!isset($groupId)) {

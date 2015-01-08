@@ -14,7 +14,10 @@
         </thead>
         <tbody>
           <tr ng-repeat="group in groups">
-            <td>{{ group.display_name || "N/A" }}</td>
+            <td ng-if="!group.canEdit">{{ group.display_name || "N/A" }}</td>
+            <td ng-if="group.canEdit">
+              <a href="/groups/edit/{{ group.id }}">{{ group.display_name }}</a>
+            </td>
             <td>{{ group.name }}</td>
             <td>{{ group.role }}</td>
             <td>{{ group.status }}</td>

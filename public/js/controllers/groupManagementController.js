@@ -5,6 +5,10 @@ angular.module('madisonApp.controllers')
       $scope.$on('groupsUpdated',
         function () {
           $scope.groups = UserService.groups;
+
+          angular.forEach($scope.groups, function (group) {
+            group.canEdit = (group.role === 'owner' || group.role === 'editor');
+          });
         });
 
       UserService.getGroups();
