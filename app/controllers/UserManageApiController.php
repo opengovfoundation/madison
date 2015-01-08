@@ -8,10 +8,6 @@ class UserManageApiController extends ApiController{
 		parent::__construct();
 	}
 
-	public function getLogin(){
-		return View::make('login.api.index');
-	}
-
 	public function postLogin(){
 		//Retrieve POST values
 		$email = Input::get('email');
@@ -58,13 +54,6 @@ class UserManageApiController extends ApiController{
 		else {
 			return Response::json( $this->growlMessage('The email address or password is incorrect.', 'error'), 401 );
 		}
-	}
-
-	/**
-	 * 	GET Signup Page
-	 */
-	public function getSignup(){
-		return View::make('login.api.signup');
 	}
 
 	/**
