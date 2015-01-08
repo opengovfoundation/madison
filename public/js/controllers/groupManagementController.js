@@ -1,8 +1,8 @@
 angular.module('madisonApp.controllers')
-  .controller('GroupManagementController', ['$scope', '$http', 'UserService',
-    function ($scope, $http, UserService) {
+  .controller('GroupManagementController', ['$scope', 'UserService',
+    function ($scope, UserService) {
 
-      $scope.$on('groupsUpdated', 
+      $scope.$on('groupsUpdated',
         function () {
           $scope.groups = UserService.groups;
         });
