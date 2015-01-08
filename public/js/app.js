@@ -20,7 +20,7 @@ var imports = [
   ];
 
 try {
-  var app = angular.module('madisonApp', imports); 
+  var app = angular.module('madisonApp', imports);
 } catch (err) {
   console.log(err);
 }
@@ -129,10 +129,15 @@ try {
           templateUrl: "/templates/pages/group-edit.html",
           data: {title: "Edit Group"}
         })
+        .state('administrative-dashboard', {
+          url: "/administrative-dashboard",
+          templateUrl: "/templates/pages/administrative-dashboard.html",
+          data: {title: "Administrative Dashboard"}
+        })
         .state('404', {
           url: '/404',
           templateUrl: '/templates/pages/404.html',
-          data: {title: "Here Be Dragons"}
+          data: {title: "Uh oh."}
         });
     }]);
 } catch (err) {
