@@ -134,6 +134,12 @@ try {
           templateUrl: "/templates/pages/administrative-dashboard.html",
           data: {title: "Administrative Dashboard"}
         })
+        .state('verify-account', {
+          url: '/administrative-dashboard/verify-account',
+          templateUrl: '/templates/pages/verify-account.html',
+          controller: 'DashboardVerifyController',
+          data: {title: 'Verify Account'}
+        })
         .state('404', {
           url: '/404',
           templateUrl: '/templates/pages/404.html',
