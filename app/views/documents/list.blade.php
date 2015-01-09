@@ -2,29 +2,29 @@
 @section('content')
 	<div class="row">
 		<ol class="breadcrumb">
-			<li><a href="/">Home</a></li>
-			<li class="active">Documents</li>
+			<li><a href="/">{{ trans('messages.home')}}</a></li>
+			<li class="active">{{ trans('messages.document') }}s</li>
 		</ol>
 	</div>
 	<div class="row content">
 		@if(Auth::user()->hasRole('Independent Sponsor') || Auth::user()->groups()->exists())
 			<div class="col-md-8 admin-document-list">
-				<h1>Documents</h1>
+				<h1>{{ trans('messages.document') }}s</h1>
 				<ul>
 					@if($doc_count == 0)
-						<li>No Documents Found</li>
+						<li>{{ trans('messages.nodocuments') }}</li>
 					@else
-						Independently authored documents:
+						{{ trans('messages.indiedocs') }}:
 						@foreach($documents['independent'] as $doc)
 							<li>
 								<?php echo HTML::link('documents/edit/' . $doc->id, $doc->title); ?>
 							</li>
 						@endforeach
 						@foreach($documents['group'] as $groupname=>$groupdocuments)
-							Group '{{ $groupname }}'
+							{{ trans('messages.group') }} '{{ $groupname }}'
 							@if(empty($groupdocuments))
 							<li>
-								There are no documents for this group.
+								{{ trans('messages.nogroupdocs') }}
 							</li>
 							@endif
 							@foreach($groupdocuments as $doc)
@@ -38,19 +38,19 @@
 			</div>
 			<div class="col-md-4 admin-add-documents">
 				<div class="row">
-					<h2>Create Document</h2>
+					<h2>{{ trans('messages.createdoc') }}</h2>
 					{{ Form::open(array('url' => 'documents/create', 'method' => 'post', 'id' => 'create-document-form')) }}
 					<div class="form-group">
-						{{ Form::label('title', 'Title:') . Form::text('title', Input::old('title'), array('placeholder' => 'Document Title', 'class'=>'form-control')) }}
+						{{ Form::label('title', Lang::get('messages.title')) . Form::text('title', Input::old('title'), array('placeholder' =>  Lang::get('messages.doctitle'), 'class'=>'form-control')) }}
 					</div>
-					{{ Form::submit('Create Document', array('class' => 'btn', 'name' => 'createdoc')) }}
+					{{ Form::submit(Lang::get('messages.createdoc'), array('class' => 'btn', 'name' => 'createdoc')) }}
 					{{ Form::token() . Form::close() }}
 				</div>
 			</div>
 		@else
 			<div class="col-md-12">
-				<h1>Documents</h1>
-				<p>Want to be a document sponsor? <a href="/documents/sponsor/request">Request to be an Independent Sponsor</a></p>
+				<h1>{{ trans('messages.document') }}s</h1>
+				<p>{{ trans('messages.besponsor') }} <a href="/documents/sponsor/request">{{ trans('messages.reqindepsponsor') }}</a></p>
 			</div>
 		@endif
 	</div>

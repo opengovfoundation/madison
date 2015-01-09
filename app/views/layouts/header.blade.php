@@ -25,9 +25,9 @@
 					@if(Auth::user()->hasRole('Independent Sponsor') || Auth::user()->groups()->exists())
 					<li class="link-settings"><a href="{{ URL::to('documents') }}" target="_self">{{ trans('messages.mydocs') }}</a>
 					@endif
-					<li class="link-settings"><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}" target="_self">{{ trans('messages.settings') }}</a></li>
-					<li><a href="{{ URL::to('user/edit/' . Auth::user()->id) . '/notifications' }}" target="_self">{{ trans('messages.notifications') }}</a></li>
-					<li class="link-settings"><a href="{{ URL::to('groups') }}" target="_self">{{ trans('messages.group') }}</a></li>
+					<li class="link-settings"><a href="{{ URL::to('user/edit/' . Auth::user()->id) }}" target="_self">{{ trans('messages.accountsettings') }}</a></li>
+					<li><a href="{{ URL::to('user/edit/' . Auth::user()->id) . '/notifications' }}" target="_self">{{ trans('messages.notifsettings') }}</a></li>
+					<li class="link-settings"><a href="{{ URL::to('groups') }}" target="_self">{{ trans('messages.groupmanagement') }}</a></li>
 					@if(Auth::user()->hasRole('Admin'))
 					<li><a href="{{ URL::to('dashboard') }}" target="_self">{{ trans('messages.admin') }}</a></li>
 					@endif

@@ -19,7 +19,7 @@
 				<a href="{{ URL::to('user/' . $user->id) }}">{{ $user->fname }}</a>
 			</div>
 			<div class="col-md-3">
-				<p><span id="annotation_{{ $annotation->id }}_likes">{{ $annotation->likes() }}</span> likes, <span id="annotation_{{$annotation->id}}_dislikes">{{ $annotation->dislikes() }}</span> dislikes</p>
+				<p><span id="annotation_{{ $annotation->id }}_likes">{{ $annotation->likes() }}</span> {{ trans('messages.likes') }}, <span id="annotation_{{$annotation->id}}_dislikes">{{ $annotation->dislikes() }}</span> {{ trans('messages.dislikes') }}</p>
 			</div>
 		</div>
 		@if(count($annotation->comments()))

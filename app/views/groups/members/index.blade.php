@@ -3,23 +3,23 @@
 	<div class="row">
 		<div class="col-md-3">
 			<ol class="breadcrumb">
-				<li><a href="/dashboard">Groups</a></li>
+				<li><a href="/dashboard">{{ trans('messages.group') }}s</a></li>
 				<li><a href="/groups/edit/{{ $group->id }}">{{ $group->display_name }}</a></li>
-				<li class="active">Group Members</li>
+				<li class="active">{{ trans('messages.groupmembers') }}</li>
 			</ol>
 		</div>
 	</div>
 	<div class="row">
 		<div class="content col-md-12">
-			<h1>Members of '{{ $group->name }}'</h1>
+			<h1>{{ trans('messages.membersof') }} '{{ $group->name }}'</h1>
 			<?php if($group->status == Group::STATUS_ACTIVE): ?>
-			<p><a href="/groups/invite/{{ $group->id }}">Add new member</a></p>
+			<p><a href="/groups/invite/{{ $group->id }}">{{ trans('messages.addnewmember') }}</a></p>
 			<?php endif; ?>
 			<table class="table table-striped" id="groupsTable">
 				<thead>
-					<th>Name</th>
-					<th>Role</th>
-					<th>Joined</th>
+					<th>{{ trans('messages.fname') }}</th>
+					<th>{{ trans('messages.role') }}</th>
+					<th>{{ trans('messages.joined') }}</th>
 					<th>&nbsp;</th>
 				</thead>
 				<tbody>
@@ -30,7 +30,7 @@
 						{{ Form::select('role', Group::getRoles(true), $member->role, array('id' => 'memberRoleSelect', 'data-member-id' => $member->id)) }}
 						</td>
 						<td>{{ $member->created_at }} </td>
-						<td><a href="/groups/member/{{ $member->id }}/delete">remove</a></td>
+						<td><a href="/groups/member/{{ $member->id }}/delete">{{ trans('messages.remove') }}</a></td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>
