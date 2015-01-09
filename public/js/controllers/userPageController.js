@@ -7,10 +7,6 @@ angular.module('madisonApp.controllers')
       $scope.activities = [];
       $scope.verified = false;
 
-      $scope.init = function () {
-        $scope.getUser();
-      };
-
       $scope.getUser = function () {
         var abs = $location.absUrl();
         var id = abs.match(/.*\/(\d+)$/);
@@ -60,5 +56,7 @@ angular.module('madisonApp.controllers')
       $scope.activityOrder = function (activity) {
         return Date.parse(activity.created_at);
       };
+      
+      $scope.getUser();
     }
     ]);

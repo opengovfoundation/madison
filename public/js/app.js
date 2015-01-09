@@ -152,6 +152,12 @@ try {
           controller: 'DashboardVerifyUserController',
           data: {title: 'Verify Independent Sponsor'}
         })
+        .state('user', {
+          url: '/user/:id',
+          templateUrl: '/templates/pages/user.html',
+          controller: 'UserPageController',
+          data: {title: 'User Profile'}
+        })
         .state('404', {
           url: '/404',
           templateUrl: '/templates/pages/404.html',
