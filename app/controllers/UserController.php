@@ -172,7 +172,7 @@ class UserController extends BaseController{
 		}
 
 		$user = Auth::user();
-		$user->load('groups');
+		$user->load('groups', 'user_meta');
 
 		foreach($user->groups as $group){
 			$group->role = $group->findMemberByUserId($user->id)->role;
