@@ -7,7 +7,6 @@ angular.module('madisonApp.filters')
         hash = CryptoJS.MD5(email.toLowerCase());
       }
 
-
-      return hash;
+      return hash.toString(CryptoJS.enc.Hex);
     };
   });
