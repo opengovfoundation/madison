@@ -9,6 +9,8 @@ angular.module('madisonApp.services')
           .success(function (data) {
             UserService.user = data.user;
             $rootScope.$broadcast('userUpdated');
+          }).error(function (data) {
+            console.error(data);
           });
       };
 
