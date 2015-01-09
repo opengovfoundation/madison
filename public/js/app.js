@@ -158,6 +158,12 @@ try {
           controller: 'UserPageController',
           data: {title: 'User Profile'}
         })
+        .state('user-edit', {
+          url: '/user/edit/:id',
+          templateUrl: '/templates/pages/user-edit.html',
+          controller: 'UserEditPageController',
+          data: {title: 'Edit User Profile'}
+        })
         .state('404', {
           url: '/404',
           templateUrl: '/templates/pages/404.html',
