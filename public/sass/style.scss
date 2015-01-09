@@ -151,10 +151,14 @@ textarea.form-inline{
 
 /* MAIN HEADER
 ------------------------------ */
+.navbar-brand {
+  height: inherit;
+  line-height: inherit;
+  padding: 10px;
+}
+
 .navbar {
-	background: $blue-header;
-	padding-bottom: 7px;
-	height: 62px;
+	background: $mx-gray;
 	border-bottom: none;
 	border-radius: 0px;
 
@@ -165,12 +169,10 @@ textarea.form-inline{
 			padding-right: 0px;
 			padding-left: 0px;
 		} */
+    .navbar-brand { margin-left: 0; }
 	}
 
 	.navbar-brand.logo-madison {
-		margin-top: 5px;
-		margin-bottom: 5px;
-		margin-left: -30px;
 	}
 
 	.navbar-brand, .navbar-nav>li>a{
@@ -183,7 +185,7 @@ textarea.form-inline{
 
 	.brand {
 		color: white;
-		font-size: 28px;
+		font-size: 1.4em;
 	};
 
 	h1, h2 {
@@ -216,8 +218,10 @@ textarea.form-inline{
 }
 
 .nav>li>a:hover, .nav>li>a:focus{
-	background-color: $blue-header !important;
-	text-decoration: underline;
+  background-color: inherit;
+  border-bottom: solid thick $mx-blue;
+	color: $mx-blue;
+	text-decoration: none;
 }
 
 @media (max-width: 767px) {
@@ -304,7 +308,7 @@ textarea.form-inline{
 	}
 
 	li {
-		font-weight: bold;
+		font-weight: normal;
 		font-size: 12px;
 		a{
 			color: #FFF;
