@@ -25,6 +25,7 @@
 				{{ Form::submit(Lang::get('messages.login'), array('class'=>'btn btn-default')) }}
 				<a class="forgot-password" href="{{ URL::to('password/remind') }}">{{ trans('messages.forgotpassword') }}</a>
 				<a class="forgot-password" href="{{ URL::to('verification/remind') }}">{{ trans('messages.resend') }}</a>
+        <a class="forgot-password" href="{{ URL::to('user/signup') }}" target="_self">{{ trans('messages.signup') }}</a>
 				{{ Form::hidden('previous_page', $previous_page) }}
 				{{ Form::token() . Form::close() }}
 			</div>
