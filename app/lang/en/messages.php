@@ -5,6 +5,7 @@ return array(
 'faq' => 'FAQ',
 'donate' => 'Donate',
 'subscribe' => 'Subscribe',
+'contact' => 'Contact',
 'welcome' => 'Welcome',
 'mydocs' => 'My Documents',
 'accountsettings' => 'Account Settings',
