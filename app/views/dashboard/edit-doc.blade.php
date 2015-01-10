@@ -2,8 +2,8 @@
 @section('content')
 <div class="row">
 	<ol class="breadcrumb">
-		<li><a href="/dashboard" target="_self">Dashboard</a></li>
-		<li><a href="/dashboard/docs" target="_self">Documents</a></li>
+		<li><a href="/dashboard" target="_self">{{ trans('messages.dashboard') }}</a></li>
+		<li><a href="/dashboard/docs" target="_self">{{ trans('messages.document') }}s</a></li>
 		<li class="active">{{ $doc->title }}</li>
 	</ol>
 </div>

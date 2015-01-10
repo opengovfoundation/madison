@@ -2,15 +2,15 @@
 @section('content')
 	<div class="row">
 		<ol class="breadcrumb">
-			<li><a href="/dashboard" target="_self">Dashboard</a></li>
-			<li class="active">Documents</li>
+			<li><a href="/dashboard" target="_self">{{ trans('messages.dashboard') }}</a></li>
+			<li class="active">{{ trans('messages.document') }}s</li>
 		</ol>
 	</div>
 	<div class="row content" ng-controller="DashboardDocumentsController">
 		<div class="col-md-8 admin-document-list">
 			<div class="row">
 				<div class="col-md-12">
-					<h2>Documents</h2>
+					<h2>{{ trans('messages.document') }}s</h2>
 				</div>
 			</div>
 			<div class="row">
@@ -34,8 +34,8 @@
 				<div class="col-md-2">
 					<select ui-select2="dateSortConfig" id="dateSortSelect" ng-model="dateSort">
 						<option value=""></option>
-						<option value="created_at">Date Posted</option>
-						<option value="updated_at">Last Updated</option>
+						<option value="created_at">{{ trans('messages.posted')}}</option>
+						<option value="updated_at">{{ trans('messages.updated'}}</option>
 					</select>
 				</div>
 			</div>
@@ -51,7 +51,7 @@
 		</div>
 		<div class="col-md-4 admin-add-documents">
 			<div class="row">
-				<h2>Create Document</h2>
+				<h2>{{ trans('messages.createdoc')}}</h2>
 				{{ Form::open(array('url' => 'dashboard/docs', 'method' => 'post', 'id' => 'create-document-form')) }}
 				<div class="form-group">
 					{{ Form::label('title', 'Title:') . Form::text('title', Input::old('title'), array('placeholder' => 'Document Title', 'class'=>'form-control')) }}
