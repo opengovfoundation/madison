@@ -43,7 +43,7 @@ html{
 
 body{
 	height:100%;
-	@include bg($bg-gray);
+	@include bg($mx-smoke);
 }
 
 .growl{
@@ -314,7 +314,7 @@ textarea.form-inline{
 			color: #FFF;
 		}
 		ul{
-			background: #2673C4;
+			background: $mx-gray;
 			border: none;
 			padding-top: 5px;
 			padding-bottom: 5px;
@@ -327,10 +327,10 @@ textarea.form-inline{
 				a{
 					color: #e3f4ff;
 					padding: 7px 9px;
-					font-weight: bold;
+					font-weight: normal;
 					@include border-radius(3px);
 					&:hover{
-						background: $blue-header;
+						background: $mx-blue;
 						color: #fff;
 					}
 				}
