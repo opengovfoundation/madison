@@ -706,7 +706,7 @@ h1.user-name{
 	font-size:1em;
 }
 .blue{
-	color:$blue-header;
+	color:$mx-blue;
 	span.red{
 		color:$red-header;
 	}
@@ -821,7 +821,7 @@ input[type="search"].blue-search{
 
 /* Login form */
 .content .forgot-password {
-	color: $blue-header;
+	color: $mx-blue;
 	font-weight: bold;
 	margin-left: 20px;
 	}
