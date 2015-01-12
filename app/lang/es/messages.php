@@ -15,6 +15,7 @@ return array(
 'useas' => 'Usar Madison como',
 'logout' => 'Salir',
 'welcome' => 'Bienvenido a Madison',
+'tagline' => 'Una plataforma que permite a la ciudadanía participar de manera dinámica, abierta y orientada a la discusión.<br /><b>Participa.gob.mx</b> cuenta con tres herramientas de participación: Encuesta + Foro + Co-Edición',
 'filter' => 'Filtrar documentos por título',
 'category' => 'Categoría',
 'sponsor' => 'Promotor',

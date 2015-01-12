@@ -1,6 +1,9 @@
 <div class="row">
 	<h1>{{ trans('messages.welcome') }}</h1>
 </div>
+<div class="row">
+  <p class="lead">{{ trans('messages.tagline') }}</p>
+</div>
 <div class="row" ng-controller="HomePageController" tourtip="@{{ step_messages.step_0 }}" tourtip-step="0">
 	<div class="col-sm-6">
 		<input tourtip="@{{ step_messages.step_1 }}" tourtip-step="1" id="doc-text-filter" type="text" ng-model="docSearch" class="form-control" placeholder="{{ trans('messages.filter') }}">
