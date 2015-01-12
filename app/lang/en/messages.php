@@ -14,7 +14,7 @@ return array(
 'admin' => 'Administrative Dashboard',
 'useas' => 'Use Madison As',
 'logout' => 'Logout',
-'welcome' => 'Welcome to Madison',
+'welcometo' => 'Welcome to Madison',
 'filter' => 'Filter document titles',
 'category' => 'Category',
 'sponsor' => 'Sponsor',
