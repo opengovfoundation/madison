@@ -28,7 +28,8 @@
     "artdarek/oauth-4-laravel": "dev-master",
     "roumen/feed": "dev-master",
     "laravelbook/ardent": "~2.4",
-    "mockery/mockery": "0.9.0"
+    "mockery/mockery": "0.9.0",
+    "caouecs/laravel4-lang": "dev-master"
   },
   "autoload": {
     "classmap": [

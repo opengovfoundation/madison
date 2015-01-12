@@ -3,8 +3,8 @@
 	<div class="row">
 		<div class="col-md-3">
 			<ol class="breadcrumb">
-				<li><a href="/dashboard">Dashboard</a></li>
-				<li class="active">Settings</li>
+				<li><a href="/dashboard">{{ trans('messages.dashboard') }}</a></li>
+				<li class="active">{{ trans('messages.settings') }}</li>
 			</ol>
 		</div>
 	</div>
@@ -14,8 +14,8 @@
 			<table class="table table-striped" ng-controller="DashboardSettingsController" ng-init="init()">
 				<thead>
 					<th>Contact</th>
-					<th>First Name</th>
-					<th>Last Name</th>
+					<th>{{ trans('messages.fname') }}</th>
+					<th>{{ trans('messages.lname') }}</th>
 					<th>Email</th>
 				</thead>
 				<tbody>

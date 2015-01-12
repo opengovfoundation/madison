@@ -3,13 +3,13 @@
 <h1>{{ $user->fname }}'s Annotation</h1>
 	<div class="content col-md-12">
 		<div class="row">
-			<h3>Original Passage</h3>
+			<h3>{{ trans('messages.originalpassage') }}</h3>
 			<div class="col-md-12">
 				<blockquote>{{ $annotation->quote }}</blockquote>
 			</div>
 		</div>
 		<div class="row">
-			<h3>Annotation</h3>
+			<h3>{{ trans('messages.annotation') }}</h3>
 			<div class="col-md-12">
 				<p>{{ Markdown::render($annotation->text) }}</p>
 			</div>
@@ -19,12 +19,12 @@
 				<a href="{{ URL::to('user/' . $user->id) }}">{{ $user->fname }}</a>
 			</div>
 			<div class="col-md-3">
-				<p><span id="annotation_{{ $annotation->id }}_likes">{{ $annotation->likes() }}</span> likes, <span id="annotation_{{$annotation->id}}_dislikes">{{ $annotation->dislikes() }}</span> dislikes</p>
+				<p><span id="annotation_{{ $annotation->id }}_likes">{{ $annotation->likes() }}</span> {{ trans('messages.likes') }}, <span id="annotation_{{$annotation->id}}_dislikes">{{ $annotation->dislikes() }}</span> {{ trans('messages.dislikes') }}</p>
 			</div>
 		</div>
 		@if(count($annotation->comments()))
 			<div class="row">
-				<h3>Comments</h3>
+				<h3>{{ trans('messages.comments') }}</h3>
 				@foreach($annotation->comments() as $comment)
 					<div class="col-md-12">
 						<div class="row">

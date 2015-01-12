@@ -3,24 +3,24 @@
 	<div class="row">
 		<div class="col-md-3">
 			<ol class="breadcrumb">
-				<li><a href="/dashboard">Groups</a></li>
-				<li class="active">Your Groups</li>
+				<li><a href="/dashboard">{{trans('messages.group')}}s</a></li>
+				<li class="active">{{ trans('messages.yourgroups') }}</li>
 			</ol>
 		</div>
 	</div>
 	<div class="row">
 		<div class="content col-md-12">
-			<h1>Your Groups</h1>
-			<p>Want to create a group? <a href="/groups/edit">Click here</a>.
+			<h1>{{ trans('messages.yourgroups') }}</h1>
+			<p>{{ trans('messages.wantcreategroup') }} <a href="/groups/edit">{{ trans('messages.clickhere') }}</a>.
 			@if(count($userGroups) <= 0)
-			<p>You are not the member of any groups.</p>
+			<p>{{ trans('messages.notmembergroup') }}</p>
 			@else
 			<table class="table table-striped" id="groupsTable">
 				<thead>
-					<th>Display Name</th>
-					<th>Group Name</th>
-					<th>Your Role</th>
-					<th>Status</th>
+					<th>{{ trans('messages.displayname') }}</th>
+					<th>{{ trans('messages.groupname') }}</th>
+					<th>{{ trans('messages.yourrole') }}</th>
+					<th>{{ trans('messages.status') }}</th>
 				</thead>
 				<tbody>
 				<?php foreach($userGroups as $groupMember): ?>

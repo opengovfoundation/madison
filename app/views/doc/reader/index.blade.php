@@ -41,16 +41,16 @@
 					<h1>{{ $doc->title }}</h1>
 				</div>
 				<div class="doc-sponsor" ng-repeat="sponsor in doc.sponsor">
-					<strong>Sponsored by </strong><span>@{{ sponsor.display_name }}</span>
+					<strong>{{ trans('messages.sponsoredby') }} </strong><span>@{{ sponsor.display_name }}</span>
 				</div>
 				<div class="doc-status" ng-repeat="status in doc.statuses">
-					<strong>Status: </strong><span>@{{ status.label }}</span>
+					<strong>{{ trans('messages.status') }}: </strong><span>@{{ status.label }}</span>
 				</div>
 				<div class="doc-date" ng-repeat="date in doc.dates">
 					<strong>@{{ date.label }}: </strong><span>@{{ date.date | parseDate | date:'shortDate' }}</span>
 				</div>
 				<div class="doc-intro" ng-if="introtext">
-					<p><strong>Introduction:</strong></p>
+					<p><strong>{{ trans('messages.introduction') }}:</strong></p>
 					<div class="markdown" data-ng-bind-html="introtext"></div>
 				</div>
 				<div class="btn-group">
@@ -61,8 +61,8 @@
 		</div>
 	</div>
 	<ul class="nav nav-tabs" role="tablist" tourtip="@{{ step_messages.step_3 }}" tourtip-step="3">
-		<li ng-class="{'active':secondtab == false}"><a href="#tab-activity" target="_self" role="tab" data-toggle="tab">Bill</a></li>
-		<li ng-class="{'active':secondtab == true}"><a href="#tab-discussion" target="_self" role="tab" data-toggle="tab">Discussion</a></li>
+		<li ng-class="{'active':secondtab == false}"><a href="#tab-activity" target="_self" role="tab" data-toggle="tab">{{ trans('messages.bill') }}</a></li>
+		<li ng-class="{'active':secondtab == true}"><a href="#tab-discussion" target="_self" role="tab" data-toggle="tab">{{ trans('messages.discussion') }}</a></li>
 		<a href="{{ $doc->slug }}/feed" class="rss-link" target="_self"><img src="/img/rss-fade.png" class="rss-icon" alt="RSS Icon"></a>
 	</ul>
 	<div class="tab-content doc-tabs">
@@ -71,7 +71,7 @@
 				<div class="document-toc">
 					<div class="toc-container container row affix-elm" data-offset-top="309">
 						<div class="col-md-3 toc-content" id="toc">
-							<h2>Table of Contents</h2>
+							<h2>{{ trans('messages.tableofcontents') }}</h2>
 							<div ng-controller="DocumentTocController" id="toc-container">
 								<ul>
 									<li ng-repeat="heading in headings">
@@ -98,9 +98,9 @@
 					</div>
 					<div class="">
 						<ol>
-							<li>Read the policy document.</li>
-							<li>Sign up to add your voice.</li>
-							<li>Annotate, Comment, Support or Oppose!</li>
+							<li>{{ trans('messages.readpolicy') }}</li>
+							<li>{{ trans('messages.signupnaddvoice') }}</li>
+							<li>{{ trans('messages.anncommsuppopp') }}</li>
 						</ol>
 					</div>
 				</div>
