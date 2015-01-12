@@ -6,15 +6,13 @@
     <span class="icon-bar"></span>
   </button>
   <a class="brand logo-madison navbar-brand link-home" href="{{ URL::to('/') }}" target="_self">
-  	Madison <span class="level">Demo</span>
+  	participa.gob.mx
   </a>
 </div>
 <div class="nav nav-main navbar-collapse collapse">
 	<ul class="nav navbar-nav navbar-right">
 		<li class="link-about"><a href="{{ URL::to('about') }}" target="_self">About</a></li>
-		<li class="link-faq"><a href="{{ URL::to('faq') }}" target="_self">FAQ</a></li>
-		<li class="link-support"><a href="https://rally.org/opengovfoundation" target="_blank">Donate</a></li>
-		<li class="link-subscribe"><a href="http://opengovfoundation.us6.list-manage.com/subscribe?u=9d450bf68b3df1185fc9f62b2&id=40a5a16e19" target="_blank">Subscribe</a></li>
+		<li class="link-contact"><a href="http://www.gob.mx/tramites" target="_blank">Contact</a></li>
 		@if(Auth::check())
 			<?php 
 				$activeGroupId = Session::get('activeGroupId');
@@ -56,7 +54,6 @@
 			</li>
 		@else
 			<li class="link-login"><a href="{{ URL::to('user/login') }}" target="_self">Login</a></li>
-			<li class="link-signup"><a href="{{ URL::to('user/signup') }}" target="_self">Sign Up</a></li>
 		@endif
 	</ul>
 </div><!--/.navbar-collapse -->

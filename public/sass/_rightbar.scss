@@ -1,7 +1,7 @@
 .rightbar{
     @include border-radius(5px);
     padding:5px 30px;
-    @include bg($light-gray);
+    @include bg($mx-lighter-gray);
     > .row:last-child{
         border-bottom:none;
         margin-bottom:20px;
@@ -50,8 +50,9 @@
 
     .activity-item{
         padding-bottom:16px;
+        padding-top:16px;
         margin-bottom: 10px;
-        border-bottom:1px solid lightgrey;
+        border-top:1px solid $mx-light-gray;
         @include transition(opacity, .5s);
         .activity-author{
             font-weight: bold;
@@ -68,14 +69,6 @@
             }
         }
         .activity-replies-indicator{
-            &.activity-replies-indicator-inactive{
-                color: #888;
-                .glyphicon{
-                    color: #888;
-                }
-            }
-
-
             color: $blue-grad-start;
 
             .glyphicon{
@@ -89,7 +82,7 @@
             }
         }
         .glyphicon{
-            color: #888;
+            color: $mx-blue;
         }
         .activity-replies{
             .activity-reply{

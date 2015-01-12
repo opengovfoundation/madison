@@ -43,7 +43,7 @@ html{
 
 body{
 	height:100%;
-	@include bg($bg-gray);
+	@include bg($mx-smoke);
 }
 
 .growl{
@@ -103,6 +103,24 @@ a{
 	}
 }
 
+
+.doc-info {
+  .doc-poll {
+    padding-bottom: 20px;
+  }
+  a.btn {
+    background-image: none;
+    border: none;
+    color: white;
+    &.doc-support {
+      @include btn-3d($mx-blue, $mx-dark-blue);
+    }
+    &.doc-oppose {
+      @include btn-3d($mx-green, $mx-light-green);
+    }
+  }
+}
+
 p{
 	&.gray{
 		color:$light-gray;
@@ -151,10 +169,14 @@ textarea.form-inline{
 
 /* MAIN HEADER
 ------------------------------ */
+.navbar-brand {
+  height: inherit;
+  line-height: inherit;
+  padding: 10px;
+}
+
 .navbar {
-	background: $blue-header;
-	padding-bottom: 7px;
-	height: 62px;
+	background: $mx-gray;
 	border-bottom: none;
 	border-radius: 0px;
 
@@ -165,12 +187,10 @@ textarea.form-inline{
 			padding-right: 0px;
 			padding-left: 0px;
 		} */
+    .navbar-brand { margin-left: 0; }
 	}
 
 	.navbar-brand.logo-madison {
-		margin-top: 5px;
-		margin-bottom: 5px;
-		margin-left: -30px;
 	}
 
 	.navbar-brand, .navbar-nav>li>a{
@@ -183,7 +203,7 @@ textarea.form-inline{
 
 	.brand {
 		color: white;
-		font-size: 28px;
+		font-size: 1.4em;
 	};
 
 	h1, h2 {
@@ -216,8 +236,10 @@ textarea.form-inline{
 }
 
 .nav>li>a:hover, .nav>li>a:focus{
-	background-color: $blue-header !important;
-	text-decoration: underline;
+  background-color: inherit;
+  border-bottom: solid thick $mx-blue;
+	color: $mx-blue;
+	text-decoration: none;
 }
 
 @media (max-width: 767px) {
@@ -304,13 +326,13 @@ textarea.form-inline{
 	}
 
 	li {
-		font-weight: bold;
+		font-weight: normal;
 		font-size: 12px;
 		a{
 			color: #FFF;
 		}
 		ul{
-			background: #2673C4;
+			background: $mx-gray;
 			border: none;
 			padding-top: 5px;
 			padding-bottom: 5px;
@@ -323,10 +345,10 @@ textarea.form-inline{
 				a{
 					color: #e3f4ff;
 					padding: 7px 9px;
-					font-weight: bold;
+					font-weight: normal;
 					@include border-radius(3px);
 					&:hover{
-						background: $blue-header;
+						background: $mx-blue;
 						color: #fff;
 					}
 				}
@@ -702,7 +724,7 @@ h1.user-name{
 	font-size:1em;
 }
 .blue{
-	color:$blue-header;
+	color:$mx-blue;
 	span.red{
 		color:$red-header;
 	}
@@ -817,7 +839,7 @@ input[type="search"].blue-search{
 
 /* Login form */
 .content .forgot-password {
-	color: $blue-header;
+	color: $mx-blue;
 	font-weight: bold;
 	margin-left: 20px;
 	}
@@ -919,11 +941,9 @@ input[type="search"].blue-search{
 	.btn{
 		margin-top:5px;
 		padding:0px 10px;
-		@include background-image(linear-gradient(#428bca, #3071a9));
 		color:white;
 
 		&:hover{
-			@include background-image(linear-gradient(scale-lightness(#428bca, 20%), scale-lightness(#3071a9, 20%)));
 		}
 	}
 }
