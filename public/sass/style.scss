@@ -103,6 +103,24 @@ a{
 	}
 }
 
+
+.doc-info {
+  .doc-poll {
+    padding-bottom: 20px;
+  }
+  a.btn {
+    background-image: none;
+    border: none;
+    color: white;
+    &.doc-support {
+      @include btn-3d($mx-blue, $mx-dark-blue);
+    }
+    &.doc-oppose {
+      @include btn-3d($mx-green, $mx-light-green);
+    }
+  }
+}
+
 p{
 	&.gray{
 		color:$light-gray;
@@ -923,11 +941,9 @@ input[type="search"].blue-search{
 	.btn{
 		margin-top:5px;
 		padding:0px 10px;
-		@include background-image(linear-gradient(#428bca, #3071a9));
 		color:white;
 
 		&:hover{
-			@include background-image(linear-gradient(scale-lightness(#428bca, 20%), scale-lightness(#3071a9, 20%)));
 		}
 	}
 }
