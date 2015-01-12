@@ -53,7 +53,7 @@
 					<p><strong>{{ trans('messages.introduction') }}:</strong></p>
 					<div class="markdown" data-ng-bind-html="introtext"></div>
 				</div>
-				<div class="btn-group">
+				<div class="doc-poll">
 					<a id="doc-support" href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">Support This Document</a>
 					<a id="doc-oppose" href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">Oppose This Document</a>
 				</div>

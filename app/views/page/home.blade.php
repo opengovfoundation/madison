@@ -1,5 +1,8 @@
 <div class="row">
-	<h1>{{ trans('messages.welcome') }}</h1>
+	<h2>{{ trans('messages.sitetitle') }}</h2>
+</div>
+<div class="row">
+  <p class="lead">{{ trans('messages.tagline') }}</p>
 </div>
 <div class="row" ng-controller="HomePageController" tourtip="@{{ step_messages.step_0 }}" tourtip-step="0">
 	<div class="col-sm-6">

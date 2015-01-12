@@ -56,9 +56,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="footer" class="footer">
-				@include('layouts.footer')
-			</div>
+			<div id="footer" class="footer"></div>
 		</tour>
 	</body>
 </html>
