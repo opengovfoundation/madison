@@ -1,5 +1,5 @@
 <div class="row">
-	<h1>{{ trans('messages.welcometo') }}</h1>
+	<h2>{{ trans('messages.sitetitle') }}</h2>
 </div>
 <div class="row">
   <p class="lead">{{ trans('messages.tagline') }}</p>

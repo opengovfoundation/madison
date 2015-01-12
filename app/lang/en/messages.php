@@ -15,6 +15,7 @@ return array(
 'useas' => 'Use Madison As',
 'logout' => 'Logout',
 'welcometo' => 'Welcome to Madison',
+'sitetitle' => 'Madison',
 'filter' => 'Filter document titles',
 'category' => 'Category',
 'sponsor' => 'Sponsor',
