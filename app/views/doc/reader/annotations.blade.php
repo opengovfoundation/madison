@@ -1,5 +1,5 @@
 <div id="participate-activity" class="row participate-activity">
-	<h3>{{ trans('messages.annotation') }}s</h3>
+	<h3>{{ trans('messages.annotations') }}</h3>
 	<div class="activity-thread col-md-12">
 		<div ng-hide="annotations.length">
 			{{ trans('messages.noannotations') }}

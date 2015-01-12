@@ -192,5 +192,5 @@ Route::controller('dashboard', 'DashboardController');
 Route::get('logout', function(){
 	Auth::logout();	//Logout the current user
 	Session::flush(); //delete the session
-	return Redirect::to('/')->with('message', 'You have been successfully logged out.');
+	return Redirect::to('/')->with('message', 'Has salido exitosamente.');
 });

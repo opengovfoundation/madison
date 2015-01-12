@@ -54,8 +54,8 @@
 					<div class="markdown" data-ng-bind-html="introtext"></div>
 				</div>
 				<div class="doc-poll">
-					<a id="doc-support" href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">Support This Document</a>
-					<a id="doc-oppose" href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">Oppose This Document</a>
+					<a id="doc-support" href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">{{ trans('messages.supportdoc') }}</a>
+					<a id="doc-oppose" href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">{{ trans('messages.opposedoc') }}</a>
 				</div>
 			</div>
 		</div>
@@ -92,7 +92,7 @@
 				<!-- Start Introduction GIF -->
 				<div class="how-to-annotate" ng-if="!hideIntro">
 					<span class="how-to-annotate-close glyphicon glyphicon-remove" ng-click="hideHowToAnnotate()"></span>
-					<h2>How to Participate</h2>
+					<h2>{{ trans('messages.howtoparticipate') }}</h2>
 					<div class="">
 						<img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
 					</div>

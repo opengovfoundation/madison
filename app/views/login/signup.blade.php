@@ -33,7 +33,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div social-login message="{{ trans('messages.signup') }}"></div>
+			<div social-login message="{{ trans('messages.signupwith') }}"></div>
 		</div>
 	</div>
 @endsection
