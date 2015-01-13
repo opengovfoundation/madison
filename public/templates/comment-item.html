@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="col-md-12" >
     <div class="row">
         <div class="activity-author col-md-4">
             <span>{{ comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) }}</span>
@@ -6,10 +6,12 @@
         <div class="activity-icon col-md-2 col-md-offset-6">
             <a class="comment-link">
                 <span class="glyphicon glyphicon-link" title="Copy link to clipboard"></span>
-            </a> 
+            </a>
             <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(comment, 'likes', $event)">{{ comment.likes || '0' }}</span>
             <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(comment, 'dislikes', $event)">{{ comment.dislikes || '0' }}</span>
             <span class="glyphicon glyphicon-flag" ng-click="addAction(comment, 'flags', $event)">{{ comment.flags || '0' }}</span>
+            <span ng-show="admin && comment.visiblec==1" class="glyphicon glyphicon-eye-open" style="color:green;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
+            <span ng-show="admin && comment.visiblec==0" class="glyphicon glyphicon-eye-open" style="color:red;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
         </div>
     </div>
     <div class="row">
@@ -27,7 +29,7 @@
     </div>
 
     <script type="text/ng-template" id="subcomment_renderer.html">
-     <div class="row">
+        <div class="row">
             <div class="activity-author col-md-4">
                 <span>{{ comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) }}</span>
             </div>
@@ -72,7 +74,7 @@
             <form name="add-subcomment-form" ng-submit="subcommentSubmit(comment, subcomment)">
                 <input ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
             </form>
-        </div>        
+        </div>
         <div id="subcomment_{{ comment.id }}" class="activity-reply col-md-12" ng-repeat="comment in comment.comments" ng-include="'subcomment_renderer.html'">
             <div sub-comment-id="{{ comment.id }}"></div>
         </div>
@@ -83,7 +85,7 @@
             <span class="btn btn-default" ng-if="comment.seen === 0" ng-click="notifyAuthor(comment)">Mark as seen</span>
             <span class="glyphicon glyphicon-ok" ng-if="comment.seen === 1"> Marked as seen!</span>
         </div>
-    </div>  
+    </div>
     <div class="row user-seen" ng-hide="isSponsor()">
         <div class="col-md-12">
             <span class="glyphicon glyphicon-ok" ng-if="comment.seen === 1"> A sponsor marked this as seen!</span>
