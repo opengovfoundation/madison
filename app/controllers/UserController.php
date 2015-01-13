@@ -384,18 +384,6 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * 	getSignup
-	 *
-	 *	Returns signup page view
-	 *
-	 *	@param void
-	 *	@return Illuminate\View\View
-	 */
-	public function getSignup(){
-		return View::make('single');
-	}
-
-	/**
 	 * 	postSignup
 	 *
 	 *	Handles POST requests for users signing up natively through Madison
@@ -438,15 +426,15 @@ class UserController extends BaseController{
 	}
 
 	/**
-	 * 	getVerify
+	 * 	postVerify
 	 *
-	 *	Handles GET requests for email verifications
+	 *	Handles POST requests for email verifications
 	 *
 	 *	@param string $token
-	 *	@return Illuminate\Http\RedirectRequest
 	 */
-	public function getVerify($token){
-		echo $token;
+	public function postVerify(){
+		$token = Input::get('token');
+
 		$user = User::where('token', $token)->first();
 
 		if(isset($user)){
@@ -455,9 +443,9 @@ class UserController extends BaseController{
 
 			Auth::login($user);
 
-			return Redirect::to('/')->with('success_message', 'Your email has been verified and you have been logged in.  Welcome ' . $user->fname);
+			return Response::json($this->growlMessage('Your email has been verified and you have been logged in.  Welcome ' . $user->fname, 'success'));
 		}else{
-			return Redirect::to('user/login')->with('error', 'The verification link is invalid.');
+			return Response::json($this->growlMessage('The verification link is invalid.', 'error'), 400);
 		}
 
 	}

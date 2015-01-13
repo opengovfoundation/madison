@@ -73,14 +73,13 @@ Route::post('/documents/sponsor/request', 'SponsorController@postRequest');
 Route::get('user/{user}', 'UserController@getIndex');
 Route::get('user/edit/{user}', 'UserController@getEdit');
 Route::put('user/edit/{user}', 'UserController@putEdit');
-Route::controller('user', 'UserController');
+Route::post('api/user/verify-email', 'UserController@postVerify');
 
 Route::post('api/password/remind', 'RemindersController@postRemind');
 Route::post('api/password/reset',  'RemindersController@postReset');
 
 // Confirmation email resend
-Route::get('verification/remind',  'RemindersController@getConfirmation');
-Route::post('verification/remind',  'RemindersController@postConfirmation');
+Route::post('api/verification/resend',  'RemindersController@postConfirmation');
 
 //Annotation Routes
 Route::get('annotation/{annotation}', 'AnnotationController@getIndex');

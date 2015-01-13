@@ -86,6 +86,17 @@ try {
           templateUrl: '/templates/pages/password-reset-landing.html',
           data: {title: 'Change Password'}
         })
+        .state('resend-confirmation', {
+          url: '/verification/resend',
+          controller: 'ResendConfirmationController',
+          templateUrl: '/templates/pages/resend-confirmation.html',
+          data: {title: 'Resend Confirmation Email'}
+        })
+        .state('resend-confirmation-landing', {
+          url: '/user/verify/:token',
+          controller: 'ResendConfirmationController',
+          data: {title: 'Verifying Email'}
+        })
         .state('faq', {
           url: "/faq",
           templateUrl: "/templates/pages/faq.html",

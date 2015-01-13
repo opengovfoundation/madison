@@ -71,17 +71,6 @@ class RemindersController extends BaseController {
 		}
 	}
 
-
-	public function getConfirmation()
-	{
-		$data = array(
-			'page_id'		=> 'dashboard',
-			'page_title'	=> 'Resend confirmation email'
-		);
-
-		return View::make('password.resend', $data);
-	}
-
 	/**
 	 * Handle a POST request to remind a user of their password.
 	 *
@@ -97,15 +86,15 @@ class RemindersController extends BaseController {
 		$user = User::where('email', $email)->first();
 		
 		if(!isset($user)){
-			return Redirect::to('verification/remind')->with('error', 'That email was not registered.');
+			return Response::json($this->growlMessage('That email does not exist.', 'error'), 400);
 		}
 
 		if(empty($user->token)) {
-			return Redirect::to('user/login')->with('error', 'That user was already confirmed.');
+			return Response::json($this->growlMessage('That user was already confirmed.', 'error'), 400);
 		}
 
 		if (!Hash::check($password, $user->password)) {
-			return Redirect::to('verification/remind')->with('error', 'The password for that email is incorrect.');
+			return Response::json($this->growlMessage('The password for that email is incorrect.', 'error'), 400);
 		} 
 		
 		$token = $user->token;
@@ -119,7 +108,7 @@ class RemindersController extends BaseController {
     		$message->to($email);
 		});
 			
-		return Redirect::to('user/login')->with('message', 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.');
+		return Response::json($this->growlMessage('An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.', 'warning'));
 
 	}
 
