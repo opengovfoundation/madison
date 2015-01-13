@@ -37,7 +37,7 @@
         ?>
 
         <?php if($userGroups->count() > 0): ?>
-        <li class="dropdown-submenu">
+        <li class="dropdown-submenu pull-left">
           <a class="dropdown-trigger" href="#" data-toggle="dropdown">{{ trans('messages.useas') }}</a>
           <ul class="dropdown-menu" role="menu">
           <?php if($activeGroupId !== 0): ?>
