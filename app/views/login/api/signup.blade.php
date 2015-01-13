@@ -36,19 +36,19 @@
 	    <div class="col-md-12">
 	      <a href="/user/facebook-login" class="btn btn-default social-login-btn facebook-login-btn">
 	        <img src="/img/icon-facebook.png" alt="facebook icon" />
-	        Sign up with Facebook
+	        {{ trans('messages.signupwith') }} Facebook
 	      </a>
 	    </div> 
 	    <div class="col-md-12">
 	      <a href="/user/twitter-login" class="btn btn-default social-login-btn twitter-login-btn">
 	        <img src="/img/icon-twitter.png" alt="twitter icon" />
-	        Sign up with Twitter
+	        {{ trans('messages.signupwith') }} Twitter
 	      </a>
 	    </div>
 	    <div class="col-md-12">
 	      <a href="/user/linkedin-login" class="btn btn-default social-login-btn linkedin-login-btn">
 	        <img src="/img/icon-linkedin.png" alt="linkedin icon" />
-	        Sign up with LinkedIn
+	        {{ trans('messages.signupwith') }} LinkedIn
 	      </a>
 	    </div>
 	  </div>
