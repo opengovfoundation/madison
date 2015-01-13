@@ -155,7 +155,7 @@ return array(
 'loginwith' => 'Ingresar con',
 'signupwith' => 'Registrarse con',
 'annotations' => 'Anotaciones',
-'howtoparticipate' => 'Como participar',
+'howtoparticipate' => 'Cómo participar',
 'supportdoc' => 'Apoya este documento',
 'opposedoc' => 'Oponte a este documento',
 );
