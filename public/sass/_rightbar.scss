@@ -1,5 +1,4 @@
 .rightbar{
-    @include border-radius(5px);
     padding:5px 30px;
     @include bg($mx-lighter-gray);
     > .row:last-child{
