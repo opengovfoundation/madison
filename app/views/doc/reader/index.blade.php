@@ -63,6 +63,7 @@
 	<ul class="nav nav-tabs" role="tablist" tourtip="@{{ step_messages.step_3 }}" tourtip-step="3">
 		<li ng-class="{'active':secondtab == false}"><a href="#tab-activity" target="_self" role="tab" data-toggle="tab">{{ trans('messages.bill') }}</a></li>
 		<li ng-class="{'active':secondtab == true}"><a href="#tab-discussion" target="_self" role="tab" data-toggle="tab">{{ trans('messages.discussion') }}</a></li>
+		<li><a href="#tab-howtoparticipate" target="_self" role="tab" data-toggle="tab">{{ trans('messages.howtoparticipate') }}</a></li>
 		<a href="{{ $doc->slug }}/feed" class="rss-link" target="_self"><img src="/img/rss-fade.png" class="rss-icon" alt="RSS Icon"></a>
 	</ul>
 	<div class="tab-content doc-tabs">
@@ -89,22 +90,6 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<!-- Start Introduction GIF -->
-				<div class="how-to-annotate" ng-if="!hideIntro">
-					<span class="how-to-annotate-close glyphicon glyphicon-remove" ng-click="hideHowToAnnotate()"></span>
-					<h2>{{ trans('messages.howtoparticipate') }}</h2>
-					<div class="">
-						<img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
-					</div>
-					<div class="">
-						<ol>
-							<li>{{ trans('messages.readpolicy') }}</li>
-							<li>{{ trans('messages.signupnaddvoice') }}</li>
-							<li>{{ trans('messages.anncommsuppopp') }}</li>
-						</ol>
-					</div>
-				</div>
-				<!-- End Introduction GIF -->
 				<div ng-controller="AnnotationController" ng-init="init({{ $doc->id }})" class="rightbar participate">
 					@include('doc.reader.annotations')
 				</div>
@@ -118,6 +103,25 @@
 				</div>
 			</div>
 		</div>
+
+    <!-- Start Introduction GIF -->
+		<div id="tab-howtoparticipate" class="how-to-annotate tab-pane row">
+			<div class="col-md-12">
+        <h2>{{ trans('messages.howtoparticipate'); }}</h2>
+        <div class="">
+          <ol>
+            <li>{{ trans('messages.readpolicy') }}</li>
+            <li>{{ trans('messages.signupnaddvoice') }}</li>
+            <li>{{ trans('messages.anncommsuppopp') }}</li>
+          </ol>
+        </div>
+        <div class="">
+          <img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
+        </div>
+      </div>
+    </div>
+    <!-- End Introduction GIF -->
+
 	</div>
 </div>
 @endsection
