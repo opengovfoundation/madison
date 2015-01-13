@@ -34,28 +34,31 @@
   </div>
 </div>
 <div ng-controller="DocumentPageController" class="document-wrapper">
+<div class="container">
 	<div class="doc-header row">
-		<div class="container doc-info-container" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
-			<div class="doc-info col-md-12">
-				<div class="">
-					<h1>{{ $doc->title }}</h1>
-				</div>
-				<div class="doc-sponsor" ng-repeat="sponsor in doc.sponsor">
-					<strong>{{ trans('messages.sponsoredby') }} </strong><span>@{{ sponsor.display_name }}</span>
-				</div>
-				<div class="doc-status" ng-repeat="status in doc.statuses">
-					<strong>{{ trans('messages.status') }}: </strong><span>@{{ status.label }}</span>
-				</div>
-				<div class="doc-date" ng-repeat="date in doc.dates">
-					<strong>@{{ date.label }}: </strong><span>@{{ date.date | parseDate | date:'shortDate' }}</span>
-				</div>
-				<div class="doc-intro" ng-if="introtext">
-					<p><strong>{{ trans('messages.introduction') }}:</strong></p>
-					<div class="markdown" data-ng-bind-html="introtext"></div>
-				</div>
-				<div class="doc-poll">
-					<a id="doc-support" href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">{{ trans('messages.supportdoc') }}</a>
-					<a id="doc-oppose" href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">{{ trans('messages.opposedoc') }}</a>
+		<div class="doc-info-container" ng-controller="ReaderController" ng-init="init({{ $doc->id }})">
+			<div class="col-md-12">
+				<div class="doc-info">
+					<div class="">
+						<h1>{{ $doc->title }}</h1>
+					</div>
+					<div class="doc-sponsor" ng-repeat="sponsor in doc.sponsor">
+						<strong>{{ trans('messages.sponsoredby') }} </strong><span>@{{ sponsor.display_name }}</span>
+					</div>
+					<div class="doc-status" ng-repeat="status in doc.statuses">
+						<strong>{{ trans('messages.status') }}: </strong><span>@{{ status.label }}</span>
+					</div>
+					<div class="doc-date" ng-repeat="date in doc.dates">
+						<strong>@{{ date.label }}: </strong><span>@{{ date.date | parseDate | date:'shortDate' }}</span>
+					</div>
+					<div class="doc-intro" ng-if="introtext">
+						<p><strong>{{ trans('messages.introduction') }}:</strong></p>
+						<div class="markdown" data-ng-bind-html="introtext"></div>
+					</div>
+					<div class="doc-poll">
+						<a id="doc-support" href="#" class="btn btn-default doc-support" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">{{ trans('messages.supportdoc') }}</a>
+						<a id="doc-oppose" href="#" class="btn btn-default doc-oppose" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">{{ trans('messages.opposedoc') }}</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -95,7 +98,7 @@
 				</div>
 			</div>
 		</div>
-
+	
 		<div id="tab-discussion" ng-class="{'active': secondtab == true}" class="tab-pane row">
 			<div class="col-md-12">
 				<div ng-controller="CommentController" ng-init="init({{ $doc->id }})" class="rightbar participate">
@@ -103,25 +106,25 @@
 				</div>
 			</div>
 		</div>
-
-    <!-- Start Introduction GIF -->
+	
+	    <!-- Start Introduction GIF -->
 		<div id="tab-howtoparticipate" class="how-to-annotate tab-pane row">
 			<div class="col-md-12">
-        <h2>{{ trans('messages.howtoparticipate'); }}</h2>
-        <div class="">
-          <ol>
-            <li>{{ trans('messages.readpolicy') }}</li>
-            <li>{{ trans('messages.signupnaddvoice') }}</li>
-            <li>{{ trans('messages.anncommsuppopp') }}</li>
-          </ol>
-        </div>
-        <div class="">
-          <img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
-        </div>
-      </div>
-    </div>
-    <!-- End Introduction GIF -->
-
+	        <h2>{{ trans('messages.howtoparticipate'); }}</h2>
+	        <div class="">
+	          <ol>
+	            <li>{{ trans('messages.readpolicy') }}</li>
+	            <li>{{ trans('messages.signupnaddvoice') }}</li>
+	            <li>{{ trans('messages.anncommsuppopp') }}</li>
+	          </ol>
+	        </div>
+	        <div class="">
+	          <img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
+	        </div>
+	      </div>
+	    </div>
+	    <!-- End Introduction GIF -->
 	</div>
+</div>
 </div>
 @endsection
