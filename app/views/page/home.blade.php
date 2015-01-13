@@ -42,7 +42,7 @@
 
 			<div class="home-docs-list row">
 				<div class="col-sm-12">
-					<ul>
+					<ul class="docs-list list-unstyled">
 						<li ng-repeat="doc in docs | toArray | filter:docSearch | orderBy:dateSort:reverse" ng-show="docFilter(doc)">
 							<div doc-list-item></div>
 						</li>

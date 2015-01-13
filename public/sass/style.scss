@@ -71,10 +71,6 @@ body{
 	background: none;
 }
 
-h1{
-	text-align:center;
-}
-
 a{
 	@include single-transition(all, .2s, linear);
 	color:$light-gray;
@@ -844,8 +840,7 @@ input[type="search"].blue-search{
 .content .forgot-password {
 	color: $mx-blue;
 	font-weight: bold;
-	margin-left: 20px;
-	}
+}
 
 /* Annotation Login Styling
 --------------------------------*/
