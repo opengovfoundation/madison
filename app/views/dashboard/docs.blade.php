@@ -34,8 +34,8 @@
 				<div class="col-md-2">
 					<select ui-select2="dateSortConfig" id="dateSortSelect" ng-model="dateSort">
 						<option value=""></option>
-						<option value="created_at">{{ trans('messages.posted')}}</option>
-						<option value="updated_at">{{ trans('messages.updated'}}</option>
+						<option value="created_at">{{ trans('messages.posted') }}</option>
+						<option value="updated_at">{{ trans('messages.updated') }}</option>
 					</select>
 				</div>
 			</div>
