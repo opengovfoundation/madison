@@ -1,14 +1,11 @@
 @extends('layouts.main')
 @section('content')
-	<div class="content col-md-12">
+	<div class="container">
 		<div class="row">
-			<div class="md-col-12">
+			<div class="col-md-12">
 				<h1>{{ trans('messages.addmemberto') }} '{{ $group->name }}'</h1>
 				<p>{{ trans('messages.useremail') }}</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-10 col-md-offset-1">
+				
 				{{ Form::open(array('method' => 'PUT')) }}
 					<div class="form-group">
 						<label for="email">Email:</label>
