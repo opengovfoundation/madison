@@ -1,0 +1,23 @@
+.home {
+  background-color: $mx-white; 
+}
+
+.intro {
+  background-color: $mx-smoke;
+  padding: 30px 0 35px;
+
+  h1 {
+    text-align: left;
+  }
+}
+
+.home-docs {
+  .home-docs-filters {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .home-docs-list {
+    margin-bottom: 50px;
+  }
+}

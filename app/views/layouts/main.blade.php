@@ -35,7 +35,7 @@
 		<tour step="currentStep" post-tour="tourComplete()" post-step="stepComplete()">
 			<div growl></div>
 			<div id="wrap">
-				<div id="header-main" class="navbar" role="navigation">
+				<div id="header-main" class="navbar navbar-fixed-top" role="navigation">
 					<div class="container">
 					@include('layouts.header')
 					</div>
@@ -51,9 +51,7 @@
 					</div>
 				</div>
 				<div id="main" class="">
-					<div class="container">
-						@yield('content')
-					</div>
+					@yield('content')
 				</div>
 			</div>
 			<div id="footer" class="footer"></div>
