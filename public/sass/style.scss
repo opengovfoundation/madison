@@ -26,6 +26,10 @@
 @import "tour";
 @import "directives";
 
+// MX Styles
+@import "home";
+@import "icons";
+
 /* ==========================================================================
    Browse Happy prompt
    ========================================================================== */
@@ -43,6 +47,7 @@ html{
 
 body{
 	height:100%;
+	padding-top: 50px;
 	@include bg($mx-smoke);
 }
 
@@ -180,16 +185,6 @@ textarea.form-inline{
 	border-bottom: none;
 	border-radius: 0px;
 
-	.container{
-		/* padding-right: 0px;
-		padding-left: 0px;
-		.col-md-4{
-			padding-right: 0px;
-			padding-left: 0px;
-		} */
-    .navbar-brand { margin-left: 0; }
-	}
-
 	.navbar-brand.logo-madison {
 	}
 
@@ -235,11 +230,16 @@ textarea.form-inline{
 	}
 }
 
-.nav>li>a:hover, .nav>li>a:focus{
-  background-color: inherit;
-  border-bottom: solid thick $mx-blue;
-	color: $mx-blue;
-	text-decoration: none;
+.nav{
+	.navbar-nav {
+		margin-top: 0;
+	}
+
+	>li>a:hover, .nav>li>a:focus{
+	  background-color: inherit;
+		color: $mx-blue;
+		text-decoration: none;
+	}
 }
 
 @media (max-width: 767px) {

@@ -6,7 +6,7 @@
     <span class="icon-bar"></span>
   </button>
   <a class="brand logo-madison navbar-brand link-home" href="{{ URL::to('/') }}" target="_self">
-  	participa.gob.mx
+  	<i class="i gob-mx-logo">GOB.MX</i>
   </a>
 </div>
 <div class="nav nav-main navbar-collapse collapse">
