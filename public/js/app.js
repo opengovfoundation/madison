@@ -74,11 +74,17 @@ try {
           templateUrl: "/templates/pages/signup.html",
           data: {title: "Signup for Madison"}
         })
-        .state('password-reset', {
+        .state('password-reset-request', {
           url: '/password/reset',
           controller: 'PasswordResetController',
-          templateUrl: '/templates/pages/password-reset.html',
+          templateUrl: '/templates/pages/password-reset-request.html',
           data: {title: 'Password Reset'}
+        })
+        .state('password-reset-landing', {
+          url: '/password/reset/:token',
+          controller: 'PasswordResetLandingController',
+          templateUrl: '/templates/pages/password-reset-landing.html',
+          data: {title: 'Change Password'}
         })
         .state('faq', {
           url: "/faq",

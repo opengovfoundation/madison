@@ -34,29 +34,11 @@ class RemindersController extends BaseController {
 		})) {
 
 			case Password::INVALID_USER:
-				return Redirect::back()->with('error', Lang::get($response));
+				return Response::json($this->growlMessage(Lang::get($response)), 'error');
 
 			case Password::REMINDER_SENT:
-				return Redirect::back()->with('message', 'Password change message sent.');
+				return Response::json($this->growlMessage('Password change instructions have been sent to your email address.', 'warning'));
 		}
-	}
-
-	/**
-	 * Display the password reset view for the given token.
-	 *
-	 * @param  string  $token
-	 * @return Response
-	 */
-	public function getReset($token = null)
-	{
-		if (is_null($token)) App::abort(404);
-
-		$data = array(
-			'page_id'		=> 'reset',
-			'page_title'	=> 'Reset Password'
-		);
-
-		return View::make('password.reset', $data)->with('token', $token);
 	}
 
 	/**
@@ -72,7 +54,7 @@ class RemindersController extends BaseController {
 
 		$response = Password::reset($credentials, function($user, $password)
 		{
-			$user->password = Hash::make($password);
+			$user->password = $password;
 
 			$user->save();
 		});
@@ -82,10 +64,10 @@ class RemindersController extends BaseController {
 			case Password::INVALID_PASSWORD:
 			case Password::INVALID_TOKEN:
 			case Password::INVALID_USER:
-				return Redirect::back()->with('error', Lang::get($response));
+				return Response::json($this->growlMessage(Lang::get($response), 'error'));
 
 			case Password::PASSWORD_RESET:
-				return Redirect::to('/')->with('message', 'Password successfully changed.');;
+				return Response::json($this->growlMessage('Password changed successfully.', 'success'));
 		}
 	}
 

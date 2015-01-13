@@ -75,9 +75,8 @@ Route::get('user/edit/{user}', 'UserController@getEdit');
 Route::put('user/edit/{user}', 'UserController@putEdit');
 Route::controller('user', 'UserController');
 
-Route::post('password/remind', 'RemindersController@postRemind');
-Route::get( 'password/reset/{token}',  'RemindersController@getReset');
-Route::post('password/reset',  'RemindersController@postReset');
+Route::post('api/password/remind', 'RemindersController@postRemind');
+Route::post('api/password/reset',  'RemindersController@postReset');
 
 // Confirmation email resend
 Route::get('verification/remind',  'RemindersController@getConfirmation');
