@@ -1,13 +1,9 @@
 @extends('layouts.main')
 @section('content')
-	<div class="content col-md-12">
-		<div class="row">
-			<div class="md-col-12">
+	<div class="container">
+		<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3">
+			<div class="content">
 				<h1>{{ trans('messages.login') }}</h1>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-10 col-md-offset-1">
 				{{ Form::open(array('url'=>'user/login', 'method'=>'post')) }}
 				<!-- Email -->
 				<div class="form-group">
@@ -23,15 +19,25 @@
 				</div>
 				<!-- Submit -->
 				{{ Form::submit(Lang::get('messages.login'), array('class'=>'btn btn-default')) }}
-				<a class="forgot-password" href="{{ URL::to('password/remind') }}">{{ trans('messages.forgotpassword') }}</a>
-				<a class="forgot-password" href="{{ URL::to('verification/remind') }}">{{ trans('messages.resend') }}</a>
-        <a class="forgot-password" href="{{ URL::to('user/signup') }}" target="_self">{{ trans('messages.signup') }}</a>
+				<br><br>
+				<ul class="list-unstyled">
+					<li>
+						<a class="forgot-password" href="{{ URL::to('password/remind') }}">{{ trans('messages.forgotpassword') }}</a>
+					</li>
+					<li>
+						<a class="forgot-password" href="{{ URL::to('verification/remind') }}">{{ trans('messages.resend') }}</a>
+					</li>
+					<li>
+						<a class="forgot-password" href="{{ URL::to('user/signup') }}" target="_self">{{ trans('messages.signup') }}</a>
+					</li>
+				</ul>
+
 				{{ Form::hidden('previous_page', $previous_page) }}
 				{{ Form::token() . Form::close() }}
 			</div>
-		</div>
-		<div class="row">
-			<div social-login message="{{ trans('messages.sociallogin') }}"></div>
+			<div class="row">
+				<div social-login message="{{ trans('messages.sociallogin') }}"></div>
+			</div>
 		</div>
 	</div>
 @endsection
