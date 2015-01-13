@@ -1,16 +1,16 @@
-<a href="/docs/{{ doc.slug }}">
-  {{ doc.title }}
-</a>
-<span class="doc-categories">
-  <span class="category" ng-repeat="category in doc.categories">{{ category.name }}</span>
-</span>
-<span class="doc-statuses">
-  <span class="status" ng-repeat="status in doc.statuses">{{ status.label }}</span>
-</span>
-<div class="list-doc-info">
-  <span class="doc-created-date">Posted {{ doc.created_at | date:'mediumDate' }}</span>
-  <span class="doc-updated-date">Updated {{ doc.updated_at | date:'mediumDate' }}</span>
-  <span class="doc-dates">
-    <span class="date" ng-repeat="date in doc.dates">{{ date.label }} on {{ date.date | date:'mediumDate' }}</span>
+<a class="list-item" href="/docs/{{ doc.slug }}" title="{{ doc.title }}">
+  <h4 class="doc-title">{{ doc.title }}</h4>
+  <span class="doc-categories">
+    <span class="category" ng-repeat="category in doc.categories">{{ category.name }}</span>
   </span>
-</div>
+  <span class="doc-statuses">
+    <span class="status" ng-repeat="status in doc.statuses">{{ status.label }}</span>
+  </span>
+  <div class="list-doc-info">
+    <small class="doc-created-date">Publicado: <b>{{ doc.created_at | date:'mediumDate' }}</b></small>
+    <small class="doc-updated-date">Actualizado: <b>{{ doc.updated_at | date:'mediumDate' }}</b></small>
+    <span class="doc-dates">
+      <span class="date" ng-repeat="date in doc.dates">{{ date.label }} on {{ date.date | date:'mediumDate' }}</span>
+    </span>
+  </div>
+</a>

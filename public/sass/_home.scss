@@ -1,10 +1,6 @@
-.home {
-  background-color: $mx-white; 
-}
-
 .intro {
-  background-color: $mx-smoke;
-  padding: 30px 0 35px;
+  background-color: $mx-white;
+  padding: 35px 0 45px;
 
   h1 {
     text-align: left;
@@ -19,5 +15,47 @@
 
   .home-docs-list {
     margin-bottom: 50px;
+  }
+
+  .docs-list {
+    > li {
+      background-color: $mx-lighter-gray;
+
+      &:nth-child(even) {
+        background-color: darken($mx-lighter-gray, 10%);
+      }
+
+      .list-item {
+        display: block;
+        padding: 20px;
+
+        &:hover {
+          padding-left: 30px;
+        }
+      }
+    }
+
+    .list-doc-info {
+      color: $mx-gray;
+    }
+
+    .doc-categories {
+      vertical-align: 2px;
+
+      .category {
+        background-color: #548dca;
+        margin-left: 5px;
+        font-size: 10px;
+        color: $mx-white;
+        padding: 1px 3px;
+      }
+    }
+
+    .doc-title {
+      color: #545554;
+      display: inline;
+      margin: 0;
+      color: $mx-black;
+    }
   }
 }
