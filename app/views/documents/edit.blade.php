@@ -2,7 +2,7 @@
 @section('content')
 <div class="row">
 	<ol class="breadcrumb">
-		<li><a href="/" target="_self">{{ trans('messages.home"' }}</a></li>
+		<li><a href="/" target="_self">{{ trans('messages.home') }}</a></li>
 		<li><a href="/documents" target="_self">{{ trans('messages.document') }}s</a></li>
 		<li class="active">{{ $doc->title }}</li>
 	</ol>
