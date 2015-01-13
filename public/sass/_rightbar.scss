@@ -55,16 +55,20 @@
     .activity-item{
         padding-bottom: 16px;
         padding-top: 16px;
-        margin-bottom: 10px;
         border-top: 1px solid $mx-gray;
         @include transition(opacity, .5s);
         .activity-author{
             font-weight: bold;
+            padding-left: 0;
         }
         .activity-content{
-            margin-bottom: 5px;
-            padding-top: 5px;
+            margin-bottom: 10px;
+            padding: 0;
             word-wrap: break-word;
+        }
+        .activity-actions {
+          padding-right: 0;
+          text-align: right;
         }
         .activity-actions, .activity-replies-indicator{
             cursor:pointer;
@@ -91,7 +95,6 @@
         .activity-replies{
             .activity-reply{
                 margin-top: 12px;
-                padding-left: 33px;
                 //padding-bottom: 6px;
                 //border-bottom: 1px solid #ccc;
                 .reply-author{
@@ -105,6 +108,9 @@
                 }
 
             }
+        }
+        .activity-replies-indicator {
+          margin-left: -15px;
         }
         .sponsor-seen, .user-seen{
             margin-top:10px;
