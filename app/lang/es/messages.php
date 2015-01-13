@@ -50,7 +50,7 @@ return array(
 'besponsor' => '¿Quieres ser promotor de un documento?',
 'reqindepsponsor' => 'Solicita ser un Promotor Independiente',
 'originalpassage' => 'Pasaje original',
-'annotation' => 'Anotación',
+'annotation' => 'Comentario',
 'comments' => 'Comentarios',
 'likes' => 'me gusta',
 'dislikes' => 'no me gusta',
