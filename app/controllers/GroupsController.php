@@ -15,6 +15,10 @@ class GroupsController extends BaseController
 		return Response::json($group);
 	}
 
+	public function getRoles() {
+		return Response::json(Group::getRoles());
+	}
+
 	public function postGroup($id = null){
 		$group_details = Input::all();
 
@@ -135,9 +139,28 @@ class GroupsController extends BaseController
 	public function getMembers($groupId) 
 	{
 		$groupMembers = GroupMember::findByGroupId($groupId);
-		$group = Group::where('id', '=', $groupId)->first();
+		foreach($groupMembers as $member){
+			$member->name = $member->getUserName();
+		}
 		
-		return View::make('groups.members.index', compact('groupMembers', 'group'));
+		return Response::json($groupMembers);
+	}
+
+	public function putMember($groupId, $memberId){
+		$role = Input::get('memberRole');
+
+		$groupMember = GroupMember::where('id', $memberId)->first();
+
+		$groupMember->role = $role;
+
+		try{
+			$groupMember->save();
+		} catch (Exception $e){
+			return Response::json($this->growlMessage('There was an error updating the member role.', 'error'));
+		}
+		
+
+		return Response::json($this->growlMessage('Member role updated successfully.', 'success'));
 	}
 	
 	public function removeMember($memberId)

@@ -146,6 +146,12 @@ try {
           templateUrl: "/templates/pages/group-edit.html",
           data: {title: "Edit Group"}
         })
+        .state('manage-group-members', {
+          url: "/groups/:id/members",
+          controller: "GroupMembersController",
+          templateUrl: "/templates/pages/group-members.html",
+          data: {title: "Manage Group Members"}
+        })
         .state('administrative-dashboard', {
           url: "/administrative-dashboard",
           templateUrl: "/templates/pages/administrative-dashboard.html",

@@ -1,6 +1,6 @@
 <div class="row">
     <h1><span ng-if="groupId > 0">Edit</span><span ng-if="!groupId">Create</span> Group Profile</h1>
-    <p ng-if="group.id > 0">If you would like to manage the members of your group, <a href="/groups/members/{{ group.id }}">click here</a></p>
+    <p ng-if="group.id > 0">If you would like to manage the members of your group, <a href="/groups/{{ group.id }}/members">click here</a></p>
   </div>
 </div>
 <div class="row">
