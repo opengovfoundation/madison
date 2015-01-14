@@ -11,9 +11,13 @@ class UsersTableSeeder extends Seeder
 		}else{
 			$creds = array(
 			  'admin_email' => 'admin@example.com',
-			  'admin_fname' => 'First',
-			  'admin_lname' => 'Last',
-			  'admin_password' => 'password'
+			  'admin_fname' => 'Venustiano',
+			  'admin_lname' => 'Carranza',
+			  'admin_password' => 'password',
+			  'user_email' => 'user@example.com',
+			  'user_fname' => 'John',
+			  'user_lname' => 'Appleseed',
+			  'user_password' => 'password'
 			);
 		}
 
@@ -24,5 +28,12 @@ class UsersTableSeeder extends Seeder
 			'lname' => $creds['admin_lname'],
 			'token' => '',
 		));
+    DB::table('users')->insert(array(
+      'email' => $creds['user_email'],
+      'password' => Hash::make($creds['user_password']),
+      'fname' => $creds['user_fname'],
+      'lname' => $creds['user_lname'],
+      'token' => '',
+    ));
 	}
 }
