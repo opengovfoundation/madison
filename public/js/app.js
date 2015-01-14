@@ -18,7 +18,8 @@ var imports = [
     'ngResource',
     'angular-tour',
     'ngRoute',
-    'ipCookie'
+    'ipCookie',
+    'pascalprecht.translate'
   ];
 
 var app = angular.module('madisonApp', imports);

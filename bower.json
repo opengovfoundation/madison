@@ -2,7 +2,8 @@
   "name": "madison",
   "dependencies": {
     "zeroclipboard": "~2.0.1",
-    "angular-growl": "~0.4.0"
+    "angular-growl": "~0.4.0",
+    "angular-translate": "~2.5.2"
   },
   "devDependencies": {
     "pagedown": "~1.1.0",

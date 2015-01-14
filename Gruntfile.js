@@ -73,6 +73,7 @@ module.exports = function (grunt) {
             'public/bower_components/angular-tour/dist/angular-tour.min.js',
             'public/bower_components/angular-tour/dist/angular-tour-tpls.min.js',
             'public/bower_components/angular-cookie/angular-cookie.min.js',
+            'public/bower_components/angular-translate/angular-translate.min.js',
 
             //Datetimepicker and dependencies
             'public/vendor/datetimepicker/datetimepicker.js',
