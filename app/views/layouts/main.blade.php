@@ -34,27 +34,15 @@
 		<![endif]-->
 		<tour step="currentStep" post-tour="tourComplete()" post-step="stepComplete()">
 			<div growl></div>
-			<div id="wrap">
-				<div id="header-main" class="navbar navbar-fixed-top" role="navigation">
-					<div class="container">
-					@include('layouts.header')
-					</div>
-				</div>
-				<div class="row">
-					<div profile-completion-message></div>
-				</div>
-				<div class="row">
-					<div class="container alerts">
-						@include('errors')
-						@include('message')
-						@include('success')
-					</div>
-				</div>
-				<div id="main" class="">
-					@yield('content')
-				</div>
-			</div>
-			<div id="footer" class="footer"></div>
+			@include('layouts.header')
+			@include('errors')
+			@include('message')
+			@include('success')
+			<div profile-completion-message></div>
+			<main>
+				@yield('content')
+			</main>
+			@include('layouts.footer')
 		</tour>
 	</body>
 </html>
