@@ -345,23 +345,29 @@ textarea.form-inline{
 					color: #e3f4ff;
 					padding: 7px 9px;
 					font-weight: normal;
-					@include border-radius(3px);
-					&:hover{
-						background: $mx-blue;
-						color: #fff;
-					}
+          &:hover {
+            background: inherit;
+            color: #ffffff;
+          }
 				}
+        &:hover {
+          background: $mx-blue;
+        }
 			}
 		}
 	}
 
 
+  .dropdown-submenu.pull-left > ul.dropdown-menu {
+    border-radius: 0;
+    margin-right: 185px;
+    margin-top: 0;
+  }
 
-	.dropdown-menu {
-		margin-top: 5px;
-		border-top-right-radius: 4px !important;
-		border-top-left-radius: 4px !important;
-	}
+  .dropdown-menu {
+    margin-top: 5px;
+    border-radius: 0;
+  }
 }
 
 .nav-footer {
