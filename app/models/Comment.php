@@ -101,6 +101,7 @@ class Comment extends Eloquent implements ActivityInterface
         $obj = new Comment();
         $obj->text = $comment['text'];
         $obj->user_id = $comment['user']['id'];
+        $obj->visiblec = 1;
         $obj->doc_id = $this->doc_id;
 
         if(isset($comment['id'])) {
@@ -113,7 +114,22 @@ class Comment extends Eloquent implements ActivityInterface
         $obj->load('user');
 
         return $obj;
-    }   
+    }
+
+    public function UpdateComment(array $comment) {
+        $obj = Comment::where('id', '=', $comment["id"])->first();
+        $obj->text = $comment['text'];
+        $obj->user_id = $comment['user']['id'];
+        $obj->doc_id = $this->doc_id;
+        $obj->visiblec=$comment["visiblec"];
+
+        //$obj->parent_id = $this->id;
+
+        $obj->save();
+        $obj->load('user');
+
+        return $obj;
+    }
 
     /**
     *   Construct link for Comment
