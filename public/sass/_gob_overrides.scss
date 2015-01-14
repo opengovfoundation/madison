@@ -1,0 +1,31 @@
+.main-banner {
+  height: auto;
+  min-height: initial;
+  background-image: url('http://www.gob.mx/images/home_picture.jpg');
+
+  .container {
+    height: auto;
+    padding: 100px 0;
+  }
+
+  h1 {
+    display: block;
+  }
+
+  .text-sub {
+    font-size: 26px;
+  }
+
+  .text-sub-2 {
+    font-style: 21px;
+  }
+}
+
+hr.red {
+  margin-bottom: 40px;
+}
+
+.main-footer {
+  margin-top: 70px;
+  padding: 35px 0 30px;
+}

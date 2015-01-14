@@ -1,16 +1,29 @@
-<a class="list-item" href="/docs/{{ doc.slug }}" title="{{ doc.title }}">
-  <h4 class="doc-title">{{ doc.title }}</h4>
-  <span class="doc-categories">
-    <span class="category" ng-repeat="category in doc.categories">{{ category.name }}</span>
-  </span>
-  <span class="doc-statuses">
-    <span class="status" ng-repeat="status in doc.statuses">{{ status.label }}</span>
-  </span>
-  <div class="list-doc-info">
-    <small class="doc-created-date">Publicado: <b>{{ doc.created_at | date:'mediumDate' }}</b></small>
-    <small class="doc-updated-date">Actualizado: <b>{{ doc.updated_at | date:'mediumDate' }}</b></small>
-    <span class="doc-dates">
-      <span class="date" ng-repeat="date in doc.dates">{{ date.label }} on {{ date.date | date:'mediumDate' }}</span>
-    </span>
+<div class="list-item">
+  <div class="list-item-header">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="list-item-date">
+          <div class="month">{{ doc.created_at | date: 'MMMM' }}</div>
+          <div class="day">{{ doc.created_at | date: 'd' }}</div>
+          <div class="year">{{ doc.created_at | date: 'yyyy' }}</div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <a class="list-item-title" href="/docs/{{ doc.slug }}" title="{{ doc.title }}">{{ doc.title }}</a>
+      </div>
+      <div class="col-md-1">
+        <a class="list-item-arrow-link" href="/docs/{{ doc.slug }}" title="{{ doc.title }}">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+      </div>
+    </div>
   </div>
-</a>
+  <div class="list-item-footer">
+    <div class="categories">
+      <span class="category" ng-repeat="category in doc.categories">{{ category.name }}</span>  
+    </div>
+    <div class="updated-at">
+      <span>Última Actualización: <b>{{ doc.updated_at | date:'mediumDate' }}</b></span>
+    </div>
+  </div>
+</div>

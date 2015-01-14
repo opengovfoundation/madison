@@ -29,6 +29,8 @@
 @import "directives";
 
 // MX Styles
+@import "gob_mx";
+@import "gob_overrides";
 @import "home";
 @import "icons";
 
@@ -45,13 +47,14 @@
 
 html{
 	height:100%;
+	background: $mx-black;
 }
 
 body{
-	height:100%;
-	padding-top: 50px;
+	height: auto !important;
+	padding-top: 45px;
 	font-family: 'Open Sans';
-	@include bg($mx-smoke);
+	background-color: #ffffff;
 }
 
 .growl{
@@ -71,42 +74,9 @@ body{
 	background: none;
 }
 
-a{
-	@include single-transition(all, .2s, linear);
-	color:$light-gray;
-
-	&:hover{
-		color:white;
-		text-decoration:none;
-	}
-
-	&.disabled{
-		cursor:default;
-		opacity:.5;
-	}
-
-	&.gray{
-		color:$light-gray;
-	}
-	&.white{
-		color:white;
-	}
-	&.black{
-		color:black;
-
-		&:hover{
-			color:$light-gray;
-
-			del, ins{
-				color:$light-gray;
-			}
-		}
-	}
-	&.underlined{
-		text-decoration:underline;
-	}
+a {
+	text-decoration: none;
 }
-
 
 .doc-info {
   .doc-poll {
@@ -171,233 +141,6 @@ textarea.form-inline{
 	cursor: pointer;
 }
 
-/* MAIN HEADER
------------------------------- */
-.navbar-brand {
-  height: inherit;
-  line-height: inherit;
-  padding: 10px;
-}
-
-.navbar {
-	background: $mx-gray;
-	border-bottom: none;
-	border-radius: 0px;
-
-	.navbar-brand.logo-madison {
-	}
-
-	.navbar-brand, .navbar-nav>li>a{
-		text-shadow: none;
-	}
-
-	
-
-	.link-home { display: inline-block; }
-
-	.brand {
-		color: white;
-		font-size: 1.4em;
-	};
-
-	h1, h2 {
-		margin: 0;
-		// text-align: center;
-		color: #459ffe;
-	}
-
-	h1 {
-		margin: 15px 0 5px;
-		font-size: 28px;
-	}
-
-	h2 {
-		font-size: 14px;
-	}
-
-	.level {
-		color: #e3f4ff;
-		font-size: .33em;
-		background: #83c4ff;
-		padding: 4px;
-		font-weight: bold;
-		text-transform: uppercase;
-		letter-spacing: 1px;
-		@include border-radius(2px);
-		top: -4px;
-		position: relative;
-	}
-}
-
-.nav{
-	.navbar-nav {
-		margin-top: 0;
-	}
-
-	>li>a:hover, .nav>li>a:focus{
-	  background-color: inherit;
-		color: $mx-blue;
-		text-decoration: none;
-	}
-}
-
-@media (max-width: 767px) {
-	.navbar {
-
-		.navbar-toggle {
-			background-color: #ccc;
-			margin-top: 14px;
-		}
-
-		.navbar-nav {
-			background-color: rgba(244,244,244,0.9);
-			z-index:1;
-			position:relative;
-
-			width: 100%;
-			text-align: center;
-			li a {
-				font-size: 20px;
-				font-weight: normal;
-				padding: 10px;
-				color: #666;
-
-				&:hover, &:active {
-					background-color: rgba(200, 200, 200, 0.9);
-				}
-			}
-		}
-
-		.navbar-brand.logo-madison {
-			margin-left: 0;
-		}
-	}
-}
-
-/* Selected pieces of the navbar from bootstrap */
-
-.navbar-toggle {
-  border-color: #ddd;
-}
-.navbar-toggle:hover,
-.navbar-toggle:focus {
-  background-color: #ddd;
-}
-.navbar-toggle .icon-bar {
-  background-color: #888;
-}
-
-
-
-/* NAVIGATION
------------------------------- */
-.nav {
-
-	// These are separated because they're global, and should be
-	// applied to all navs. Avoids duplicate code.
-
-	ul {
-		margin: 6px 0 0;
-		padding: 0;
-		list-style: none;
-
-	}
-
-	li {
-		margin: 0;
-		padding: 0;
-
-		a {
-			padding: 15px 10px;
-		}
-	}
-}
-
-.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
-		background: none;
-		text-decoration: none;
-	}
-
-.nav-main {
-
-	ul {
-		float: right;
-	}
-
-	li {
-		font-weight: normal;
-		font-size: 12px;
-		a{
-			color: #FFF;
-		}
-		ul{
-			background: $mx-gray;
-			border: none;
-			padding-top: 5px;
-			padding-bottom: 5px;
-			li{
-				margin-left: 0px;
-				display: block;
-				width: 100%;
-				padding-left: 5px;
-				padding-right: 5px;
-				a{
-					color: #e3f4ff;
-					padding: 7px 9px;
-					font-weight: normal;
-          &:hover {
-            background: inherit;
-            color: #ffffff;
-          }
-				}
-        &:hover {
-          background: $mx-blue;
-        }
-			}
-		}
-	}
-
-
-  .dropdown-submenu.pull-left > ul.dropdown-menu {
-    border-radius: 0;
-    margin-right: 185px;
-    margin-top: 0;
-  }
-
-  .dropdown-menu {
-    margin-top: 5px;
-    border-radius: 0;
-  }
-}
-
-.nav-footer {
-
-	padding-top: 30px;
-	text-align: center;
-
-	.container {
-		width: 100%;
-		margin: 0 auto;
-		text-align: center;
-	}
-
-	a {
-		display: inline-block;
-		box-sizing: border-box;
-		margin: 0 5px 0 0;
-		padding: 0 10px 0 0;
-		font-size: 12px;
-		text-transform: uppercase;
-		border-right: 1px solid #bcbab9;
-	}
-
-	a:last-child {
-		margin-right: none;
-		padding-right: none;
-		border-right: none;
-	}
-}
-
 /* GLOBAL SEARCH
 ------------------------------ */
 .global-search {
@@ -432,7 +175,6 @@ textarea.form-inline{
 	padding-left:0;
 	position:relative;
 }
-
 
 .navbar-default{
 	.navbar-nav{
