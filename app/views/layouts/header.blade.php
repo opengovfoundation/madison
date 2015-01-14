@@ -25,7 +25,6 @@
             <li class="link-about">
               <a href="{{ URL::to('about') }}" target="_self">{{ trans('messages.about') }}</a>
             </li>
-
             @if(Auth::check())
               @if(Auth::user()->hasRole('Independent Sponsor') || Auth::user()->groups()->exists())
                 <li class="link-settings"><a href="{{ URL::to('documents') }}" target="_self">{{ trans('messages.mydocs') }}</a>
