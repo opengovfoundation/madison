@@ -152,6 +152,12 @@ try {
           templateUrl: "/templates/pages/group-members.html",
           data: {title: "Manage Group Members"}
         })
+        .state('invite-group-members', {
+          url: '/groups/:id/invite',
+          controller: "GroupMembersController",
+          templateUrl: '/templates/pages/group-members-invite.html',
+          data: {title: "Invite Group Member"}
+        })
         .state('administrative-dashboard', {
           url: "/administrative-dashboard",
           templateUrl: "/templates/pages/administrative-dashboard.html",
