@@ -39,13 +39,14 @@ Route::get('modals/annotation_thanks', array(
 
 Route::post('modals/annotation_thanks', 'ModalController@seenAnnotationThanksModal');
 
-Route::get('groups/member/{memberId}/delete', 'GroupsController@removeMember');
+
 Route::post('groups/member/{memberId}/role', 'GroupsController@changeMemberRole');
 Route::get('groups/active/{groupId}', 'GroupsController@setActiveGroup');
 
 Route::get('api/groups/roles', 'GroupsController@getRoles');
 Route::get('api/groups/{group?}', 'GroupsController@getGroup');
 Route::post('api/groups/{group?}', 'GroupsController@postGroup');
+Route::delete('api/groups/{groupId}/members/{memberId}', 'GroupsController@removeMember');
 Route::put('api/groups/{groupId}/invite', 'GroupsController@processMemberInvite');
 Route::get('api/groups/{groupId}/members', 'GroupsController@getMembers');
 Route::put('api/groups/{groupId}/members/{memberId}', 'GroupsController@putMember');

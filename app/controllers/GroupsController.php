@@ -162,12 +162,12 @@ class GroupsController extends BaseController
 		return Response::json($this->growlMessage('Member role updated successfully.', 'success'));
 	}
 	
-	public function removeMember($memberId)
+	public function removeMember($groupId, $memberId)
 	{
-		$group = Group::findByMemberId($memberId);
+		$group = Group::find($groupId);
 		
 		if(!$group) {
-			return Redirect::to('groups')->with('error', "Could not locate a group this member belongs to");
+			return Response::json($this->growlMessage("Group with id $groupId could not be found!", 'error'));
 		}
 		
 		$members = GroupMember::where('group_id', '=', $group->id)->count();

@@ -23,7 +23,11 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.inviteMember = function () {
-        console.log($scope.email, $scope.role);
         Group.inviteMember({id: $stateParams.id, email: $scope.email, role: $scope.role});
+      };
+
+      $scope.removeMember = function (member) {
+        console.log(member);
+        //Group.removeMember({id: $stateParams.id, memberId: member.id});
       };
     }]);
