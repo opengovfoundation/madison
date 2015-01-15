@@ -116,19 +116,27 @@ class Comment extends Eloquent implements ActivityInterface
         return $obj;
     }
 
-    public function UpdateComment(array $comment) {
-        $obj = Comment::where('id', '=', $comment["id"])->first();
-        $obj->text = $comment['text'];
-        $obj->user_id = $comment['user']['id'];
-        $obj->doc_id = $this->doc_id;
-        $obj->visiblec=$comment["visiblec"];
+    public function UpdateComment($comment) {
+        //Log::info($comment);
+        $obj = Comment::where('id', '=', $comment)->first();
+        Log::info(Comment::where('id', '=', $comment)->first());
+        /*$obj->text = $comment['text'];
+        $obj->user_id = $comment['user']['id'];*/
+        //$obj->doc_id = $this->doc_id;
+        //$obj->visiblec=$comment["visiblec"];
+        if($obj["visiblec"]==1)
+           $obj["visiblec"] = 0;
+        else
+            $obj["visiblec"] = 1;
 
         //$obj->parent_id = $this->id;
 
         $obj->save();
         $obj->load('user');
+        //$c = Comment::where('id', '=', $comment)->first();
+        //Log::info($c);
+        return $obj ;
 
-        return $obj;
     }
 
     /**

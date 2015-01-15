@@ -10,8 +10,8 @@
             <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(comment, 'likes', $event)">{{ comment.likes || '0' }}</span>
             <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(comment, 'dislikes', $event)">{{ comment.dislikes || '0' }}</span>
             <span class="glyphicon glyphicon-flag" ng-click="addAction(comment, 'flags', $event)">{{ comment.flags || '0' }}</span>
-            <span ng-show="admin && comment.visiblec==1" class="glyphicon glyphicon-eye-open" style="color:green;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
-            <span ng-show="admin && comment.visiblec==0" class="glyphicon glyphicon-eye-open" style="color:red;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
+            <span ng-if="admin && comment.visiblec==1" class="glyphicon glyphicon-eye-open" style="color:green;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
+            <span ng-if="admin && comment.visiblec==0" class="glyphicon glyphicon-eye-open" style="color:red;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
         </div>
     </div>
     <div class="row">
@@ -24,7 +24,7 @@
     </div>
     <div class="row">
         <div class="col-md-5">
-            <span class="activity-replies-indicator" ng-class="{'activity-replies-indicator-inactive': comment.comments.length == 0}" ng-click="collapseComments(comment)"><span class="glyphicon glyphicon-comment"></span>{{ comment.comments.length || '0' }}</span>
+            <span class="activity-replies-indicator" ng-class="{'activity-replies-indicator-inactive': comment.comments.length == 0}" ng-click="collapseComments(comment,$index)"><span class="glyphicon glyphicon-comment"></span>{{ comment.comments.length || '0' }}</span>
         </div>
     </div>
 
@@ -39,6 +39,8 @@
                 <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(comment, 'likes', $event)">{{ comment.likes || '0' }}</span>
                 <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(comment, 'dislikes', $event)">{{ comment.dislikes || '0' }}</span>
                 <span class="glyphicon glyphicon-flag" ng-click="addAction(comment, 'flags', $event)">{{ comment.flags || '0' }}</span>
+                <span ng-if="admin && comment.visiblec==1" class="glyphicon glyphicon-eye-open" style="color:green;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
+                <span ng-if="admin && comment.visiblec==0" class="glyphicon glyphicon-eye-open" style="color:red;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
             </div>
         </div>
         <div class="row">

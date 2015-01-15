@@ -131,22 +131,26 @@ class CommentApiController extends ApiController{
 
 	public function visible(){
 		$comment = Input::get('comment');
-		$parent = Comment::where('id', '=', $comment["id"])
+		/*/$comment = Comment::where('id', '=', Input::get('comment'))
+		//	->first();*/
+		$parent = Comment::where('id', '=', $comment)
 			->first();
-		//$commentup = Comment::where('id', '=', $comment.id);
+
 		$parent->load('user');
 		$parent->type = 'comment';
 
-		if($comment["visiblec"]==1)
+/*		if($comment["visiblec"]==1)
 			$comment["visiblec"] = 0;
 		else
 			$comment["visiblec"] = 1;
 		//Returns the new saved Comment with the User relationship loaded
+		Log::info($comment);*/
 		$result = $parent->UpdateComment($comment);
 
-		Event::fire(MadisonEvent::DOC_SUBCOMMENT, array('comment' => $result, 'parent' => $parent));
-		$parent = Comment::where('id', '=', $comment["id"])->first();
-		return Response::json($parent);
+
+		//Event::fire(MadisonEvent::DOC_SUBCOMMENT, array('comment' => $result, 'parent' => $parent));
+		//$parent = Comment::where('id', '=', $comment)->first();
+		return Response::json($result->loadArray());
 
 	}
 }

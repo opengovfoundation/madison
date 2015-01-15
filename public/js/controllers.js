@@ -439,24 +439,28 @@ angular.module('madisonApp.controllers', [])
 
         };
 
-        $scope.visibleall = function(comment,index){
+        $scope.visibleall = function(comment,index) {
           console.log(index);
           console.log(comment);
-          //var comment = angular.copy($scope.comment);
           comment.user = $scope.user;
           comment.doc = $scope.doc;
           $scope.indexcomentup = index;
+          if (comment.comments){
+            $scope.commentsb = comment.comments;
+            comment.comments = null;
+          }
           $http.post('/api/docs/' + comment.doc.id + '/visible', {
-            'comment': comment
+            'comment': comment.id
           })
-              .success(function (data,index) {
-                $scope.comments[$scope.indexcomentup].visiblec = data.visiblec;
-                console.log($scope.comments);
-                //comment = data;
+              .success(function (data, index) {
+                $scope.comments[$scope.indexcomentup] = data;
+                if($scope.commentsb)
+                  $scope.comments[$scope.indexcomentup].comments=$scope.commentsb;
               })
               .error(function (data) {
                 console.error("Error posting comment: %o", data);
               });
+        };
 
           $scope.collapseComments = function (activity) {
             activity.commentsCollapsed = !activity.commentsCollapsed;
@@ -477,7 +481,6 @@ angular.module('madisonApp.controllers', [])
                   console.error(data);
                 });
           };
-        };
       }])
     .controller('CommentController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
       function ($scope, $sce, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
@@ -589,24 +592,35 @@ angular.module('madisonApp.controllers', [])
           return false;
         };
 
-        $scope.visibleall = function(comment,index){
-          console.log(index);
-          console.log(comment);
-          //var comment = angular.copy($scope.comment);
-          comment.user = $scope.user;
-          comment.doc = $scope.doc;
-          $scope.indexcomentup = index;
-          $http.post('/api/docs/' + comment.doc.id + '/visible', {
-            'comment': comment
-          })
-              .success(function (data,index) {
-                $scope.comments[$scope.indexcomentup].visiblec = data.visiblec;
+        $scope.visibleall=function(comment,index){
+          comment.user=$scope.user;
+          comment.doc=$scope.doc;
+          $scope.indexcomentup=index;
+          if(comment.comments) {
+            $scope.commentsb = comment.comments;
+            comment.comments = null;
+          }
+          $http.post("/api/docs/"+comment.doc.id+"/visible",{comment:comment.id})
+              .success(function(data){
+                var i=0;
+                if(data.parent_id>0){
+                for(var x=0;x<$scope.comments.length;x++)
+                  if(data.parent_id === $scope.comments[x].id) {
+                    i = x;
+                  }
+                  console.log(data);
+                  $scope.comments[i].comments[$scope.indexcomentup]=data;
+                }
+                else
+                  $scope.comments[$scope.indexcomentup]=data;
+                if($scope.commentsb && data.parent_id===null)
+                  $scope.comments[$scope.indexcomentup].comments=$scope.commentsb;
                 console.log($scope.comments);
-                //comment = data;
               })
-              .error(function (data) {
-                console.error("Error posting comment: %o", data);
+              .error(function(data){
+                console.error("Error posting comment: %o",data);
               });
+        };
 
           $scope.commentSubmit = function (comment) {
             console.log(comment);
@@ -670,7 +684,6 @@ angular.module('madisonApp.controllers', [])
                   console.error(data);
                 });
           };
-        };
       }])
     .controller('UserPageController', ['$scope', '$http', '$location',
       function ($scope, $http, $location) {
