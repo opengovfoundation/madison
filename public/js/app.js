@@ -47,10 +47,12 @@ app.config(function ($locationProvider) {
 
 app.config(['$translateProvider', function ($translateProvider) {
   $translateProvider.translations('en', {
+    'POSTED': 'Posted',
     'UPDATED': 'Updated'
   });
 
   $translateProvider.translations('es', {
+    'POSTED': 'Publicación',
     'UPDATED': 'Última actualización'
   });
 
