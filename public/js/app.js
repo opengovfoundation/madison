@@ -18,7 +18,8 @@ var imports = [
     'ngResource',
     'angular-tour',
     'ngRoute',
-    'ipCookie'
+    'ipCookie',
+    'pascalprecht.translate'
   ];
 
 var app = angular.module('madisonApp', imports);
@@ -43,6 +44,20 @@ app.config(['growlProvider', '$httpProvider', '$routeProvider', function (growlP
 app.config(function ($locationProvider) {
   $locationProvider.html5Mode(true);
 });
+
+app.config(['$translateProvider', function ($translateProvider) {
+  $translateProvider.translations('en', {
+    'POSTED': 'Posted',
+    'UPDATED': 'Updated'
+  });
+
+  $translateProvider.translations('es', {
+    'POSTED': 'Publicación',
+    'UPDATED': 'Última actualización'
+  });
+
+  $translateProvider.preferredLanguage('es');
+}]);
 
 window.console = window.console || {};
 window.console.log = window.console.log || function () {};

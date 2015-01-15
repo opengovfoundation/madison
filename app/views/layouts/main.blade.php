@@ -27,6 +27,7 @@
 		<![endif]-->
 		@include('layouts.socials')
 		@include('layouts.assets')
+    <script src="/bower_components/angular-i18n/angular-locale_es-mx.js"></script>
 	</head>
 	<body>
 		<!--[if lt IE 8]>
