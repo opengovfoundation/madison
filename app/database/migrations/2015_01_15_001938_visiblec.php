@@ -14,7 +14,7 @@ class Visiblec extends Migration {
 	{
 		Schema::table('comments', function(Blueprint $table)
 		{
-			$table->integer('visiblec');
+			$table->integer('visiblec')->default(1);
 			//
 		});
 	}
