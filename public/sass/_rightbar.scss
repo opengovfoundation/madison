@@ -1,6 +1,4 @@
 .rightbar{
-    padding:5px 30px;
-    @include bg($mx-lighter-gray);
     > .row:last-child{
         border-bottom:none;
         margin-bottom:20px;
@@ -55,19 +53,16 @@
     .activity-item{
         padding-bottom: 16px;
         padding-top: 16px;
-        border-top: 1px solid $mx-gray;
         @include transition(opacity, .5s);
+
         .activity-author{
             font-weight: bold;
-            padding-left: 0;
         }
         .activity-content{
             margin-bottom: 10px;
-            padding: 0;
             word-wrap: break-word;
         }
         .activity-actions {
-          padding-right: 0;
           text-align: right;
         }
         .activity-actions, .activity-replies-indicator{
@@ -110,10 +105,14 @@
             }
         }
         .activity-replies-indicator {
-          margin-left: -15px;
         }
         .sponsor-seen, .user-seen{
             margin-top:10px;
         }
     }
+}
+
+
+.sidebar-unit {
+    margin-bottom: 65px;
 }
