@@ -70,24 +70,24 @@ class GroupsController extends BaseController
 		$group = Group::where('id', '=', $groupId)->first();
 		
 		if(!$group) {
-			return Redirect::back()->with('error', 'Invalid Group ID');
+			return Response::json($this->growlMessage('Invalid Group ID', 'error'));
 		}
 		
 		if(!$group->isGroupOwner(Auth::user()->id)) {
-			return Redirect::back()->with('error', 'You cannot add people to a group unless you are the group owner');
+			return Response::json($this->growlMessage('You cannot add people to a group unless you are the group owner', 'error'));
 		}
 		
 		$email = Input::all()['email'];
 		$role = Input::all()['role'];
 		
 		if(!Group::isValidRole($role)) {
-			return Redirect::back()->with('error', "Invalid Role Type");
+			return Response::json($this->growlMessage('Invalid role type.', 'error'));
 		}
 		
 		$user = User::where('email', '=', $email)->first();
 		
 		if(!$user) {
-			return Redirect::back()->with('error', "Invalid User");
+			return Response::json($this->growlMessage('Invalid user', 'error'));
 		}
 		
 		$userExists = (bool)GroupMember::where('user_id', '=', $user->id)
@@ -95,7 +95,7 @@ class GroupsController extends BaseController
 									->count();
 		
 		if($userExists) {
-			return Redirect::back()->with('error', 'This user is already a member of the group!');
+			return Response::json($this->growlMessage('This user is already a member of the group!', 'error'));
 		}
 		
 		$newMember = new GroupMember();
@@ -113,8 +113,7 @@ class GroupsController extends BaseController
     		$message->to($email);
 		});
 
-		return Redirect::to('groups/members/' . (int)$group->id)
-						->with('success_message', 'User added successfully!');
+		return Response::json($this->growlMessage('User added successfully', 'success'));
 	}
 	
 	public function inviteMember($groupId)

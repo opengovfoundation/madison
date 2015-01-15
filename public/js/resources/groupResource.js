@@ -15,6 +15,11 @@ angular.module('madisonApp.resources')
         method: 'PUT',
         url: '/api/groups/:id/members/:memberId',
         params: {id: '@id', memberId: '@memberId'}
+      },
+      inviteMember: {
+        method: 'PUT',
+        url: '/api/groups/:id/invite',
+        params: {id: '@id'}
       }
     });
 
