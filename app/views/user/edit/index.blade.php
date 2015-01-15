@@ -21,12 +21,12 @@
 						<input type="email" class="form-control" name="email" id="email" placeholder="{{ trans('messages.enteremail') }}" value="{{ $user->email}}"/>
 					</div>
 					<!-- URL -->
-					<div class="form-group">
+					<div class="hidden">
 						<label for="url">URL:</label>
 						<input type="url" class="form-control" name="url" id="url" placeholder="{{ trans('messages.enterurl') }}" value="{{ $user->url }}"/>
 					</div>
 					<!-- Phone -->
-					<div class="form-group">
+					<div class="hidden">
 						<label for="phone">{{ trans('messages.phone') }}:</label>
 						<input type="tel" class="form-control" name="phone" id="phone" placeholder="{{ trans('messages.enterphone') }}" value="{{ $user->phone }}"/>
 					</div>
