@@ -100,24 +100,18 @@
 	<div class="wrapper">
 		<div class="error-spacer"></div>
 		<div role="main" class="main">
-			<?php $messages = array('We need a map.', 'I think we\'re lost.', 'We took a wrong turn.'); ?>
-
-			<h1><?php echo $messages[mt_rand(0, 2)]; ?></h1>
-
-			<h2>Server Error: 404 (Not Found)</h2>
+			<h2>Error 404</h2>
 
 			<hr>
 
-			<h3>What does this mean?</h3>
+			<h3>¿Qué significa esto?</h3>
 
 			<p>
-				We couldn't find the page you requested on our servers. We're really sorry
-				about that. It's our fault, not yours. We'll work hard to get this page
-				back online as soon as possible.
+        No pudimos localizar la página que solicitaste. Esto se puede deber a que la página no existe o tenemos un problema en nuestros servidores.
 			</p>
 
 			<p>
-				Perhaps you would like to go to our <?php echo HTML::link('/', 'home page'); ?>?
+				Te invitamos a que regreses a la <?php echo HTML::link('/', 'página principal'); ?>.
 			</p>
 		</div>
 	</div>
