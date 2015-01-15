@@ -23,7 +23,8 @@
       <span class="category" ng-repeat="category in doc.categories">{{ category.name }}</span>  
     </div>
     <div class="updated-at">
-      <span>Última Actualización: <b>{{ doc.updated_at | date:'mediumDate' }}</b></span>
+      <span>{{ 'UPDATED' | translate }}: <b>{{ doc.updated_at | date:'mediumDate' }}</b></span>
     </div>
   </div>
 </div>
+

@@ -45,5 +45,17 @@ app.config(function ($locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
+app.config(['$translateProvider', function ($translateProvider) {
+  $translateProvider.translations('en', {
+    'UPDATED': 'Updated'
+  });
+
+  $translateProvider.translations('es', {
+    'UPDATED': 'Última actualización'
+  });
+
+  $translateProvider.preferredLanguage('es');
+}]);
+
 window.console = window.console || {};
 window.console.log = window.console.log || function () {};
