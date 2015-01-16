@@ -90,9 +90,9 @@ $(document).ready(function () {
           event.preventDefault();
         }
 
-        popup = $('<div class="popup unauthed-popup"><p>Login to comment.</p>' +
-          '<input type="button" id="login" value="Login" class="btn btn-primary"/>' +
-          '<input type="button" id="signup" value="Sign up" class="btn btn-primary" /></div>');
+        popup = $('<div class="popup unauthed-popup"><p>Ingresa para comentar.</p>' +
+          '<input type="button" id="login" value="Ingresar" class="btn btn-primary"/>' +
+          '<input type="button" id="signup" value="Registrarse" class="btn btn-primary" /></div>');
 
         popup.on('click.popup', function (event) {
           event.stopPropagation();

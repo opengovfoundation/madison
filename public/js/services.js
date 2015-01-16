@@ -57,9 +57,9 @@ angular.module('madisonApp.services', [])
 
       return function LoginPopup(event) {
         console.log(event);
-        var popup = $('<div class="popup unauthed-popup"><p>Please log in.</p>' +
-          '<input type="button" id="login" value="Login" class="btn btn-primary"/>' +
-          '<input type="button" id="signup" value="Sign up" class="btn btn-primary" /></div>');
+        var popup = $('<div class="popup unauthed-popup"><p>Por favor regístrate.</p>' +
+          '<input type="button" id="login" value="Ingresar" class="btn btn-primary"/>' +
+          '<input type="button" id="signup" value="Registrarse" class="btn btn-primary" /></div>');
 
 
         popup.on('click.popup', function (event) {
