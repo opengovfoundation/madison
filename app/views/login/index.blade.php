@@ -16,7 +16,7 @@
 					</div>
 					<!-- Remember checkbox -->
 					<div class="checkbox">
-						{{ Form::label('remember', Lang::get('messages.rememberme') ) . Form::checkbox('remember', 'true') }}
+						{{ Form::checkbox('remember', 'true') . Form::label('remember', Lang::get('messages.rememberme')) }}
 					</div>
 					<!-- Submit -->
 					{{ Form::submit(Lang::get('messages.login'), array('class'=>'btn btn-default')) }}

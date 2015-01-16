@@ -34,19 +34,19 @@
 	<div class="col-md-12 social-login-wrapper">
 	  <div class="row">
 	    <div class="col-md-12">
-	      <a href="/user/facebook-login" class="btn btn-default social-login-btn facebook-login-btn">
+	      <a href="/user/facebook-login" class="btn social-login-btn facebook-login-btn">
 	        <img src="/img/icon-facebook.png" alt="facebook icon" />
 	        {{ trans('messages.signupwith') }} Facebook
 	      </a>
 	    </div> 
 	    <div class="col-md-12">
-	      <a href="/user/twitter-login" class="btn btn-default social-login-btn twitter-login-btn">
+	      <a href="/user/twitter-login" class="btn social-login-btn twitter-login-btn">
 	        <img src="/img/icon-twitter.png" alt="twitter icon" />
 	        {{ trans('messages.signupwith') }} Twitter
 	      </a>
 	    </div>
 	    <div class="col-md-12">
-	      <a href="/user/linkedin-login" class="btn btn-default social-login-btn linkedin-login-btn">
+	      <a href="/user/linkedin-login" class="btn social-login-btn linkedin-login-btn">
 	        <img src="/img/icon-linkedin.png" alt="linkedin icon" />
 	        {{ trans('messages.signupwith') }} LinkedIn
 	      </a>
