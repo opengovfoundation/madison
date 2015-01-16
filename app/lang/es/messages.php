@@ -156,7 +156,7 @@ return array(
 'reqindiesponsor' => 'Solicitar Promotor Independiente',
 'provideinfoindie' => 'Por favor proporciona la siguiente información para solicitar ser un Promotor Independiente',
 'loginwith' => 'Ingresar con',
-'signupwith' => 'Registrarse con',
+'signupwith' => 'Registro con',
 'annotations' => 'Anotaciones',
 'howtoparticipate' => 'Cómo participar',
 'supportdoc' => 'Apoya este documento',
