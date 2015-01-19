@@ -16,11 +16,11 @@
 		</div>
 		<!-- Password -->
 		<div class="form-group">
-			{{ Form::label('password', 'Password') . Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control')) }}
+			{{ Form::label('password', Lang::get('messages.password')) . Form::password('password', array('placeholder'=>Lang::get('messages.password'), 'class'=>'form-control')) }}
 		</div>
 		<!-- Submit -->
-		{{ Form::submit('Login', array('class'=>'btn btn-default')) }}
-		<a class="forgot-password" href="{{ URL::to('password/remind') }}">Forgot your password?</a>
+		{{ Form::submit(Lang::get('messages.login'), array('class'=>'btn btn-default')) }}
+		<a class="forgot-password" href="{{ URL::to('password/remind') }}">{{ trans('messages.forgotpassword') }}</a>
 		{{ Form::token() . Form::close() }}
 	</div>
 </div>

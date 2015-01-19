@@ -161,4 +161,11 @@ return array(
 'howtoparticipate' => 'Cómo participar',
 'supportdoc' => 'Apoya este documento',
 'opposedoc' => 'Oponte a este documento',
+'presetpass' => 'Por favor llena el siguiente formulario para restablecer tu contraseña.',
+'presendpass' => 'Por favor llena el siguiente formulario para reenviar el email de confirmación.',
+'premindpass' => 'Por favor ingresa tu correo electrónico a continuación y un email para restablecer tu contraseña se te enviará.',
+'resetpass' => 'Restablecer contraseña',
+'sendpassreset' => 'Enviar para restablecer contraseña',
+'resendconfemail' => 'Reenviar email de confirmación',
+'resendmyconfemail' => 'Reenviar mi email de confirmación',
 );
