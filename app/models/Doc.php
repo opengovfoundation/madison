@@ -370,7 +370,6 @@ class Doc extends Eloquent{
 					 ->with('groupSponsor')
 					 ->with('categories')
 					 ->with('dates')
-					 ->with('introtext')
 					 ->first();
 		
 		if(!isset($doc)) {

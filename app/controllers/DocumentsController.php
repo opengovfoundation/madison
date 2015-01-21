@@ -4,6 +4,8 @@ class DocumentsController extends Controller
 {
 	public function getDocument($slug) {
 		$doc = Doc::findDocBySlug($slug);
+		$introtext = $doc->introtext()->first()['meta_value'];
+		$doc->introtext = $introtext;
 
 		return Response::json($doc);
 	}
