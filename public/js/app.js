@@ -62,6 +62,12 @@ try {
           templateUrl: "/templates/pages/home.html",
           data: {title: "Madison Home"}
         })
+        .state('doc-page', {
+          url: "/docs/:slug",
+          controller: "DocumentPageController",
+          templateUrl: "/templates/pages/doc.html",
+          data: {title: "Document Page"}
+        })
         .state('login', {
           url: '/user/login',
           controller: "LoginPageController",

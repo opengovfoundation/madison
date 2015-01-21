@@ -112,6 +112,10 @@ Route::controller('dashboard', 'DashboardController');
     Route::put('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@putIndex');
     Route::delete('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@deleteIndex');
 
+    //Document Routes
+    Route::get('api/docs/slug/{slug}', 'DocumentsController@getDocument');
+    Route::get('api/docs/{doc}/content', 'DocumentsController@getDocumentContent');
+
     //Document Comment Routes
     Route::post('api/docs/{doc}/comments', 'CommentApiController@postIndex');
     Route::get('api/docs/{doc}/comments', 'CommentApiController@getIndex');

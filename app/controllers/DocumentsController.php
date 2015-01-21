@@ -2,6 +2,23 @@
 
 class DocumentsController extends Controller
 {
+	public function getDocument($slug) {
+		$doc = Doc::findDocBySlug($slug);
+
+		return Response::json($doc);
+	}
+
+	public function getDocumentContent($id){
+		$docContent = DocContent::where('doc_id', $id)->first();
+
+		$returned = array();
+
+		$returned['raw'] = $docContent->content;
+		$returned['html'] = $docContent->html();
+
+		return Response::json($returned);
+	}
+
 	public function listDocuments()
 	{
 		if(!Auth::check()) {
