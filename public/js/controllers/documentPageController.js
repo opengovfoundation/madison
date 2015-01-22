@@ -1,8 +1,8 @@
 /*global annotator*/
 /*global Markdown*/
 angular.module('madisonApp.controllers')
-  .controller('DocumentPageController', ['$scope', '$state', 'growl', 'ipCookie', '$location', 'Doc', '$sce', '$stateParams',
-    function ($scope, $state, growl, ipCookie, $location, Doc, $sce, $stateParams) {
+  .controller('DocumentPageController', ['$scope', '$state', '$timeout', 'growl', 'ipCookie', '$location', '$window', 'Doc', '$sce', '$stateParams',
+    function ($scope, $state, $timeout, growl, ipCookie, $location, $window, Doc, $sce, $stateParams) {
       //Load the document
       $scope.doc = Doc.getDocBySlug({slug: $stateParams.slug});
 
@@ -10,16 +10,19 @@ angular.module('madisonApp.controllers')
       $scope.doc.$promise.then(function (doc) {
         $scope.checkExists(doc);//Redirect if document doesn't exist
         $scope.loadContent(doc);//Load document body
-        //$scope.parseHeaders(doc);//Parse headers out of the body
         $scope.loadIntrotext(doc);//Load the document introduction text
         $scope.hideIntro = ipCookie('hideIntro');//Check the hideIntro cookie for the introduction gif
         $scope.checkActiveTab($scope.doc, $scope.user);
         $scope.$on('tocAdded', function (event, toc) {
           $scope.toc = toc;
         });
+
+        if ($scope.user.id) {
+          $scope.attachAnnotator($scope.doc, $scope.user);
+        }
       });
 
-
+      //Ensure that we actually get a document back from the server
       $scope.checkExists = function (doc) {
         //This document does not exist, redirect home
         if (!doc.id) {
@@ -37,6 +40,7 @@ angular.module('madisonApp.controllers')
         });
       };
 
+      //Load the introtext if we have one
       $scope.loadIntrotext = function (doc) {
         //Set the document introtext
         if (doc.introtext) {
@@ -63,54 +67,60 @@ angular.module('madisonApp.controllers')
 
 
       $scope.attachAnnotator = function (doc, user) {
-        var annotator = $('#doc_content').annotator();
+        $scope.$on('docContentUpdated', function () {
+          $timeout(function () {
+            $window.annotator = $('#doc_content').annotator();
 
-        annotator.annotator('addPlugin', 'Unsupported');
-        annotator.annotator('addPlugin', 'Tags');
-        annotator.annotator('addPlugin', 'Markdown');
-        annotator.annotator('addPlugin', 'Store', {
-          annotationData: {
-            'uri': window.location.pathname,
-            'comments': []
-          },
-          prefix: '/api/docs/' + doc.id + '/annotations',
-          urls: {
-            create: '',
-            read: '/:id',
-            update: '/:id',
-            destroy: '/:id',
-            search: '/search'
-          }
-        });
+            console.log($window.annotator);
 
-        annotator.annotator('addPlugin', 'Permissions', {
-          user: user,
-          permissions: {
-            'read': [],
-            'update': [user.id],
-            'delete': [user.id],
-            'admin': [user.id]
-          },
-          showViewPermissionsCheckbox: false,
-          showEditPermissionsCheckbox: false,
-          userId: function (user) {
-            if (user && user.id) {
-              return user.id;
-            }
+            $window.annotator.annotator('addPlugin', 'Unsupported');
+            $window.annotator.annotator('addPlugin', 'Tags');
+            $window.annotator.annotator('addPlugin', 'Markdown');
+            $window.annotator.annotator('addPlugin', 'Store', {
+              annotationData: {
+                'uri': $location.path(),
+                'comments': []
+              },
+              prefix: '/api/docs/' + doc.id + '/annotations',
+              urls: {
+                create: '',
+                read: '/:id',
+                update: '/:id',
+                destroy: '/:id',
+                search: '/search'
+              }
+            });
 
-            return user;
-          },
-          userString: function (user) {
-            if (user && user.name) {
-              return user.name;
-            }
+            $window.annotator.annotator('addPlugin', 'Permissions', {
+              user: user,
+              permissions: {
+                'read': [],
+                'update': [user.id],
+                'delete': [user.id],
+                'admin': [user.id]
+              },
+              showViewPermissionsCheckbox: false,
+              showEditPermissionsCheckbox: false,
+              userId: function (user) {
+                if (user && user.id) {
+                  return user.id;
+                }
 
-            return user;
-          }
-        });
+                return user;
+              },
+              userString: function (user) {
+                if (user && user.name) {
+                  return user.name;
+                }
 
-        annotator.annotator('addPlugin', 'Madison', {
-          userId: user.id
-        });
+                return user;
+              }
+            });
+
+            $window.annotator.annotator('addPlugin', 'Madison', {
+              userId: user.id
+            });
+          });
+        }, 0, false);
       };
     }]);
