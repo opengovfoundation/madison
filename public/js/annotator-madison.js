@@ -209,7 +209,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     });
 
     //If the user is logged in, allow them to comment
-    if (user && user.id !== '') {
+    if (user && user.id !== undefined) {
       var annotationComments = $('<div class="annotation-comments"></div>');
       var commentText = $('<input type="text" class="form-control" />');
       var commentSubmit = $('<button type="button" class="btn btn-primary" >Submit</button>');
@@ -237,7 +237,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     annotationAction.append(annotationLike, annotationDislike, annotationFlag);
 
     //If user is logged in add his current action and enable the action buttons
-    if (user.id !== '') {
+    if (user.id !== undefined) {
       if (annotation.user_action) {
         if (annotation.user_action === 'like') {
           annotationLike.addClass('selected');
