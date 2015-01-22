@@ -2,13 +2,24 @@ angular.module('madisonApp.services')
   .factory('UserService', ['$rootScope', '$http', '$window',
     function ($rootScope, $http, $window) {
       var UserService = {};
-      UserService.user = {};
+
+      UserService.user = {
+        loggedin: function () {
+          return this.id !== undefined;
+        }
+      };
 
       UserService.getUser = function () {
         UserService.exists = $http.get('/api/user/current')
           .success(function (data) {
-            UserService.user = data.user || {};
-            UserService.user.loggedin = UserService.user.id ? true : false;
+            var key;
+
+            for (key in data.user) {
+              if (data.user.hasOwnProperty(key)) {
+                UserService.user[key] = data.user[key];
+              }
+            }
+
             $window.user = UserService.user;
             $rootScope.$broadcast('userUpdated');
           }).error(function (data) {

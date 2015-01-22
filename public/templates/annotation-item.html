@@ -34,7 +34,7 @@
         <div id="annsubcomment_{{ comment.id }}" class="activity-reply col-md-12" ng-repeat="comment in annotation.comments">
             <div activity-sub-comment sub-comment-id="{{ comment.id }}"></div>
         </div>
-        <div class="subcomment-field col-md-12" ng-if="user.id">
+        <div class="subcomment-field col-md-12" ng-if="user.loggedin()">
             <form name="add-subcomment-form" ng-submit="subcommentSubmit(annotation, subcomment)">
                 <input ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
             </form>
