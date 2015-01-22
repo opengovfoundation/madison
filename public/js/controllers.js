@@ -450,8 +450,10 @@ angular.module('madisonApp.controllers', [])
           'comment': subcomment
         })
           .success(function (data) {
+            data.visiblec=1;
             activity.comments.push(data);
             subcomment.text = '';
+            subcomment.visiblec = 1;
             subcomment.user = '';
             $scope.$apply();
           }).error(function (data) {
@@ -595,6 +597,21 @@ angular.module('madisonApp.controllers', [])
         return popularity;
       };
 
+      $scope.visibleall=function(comment,index){
+        comment.user=$scope.user;
+        comment.doc=$scope.doc;
+        $http.post("/api/docs/"+comment.doc.id+"/visible",{comment:comment.id})
+            .success(function(data){
+              if(comment.visiblec===0)
+                comment.visiblec=1;
+              else
+                comment.visiblec=0;
+            })
+            .error(function(data){
+              console.error("Error posting comment: %o",data);
+            });
+      };
+
       $scope.addAction = function (activity, action, $event) {
         if ($scope.user.id !== '') {
           $http.post('/api/docs/' + $scope.doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
@@ -624,6 +641,7 @@ angular.module('madisonApp.controllers', [])
           .success(function (data) {
             data.comments = [];
             data.label = 'comment';
+            data.visiblec=1;
             activity.comments.push(data);
             subcomment.text = '';
             subcomment.user = '';

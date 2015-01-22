@@ -128,5 +128,13 @@ class CommentApiController extends ApiController{
 		
 		return Response::json($result);
 	}
+
+	public function visible() {
+		//Log::info(Input::get('comment'));
+		$comment = Comment::where('id', '=', Input::get('comment'))->first();
+		$result = $comment->flipVisibleFlag();
+
+		return Response::json($result);
+	}
 }
 

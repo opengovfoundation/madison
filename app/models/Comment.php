@@ -163,6 +163,17 @@ class Comment extends Eloquent implements ActivityInterface
         return $retval;
     }
 
+    public function flipVisibleFlag() {
+        if($this->visiblec == 1)
+            $this->visiblec = 0;
+        else
+            $this->visiblec = 1;
+
+        $this->save();
+
+        return $this;
+    }
+
     /**
     *   Include link to annotation when converted to array
     * 

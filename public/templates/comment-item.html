@@ -20,25 +20,27 @@
       <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(comment, 'likes', $event)">{{ comment.likes || '0' }}</span>
       <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(comment, 'dislikes', $event)">{{ comment.dislikes || '0' }}</span>
       <span class="glyphicon glyphicon-flag" ng-click="addAction(comment, 'flags', $event)">{{ comment.flags || '0' }}</span>
+      <span ng-show="admin && comment.visiblec==1" class="glyphicon glyphicon-eye-open" style="color:green;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
+      <span ng-show="admin && comment.visiblec==0" class="glyphicon glyphicon-eye-open" style="color:red;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
     </div>
   </div>
 </div>
 
-<script type="text/ng-template" id="subcomment_renderer.html">
+<script type="text/ng-template" id="subcomment_renderer.html" ng-show="admin || comment.visiblec===1">
  <div class="row">
   <div class="activity-author col-md-12">
     <h6 class="author">{{ comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) }}</h6>
   </div>
 </div>
-<div class="row">
+<div class="row" ng-show="admin || comment.visiblec===1">
   <div class="activity-content col-md-12">
     <span ng-bind-html="comment.text | linky:'_blank'"></span>
   </div>
 </div>
-<div class="annotator-tags">
+<div class="annotator-tags" ng-show="admin || comment.visiblec===1">
   <span class="annotator-tag" ng-repeat="tag in comment.tags">{{ tag }}</span>
 </div>
-<div class="row">
+<div class="row" ng-show="admin || comment.visiblec===1">
   <div class="col-md-12">
     <div class="activity-icon">
       <span class="activity-replies-indicator" ng-class="{'activity-replies-indicator-inactive': comment.comments.length == 0}" ng-click="collapseComments(comment)">
@@ -48,11 +50,13 @@
       <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(comment, 'likes', $event)">{{ comment.likes || '0' }}</span>
       <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(comment, 'dislikes', $event)">{{ comment.dislikes || '0' }}</span>
       <span class="glyphicon glyphicon-flag" ng-click="addAction(comment, 'flags', $event)">{{ comment.flags || '0' }}</span>
+      <span ng-show="admin && comment.visiblec==1" class="glyphicon glyphicon-eye-open" style="color:green;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
+      <span ng-show="admin && comment.visiblec==0" class="glyphicon glyphicon-eye-open" style="color:red;cursor: pointer;" ng-click="visibleall(comment,$index)"></span>
     </div>
   </div>
 </div>
 
-  <div class="activity-replies row" collapse="comment.commentsCollapsed">
+  <div class="activity-replies row" collapse="comment.commentsCollapsed" ng-show="admin || comment.visiblec===1">
     <div class="subcomment-field col-md-12">
       <form name="add-subcomment-form" ng-submit="subcommentSubmit(comment, comment.subcomment)">
         <input ng-model="comment.subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
