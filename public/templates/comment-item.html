@@ -28,7 +28,7 @@
 
 <script type="text/ng-template" id="subcomment_renderer.html" ng-show="admin || comment.visiblec===1">
  <div class="row">
-  <div class="activity-author col-md-12">
+  <div class="activity-author col-md-12" ng-show="admin || comment.visiblec===1">
     <h6 class="author">{{ comment.user.name || (comment.user.fname + ' ' + comment.user.lname.substr(0,1)) }}</h6>
   </div>
 </div>
