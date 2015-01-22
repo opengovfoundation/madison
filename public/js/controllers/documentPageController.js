@@ -10,12 +10,16 @@ angular.module('madisonApp.controllers')
       $scope.doc.$promise.then(function (doc) {
         $scope.checkExists(doc);//Redirect if document doesn't exist
         $scope.loadContent(doc);//Load document body
-        $scope.$broadcast('docContentUpdated');//Broadcast that the body has been updated
+        //$scope.parseHeaders(doc);//Parse headers out of the body
         $scope.loadIntrotext(doc);//Load the document introduction text
         $scope.hideIntro = ipCookie('hideIntro');//Check the hideIntro cookie for the introduction gif
         $scope.checkActiveTab($scope.doc, $scope.user);
-
+        $scope.$on('tocAdded', function (toc) {
+          console.log(toc);
+          //$scope.toc = toc;
+        });
       });
+
 
       $scope.checkExists = function (doc) {
         //This document does not exist, redirect home
@@ -28,13 +32,18 @@ angular.module('madisonApp.controllers')
       $scope.loadContent = function (doc) {
         //Set the document content
         $scope.doc.content = Doc.getDocContent({id: doc.id});
-        $scope.doc.html = $sce.trustAsHtml($scope.doc.content.html);
+        $scope.doc.content.$promise.then(function () {
+          $scope.doc.html = $sce.trustAsHtml($scope.doc.content.html);
+          $scope.$broadcast('docContentUpdated');//Broadcast that the body has been updated
+        });
       };
 
       $scope.loadIntrotext = function (doc) {
         //Set the document introtext
-        var converter = new Markdown.Converter();
-        $scope.introtext = $sce.trustAsHtml(converter.makeHtml(doc.introtext));
+        if (doc.introtext) {
+          var converter = new Markdown.Converter();
+          $scope.introtext = $sce.trustAsHtml(converter.makeHtml(doc.introtext));
+        }
       };
 
       $scope.hideHowToAnnotate = function () {
@@ -107,27 +116,4 @@ angular.module('madisonApp.controllers')
           userId: user.id
         });
       };
-
-      /**
-      * Copied from doc.js
-      *   Needs to be cleaned up!
-      */
-      $('.affix-elm').each(function (i, elm) {
-        elm = $(elm);
-        var elmtop = 0;
-        if (elm.data('offset-top')) {
-          elmtop = elm.data('offset-top');
-        }
-        var elmbottom = 0;
-        if (elm.data('offset-bottom')) {
-          elmbottom = elm.data('offset-bottom');
-        }
-
-        elm.affix({
-          offset: {
-            top: elmtop,
-            bottom: elmbottom
-          }
-        });
-      });
     }]);

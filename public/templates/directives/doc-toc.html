@@ -1,0 +1,14 @@
+<div class="document-toc">
+  <div class="toc-container container row affix-elm" data-offset-top="309">
+    <div class="col-md-3 toc-content" id="toc">
+      <h2>Table of Contents</h2>
+      <div id="toc-container">
+        <ul>
+          <li ng-repeat="heading in headings">
+            <a class="toc-heading toc-{{ heading.tag | lowercase }}" href="#{{ heading.link }}">{{ heading.title }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

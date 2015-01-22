@@ -32,23 +32,8 @@
   </ul>
   <div class="tab-content doc-tabs">
     <div id="tab-activity" ng-class="{'active':secondtab == false}" class="tab-pane row">
-      <div class="col-md-3" id="toc-column">
-        <div class="document-toc">
-          <div class="toc-container container row affix-elm" data-offset-top="309">
-            <div class="col-md-3 toc-content" id="toc">
-              <h2>Table of Contents</h2>
-              <div ng-controller="DocumentTocController" id="toc-container">
-                <ul>
-                  <li ng-repeat="heading in headings">
-                    <a class="toc-heading toc-{{ heading.tag | lowercase }}" href="#{{ heading.link }}">{{ heading.title }}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
+      <div doc-toc></div>
+      <div ng-class="{'col-md-6': toc, 'col-md-9': !toc}">
         <div id="content" class="content doc_content" tourtip="{{ step_messages.step_2 }}" tourtip-step="2">
           <div id="doc_content" tourtip="{{ step_messages.step_4 }}" tourtip-step="4" ng-bind-html="doc.html"></div>
         </div>
