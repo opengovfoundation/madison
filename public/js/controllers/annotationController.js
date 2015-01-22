@@ -12,11 +12,6 @@ angular.module('madisonApp.controllers')
         $scope.subCommentId = subCommentId[1];
       }
 
-      $scope.init = function (docId) {
-        $scope.user = user;
-        $scope.doc = doc;
-      };
-
       //Watch for annotationsUpdated broadcast
       $scope.$on('annotationsUpdated', function () {
         angular.forEach(annotationService.annotations, function (annotation) {

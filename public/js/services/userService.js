@@ -1,6 +1,6 @@
 angular.module('madisonApp.services')
-  .factory('UserService', ['$rootScope', '$http',
-    function ($rootScope, $http) {
+  .factory('UserService', ['$rootScope', '$http', '$window',
+    function ($rootScope, $http, $window) {
       var UserService = {};
       UserService.user = {};
 
@@ -8,6 +8,7 @@ angular.module('madisonApp.services')
         UserService.exists = $http.get('/api/user/current')
           .success(function (data) {
             UserService.user = data.user;
+            $window.user = data.user;
             $rootScope.$broadcast('userUpdated');
           }).error(function (data) {
             console.error(data);

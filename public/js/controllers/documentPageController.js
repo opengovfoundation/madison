@@ -67,6 +67,8 @@ angular.module('madisonApp.controllers')
 
 
       $scope.attachAnnotator = function (doc, user) {
+        $window.doc = doc;
+
         $scope.$on('docContentUpdated', function () {
           $timeout(function () {
             $window.annotator = $('#doc_content').annotator();
