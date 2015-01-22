@@ -69,7 +69,9 @@ angular.module('madisonApp.controllers')
 
         $scope.$on('docContentUpdated', function () {
           $timeout(function () {
-            $window.annotator = $('#doc_content').annotator();
+            $window.annotator = $('#doc_content').annotator({
+              readOnly: !user.loggedin()
+            });
 
             $window.annotator.annotator('addPlugin', 'Unsupported');
             $window.annotator.annotator('addPlugin', 'Tags');

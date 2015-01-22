@@ -5,3 +5,18 @@
     }
   }
 }
+
+.doc-list-item{
+  border-top:1px solid #ccc;
+  padding:12px 10px;
+
+  a{
+    font-weight:bold;
+    font-size:1.2em;
+    line-height:140%;
+
+    &:hover{
+      text-decoration:underline;
+    }
+  }
+}
