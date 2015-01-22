@@ -456,20 +456,7 @@ textarea.form-inline{
 		padding: 0px 0px;
 		@include box-sizing(border-box);
 		li{
-			border-top: 1px solid #ccc;
-			padding: 12px 10px;
-			position: relative;
 			@include box-sizing(border-box);
-			a{
-				font-weight: bold;
-				font-size:1.2em;
-				color: #444;
-				line-height: 140%;
-				&:hover{
-					color: #111;
-					text-decoration: underline;
-				}
-			}
 			.list-doc-info{
 				color: #999;
 				font-size: .9em;

@@ -64,9 +64,7 @@ angular.module('madisonApp.controllers')
 
 
       $scope.attachAnnotator = function (doc, user) {
-        annotator = $('#doc_content').annotator({
-          //readOnly: user.id == ''
-        });
+        var annotator = $('#doc_content').annotator();
 
         annotator.annotator('addPlugin', 'Unsupported');
         annotator.annotator('addPlugin', 'Tags');
