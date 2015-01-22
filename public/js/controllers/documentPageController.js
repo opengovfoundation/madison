@@ -17,9 +17,7 @@ angular.module('madisonApp.controllers')
           $scope.toc = toc;
         });
 
-        if ($scope.user.id) {
-          $scope.attachAnnotator($scope.doc, $scope.user);
-        }
+        $scope.attachAnnotator($scope.doc, $scope.user);
       });
 
       //Ensure that we actually get a document back from the server
@@ -72,8 +70,6 @@ angular.module('madisonApp.controllers')
         $scope.$on('docContentUpdated', function () {
           $timeout(function () {
             $window.annotator = $('#doc_content').annotator();
-
-            console.log($window.annotator);
 
             $window.annotator.annotator('addPlugin', 'Unsupported');
             $window.annotator.annotator('addPlugin', 'Tags');
