@@ -8,6 +8,7 @@ angular.module('madisonApp.services')
         UserService.exists = $http.get('/api/user/current')
           .success(function (data) {
             UserService.user = data.user || {};
+            UserService.user.loggedin = UserService.user.id ? true : false;
             $window.user = UserService.user;
             $rootScope.$broadcast('userUpdated');
           }).error(function (data) {
