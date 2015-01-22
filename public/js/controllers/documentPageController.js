@@ -14,9 +14,8 @@ angular.module('madisonApp.controllers')
         $scope.loadIntrotext(doc);//Load the document introduction text
         $scope.hideIntro = ipCookie('hideIntro');//Check the hideIntro cookie for the introduction gif
         $scope.checkActiveTab($scope.doc, $scope.user);
-        $scope.$on('tocAdded', function (toc) {
-          console.log(toc);
-          //$scope.toc = toc;
+        $scope.$on('tocAdded', function (event, toc) {
+          $scope.toc = toc;
         });
       });
 
