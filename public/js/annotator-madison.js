@@ -2,6 +2,7 @@
 /*global getAnnotationService*/
 /*global user*/
 /*global doc*/
+/*global getUserService*/
 /*global diff_match_patch*/
 Annotator.Plugin.Madison = function () {
   Annotator.Plugin.apply(this, arguments);
@@ -11,7 +12,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   events: {},
   options: {},
   pluginInit: function () {
-
     /**
      *  Subscribe to Store's `annotationsLoaded` event
      *    Stores all annotation objects provided by Store in the window
@@ -56,14 +56,12 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     });
 
     this.annotator.subscribe('annotationViewerTextField', function (field, annotation) {
-      if(annotation.tags.length === 0){
+      if (annotation.tags.length === 0) {
         return;
       }
 
-      var showDiff = false;
-
-      annotation.tags.forEach(function (tag){
-        if(tag === 'edit'){
+      annotation.tags.forEach(function (tag) {
+        if (tag === 'edit') {
           var jField = $(field);
           var differ = new diff_match_patch();
           var diffs = differ.diff_main(annotation.quote, annotation.text);
@@ -85,18 +83,18 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     this.annotator.editor.submit = function (e) {
       //Clear previous errors
       this.annotation._error = false;
-      
+
       var field, _i, _len, _ref;
       Annotator.Util.preventEventDefault(e);
 
       _ref = this.fields;
 
-      for (_i = 0, _len = _ref.length; _i < _len; _i++){
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         field = _ref[_i];
         field.submit(field.element, this.annotation);
       }
 
-      if(this.annotation._error !== true){
+      if (this.annotation._error !== true) {
         this.publish('save', [this.annotation]);
 
         return this.hide();
@@ -107,27 +105,27 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       load: function (field, annotation) {
         this.addEditFields(field, annotation);
       }.bind(this),
-      submit: function(field, annotation) {
+      submit: function (field, annotation) {
         //check it is tagged 'edit'
-        if(this.hasEditTag(annotation.tags)){
+        if (this.hasEditTag(annotation.tags)) {
           //check we have explanatory content
           var explanation = $(field).find('#explanation').val();
 
           //If no explanatory content, show message and don't submit
-          if('' === explanation.trim()){
+          if ('' === explanation.trim()) {
             $('#annotation-error').text("Explanation required for edits.").toggle(true);
 
             annotation._error = true;
             return false;
           }
-          
+
           annotation.explanation = explanation;
         }
       },
       hasEditTag: function (tags) {
         var hasEditTag = false;
 
-        if(tags === undefined || tags.length  === 0){
+        if (tags === undefined || tags.length  === 0) {
           return false;
         }
 
@@ -211,7 +209,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     });
 
     //If the user is logged in, allow them to comment
-    if (user.id !== '') {
+    if (user && user.id !== '') {
       var annotationComments = $('<div class="annotation-comments"></div>');
       var commentText = $('<input type="text" class="form-control" />');
       var commentSubmit = $('<button type="button" class="btn btn-primary" >Submit</button>');
