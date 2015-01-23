@@ -30,6 +30,7 @@
     <script src="/bower_components/angular-i18n/angular-locale_es-mx.js"></script>
 	</head>
 	<body>
+    <div class="alert alert-info">Ésta es una plataforma de prueba. La información en este sitio no refleja una postura o información oficial.</div>
 		<!--[if lt IE 8]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
