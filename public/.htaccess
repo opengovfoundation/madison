@@ -5,9 +5,13 @@
 
     RewriteEngine On
 
-    # Redirect www -> non-www
+    RewriteCond %{HTTPS} off
     RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-    RewriteRule ^(.*)$ //%1/$1 [R=301,L]
+    RewriteRule ^(.*)$ http://%1/$1 [R=301,L,NE]
+
+    RewriteCond %{HTTPS} on
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^(.*)$ https://${HTTP_HOST} [R=301,L,NE]
 
     # Redirect Trailing Slashes...
     RewriteRule ^(.*)/$ /$1 [L,R=301]
