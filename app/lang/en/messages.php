@@ -160,4 +160,11 @@ return array(
 'howtoparticipate' => 'How to Participate',
 'supportdoc' => 'Support This Document',
 'opposedoc' => 'Oppose This Document',
+'presetpass' => 'Please fill out the form below to reset your password.',
+'presendpass' => 'Please fill out the form below to resend your confirmation email.',
+'premindpass' => 'Please fill out your email address below, and a reset password email will be sent to you.',
+'resetpass' => 'Reset Password',
+'sendpassreset' => 'Send Password Reset',
+'resendconfemail' => 'Resend confirmation email',
+'resendmyconfemail' => 'Resend my confirmation email',
 );
