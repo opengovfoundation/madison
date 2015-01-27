@@ -63,7 +63,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       var showDiff = false;
 
       annotation.tags.forEach(function (tag){
-        if(tag === 'edit'){
+        if(tag === 'editar'){
           var jField = $(field);
           var differ = new diff_match_patch();
           var diffs = differ.diff_main(annotation.quote, annotation.text);
@@ -115,7 +115,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
           //If no explanatory content, show message and don't submit
           if('' == explanation.trim()){
-            $('#annotation-error').text("Explanation required for edits.").toggle(true);
+            $('#annotation-error').text("Por favor explica por qué hiciste el cambio.").toggle(true);
 
             annotation._error = true;
             return false;
@@ -132,7 +132,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
         }
 
         tags.forEach(function (tag) {
-          if (tag === 'edit') {
+          if (tag === 'editar') {
             hasEditTag = true;
           }
         });
@@ -147,10 +147,10 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
     var buttonGroup = $('<div class="btn-group"></div>');
 
-    var explanation = $('<input id="explanation" type="text" name="explanation" placeholder="Why did you make this edit?" style="display:none;" />');
+    var explanation = $('<input id="explanation" type="text" name="explanation" placeholder="¿Por qué editaste esto?" style="display:none;" />');
     var annotationError = $('<p id="annotation-error" style="display:none; color:red;"></p>');
 
-    var annotateButton = $('<button type="button" class="btn btn-default active">Annotate</button>').click(function () {
+    var annotateButton = $('<button type="button" class="btn btn-default active">Anotar</button>').click(function () {
       $(this).addClass('active');
       $(this).siblings().each(function (sibling) {
         $(this).removeClass('active');
@@ -163,13 +163,13 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       $('#annotator-field-0').focus();
     });
 
-    var editButton = $('<button type="button" class="btn btn-default">Edit</button>').click(function () {
+    var editButton = $('<button type="button" class="btn btn-default">Editar</button>').click(function () {
       $(this).addClass('active');
       $(this).siblings().each(function (sibling) {
         $(this).removeClass('active');
       });
       $('#annotator-field-0').val(annotation.quote);
-      $('#annotator-field-1').val('edit ');
+      $('#annotator-field-1').val('editar');
       $('#explanation').toggle(true);
       $('#explanation').prop('required', true);
       $('#annotator-field-0').focus();
@@ -183,7 +183,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   },
   addComments: function (field, annotation) {
     //Add comment wrapper and collapse the comment thread
-    var commentsHeader = $('<div class="comment-toggle" data-toggle-"collapse" data-target="#current-comments">Comments <span id="comment-caret" class="caret caret-right"></span></button>').click(function () {
+    var commentsHeader = $('<div class="comment-toggle" data-toggle-"collapse" data-target="#current-comments">Comentarios <span id="comment-caret" class="caret caret-right"></span></button>').click(function () {
       $('#current-comments').collapse('toggle');
       $('#comment-caret').toggleClass('caret-right');
     });
@@ -214,7 +214,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     if (user.id !== '') {
       var annotationComments = $('<div class="annotation-comments"></div>');
       var commentText = $('<input type="text" class="form-control" />');
-      var commentSubmit = $('<button type="button" class="btn btn-primary" >Submit</button>');
+      var commentSubmit = $('<button type="button" class="btn btn-primary" >Enviar</button>');
       commentSubmit.click(function () {
         this.createComment(commentText, annotation);
       }.bind(this));
@@ -271,7 +271,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     //Add link to annotation
     var noteLink = $('<div class="annotation-link"></div>');
     var linkPath = window.location.origin + window.location.pathname + '#' + annotation.link;
-    var annotationLink = $('<a></a>').attr('href', window.location.pathname + '#' + annotation.link).text('Copy Annotation Link').addClass('annotation-permalink');
+    var annotationLink = $('<a></a>').attr('href', window.location.pathname + '#' + annotation.link).text('Copiar Enlace de Anotación').addClass('annotation-permalink');
     annotationLink.attr('data-clipboard-text', linkPath);
 
     var client = new ZeroClipboard(annotationLink);
