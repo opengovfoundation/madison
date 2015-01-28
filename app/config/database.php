@@ -1,7 +1,7 @@
 <?php
 
-if(file_exists(app_path() . '/config/creds.yml')){
-	$creds = yaml_parse_file(app_path() . '/config/creds.yml');	
+if(file_exists(app_path() . '/config/creds.php')){
+	require_once(app_path() . '/config/creds.php');
 }else{
 	$creds = array('database'=> $_ENV['DB_NAME'], 'username'=> $_ENV['DB_USER'], 'password'=> $_ENV['DB_PASS']);
 }
