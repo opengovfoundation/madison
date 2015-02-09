@@ -1,7 +1,7 @@
 <?php
 
 App::missing(function($exception){
-	return Response::view('error.404', array(), 404);
+	return Response::json(array('text' => 'API route not found.', 'severity' => 'error'), 404);
 });
 
 /*
