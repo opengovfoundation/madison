@@ -25,13 +25,6 @@ try {
   console.log(err);
 }
 
-
-var xhReq = new XMLHttpRequest();
-xhReq.open("GET", "/auth/token", false);
-xhReq.send(null);
-
-app.constant("CSRF_TOKEN", xhReq.responseText);
-
 if (!history.pushState) {
   if (window.location.hash) {
     if (window.location.pathname !== '/') {
