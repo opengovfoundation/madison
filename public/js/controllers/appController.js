@@ -1,9 +1,16 @@
 angular.module('madisonApp.controllers')
-  .controller('AppController', ['$scope', 'ipCookie', 'UserService',
-    function ($scope, ipCookie, UserService) {
+  .controller('AppController', ['$rootScope', '$scope', 'ipCookie', 'UserService',
+    function ($rootScope, $scope, ipCookie, UserService) {
       //Watch for user data change
       $scope.$on('userUpdated', function () {
         $scope.user = UserService.user;
+      });
+
+      $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+        $scope.prevState = {
+          from: from,
+          fromParams: fromParams
+        };
       });
 
       //Load user data
