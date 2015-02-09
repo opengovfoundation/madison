@@ -36,7 +36,7 @@ class UserManageApiController extends ApiController{
 		$user = User::where('email', $email)->first();
 
 		if(!isset($user)){
-			return Response::json( array( 'status' => 'error', 'errors' => array('No such user') ) );
+			return Response::json( $this->growlMessage('Email does not exist!', 'error'), 401);
 		}
 
 		//If the user's token field isn't blank, he/she hasn't confirmed their account via email
