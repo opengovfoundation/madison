@@ -91,9 +91,9 @@ class DocumentApiController extends ApiController{
 
 		$docs = Doc::take(10)->with('categories')->orderBy('updated_at', 'DESC')->get();
 
-		foreach($docs as $doc){
-			$doc->setActionCount();
-		}
+		//foreach($docs as $doc){
+			//$doc->setActionCount();
+		//}
 
 		return Response::json($docs);
 	}
