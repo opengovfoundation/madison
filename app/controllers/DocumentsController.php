@@ -49,6 +49,11 @@ class DocumentsController extends Controller
 			}
 		}
 
+		return Response::json(array(
+			'doc_count' => count($raw_docs),
+			'documents'	=> $documents
+		));
+
 		return View::make('documents.list', array('doc_count'=>count($raw_docs), 'documents'=>$documents));
 	}
 	

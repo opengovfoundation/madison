@@ -164,6 +164,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/user/independent/verify/', 'UserApiController@postIndependentVerify');
     Route::get('api/user/current', 'UserController@getCurrent');
     Route::put('api/user/{user}/edit/email', 'UserController@editEmail');
+    Route::get('api/user/{user}/docs', 'DocumentsController@listDocuments');
     Route::get('api/user/{user}/notifications', 'UserController@getNotifications');
     Route::put('api/user/{user}/notifications', 'UserController@putNotifications');
     Route::get('api/user/{user}/groups', 'UserController@getGroups');

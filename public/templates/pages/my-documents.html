@@ -1,0 +1,45 @@
+<div class="row">
+  <div admin-breadcrumb></div>
+</div>
+<div class="row content">
+  <div class="col-md-8 admin-document-list">
+    <h1>Documents</h1>
+    <ul>
+      <li ng-if="doc_count == 0">No Documents Found</li>
+      <hr>
+      <strong>Independently authored documents:</strong><br>
+        <li ng-repeat="doc in documents.independent">
+          <a href="/documents/edit/{{ doc.id }}">{{ doc.title }}</a>
+        </li>
+        <hr>
+        <strong>Group authored documents:</strong><br><br>
+        <li ng-repeat="group in documents.group">
+          Group '{{ group }}'
+          <li ng-if="group.length == 0">
+            There are no documents for this group.
+          </li>              
+          <li ng-repeat="doc in group.docs">
+            <a href="/documents/edit/{{ doc.id }}">{{ doc.title }}</a>
+          </li>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-4 admin-add-documents">
+      <div class="row">
+        <h2>Create Document</h2>
+        <form action="/documents/create" method="POST" id="create-document-form">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" name="title" class="form-control" placeholder="Document Title">
+          </div>
+          <div class="form-group">
+            <button class="btn">Create Document</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <h1>Documents</h1>
+      <p>Want to be a document sponsor? <a href="/documents/sponsor/request">Request to be an Independent Sponsor</a></p>
+    </div>
+</div>
