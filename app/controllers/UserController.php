@@ -179,6 +179,7 @@ class UserController extends BaseController{
 		}
 
 		$user->activeGroup = $user->activeGroup();
+		$user->admin = $user->hasRole('Admin');
 
 		return Response::json([
       'user'	=> $user->toArray()
