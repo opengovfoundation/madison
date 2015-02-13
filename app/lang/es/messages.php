@@ -136,7 +136,7 @@ return array(
 'anncommsuppopp' => 'Anota, Comenta, Apoya u Oponte!',
 'publicview' => 'Vista Pública',
 'docinfo' => 'Información del Documento',
-'cagegories' => 'Categorias',
+'categories' => 'Categorías',
 'introtext' => 'Intro Text',
 'existingdates' => 'Fechas Existentes',
 'update' => 'Actualizar',

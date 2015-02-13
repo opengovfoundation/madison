@@ -135,7 +135,7 @@ return array(
 'anncommsuppopp' => 'Annotate, Comment, Support or Oppose!',
 'publicview' => 'Public View',
 'docinfo' => 'Document Information',
-'cagegories' => 'Categories',
+'categories' => 'Categories',
 'introtext' => 'Intro Text',
 'existingdates' => 'Existing Dates',
 'update' => 'Update',
