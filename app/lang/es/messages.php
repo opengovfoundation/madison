@@ -169,4 +169,7 @@ return array(
 'sendpassreset' => 'Enviar correo para restablecer contraseña',
 'resendconfemail' => 'Reenviar correo de confirmación',
 'resendmyconfemail' => 'Reenviar mi correo de confirmación',
+'resetemailtitle' => 'Restablecimiento de contraseña para participa.gob.mx',
+'resetemailmessage' => 'Para restablecer tu contraseña, completa esta forma: ',
+'remindersent' => 'Se ha enviado un mensaje para el cambio de contraseña.'
 );

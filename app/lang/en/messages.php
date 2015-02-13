@@ -168,4 +168,7 @@ return array(
 'sendpassreset' => 'Send Password Reset',
 'resendconfemail' => 'Resend confirmation email',
 'resendmyconfemail' => 'Resend my confirmation email',
+'resetemailtitle' => 'Madison Password Reset',
+'resetemailmessage' => 'To reset your password, complete this form: ',
+'remindersent' => 'Password change message sent.'
 );
