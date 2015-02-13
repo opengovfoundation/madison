@@ -30,14 +30,14 @@ class RemindersController extends BaseController {
 	public function postRemind()
 	{
 		switch ($response = Password::remind(Input::only('email'), function($message){
-		    $message->subject('Madison Password Reset');
+		    $message->subject(trans('messages.resetemailtitle'));
 		})) {
 
 			case Password::INVALID_USER:
 				return Redirect::back()->with('error', Lang::get($response));
 
 			case Password::REMINDER_SENT:
-				return Redirect::back()->with('message', 'Password change message sent.');
+				return Redirect::back()->with('message', trans('messages.remindersent'));
 		}
 	}
 
@@ -132,12 +132,12 @@ class RemindersController extends BaseController {
 
 		//Send email to user for email account verification
 		Mail::queue('email.signup', array('token'=>$token), function ($message) use ($email, $fname) {
-    		$message->subject('Welcome to the Madison Community');
-    		$message->from('sayhello@opengovfoundation.org', 'Madison');
+    		$message->subject(trans('messages.confirmationtitle'));
+    		$message->from(trans('messages.emailfrom'), trans('messages.emailfromname'));
     		$message->to($email);
 		});
 			
-		return Redirect::to('user/login')->with('message', 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.');
+		return Redirect::to('user/login')->with('message', trans('messages.confirmationresent'));
 
 	}
 
