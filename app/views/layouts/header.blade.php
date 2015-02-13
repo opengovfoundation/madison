@@ -53,6 +53,7 @@
               <li class="link-logout"><a href="{{ URL::to('logout') }}" target="_self">{{ trans('messages.logout') }}</a></li>
             @else
               <li class="link-login"><a href="{{ URL::to('user/login') }}" target="_self">{{ trans('messages.login') }}</a></li>
+              <li class="link-signup"><a href="{{ URL::to('user/signup') }}" target="_self">{{ trans('messages.signup') }}</a></li>
             @endif
           </ul>
         </li>
