@@ -137,6 +137,7 @@ return array(
 'docinfo' => 'Document Information',
 'categories' => 'Categories',
 'introtext' => 'Intro Text',
+'markdownfriendly' => "Markdown Friendly.  Auto-saves 3 seconds after you're done editing.",
 'existingdates' => 'Existing Dates',
 'update' => 'Update',
 'shorturl' => 'Short Url',
