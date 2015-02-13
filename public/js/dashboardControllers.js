@@ -431,7 +431,7 @@ angular.module('madisonApp.dashboardControllers', [])
 
       $scope.setSelectOptions = function () {
         $scope.categoryOptions = {
-          placeholder: "Add document categories",
+          placeholder: "Agrega categorías del documento",
           multiple: true,
           simple_tags: true,
           tokenSeparators: [","],

@@ -67,7 +67,7 @@
 
     <div class="row">
       <div class="col-md-8">
-        <ul class="nav nav-tabs" role="tablist" tourtip="@{{ step_messages.step_3 }}" tourtip-step="3">
+        <ul class="nav nav-tabs" role="tablist" tourtip="@{{ step_messages.step_3 }}" tourtip-step="3" tourtip-next-label="Siguiente">
           <li ng-class="{'active':secondtab == false}"><a href="#tab-activity" target="_self" role="tab" data-toggle="tab">{{ trans('messages.bill') }}</a></li>
           <li ng-class="{'active':secondtab == true}"><a href="#tab-discussion" target="_self" role="tab" data-toggle="tab">{{ trans('messages.discussion') }}</a></li>
           <a href="{{ $doc->slug }}/feed" class="rss-link" target="_self"><img src="/img/rss-fade.png" class="rss-icon" alt="RSS Icon"></a>
@@ -75,8 +75,8 @@
 
         <div class="tab-content">
           <div id="tab-activity" ng-class="{'active':secondtab == false}" class="tab-pane">
-            <div id="content" class="@if(Auth::check())logged_in@endif" tourtip="@{{ step_messages.step_2 }}" tourtip-step="2">
-              <div id="doc_content" class="doc-content-main" tourtip="@{{ step_messages.step_4 }}" tourtip-step="4">
+            <div id="content" class="@if(Auth::check())logged_in@endif" tourtip="@{{ step_messages.step_2 }}" tourtip-step="2" tourtip-next-label="Siguiente">
+              <div id="doc_content" class="doc-content-main" tourtip="@{{ step_messages.step_4 }}" tourtip-step="4" tourtip-next-label="Finalizar">
                 {{ $doc->get_content('html') }}
               </div>
             </div>

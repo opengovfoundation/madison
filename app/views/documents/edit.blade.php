@@ -78,7 +78,7 @@
                   <div class="form-group">
                     <label for="intro-text">{{ trans('messages.introtext') }}:</label>
                     <textarea class="form-control" rows="10" ng-model="introtext" ng-change="updateIntroText(introtext)"></textarea>
-                    <small class="help-block">Markdown Friendly.  Auto-saves 3 seconds after you're done editing.</small>
+                    <small class="help-block">{{ trans('messages.markdownfriendly') }}</small>
                   </div>
                 </form>
               </div>
