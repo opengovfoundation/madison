@@ -1,5 +1,12 @@
 /*global user*/
 /*global doc*/
+
+var presentePlural = function(howMany) { return howMany == 1 ? '' : 'n'; };
+var howManySupport = function(howMany, doesSupport) {
+  var verb = doesSupport ? ' apoya' : ' se opone';
+  return howMany + verb + presentePlural(howMany);
+};
+
 angular.module('madisonApp.controllers', [])
   /**
   * Global controller, attached to the <body> tag
@@ -262,8 +269,8 @@ angular.module('madisonApp.controllers', [])
               }
 
               if ($scope.supported !== null && $scope.opposed !== null) {
-                $('#doc-support').text(data.supports + ' Support');
-                $('#doc-oppose').text(data.opposes + ' Oppose');
+                $('#doc-support').text(howManySupport(data.supports, true));
+                $('#doc-oppose').text(howManySupport(data.opposes, false));
               }
             }).error(function () {
               console.error("Unable to get support info for user %o and doc %o", $scope.user, $scope.doc);
@@ -293,11 +300,11 @@ angular.module('madisonApp.controllers', [])
               var otherButton = $($event.target).siblings('a.btn');
 
               if (button.hasClass('doc-support')) {
-                button.text(data.supports + ' Support');
-                otherButton.text(data.opposes + ' Oppose');
+                button.text(howManySupport(data.supports, true));
+                otherButton.text(howManySupport(data.opposes, false));
               } else {
-                button.text(data.opposes + ' Oppose');
-                otherButton.text(data.supports + ' Support');
+                button.text(howManySupport(data.opposes, false));
+                otherButton.text(howManySupport(data.supports, true));
               }
 
             })
