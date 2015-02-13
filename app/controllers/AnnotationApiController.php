@@ -108,7 +108,7 @@ class AnnotationApiController extends ApiController{
 				$comment->save();
 			}
 
-			$annotation->updateSearchIndex();
+			//$annotation->updateSearchIndex();
 
 			return $annotation->id;
 		});

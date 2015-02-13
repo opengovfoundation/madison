@@ -49,6 +49,9 @@ class Group extends Eloquent
 		return !empty($this->display_name) ? $this->display_name : !empty($this->name) ? $this->name : "";
 	}
 	
+	/**
+	*	@todo is this used?  Used to be used in $this->userHasRole, but the logic there has been changed.
+	*/
 	public function getRoleId($role)
 	{
 		$role = strtolower($role);
@@ -62,9 +65,9 @@ class Group extends Eloquent
 	
 	public function userHasRole($user, $role)
 	{
-		$roleId = $this->getRoleId($role);
+		$groupMember = GroupMember::where('group_id', '=', $this->id)->where('user_id', '=', $user->id)->first();
 		
-		return $user->hasRole($roleId);
+		return $groupMember->role === $role;
 	}
 	
 	static public function getRoles($forHtml = false)
@@ -193,8 +196,6 @@ class Group extends Eloquent
 					 ->orWhere('name', '=', "group_{$this->id}_editor")
 					 ->orWhere('name', '=', "group_{$this->id}_staff")
 					 ->get();
-		
-		var_dump($roles);
 		
 		foreach($roles as $role) {
 			

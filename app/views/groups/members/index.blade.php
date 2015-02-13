@@ -36,9 +36,10 @@
 		</div>
 	</div>
 	<script language="javascript">
-		$('#memberRoleSelect').change(function() {
-			var newRole = $('select option:selected').val();
-			var memberId = $('select').data('member-id');
+		$('.memberRoleSelect').change(function() {
+			
+			var newRole = $(this).val();
+			var memberId = $(this).data('member-id');
 
 			$.post('/groups/member/' + memberId + '/role', { role : newRole }, function(data) {
 

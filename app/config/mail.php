@@ -1,7 +1,7 @@
 <?php
 
-	if(file_exists(app_path() . '/config/smtp.yml')){
-		$smtp_config = yaml_parse_file(app_path() . '/config/smtp.yml');
+	if(file_exists(app_path() . '/config/smtp.php')){
+		require_once(app_path() . '/config/smtp.php');
 	}else{
 		//Laravel defaults
 		$smtp_config = array(
