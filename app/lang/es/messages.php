@@ -171,5 +171,13 @@ return array(
 'resendmyconfemail' => 'Reenviar mi correo de confirmación',
 'resetemailtitle' => 'Restablecimiento de contraseña para participa.gob.mx',
 'resetemailmessage' => 'Para restablecer tu contraseña, completa esta forma: ',
-'remindersent' => 'Se ha enviado un mensaje para el cambio de contraseña.'
+'remindersent' => 'Se ha enviado un mensaje para el cambio de contraseña.',
+'confirmationtitle' => 'Bienvenido a participa.gob.mx',
+'confirmationaction' => '¡Felicidades! Haz clic en el siguiente enlace para verificar tu cuenta: ',
+'confirmationlink' => 'enlace de confirmación',
+'whatcanverifiedaccountsdo' => "<p>Una vez verificada tu cuenta, podrás: </p><ol><li>Encontrar documentos al navegar la lista completa o filtrar por publicante, status, o categoría</li><li>Sumar tu voz al apoyar o oponerte a un documento, dejar comentarios, o anotar en secciones específicas del trabajo en progreso.</li></ol><p>Cuando comentas o dejas una anotación a un documento, el publicante será notificado. Tus interacciones en la plataforma permitirán mantener informados a los publicantes en cómo los ciudadanos se sienten sobre el trabajo propuesto; inclusive podrán decidir si incorporan las ediciones sugeridas directo en los documentos.</p>",
+'confirmationcontact' => '<p>Si tienes dudas, comentarios o sugerencias escríbenos a <a href="mailto:hola@datos.gob.mx">hola@datos.gob.mx</a></p>',
+'emailfrom' => 'hola@datos.gob.mx',
+'emailfromname' => 'México Abierto',
+'confirmationresent' => 'Un email ha sido enviado a tu correo electrónico. Por favor, sigue las instrucciones en el correo para confirmar tu cuenta antes de ingresar.'
 );

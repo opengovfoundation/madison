@@ -420,12 +420,12 @@ class UserController extends BaseController{
 			
 		//Send email to user for email account verification
 		Mail::queue('email.signup', array('token'=>$token), function ($message) use ($email, $fname) {
-			$message->subject('Welcome to the Madison Community');
-			$message->from('sayhello@opengovfoundation.org', 'Madison');
+      $message->subject(trans('messages.confirmationtitle'));
+			$message->from(trans('messages.emailfrom'), trans('messages.emailfromname'));
 			$message->to($email); // Recipient address
 		});
 
-		return Redirect::to('user/login')->with('message', 'Un email ha sido enviado a su dirección de correo electrónico. Por favor, siga las instrucciones en el correo electrónico para confirmar tu dirección de email antes de ingresar.');
+		return Redirect::to('user/login')->with('message', trans('messages.confirmationresent'));
 	}
 
 	/**

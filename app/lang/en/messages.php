@@ -170,5 +170,13 @@ return array(
 'resendmyconfemail' => 'Resend my confirmation email',
 'resetemailtitle' => 'Madison Password Reset',
 'resetemailmessage' => 'To reset your password, complete this form: ',
-'remindersent' => 'Password change message sent.'
+'remindersent' => 'Password change message sent.',
+'confirmationtitle' => 'Welcome to the Madison Community',
+'confirmationaction' => 'Congratulations! Click the following link to verify your account: ',
+'confirmationlink' => 'confirmation link',
+'whatcanverifiedaccountsdo' => "<p>After verifying your account, you can: </p><ol><li>Find a document by browsing through the full list or filtering by sponsor, status, or category</li><li>Add your voice by supporting or opposing a document, making general comments, or annotating specific sections of the work in progress.</li></ol><p>When you comment on or annotate a document the bill's sponsor will be notified.  Your interaction with legislation on Madison will keep sponsors informed on how their constituents feel about their work; they may also choose to incorporate suggested edits straight into their documents.</p>",
+'confirmationcontact' => '<p>You can also check us out on <a href="https://www.facebook.com/opengovfoundation">Facebook</a>, <a href="https://twitter.com/foundopengov">Twitter</a>, <a href="http://opengovfoundation.tumblr.com">Tumblr</a>, and <a href="http://www.linkedin.com/company/opengov-foundation">LinkedIn</a></p>',
+'emailfrom' => 'sayhello@opengovfoundation.org',
+'emailfromname' => 'Madison',
+'confirmationresent' => 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.'
 );
