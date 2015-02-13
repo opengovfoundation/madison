@@ -100,7 +100,7 @@
               <li>{{ trans('messages.signupnaddvoice') }}</li>
               <li>{{ trans('messages.anncommsuppopp') }}</li>
             </ol>
-            <img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
+            <img src="/img/como-comentar.gif" class="how-to-annotate-img img-responsive" />
           </div>
           
           <div class="sidebar-unit" ng-controller="DocumentTocController" ng-show="headings.length > 0">
