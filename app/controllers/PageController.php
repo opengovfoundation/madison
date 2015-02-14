@@ -11,7 +11,7 @@ class PageController extends BaseController
 	{
 		$data = array(
 			'page_id'		=> 'home',
-			'page_title'	=> 'Madison Home',
+			'page_title'	=> 'gob.mx/participa',
 		);
 
 		return View::make('page.index', $data);
@@ -24,7 +24,7 @@ class PageController extends BaseController
 	{
 		$data = array(
 			'page_id'		=> 'about',
-			'page_title'	=> 'About the Madison Platform',
+			'page_title'	=> 'gob.mx/participa - Acerca de',
 		);
 
 		return View::make('page.index', $data);
@@ -37,7 +37,7 @@ class PageController extends BaseController
 	{
 		$data = array(
 			'page_id'		=> 'faq',
-			'page_title'	=> 'Frequently Asked Questions',
+			'page_title'	=> 'gob.mx/participa - Pregunstas Frecuentes',
 		);
 
 		return View::make('page.index', $data);
@@ -46,7 +46,7 @@ class PageController extends BaseController
 	public function privacyPolicy(){
 		$data = array(
 			'page_id'	=> 'privacy',
-			'page_title'	=> 'Privacy Policy'
+			'page_title'	=> 'gob.mx/participa - Privacidad'
 		);
 
 		return View::make('page.index', $data);
@@ -55,7 +55,7 @@ class PageController extends BaseController
 	public function terms(){
 		$data = array(
 			'page_id'	=> 'terms',
-			'page_title'	=> 'Terms and Conditions'
+			'page_title'	=> 'gob.mx/participa - Términos y condiciones'
 		);
 
 		return View::make('page.index', $data);
@@ -64,7 +64,7 @@ class PageController extends BaseController
 	public function copyright(){
 		$data = array(
 			'page_id' => 'copyright',
-			'page_title' => 'Copyright Policy'
+			'page_title' => 'gob.mx/participa - Licencia'
 		);
 
 		return View::make('page.index', $data);

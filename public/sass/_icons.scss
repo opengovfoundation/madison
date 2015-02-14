@@ -1,0 +1,10 @@
+.i {
+  background-image: url('/img/mx-pack.png');
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  display: inline-block;
+  text-indent: -999em;
+  
+  &.gob-mx-logo { width: 58px; height: 21px; background-position: 0 0; }
+  &.participa-logo { width: 205px; height: 26px; background-position: -59px 0; }
+}

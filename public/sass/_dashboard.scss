@@ -3,50 +3,54 @@
 **/
 
 .select2-full-width{
-    .select2-container{
-        width:100%;
-    }
+  .select2-container{
+    width:100%;
+  }
 }
 
 .form-group.no-bottom-margin{
-    margin-bottom:0;
+  margin-bottom:0;
 }
 
 ol.breadcrumb{
 
-    a{
-        color:darkgray;
+  a{
+    color:darkgray;
 
-        &:hover{
-            color:#666;
-        }
+    &:hover{
+      color:#666;
     }
+  }
 
-    li.active{
-        color:#666;
-    }
+  li.active{
+    color:#666;
+  }
 }
 
 /**
 *   Document Edit Page
 **/
 .existing-date{
-    margin-top:10px;
-    .form-group{
-        .date-label, .close{
-            display:inline-block;
-        }
+  margin-top:10px;
+  .form-group{
+    .date-label, .close{
+      display:inline-block;
     }
+  }
+}
+
+.mt {
+  margin-top: 20px;
 }
 
 .new-date{
-    margin-top:20px;
-    border-radius:10px;
-    background:#f1f1f2;
+  padding: 20px;
+  border-radius:10px;
+  background:#f1f1f2;
 
-    .datetimepicker{
-        table{
-            width:100%;
-        }
+  .datetimepicker{
+    table{
+      width:100%;
     }
+  }
 }

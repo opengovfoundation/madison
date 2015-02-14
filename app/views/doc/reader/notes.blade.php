@@ -1,4 +1,4 @@
-<h3 class="rightbar-header">Notes</h3>
+<h3 class="rightbar-header">{{ trans('messages.note') }}s</h3>
 <div class="sidebar-annotation-wrapper">
 	<div class="sidebar-annotation col-md-12" ng-repeat="annotation in annotations">
 		<blockquote>

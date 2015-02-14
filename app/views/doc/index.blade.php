@@ -1,7 +1,7 @@
 @extends('layouts/main')
 @section('content')
 	<div class="content col-md-12 docs">
-		<h1>All Documents</h1>
+		<h1>{{ trans('messages.alldocs') }}</h1>
 		<ul>
 			@foreach( $docs as $doc )
 				<li>

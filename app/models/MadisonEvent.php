@@ -30,15 +30,15 @@ class MadisonEvent
 	*/
 	static function validAdminNotifications() {
 		return array(
-			static::DOC_COMMENT_COMMENTED => "When a comment is made on a comment",
-			static::DOC_COMMENTED => "When a document is commented on",
-			static::DOC_ANNOTATED => "When a document is annotated",
-			static::DOC_EDITED => "When a document is edited",
-			static::NEW_DOCUMENT => "When a new document is created",
-			static::NEW_USER_SIGNUP => "When a new user signs up",
-			static::VERIFY_REQUEST_ADMIN => "When a new admin verification is requested",
-			static::VERIFY_REQUEST_GROUP => "When a new group verification is requested",
-			static::VERIFY_REQUEST_USER => "When a new independent author verification is requested"
+			static::DOC_COMMENT_COMMENTED => Lang::get('messages.commentoncomment'),
+			static::DOC_COMMENTED => Lang::get('messages.commentondocument'),
+			static::DOC_ANNOTATED => Lang::get('messages.commentondocannotated'),
+			static::DOC_EDITED => Lang::get('messages.documentedited'),
+			static::NEW_DOCUMENT => Lang::get('messages.newdoccreated'),
+			static::NEW_USER_SIGNUP => Lang::get('messages.newusersignsup'),
+			static::VERIFY_REQUEST_ADMIN => Lang::get('messages.newadminverifreq'),
+			static::VERIFY_REQUEST_GROUP => Lang::get('messages.newgroupverifreq'),
+			static::VERIFY_REQUEST_USER => Lang::get('messages.newindieverifreq')
 		);
 	}
 
@@ -50,10 +50,10 @@ class MadisonEvent
 	*/
 	static function validUserNotifications() {
 		return array(
-			static::NEW_GROUP_DOCUMENT => "When a group a user belongs to posts a new document",
+			static::NEW_GROUP_DOCUMENT => Lang::get('messages.newgroupdoc'),
 			//static::NEW_DOC_VERSION => "When a new version of a document is posted that a user has interacted with",
-			static::NEW_ACTIVITY_VOTE => "When an upvote / downvote is made on a user's post",
-			static::NEW_ACTIVITY_COMMENT => "When a comment is posted on a user's activity"
+			static::NEW_ACTIVITY_VOTE => Lang::get('messages.votepost'),
+			static::NEW_ACTIVITY_COMMENT => Lang::get('messages.commentactivity')
 		);
 	}
 

@@ -27,38 +27,25 @@
 		<![endif]-->
 		@include('layouts.socials')
 		@include('layouts.assets')
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <script src="/bower_components/angular-i18n/angular-locale_es-mx.js"></script>
 	</head>
 	<body>
+    <div class="alert alert-info">Ésta es una plataforma de prueba. La información en este sitio no refleja una postura o información oficial.</div>
 		<!--[if lt IE 8]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
 		<tour step="currentStep" post-tour="tourComplete()" post-step="stepComplete()">
 			<div growl></div>
-			<div id="wrap">
-				<div id="header-main" class="navbar" role="navigation">
-					<div class="container">
-					@include('layouts.header')
-					</div>
-				</div>
-				<div class="row">
-					<div profile-completion-message></div>
-				</div>
-				<div class="row">
-					<div class="container alerts">
-						@include('errors')
-						@include('message')
-						@include('success')
-					</div>
-				</div>
-				<div id="main" class="">
-					<div class="container">
-						@yield('content')
-					</div>
-				</div>
-			</div>
-			<div id="footer" class="footer">
-				@include('layouts.footer')
-			</div>
+			@include('layouts.header')
+			@include('errors')
+			@include('message')
+			@include('success')
+			<div profile-completion-message></div>
+			<main>
+				@yield('content')
+			</main>
+			@include('layouts.footer')
 		</tour>
 	</body>
 </html>

@@ -1,7 +1,4 @@
 .rightbar{
-    @include border-radius(5px);
-    padding:5px 30px;
-    @include bg($light-gray);
     > .row:last-child{
         border-bottom:none;
         margin-bottom:20px;
@@ -14,7 +11,12 @@
 
     h3{
         padding-bottom:10px;
-        border-bottom: 1px solid lightgrey;
+    }
+
+    .participate-activity-title {
+      font-weight: bold;
+      padding: 4px 0 16px 0;
+      text-transform: uppercase;
     }
 
     .rounded-bottom{
@@ -49,17 +51,19 @@
     }
 
     .activity-item{
-        padding-bottom:16px;
-        margin-bottom: 10px;
-        border-bottom:1px solid lightgrey;
+        padding-bottom: 16px;
+        padding-top: 16px;
         @include transition(opacity, .5s);
+
         .activity-author{
             font-weight: bold;
         }
         .activity-content{
-            margin-bottom: 5px;
-            padding-top: 5px;
+            margin-bottom: 10px;
             word-wrap: break-word;
+        }
+        .activity-actions {
+          text-align: right;
         }
         .activity-actions, .activity-replies-indicator{
             cursor:pointer;
@@ -68,14 +72,6 @@
             }
         }
         .activity-replies-indicator{
-            &.activity-replies-indicator-inactive{
-                color: #888;
-                .glyphicon{
-                    color: #888;
-                }
-            }
-
-
             color: $blue-grad-start;
 
             .glyphicon{
@@ -89,12 +85,11 @@
             }
         }
         .glyphicon{
-            color: #888;
+            color: $mx-blue;
         }
         .activity-replies{
             .activity-reply{
                 margin-top: 12px;
-                padding-left: 33px;
                 //padding-bottom: 6px;
                 //border-bottom: 1px solid #ccc;
                 .reply-author{
@@ -109,8 +104,15 @@
 
             }
         }
+        .activity-replies-indicator {
+        }
         .sponsor-seen, .user-seen{
             margin-top:10px;
         }
     }
+}
+
+
+.sidebar-unit {
+    margin-bottom: 65px;
 }

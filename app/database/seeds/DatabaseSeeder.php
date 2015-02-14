@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder {
 
 		$this->call('UsersTableSeeder');
 		$this->call('RbacSeeder');
+		$this->call('GroupsTableSeeder');
+		$this->call('DocumentsTableSeeder');
 		if (App::environment() === 'testing') {
 			$this->call('TestSeeder');
 		}

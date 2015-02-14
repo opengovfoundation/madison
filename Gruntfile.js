@@ -73,6 +73,7 @@ module.exports = function (grunt) {
             'public/bower_components/angular-tour/dist/angular-tour.min.js',
             'public/bower_components/angular-tour/dist/angular-tour-tpls.min.js',
             'public/bower_components/angular-cookie/angular-cookie.min.js',
+            'public/bower_components/angular-translate/angular-translate.min.js',
 
             //Datetimepicker and dependencies
             'public/vendor/datetimepicker/datetimepicker.js',
@@ -111,8 +112,6 @@ module.exports = function (grunt) {
             'public/vendor/pagedown/assets/demo.css',
             'public/vendor/datetimepicker/datetimepicker.css',
             'public/vendor/jquery/jquery-ui-smoothness.css',
-            'public/vendor/bootstrap/css/bootstrap.min.css',
-            'public/vendor/bootstrap/css/bootstrap-theme.min.css',
             'public/vendor/select2/select2.css',
             'public/vendor/annotator/annotator.min.css',
             'public/css/style.css',

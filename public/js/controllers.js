@@ -1,5 +1,12 @@
 /*global user*/
 /*global doc*/
+
+var presentePlural = function(howMany) { return howMany == 1 ? '' : 'n'; };
+var howManySupport = function(howMany, doesSupport) {
+  var verb = doesSupport ? ' apoya' : ' se opone';
+  return howMany + verb + presentePlural(howMany);
+};
+
 angular.module('madisonApp.controllers', [])
   /**
   * Global controller, attached to the <body> tag
@@ -23,11 +30,11 @@ angular.module('madisonApp.controllers', [])
 
       //Set up Angular Tour
       $scope.step_messages = {
-        step_0: 'Welcome to Madison!  Help create better policy in your community.  Click Next to continue.',
-        step_1: 'Getting Started:  Choose a policy document.  You can browse, or filter by title, category, sponsor, or status. Go ahead, choose one!',
-        step_2: 'Next, dive in! Scroll or use the Table of Contents to get to the good stuff.',
-        step_3: 'Share ideas and questions with the document sponsor and other users in the Discussion tab.',
-        step_4: 'Suggest specific changes to the text.  Just highlight part of the document and add your thoughts!'
+        step_0: '¡Bienvenido! Participa de manera dinámica y abierta en la mejora de políticas públicas de nuestro país.',
+        step_1: 'Comienza aquí:  Elige un documento.  Puedes navegar o filtrar por título, categoría, autor o estatus. ¡Elige uno que te interese!',
+        step_2: '¡Adéntrate en Participa.gob.mx! Explora el documento o utiliza la tabla de contenido para llegar a lo bueno.',
+        step_3: 'Comparte ideas, comentarios o preguntas con el autor y otros usuarios en el Foro.',
+        step_4: 'Sugiere cambios específicos al texto. Sólo selecciona un fragmento del documento y agrega tus sugerencias.'
       };
 
       $scope.currentStep = ipCookie('myTour') || 0;
@@ -90,12 +97,12 @@ angular.module('madisonApp.controllers', [])
       $scope.select2Config = {
         multiple: true,
         allowClear: true,
-        placeholder: "Filter documents by category, sponsor, or status"
+        placeholder: "Categoría, autor o estatus"
       };
 
       $scope.dateSortConfig = {
         allowClear: true,
-        placeholder: "Sort By Date"
+        placeholder: "Fecha"
       };
 
       $scope.parseDocs = function (docs) {
@@ -230,6 +237,12 @@ angular.module('madisonApp.controllers', [])
         $scope.doc = doc;
         $scope.setSponsor();
         $scope.getSupported();
+
+        // Dates do not arrive in proper ISO 8601 format, e.g. 2015-01-14 03:27:04
+        // But by adding the T we get timezone +00:00, same as in the HomeController
+        // Then we parse it to get "seconds since epoch" which is needed by the date filter
+        $scope.doc.created_at = Date.parse($scope.doc.created_at.replace(' ', 'T'));
+        $scope.doc.updated_at = Date.parse($scope.doc.updated_at.replace(' ', 'T'));
       };
 
       $scope.setSponsor = function () {
@@ -262,8 +275,8 @@ angular.module('madisonApp.controllers', [])
               }
 
               if ($scope.supported !== null && $scope.opposed !== null) {
-                $('#doc-support').text(data.supports + ' Support');
-                $('#doc-oppose').text(data.opposes + ' Oppose');
+                $('#doc-support').text(howManySupport(data.supports, true));
+                $('#doc-oppose').text(howManySupport(data.opposes, false));
               }
             }).error(function () {
               console.error("Unable to get support info for user %o and doc %o", $scope.user, $scope.doc);
@@ -293,11 +306,11 @@ angular.module('madisonApp.controllers', [])
               var otherButton = $($event.target).siblings('a.btn');
 
               if (button.hasClass('doc-support')) {
-                button.text(data.supports + ' Support');
-                otherButton.text(data.opposes + ' Oppose');
+                button.text(howManySupport(data.supports, true));
+                otherButton.text(howManySupport(data.opposes, false));
               } else {
-                button.text(data.opposes + ' Oppose');
-                otherButton.text(data.supports + ' Support');
+                button.text(howManySupport(data.opposes, false));
+                otherButton.text(howManySupport(data.supports, true));
               }
 
             })

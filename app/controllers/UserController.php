@@ -17,7 +17,7 @@ class UserController extends BaseController{
 	*/
 	public function putNotifications(User $user){
 		if(Auth::user()->id !== $user->id){
-			return Response::json($this->growlMessage("You do not have permissions to edit this user's notification settings", "error"));
+			return Response::json($this->growlMessage("No tienes permisos para editar la configuración de notificaciones de este usuario", "error"));
 		}
 
 		//Grab notification array
@@ -32,7 +32,7 @@ class UserController extends BaseController{
 
 			//Ensure this is a known user event.
 			if(!in_array($notification['event'], $events)){
-				return Response::json($this->growlMessage("Unable to save settings.  Unknown event: " . $notification['event'], "error"));
+				return Response::json($this->growlMessage("No ha sido posible guardar ajustes.  Evento desconocido: " . $notification['event'], "error"));
 			}			
 
 			//Grab this notification from the database
@@ -57,7 +57,7 @@ class UserController extends BaseController{
 			}
 		}
 
-		return Response::json($this->growlMessage("Settings saved successfully.", "success"));
+		return Response::json($this->growlMessage("Configuraciones guardadas con éxito.", "success"));
 	}
 
 	/**
@@ -69,7 +69,7 @@ class UserController extends BaseController{
 	*/
 	public function getNotifications(User $user){
 		if(Auth::user()->id !== $user->id){
-			return Response::json($this->growlMessage("You do not have permission to view this user's notification settings", "error"), 401);
+			return Response::json($this->growlMessage("No tienes permisos para ver la configuración de notificaciones de este usuario", "error"), 401);
 		}
 
 		//Retrieve all valid user notifications as associative array (event => description)
@@ -123,14 +123,14 @@ class UserController extends BaseController{
 
 		//Check authorization
 		if(Auth::user()->id !== $user->id){
-			return Response::json($this->growlMessage("You are not authorized to change that user's email", "error"));
+			return Response::json($this->growlMessage("No estás autorizado a cambiar el email del usuario", "error"));
 		}
 
 		$user->email = Input::get('email');
 		$user->password = Input::get('password');
 		
 		if($user->save()){
-			return Response::json($this->growlMessage("Email saved successfully.  Thank you.", 'success'), 200);	
+			return Response::json($this->growlMessage("Email guardado exitosamente.  Gracias.", 'success'), 200);	
 		} else {
 			$errors = $user->getErrors();
 			$messages = array();
@@ -191,9 +191,9 @@ class UserController extends BaseController{
 	*/
 	public function getEdit(User $user){
 		if(!Auth::check()){
-			return Redirect::to('user/login')->with('error', 'Please log in to edit user profile');
+			return Redirect::to('user/login')->with('error', 'Por favor ingresa para editar el perfil de usario');
 		}else if(Auth::user()->id != $user->id){
-			return Redirect::back()->with('error', 'You do not have access to that profile.');
+			return Redirect::back()->with('error', 'No tienes acceso a ese perfil.');
 		}else if($user == null){
 			return Response::error('404');
 		}
@@ -218,16 +218,16 @@ class UserController extends BaseController{
 	*/
 	public function putEdit(User $user){
 		if(!Auth::check()){
-			return Redirect::to('user/login')->with('error', 'Please log in to edit user profile');
+			return Redirect::to('user/login')->with('error', 'Por favor ingresa para editar el perfil de usario');
 		}else if(Auth::user()->id != $user->id){
-			return Redirect::back()->with('error', 'You do not have access to that profile.');
+			return Redirect::back()->with('error', 'No tienes acceso a ese perfil.');
 		}else if($user == null){
 			return Response::error('404');
 		}
 
 		if(strlen(Input::get('password_1')) > 0 || strlen(Input::get('password_2')) > 0){
 			if(Input::get('password_1') !== Input::get('password_2')){
-				return Redirect::to('user/edit/' . $user->id)->with('error', 'The passwords you\'ve entered do not match.');
+				return Redirect::to('user/edit/' . $user->id)->with('error', 'Las contraseñas que has ingresado no coinciden.');
 			}
 			else{
 				$user->password = Input::get('password_1');
@@ -259,10 +259,10 @@ class UserController extends BaseController{
 
 			Event::fire(MadisonEvent::VERIFY_REQUEST_USER, $user);
 			
-			return Redirect::back()->with('success_message', 'Your profile has been updated')->with('message', 'Your verified status has been requested.');
+			return Redirect::back()->with('success_message', 'Tu perfil ha sido actualizado')->with('message', 'Se ha solicitado su estado de verificación.');
 		}
 
-		return Redirect::back()->with('success_message', 'Your profile has been updated.');
+		return Redirect::back()->with('success_message', 'Tu perfil ha sido actualizado.');
 	}
 
 	/**
@@ -344,12 +344,12 @@ class UserController extends BaseController{
 		$user = User::where('email', $email)->first();
 
 		if(!isset($user)){
-			return Redirect::to('user/login')->with('error', 'That email does not exist.');
+			return Redirect::to('user/login')->with('error', 'Ese email no existe.');
 		}
 
 		//If the user's token field isn't blank, he/she hasn't confirmed their account via email
 		if($user->token != ''){
-			return Redirect::to('user/login')->with('error', 'Please click the link sent to your email to verify your account.');
+			return Redirect::to('user/login')->with('error', 'Por favor, haz click en el enlace enviado a tu email para verificar la cuenta.');
 		}
 
 		//Attempt to log user in
@@ -359,13 +359,13 @@ class UserController extends BaseController{
 			Auth::user()->last_login = new DateTime;
 			Auth::user()->save();
 			if(isset($previous_page)){
-				return Redirect::to($previous_page)->with('message', 'You have been successfully logged in.');
+				return Redirect::to($previous_page)->with('message', 'Has ingresado exitosamente.');
 			}else{
-				return Redirect::to('/docs/')->with('message', 'You have been successfully logged in.');
+				return Redirect::to('/docs/')->with('message', 'Has ingresado exitosamente.');
 			}
 		}
 		else{
-			return Redirect::to('user/login')->with('error', 'Incorrect login credentials')->withInput(array('previous_page' => $previous_page));
+			return Redirect::to('user/login')->with('error', 'Datos incorrectos')->withInput(array('previous_page' => $previous_page));
 		}
 	}
 
@@ -420,12 +420,12 @@ class UserController extends BaseController{
 			
 		//Send email to user for email account verification
 		Mail::queue('email.signup', array('token'=>$token), function ($message) use ($email, $fname) {
-			$message->subject('Welcome to the Madison Community');
-			$message->from('sayhello@opengovfoundation.org', 'Madison');
+      $message->subject(trans('messages.confirmationtitle'));
+			$message->from(trans('messages.emailfrom'), trans('messages.emailfromname'));
 			$message->to($email); // Recipient address
 		});
 
-		return Redirect::to('user/login')->with('message', 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.');
+		return Redirect::to('user/login')->with('message', trans('messages.confirmationresent'));
 	}
 
 	/**
@@ -446,9 +446,9 @@ class UserController extends BaseController{
 
 			Auth::login($user);
 
-			return Redirect::to('/')->with('success_message', 'Your email has been verified and you have been logged in.  Welcome ' . $user->fname);
+			return Redirect::to('/')->with('success_message', 'Tu email ha sido verificado y ahora estás conectado.  Bienvenida/o ' . $user->fname);
 		}else{
-			return Redirect::to('user/login')->with('error', 'The verification link is invalid.');
+			return Redirect::to('user/login')->with('error', 'El enlace de verificación no es válido.');
 		}
 
 	}
@@ -631,7 +631,7 @@ class UserController extends BaseController{
 				if(isset($existing_user)){
 					Auth::login($existing_user);
 
-					return Redirect::to('/')->with('success_message', 'Logged in with email address ' . $existing_user->email);
+					return Redirect::to('/')->with('success_message', 'Conectado con dirección de email ' . $existing_user->email);
 				}
 			}
 
@@ -663,15 +663,15 @@ class UserController extends BaseController{
 		if($user instanceof User){
 			Auth::login($user);	
 		}else{
-			Log::error('Trying to authenticate user of incorrect type', $user->toArray());
+			Log::error('Tratando de autenticar usuario de tipo incorrecto', $user->toArray());
 		}
 		
 
 		if(isset($new_user)){
-			$message = 'Welcome ' . $user->fname;
+			$message = 'Bienvenido ' . $user->fname;
 		}
 		else{
-			$message = 'Welcome back, ' . $user->fname;
+			$message = 'Benvenido de nuevo, ' . $user->fname;
 		}
 
 		return Redirect::to('/')->with('success_message', $message);

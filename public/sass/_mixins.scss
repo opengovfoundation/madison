@@ -9,6 +9,15 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$start', endColorstr='$end',GradientType=0 ); /* IE6-9 */
 }
 
+@mixin btn-3d($bg_color, $border_color) {
+  background-color: $bg_color;
+  border-radius: 0;
+  box-shadow: 0 0 0 1px $bg_color inset, 0 0 0 2px rgba(255, 255, 255,
+  0.15) inset, 0 8px 0 1px rgba(0, 0, 0, 0.2), 0 8px 0 0 $border_color;
+  padding: 20px 60px;
+  text-align: center;
+}
+
 @mixin bg($hex){
 	background-color:$hex;
 }

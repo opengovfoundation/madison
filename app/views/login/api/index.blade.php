@@ -16,11 +16,11 @@
 		</div>
 		<!-- Password -->
 		<div class="form-group">
-			{{ Form::label('password', 'Password') . Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control')) }}
+			{{ Form::label('password', Lang::get('messages.password')) . Form::password('password', array('placeholder'=>Lang::get('messages.password'), 'class'=>'form-control')) }}
 		</div>
 		<!-- Submit -->
-		{{ Form::submit('Login', array('class'=>'btn btn-default')) }}
-		<a class="forgot-password" href="{{ URL::to('password/remind') }}">Forgot your password?</a>
+		{{ Form::submit(Lang::get('messages.login'), array('class'=>'btn btn-default')) }}
+		<a class="forgot-password" href="{{ URL::to('password/remind') }}">{{ trans('messages.forgotpassword') }}</a>
 		{{ Form::token() . Form::close() }}
 	</div>
 </div>
@@ -28,21 +28,21 @@
 	<div class="col-md-12 social-login-wrapper">
 	  <div class="row">
 	    <div class="col-md-12">
-	      <a href="/user/facebook-login" class="btn btn-default social-login-btn facebook-login-btn">
+	      <a href="/user/facebook-login" class="btn social-login-btn facebook-login-btn">
 	        <img src="/img/icon-facebook.png" alt="facebook icon" />
-	        Log in with Facebook
+	        {{ trans('messages.loginwith') }} Facebook
 	      </a>
 	    </div> 
 	    <div class="col-md-12">
-	      <a href="/user/twitter-login" class="btn btn-default social-login-btn twitter-login-btn">
+	      <a href="/user/twitter-login" class="btn social-login-btn twitter-login-btn">
 	        <img src="/img/icon-twitter.png" alt="twitter icon" />
-	        Log in with Twitter
+	        {{ trans('messages.loginwith') }} Twitter
 	      </a>
 	    </div>
 	    <div class="col-md-12">
-	      <a href="/user/linkedin-login" class="btn btn-default social-login-btn linkedin-login-btn">
+	      <a href="/user/linkedin-login" class="btn social-login-btn linkedin-login-btn">
 	        <img src="/img/icon-linkedin.png" alt="linkedin icon" />
-	        Log in with LinkedIn
+	        {{ trans('messages.loginwith') }} LinkedIn
 	      </a>
 	    </div>
 	  </div>
