@@ -237,6 +237,12 @@ angular.module('madisonApp.controllers', [])
         $scope.doc = doc;
         $scope.setSponsor();
         $scope.getSupported();
+
+        // Dates do not arrive in proper ISO 8601 format, e.g. 2015-01-14 03:27:04
+        // But by adding the T we get timezone +00:00, same as in the HomeController
+        // Then we parse it to get "seconds since epoch" which is needed by the date filter
+        $scope.doc.created_at = Date.parse($scope.doc.created_at.replace(' ', 'T'));
+        $scope.doc.updated_at = Date.parse($scope.doc.updated_at.replace(' ', 'T'));
       };
 
       $scope.setSponsor = function () {
