@@ -42,10 +42,10 @@
           <h1>{{ $doc->title }}</h1>
           <ul class="list-unstyled">
             <li>
-              <small>@{{ 'POSTED' | translate }}: @{{ doc.created_at }}</small>
+              <small>@{{ 'POSTED' | translate }}: @{{ doc.created_at | date: 'longDate' }}, @{{ doc.created_at | date: 'HH:mm:ss' }}</small>
             </li>
             <li>
-              <small>@{{ 'UPDATED' | translate }}: @{{ doc.updated_at }}</small>
+              <small>@{{ 'UPDATED' | translate }}: @{{ doc.updated_at | date: 'longDate' }}, @{{ doc.updated_at | date: 'HH:mm:ss' }}</small>
             </li>
           </ul>
           <div class="doc-extract" ng-if="introtext">
