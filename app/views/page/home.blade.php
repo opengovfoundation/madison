@@ -1,7 +1,7 @@
 <div class="main-banner">
   <div class="container">
-    <h1><strong>participa<span class="red">.</span>gob<span class="red">.</span>mx</strong></h1>
-    <p class="text-sub">Una plataforma que permite a la ciudadanía participar <br>de manera dinámica, abierta y orientada a la discusión.</p>
+    <h1><strong>gob<span class="red">.</span>mx/participa</strong></h1>
+    <p class="text-sub">Una plataforma de participación ciudadana, que te permite a través de foros, encuestas y ejercicios de co-edición crear mejores propuestas de política pública en México.</p>
     <p  class="text-sub-2"><strong>participa.gob.mx</strong> cuenta con tres herramientas <br>de participación: <strong>Encuesta</strong> + <strong>Foro</strong> + <strong>Co-Edición</strong></p>
   </div>
 </div>

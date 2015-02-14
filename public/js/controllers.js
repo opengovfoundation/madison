@@ -30,7 +30,7 @@ angular.module('madisonApp.controllers', [])
 
       //Set up Angular Tour
       $scope.step_messages = {
-        step_0: '¡Bienvenido a Participa.gob.mx!  Ayuda a crear mejores propuestas de política pública en México.  Haz click en siguiente para continuar.',
+        step_0: '¡Bienvenido! Participa de manera dinámica y abierta en la mejora de políticas públicas de nuestro país.',
         step_1: 'Comienza aquí:  Elige un documento.  Puedes navegar o filtrar por título, categoría, autor o estatus. ¡Elige uno que te interese!',
         step_2: '¡Adéntrate en Participa.gob.mx! Explora el documento o utiliza la tabla de contenido para llegar a lo bueno.',
         step_3: 'Comparte ideas, comentarios o preguntas con el autor y otros usuarios en el Foro.',
@@ -97,12 +97,12 @@ angular.module('madisonApp.controllers', [])
       $scope.select2Config = {
         multiple: true,
         allowClear: true,
-        placeholder: "Filtra documentos por categoría, autor o estatus"
+        placeholder: "Categoría, autor o estatus"
       };
 
       $scope.dateSortConfig = {
         allowClear: true,
-        placeholder: "Filtra por fecha"
+        placeholder: "Fecha"
       };
 
       $scope.parseDocs = function (docs) {
