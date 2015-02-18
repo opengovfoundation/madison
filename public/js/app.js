@@ -1,28 +1,30 @@
 /*global window*/
+/*global history*/
 window.jQuery = window.$;
 
 var imports = [
-    'madisonApp.filters',
-    'madisonApp.services',
-    'madisonApp.resources',
-    'madisonApp.directives',
-    'madisonApp.controllers',
-    'ui',
-    'ui.router',
-    'ui.bootstrap',
-    'ui.bootstrap.datetimepicker',
-    'ngAnimate',
-    'ngSanitize',
-    'angular-growl',
-    'ngResource',
-    'angular-tour',
-    'ipCookie'
-  ];
+  'madisonApp.constants',
+  'madisonApp.filters',
+  'madisonApp.services',
+  'madisonApp.resources',
+  'madisonApp.directives',
+  'madisonApp.controllers',
+  'ui',
+  'ui.router',
+  'ui.bootstrap',
+  'ui.bootstrap.datetimepicker',
+  'ngAnimate',
+  'ngSanitize',
+  'angular-growl',
+  'ngResource',
+  'angular-tour',
+  'ipCookie'
+];
 
 try {
   var app = angular.module('madisonApp', imports);
 } catch (err) {
-  console.log(err);
+  console.log('Caught Error: ' + err);
 }
 
 if (!history.pushState) {
@@ -212,6 +214,10 @@ app.config(['$locationProvider',
   function ($locationProvider) {
     $locationProvider.html5Mode(true);
   }]);
+
+app.run(function (AuthService) {
+  AuthService.getUser();
+});
 
 window.console = window.console || {};
 window.console.log = window.console.log || function () {};

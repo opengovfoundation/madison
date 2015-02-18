@@ -5,28 +5,31 @@ angular.module('madisonApp.services')
     function ($http, SessionService) {
       var authService = {};
 
+      authService.getUser = function () {
+        var user = {};
+
+        return $http.get('/api/user/current')
+          .then(function (res) {
+            var key;
+
+            if (Object.getOwnPropertyNames(res.data).length > 0) {
+              for (key in res.data.user) {
+                if (res.data.user.hasOwnProperty(key)) {
+                  user[key] = res.data.user[key];
+                }
+              }
+            } else {
+              user = null;
+            }
+
+            SessionService.create(user);
+          });
+      };
+
       authService.login = function (credentials) {
         return $http.post('/api/user/login', credentials)
                     .then(function () {
-                      //Get current user
-                      $http.get('/api/user/current')
-                        .success(function (data) {
-                          var key;
-                          var user = {
-                            loggedin: function () {
-                              return this.id !== undefined;
-                            }
-                          };
-
-                          //Copy all user attributes
-                          for (key in data.user) {
-                            if (data.user.hasOwnProperty(key)) {
-                              user[key] = data.user[key];
-                            }
-                          }
-
-                          SessionService.create(user);
-                        });
+                      authService.getUser();
                     });
       };
 
@@ -45,10 +48,7 @@ angular.module('madisonApp.services')
       authService.logout = function () {
         var logout = $http.get('/api/user/logout');
 
-          //Is there a way to do this without refreshing the whole page?
-          logout.then(function () {
-            location.reload();
-          });
+          SessionService.destroy();
 
           return logout;
       };

@@ -13,11 +13,16 @@ angular.module('madisonApp.controllers')
         $scope.loadIntrotext(doc);//Load the document introduction text
         $scope.hideIntro = ipCookie('hideIntro');//Check the hideIntro cookie for the introduction gif
         $scope.checkActiveTab($scope.doc, $scope.user);
+
+        /*jslint unparam: true*/
         $scope.$on('tocAdded', function (event, toc) {
           $scope.toc = toc;
         });
+        /*jslint unparam: false*/
 
-        $scope.attachAnnotator($scope.doc, $scope.user);
+        $scope.$on('sessionUpdated', function () {
+          $scope.attachAnnotator($scope.doc, $scope.currentUser);
+        });
       });
 
       //Ensure that we actually get a document back from the server
@@ -70,7 +75,7 @@ angular.module('madisonApp.controllers')
         $scope.$on('docContentUpdated', function () {
           $timeout(function () {
             $window.annotator = $('#doc_content').annotator({
-              readOnly: !user.loggedin()
+              readOnly: !!user
             });
 
             $window.annotator.annotator('addPlugin', 'Unsupported');

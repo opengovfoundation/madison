@@ -11,18 +11,12 @@ angular.module('madisonApp.controllers')
       */
       $scope.login = function () {
         var login = AuthService.login($scope.credentials);
-
-        login.success(function (response) {
+        
+        login.then(function (response) {
           $scope.credentials = {email: "", password: "", remember: false};
-          UserService.getUser();
+          //UserService.getUser();
           $state.go('index');
           growl.success("You have been logged in successfully");
-        })
-          .error(function (response) {
-            console.error(response);
-            if (!response.messages) {
-              growl.error("There was an error logging you in.  Check your console for details.");
-            }
-          });
+        });
       };
     }]);

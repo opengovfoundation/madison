@@ -1,20 +1,27 @@
 angular.module('madisonApp.controllers')
-  .controller('AppController', ['$rootScope', '$scope', 'ipCookie', 'UserService',
-    function ($rootScope, $scope, ipCookie, UserService) {
+  .controller('AppController', ['$rootScope', '$scope', 'ipCookie', 'UserService', 'AuthService', 'USER_ROLES', 'SessionService',
+    function ($rootScope, $scope, ipCookie, UserService, AuthService, USER_ROLES, SessionService) {
+      $scope.currentUser = null;
+      $scope.userRoles = USER_ROLES;
+      $scope.isAuthorized = AuthService.isAuthorized;
+
       //Watch for user data change
       $scope.$on('userUpdated', function () {
         $scope.user = UserService.user;
       });
 
+      $scope.$on('sessionChanged', function () {
+        $scope.currentUser = SessionService.user;
+      });
+
+      /*jslint unparam: true*/
       $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
         $scope.prevState = {
           from: from,
           fromParams: fromParams
         };
       });
-
-      //Load user data
-      UserService.getUser();
+      /*jslint unparam: false*/
 
       //Set up Angular Tour
       $scope.step_messages = {
@@ -26,6 +33,10 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.currentStep = ipCookie('myTour') || 0;
+
+      $scope.setCurrentUser = function (user) {
+        $scope.currentUser = user;
+      };
 
       $scope.stepComplete = function () {
         ipCookie('myTour', $scope.currentStep, {path: '/', expires: 10 * 365});
