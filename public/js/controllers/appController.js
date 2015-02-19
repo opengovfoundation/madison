@@ -1,6 +1,6 @@
 angular.module('madisonApp.controllers')
-  .controller('AppController', ['$rootScope', '$scope', 'ipCookie', 'AuthService', 'USER_ROLES', 'AUTH_EVENTS', 'SessionService', 'growl', '$state',
-    function ($rootScope, $scope, ipCookie, AuthService, USER_ROLES, AUTH_EVENTS, SessionService, growl, $state) {
+  .controller('AppController', ['$rootScope', '$scope', 'AuthService', 'USER_ROLES', 'AUTH_EVENTS', 'SessionService', 'growl', '$state',
+    function ($rootScope, $scope, AuthService, USER_ROLES, AUTH_EVENTS, SessionService, growl, $state) {
       $scope.currentUser = null;
       $scope.userRoles = USER_ROLES;
       $scope.isAuthorized = AuthService.isAuthorized;
