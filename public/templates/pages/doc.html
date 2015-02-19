@@ -39,22 +39,6 @@
         </div>
       </div>
       <div class="col-md-3">
-        <!-- Start Introduction GIF -->
-        <div class="how-to-annotate" ng-if="!hideIntro">
-          <span class="how-to-annotate-close glyphicon glyphicon-remove" ng-click="hideHowToAnnotate()"></span>
-          <h2>How to Participate</h2>
-          <div class="">
-            <img src="/img/how-to-annotate.gif" class="how-to-annotate-img img-responsive" />
-          </div>
-          <div class="">
-            <ol>
-              <li>Read the policy document.</li>
-              <li>Sign up to add your voice.</li>
-              <li>Annotate, Comment, Support or Oppose!</li>
-            </ol>
-          </div>
-        </div>
-        <!-- End Introduction GIF -->
         <div ng-controller="AnnotationController" class="rightbar participate" ng-include="'/templates/partials/doc-annotations.html'"></div>
       </div>
     </div>

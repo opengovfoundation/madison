@@ -77,16 +77,4 @@
             <div sub-comment-id="{{ comment.id }}"></div>
         </div>
     </div>
-
-    <div class="row sponsor-seen" ng-show="isSponsor() && comment.user.id != user.id">
-        <div class="col-md-12">
-            <span class="btn btn-default" ng-if="comment.seen === 0" ng-click="notifyAuthor(comment)">Mark as seen</span>
-            <span class="glyphicon glyphicon-ok" ng-if="comment.seen === 1"> Marked as seen!</span>
-        </div>
-    </div>  
-    <div class="row user-seen" ng-hide="isSponsor()">
-        <div class="col-md-12">
-            <span class="glyphicon glyphicon-ok" ng-if="comment.seen === 1"> A sponsor marked this as seen!</span>
-        </div>
-    </div>
 </div>

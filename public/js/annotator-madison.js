@@ -237,7 +237,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     annotationAction.append(annotationLike, annotationDislike, annotationFlag);
 
     //If user is logged in add his current action and enable the action buttons
-    if (user.id !== undefined) {
+    if (user !== null) {
       if (annotation.user_action) {
         if (annotation.user_action === 'like') {
           annotationLike.addClass('selected');

@@ -1,17 +1,25 @@
 /*global annotator*/
 /*global Markdown*/
 angular.module('madisonApp.controllers')
-  .controller('DocumentPageController', ['$scope', '$state', '$timeout', 'growl', 'ipCookie', '$location', '$window', 'Doc', '$sce', '$stateParams',
-    function ($scope, $state, $timeout, growl, ipCookie, $location, $window, Doc, $sce, $stateParams) {
+  .controller('DocumentPageController', ['$scope', '$state', '$timeout', 'growl', '$location', '$window', 'Doc', '$sce', '$stateParams',
+    function ($scope, $state, $timeout, growl, $location, $window, Doc, $sce, $stateParams) {
       //Load the document
       $scope.doc = Doc.getDocBySlug({slug: $stateParams.slug});
 
       //After loading the document
       $scope.doc.$promise.then(function (doc) {
+
         $scope.checkExists(doc);//Redirect if document doesn't exist
-        $scope.loadContent(doc);//Load document body
+
+        //Load content.  Then attach annotator.
+        $scope.loadContent(doc).then(function () {
+          $scope.attachAnnotator($scope.doc, $scope.currentUser);
+        });
+
+        //Load introduction section from sponsor
         $scope.loadIntrotext(doc);//Load the document introduction text
-        $scope.hideIntro = ipCookie('hideIntro');//Check the hideIntro cookie for the introduction gif
+
+        //Check if we're linking to the discussion tab
         $scope.checkActiveTab($scope.doc, $scope.user);
 
         /*jslint unparam: true*/
@@ -20,7 +28,8 @@ angular.module('madisonApp.controllers')
         });
         /*jslint unparam: false*/
 
-        $scope.$on('sessionUpdated', function () {
+        //When the session is changed, re-attach annotator
+        $scope.$on('sessionChanged', function () {
           $scope.attachAnnotator($scope.doc, $scope.currentUser);
         });
       });
@@ -37,10 +46,13 @@ angular.module('madisonApp.controllers')
       $scope.loadContent = function (doc) {
         //Set the document content
         $scope.doc.content = Doc.getDocContent({id: doc.id});
+
         $scope.doc.content.$promise.then(function () {
           $scope.doc.html = $sce.trustAsHtml($scope.doc.content.html);
           $scope.$broadcast('docContentUpdated');//Broadcast that the body has been updated
         });
+
+        return $scope.doc.content.$promise;
       };
 
       //Load the introtext if we have one
@@ -50,11 +62,6 @@ angular.module('madisonApp.controllers')
           var converter = new Markdown.Converter();
           $scope.introtext = $sce.trustAsHtml(converter.makeHtml(doc.introtext));
         }
-      };
-
-      $scope.hideHowToAnnotate = function () {
-        ipCookie('hideIntro', true);
-        $scope.hideIntro = true;
       };
 
       $scope.checkActiveTab = function () {
@@ -70,62 +77,71 @@ angular.module('madisonApp.controllers')
 
 
       $scope.attachAnnotator = function (doc, user) {
+
         $window.doc = doc;
+        $window.user = user;
 
-        $scope.$on('docContentUpdated', function () {
-          $timeout(function () {
-            $window.annotator = $('#doc_content').annotator({
-              readOnly: !!user
-            });
+        var userId = null;
+        var readOnly = true;
 
-            $window.annotator.annotator('addPlugin', 'Unsupported');
-            $window.annotator.annotator('addPlugin', 'Tags');
-            $window.annotator.annotator('addPlugin', 'Markdown');
-            $window.annotator.annotator('addPlugin', 'Store', {
-              annotationData: {
-                'uri': $location.path(),
-                'comments': []
-              },
-              prefix: '/api/docs/' + doc.id + '/annotations',
-              urls: {
-                create: '',
-                read: '/:id',
-                update: '/:id',
-                destroy: '/:id',
-                search: '/search'
-              }
-            });
+        if (user) {
+          userId = user.id;
+          readOnly = false;
+        }
 
-            $window.annotator.annotator('addPlugin', 'Permissions', {
-              user: user,
-              permissions: {
-                'read': [],
-                'update': [user.id],
-                'delete': [user.id],
-                'admin': [user.id]
-              },
-              showViewPermissionsCheckbox: false,
-              showEditPermissionsCheckbox: false,
-              userId: function (user) {
-                if (user && user.id) {
-                  return user.id;
-                }
+        $timeout(function () {
 
-                return user;
-              },
-              userString: function (user) {
-                if (user && user.name) {
-                  return user.name;
-                }
-
-                return user;
-              }
-            });
-
-            $window.annotator.annotator('addPlugin', 'Madison', {
-              userId: user.id
-            });
+          $window.annotator = $('#doc_content').annotator({
+            readOnly: readOnly
           });
-        }, 0, false);
+
+          $window.annotator.annotator('addPlugin', 'Unsupported');
+          $window.annotator.annotator('addPlugin', 'Tags');
+          $window.annotator.annotator('addPlugin', 'Markdown');
+          $window.annotator.annotator('addPlugin', 'Store', {
+            annotationData: {
+              'uri': $location.path(),
+              'comments': []
+            },
+            prefix: '/api/docs/' + doc.id + '/annotations',
+            urls: {
+              create: '',
+              read: '/:id',
+              update: '/:id',
+              destroy: '/:id',
+              search: '/search'
+            }
+          });
+
+          $window.annotator.annotator('addPlugin', 'Permissions', {
+            user: user,
+            permissions: {
+              'read': [],
+              'update': [userId],
+              'delete': [userId],
+              'admin': [userId]
+            },
+            showViewPermissionsCheckbox: false,
+            showEditPermissionsCheckbox: false,
+            userId: function (user) {
+              if (user && user.id) {
+                return user.id;
+              }
+
+              return user;
+            },
+            userString: function (user) {
+              if (user && user.name) {
+                return user.name;
+              }
+
+              return user;
+            }
+          });
+
+          $window.annotator.annotator('addPlugin', 'Madison', {
+            userId: userId
+          });
+        });
       };
     }]);

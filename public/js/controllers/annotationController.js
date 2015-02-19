@@ -37,12 +37,13 @@ angular.module('madisonApp.controllers')
       $scope.isSponsor = function () {
         var currentId = $scope.user.id;
         var sponsored = false;
-
-        angular.forEach($scope.doc.sponsor, function (sponsor) {
-          if (currentId === sponsor.id) {
-            sponsored = true;
-          }
-        });
+        console.log($scope.doc.sponsor);
+        // angular.forEach($scope.doc.sponsor, function (sponsor) {
+        //   console.log(sponsor);
+        //   if (currentId === sponsor.id) {
+        //     sponsored = true;
+        //   }
+        // });
 
         return sponsored;
       };
