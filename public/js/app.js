@@ -17,7 +17,6 @@ var imports = [
   'ngSanitize',
   'angular-growl',
   'ngResource',
-  'angular-tour',
   'ipCookie'
 ];
 

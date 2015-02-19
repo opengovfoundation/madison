@@ -20,7 +20,6 @@
     "angular-resource": "~1.2.22",
     "crypto-js": "http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js",
     "google-translate": "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit",
-    "angular-tour": "~0.1.1",
     "angular-route": "~1.2.24",
     "angular-cookie": "~4.0.2",
     "zeroclipboard": "~2.0.1",
