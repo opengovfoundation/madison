@@ -42,8 +42,8 @@ angular.module('madisonApp.services')
           authorizedRoles = [authorizedRoles];
         }
 
-        //If everyone's allowed, return true
-        if(authorizedRoles.indexOf(USER_ROLES.all) !== -1){
+        //If everyone's allowed, or the user is an admin, return true
+        if(authorizedRoles.indexOf(USER_ROLES.all) !== -1 || SessionService.user.role === USER_ROLES.admin){
           return true;
         }
 

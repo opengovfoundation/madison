@@ -10,8 +10,8 @@ angular.module('madisonApp.constants', [])
   .constant('USER_ROLES', {
     all: '*',
     admin: 'admin',
-    independent: 'independent',
-    groupMember: 'groupMember',
+    independent: 'independent-sponsor',
+    groupMember: 'group-member',
     basic: 'basic',
     guest: 'guest'
   });

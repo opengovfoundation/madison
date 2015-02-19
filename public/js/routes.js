@@ -27,7 +27,7 @@ angular.module('madisonApp')
         templateUrl: "/templates/pages/my-documents.html",
         data: {
           title: "My Documents",
-          authorizedRoles: [USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember]
+          authorizedRoles: [USER_ROLES.independent, USER_ROLES.groupMember]
         }
       })
       .state('login', {
@@ -61,38 +61,59 @@ angular.module('madisonApp')
         url: '/password/reset/:token',
         controller: 'PasswordResetLandingController',
         templateUrl: '/templates/pages/password-reset-landing.html',
-        data: {title: 'Change Password'}
+        data: {
+          title: 'Change Password',
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('resend-confirmation', {
         url: '/verification/resend',
         controller: 'ResendConfirmationController',
         templateUrl: '/templates/pages/resend-confirmation.html',
-        data: {title: 'Resend Confirmation Email'}
+        data: {
+          title: 'Resend Confirmation Email',
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('resend-confirmation-landing', {
         url: '/user/verify/:token',
         controller: 'ResendConfirmationController',
-        data: {title: 'Verifying Email'}
+        data: {
+          title: 'Verifying Email',
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('faq', {
         url: "/faq",
         templateUrl: "/templates/pages/faq.html",
-        data: {title: "Frequently Asked Questions"}
+        data: {
+          title: "Frequently Asked Questions",
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('about', {
         url: "/about",
         templateUrl: "/templates/pages/about.html",
-        data: {title: "About Madison"}
+        data: {
+          title: "About Madison",
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('privacy-policy', {
         url: '/privacy-policy',
         templateUrl: "/templates/pages/privacy-policy.html",
-        data: {title: "Privacy Policy"}
+        data: {
+          title: "Privacy Policy",
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('copyright', {
         url: '/copyright',
         templateUrl: "/templates/pages/copyright.html",
-        data: {title: "Copyright Policy"}
+        data: {
+          title: "Copyright Policy",
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('terms-and-conditions', {
         url: '/terms-and-conditions',
@@ -103,77 +124,116 @@ angular.module('madisonApp')
         url: "/user/edit/:user/notifications",
         controller: "UserNotificationsController",
         templateUrl: "/templates/pages/user-notification-settings.html",
-        data: {title: "Notification Settings"}
+        data: {
+          title: "Notification Settings",
+          authorizedRoles: [USER_ROLES.independent, USER_ROLES.groupMember, USER_ROLES.basic]
+        }
       })
       .state('group-management', {
         url: "/groups",
         controller: "GroupManagementController",
         templateUrl: "/templates/pages/group-management.html",
-        data: {title: "Group Management"}
+        data: {
+          title: "Group Management",
+          authorizedRoles: [USER_ROLES.groupMember]
+        }
       })
       .state('create-group', {
         url: "/groups/edit",
         controller: "GroupEditController",
         templateUrl: "/templates/pages/group-edit.html",
-        data: {title: "Create Group"}
+        data: {
+          title: "Create Group",
+          authorizedRoles: [USER_ROLES.independent, USER_ROLES.groupMember, USER_ROLES.basic]
+        }
       })
       .state('edit-group', {
         url: "/groups/edit/:groupId",
         controller: "GroupEditController",
         templateUrl: "/templates/pages/group-edit.html",
-        data: {title: "Edit Group"}
+        data: {
+          title: "Edit Group",
+          authorizedRoles: [USER_ROLES.groupMember]
+        }
       })
       .state('manage-group-members', {
         url: "/groups/:id/members",
         controller: "GroupMembersController",
         templateUrl: "/templates/pages/group-members.html",
-        data: {title: "Manage Group Members"}
+        data: {
+          title: "Manage Group Members",
+          authorizedRoles: [USER_ROLES.groupMember]
+        }
       })
       .state('invite-group-members', {
         url: '/groups/:id/invite',
         controller: "GroupMembersController",
         templateUrl: '/templates/pages/group-members-invite.html',
-        data: {title: "Invite Group Member"}
+        data: {
+          title: "Invite Group Member",
+          authorizedRoles: [USER_ROLES.groupMember]
+        }
       })
       .state('administrative-dashboard', {
         url: "/administrative-dashboard",
         templateUrl: "/templates/pages/administrative-dashboard.html",
-        data: {title: "Administrative Dashboard"}
+        data: {
+          title: "Administrative Dashboard",
+          authorizedRoles: [USER_ROLES.admin]
+        }
       })
       .state('verify-account', {
         url: '/administrative-dashboard/verify-account',
         templateUrl: '/templates/pages/verify-account.html',
         controller: 'DashboardVerifyController',
-        data: {title: 'Verify Account'}
+        data: {
+          title: 'Verify Account',
+          authorizedRoles: [USER_ROLES.admin]
+        }
       })
       .state('verify-group', {
         url: '/administrative-dashboard/verify-group',
         templateUrl: '/templates/pages/verify-group.html',
         controller: 'DashboardVerifyGroupController',
-        data: {title: 'Verify Group'}
+        data: {
+          title: 'Verify Group',
+          authorizedRoles: [USER_ROLES.admin]
+        }
       })
       .state('verify-independent', {
         url: '/administrative-dashboard/verify-independent',
         templateUrl: '/templates/pages/verify-independent.html',
         controller: 'DashboardVerifyUserController',
-        data: {title: 'Verify Independent Sponsor'}
+        data: {
+          title: 'Verify Independent Sponsor',
+          authorizedRoles: [USER_ROLES.admin]
+        }
       })
       .state('user', {
         url: '/user/:id',
         templateUrl: '/templates/pages/user.html',
         controller: 'UserPageController',
-        data: {title: 'User Profile'}
+        data: {
+          title: 'User Profile',
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('user-edit', {
         url: '/user/edit/:id',
         templateUrl: '/templates/pages/user-edit.html',
         controller: 'UserEditPageController',
-        data: {title: 'Edit User Profile'}
+        data: {
+          title: 'Edit User Profile',
+          authorizedRoles: [USER_ROLES.independent, USER_ROLES.groupMember, USER_ROLES.basic]
+        }
       })
       .state('404', {
         url: '/404',
         templateUrl: '/templates/pages/404.html',
-        data: {title: "Uh oh."}
+        data: {
+          title: "Uh oh.",
+          authorizedRoles: [USER_ROLES.all]
+        }
       });
   }])
   .run(function ($rootScope, AUTH_EVENTS, AuthService) {

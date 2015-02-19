@@ -168,71 +168,31 @@ class UserController extends BaseController{
 	*/
 	public function getCurrent(){
 		if(!Auth::check()){
-			return Response::json(null);
+			return Response::json(array('role' => ''));
 		}
 
-		$user = Auth::user();
-		$user->load('groups', 'user_meta');
+		$user = Auth::user();		
 
-		foreach($user->groups as $group){
-			$group->role = $group->findMemberByUserId($user->id)->role;
+		$groups = $user->groups()->count();
+
+		if($user->hasRole('Admin')){
+			$user->role = 'admin';
+		} else if ($groups > 0) {
+			$user->role = 'group-member';
+		} else if ($user->hasRole('Independent Sponsor')) {
+			$user->role = 'independent-sponsor';
+		} else {
+			$user->role = 'basic';
 		}
 
 		$user->activeGroup = $user->activeGroup();
-		$user->admin = $user->hasRole('Admin');
+
+		$userArray = $user->toArray();
+		unset($userArray['roles']);
 
 		return Response::json([
-      'user'	=> $user->toArray()
+      'user'	=> $userArray
 		]);
-	}
-
-	/**
-	*	getIndex
-	*
-	*	Retrieve user by id and display user page
-	*		Passes User $user to the view
-	*
-	*	@param User $user
-	*	@return Illuminate\View\View
-	*/
-	public function getIndex(User $user){
-		//Set data array
-		$data = array(
-			'user'			=> $user,
-			'page_id'		=> 'user_profile',
-			'page_title'	=> $user->fname . ' ' . substr($user->lname, 0, 1) . "'s Profile"
-		);
-
-		//Render view and return
-		return View::make('user.index', $data);
-	}
-
-	/**
-	*	getEdit
-	*	
-	*	Allow user to edit their profile
-	*		Passes User $user to the view
-	*
-	*	@param User $user
-	*	@return Illuminate\View|View
-	*/
-	public function getEdit(User $user){
-		if(!Auth::check()){
-			return Redirect::to('user/login')->with('error', 'Please log in to edit user profile');
-		}else if(Auth::user()->id != $user->id){
-			return Redirect::back()->with('error', 'You do not have access to that profile.');
-		}else if($user == null){
-			return Response::error('404');
-		}
-
-		//Set data array
-		$data = array(
-			'page_id'			=> 'edit_profile',
-			'page_title'	=> 'Edit Your Profile',
-			'user'				=> $user
-		);
-
-		return View::make('user.edit.index', $data);
 	}
 
 	/**
@@ -316,18 +276,6 @@ class UserController extends BaseController{
 	*/
 	public function postIndex($id = null){
 		return Response::error('404');
-	}
-
-	/**
-	*	getLogin
-	*
-	*	Returns the login page view
-	*
-	*	@param void
-	*	@return Illuminate\View\View
-	*/
-	public function getLogin(){
-		return View::make('single');
 	}
 
 	/**
