@@ -168,7 +168,7 @@ class UserController extends BaseController{
 	*/
 	public function getCurrent(){
 		if(!Auth::check()){
-			return Response::json(array('role' => ''));
+			return Response::json(null);
 		}
 
 		$user = Auth::user();		
