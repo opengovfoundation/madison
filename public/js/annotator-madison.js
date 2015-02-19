@@ -2,7 +2,6 @@
 /*global getAnnotationService*/
 /*global user*/
 /*global doc*/
-/*global getUserService*/
 /*global diff_match_patch*/
 Annotator.Plugin.Madison = function () {
   Annotator.Plugin.apply(this, arguments);

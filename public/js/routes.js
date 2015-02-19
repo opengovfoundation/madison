@@ -1,5 +1,5 @@
 angular.module('madisonApp')
-  .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     $urlRouterProvider.otherwise('404');
 
     $stateProvider
@@ -7,37 +7,55 @@ angular.module('madisonApp')
         url: "/",
         controller: "HomePageController",
         templateUrl: "/templates/pages/home.html",
-        data: {title: "Madison Home"}
+        data: {
+          title: "Madison Home",
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('doc-page', {
         url: "/docs/:slug",
         controller: "DocumentPageController",
         templateUrl: "/templates/pages/doc.html",
-        data: {title: "Document Page"}
+        data: {
+          title: "Document Page",
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('my-documents', {
         url: "/documents",
         controller: 'MyDocumentsController',
         templateUrl: "/templates/pages/my-documents.html",
-        data: {title: "My Documents"}
+        data: {
+          title: "My Documents",
+          authorizedRoles: [USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember]
+        }
       })
       .state('login', {
         url: '/user/login',
         controller: "LoginPageController",
         templateUrl: "/templates/pages/login.html",
-        data: {title: "Login to Madison"}
+        data: {
+          title: "Login to Madison",
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('signup', {
         url: '/user/signup',
         controller: "SignupPageController",
         templateUrl: "/templates/pages/signup.html",
-        data: {title: "Signup for Madison"}
+        data: {
+          title: "Signup for Madison",
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('password-reset-request', {
         url: '/password/reset',
         controller: 'PasswordResetController',
         templateUrl: '/templates/pages/password-reset-request.html',
-        data: {title: 'Password Reset'}
+        data: {
+          title: 'Password Reset',
+          authorizedRoles: [USER_ROLES.all]
+        }
       })
       .state('password-reset-landing', {
         url: '/password/reset/:token',
@@ -157,4 +175,21 @@ angular.module('madisonApp')
         templateUrl: '/templates/pages/404.html',
         data: {title: "Uh oh."}
       });
-  }]);
+  }])
+  .run(function ($rootScope, AUTH_EVENTS, AuthService) {
+    $rootScope.$on('$stateChangeStart', function (event, next) {
+      var authorizedRoles = next.data.authorizedRoles;
+
+      if (!AuthService.isAuthorized(authorizedRoles)) {
+        event.preventDefault();
+
+        if (AuthService.isAuthenticated()) {
+          //user is not allowed
+          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+        } else {
+          //user is not logged in
+          $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+        }
+      }
+    });
+  });

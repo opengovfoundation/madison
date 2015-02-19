@@ -1,6 +1,6 @@
 angular.module('madisonApp.controllers')
-  .controller('LoginPageController', ['$scope', '$state', 'AuthService', 'UserService', 'growl',
-    function ($scope, $state, AuthService, UserService, growl) {
+  .controller('LoginPageController', ['$scope', '$state', 'AuthService', 'growl',
+    function ($scope, $state, AuthService, growl) {
       $scope.credentials = {email: "", password: "", remember: false};
 
       /**
@@ -11,10 +11,9 @@ angular.module('madisonApp.controllers')
       */
       $scope.login = function () {
         var login = AuthService.login($scope.credentials);
-        
-        login.then(function (response) {
+
+        login.then(function () {
           $scope.credentials = {email: "", password: "", remember: false};
-          //UserService.getUser();
           $state.go('index');
           growl.success("You have been logged in successfully");
         });

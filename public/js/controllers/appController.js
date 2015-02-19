@@ -1,17 +1,17 @@
 angular.module('madisonApp.controllers')
-  .controller('AppController', ['$rootScope', '$scope', 'ipCookie', 'UserService', 'AuthService', 'USER_ROLES', 'SessionService',
-    function ($rootScope, $scope, ipCookie, UserService, AuthService, USER_ROLES, SessionService) {
+  .controller('AppController', ['$rootScope', '$scope', 'ipCookie', 'AuthService', 'USER_ROLES', 'AUTH_EVENTS', 'SessionService', 'growl', '$state',
+    function ($rootScope, $scope, ipCookie, AuthService, USER_ROLES, AUTH_EVENTS, SessionService, growl, $state) {
       $scope.currentUser = null;
       $scope.userRoles = USER_ROLES;
       $scope.isAuthorized = AuthService.isAuthorized;
 
-      //Watch for user data change
-      $scope.$on('userUpdated', function () {
-        $scope.user = UserService.user;
-      });
-
       $scope.$on('sessionChanged', function () {
         $scope.currentUser = SessionService.user;
+      });
+
+      $scope.$on(AUTH_EVENTS.notAuthenticated, function () {
+        growl.error("You must log in to view this page.");
+        $state.go('index');
       });
 
       /*jslint unparam: true*/

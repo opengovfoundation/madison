@@ -1,5 +1,7 @@
 angular.module('madisonApp.services')
   .service('SessionService', function ($rootScope) {
+    this.user = null;
+
     this.create = function (user) {
       this.user = user;
 
@@ -10,6 +12,10 @@ angular.module('madisonApp.services')
       this.user = null;
 
       $rootScope.$broadcast('sessionChanged');
+    };
+
+    this.getUser = function () {
+      return this.user;
     };
 
     return this;

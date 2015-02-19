@@ -1,8 +1,8 @@
 /*jslint white:true */
 /*global location */
 angular.module('madisonApp.services')
-  .factory('AuthService', ['$http', 'SessionService',
-    function ($http, SessionService) {
+  .factory('AuthService', ['$http', 'SessionService', 'USER_ROLES',
+    function ($http, SessionService, USER_ROLES) {
       var authService = {};
 
       authService.getUser = function () {
@@ -34,12 +34,17 @@ angular.module('madisonApp.services')
       };
 
       authService.isAuthenticated = function () {
-        return !!SessionService.user.id;
+        return !!SessionService.user;
       };
 
       authService.isAuthorized = function (authorizedRoles) {
         if(!angular.isArray(authorizedRoles)) {
           authorizedRoles = [authorizedRoles];
+        }
+
+        //If everyone's allowed, return true
+        if(authorizedRoles.indexOf(USER_ROLES.all) !== -1){
+          return true;
         }
 
         return (authService.isAuthenticated() && authorizedRoles.indexof(SessionService.user.role) !== -1);

@@ -11,5 +11,7 @@ angular.module('madisonApp.constants', [])
     all: '*',
     admin: 'admin',
     independent: 'independent',
+    groupMember: 'groupMember',
+    basic: 'basic',
     guest: 'guest'
   });
