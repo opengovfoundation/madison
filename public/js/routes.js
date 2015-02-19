@@ -27,7 +27,7 @@ angular.module('madisonApp')
         templateUrl: "/templates/pages/my-documents.html",
         data: {
           title: "My Documents",
-          authorizedRoles: [USER_ROLES.independent, USER_ROLES.groupMember]
+          authorizedRoles: [USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember]
         }
       })
       .state('login', {
@@ -126,7 +126,7 @@ angular.module('madisonApp')
         templateUrl: "/templates/pages/user-notification-settings.html",
         data: {
           title: "Notification Settings",
-          authorizedRoles: [USER_ROLES.independent, USER_ROLES.groupMember, USER_ROLES.basic]
+          authorizedRoles: [USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember, USER_ROLES.basic]
         }
       })
       .state('group-management', {
@@ -135,7 +135,7 @@ angular.module('madisonApp')
         templateUrl: "/templates/pages/group-management.html",
         data: {
           title: "Group Management",
-          authorizedRoles: [USER_ROLES.groupMember]
+          authorizedRoles: [USER_ROLES.admin, USER_ROLES.groupMember]
         }
       })
       .state('create-group', {
@@ -144,7 +144,7 @@ angular.module('madisonApp')
         templateUrl: "/templates/pages/group-edit.html",
         data: {
           title: "Create Group",
-          authorizedRoles: [USER_ROLES.independent, USER_ROLES.groupMember, USER_ROLES.basic]
+          authorizedRoles: [USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember, USER_ROLES.basic]
         }
       })
       .state('edit-group', {
@@ -153,7 +153,7 @@ angular.module('madisonApp')
         templateUrl: "/templates/pages/group-edit.html",
         data: {
           title: "Edit Group",
-          authorizedRoles: [USER_ROLES.groupMember]
+          authorizedRoles: [USER_ROLES.admin, USER_ROLES.groupMember]
         }
       })
       .state('manage-group-members', {
@@ -162,7 +162,7 @@ angular.module('madisonApp')
         templateUrl: "/templates/pages/group-members.html",
         data: {
           title: "Manage Group Members",
-          authorizedRoles: [USER_ROLES.groupMember]
+          authorizedRoles: [USER_ROLES.admin, USER_ROLES.groupMember]
         }
       })
       .state('invite-group-members', {
@@ -171,7 +171,7 @@ angular.module('madisonApp')
         templateUrl: '/templates/pages/group-members-invite.html',
         data: {
           title: "Invite Group Member",
-          authorizedRoles: [USER_ROLES.groupMember]
+          authorizedRoles: [USER_ROLES.admin, USER_ROLES.groupMember]
         }
       })
       .state('administrative-dashboard', {
@@ -224,7 +224,7 @@ angular.module('madisonApp')
         controller: 'UserEditPageController',
         data: {
           title: 'Edit User Profile',
-          authorizedRoles: [USER_ROLES.independent, USER_ROLES.groupMember, USER_ROLES.basic]
+          authorizedRoles: [USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember, USER_ROLES.basic]
         }
       })
       .state('404', {
@@ -235,21 +235,4 @@ angular.module('madisonApp')
           authorizedRoles: [USER_ROLES.all]
         }
       });
-  }])
-  .run(function ($rootScope, AUTH_EVENTS, AuthService) {
-    $rootScope.$on('$stateChangeStart', function (event, next) {
-      var authorizedRoles = next.data.authorizedRoles;
-
-      if (!AuthService.isAuthorized(authorizedRoles)) {
-        event.preventDefault();
-
-        if (AuthService.isAuthenticated()) {
-          //user is not allowed
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-        } else {
-          //user is not logged in
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-        }
-      }
-    });
-  });
+  }]);

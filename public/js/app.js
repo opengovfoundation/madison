@@ -56,8 +56,24 @@ app.config(['$locationProvider',
     $locationProvider.html5Mode(true);
   }]);
 
-app.run(function (AuthService) {
+app.run(function (AuthService, AUTH_EVENTS, $rootScope) {
   AuthService.getUser();
+
+  $rootScope.$on('$stateChangeStart', function (event, next) {
+    var authorizedRoles = next.data.authorizedRoles;
+
+    if (!AuthService.isAuthorized(authorizedRoles)) {
+      event.preventDefault();
+
+      if (AuthService.isAuthenticated()) {
+        //user is not allowed
+        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+      } else {
+        //user is not logged in
+        $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+      }
+    }
+  });
 });
 
 window.console = window.console || {};

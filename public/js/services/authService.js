@@ -38,16 +38,18 @@ angular.module('madisonApp.services')
       };
 
       authService.isAuthorized = function (authorizedRoles) {
+        console.log(SessionService.user);
+
         if(!angular.isArray(authorizedRoles)) {
           authorizedRoles = [authorizedRoles];
         }
 
         //If everyone's allowed, or the user is an admin, return true
-        if(authorizedRoles.indexOf(USER_ROLES.all) !== -1 || SessionService.user.role === USER_ROLES.admin){
+        if(authorizedRoles.indexOf(USER_ROLES.all) !== -1){
           return true;
         }
-
-        return (authService.isAuthenticated() && authorizedRoles.indexof(SessionService.user.role) !== -1);
+        
+        return (authService.isAuthenticated() && authorizedRoles.indexOf(SessionService.user.role) !== -1);
       };
 
       authService.logout = function () {
