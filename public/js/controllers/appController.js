@@ -6,7 +6,7 @@ angular.module('madisonApp.controllers')
       $scope.isAuthorized = AuthService.isAuthorized;
 
       $scope.$on('sessionChanged', function () {
-        $scope.currentUser = SessionService.user;
+        $scope.setCurrentUser(SessionService.user);
       });
 
       $scope.$on(AUTH_EVENTS.notAuthenticated, function () {
@@ -25,13 +25,5 @@ angular.module('madisonApp.controllers')
 
       $scope.setCurrentUser = function (user) {
         $scope.currentUser = user;
-      };
-
-      $scope.stepComplete = function () {
-        ipCookie('myTour', $scope.currentStep, {path: '/', expires: 10 * 365});
-      };
-
-      $scope.tourComplete = function () {
-        ipCookie('myTour', 99, {path: '/', expires: 10 * 365});
       };
     }]);
