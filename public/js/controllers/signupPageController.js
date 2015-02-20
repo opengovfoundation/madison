@@ -1,12 +1,12 @@
 angular.module('madisonApp.controllers')
-  .controller('SignupPageController', ['$scope', '$state', 'AuthService', 'UserService', 'growl',
-    function ($scope, $state, AuthService, UserService, growl) {
+  .controller('SignupPageController', ['$scope', '$state', 'AuthService', 'growl',
+    function ($scope, $state, AuthService, growl) {
       $scope.signup = function () {
         var signup = AuthService.signup($scope.credentials);
 
-        signup.success(function (response) {
+        signup.success(function () {
           $scope.credentials = {fname: "", lname: "", email: "", password: ""};
-          UserService.getUser();
+          AuthService.getUser();
           $state.go('index');
           growl.success("Welcome to Madison!  We just sent you an email.  Please click on the activation link to log in.");
         })
