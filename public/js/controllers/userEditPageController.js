@@ -1,11 +1,12 @@
 angular.module('madisonApp.controllers')
-  .controller('UserEditPageController', ['$scope', 'UserService',
-    function ($scope, UserService) {
-      $scope.user = UserService.user;
+  .controller('UserEditPageController', ['$scope', 'SessionService',
+    function ($scope, SessionService) {
+      $scope.user = SessionService.user;
+      $scope.verified = SessionService.verified;
 
-      $scope.$on('userUpdated', function () {
-        $scope.user = UserService.user;
-        $scope.isUserVerified();
+      $scope.$on('sessionChanged', function () {
+        $scope.user = SessionService.user;
+        $scope.verified = SessionService.verified;
       });
 
       $scope.isUserVerified = function () {
