@@ -1,13 +1,12 @@
 angular.module('madisonApp.controllers')
-  .controller('MyDocumentsController', ['$scope', '$state', '$http', 'growl', 'UserService',
-    function ($scope, $state, $http, growl, UserService) {
-      
-      $scope.user = UserService.user;
+  .controller('MyDocumentsController', ['$scope', '$http', 'growl', 'SessionService',
+    function ($scope, $http, growl, SessionService) {
 
-      // if(!$scope.user.loggedin()){
-      //   growl.error('You must be logged in to view your documents!');
-      //   $state.go('index');
-      // }
+      $scope.user = SessionService.user;
+
+      $scope.$on('sessionChanged', function () {
+        $scope.user = SessionService.user;
+      });
 
       $http.get('/api/user/' + $scope.user.id + '/docs')
         .success(function (data) {
@@ -17,5 +16,4 @@ angular.module('madisonApp.controllers')
           growl.error('There was an error retrieving your documents.');
           console.error(response);
         });
-    }
-  ]);
+    }]);
