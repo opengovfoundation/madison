@@ -5,6 +5,10 @@ angular.module('madisonApp.services')
     function ($http, SessionService, USER_ROLES) {
       var authService = {};
 
+      authService.setUser = function (user) {
+        SessionService.create(user);
+      };
+
       authService.getUser = function () {
         var user = {};
 

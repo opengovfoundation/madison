@@ -2,6 +2,8 @@
 /*global history*/
 window.jQuery = window.$;
 
+var user;
+
 var imports = [
   'madisonApp.constants',
   'madisonApp.filters',
@@ -57,7 +59,7 @@ app.config(['$locationProvider',
   }]);
 
 app.run(function (AuthService, AUTH_EVENTS, $rootScope) {
-  AuthService.getUser();
+  AuthService.setUser(user);
 
   $rootScope.$on('$stateChangeStart', function (event, next) {
     var authorizedRoles = next.data.authorizedRoles;
@@ -74,6 +76,29 @@ app.run(function (AuthService, AUTH_EVENTS, $rootScope) {
       }
     }
   });
+});
+
+//Manually bootstrap app because we want to get data before running
+angular.element(document).ready(function () {
+  var initInjector = angular.injector(['ng']);
+  var $http = initInjector.get('$http');
+  user = {};
+
+  $http.get('/api/user/current')
+    .success(function (res) {
+      var key;
+
+      if (!$.isEmptyObject(res) && Object.getOwnPropertyNames(res.user).length > 0) {
+        for (key in res.user) {
+          if (res.user.hasOwnProperty(key)) {
+            user[key] = res.user[key];
+          }
+        }
+      } else {
+        user = null;
+      }
+      angular.bootstrap(document, ['madisonApp']);
+    });
 });
 
 window.console = window.console || {};
