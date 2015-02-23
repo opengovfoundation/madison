@@ -5,6 +5,12 @@ angular.module('madisonApp.controllers')
       $scope.userRoles = USER_ROLES;
       $scope.isAuthorized = AuthService.isAuthorized;
 
+      $scope.setCurrentUser = function (user) {
+        $scope.currentUser = user;
+      };
+
+      $scope.setCurrentUser(SessionService.getUser());
+
       $scope.$on('sessionChanged', function () {
         $scope.setCurrentUser(SessionService.user);
       });
