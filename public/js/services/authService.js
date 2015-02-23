@@ -42,8 +42,6 @@ angular.module('madisonApp.services')
       };
 
       authService.isAuthorized = function (authorizedRoles) {
-        console.log(SessionService.user);
-
         if(!angular.isArray(authorizedRoles)) {
           authorizedRoles = [authorizedRoles];
         }
