@@ -1,18 +1,18 @@
 angular.module('madisonApp.controllers')
   .controller('AppController', ['$rootScope', '$scope', 'AuthService', 'USER_ROLES', 'AUTH_EVENTS', 'SessionService', 'growl', '$state',
     function ($rootScope, $scope, AuthService, USER_ROLES, AUTH_EVENTS, SessionService, growl, $state) {
-      $scope.currentUser = null;
+      $scope.user = null;
       $scope.userRoles = USER_ROLES;
       $scope.isAuthorized = AuthService.isAuthorized;
 
-      $scope.setCurrentUser = function (user) {
-        $scope.currentUser = user;
+      $scope.setUser = function (user) {
+        $scope.user = user;
       };
 
-      $scope.setCurrentUser(SessionService.getUser());
+      $scope.setUser(SessionService.getUser());
 
       $scope.$on('sessionChanged', function () {
-        $scope.setCurrentUser(SessionService.user);
+        $scope.setUser(SessionService.user);
       });
 
       $scope.$on(AUTH_EVENTS.notAuthenticated, function () {
@@ -29,7 +29,7 @@ angular.module('madisonApp.controllers')
       });
       /*jslint unparam: false*/
 
-      $scope.setCurrentUser = function (user) {
-        $scope.currentUser = user;
+      $scope.setUser = function (user) {
+        $scope.user = user;
       };
     }]);

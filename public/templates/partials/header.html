@@ -16,8 +16,8 @@
     <li class="link-faq"><a href="/faq">FAQ</a></li>
     <li class="link-support"><a href="https://rally.org/opengovfoundation" target="_blank">Donate</a></li>
     <li class="link-subscribe"><a href="http://opengovfoundation.us6.list-manage.com/subscribe?u=9d450bf68b3df1185fc9f62b2&id=40a5a16e19" target="_blank">Subscribe</a></li>
-    <li account-dropdown class="dropdown" ng-if="currentUser"></li>
-    <li class="link-login" ng-if="!currentUser"><a href="/user/login">Login</a></li>
-    <li class="link-signup" ng-if="!currentUser"><a href="/user/signup">Sign Up</a></li>
+    <li account-dropdown class="dropdown" ng-if="user"></li>
+    <li class="link-login" ng-if="!user"><a href="/user/login">Login</a></li>
+    <li class="link-signup" ng-if="!user"><a href="/user/signup">Sign Up</a></li>
   </ul>
 </div><!--/.navbar-collapse -->

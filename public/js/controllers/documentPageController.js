@@ -13,7 +13,7 @@ angular.module('madisonApp.controllers')
 
         //Load content.  Then attach annotator.
         $scope.loadContent(doc).then(function () {
-          $scope.attachAnnotator($scope.doc, $scope.currentUser);
+          $scope.attachAnnotator($scope.doc, $scope.user);
         });
 
         //Load introduction section from sponsor
@@ -30,7 +30,7 @@ angular.module('madisonApp.controllers')
 
         //When the session is changed, re-attach annotator
         $scope.$on('sessionChanged', function () {
-          $scope.attachAnnotator($scope.doc, $scope.currentUser);
+          $scope.attachAnnotator($scope.doc, $scope.user);
         });
       });
 
