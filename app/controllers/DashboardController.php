@@ -79,23 +79,50 @@ class DashboardController extends BaseController{
 		return View::make('dashboard.verify-independent', $data);
 	}
 	
-	public function postNotifications()
+	public function postNotifications(User $user)
 	{
+		if(Auth::user()->id !== $user->id){
+			return Response::json($this->growlMessage("You do not have permissions to edit this user's notification settings", "error"));
+		}
+
+		//Grab notifications array
 		$notifications = Input::get('notifications');
 		
-		if(!is_array($notifications)) {
-			return Redirect::to('/dashboard/notifications');
+		//Retrieve valid notification events
+		$validNotifications = Notification::getValidNotifications();
+		$events = array_keys($validNotifications);
+
+		//Loop through each notification
+		foreach($notifications as $notification) {
+
+			//Ensure this is a known event
+			if(!in_array($notification['event'], $events)){
+				return Response::json($this->growlMessage('Unable to save settings.  Unknown event: ' . $notification['event'], 'error'));
+			}
+
+			//Grab this notification from the database
+			$model = Notification::where('user_id', '=', $user->id)->where('event', '=', $notification['event'])->first();
+
+			//If we don't want that notification ( and it exists ), delete it
+			if($notification['selected'] === false){
+				if(isset($model)){
+					$model->delete();
+				}
+			} else {
+				//If the entry doesn't already exist, create it.
+					//Otherwise, ignore ( there was no change )
+				if(!isset($model)){
+					$model = new Notification();
+					$model->user_id = $user->id;
+					$model->event = $notification['event'];
+					$model->type = "email";
+
+					$model->save();
+				}
+			}
 		}
-		
-		Notification::where('user_id', '=', Auth::user()->id)
-					->whereIn('event', array_keys(Notification::getValidNotifications()))
-					->delete();
-					
-		foreach($notifications as $n) {
-			Notification::addNotificationForUser($n, Auth::user()->id);
-		}
-		
-		return Redirect::to('/dashboard/notifications')->with('success_message', "Your notifications have been updated");
+
+		return Response::json($this->growlMessage('Settings saved successfully.', 'success'));
 	}
 	
 	public function getNotifications()
@@ -108,7 +135,7 @@ class DashboardController extends BaseController{
 			$selectedNotifications[] = $n->event;
 		}
 		
-		return View::make('dashboard.notifications', compact('selectedNotifications', 'validNotifications'));
+		return Response::json(compact('selectedNotifications', 'validNotifications'));
 	}
 	
 	/**
