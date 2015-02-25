@@ -38,8 +38,6 @@ angular.module('madisonApp.controllers')
           growl.error('You must enter a document title to create a new document.');
         }
 
-        console.log("Title: " + title);
-
         $http.post('/api/docs', {title: title})
           .success(function (data) {
             console.log('Redirect to new document');
