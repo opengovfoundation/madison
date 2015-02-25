@@ -18,6 +18,50 @@ class DocumentApiController extends ApiController{
 		return Response::json($doc);
 	}
 
+	/**
+	 * 	Post route for creating / updating documents
+	 */
+	public function postDocs(){
+	
+		$user = Auth::user();
+	
+		if(!$user->can('admin_manage_documents')) {
+			return Response::json($this->growlMessage("You do not have permission", 'error'));
+		}
+	
+		//Creating new document
+		$title = Input::get('title');
+		$slug = str_replace(array(' ', '.'),array('-', ''), strtolower($title));
+		$doc_details = Input::all();
+
+		$rules = array('title' => 'required');
+		$validation = Validator::make($doc_details, $rules);
+		if($validation->fails()){
+			die($validation);
+			return Redirect::to('dashboard/docs')->withInput()->withErrors($validation);
+		}
+
+		try{
+			$doc = new Doc();
+			$doc->title = $title;
+			$doc->slug = $slug;
+			$doc->save();
+			$doc->sponsor()->sync(array($user->id));
+
+			$starter = new DocContent();
+			$starter->doc_id = $doc->id;
+			$starter->content = "New Doc Content";
+			$starter->save();
+
+			$doc->init_section = $starter->id;
+			$doc->save();
+
+			return Response::json($this->growlMessage('Document created successfully', 'success'));
+		}catch(Exception $e){
+			return Response::json($this->growlMessage($e->getMessage(), 'error'));
+		}
+	}
+
 	public function postTitle($id){
 		$doc = Doc::find($id);
 		$doc->title = Input::get('title');

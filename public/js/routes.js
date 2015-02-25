@@ -182,6 +182,15 @@ angular.module('madisonApp')
           authorizedRoles: [USER_ROLES.admin]
         }
       })
+      .state('dashboard-docs-list', {
+        url: "/administrative-dashboard/docs",
+        templateUrl: '/templates/pages/dashboard-docs-list.html',
+        controller: 'DashboardDocumentsController',
+        data: {
+          title: 'Create / Edit Documents',
+          authorizedRoles: [USER_ROLES.admin]
+        }
+      })
       .state('verify-account', {
         url: '/administrative-dashboard/verify-account',
         templateUrl: '/templates/pages/verify-account.html',

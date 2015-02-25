@@ -1,6 +1,6 @@
 angular.module('madisonApp.controllers')
-  .controller('DashboardDocumentsController', ['$scope', '$http', '$filter',
-    function ($scope, $http, $filter) {
+  .controller('DashboardDocumentsController', ['$scope', '$http', '$filter', 'growl', '$state',
+    function ($scope, $http, $filter, growl, $state) {
       $scope.docs = [];
       $scope.categories = [];
       $scope.sponsors = [];
@@ -30,6 +30,25 @@ angular.module('madisonApp.controllers')
         .error(function (data) {
           console.error("Unable to get documents: %o", data);
         });
+
+      $scope.createDocument = function () {
+        var title = $scope.newDocTitle;
+
+        if (!title || !title.trim()) {
+          growl.error('You must enter a document title to create a new document.');
+        }
+
+        console.log("Title: " + title);
+
+        $http.post('/api/docs', {title: title})
+          .success(function (data) {
+            console.log('Redirect to new document');
+            //$state.go('edit-doc', {id: data.id});
+          })
+          .error(function () {
+            $scope.newDocTitle = null;
+          });
+      };
 
       $scope.parseDocs = function (docs) {
         angular.forEach(docs, function (doc) {

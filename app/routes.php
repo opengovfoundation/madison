@@ -153,6 +153,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug');
     Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent');
     Route::get('api/docs/', 'DocumentApiController@getDocs');
+    Route::post('api/docs/', 'DocumentApiController@postDocs');
 
     //User Routes
     Route::get('api/user/{user}', 'UserApiController@getUser');
