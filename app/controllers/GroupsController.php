@@ -177,10 +177,13 @@ class GroupsController extends BaseController
 		}
 		
 		$member = GroupMember::where('id', '=', $memberId);
-		
+		if(!$member){
+			return Response::json($this->growlMessage("Member with id $memberId does not exist.", 'error'));
+		}
+
 		$member->delete();
-		
-		return Redirect::to('groups/members/' . (int)$group->id)->with('success_message', 'Member removed');
+
+		return Response::json($this->growlMessage("Member removed successfully.", 'success'));
 	}
 	
 	public function setActiveGroup($groupId)

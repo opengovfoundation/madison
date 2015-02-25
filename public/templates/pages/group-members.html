@@ -16,7 +16,7 @@
           </select>
         </td>
         <td>{{ member.created_at }} </td>
-        <td><button ng-click="removeMember(member)" class="btn btn-danger">remove</button></td>
+        <td><button ng-click="removeMember($index)" class="btn btn-danger">remove</button></td>
       </tr>
     </tbody>
   </table>
