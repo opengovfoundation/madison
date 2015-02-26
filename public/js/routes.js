@@ -30,6 +30,15 @@ angular.module('madisonApp')
           authorizedRoles: [USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember]
         }
       })
+      .state('edit-doc', {
+        url: '/dashboard/docs/:id',
+        controller: 'DashboardEditorController',
+        templateUrl: '/templates/paged/edit-doc.html',
+        data: {
+          title: 'Edit Document',
+          authorizedRoles: [USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember]
+        }
+      })
       .state('login', {
         url: '/user/login',
         controller: "LoginPageController",

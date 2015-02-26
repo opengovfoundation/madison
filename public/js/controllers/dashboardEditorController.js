@@ -1,3 +1,5 @@
+/*global Markdown*/
+/*global alert*/
 angular.module('madisonApp.controllers')
   .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$location', '$filter', 'growl',
     function ($scope, $http, $timeout, $location, $filter, growl) {
@@ -15,141 +17,138 @@ angular.module('madisonApp.controllers')
       $scope.suggestedStatuses = [];
       $scope.dates = [];
 
-
-      $scope.init = function () {
-        var abs = $location.absUrl();
-        var id = abs.match(/.*\/(\d+)$/)[1];
+      var abs = $location.absUrl();
+      var id = abs.match(/.*\/(\d+)$/)[1];
 
 
-        function clean_slug(string) {
-          return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').replace(/ +/g, '-');
-        }
+      function clean_slug(string) {
+        return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').replace(/ +/g, '-');
+      }
 
-        var docDone = $scope.getDoc(id);
+      var docDone = $scope.getDoc(id);
 
-        $scope.getAllCategories();
-        $scope.getVerifiedUsers();
-        $scope.setSelectOptions();
+      $scope.getAllCategories();
+      $scope.getVerifiedUsers();
+      $scope.setSelectOptions();
 
-        var initCategories = true;
-        var initIntroText = true;
-        var initSponsor = true;
-        var initStatus = true;
+      var initCategories = true;
+      var initIntroText = true;
+      var initSponsor = true;
+      var initStatus = true;
 
-        var initTitle = true;
-        var initSlug = true;
-        var initContent = true;
+      var initTitle = true;
+      var initSlug = true;
+      var initContent = true;
 
-        docDone.then(function () {
-          new Markdown.Editor(Markdown.getSanitizingConverter()).run();
+      docDone.then(function () {
+        new Markdown.Editor(Markdown.getSanitizingConverter()).run();
 
-          // We don't control the pagedown CSS, and this DIV needs to be scrollable
-          $("#wmd-preview").css("overflow", "scroll");
+        // We don't control the pagedown CSS, and this DIV needs to be scrollable
+        $("#wmd-preview").css("overflow", "scroll");
 
-          // Resizing dynamically according to the textarea is hard, 
-          // so just set the height once (22 is padding)
-          $("#wmd-preview").css("height", ($("#wmd-input").height() + 22));
-          $("#wmd-input").scroll(function () {
-            $("#wmd-preview").scrollTop($("#wmd-input").scrollTop());
-          });
+        // Resizing dynamically according to the textarea is hard, 
+        // so just set the height once (22 is padding)
+        $("#wmd-preview").css("height", ($("#wmd-input").height() + 22));
+        $("#wmd-input").scroll(function () {
+          $("#wmd-preview").scrollTop($("#wmd-input").scrollTop());
+        });
 
-          //Save intro text after a 3 second timeout
-          var introTextTimeout = null;
-          $scope.updateIntroText = function (newValue) {
-            if (introTextTimeout) {
-              $timeout.cancel(introTextTimeout);
-            }
-            introTextTimeout = $timeout(function () { $scope.saveIntroText(newValue); }, 3000);
-          };
+        //Save intro text after a 3 second timeout
+        var introTextTimeout = null;
+        $scope.updateIntroText = function (newValue) {
+          if (introTextTimeout) {
+            $timeout.cancel(introTextTimeout);
+          }
+          introTextTimeout = $timeout(function () { $scope.saveIntroText(newValue); }, 3000);
+        };
 
-          $scope.getDocSponsor().then(function () {
-            $scope.$watch('sponsor', function () {
-              if (initSponsor) {
-                $timeout(function () {
-                  initSponsor = false;
-                });
-              } else {
-                $scope.saveSponsor();
-              }
-            });
-          });
-
-          $scope.getDocStatus().then(function () {
-            $scope.$watch('status', function () {
-              if (initStatus) {
-                $timeout(function () {
-                  initStatus = false;
-                });
-              } else {
-                $scope.saveStatus();
-              }
-            });
-          });
-
-          $scope.getDocCategories().then(function () {
-            $scope.$watch('categories', function () {
-              if (initCategories) {
-                $timeout(function () {
-                  initCategories = false;
-                });
-              } else {
-                $scope.saveCategories();
-              }
-            });
-          });
-
-          $scope.getIntroText();
-
-          $scope.getDocDates();
-
-          $scope.$watch('doc.title', function () {
-            if (initTitle) {
+        $scope.getDocSponsor().then(function () {
+          $scope.$watch('sponsor', function () {
+            if (initSponsor) {
               $timeout(function () {
-                initTitle = false;
+                initSponsor = false;
               });
             } else {
-              $scope.saveTitle();
-            }
-          });
-
-          $scope.$watch('doc.slug', function () {
-            if (initSlug) {
-              $timeout(function () {
-                initSlug = false;
-              });
-            } else {
-              // Changing doc.slug in-place will trigger the $watch
-              var safe_slug = $scope.doc.slug;
-              var sanitized_slug = clean_slug(safe_slug);
-              // If cleaning the slug didn't change anything, we have a valid NEW slug, 
-              // and we can save it
-              if (safe_slug == sanitized_slug) {
-                $scope.saveSlug();
-              } else {
-                // Change the slug in-place, which will trigger another watch
-                // (handled by the POST function)
-                console.log('Invalid slug, reverting');
-                $scope.doc.slug = sanitized_slug;
-              }
-            }
-          });
-
-          // Save the content every 5 seconds
-          var timeout = null;
-          $scope.$watch('doc.content.content', function () {
-            if (initContent) {
-              $timeout(function () {
-                initContent = false;
-              });
-            } else {
-              if (timeout) {
-                $timeout.cancel(timeout);
-              }
-              timeout = $timeout(function () { $scope.saveContent(); }, 5000);
+              $scope.saveSponsor();
             }
           });
         });
-      };
+
+        $scope.getDocStatus().then(function () {
+          $scope.$watch('status', function () {
+            if (initStatus) {
+              $timeout(function () {
+                initStatus = false;
+              });
+            } else {
+              $scope.saveStatus();
+            }
+          });
+        });
+
+        $scope.getDocCategories().then(function () {
+          $scope.$watch('categories', function () {
+            if (initCategories) {
+              $timeout(function () {
+                initCategories = false;
+              });
+            } else {
+              $scope.saveCategories();
+            }
+          });
+        });
+
+        $scope.getIntroText();
+
+        $scope.getDocDates();
+
+        $scope.$watch('doc.title', function () {
+          if (initTitle) {
+            $timeout(function () {
+              initTitle = false;
+            });
+          } else {
+            $scope.saveTitle();
+          }
+        });
+
+        $scope.$watch('doc.slug', function () {
+          if (initSlug) {
+            $timeout(function () {
+              initSlug = false;
+            });
+          } else {
+            // Changing doc.slug in-place will trigger the $watch
+            var safe_slug = $scope.doc.slug;
+            var sanitized_slug = clean_slug(safe_slug);
+            // If cleaning the slug didn't change anything, we have a valid NEW slug, 
+            // and we can save it
+            if (safe_slug == sanitized_slug) {
+              $scope.saveSlug();
+            } else {
+              // Change the slug in-place, which will trigger another watch
+              // (handled by the POST function)
+              console.log('Invalid slug, reverting');
+              $scope.doc.slug = sanitized_slug;
+            }
+          }
+        });
+
+        // Save the content every 5 seconds
+        var timeout = null;
+        $scope.$watch('doc.content.content', function () {
+          if (initContent) {
+            $timeout(function () {
+              initContent = false;
+            });
+          } else {
+            if (timeout) {
+              $timeout.cancel(timeout);
+            }
+            timeout = $timeout(function () { $scope.saveContent(); }, 5000);
+          }
+        });
+      });
 
       /**
       * getShortUrl
