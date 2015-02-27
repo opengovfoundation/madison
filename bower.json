@@ -27,6 +27,6 @@
   },
   "resolutions": {
     "select2": "~3.4",
-    "angular": "1.2.27"
+    "angular": "~1.2.16"
   }
 }
