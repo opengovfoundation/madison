@@ -8,7 +8,8 @@
 			'host'=> 'smtp.mailgun.org',
 			'from' => array('address' => null, 'name' => null),
 			'username' => null,
-			'password' => null
+			'password' => null,
+			'port' => 587
 		);
 	}
 
@@ -53,7 +54,7 @@ return array(
 	|
 	*/
 
-	'port' => 587,
+	'port' => $smtp_config['port'],
 
 	/*
 	|--------------------------------------------------------------------------
