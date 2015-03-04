@@ -579,34 +579,34 @@ h1.user-name{
 	padding-left: 1px;
 }
 
-.content.col-md-12 .row ul.nav-tabs{
-	li{
-		border-top: none;
-		padding: 0px;
-		a{
-			color: #999;
-			border:none;
-			&:hover{
-				cursor: pointer;
-				text-decoration: none;
-				color: inherit;
+// .content.col-md-12 .row ul.nav-tabs{
+// 	li{
+// 		border-top: none;
+// 		padding: 0px;
+// 		a{
+// 			color: #999;
+// 			border:none;
+// 			&:hover{
+// 				cursor: pointer;
+// 				text-decoration: none;
+// 				color: inherit;
 
-			}
-		}
-	}
-	li.active{
-		a{
-			color: #FFF85D;
-			background: #489EF9;
-			border: none;
-			padding-bottom: 10px;
-			&:hover{
-				color: #FFF;
-			}
-		}
+// 			}
+// 		}
+// 	}
+// 	li.active{
+// 		a{
+// 			color: #FFF85D;
+// 			background: #489EF9;
+// 			border: none;
+// 			padding-bottom: 10px;
+// 			&:hover{
+// 				color: #FFF;
+// 			}
+// 		}
 
-	}
-}
+// 	}
+// }
 
 .content.col-md-12 .row ul.user-sponsored-docs{
 	margin-top: 0px;

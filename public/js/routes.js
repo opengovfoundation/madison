@@ -33,7 +33,7 @@ angular.module('madisonApp')
       .state('edit-doc', {
         url: '/dashboard/docs/:id',
         controller: 'DashboardEditorController',
-        templateUrl: '/templates/paged/edit-doc.html',
+        templateUrl: '/templates/pages/edit-doc.html',
         data: {
           title: 'Edit Document',
           authorizedRoles: [USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember]

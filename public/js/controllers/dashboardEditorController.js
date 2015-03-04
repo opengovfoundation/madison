@@ -25,6 +25,155 @@ angular.module('madisonApp.controllers')
         return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').replace(/ +/g, '-');
       }
 
+      $scope.getDoc = function (id) {
+        return $http.get('/api/docs/' + id)
+          .success(function (data) {
+            $scope.doc = data;
+
+            angular.forEach(data.categories, function (category) {
+              $scope.categories.push(angular.copy(category.name));
+            });
+          });
+      };
+
+      $scope.getAllCategories = function () {
+        return $http.get('/api/docs/categories')
+          .success(function (data) {
+            angular.forEach(data, function (category) {
+              $scope.suggestedCategories.push(category.name);
+            });
+          })
+          .error(function (data) {
+            console.error("Unable to get document categories: %o", data);
+          });
+      };
+
+      $scope.getVerifiedUsers = function () {
+        return $http.get('/api/user/verify')
+          .success(function (data) {
+            angular.forEach(data, function (verified) {
+              $scope.verifiedUsers.push(angular.copy(verified.user));
+            });
+          }).error(function (data) {
+            console.error("Unable to get verified users: %o", data);
+          });
+      };
+
+      $scope.setSelectOptions = function () {
+        $scope.categoryOptions = {
+          placeholder: "Add document categories",
+          multiple: true,
+          simple_tags: true,
+          tokenSeparators: [","],
+          tags: function () {
+            return $scope.suggestedCategories;
+          },
+          results: function () {
+            return $scope.categories;
+          },
+          initSelection: function (element, callback) {
+            var returned = [];
+            angular.forEach($scope.categories, function (category, index) {
+              returned.push(angular.copy({id: index, text: category}));
+            });
+
+            callback(returned);
+          }
+        };
+
+        /*jslint unparam: true*/
+        $scope.statusOptions = {
+          placeholder: "Select Document Status",
+          ajax: {
+            url: "/api/docs/statuses",
+            dataType: 'json',
+            data: function (term, page) {
+              return;
+            },
+            results: function (data, page) {
+              var returned = [];
+              angular.forEach(data, function (status) {
+                returned.push({
+                  id: status.id,
+                  text: status.label
+                });
+              });
+              return {
+                results: returned
+              };
+            }
+          },
+          data: function () {
+            return $scope.suggestedStatuses;
+          },
+          results: function () {
+            return $scope.status;
+          },
+          createSearchChoice: function (term) {
+            return {
+              id: term,
+              text: term
+            };
+          },
+          initSelection: function (element, callback) {
+            callback($scope.status);
+          },
+          allowClear: true
+        };
+
+        $scope.sponsorOptions = {
+          placeholder: "Select Document Sponsor",
+          allowClear: true,
+          ajax: {
+            url: "/api/user/sponsors/all",
+            dataType: 'json',
+            data: function () {
+              return;
+            },
+            results: function (data) {
+              var returned = [];
+
+              if (!data.success) {
+                alert(data.message);
+                return;
+              }
+
+              angular.forEach(data.sponsors, function (sponsor) {
+                var text = "";
+
+                switch (sponsor.sponsorType) {
+                case 'group':
+                  text = "[Group] " + sponsor.name;
+                  break;
+                case 'user':
+                  text = sponsor.fname + " " + sponsor.lname + " - " + sponsor.email;
+                  break;
+                }
+
+                returned.push({
+                  id : sponsor.id,
+                  type :  sponsor.sponsorType,
+                  text : text
+                });
+
+              });
+
+              return {
+                results: returned
+              };
+            }
+          },
+          initSelection: function (element, callback) {
+            callback($scope.sponsor);
+          }
+        };
+        /*jslint unparam: false*/
+      };
+
+      /**
+      * Start actual execution
+      */
+
       var docDone = $scope.getDoc(id);
 
       $scope.getAllCategories();
@@ -189,116 +338,7 @@ angular.module('madisonApp.controllers')
         });
       };
 
-      $scope.setSelectOptions = function () {
-        $scope.categoryOptions = {
-          placeholder: "Add document categories",
-          multiple: true,
-          simple_tags: true,
-          tokenSeparators: [","],
-          tags: function () {
-            return $scope.suggestedCategories;
-          },
-          results: function () {
-            return $scope.categories;
-          },
-          initSelection: function (element, callback) {
-            var returned = [];
-            angular.forEach($scope.categories, function (category, index) {
-              returned.push(angular.copy({id: index, text: category}));
-            });
-
-            callback(returned);
-          }
-        };
-
-        /*jslint unparam: true*/
-        $scope.statusOptions = {
-          placeholder: "Select Document Status",
-          ajax: {
-            url: "/api/docs/statuses",
-            dataType: 'json',
-            data: function (term, page) {
-              return;
-            },
-            results: function (data, page) {
-              var returned = [];
-              angular.forEach(data, function (status) {
-                returned.push({
-                  id: status.id,
-                  text: status.label
-                });
-              });
-              return {
-                results: returned
-              };
-            }
-          },
-          data: function () {
-            return $scope.suggestedStatuses;
-          },
-          results: function () {
-            return $scope.status;
-          },
-          createSearchChoice: function (term) {
-            return {
-              id: term,
-              text: term
-            };
-          },
-          initSelection: function (element, callback) {
-            callback($scope.status);
-          },
-          allowClear: true
-        };
-
-        $scope.sponsorOptions = {
-          placeholder: "Select Document Sponsor",
-          allowClear: true,
-          ajax: {
-            url: "/api/user/sponsors/all",
-            dataType: 'json',
-            data: function () {
-              return;
-            },
-            results: function (data) {
-              var returned = [];
-
-              if (!data.success) {
-                alert(data.message);
-                return;
-              }
-
-              angular.forEach(data.sponsors, function (sponsor) {
-                var text = "";
-
-                switch (sponsor.sponsorType) {
-                case 'group':
-                  text = "[Group] " + sponsor.name;
-                  break;
-                case 'user':
-                  text = sponsor.fname + " " + sponsor.lname + " - " + sponsor.email;
-                  break;
-                }
-
-                returned.push({
-                  id : sponsor.id,
-                  type :  sponsor.sponsorType,
-                  text : text
-                });
-
-              });
-
-              return {
-                results: returned
-              };
-            }
-          },
-          initSelection: function (element, callback) {
-            callback($scope.sponsor);
-          }
-        };
-        /*jslint unparam: false*/
-      };
+      
 
       $scope.statusChange = function (status) {
         $scope.status = status;
@@ -310,17 +350,6 @@ angular.module('madisonApp.controllers')
 
       $scope.categoriesChange = function (categories) {
         $scope.categories = categories;
-      };
-
-      $scope.getDoc = function (id) {
-        return $http.get('/api/docs/' + id)
-          .success(function (data) {
-            $scope.doc = data;
-
-            angular.forEach(data.categories, function (category) {
-              $scope.categories.push(angular.copy(category.name));
-            });
-          });
       };
 
       $scope.saveTitle = function () {
@@ -416,17 +445,6 @@ angular.module('madisonApp.controllers')
           });
       };
 
-      $scope.getVerifiedUsers = function () {
-        return $http.get('/api/user/verify')
-          .success(function (data) {
-            angular.forEach(data, function (verified) {
-              $scope.verifiedUsers.push(angular.copy(verified.user));
-            });
-          }).error(function (data) {
-            console.error("Unable to get verified users: %o", data);
-          });
-      };
-
       $scope.getDocCategories = function () {
         return $http.get('/api/docs/' + $scope.doc.id + '/categories')
           .success(function (data) {
@@ -500,18 +518,6 @@ angular.module('madisonApp.controllers')
             });
           }).error(function (data) {
             console.error("Unable to get document statuses: %o", data);
-          });
-      };
-
-      $scope.getAllCategories = function () {
-        return $http.get('/api/docs/categories')
-          .success(function (data) {
-            angular.forEach(data, function (category) {
-              $scope.suggestedCategories.push(category.name);
-            });
-          })
-          .error(function (data) {
-            console.error("Unable to get document categories: %o", data);
           });
       };
 
