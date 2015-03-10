@@ -1,6 +1,6 @@
 angular.module('madisonApp.controllers')
-  .controller('ReaderController', ['$scope', '$http', 'annotationService', 'createLoginPopup', '$timeout', '$anchorScroll',
-    function ($scope, $http, annotationService, createLoginPopup, $timeout, $anchorScroll) {
+  .controller('ReaderController', ['$scope', '$http', 'annotationService', 'createLoginPopupService', '$timeout', '$anchorScroll',
+    function ($scope, $http, annotationService, createLoginPopupService, $timeout, $anchorScroll) {
       $scope.annotations = [];
 
       $scope.$on('annotationsUpdated', function () {
@@ -13,7 +13,6 @@ angular.module('madisonApp.controllers')
       });
 
       $scope.init = function () {
-        $scope.user = user;
         $scope.doc = doc;
         $scope.setSponsor();
         $scope.getSupported();
@@ -60,8 +59,10 @@ angular.module('madisonApp.controllers')
 
       $scope.support = function (supported, $event) {
 
-        if ($scope.user.id === '') {
-          createLoginPopup($event);
+        console.log($scope.user);
+
+        if (!$scope.user) {
+          createLoginPopupService($event);
         } else {
           $http.post('/api/docs/' + $scope.doc.id + '/support', {
             'support': supported

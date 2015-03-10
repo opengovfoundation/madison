@@ -1,6 +1,6 @@
 angular.module('madisonApp.controllers')
-  .controller('CommentController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
-    function ($scope, $sce, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
+  .controller('CommentController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopupService', 'growl', '$location', '$filter', '$timeout',
+    function ($scope, $sce, $http, annotationService, createLoginPopupService, growl, $location, $filter, $timeout) {
       $scope.comments = [];
       $scope.supported = null;
       $scope.opposed = false;
@@ -145,7 +145,7 @@ angular.module('madisonApp.controllers')
               console.error(data);
             });
         } else {
-          createLoginPopup($event);
+          createLoginPopupService($event);
         }
 
       };

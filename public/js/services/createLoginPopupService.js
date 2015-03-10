@@ -1,5 +1,5 @@
 angular.module('madisonApp.services')
-  .factory('createLoginPopup', ['$document', '$timeout',
+  .factory('createLoginPopupService', ['$document', '$timeout',
     function ($document, $timeout) {
       var body = $document.find('body');
       var html = $document.find('html');
@@ -74,7 +74,6 @@ angular.module('madisonApp.services')
 
             ajaxify_form(data.find('form'), function (result) {
               $('html').trigger('click.popup');
-              alert(result.message);
             });
 
             popup.html(data);

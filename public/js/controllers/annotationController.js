@@ -1,6 +1,6 @@
 angular.module('madisonApp.controllers')
-  .controller('AnnotationController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopup', 'growl', '$location', '$filter', '$timeout',
-    function ($scope, $sce, $http, annotationService, createLoginPopup, growl, $location, $filter, $timeout) {
+  .controller('AnnotationController', ['$scope', '$sce', '$http', 'annotationService', 'createLoginPopupService', 'growl', '$location', '$filter', '$timeout',
+    function ($scope, $sce, $http, annotationService, createLoginPopupService, growl, $location, $filter, $timeout) {
       $scope.annotations = [];
       $scope.supported = null;
       $scope.opposed = false;
@@ -122,7 +122,7 @@ angular.module('madisonApp.controllers')
               console.error(data);
             });
         } else {
-          createLoginPopup($event);
+          createLoginPopupService($event);
         }
 
       };

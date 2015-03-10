@@ -1,0 +1,50 @@
+<div ng-switch on="state">
+  <form ng-submit="signup()" ng-switch-when="signup">
+    <div class="errors"></div>
+    <!-- First Name -->
+    <div class="form-group">
+      {{ Form::label('fname', 'First Name') . Form::text('fname', Input::old('fname'), array('placeholder'=>'First Name', 'class'=>'form-control')) }}
+    </div>
+    <!-- Last Name -->
+    <div class="form-group">
+      {{ Form::label('lname', 'Last Name') . Form::text('lname', Input::old('lname'), array('placeholder'=>'Last Name', 'class'=>'form-control')) }}
+    </div>
+    <!-- Email -->
+    <div class="form-group">
+      {{ Form::label('email', 'Email') . Form::text('email', Input::old('email'), array('placeholder'=>'Email', 'class'=>'form-control')) }}
+    </div>
+    <!-- Password -->
+  <div class="form-group">
+    {{ Form::label('password', 'Password') . Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control')) }}
+  </div>
+    <button class="btn btn-default">Signup</button>
+  </form>
+  <form ng-submit="login()" ng-siwtch-when="login">
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" name="email" placeholder="Email" class="form-control" ng-model="credentials.email">
+    </div>
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" name="password" placeholder="Password" class="form-control" ng-model="credentials.password">
+    </div>
+    <!-- Remember checkbox -->
+    <div class="checkbox">
+      <label for="remember">Remember me</label>
+      <input type="checkbox" name="remember" ng-model="credentials.remember">
+    </div>
+    <!-- Submit -->
+    <button class="btn btn-default">Login</button>
+    <a class="forgot-password" href="/password/reset">Forgot your password?</a>
+    <a class="forgot-password" href="/verification/resend">Resend confirmation email</a>
+  </form>
+  <form ng-switch-default>
+    <p>Please log in.</p>
+    <button class="btn btn-primary"></button>
+    <button class="btn btn-primary"></button>
+    <input type="button" id="login" value="Login" class="btn btn-primary"/>
+    <input type="button" id="signup" value="Sign up" class="btn btn-primary" />
+  </form>
+</div>
