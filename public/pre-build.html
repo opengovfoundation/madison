@@ -117,6 +117,7 @@
       <script src="/js/directives/docLinkDirective.js"></script>
       <script src="/js/directives/docListItemDirective.js"></script>
       <script src="/js/directives/docTocDirective.js"></script>
+      <script src="/js/directives/loginForm.js"></script>
       <script src="/js/directives/ngBlurDirective.js"></script>
       <script src="/js/directives/profileCompletionMessageDirective.js"></script>
       <script src="/js/directives/socialLoginDirective.js"></script>
@@ -134,7 +135,7 @@
     <script src="/js/services.js"></script>
       <script src="/js/services/annotationService.js"></script>
       <script src="/js/services/authService.js"></script>
-      <script src="/js/services/createLoginPopupService.js"></script>
+      <script src="/js/services/loginPopupService.js"></script>
       <script src="/js/services/modalService.js"></script>
       <script src="/js/services/sessionService.js"></script>
     <script src="/js/app.js"></script>
@@ -151,6 +152,7 @@
     <![endif]-->
     <tour step="currentStep" post-tour="tourComplete()" post-step="stepComplete()">
       <div growl></div>
+      <div login-form ng-if="loggingIn" class="popup"></div>
       <div id="wrap">
         <div id="header-main" class="navbar" role="navigation">
           <div class="container">

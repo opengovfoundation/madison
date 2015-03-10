@@ -1,9 +1,16 @@
 angular.module('madisonApp.controllers')
-  .controller('AppController', ['$rootScope', '$scope', 'AuthService', 'USER_ROLES', 'AUTH_EVENTS', 'SessionService', 'growl', '$state',
-    function ($rootScope, $scope, AuthService, USER_ROLES, AUTH_EVENTS, SessionService, growl, $state) {
+  .controller('AppController', ['$rootScope', '$scope', 'AuthService', 'USER_ROLES', 'AUTH_EVENTS', 'SessionService', 'growl', '$state', 'loginPopupService',
+    function ($rootScope, $scope, AuthService, USER_ROLES, AUTH_EVENTS, SessionService, growl, $state, loginPopupService) {
       $scope.user = null;
       $scope.userRoles = USER_ROLES;
       $scope.isAuthorized = AuthService.isAuthorized;
+      $scope.loggingIn = loginPopupService.loggingIn;
+      $scope.loggingInState = null;
+
+      $scope.$on('loggingIn', function () {
+        $scope.loggingIn = loginPopupService.loggingIn;
+        $scope.loggingInState = loginPopupService.state;
+      });
 
       $scope.setUser = function (user) {
         $scope.user = user;
