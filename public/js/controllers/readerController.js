@@ -1,15 +1,17 @@
 angular.module('madisonApp.controllers')
-  .controller('ReaderController', ['$scope', '$http', 'annotationService', 'loginPopupService', '$timeout', '$anchorScroll',
-    function ($scope, $http, annotationService, loginPopupService, $timeout, $anchorScroll) {
+  .controller('ReaderController', ['$scope', '$http', 'annotationService', 'loginPopupService', '$timeout', '$anchorScroll', '$location',
+    function ($scope, $http, annotationService, loginPopupService, $timeout, $anchorScroll, $location) {
       $scope.annotations = [];
 
       $scope.$on('annotationsUpdated', function () {
         $scope.annotations = annotationService.annotations;
         $scope.$apply();
-
-        $timeout(function () {
-          $anchorScroll();
-        }, 0);
+ 
+        if ($location.$hash) {
+          $scope.evalAsync(function () {
+            $anchorScroll();
+          });  
+        }
       });
 
       $scope.init = function () {

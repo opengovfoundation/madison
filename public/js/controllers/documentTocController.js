@@ -6,11 +6,7 @@ angular.module('madisonApp.controllers')
       // just scraping the content.  We could use a real API callback here
       // later if need be.  A huge stack of jQuery follows. 
       $scope.$on('docContentUpdated', function () {
-        var doc_content = $('#doc_content');
-        console.log(doc_content);
         var headings = $('#doc_content').find('h1,h2,h3,h4,h5,h6');
-
-        console.log(headings);
 
         if (headings.length > 0) {
           headings.each(function (i, elm) {
