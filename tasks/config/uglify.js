@@ -2,7 +2,9 @@ module.exports = function (grunt) {
   grunt.config.set('uglify', {
     dist: {},
     options: {
-      mangle: false
+      mangle: false,
+      sourceMap: true,
+      preserveComments: false
     }
   });
 
