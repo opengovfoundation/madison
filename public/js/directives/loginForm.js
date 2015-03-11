@@ -21,9 +21,20 @@ angular.module('madisonApp.directives')
 
             login.then(function () {
               loginPopupService.closeLoginForm();
-              $scope.credentials = {email: "", password: "", remember: false};
               growl.success("You have been logged in");
               $state.go($state.current, null, { reload: true});
+            });
+          };
+
+          $scope.signup = function (fname, lname, email, password) {
+            var credentials = {fname: fname, lname: lname, email: email, password: password};
+
+            var signup = AuthService.signup(credentials);
+
+            signup.then(function () {
+              growl.success("Welcome to Madison!  We just sent you an email.  Please click on the activation link to log in.");
+              $state.go($state.current, null, {reload: true});
+              loginPopupService.closeLoginForm();
             });
           };
 
