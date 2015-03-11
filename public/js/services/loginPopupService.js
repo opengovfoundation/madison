@@ -9,14 +9,14 @@ angular.module('madisonApp.services')
       };
 
       //Set the screen location
-      loginPopupService.setLocation = function (top, left) {
+      loginPopupService.setLocation = function (left, top) {
         this.top = top;
         this.left = left;
       };
 
       //Toggle the view state
       loginPopupService.showLoginForm = function (event) {
-        this.setLocation(event.screenX, event.screenY);
+        this.setLocation(event.pageX, event.pageY);
         this.loggingIn = true;
         $rootScope.$broadcast('loggingIn');
       };

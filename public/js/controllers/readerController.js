@@ -6,11 +6,11 @@ angular.module('madisonApp.controllers')
       $scope.$on('annotationsUpdated', function () {
         $scope.annotations = annotationService.annotations;
         $scope.$apply();
- 
+
         if ($location.$hash) {
           $scope.evalAsync(function () {
             $anchorScroll();
-          });  
+          });
         }
       });
 
@@ -60,8 +60,6 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.support = function (supported, $event) {
-
-        console.log($scope.user);
 
         if (!$scope.user) {
           loginPopupService.showLoginForm($event);

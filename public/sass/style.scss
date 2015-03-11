@@ -822,6 +822,14 @@ input[type="search"].blue-search{
 	z-index:99;
 }
 
+.popup-close{
+	position:absolute;
+	top:5px;
+	right:5px;
+	color:lightgray;
+	cursor:pointer;
+}
+
 .unauthed-popup{
 	.errors{
 		ul{

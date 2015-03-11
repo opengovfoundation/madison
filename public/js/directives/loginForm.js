@@ -26,6 +26,10 @@ angular.module('madisonApp.directives')
               $state.go($state.current, null, { reload: true});
             });
           };
+
+          $scope.closePopup = function () {
+            loginPopupService.closeLoginForm();
+          };
         }
       };
 
