@@ -6,7 +6,7 @@
 		//Laravel defaults
 		$smtp_config = array(
 			'host'=> $_ENV['SMTP_HOST'],
-			'from' => array('address' => $_ENV['SMTP_FROM_ADDRESS', 'name' => $_ENV['SMTP_FROM_NAME']),
+			'from' => array('address' => $_ENV['SMTP_FROM_ADDRESS'], 'name' => $_ENV['SMTP_FROM_NAME']),
 			'username' => $_ENV['SMTP_USER'],
 			'password' => $_ENV['SMTP_PASS']
 		);
