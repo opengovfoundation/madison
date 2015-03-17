@@ -12,40 +12,13 @@ angular.module('madisonApp.controllers')
       if (subCommentId) {
         $scope.subCommentId = subCommentId[2];
       }
+      
+      $scope.doc.$promise.then(function () {
+        $scope.getDocComments();
+      });
 
-      $scope.init = function (docId) {
-        $scope.getDocComments(docId);
-        $scope.user = user;
-        $scope.doc = doc;
-      };
-
-      $scope.isSponsor = function () {
-        var currentId = $scope.user.id;
-        var sponsored = false;
-
-        angular.forEach($scope.doc.sponsor, function (sponsor) {
-          if (currentId === sponsor.id) {
-            sponsored = true;
-          }
-        });
-
-        return sponsored;
-      };
-
-      $scope.notifyAuthor = function (activity) {
-
-        // If the current user is a sponsor and the activity hasn't been seen yet, 
-        // post to API route depending on comment/annotation label
-        $http.post('/api/docs/' + doc.id + '/' + 'comments/' + activity.id + '/' + 'seen')
-          .success(function (data) {
-            activity.seen = data.seen;
-          }).error(function (data) {
-            console.error("Unable to mark activity as seen: %o", data);
-          });
-      };
-
-
-      $scope.getDocComments = function (docId) {
+      $scope.getDocComments = function () {
+        var docId = $scope.doc.id;
 
         // Get all doc comments, regardless of nesting level
         $http({
@@ -99,7 +72,31 @@ angular.module('madisonApp.controllers')
           .error(function (data) {
             console.error("Error loading comments: %o", data);
           });
+      };
 
+      $scope.isSponsor = function () {
+        var currentId = $scope.user.id;
+        var sponsored = false;
+
+        angular.forEach($scope.doc.sponsor, function (sponsor) {
+          if (currentId === sponsor.id) {
+            sponsored = true;
+          }
+        });
+
+        return sponsored;
+      };
+
+      $scope.notifyAuthor = function (activity) {
+
+        // If the current user is a sponsor and the activity hasn't been seen yet, 
+        // post to API route depending on comment/annotation label
+        $http.post('/api/docs/' + doc.id + '/' + 'comments/' + activity.id + '/' + 'seen')
+          .success(function (data) {
+            activity.seen = data.seen;
+          }).error(function (data) {
+            console.error("Unable to mark activity as seen: %o", data);
+          });
       };
 
       $scope.parentSearch = function (arr, val) {
@@ -109,9 +106,7 @@ angular.module('madisonApp.controllers')
         return false;
       };
 
-      $scope.commentSubmit = function () {
-
-        var comment = angular.copy($scope.comment);
+      $scope.commentSubmit = function (comment) {
         comment.user = $scope.user;
         comment.doc = $scope.doc;
 
@@ -121,7 +116,7 @@ angular.module('madisonApp.controllers')
           .success(function (data) {
             data[0].label = 'comment';
             $scope.comments.push(data[0]);
-            $scope.comment.text = '';
+            comment.text = '';
           })
           .error(function (data) {
             console.error("Error posting comment: %o", data);
