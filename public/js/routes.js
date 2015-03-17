@@ -52,7 +52,7 @@ angular.module('madisonApp')
       .state('facebook-login', {
         url: '/user/login/facebook-login',
         controller: function ($state, growl) {
-          growl.success('Login successful.');
+          growl.success('Facebook login successful.');
           $state.go('index');
         },
         data: {
