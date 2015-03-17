@@ -167,6 +167,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::put('api/user/{user}/notifications', 'UserController@putNotifications');
     Route::get('api/user/{user}/groups', 'UserController@getGroups');
     Route::get('api/user/facebook-login', 'UserController@getFacebookLogin');
+    Route::get('api/user/twitter-login', 'UserController@getTwitterLogin');
 
     // Group Routes
     Route::get('api/groups/verify/', 'GroupsApiController@getVerify');

@@ -491,18 +491,22 @@ class UserController extends BaseController{
 					'oauth_id' => $result['id']
 				);
 
-				return $this->oauthLogin($user_info);
+				return $this->oauthLogin($user_info, 'user/login/twitter-login');
 	    }
 	    // if not ask for permission first
 	    else {
-	        // get request token
-	        $reqToken = $tw->requestRequestToken();
+	      // get request token
+	      $reqToken = $tw->requestRequestToken();
 
-	        // get Authorization Uri sending the request token
-	        $url = $tw->getAuthorizationUri(array('oauth_token' => $reqToken->getRequestToken()));
+	      // get Authorization Uri sending the request token
+	      $url = $tw->getAuthorizationUri(array('oauth_token' => $reqToken->getRequestToken()));
 
-	        // return to twitter login url
-	        return Redirect::to( (string)$url );
+	      $res = [
+					'authUrl' => urldecode($url)
+				];
+
+				// return to facebook login url
+				return Response::json($res);
 	    }
 	}
 
@@ -566,7 +570,7 @@ class UserController extends BaseController{
 	*	@return Illuminate\Http\RedirectResponse
 	*	@todo Should this be moved to the User model?
 	*/
-	public function oauthLogin($user_info){
+	public function oauthLogin($user_info, $redirect = false){
 		// See if we already have a matching user in the system
 		$user = User::where('oauth_vendor', $user_info['oauth_vendor'])
 			->where('oauth_id', $user_info['oauth_id'])->first();
@@ -623,6 +627,10 @@ class UserController extends BaseController{
 			$message = 'Welcome back, ' . $user->fname;
 		}
 
-		return Response::json($this->growlMessage($message, 'success'));
+		if($redirect) {
+			return Redirect::to($redirect);
+		} else {
+			return Response::json($this->growlMessage($message, 'success'));	
+		}
 	}
 }

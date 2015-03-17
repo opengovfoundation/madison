@@ -11,6 +11,14 @@ angular.module('madisonApp.directives')
           $scope.facebookLogin = function () {
             AuthService.facebookLogin();
           };
+
+          $scope.twitterLogin = function () {
+            AuthService.twitterLogin();
+          };
+
+          $scope.linkedinLogin = function () {
+            AuthService.linkedinLogin();
+          };
         }
       };
     }]);

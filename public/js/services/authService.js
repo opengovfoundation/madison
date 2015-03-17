@@ -1,5 +1,6 @@
 /*jslint white:true */
 /*global location */
+/*global window */
 angular.module('madisonApp.services')
   .factory('AuthService', ['$http', 'SessionService', 'USER_ROLES', 'growl',
     function ($http, SessionService, USER_ROLES, growl) {
@@ -46,6 +47,21 @@ angular.module('madisonApp.services')
               growl.error('There was an error logging in with Facebook.');
             }
           });
+      };
+
+      authService.twitterLogin = function () {
+        return $http.get('/api/user/twitter-login')
+          .then(function (res) {
+            if(res.status === 200) {
+              window.location.href = res.data.authUrl;
+            } else {
+              growl.error('There was an error logging in with Twitter.');
+            }
+          });
+      };
+
+      authService.linkedinLogin = function () {
+        console.log('Still waiting on this one...');
       };
 
       authService.isAuthenticated = function () {
