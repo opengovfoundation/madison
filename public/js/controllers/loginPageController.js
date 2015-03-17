@@ -18,4 +18,8 @@ angular.module('madisonApp.controllers')
           growl.success("You have been logged in successfully");
         });
       };
+
+      $scope.facebookLogin = function () {
+        var login = AuthService.facebookLogin();
+      };
     }]);

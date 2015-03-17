@@ -416,10 +416,9 @@ class UserController extends BaseController{
 		$code = Input::get('code');
 
 		// get fb service
-		$fb = OAuth::consumer('Facebook');
+		$fb = OAuth::consumer('Facebook', url('api/user/facebook-login'), null);
 
 		// check if code is valid
-
 		// if code is provided get user data and sign in
 		if(!empty($code)){
 
@@ -445,8 +444,12 @@ class UserController extends BaseController{
 			// get fb authorization
 			$url = $fb->getAuthorizationUri();
 
+			$res = [
+				'authUrl' => urldecode($url)
+			];
+
 			// return to facebook login url
-			 return Redirect::to( (string)$url );
+			return Response::json($res);
 		}
 	}
 
@@ -577,7 +580,7 @@ class UserController extends BaseController{
 				if(isset($existing_user)){
 					Auth::login($existing_user);
 
-					return Redirect::to('/')->with('success_message', 'Logged in with email address ' . $existing_user->email);
+					return Redirect::to('/user/login/facebook-login');
 				}
 			}
 
@@ -620,6 +623,6 @@ class UserController extends BaseController{
 			$message = 'Welcome back, ' . $user->fname;
 		}
 
-		return Redirect::to('/')->with('success_message', $message);
+		return Response::json($this->growlMessage($message, 'success'));
 	}
 }

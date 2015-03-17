@@ -1,8 +1,8 @@
 /*jslint white:true */
 /*global location */
 angular.module('madisonApp.services')
-  .factory('AuthService', ['$http', 'SessionService', 'USER_ROLES',
-    function ($http, SessionService, USER_ROLES) {
+  .factory('AuthService', ['$http', 'SessionService', 'USER_ROLES', 'growl',
+    function ($http, SessionService, USER_ROLES, growl) {
       var authService = {};
 
       authService.setUser = function (user) {
@@ -35,6 +35,17 @@ angular.module('madisonApp.services')
                     .then(function () {
                       authService.getUser();
                     });
+      };
+
+      authService.facebookLogin = function () {
+        return $http.get('/api/user/facebook-login')
+          .then(function (res) {
+            if(res.status === 200) {
+              window.location.href = res.data.authUrl;
+            } else {
+              growl.error('There was an error logging in with Facebook.');
+            }
+          });
       };
 
       authService.isAuthenticated = function () {

@@ -1,5 +1,6 @@
 angular.module('madisonApp')
   .config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($stateProvider, $urlRouterProvider, USER_ROLES) {
+
     $urlRouterProvider.otherwise('404');
 
     $stateProvider
@@ -45,6 +46,16 @@ angular.module('madisonApp')
         templateUrl: "/templates/pages/login.html",
         data: {
           title: "Login to Madison",
+          authorizedRoles: [USER_ROLES.all]
+        }
+      })
+      .state('facebook-login', {
+        url: '/user/login/facebook-login',
+        controller: function ($state, growl) {
+          growl.success('Login successful.');
+          $state.go('index');
+        },
+        data: {
           authorizedRoles: [USER_ROLES.all]
         }
       })
