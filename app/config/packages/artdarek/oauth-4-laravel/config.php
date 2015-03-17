@@ -5,9 +5,7 @@
 |--------------------------------------------------------------------------
 */
 
-if(file_exists(app_path() . '/config/oauth_creds.yml')){
-	$consumers = yaml_parse_file(app_path() . '/config/oauth_creds.yml');
-}
+$consumers = $_ENV['CONSUMERS'];
 
 return array(
 	'storage' => 'Session',

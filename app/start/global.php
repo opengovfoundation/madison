@@ -4,6 +4,14 @@ App::missing(function($exception){
 	return Response::json(array('text' => 'API route not found.', 'severity' => 'error'), 404);
 });
 
+/**
+* Merge social login credentials to ENV
+*/
+if(file_exists(base_path() . '/.env.socials.php')) {
+  $social_config = require base_path() . '/.env.socials.php';  
+  $_ENV = array_merge($_ENV, $social_config);
+}
+
 /*
 |--------------------------------------------------------------------------
 | Register The Laravel Class Loader
