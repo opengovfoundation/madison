@@ -12,7 +12,6 @@
   "require": {
     "laravel/framework": "4.1.25",
     "caouecs/laravel4-lang": "0.12.*",
-    "anahkiasen/rocketeer": "1.2.*",
     "artdarek/oauth-4-laravel": "~1.0",
     "elasticsearch/elasticsearch": "~0.4",
     "graham-campbell/markdown": "1.0.0",
@@ -37,7 +36,6 @@
       "app/database/seeds",
       "app/tests/TestCase.php",
       "app/tests/helpers",
-      "app/config/packages/anahkiasen/rocketeer/tasks",
       "app/lib"
     ]
   },
