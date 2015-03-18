@@ -1,17 +1,5 @@
 <?php
 
-    if (file_exists(app_path().'/config/smtp.yml')) {
-        $smtp_config = yaml_parse_file(app_path().'/config/smtp.yml');
-    } else {
-        //Laravel defaults
-        $smtp_config = array(
-            'host' => $_ENV['SMTP_HOST'],
-            'from' => array('address' => $_ENV['SMTP_FROM_ADDRESS'], 'name' => $_ENV['SMTP_FROM_NAME']),
-            'username' => $_ENV['SMTP_USER'],
-            'password' => $_ENV['SMTP_PASS'],
-        );
-    }
-
 return array(
 
     /*
@@ -40,7 +28,7 @@ return array(
     |
     */
 
-    'host' => $smtp_config['host'],
+    'host' => getenv('MAIL_HOST') ?: 'smtp.mailgun.org',
 
     /*
     |--------------------------------------------------------------------------
@@ -53,7 +41,7 @@ return array(
     |
     */
 
-    'port' => 587,
+    'port' => getenv('MAIL_PORT') ?: 587,
 
     /*
     |--------------------------------------------------------------------------
@@ -66,7 +54,7 @@ return array(
     |
     */
 
-    'from' => $smtp_config['from'],
+    'from' => array('address' => getenv('MAIL_FROM_ADDRESS') ?: null, 'name' => getenv('MAIL_FROM_NAME') ?: null),
 
     /*
     |--------------------------------------------------------------------------
@@ -92,7 +80,7 @@ return array(
     |
     */
 
-    'username' => $smtp_config['username'],
+    'username' => getenv('MAIL_USERNAME') ?: null,
 
     /*
     |--------------------------------------------------------------------------
@@ -105,7 +93,7 @@ return array(
     |
     */
 
-    'password' => $smtp_config['password'],
+    'password' => getenv('MAIL_PASSWORD') ?: null,
 
     /*
     |--------------------------------------------------------------------------
