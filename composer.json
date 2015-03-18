@@ -9,23 +9,24 @@
       "url": "https://github.com/changwuf31/remote"
     }
   ],
-  "require-dev": {
-    "mockery/mockery": "0.9.*",
-    "phpunit/phpunit": "4.2"
-  },
   "require": {
-    "anahkiasen/rocketeer": "1.2.1",
-    "zizaco/entrust": "dev-master",
     "laravel/framework": "4.1.25",
+    "caouecs/laravel4-lang": "0.12.*",
+    "anahkiasen/rocketeer": "1.2.*",
+    "artdarek/oauth-4-laravel": "~1.0",
     "elasticsearch/elasticsearch": "~0.4",
+    "graham-campbell/markdown": "1.0.0",
     "illuminate/remote": "4.1.25",
     "illuminate/support": "4.1.25",
-    "graham-campbell/markdown": "1.0.0",
-    "doctrine/dbal": "2.3.*",
-    "artdarek/oauth-4-laravel": "dev-master",
-    "roumen/feed": "dev-master#713053978bba2cc3bd6f0ce94d4d1880f28bf280",
     "laravelbook/ardent": "~2.4",
-    "mockery/mockery": "0.9.0"
+    "roumen/sitemap": "2.4.*",
+    "roumen/feed": "2.8.*",
+    "zizaco/entrust": "1.2.*"
+  },
+  "require-dev": {
+    "doctrine/dbal": "2.3.*",
+    "mockery/mockery": "0.9.*",
+    "phpunit/phpunit": "~4.0"
   },
   "autoload": {
     "classmap": [
