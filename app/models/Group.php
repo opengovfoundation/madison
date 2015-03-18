@@ -443,7 +443,7 @@ class Group extends Eloquent
             }
 
             $groupMember = new GroupMember();
-            $groupMember->user_id = Auth::user()->id;
+            $groupMember->user_id = $userId;
             $groupMember->role = Group::ROLE_OWNER;
             $groupMember->group_id = $this->id;
         } else {
