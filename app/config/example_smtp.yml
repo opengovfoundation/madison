@@ -1,6 +1,0 @@
-host: smtp.example.com
-from:
-  address: email@example.org
-  name: Example Organization Name
-username: username
-password: password
