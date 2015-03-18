@@ -21,13 +21,7 @@ class RbacSeeder extends Seeder
 
     public function run()
     {
-        if (file_exists(app_path().'/config/creds.yml')) {
-            $creds = yaml_parse_file(app_path().'/config/creds.yml');
-        } else {
-            $creds = array(
-              'admin_email' => 'admin@example.com',
-            );
-        }
+        $adminEmail = Config::get('madison.seeder.admin_email');
 
         $admin = new Role();
         $admin->name = 'Admin';
@@ -52,7 +46,7 @@ class RbacSeeder extends Seeder
 
         $admin->perms()->sync($permIds);
 
-        $user = User::where('email', '=', $creds['admin_email'])->first();
+        $user = User::where('email', '=', $adminEmail)->first();
         $user->attachRole($admin);
 
         $createDocPerm = new Permission();
