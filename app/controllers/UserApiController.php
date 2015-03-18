@@ -1,149 +1,153 @@
 <?php
 /**
- * 	Controller for User actions
+ * 	Controller for User actions.
  */
-class UserApiController extends ApiController{
+class UserApiController extends ApiController
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-	public function __construct(){
-		parent::__construct();
+        $this->beforeFilter('auth', array('on' => array('post', 'put', 'delete')));
+    }
 
-		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
-	}
+    public function getUser($user)
+    {
+        $user->load('docs', 'user_meta', 'comments', 'annotations');
 
-	public function getUser($user){
-		$user->load('docs', 'user_meta', 'comments', 'annotations');
+        return Response::json($user);
+    }
 
-		return Response::json($user);
-	}
-	
-	public function getIndependentVerify()
-	{
-		$this->beforeFilter('admin');
-		
-		$requests = UserMeta::where('meta_key', UserMeta::TYPE_INDEPENDENT_SPONSOR)
-							->where('meta_value', '0')
-							->with('user')->get();
-		
-		return Response::json($requests);
-	}
-	
-	public function postIndependentVerify()
-	{
-		$this->beforeFilter('admin');
-		
-		$request = Input::get('request');
-		$status = Input::get('status');
+    public function getIndependentVerify()
+    {
+        $this->beforeFilter('admin');
 
-		$user = User::find($request['user_id']);
+        $requests = UserMeta::where('meta_key', UserMeta::TYPE_INDEPENDENT_SPONSOR)
+                            ->where('meta_value', '0')
+                            ->with('user')->get();
 
-		if(!isset($user)){
-			throw new Exception('User (' . $user->id . ') not found.');
-		}
-		
-		$accepted = array('verified', 'denied');
-		
-		if(!in_array($status, $accepted)) {
-			throw new Exception("Invalid value for verify request.");
-		}
-		
-		$meta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
-					    ->where('user_id', '=', $user->id)
-					    ->first();
-		
-		if(!$meta) {
-			throw new Exception("Invalid ID {$user->id}");
-		}
-		
-		switch($status) {
-			case 'verified':
+        return Response::json($requests);
+    }
 
-				$role = Role::where('name', 'Independent Sponsor')->first();
-				if(!isset($role)){
-					throw new Exception("Role 'Independent Sponsor' doesn't exist.");
-				}
+    public function postIndependentVerify()
+    {
+        $this->beforeFilter('admin');
 
-				$user->attachRole($role);
+        $request = Input::get('request');
+        $status = Input::get('status');
 
-				$meta->meta_value = 1;
-				$retval = $meta->save();
-				break;
-			case 'denied':
-				$retval = $meta->delete();
-				break;
-		}
-		
-		return Response::json($retval);
-	}
-	
-	public function getVerify(){
-		$this->beforeFilter('admin');
+        $user = User::find($request['user_id']);
 
-		$requests = UserMeta::where('meta_key', 'verify')->with('user')->get();
+        if (!isset($user)) {
+            throw new Exception('User ('.$user->id.') not found.');
+        }
 
-		return Response::json($requests);
-	}
+        $accepted = array('verified', 'denied');
 
-	public function postVerify(){
-		$this->beforeFilter('admin');
+        if (!in_array($status, $accepted)) {
+            throw new Exception("Invalid value for verify request.");
+        }
 
-		$request = Input::get('request');
-		$status = Input::get('status');
+        $meta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
+                        ->where('user_id', '=', $user->id)
+                        ->first();
 
-		$accepted = array('pending', 'verified', 'denied');
+        if (!$meta) {
+            throw new Exception("Invalid ID {$user->id}");
+        }
 
-		if(!in_array($status, $accepted)){
-			throw new Exception('Invalid value for verify request: ' . $status);
-		}
+        switch ($status) {
+            case 'verified':
 
-		$meta = UserMeta::find($request['id']);
+                $role = Role::where('name', 'Independent Sponsor')->first();
+                if (!isset($role)) {
+                    throw new Exception("Role 'Independent Sponsor' doesn't exist.");
+                }
 
-		$meta->meta_value = $status;
+                $user->attachRole($role);
 
-		$ret = $meta->save();
+                $meta->meta_value = 1;
+                $retval = $meta->save();
+                break;
+            case 'denied':
+                $retval = $meta->delete();
+                break;
+        }
 
-		return Response::json($ret);
-	}
+        return Response::json($retval);
+    }
 
-	public function getAdmins(){
-		$this->beforeFilter('admin');
+    public function getVerify()
+    {
+        $this->beforeFilter('admin');
 
-		$adminRole = Role::where('name', 'Admin')->first();
-		$admins = $adminRole->users()->get();
+        $requests = UserMeta::where('meta_key', 'verify')->with('user')->get();
 
-		foreach($admins as $admin){
-			$admin->admin_contact();
-		}
+        return Response::json($requests);
+    }
 
-		return Response::json($admins);
-	}
+    public function postVerify()
+    {
+        $this->beforeFilter('admin');
 
-	public function postAdmin(){
-		$admin = Input::get('admin');
+        $request = Input::get('request');
+        $status = Input::get('status');
 
-		$user = User::find($admin['id']);
+        $accepted = array('pending', 'verified', 'denied');
 
-		if(!isset($user)){
-			throw new Exception('User with id ' . $admin['id'] . ' could not be found.');
-		}
+        if (!in_array($status, $accepted)) {
+            throw new Exception('Invalid value for verify request: '.$status);
+        }
 
-		$user->admin_contact($admin['admin_contact']);
+        $meta = UserMeta::find($request['id']);
 
-		return Response::json(array('saved' => true));
-	}
+        $meta->meta_value = $status;
 
-	public function getSupport($user, $doc){
-		$docMeta = DocMeta::where('user_id', $user->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
+        $ret = $meta->save();
 
-		$supports = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $doc)->count();
-		$opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $doc)->count();
+        return Response::json($ret);
+    }
 
-		if(isset($docMeta)){
-			return Response::json(array('support' => $docMeta->meta_value, 'supports' => $supports, 'opposes' => $opposes));
-		}else{
-			return Response::json(array('support' => null, 'supports' => $supports, 'opposes' => $opposes));
-		}
+    public function getAdmins()
+    {
+        $this->beforeFilter('admin');
 
-		
-	}
+        $adminRole = Role::where('name', 'Admin')->first();
+        $admins = $adminRole->users()->get();
+
+        foreach ($admins as $admin) {
+            $admin->admin_contact();
+        }
+
+        return Response::json($admins);
+    }
+
+    public function postAdmin()
+    {
+        $admin = Input::get('admin');
+
+        $user = User::find($admin['id']);
+
+        if (!isset($user)) {
+            throw new Exception('User with id '.$admin['id'].' could not be found.');
+        }
+
+        $user->admin_contact($admin['admin_contact']);
+
+        return Response::json(array('saved' => true));
+    }
+
+    public function getSupport($user, $doc)
+    {
+        $docMeta = DocMeta::where('user_id', $user->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
+
+        $supports = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $doc)->count();
+        $opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $doc)->count();
+
+        if (isset($docMeta)) {
+            return Response::json(array('support' => $docMeta->meta_value, 'supports' => $supports, 'opposes' => $opposes));
+        } else {
+            return Response::json(array('support' => null, 'supports' => $supports, 'opposes' => $opposes));
+        }
+    }
 }
-

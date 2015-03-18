@@ -8,6 +8,6 @@
 $consumers = $_ENV['CONSUMERS'];
 
 return array(
-	'storage' => 'Session',
-	'consumers' => $consumers
+    'storage' => 'Session',
+    'consumers' => $consumers,
 );

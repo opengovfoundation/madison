@@ -1,14 +1,14 @@
 <?php
-  
-use Illuminate\Database\Schema\Blueprint;
+
 use Illuminate\Database\Migrations\Migration;
 
-abstract class DualMigration extends Migration implements DualMigrationInterface {
+abstract class DualMigration extends Migration implements DualMigrationInterface
+{
+  public function up()
+  {
+      $connection = DB::connection()->getDriverName();
 
-  public function up(){
-    $connection = DB::connection()->getDriverName();
-
-    switch($connection){
+      switch ($connection) {
       case 'mysql':
         $this->upMySQL();
         break;
@@ -17,15 +17,16 @@ abstract class DualMigration extends Migration implements DualMigrationInterface
         $this->upSQLite();
         break;
 
-      default: 
+      default:
         throw new Exception("Unknown connection $connection");
     }
   }
 
-  public function down(){
-    $connection = DB::connection()->getDriverName();
+    public function down()
+    {
+        $connection = DB::connection()->getDriverName();
 
-    switch($connection){
+        switch ($connection) {
       case 'mysql':
         $this->downMySQL();
         break;
@@ -34,15 +35,13 @@ abstract class DualMigration extends Migration implements DualMigrationInterface
         $this->downSQLite();
         break;
 
-      default: 
+      default:
         throw new Exception("Unknown connection $connection");
     }
-  }
+    }
 
-  abstract public function upMySQL();
-  abstract public function downMySQL();
-  abstract public function upSQLite();
-  abstract public function downSQLite();
+    abstract public function upMySQL();
+    abstract public function downMySQL();
+    abstract public function upSQLite();
+    abstract public function downSQLite();
 }
-
-

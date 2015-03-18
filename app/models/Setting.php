@@ -1,5 +1,5 @@
 <?php
-class Setting extends Eloquent{
-	public static $timestamp = true;
+class Setting extends Eloquent
+{
+    public static $timestamp = true;
 }
-

@@ -1,14 +1,13 @@
 <?php
 
 /**
-*   Include all partials in app/routes/
-*/
-foreach (File::allFiles(__DIR__ . '/routes') as $partial)
-{
-    require_once($partial->getPathname());
+ *   Include all partials in app/routes/.
+ */
+foreach (File::allFiles(__DIR__.'/routes') as $partial) {
+    require_once $partial->getPathname();
 }
 
-/**
+/*
 *   Global Route Patterns
 */
 
@@ -19,7 +18,7 @@ Route::pattern('user', '[0-9]+');
 Route::pattern('date', '[0-9]+');
 Route::pattern('group', '[0-9]+');
 
-/**
+/*
 *   Route - Model bindings
 */
 Route::model('user', 'User');
@@ -33,8 +32,8 @@ Route::model('user/edit', 'User');
 
 // Modal Routes
 Route::get('modals/annotation_thanks', array(
-	'uses' => 'ModalController@getAnnotationThanksModal',
-	'before' => 'disable profiler'
+    'uses' => 'ModalController@getAnnotationThanksModal',
+    'before' => 'disable profiler',
 ));
 
 Route::post('groups/member/{memberId}/role', 'GroupsController@changeMemberRole');
@@ -83,10 +82,10 @@ Route::get('annotation/{annotation}', 'AnnotationController@getIndex');
 Route::controller('dashboard', 'DashboardController');
 
 //Api Routes
-	// Document API Routes
-	Route::get('api/user/sponsors/all', 'DocumentApiController@getAllSponsorsForUser');
-	Route::get('api/sponsors/all', 'SponsorApiController@getAllSponsors');
-	
+    // Document API Routes
+    Route::get('api/user/sponsors/all', 'DocumentApiController@getAllSponsorsForUser');
+    Route::get('api/sponsors/all', 'SponsorApiController@getAllSponsors');
+
     //Annotation Action Routes
     Route::post('api/docs/{doc}/annotations/{annotation}/likes', 'AnnotationApiController@postLikes');
     Route::post('api/docs/{doc}/annotations/{annotation}/dislikes', 'AnnotationApiController@postDislikes');
@@ -95,7 +94,6 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/docs/{doc}/annotations/{annotation}/likes', 'AnnotationApiController@getLikes');
     Route::get('api/docs/{doc}/annotations/{annotation}/dislikes', 'AnnotationApiController@getDislikes');
     Route::get('api/docs/{doc}/annotations/{annotation}/flags', 'AnnotationApiController@getFlags');
-
 
     //Annotation Comment Routes
     Route::get('api/docs/{doc}/annotations/{annotation}/comments', 'AnnotationApiController@getComments');
@@ -172,7 +170,7 @@ Route::controller('dashboard', 'DashboardController');
     // Group Routes
     Route::get('api/groups/verify/', 'GroupsApiController@getVerify');
     Route::post('api/groups/verify/', 'GroupsApiController@postVerify');
-    
+
     // User Login / Signup AJAX requests
     Route::get('api/user/login', 'UserManageApiController@getLogin');
     Route::post('api/user/login', 'UserManageApiController@postLogin');

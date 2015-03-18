@@ -18,6 +18,6 @@
 				alert("There was a small error - you may see the thank you message again");
 			}
 		});
-		
+
 	});
 </script>

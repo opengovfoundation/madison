@@ -21,5 +21,3 @@
 	<p>&ndash; The OpenGov Foundation Team</p>
 	</body>
 </html>
-
-
