@@ -9,6 +9,6 @@ return array(
         'user_email' => 'user@example.com',
         'user_fname' => 'John',
         'user_lname' => 'Appleseed',
-        'user_password' => 'password'
+        'user_password' => 'password',
     ),
 );

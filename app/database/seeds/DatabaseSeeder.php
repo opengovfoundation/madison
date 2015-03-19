@@ -2,7 +2,6 @@
 
 class DatabaseSeeder extends Seeder
 {
-
     /**
      * Tables to truncate.
      *
@@ -43,8 +42,6 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
@@ -67,9 +64,7 @@ class DatabaseSeeder extends Seeder
     }
 
     /**
-     * Clean database tables removing foreign keys
-     *
-     * @return void
+     * Clean database tables removing foreign keys.
      */
     protected function cleanDatabase()
     {

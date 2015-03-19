@@ -107,7 +107,7 @@ class NotificationEventHandler
                         Mail::queue(
                             $notification['template'],
                             $meta['data'],
-                            function ($message) use ($notification,$meta) {
+                            function ($message) use ($notification, $meta) {
                                 $message->subject($meta['subject']);
                                 $message->from($meta['from_email_address'], $meta['from_email_name']);
                                 $message->to($notification['email']);
