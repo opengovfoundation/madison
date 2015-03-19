@@ -39,29 +39,26 @@ angular.module('madisonApp.services')
       };
 
       authService.facebookLogin = function () {
-        return $http.get('/api/user/facebook-login')
-          .then(function (res) {
-            if(res.status === 200) {
-              window.location.href = res.data.authUrl;
-            } else {
-              growl.error('There was an error logging in with Facebook.');
-            }
-          });
+        authService._oauthLogin('/api/user/facebook-login', 'Facebook');
       };
 
       authService.twitterLogin = function () {
-        return $http.get('/api/user/twitter-login')
-          .then(function (res) {
-            if(res.status === 200) {
-              window.location.href = res.data.authUrl;
-            } else {
-              growl.error('There was an error logging in with Twitter.');
-            }
-          });
+        authService._oauthLogin('/api/user/twitter-login', 'Twitter');
       };
 
       authService.linkedinLogin = function () {
-        console.log('Still waiting on this one...');
+        authService._oauthLogin('/api/user/linkedin-login', 'LinkedIn');
+      };
+
+      authService._oauthLogin = function (url, name) {
+        return $http.get(url)
+          .then(function (res) {
+            if (res.status === 200) {
+              window.location.href = res.data.authUrl;
+            } else {
+              growl.error('There was an error logging in with ' + name + '.');
+            }
+          });
       };
 
       authService.isAuthenticated = function () {
@@ -77,7 +74,7 @@ angular.module('madisonApp.services')
         if(authorizedRoles.indexOf(USER_ROLES.all) !== -1){
           return true;
         }
-        
+
         return (authService.isAuthenticated() && authorizedRoles.indexOf(SessionService.user.role) !== -1);
       };
 

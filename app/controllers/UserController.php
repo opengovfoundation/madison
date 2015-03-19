@@ -563,24 +563,23 @@ class UserController extends BaseController
         $linkedinService = OAuth::consumer('Linkedin');
 
         if (!empty($code)) {
+            // retrieve the CSRF state parameter
+            $state = isset($_GET['state']) ? $_GET['state'] : null;
 
-                // retrieve the CSRF state parameter
-                $state = isset($_GET['state']) ? $_GET['state'] : null;
-
-                // This was a callback request from linkedin, get the token
-                $token = $linkedinService->requestAccessToken($_GET['code'], $state);
+            // This was a callback request from linkedin, get the token
+            $token = $linkedinService->requestAccessToken($_GET['code'], $state);
 
             // Send a request with it. Please note that XML is the default format.
             $result = json_decode($linkedinService->request('/people/~:(id,first-name,last-name,email-address)?format=json'), true);
 
-                    // Remap the $result to something that matches our schema.
-                    $user_info = array(
-                        'fname' => $result['firstName'],
-                        'lname' => $result['lastName'],
-                        'email' => $result['emailAddress'],
-                        'oauth_vendor' => 'linkedin',
-                        'oauth_id' => $result['id'],
-                    );
+            // Remap the $result to something that matches our schema.
+            $user_info = array(
+                'fname' => $result['firstName'],
+                'lname' => $result['lastName'],
+                'email' => $result['emailAddress'],
+                'oauth_vendor' => 'linkedin',
+                'oauth_id' => $result['id'],
+            );
 
             return $this->oauthLogin($user_info);
         }// if not ask for permission first
@@ -588,8 +587,12 @@ class UserController extends BaseController
             // get linkedinService authorization
             $url = $linkedinService->getAuthorizationUri();
 
+            $res = [
+                'authUrl' => urldecode($url),
+            ];
+
             // return to linkedin login url
-            return Redirect::to((string) $url);
+            return Response::json($res);
         }
     }
 
