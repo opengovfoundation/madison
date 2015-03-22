@@ -1,72 +1,75 @@
 <?php
 
-class PageController extends BaseController 
+class PageController extends BaseController
 {
-	public $restful = true;
+    public $restful = true;
 
-	/**
-	 * Home Page
-	 */
-	public function home()
-	{
-		$data = array(
-			'page_id'		=> 'home',
-			'page_title'	=> 'Madison Home',
-		);
+    /**
+     * Home Page
+     */
+    public function home()
+    {
+        $data = array(
+            'page_id'        => 'home',
+            'page_title'    => 'Madison Home',
+        );
 
-		return View::make('page.index', $data);
-	}
+        return View::make('page.index', $data);
+    }
 
-	/**
-	 * About Page
-	 */
-	public function getAbout()
-	{
-		$data = array(
-			'page_id'		=> 'about',
-			'page_title'	=> 'About the Madison Platform',
-		);
+    /**
+     * About Page
+     */
+    public function getAbout()
+    {
+        $data = array(
+            'page_id'        => 'about',
+            'page_title'    => 'About the Madison Platform',
+        );
 
-		return View::make('page.index', $data);
-	}
+        return View::make('page.index', $data);
+    }
 
-	/**
-	 * FAQ Page
-	 */
-	public function faq()
-	{
-		$data = array(
-			'page_id'		=> 'faq',
-			'page_title'	=> 'Frequently Asked Questions',
-		);
+    /**
+     * FAQ Page
+     */
+    public function faq()
+    {
+        $data = array(
+            'page_id'        => 'faq',
+            'page_title'    => 'Frequently Asked Questions',
+        );
 
-		return View::make('page.index', $data);
-	}
+        return View::make('page.index', $data);
+    }
 
-	public function privacyPolicy(){
-		$data = array(
-			'page_id'	=> 'privacy',
-			'page_title'	=> 'Privacy Policy'
-		);
+    public function privacyPolicy()
+    {
+        $data = array(
+            'page_id'    => 'privacy',
+            'page_title'    => 'Privacy Policy'
+        );
 
-		return View::make('page.index', $data);
-	}
+        return View::make('page.index', $data);
+    }
 
-	public function terms(){
-		$data = array(
-			'page_id'	=> 'terms',
-			'page_title'	=> 'Terms and Conditions'
-		);
+    public function terms()
+    {
+        $data = array(
+            'page_id'    => 'terms',
+            'page_title'    => 'Terms and Conditions'
+        );
 
-		return View::make('page.index', $data);
-	}
+        return View::make('page.index', $data);
+    }
 
-	public function copyright(){
-		$data = array(
-			'page_id' => 'copyright',
-			'page_title' => 'Copyright Policy'
-		);
+    public function copyright()
+    {
+        $data = array(
+            'page_id' => 'copyright',
+            'page_title' => 'Copyright Policy'
+        );
 
-		return View::make('page.index', $data);
-	}
+        return View::make('page.index', $data);
+    }
 }
