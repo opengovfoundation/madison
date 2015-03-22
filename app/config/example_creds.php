@@ -2,8 +2,8 @@
 
 /**
 * This is an example credential file
-* 
-* The raw credentials are separated from the config file in the case that 
+*
+* The raw credentials are separated from the config file in the case that
 * a change is needed in the database config file
 */
 

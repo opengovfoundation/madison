@@ -3,7 +3,7 @@
 /**
 *   RSS Feed Route
 */
-Route::get('docs/feed', function(){
+Route::get('docs/feed', function () {
     //Grab all documents
     $docs = Doc::with('sponsor', 'content')->orderBy('updated_at', 'DESC')->take(20)->get();
 
@@ -15,13 +15,13 @@ Route::get('docs/feed', function(){
     $feed->pubdate = $docs->first()->updated_at;
     $feed->lang = 'en';
 
-    foreach($docs as $doc){
+    foreach ($docs as $doc) {
         $sponsor = $doc->sponsor->first();
-        if($sponsor instanceof User){
+        if ($sponsor instanceof User) {
             $display_name = $sponsor->fname . ' ' . $sponsor->lname;
-        }else if($sponsor instanceof Group){
+        } elseif ($sponsor instanceof Group) {
             $display_name = $sponsor->display_name;
-        }else{
+        } else {
             $display_name = '';
         }
 
@@ -39,4 +39,3 @@ Route::get('docs/feed', function(){
     return $feed->render('atom');
 
 });
-

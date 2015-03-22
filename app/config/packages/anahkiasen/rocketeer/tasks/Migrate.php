@@ -19,8 +19,7 @@ class Migrate extends Task
    */
   public function execute()
   {
-    $this->command->info('Running migrations');
-    $this->runForCurrentRelease('php artisan migrate');
+      $this->command->info('Running migrations');
+      $this->runForCurrentRelease('php artisan migrate');
   }
 }
-?>

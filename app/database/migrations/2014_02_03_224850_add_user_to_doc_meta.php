@@ -2,34 +2,34 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddUserToDocMeta extends Migration {
+class AddUserToDocMeta extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::table('doc_meta', function($table){
-			$table->integer('user_id')->after('doc_id')->unsigned()->nullable();
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('doc_meta', function ($table) {
+            $table->integer('user_id')->after('doc_id')->unsigned()->nullable();
 
-			$table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
-		});
-	}
+            $table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::table('doc_meta', function($table){
-			$table->dropForeign('user_id_foreign');
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('doc_meta', function ($table) {
+            $table->dropForeign('user_id_foreign');
 
-			$table->dropColumn('user_id');
-		});
-	}
-
+            $table->dropColumn('user_id');
+        });
+    }
 }

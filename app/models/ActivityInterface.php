@@ -1,6 +1,7 @@
 <?php
 
-interface ActivityInterface{
+interface ActivityInterface
+{
   public function getLink();
-  public function getFeedItem();
+    public function getFeedItem();
 }
