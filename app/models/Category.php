@@ -2,11 +2,12 @@
 /**
  * 	Document meta model
  */
-class Category extends Eloquent{
+class Category extends Eloquent
+{
 
-	//Document this meta is describing
-	public function docs(){
-		return $this->belongsToMany('Doc');
-	}
+    //Document this meta is describing
+    public function docs()
+    {
+        return $this->belongsToMany('Doc');
+    }
 }
-

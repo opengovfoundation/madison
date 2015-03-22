@@ -3,8 +3,7 @@
 /**
 *   Include all partials in app/routes/
 */
-foreach (File::allFiles(__DIR__ . '/routes') as $partial)
-{
+foreach (File::allFiles(__DIR__ . '/routes') as $partial) {
     require_once($partial->getPathname());
 }
 
@@ -34,8 +33,8 @@ Route::get('/dev/event/test', 'DevController@testEvent');
 
 // Modal Routes
 Route::get('modals/annotation_thanks', array(
-	'uses' => 'ModalController@getAnnotationThanksModal',
-	'before' => 'disable profiler'
+    'uses' => 'ModalController@getAnnotationThanksModal',
+    'before' => 'disable profiler'
 ));
 
 Route::post('modals/annotation_thanks', 'ModalController@seenAnnotationThanksModal');
@@ -83,9 +82,9 @@ Route::get('user/edit/{user}/notifications', 'UserController@editNotifications')
 Route::controller('user', 'UserController');
 
 //Password Routes
-Route::get( 'password/remind', 'RemindersController@getRemind');
+Route::get('password/remind', 'RemindersController@getRemind');
 Route::post('password/remind', 'RemindersController@postRemind');
-Route::get( 'password/reset/{token}',  'RemindersController@getReset');
+Route::get('password/reset/{token}',  'RemindersController@getReset');
 Route::post('password/reset',  'RemindersController@postReset');
 
 // Confirmation email resend
@@ -99,10 +98,10 @@ Route::get('annotation/{annotation}', 'AnnotationController@getIndex');
 Route::controller('dashboard', 'DashboardController');
 
 //Api Routes
-	// Document API Routes
-	Route::get('api/user/sponsors/all', 'DocumentApiController@getAllSponsorsForUser');
-	Route::get('api/sponsors/all', 'SponsorApiController@getAllSponsors');
-	
+    // Document API Routes
+    Route::get('api/user/sponsors/all', 'DocumentApiController@getAllSponsorsForUser');
+    Route::get('api/sponsors/all', 'SponsorApiController@getAllSponsors');
+    
     //Annotation Action Routes
     Route::post('api/docs/{doc}/annotations/{annotation}/likes', 'AnnotationApiController@postLikes');
     Route::post('api/docs/{doc}/annotations/{annotation}/dislikes', 'AnnotationApiController@postDislikes');
@@ -189,8 +188,8 @@ Route::controller('dashboard', 'DashboardController');
 
 
 //Logout Route
-Route::get('logout', function(){
-	Auth::logout();	//Logout the current user
-	Session::flush(); //delete the session
-	return Redirect::to('/')->with('message', 'You have been successfully logged out.');
+Route::get('logout', function () {
+    Auth::logout();    //Logout the current user
+    Session::flush(); //delete the session
+    return Redirect::to('/')->with('message', 'You have been successfully logged out.');
 });
