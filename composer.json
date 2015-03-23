@@ -1,58 +1,58 @@
 {
-  "name": "laravel/laravel",
-  "description": "The Laravel Framework.",
-  "keywords": ["framework", "laravel"],
-  "license": "MIT",
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/changwuf31/remote"
-    }
-  ],
-  "require": {
-    "laravel/framework": "4.1.25",
-    "caouecs/laravel4-lang": "0.12.*",
-    "artdarek/oauth-4-laravel": "~1.0",
-    "elasticsearch/elasticsearch": "~0.4",
-    "graham-campbell/markdown": "1.0.0",
-    "illuminate/remote": "4.1.25",
-    "illuminate/support": "4.1.25",
-    "laravelbook/ardent": "~2.4",
-    "roumen/sitemap": "2.4.*",
-    "roumen/feed": "2.8.*",
-    "zizaco/entrust": "1.2.*"
-  },
-  "require-dev": {
-    "doctrine/dbal": "2.3.*",
-    "mockery/mockery": "0.9.*",
-    "phpunit/phpunit": "~4.0"
-  },
-  "autoload": {
-    "classmap": [
-      "app/commands",
-      "app/controllers",
-      "app/models",
-      "app/database/migrations",
-      "app/database/seeds",
-      "app/tests/TestCase.php",
-      "app/tests/helpers",
-      "app/lib"
-    ]
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "php artisan optimize"
+    "name": "opengovfoundation/madison",
+    "description": "Madison 2.0",
+    "keywords": ["open", "gov"],
+    "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/changwuf31/remote"
+        }
     ],
-    "post-update-cmd": [
-      "php artisan clear-compiled",
-      "php artisan optimize"
-    ],
-    "post-create-project-cmd": [
-      "php artisan key:generate"
-    ]
-  },
-  "config": {
-    "preferred-install": "dist"
-  },
-  "minimum-stability": "dev"
+    "require": {
+        "laravel/framework": "4.1.25",
+        "artdarek/oauth-4-laravel": "~1.0",
+        "caouecs/laravel4-lang": "0.12.*",
+        "doctrine/dbal": "2.5.*",
+        "elasticsearch/elasticsearch": "~0.4",
+        "graham-campbell/markdown": "1.0.0",
+        "illuminate/remote": "4.1.25",
+        "illuminate/support": "4.1.25",
+        "laravelbook/ardent": "~2.4",
+        "roumen/sitemap": "2.4.*",
+        "roumen/feed": "2.8.*",
+        "zizaco/entrust": "1.2.*"
+    },
+    "require-dev": {
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "classmap": [
+            "app/commands",
+            "app/controllers",
+            "app/models",
+            "app/database/migrations",
+            "app/database/seeds",
+            "app/tests/TestCase.php",
+            "app/tests/helpers",
+            "app/lib"
+        ]
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan optimize"
+        ],
+        "post-update-cmd": [
+            "php artisan clear-compiled",
+            "php artisan optimize"
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev"
 }
