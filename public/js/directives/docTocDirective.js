@@ -24,7 +24,6 @@ angular.module('madisonApp.directives')
                   elm.addClass('anchor');
                   $scope.headings.push({'title': elm.text(), 'tag': elm.prop('tagName'), 'link': elm.attr('id')});
                 });
-                element.addClass('col-md-3');
                 $scope.$emit('tocAdded', true);
               } else {
                 $scope.$emit('tocAdded', false);
@@ -55,6 +54,12 @@ angular.module('madisonApp.directives')
               });
             });
           }, 0, false);
+
+          // Table of Contents hide/show toggle.
+          $scope.tocShow = false;
+          $scope.toggleToc = function () {
+              $scope.tocShow = !$scope.tocShow;
+          };
         }
       };
     }]);

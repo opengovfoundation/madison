@@ -28,18 +28,18 @@
     <script src="/polyfills/eventListener.js"></script>
     <script src="/polyfills/html5shiv.js"></script>
     <![endif]-->
-    
 
-    <link rel="stylesheet" href="/build/app.18199fba.css">
 
-    <script src="/build/components.ea5316f1.js"></script>
+    <link rel="stylesheet" href="/build/app.6372e883.css">
 
-    <script src="/build/angular.733942fc.js"></script>
-    
-    <script src="/build/annotator.3669592c.js"></script>
+    <script src="/build/components.56dc1ab7.js"></script>
 
-    <script src="/build/app.6a3b9cf1.js"></script>
-    
+    <script src="/build/angular.c82b4656.js"></script>
+
+    <script src="/build/annotator.b8c2da85.js"></script>
+
+    <script src="/build/app.53f6c977.js"></script>
+
     <!-- <script src="/js/uservoice.js"></script>
     <script src="/js/ga.js"></script> -->
   </head>
@@ -51,24 +51,25 @@
       <div growl></div>
       <div login-form ng-if="loggingIn" class="popup"></div>
       <div id="wrap">
-        <div id="header-main" class="navbar" role="navigation">
-          <div class="container">
-            <div ng-include="'/templates/partials/header.html'"></div>
-          </div>
-        </div>
+        <header id="header-main" class="navbar" role="navigation">
+          <div ng-include="'/templates/partials/header.html'"></div>
+        </header>
+        <header class="welcome">
+          <div ng-include="'/templates/partials/welcome.html'"></div>
+        </header>
         <div class="row">
           <div profile-completion-message></div>
         </div>
         <div id="main" class="">
           <div class="container">
-            <div class="content col-md-12">
+            <div class="content">
               <div ui-view></div>
             </div>
           </div>
         </div>
-      </div>
-      <div id="footer" class="footer">
-        <div ng-include="'/templates/partials/footer.html'"></div>
+        <footer id="footer" class="footer">
+          <div ng-include="'/templates/partials/footer.html'"class="container"></div>
+        </footer>
       </div>
     </tour>
   </body>

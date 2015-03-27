@@ -1,0 +1,81 @@
+/* Global styles. */
+
+// Miscell
+
+// Import our fonts.
+@include web-fonts("Patua One", ("Open Sans": ("300", "300 italic", "700")));
+
+/* Titles. */
+h1, h2, h3, h4, h5, h6 {
+	padding: 0;
+	margin: 0;
+}
+
+.fancy-title {
+	font-family: $accent-font;
+}
+
+.title-underline-thick {
+	padding-bottom: 10px;
+	border-bottom: 10px solid $black;
+	margin-bottom: 15px;
+}
+
+.title-underline-medium {
+	padding-bottom: 5px;
+	border-bottom: 6px solid $black;
+	margin-bottom: 10px;
+}
+
+.title-underline-thin {
+	padding-bottom: 10px;
+	border-bottom: 1px solid $black;
+	margin-bottom: 10px;
+}
+
+h1, h2, h3 {
+	@extend .fancy-title;
+}
+
+.small-caps {
+	font-size: em(12px);
+	text-transform: uppercase;
+}
+
+// Some headings we just want to be simple titles.
+.normal-title {
+	font-size: 1em;
+	font-family: $main-font;
+}
+
+/* Buttons. */
+.button {
+	@extend .btn;
+	font-size: em(16px);
+	padding: 2px 10px 1px;
+}
+
+.action-button {
+	@extend .btn-primary;
+	text-transform: uppercase;
+}
+
+.reject-button {
+	@extend .btn-warning;
+	text-transform: uppercase;
+}
+
+// Add arrows.
+.go-button {
+	&:after {
+		content: ' »';
+	}
+}
+
+/* Debugging */
+
+// Things that need functionality added to templates.
+.BETA {
+	color: #f00 !important;
+	background-color: rgba(255,0,0,0.05) !important;
+}

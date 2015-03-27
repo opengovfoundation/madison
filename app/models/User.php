@@ -14,6 +14,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 	use Zizaco\Entrust\HasRole;
 	
 	protected $hidden = array('password', 'token', 'last_login', 'updated_at', 'deleted_at', 'oauth_vendor', 'oauth_id', 'oauth_update');
+    protected $appends = array('display_name');
 	protected $softDelete = true;
 
 	/**
@@ -139,6 +140,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface{
 		return "{$this->fname} {$this->lname}";
 	}
 
+	/**
+	 *	getDisplayNameAttribute()
+	 *
+	 *	Alias for getDisplayName() used by serializer.
+	 *
+	 *	@param void
+	 *	@return string
+	 */
+
+	public function getDisplayNameAttribute()
+	{
+		return $this->getDisplayName();
+	}
 
 	/**
 	*	docs

@@ -1,0 +1,31 @@
+/*
+ * Settings for our app.
+ */
+
+// Main colors.
+$white: #ffffff;
+$black: #000000;
+$blue: #00cae5;
+$green: #8ce500;
+$yellow: #f2da00;
+$orange: #ff9d00;
+$red: #e50b18;
+
+// Secondary colors.
+$dark-grey: #4a4f51;
+$medium-grey: #929292;
+$light-medium-grey: #b3b3b3;
+$light-grey: #d7d7d7;
+$lighter-grey: #f5f5f5;
+$lightest-grey: #f9f9f9;
+
+// Fonts.
+$main-font: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$accent-font: 'Patua One', Georgia, 'Times New Roman', Times, serif;
+$code-font: monospace;
+
+// Use this on all text blocks.
+$side-padding: 20px;
+
+// Import all other settings.
+@import 'bootstrap-settings';

@@ -23,8 +23,6 @@ angular.module('madisonApp.controllers')
         } else {
           $('#toc-column').remove();
           var container = $('#content').parent();
-          container.removeClass('col-md-6');
-          container.addClass('col-md-9');
         }
       });
     }]);

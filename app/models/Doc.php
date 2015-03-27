@@ -6,6 +6,8 @@ class Doc extends Eloquent{
 	protected $index;
 	protected $softDelete = true;
 
+	protected $appends = array('url');
+
 	const TYPE = 'doc';
 
 	const SPONSOR_TYPE_INDIVIDUAL = "individual";
@@ -36,6 +38,20 @@ class Doc extends Eloquent{
 		$insertElement->appendChild($containerElement);
 		
 		return $dom->saveHtml($insertElement);
+	}
+
+	/**
+	 *	getUrlAttribute()
+	 *
+	 *	Gets the url for this document.
+	 *
+	 *	@param void
+	 *	@return string
+	 */
+
+	public function getUrlAttribute()
+	{
+		return '/docs/' . $this->slug;
 	}
 
 	public function introtext(){

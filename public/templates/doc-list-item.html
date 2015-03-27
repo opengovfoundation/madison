@@ -1,16 +1,66 @@
-<a href="/docs/{{ doc.slug }}">
-  {{ doc.title }}
-</a>
-<span class="doc-categories">
-  <span class="category" ng-repeat="category in doc.categories">{{ category.name }}</span>
-</span>
-<span class="doc-statuses">
-  <span class="status" ng-repeat="status in doc.statuses">{{ status.label }}</span>
-</span>
-<div class="list-doc-info">
-  <span class="doc-created-date">Posted {{ doc.created_at | date:'mediumDate' }}</span>
-  <span class="doc-updated-date">Updated {{ doc.updated_at | date:'mediumDate' }}</span>
-  <span class="doc-dates">
-    <span class="date" ng-repeat="date in doc.dates">{{ date.label }} on {{ date.date | date:'mediumDate' }}</span>
+<div class="doc-info">
+	<h3>
+		<a href="{{ doc.url }}">{{ doc.title }}</a>
+	</h3>
+  <span class="doc-sponsor">
+    Sponsored by
+    <ul>
+      <li ng-repeat="sponsor in doc.sponsor">
+        {{ sponsor.display_name }}
+      </li>
+    </ul>
   </span>
+	<span class="doc-categories">
+    <ul>
+  	  <li class="category" ng-repeat="category in doc.categories"><span>{{ category.name }}</span></li>
+    </ul>
+	</span>
+	<span class="doc-statuses">
+	  <span class="status" ng-repeat="status in doc.statuses">{{ status.label }}</span>
+	</span>
+</div>
+<div class="doc-meta">
+	<div class="list-doc-info">
+    <span ng-hide="doc.updated_at" class="date">
+      Posted <time class="published doc-created-date" datetime="{{ doc.created_at }}"
+      >{{ doc.created_at | date:'mediumDate' }}</time>
+    </span>
+    <span ng-show="doc.updated_at" class="date">
+      Updated <time class="updated doc-updated-date" datetime="{{ doc.updated_at }}"
+      >{{ doc.updated_at | date:'mediumDate' }}</time>
+    </span>
+
+    <table class="stats BETA">
+      <thead>
+        <tr>
+          <th>Value</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="stats-value">99</td>
+          <td class="stats-name">Comments</td>
+        </tr>
+        <tr>
+          <td class="stats-value">72</td>
+          <td class="stats-name">Collaborators</td>
+        </tr>
+        <tr>
+          <td class="stats-value">5</td>
+          <td class="stats-name">Tags</td>
+        </tr>
+      </tbody>
+    </table>
+
+	  <ul class="doc-dates">
+	    <li class="date" ng-repeat="date in doc.dates">
+        <time class="doc-other-date" datetime="{{ date.date }}"
+          {{ date.label }} on {{ date.date | date:'mediumDate' }}</time>
+      </li>
+	  </span>
+	</div>
+  <div class="read-action">
+    <a class="action-button button" role="button" href="{{ doc.url }}">Read Document</a>
+  </div>
 </div>

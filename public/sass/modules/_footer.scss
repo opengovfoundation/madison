@@ -1,0 +1,57 @@
+// Footer
+.footer {
+	float: left;
+	width: 100%;
+	min-height: 200px;
+
+	padding: 50px 0 45px;
+
+
+	background-color: $dark-grey;
+	color: $white;
+	margin-top: 2*$side-padding;
+
+	.brand {
+		@extend .col-md-2;
+	}
+
+	.for-roles {
+		@extend .col-md-10;
+
+		list-style: none;
+
+		font-style: italic;
+		li {
+			display: list-item;
+			margin: 10px 0;
+
+			.for-role {
+				font-style: normal;
+				text-transform: uppercase;
+				font-size: em(12px);
+			}
+		}
+	}
+
+	.footer-links {
+		font-size: em(12px);
+		line-height: 1.5em;
+	}
+
+	a {
+		display: inline-block;
+		color: $white;
+		padding: 10px;
+	}
+
+	// Smartphone
+	@include breakpoint(0 $screen-sm-min) {
+		ul {
+			display: list;
+		}
+		li {
+			display: list-item;
+		}
+	}
+
+}

@@ -1,7 +1,8 @@
 {
   "name": "madison",
-  "dependencies": {},
+  "dependencies": {    },
   "devDependencies": {
+    "jquery": "~2.0.3",
     "pagedown": "~1.1.0",
     "angular": "1.2.28",
     "angular-ui": "~0.4.0",
@@ -11,7 +12,8 @@
     "angular-select2": "*",
     "angular-ui-router": "~0.2.13",
     "angular-ui-select2": "~0.0.5",
-    "bootstrap": "~3.1.1",
+    "bootstrap-sass-official": "~3.3.1",
+    "font-awesome": "~4.2.0",
     "angular-mocks": "~1.2.16",
     "angular-cookies": "~1.2.16",
     "angular-sanitize": "~1.2.16",
@@ -24,7 +26,8 @@
     "angular-cookie": "~4.0.2",
     "zeroclipboard": "~2.0.1",
     "select2": "~3.4",
-    "underscore": "~1.7.0"
+    "underscore": "~1.7.0",
+    "compass-breakpoint": "~2.4.2"
   },
   "resolutions": {
     "select2": "~3.4",

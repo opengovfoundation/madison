@@ -1,11 +1,13 @@
-<div class="document-toc">
-  <div class="toc-container container row affix-elm" data-offset-top="309">
-    <div class="col-md-3 toc-content" id="toc">
-      <h2>Table of Contents</h2>
+<div class="document-toc" ng-class="{open: tocShow}">
+  <div class="inner">
+    <header class="toc-header" ng-click="toggleToc()">
+      <h3 class="normal-title"><span>Table of Contents</span></h3>
+    </header>
+    <div class="toc-content" id="toc">
       <div id="toc-container">
         <ul>
-          <li ng-repeat="heading in headings">
-            <a class="toc-heading toc-{{ heading.tag | lowercase }}" href="#{{ heading.link }}">{{ heading.title }}</a>
+          <li ng-repeat="heading in headings" class="toc-{{ heading.tag | lowercase }}">
+            <a href="#{{ heading.link }}">{{ heading.title }}</a>
           </li>
         </ul>
       </div>

@@ -5,7 +5,7 @@ module.exports = function (grunt) {
       tasks: ['build']
     },
     sass: {
-      files: './public/sass/*.scss',
+      files: './public/sass/**/*.scss',
       tasks: ['build']
     }
   });

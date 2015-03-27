@@ -152,24 +152,25 @@
       <div growl></div>
       <div login-form ng-if="loggingIn" class="popup"></div>
       <div id="wrap">
-        <div id="header-main" class="navbar" role="navigation">
-          <div class="container">
-            <div ng-include="'/templates/partials/header.html'"></div>
-          </div>
-        </div>
+        <header id="header-main" class="navbar" role="navigation">
+          <div ng-include="'/templates/partials/header.html'"></div>
+        </header>
+        <header class="welcome">
+          <div ng-include="'/templates/partials/welcome.html'"></div>
+        </header>
         <div class="row">
           <div profile-completion-message></div>
         </div>
         <div id="main" class="">
           <div class="container">
-            <div class="content col-md-12">
+            <div class="content">
               <div ui-view></div>
             </div>
           </div>
         </div>
-      </div>
-      <div id="footer" class="footer">
-        <div ng-include="'/templates/partials/footer.html'"></div>
+        <footer id="footer" class="footer">
+          <div ng-include="'/templates/partials/footer.html'"class="container"></div>
+        </footer>
       </div>
     </tour>
   </body>

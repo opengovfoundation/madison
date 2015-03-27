@@ -1,0 +1,178 @@
+/* Document */
+.back-link {
+	@extend .col-md-12;
+	margin-bottom: 10px;
+
+	a {
+		@extend .small-caps;
+		@extend .go-button;
+		color: $dark-grey;
+	}
+}
+
+
+.doc-support-button {
+	@extend .action-button;
+}
+
+.doc-oppose-button {
+	@extend .reject-button;
+}
+
+.single-doc {
+	.doc-info .button {
+		padding: 7px 15px;
+		margin-right: 10px;
+	}
+
+	.nav-tabs {
+		@extend .row;
+		background-color: $lighter-grey;
+
+		padding-left: 10px;
+		li {
+			a {
+				padding: 7px 15px;
+				border: none;
+				&:hover, &:active {
+					border: none;
+				}
+				background-color: $green;
+				color: $white;
+
+				@extend .small-caps;
+				font-weight: bold;
+
+			}
+			&.active a {
+				background-color: $white;
+				color: $black;
+				border: none;
+			}
+		}
+	}
+}
+
+.doc-main {
+	@extend .col-md-8;
+}
+
+.doc-meta {
+	@extend .col-md-4;
+}
+
+/* Table of Contents */
+.document-toc {
+	// The width of the whole block.
+	$toc-width: 400px;
+
+	// The width of the header that sticks out the side.
+	$toc-heading-width: 35px;
+
+	// The padding for the box.
+	$toc-padding: 10px;
+
+	background: $lightest-grey;
+	box-shadow: 0px 2px 3px #999;
+
+	// Floating sidebar
+	position: fixed;
+	z-index: 10;
+	top: 250px;
+	padding: $toc-padding;
+	padding-right: ($toc-heading-width);
+	width: $toc-width;
+	min-height: 250px;
+
+	// Slide in/out
+	left: $toc-heading-width - $toc-width;
+	@include single-transition(left, 0.4s, ease-in-out);
+	&.open {
+		left: 0;
+	}
+
+	.inner {
+		// Setup for moving the header
+		position: relative;
+	}
+
+	.toc-header {
+		// Shove the header all the way to the right, and out of the box.
+		// Glue the top and bottom to the containing box.
+		position: absolute;
+		// Offset to account for padding.
+		top: $toc-padding * -1;
+		bottom: $toc-padding * -1;
+
+		right: $toc-heading-width * -1;
+		width: $toc-heading-width;
+
+		// Prevent the weird bug where clicking the tabs activates the TOC.
+		overflow: hidden;
+
+		border-left: 1px solid $light-medium-grey;
+
+		.normal-title {
+			color: $light-medium-grey;
+			display: block;
+			// Give us enough room that the line doesn't wrap.
+			width: $toc-width;
+			max-width: $toc-width;
+			// And a little offset from the top.
+			margin-top: 20px;
+			span {
+				@extend .small-caps;
+				display: inline-block;
+				// Rotate around the middle of the far left edge, to hold our position.
+				transform-origin: ceil($toc-heading-width/2) ceil($toc-heading-width/2);
+				@include rotate(90deg);
+
+				// Center this, more or less.
+				line-height: $toc-heading-width + 4px;
+			}
+		}
+	}
+
+	.toc-content {
+		width: $toc-width - ($toc-heading-width + $toc-padding);
+		max-height: $toc-width;
+		overflow: auto;
+
+		ul {
+			padding-left: 20px;
+		}
+
+		// We don't have good nesting here, so do the best we can.
+		.toc-heading {
+			display: block;
+		}
+		.toc-h1 {
+			// Remove the dot and offset back.
+			list-style: none;
+			margin-left: $toc-padding * -1;
+
+			font-size: 1.1em;
+			font-weight: bold;
+		}
+		.toc-h2 {
+			font-weight: bold;
+			margin-left: $toc-padding * 1;
+		}
+		.toc-h3 {
+			margin-left: $toc-padding * 2;
+		}
+		.toc-h4{
+			margin-left: $toc-padding * 3;
+			font-size: 0.9em;
+		}
+		.toc-h5{
+			margin-left: $toc-padding * 4;
+			font-size: 0.9em;
+		}
+		.toc-h6{
+			margin-left: $toc-padding * 5;
+			font-size: 0.9em;
+		}
+
+	}
+}
