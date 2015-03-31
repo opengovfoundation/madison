@@ -66,7 +66,7 @@ Route::post('/documents/sponsor/request', 'SponsorController@postRequest');
 //User Routes
 Route::get('user/{user}', 'UserController@getIndex');
 Route::get('user/edit/{user}', 'UserController@getEdit');
-Route::put('user/edit/{user}', 'UserController@putEdit');
+Route::put('api/user/edit/{user}', 'UserController@putEdit');
 Route::post('api/user/verify-email', 'UserController@postVerify');
 
 Route::post('api/password/remind', 'RemindersController@postRemind');

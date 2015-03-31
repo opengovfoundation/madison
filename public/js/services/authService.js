@@ -31,6 +31,22 @@ angular.module('madisonApp.services')
           });
       };
 
+      authService.saveUser = function (user) {
+        return $http.put('/api/user/edit/' + user.id,
+          {
+            'password': user.password,
+            'verify_request': user.verify_request,
+            'email': user.email,
+            'fname': user.fname,
+            'lname': user.lname,
+            'url': user.url,
+            'phone': user.phone
+          }).then(function (res) {
+            console.log(res);
+            authService.getUser();
+          });
+      };
+
       authService.login = function (credentials) {
         return $http.post('/api/user/login', credentials)
                     .then(function () {

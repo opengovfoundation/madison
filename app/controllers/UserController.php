@@ -202,6 +202,8 @@ class UserController extends BaseController
 
         $user->activeGroup = $user->activeGroup();
 
+        $user->verified = $user->verified();
+
         $userArray = $user->toArray();
         unset($userArray['roles']);
 
@@ -222,22 +224,18 @@ class UserController extends BaseController
     public function putEdit(User $user)
     {
         if (!Auth::check()) {
-            return Redirect::to('user/login')->with('error', 'Please log in to edit user profile');
+            return Response::json($this->growlMessage('Please log in to edit user profile', 'error'), 401);
         } elseif (Auth::user()->id != $user->id) {
-            return Redirect::back()->with('error', 'You do not have access to that profile.');
+            return Response::json($this->growlMessage('You do not have access to that profile.', 'error'), 403);
         } elseif ($user == null) {
             return Response::error('404');
         }
 
-        if (strlen(Input::get('password_1')) > 0 || strlen(Input::get('password_2')) > 0) {
-            if (Input::get('password_1') !== Input::get('password_2')) {
-                return Redirect::to('user/edit/'.$user->id)->with('error', 'The passwords you\'ve entered do not match.');
-            } else {
-                $user->password = Input::get('password_1');
-            }
+        if(strlen(Input::get('password')) > 0) {
+            $user->password = Input::get('password');
         }
 
-        $verify = Input::get('verify');
+        $verify = Input::get('verify_request');
 
         $user->email = Input::get('email');
         $user->fname = Input::get('fname');
@@ -250,7 +248,7 @@ class UserController extends BaseController
         // since they've set values within Madison.
         $user->oauth_update = false;
         if (!$user->save()) {
-            return Redirect::to('user/edit/'.$user->id)->withInput()->withErrors($user->getErrors());
+            return Response::json($this->growlMessage($user->getErrors(), 'error'), 400);
         }
 
         if (isset($verify)) {
@@ -262,10 +260,10 @@ class UserController extends BaseController
 
             Event::fire(MadisonEvent::VERIFY_REQUEST_USER, $user);
 
-            return Redirect::back()->with('success_message', 'Your profile has been updated')->with('message', 'Your verified status has been requested.');
+            return Response::json($this->growlMessage(['Your profile has been updated', 'Your verified status has been requested.'], 'success'));
         }
 
-        return Redirect::back()->with('success_message', 'Your profile has been updated.');
+        return Response::json($this->growlMessage('Your profile has been updated.', 'success'));
     }
 
     /**
