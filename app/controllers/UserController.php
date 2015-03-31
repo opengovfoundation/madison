@@ -231,7 +231,7 @@ class UserController extends BaseController
             return Response::error('404');
         }
 
-        if(strlen(Input::get('password')) > 0) {
+        if (strlen(Input::get('password')) > 0) {
             $user->password = Input::get('password');
         }
 
