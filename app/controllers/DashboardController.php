@@ -95,7 +95,6 @@ class DashboardController extends BaseController
 
         //Loop through each notification
         foreach ($notifications as $notification) {
-
             //Ensure this is a known event
             if (!in_array($notification['event'], $events)) {
                 return Response::json($this->growlMessage('Unable to save settings.  Unknown event: '.$notification['event'], 'error'));

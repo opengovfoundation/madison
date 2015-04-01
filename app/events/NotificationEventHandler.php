@@ -195,7 +195,6 @@ class NotificationEventHandler
 
     public function onDocSubcomment($subcomment, $activity)
     {
-
         //Notify any admins watching for comments
         $this->onDocCommented($subcomment);
 

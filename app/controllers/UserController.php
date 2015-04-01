@@ -52,7 +52,6 @@ class UserController extends BaseController
 
         //Loop through each notification
         foreach ($notifications as $notification) {
-
             //Ensure this is a known user event.
             if (!in_array($notification['event'], $events)) {
                 return Response::json($this->growlMessage("Unable to save settings.  Unknown event: ".$notification['event'], "error"));
@@ -150,7 +149,6 @@ class UserController extends BaseController
      */
     public function editEmail(User $user)
     {
-
         //Check authorization
         if (Auth::user()->id !== $user->id) {
             return Response::json($this->growlMessage("You are not authorized to change that user's email", "error"));
@@ -437,7 +435,6 @@ class UserController extends BaseController
      */
     public function getFacebookLogin()
     {
-
         // get data from input
         $code = Input::get('code');
 
@@ -447,7 +444,6 @@ class UserController extends BaseController
         // check if code is valid
         // if code is provided get user data and sign in
         if (!empty($code)) {
-
             // This was a callback request from facebook, get the token
             $token = $fb->requestAccessToken($code);
 
@@ -494,7 +490,6 @@ class UserController extends BaseController
      */
     public function getTwitterLogin()
     {
-
         // get data from input
         $token = Input::get('oauth_token');
         $verify = Input::get('oauth_verifier');
@@ -506,8 +501,7 @@ class UserController extends BaseController
 
         // if code is provided get user data and sign in
         if (!empty($token) && !empty($verify)) {
-
-        // This was a callback request from twitter, get the token
+            // This was a callback request from twitter, get the token
         $token = $tw->requestAccessToken($token, $verify);
 
         // Send a request with it
@@ -554,7 +548,6 @@ class UserController extends BaseController
      */
     public function getLinkedinLogin()
     {
-
         // get data from input
         $code = Input::get('code');
 
@@ -612,7 +605,6 @@ class UserController extends BaseController
             ->where('oauth_id', $user_info['oauth_id'])->first();
 
         if (!isset($user)) {
-
             // Make sure this user doesn't already exist in the system.
             if (isset($user_info['email'])) {
                 $existing_user = User::where('email', $user_info['email'])->first();

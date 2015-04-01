@@ -26,7 +26,6 @@ class BaseController extends Controller
 
         //If we've been passed an array of messages
         if (is_array($messages)) {
-
             //If we've only been passed one severity
             if (!is_array($severity)) {
                 //Set that severity for every message

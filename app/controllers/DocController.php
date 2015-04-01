@@ -43,7 +43,6 @@ class DocController extends BaseController
         }
 
         try {
-
             //Retrieve requested document
             $doc = Doc::where('slug', $slug)->with('statuses')->with('userSponsor')->with('groupSponsor')->with('categories')->with('dates')->first();
 

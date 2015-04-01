@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider
 {
-  protected $defer = true;
+    protected $defer = true;
 
     public function register()
     {

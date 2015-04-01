@@ -21,7 +21,7 @@ class DocumentsTableSeeder extends Seeder
         if (file_exists($docSeedPath)) {
             $content = file_get_contents($docSeedPath);
         } else {
-          $content = "New Document Content";
+            $content = "New Document Content";
         }
         $docOptions = array(
       'title'       => 'Example Document',
@@ -40,7 +40,7 @@ class DocumentsTableSeeder extends Seeder
         if (file_exists($docSeedPath)) {
             $content = file_get_contents($docSeedPath);
         } else {
-          $content = "New Document Content";
+            $content = "New Document Content";
         }
 
         $docOptions = array(

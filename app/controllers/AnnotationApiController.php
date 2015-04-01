@@ -172,7 +172,6 @@ class AnnotationApiController extends ApiController
      */
     public function putIndex($id = null)
     {
-
         //If no id requested, return 404
         if ($id === null) {
             App::abort(404, 'No annotation id passed.');
