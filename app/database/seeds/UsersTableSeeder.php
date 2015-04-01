@@ -15,5 +15,13 @@ class UsersTableSeeder extends Seeder
             'lname' => $creds['user_lname'],
             'token' => '',
         ));
+
+        DB::table('users')->insert(array(
+            'email' => $creds['admin_email'],
+            'password' => Hash::make($creds['admin_password']),
+            'fname' => $creds['admin_fname'],
+            'lname' => $creds['admin_lname'],
+            'token' => '',
+        ));
     }
 }
