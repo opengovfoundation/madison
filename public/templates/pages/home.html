@@ -1,9 +1,9 @@
 <div class="row">
 
-  <div ng-include="'/templates/partials/featured.html'"></div>
+  <section ng-include="'/templates/partials/featured.html'"></section>
 
-  <div class="search-list">
-    <h2>Add your voice...</h2>
+  <aside class="search-list">
+    <h2 class="heading">Add your voice...</h2>
     <div>
       <p>
         Find legislation and regulation being developed in Washington, D.C. and
@@ -12,7 +12,7 @@
         below, or search the whole repository.
       </p>
     </div>
-    <div class="search-form">
+    <section class="search-form">
       <div>
         <h3 class="normal-title" for="doc-text-filter">
           Search all documents:
@@ -49,15 +49,13 @@
           <option value="updated_at">Last Updated</option>
         </select>
       </div-->
-    </div>
-    <div class="doc-results-list">
-      <h3 class="normal-title">Recent Legislation</h3>
-      <ul>
-        <li ng-repeat="doc in docs | toArray | filter:docSearch | orderBy:dateSort:reverse"
-          ng-show="docFilter(doc)" class="doc-list-item">
-          <div doc-list-item class="inside"></div>
-        </li>
-      </ul>
-    </div>
-  </div>
+    </section>
+    <section class="doc-results-list">
+      <h2 class="normal-title">Recent Legislation</h2>
+      <article ng-repeat="doc in docs | toArray | filter:docSearch | orderBy:dateSort:reverse"
+        ng-show="docFilter(doc)" class="doc-list-item">
+        <div doc-list-item class="inside"></div>
+      </article>
+    </section>
+  </aside>
 </div>

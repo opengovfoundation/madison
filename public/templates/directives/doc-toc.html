@@ -1,9 +1,9 @@
-<div class="document-toc" ng-class="{open: tocShow}">
+<section class="document-toc" ng-class="{open: tocShow}">
   <div class="inner">
     <header class="toc-header" ng-click="toggleToc()">
       <h3 class="normal-title"><span>Table of Contents</span></h3>
     </header>
-    <div class="toc-content" id="toc">
+    <nav class="toc-content" id="toc">
       <div id="toc-container">
         <ul>
           <li ng-repeat="heading in headings" class="toc-{{ heading.tag | lowercase }}">
@@ -11,6 +11,6 @@
           </li>
         </ul>
       </div>
-    </div>
+    </nav>
   </div>
-</div>
+</section>

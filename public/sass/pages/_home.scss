@@ -1,290 +1,290 @@
 .home-feature {
-	@extend .col-md-6;
-	padding: 0;
+    @extend .col-md-6;
+    padding: 0;
 
-	.read-button {
-		@extend .button;
-		@extend .action-button;
-		@extend .go-button;
-		float: right;
+    .read-button {
+        @extend .button;
+        @extend .action-button;
+        @extend .go-button;
+        float: right;
 
-		font-size: em(12px);
-	}
+        font-size: em(12px);
+    }
 
-	h2 {
-		font-size: em(72px);
-	}
+    h2 {
+        font-size: em(72px);
+    }
+
+    .feature-image {
+        height: 345px;
+        width: 100%;
+    }
 }
 
 .search-list {
-	@extend .col-md-6;
+    @extend .col-md-6;
 
-	ul {
-		margin: 0;
-		padding: 0;
-	}
+    h2.heading {
+        font-size: em(80px);
+        @extend .title-underline-thick;
+    }
 
-	h2 {
-		font-size: em(80px);
-		@extend .title-underline-thick;
-	}
-
-	.normal-title {
-		display: block;
-		@extend .small-caps;
-		font-weight: normal;
-		margin-bottom: 10px;
-	}
+    .normal-title {
+        display: block;
+        @extend .small-caps;
+        font-weight: normal;
+        margin-bottom: 10px;
+    }
 }
 
 .search-form {
-	margin-bottom: 15px;
+    margin-bottom: 15px;
 
-	.text-search {
-		display: block;
-		overflow: hidden;
-		margin-right: 100px;
+    .text-search {
+        display: block;
+        overflow: hidden;
+        margin-right: 100px;
 
-		input {
-			@extend .form-control;
-		}
-	}
-	.search-button {
-		@extend .button;
-		@extend .action-button;
-		@extend .go-button;
-		float: right;
-		margin-top: 3px;
-		max-width: 100px;
-	}
+        input {
+            @extend .form-control;
+        }
+    }
+    .search-button {
+        @extend .button;
+        @extend .action-button;
+        @extend .go-button;
+        float: right;
+        margin-top: 3px;
+        max-width: 100px;
+    }
 }
 
 .doc-list-item {
-	float: left;
-	display: block;
-	width: 100%;
-	margin-bottom: 10px;
+    float: left;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
 
-	// To make both columns equal height, we need to make this a table.
-	// The next block of declarations achieve this.
-	& > .inside {
-		display: table;
-		width: 100%;
-	}
+    // To make both columns equal height, we need to make this a table.
+    // The next block of declarations achieve this.
+    & > .inside {
+        display: table;
+        width: 100%;
+    }
 
-	.doc-info, .doc-meta {
-		display: table-cell;
-		float: none;
-		vertical-align: top;
-	}
+    .doc-info, .doc-meta {
+        display: table-cell;
+        float: none;
+        vertical-align: top;
+    }
 
-	.doc-info {
-		@extend .col-sm-8;
-		padding-top: 25px;
-		padding-bottom: 15px;
-	}
+    .doc-info {
+        @extend .col-sm-8;
+        padding-top: 25px;
+        padding-bottom: 15px;
+    }
 
-	.doc-meta {
-		@extend .col-sm-4;
-		padding-top: 15px;
+    .doc-meta {
+        @extend .col-sm-4;
+        padding-top: 15px;
 
-		// Make this relative so we can stick the action button to the bottom of it.
-		position: relative;
+        // Make this relative so we can stick the action button to the bottom of it.
+        position: relative;
 
-		// Give enough room for that button.
-		// 15px + height of button (~35px) + 10px of top-margin.
-		padding-bottom: 60px;
+        // Give enough room for that button.
+        // 15px + height of button (~35px) + 10px of top-margin.
+        padding-bottom: 60px;
 
-		.read-action {
-			// Glue this to the bottom of the box.
-			position: absolute;
-			bottom: 15px;
-		}
-	}
+        .read-action {
+            // Glue this to the bottom of the box.
+            position: absolute;
+            bottom: 15px;
+        }
+    }
 
-	.category {
-		display: inline-block;
-		list-style: none;
-		$category-height: 20px;
-		margin-right: 10px;
+    .category {
+        display: inline-block;
+        list-style: none;
+        $category-height: 20px;
+        margin-right: 10px;
 
-		span {
-			display: inline-block;
-			background-color: $light-grey;
-			line-height: $category-height;
-			height: $category-height;
-			padding-right: 7px;
-			padding-left: 5px;
-			vertical-align: top;
+        span {
+            display: inline-block;
+            background-color: $light-grey;
+            line-height: $category-height;
+            height: $category-height;
+            padding-right: 7px;
+            padding-left: 5px;
+            vertical-align: top;
 
-			@extend .small-caps;
-		}
+            @extend .small-caps;
+        }
 
-		&:before {
-			border-top: ceil($category-height/2) solid transparent;
-			border-bottom: ceil($category-height/2) solid transparent;
+        &:before {
+            border-top: ceil($category-height/2) solid transparent;
+            border-bottom: ceil($category-height/2) solid transparent;
 
-			border-right: ceil($category-height/2) solid $light-grey;
-			border-left: none;
-			width: 0px;
-			display: inline-block;
-			vertical-align: top;
+            border-right: ceil($category-height/2) solid $light-grey;
+            border-left: none;
+            width: 0px;
+            display: inline-block;
+            vertical-align: top;
 
-			content: " ";
+            content: " ";
 
-		}
-	}
+        }
+    }
 
-	.date {
-		@extend .small-caps;
-		time {
-			font-weight: bold;
-		}
-	}
+    .date {
+        @extend .small-caps;
+        time {
+            font-weight: bold;
+        }
+    }
 
-	.stats {
-		margin-top: 10px;
-		margin-bottom: 0px;
+    .stats {
+        margin-top: 10px;
+        margin-bottom: 0px;
 
-		// Hide our table header.
-		thead {
-			display: none;
-		}
+        // Hide our table header.
+        thead {
+            display: none;
+        }
 
-		.stats-value {
-			text-align: right;
-			font-style: italic;
-			padding-right: 5px;
-		}
+        .stats-value {
+            text-align: right;
+            font-style: italic;
+            padding-right: 5px;
+        }
 
-		.stats-name {
-			@extend .small-caps;
-		}
+        .stats-name {
+            @extend .small-caps;
+        }
 
-		td {
-			padding: 7px 0;
-		}
-	}
+        td {
+            padding: 7px 0;
+        }
+    }
 }
 
 // Reusable Document Styles (maybe?)
 .doc-info {
-	@extend .col-sm-12;
-	padding-top: 20px;
-	padding-bottom: 25px;
-	background-color: $lighter-grey;
+    @extend .col-sm-12;
+    padding-top: 20px;
+    padding-bottom: 25px;
+    background-color: $lighter-grey;
 
-	h2, h1 {
-		@extend .title-underline-thick;
-	}
+    .heading {
+        @extend .title-underline-thick;
+    }
 
-	h3 {
-		font-size: em(30px);
-		@extend .title-underline-medium;
-	}
+    .subheading {
+        font-size: em(30px);
+        @extend .title-underline-medium;
+    }
 }
 
 .doc-sponsor {
-	display: block;
+    display: block;
 
-	@extend .title-underline-thin;
+    @extend .title-underline-thin;
 
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .doc-sponsor, .doc-stats {
-	ul {
-		display: inline;
-		margin: 0;
-		padding: 0;
-	}
+    ul {
+        display: inline;
+        margin: 0;
+        padding: 0;
+    }
 
-	li {
-		display: inline-block;
-		list-style: none;
-	}
+    li {
+        display: inline-block;
+        list-style: none;
+    }
 }
 
 .doc-stats li {
-	border-right: 1px solid #000;
-	margin-right: 4px;
-	padding-right: 6px;
+    border-right: 1px solid #000;
+    margin-right: 4px;
+    padding-right: 6px;
 
-	&:last-child {
-		border: none;
-	}
+    &:last-child {
+        border: none;
+    }
 }
 
 .doc-meta {
-	background-color: $lightest-grey;
+    background-color: $lightest-grey;
 }
 
 .doc-content {
-	float: left;
+    float: left;
 }
 
 .doc-summary {
-	margin-top: 25px;
+    margin-top: 25px;
 }
 
 .read-action {
-	// Make this the full size of the box, then add padding inside
-	// to squeeze it into place.
-	width: 100%;
-	padding-left: 15px;
-	padding-right: 15px;
-	.action-button {
-		@extend .go-button;
+    // Make this the full size of the box, then add padding inside
+    // to squeeze it into place.
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    .action-button {
+        @extend .go-button;
 
-		// Offset to match the padding from above.
-		margin-left: -15px;
-		margin-right: 15px;
-		display: block;
-		text-align:center;
-	}
+        // Offset to match the padding from above.
+        margin-left: -15px;
+        margin-right: 15px;
+        display: block;
+        text-align:center;
+    }
 }
 
 // Features
 .main-feature {
-	@include clearfix();
+    @include clearfix();
 }
 
 .previous-features {
-	@extend .row;
-	margin-top: 20px;
+    @extend .row;
+    margin-top: 20px;
 
-	.message {
-		// Actually, this is kinda buttony.
-		@extend .button;
-		@extend .btn-success;
+    .message {
+        // Actually, this is kinda buttony.
+        @extend .button;
+        @extend .btn-success;
 
-		display: block;
-		padding: 15px 0;
-		margin: 0 15px 24px;
-	}
+        display: block;
+        padding: 15px 0;
+        margin: 0 15px 24px;
+    }
 }
 
 .recent-activity, .most-active {
-	@extend .col-md-6;
+    @extend .col-md-6;
 
-	h2 {
-		margin-bottom: 25px;
-		font-family: $main-font;
-		font-weight: bold;
-		text-transform: uppercase;
-		font-size: em(14px);
-	}
+    h2 {
+        margin-bottom: 25px;
+        font-family: $main-font;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: em(14px);
+    }
 
-	article {
-		margin-bottom: 25px;
-	}
+    article {
+        margin-bottom: 25px;
+    }
 
-	.author, .title {
-		font-weight: bold;
-	}
+    .author, .title {
+        font-weight: bold;
+    }
 
-	time {
-		display: block;
-		font-style: italic;
-	}
+    time {
+        display: block;
+        font-style: italic;
+    }
 }

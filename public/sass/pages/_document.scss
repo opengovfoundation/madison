@@ -1,178 +1,279 @@
 /* Document */
 .back-link {
-	@extend .col-md-12;
-	margin-bottom: 10px;
+    @extend .col-md-12;
 
-	a {
-		@extend .small-caps;
-		@extend .go-button;
-		color: $dark-grey;
-	}
+    a {
+        @extend .small-caps;
+        @extend .go-button;
+        color: $dark-grey;
+
+        // Bigger click box.
+        display: inline-block;
+        padding: 10px;
+        margin-left: -10px;
+    }
 }
 
 
 .doc-support-button {
-	@extend .action-button;
+    @extend .action-button;
 }
 
 .doc-oppose-button {
-	@extend .reject-button;
+    @extend .reject-button;
 }
 
 .single-doc {
-	.doc-info .button {
-		padding: 7px 15px;
-		margin-right: 10px;
-	}
+    .doc-info .button {
+        padding: 7px 15px;
+        margin-right: 10px;
+    }
 
-	.nav-tabs {
-		@extend .row;
-		background-color: $lighter-grey;
+    .nav-tabs {
+        @extend .row;
+        background-color: $lighter-grey;
 
-		padding-left: 10px;
-		li {
-			a {
-				padding: 7px 15px;
-				border: none;
-				&:hover, &:active {
-					border: none;
-				}
-				background-color: $green;
-				color: $white;
+        padding-left: 10px;
+        li {
+            a {
+                padding: 7px 15px;
+                border: none;
+                &:hover, &:active {
+                    border: none;
+                }
+                background-color: $green;
+                color: $white;
 
-				@extend .small-caps;
-				font-weight: bold;
+                @extend .small-caps;
+                font-weight: bold;
 
-			}
-			&.active a {
-				background-color: $white;
-				color: $black;
-				border: none;
-			}
-		}
-	}
+            }
+            &.active a {
+                background-color: $white;
+                color: $black;
+                border: none;
+            }
+        }
+    }
 }
 
 .doc-main {
-	@extend .col-md-8;
+    @extend .col-md-8;
 }
 
-.doc-meta {
-	@extend .col-md-4;
+.doc-secondary-content {
+    @extend .col-md-4;
+
+    & > section {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    .normal-title {
+        @extend .title-underline-thin;
+
+        text-transform: uppercase;
+        font-weight: bold;
+
+        .rss-link {
+            float: right;
+            font-weight: normal;
+        }
+    }
+
+    .stats-number {
+        @extend .col-md-4;
+    }
+}
+
+.stats {
+    text-align: center;
+
+    .normal-title {
+        text-align: left;
+    }
+
+    .stat-label {
+        @extend .small-caps;
+        font-weight: normal;
+    }
+
+    .stat-value {
+        font-size: em(20px);
+        font-style: italic;
+    }
+}
+
+.chart-title .vs {
+    font-style: italic;
+}
+
+.chart {
+    .oppose rect {
+        fill: $orange;
+    }
+    .support rect {
+        fill: $blue;
+    }
+    .border line {
+        stroke:rgb(0,0,0);
+        stroke-width:1;
+    }
+}
+
+.rss-link {
+    @extend .fa;
+    @extend .fa-rss;
+
+    // Make the click area larger.
+    position: relative;
+    padding: 10px;
+    right: 0px;
+    bottom: 10px;
+
+    // Hide the button text.
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+
+    // Inverted icon.
+    &:before {
+        width: 19px;
+        height: 19px;
+        padding: 4px;
+        display: inline-block;
+        text-align: center;
+        @extend .fa-inverse;
+        background-color: $medium-grey;
+        border-radius: 4px;
+    }
+
+    &:hover:before {
+        text-decoration: none;
+        background-color: $light-medium-grey;
+    }
+}
+
+.content {
+    margin-top: 25px;
 }
 
 /* Table of Contents */
 .document-toc {
-	// The width of the whole block.
-	$toc-width: 400px;
+    // The width of the whole block.
+    $toc-width: 400px;
 
-	// The width of the header that sticks out the side.
-	$toc-heading-width: 35px;
+    // The width of the header that sticks out the side.
+    $toc-heading-width: 35px;
 
-	// The padding for the box.
-	$toc-padding: 10px;
+    // The padding for the box.
+    $toc-padding: 10px;
 
-	background: $lightest-grey;
-	box-shadow: 0px 2px 3px #999;
+    background: $lightest-grey;
+    box-shadow: 0px 2px 5px $dark-grey;
 
-	// Floating sidebar
-	position: fixed;
-	z-index: 10;
-	top: 250px;
-	padding: $toc-padding;
-	padding-right: ($toc-heading-width);
-	width: $toc-width;
-	min-height: 250px;
+    // Floating sidebar
+    position: fixed;
+    z-index: 10;
+    top: 250px;
+    padding: $toc-padding;
+    padding-right: ($toc-heading-width);
+    width: $toc-width;
+    min-height: 250px;
 
-	// Slide in/out
-	left: $toc-heading-width - $toc-width;
-	@include single-transition(left, 0.4s, ease-in-out);
-	&.open {
-		left: 0;
-	}
+    // Slide in/out
+    left: $toc-heading-width - $toc-width;
+    @include single-transition(left, 0.4s, ease-in-out);
+    &.open {
+        left: 0;
+    }
 
-	.inner {
-		// Setup for moving the header
-		position: relative;
-	}
+    .inner {
+        // Setup for moving the header
+        position: relative;
+    }
 
-	.toc-header {
-		// Shove the header all the way to the right, and out of the box.
-		// Glue the top and bottom to the containing box.
-		position: absolute;
-		// Offset to account for padding.
-		top: $toc-padding * -1;
-		bottom: $toc-padding * -1;
+    .toc-header {
+        // Shove the header all the way to the right, and out of the box.
+        // Glue the top and bottom to the containing box.
+        position: absolute;
+        // Offset to account for padding.
+        top: $toc-padding * -1;
+        bottom: $toc-padding * -1;
 
-		right: $toc-heading-width * -1;
-		width: $toc-heading-width;
+        right: $toc-heading-width * -1;
+        width: $toc-heading-width;
 
-		// Prevent the weird bug where clicking the tabs activates the TOC.
-		overflow: hidden;
+        // Prevent the weird bug where clicking the tabs activates the TOC.
+        overflow: hidden;
 
-		border-left: 1px solid $light-medium-grey;
+        // Make it look clickable
+        cursor: pointer;
 
-		.normal-title {
-			color: $light-medium-grey;
-			display: block;
-			// Give us enough room that the line doesn't wrap.
-			width: $toc-width;
-			max-width: $toc-width;
-			// And a little offset from the top.
-			margin-top: 20px;
-			span {
-				@extend .small-caps;
-				display: inline-block;
-				// Rotate around the middle of the far left edge, to hold our position.
-				transform-origin: ceil($toc-heading-width/2) ceil($toc-heading-width/2);
-				@include rotate(90deg);
+        border-left: 1px solid $light-medium-grey;
 
-				// Center this, more or less.
-				line-height: $toc-heading-width + 4px;
-			}
-		}
-	}
+        .normal-title {
+            color: $light-medium-grey;
+            display: block;
+            // Give us enough room that the line doesn't wrap.
+            width: $toc-width;
+            max-width: $toc-width;
+            // And a little offset from the top.
+            margin-top: 20px;
+            span {
+                @extend .small-caps;
+                font-weight: bold;
+                display: inline-block;
+                // Rotate around the middle of the far left edge, to hold our position.
+                transform-origin: ceil($toc-heading-width/2) ceil($toc-heading-width/2);
+                @include rotate(90deg);
 
-	.toc-content {
-		width: $toc-width - ($toc-heading-width + $toc-padding);
-		max-height: $toc-width;
-		overflow: auto;
+                // Center this, more or less.
+                line-height: $toc-heading-width + 4px;
+            }
+        }
+    }
 
-		ul {
-			padding-left: 20px;
-		}
+    .toc-content {
+        width: $toc-width - ($toc-heading-width + $toc-padding);
+        max-height: $toc-width;
+        overflow: auto;
 
-		// We don't have good nesting here, so do the best we can.
-		.toc-heading {
-			display: block;
-		}
-		.toc-h1 {
-			// Remove the dot and offset back.
-			list-style: none;
-			margin-left: $toc-padding * -1;
+        ul {
+            padding-left: 20px;
+        }
 
-			font-size: 1.1em;
-			font-weight: bold;
-		}
-		.toc-h2 {
-			font-weight: bold;
-			margin-left: $toc-padding * 1;
-		}
-		.toc-h3 {
-			margin-left: $toc-padding * 2;
-		}
-		.toc-h4{
-			margin-left: $toc-padding * 3;
-			font-size: 0.9em;
-		}
-		.toc-h5{
-			margin-left: $toc-padding * 4;
-			font-size: 0.9em;
-		}
-		.toc-h6{
-			margin-left: $toc-padding * 5;
-			font-size: 0.9em;
-		}
+        // We don't have good nesting here, so do the best we can.
+        .toc-heading {
+            display: block;
+        }
+        .toc-h1 {
+            // Remove the dot and offset back.
+            list-style: none;
+            margin-left: $toc-padding * -1;
 
-	}
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .toc-h2 {
+            font-weight: bold;
+            margin-left: $toc-padding * 1;
+        }
+        .toc-h3 {
+            margin-left: $toc-padding * 2;
+        }
+        .toc-h4{
+            margin-left: $toc-padding * 3;
+            font-size: 0.9em;
+        }
+        .toc-h5{
+            margin-left: $toc-padding * 4;
+            font-size: 0.9em;
+        }
+        .toc-h6{
+            margin-left: $toc-padding * 5;
+            font-size: 0.9em;
+        }
+
+    }
 }

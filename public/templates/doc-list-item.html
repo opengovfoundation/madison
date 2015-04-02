@@ -1,5 +1,5 @@
-<div class="doc-info">
-	<h3>
+<header class="doc-info">
+	<h3 class="subheading">
 		<a href="{{ doc.url }}">{{ doc.title }}</a>
 	</h3>
   <span class="doc-sponsor">
@@ -18,7 +18,7 @@
 	<span class="doc-statuses">
 	  <span class="status" ng-repeat="status in doc.statuses">{{ status.label }}</span>
 	</span>
-</div>
+</header>
 <div class="doc-meta">
 	<div class="list-doc-info">
     <span ng-hide="doc.updated_at" class="date">
