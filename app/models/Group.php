@@ -430,7 +430,8 @@ class Group extends Eloquent
         return $groupMember->role == static::ROLE_OWNER;
     }
 
-    public function getMemberRole($userId) {
+    public function getMemberRole($userId)
+    {
         $groupMember = $this->findMemberByUserId($userId);
 
         return $groupMember->role;

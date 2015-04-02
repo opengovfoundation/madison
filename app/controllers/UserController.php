@@ -200,7 +200,7 @@ class UserController extends BaseController
 
         $groups = $user->groups()->get();
 
-        foreach($groups as $group) {
+        foreach ($groups as $group) {
             $role = $group->getMemberRole($user->id);
 
             $group->role = $role;
@@ -210,7 +210,7 @@ class UserController extends BaseController
 
         return Response::json([
       'user'    => $userArray,
-      'groups'  => $groupArray
+      'groups'  => $groupArray,
         ]);
     }
 
