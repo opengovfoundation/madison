@@ -199,6 +199,13 @@ class UserController extends BaseController
         $userArray = $user->toArray();
 
         $groups = $user->groups()->get();
+
+        foreach($groups as $group) {
+            $role = $group->getMemberRole($user->id);
+
+            $group->role = $role;
+        }
+
         $groupArray = $groups->toArray();
 
         return Response::json([
