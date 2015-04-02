@@ -1,4 +1,4 @@
-<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ user.fname }} <span class="caret"></span></a>
+<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ user.display_name }} <span class="caret"></span></a>
 <ul class="dropdown-menu" role="menu">
   <li class="link-settings"><a href="/documents">My Documents</a>
   <li class="link-settings"><a href="/user/edit/{{ user.id }}">Account Settings</a></li>
@@ -9,7 +9,7 @@
     <a class="dropdown-trigger" href="#" data-toggle="dropdown">Use Madison As</a>
     <ul class="dropdown-menu" role="menu">
       <li class="link-settings">
-        <a ng-click="setUserActive()">{{ user.fname }} {{ user.lname }}</a>
+        <span>{{ user.display_name }}</span>
       </li>
       <li class="divider"></li>
       <li ng-repeat="group in groups">
