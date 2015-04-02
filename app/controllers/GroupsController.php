@@ -194,7 +194,7 @@ class GroupsController extends BaseController
                 return Response::json($this->growlMessage('You must be logged in to use Madison as a group', 'error'), 401);
             }
 
-            if ($groupId == -1) {
+            if ($groupId == 0) {
                 Session::remove('activeGroupId');
 
                 return Response::json($this->growlMessage('Active group has been removed', 'success'));
