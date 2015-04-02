@@ -10,6 +10,7 @@ class Group extends Eloquent
 {
     public static $timestamp = true;
     protected $softDelete = true;
+    protected $hidden = ['pivot', 'deleted_at', 'updated_at', 'created_at'];
 
     const STATUS_ACTIVE = 'active';
     const STATUS_PENDING = 'pending';
