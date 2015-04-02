@@ -1,13 +1,28 @@
 angular.module('madisonApp.services')
-  .service('SessionService', function ($rootScope) {
+  .service('SessionService', function ($rootScope, $filter) {
+    "use strict";
+
     this.user = null;
     this.groups = [];
+    this.activeGroup = null;
 
-    this.create = function (user, groups) {
+    this.create = function (user, groups, activeGroupId) {
       this.user = user;
 
       if (typeof groups !== 'undefined') {
         this.groups = groups;
+
+        if (activeGroupId !== null) {
+          this._setActiveGroup(activeGroupId);
+        } else {
+          //If there is currently an active group, remove it
+          if(this.activeGroup !== null) {
+            this.activeGroup = null;
+
+            $rootScope.$broadcast('activeGroupChanged');
+          }
+
+        }
       }
 
       $rootScope.$broadcast('sessionChanged');
@@ -25,6 +40,18 @@ angular.module('madisonApp.services')
 
     this.getGroups = function () {
       return this.groups;
+    };
+
+    this.getActiveGroup = function () {
+      return this.activeGroup;
+    };
+
+    this._setActiveGroup = function (groupId) {
+      var activeGroup = $filter('getById')(this.groups, groupId);
+
+      this.activeGroup = activeGroup;
+
+      $rootScope.$broadcast('activeGroupChanged');
     };
 
     return this;

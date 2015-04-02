@@ -1,9 +1,9 @@
-/*jslint white:true */
 /*global location */
 /*global window */
 angular.module('madisonApp.services')
   .factory('AuthService', ['$http', 'SessionService', 'USER_ROLES', 'growl',
     function ($http, SessionService, USER_ROLES, growl) {
+      "use strict";
       var authService = {};
 
       authService.setUser = function (user) {
@@ -13,6 +13,7 @@ angular.module('madisonApp.services')
       authService.getUser = function () {
         var user = {};
         var groups = [];
+        var activeGroupId = null;
 
         return $http.get('/api/user/current')
           .then(function (res) {
@@ -26,12 +27,14 @@ angular.module('madisonApp.services')
               }
 
               groups = res.data.groups;
+              activeGroupId = res.data.activeGroupId;
             } else {
               user = null;
               groups = null;
+              activeGroupId = null;
             }
 
-            SessionService.create(user, groups);
+            SessionService.create(user, groups, activeGroupId);
           });
       };
 
@@ -47,6 +50,20 @@ angular.module('madisonApp.services')
             'phone': user.phone
           }).then(function (res) {
             console.log(res);
+            authService.getUser();
+          });
+      };
+
+      authService.setActiveGroup = function (groupId) {
+        return $http.post('/api/groups/active/' + groupId)
+          .then(function () {
+            authService.getUser();
+          });
+      };
+
+      authService.removeActiveGroup = function () {
+        return $http.post('/api/groups/active/0')
+          .then(function () {
             authService.getUser();
           });
       };
