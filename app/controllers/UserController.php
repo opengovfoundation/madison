@@ -172,7 +172,7 @@ class UserController extends BaseController
     }
 
     /**
-     *	Api route to get logged in user.
+     *	Api route to get logged in user / group
      *
      *	@param void
      *
@@ -186,32 +186,35 @@ class UserController extends BaseController
 
         $user = Auth::user();
 
+        //Grab the active group from the user
+        $activeGroup = $user->activeGroup();
+
         $user->display_name = $user->getDisplayName();
-
-        $groups = $user->groups()->count();
-
         $user->admin = $user->hasRole('Admin');
         $user->independent_sponsor = $user->hasRole('Independent Sponsor');
-
-        $user->activeGroup = $user->activeGroup();
         $user->verified = $user->verified();
 
-        $userArray = $user->toArray();
-
+        //Grab all of the user's groups
         $groups = $user->groups()->get();
 
+        //Set the user's role in each group
         foreach ($groups as $group) {
             $role = $group->getMemberRole($user->id);
 
             $group->role = $role;
         }
 
+        $userArray = $user->toArray();
         $groupArray = $groups->toArray();
+        $activeGroupId = $activeGroup != null ? $activeGroup->id : null;
 
-        return Response::json([
-      'user'    => $userArray,
-      'groups'  => $groupArray,
-        ]);
+        $returned = [
+        'user'      => $userArray,
+        'groups'    => $groupArray,
+        'activeGroupId' => $activeGroupId
+        ];
+
+        return Response::json($returned);
     }
 
     /**
