@@ -199,14 +199,16 @@ class UserController extends BaseController
         }
 
         $user->activeGroup = $user->activeGroup();
-
         $user->verified = $user->verified();
-
         $userArray = $user->toArray();
         unset($userArray['roles']);
 
+        $groups = $user->groups()->get();
+        $groupArray = $groups->toArray();
+
         return Response::json([
       'user'    => $userArray,
+      'groups'  => $groupArray
         ]);
     }
 
