@@ -12,14 +12,9 @@ angular.module('madisonApp.controllers')
         $scope.loggingInState = loginPopupService.state;
       });
 
-      $scope.setUser = function (user) {
-        $scope.user = user;
-      };
-
-      $scope.setUser(SessionService.getUser());
-
       $scope.$on('sessionChanged', function () {
-        $scope.setUser(SessionService.user);
+        $scope.user = SessionService.getUser();
+        $scope.groups = SessionService.getGroups();
       });
 
       $scope.$on(AUTH_EVENTS.notAuthenticated, function () {
@@ -36,7 +31,5 @@ angular.module('madisonApp.controllers')
       });
       /*jslint unparam: false*/
 
-      $scope.setUser = function (user) {
-        $scope.user = user;
-      };
+      AuthService.getUser();
     }]);

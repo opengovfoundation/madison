@@ -12,6 +12,7 @@ angular.module('madisonApp.services')
 
       authService.getUser = function () {
         var user = {};
+        var groups = [];
 
         return $http.get('/api/user/current')
           .then(function (res) {
@@ -23,11 +24,14 @@ angular.module('madisonApp.services')
                   user[key] = res.data.user[key];
                 }
               }
+
+              groups = res.data.groups;
             } else {
               user = null;
+              groups = null;
             }
 
-            SessionService.create(user);
+            SessionService.create(user, groups);
           });
       };
 

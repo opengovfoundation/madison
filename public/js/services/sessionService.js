@@ -1,9 +1,14 @@
 angular.module('madisonApp.services')
   .service('SessionService', function ($rootScope) {
     this.user = null;
+    this.groups = null;
 
-    this.create = function (user) {
+    this.create = function (user, groups) {
       this.user = user;
+
+      if (typeof groups !== 'undefined') {
+        this.groups = groups;
+      }
 
       $rootScope.$broadcast('sessionChanged');
     };
@@ -16,6 +21,10 @@ angular.module('madisonApp.services')
 
     this.getUser = function () {
       return this.user;
+    };
+
+    this.getGroups = function () {
+      return this.groups;
     };
 
     return this;
