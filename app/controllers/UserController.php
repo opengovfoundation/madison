@@ -186,22 +186,17 @@ class UserController extends BaseController
 
         $user = Auth::user();
 
+        $user->display_name = $user->getDisplayName();
+
         $groups = $user->groups()->count();
 
-        if ($user->hasRole('Admin')) {
-            $user->role = 'admin';
-        } elseif ($groups > 0) {
-            $user->role = 'group-member';
-        } elseif ($user->hasRole('Independent Sponsor')) {
-            $user->role = 'independent-sponsor';
-        } else {
-            $user->role = 'basic';
-        }
+        $user->admin = $user->hasRole('Admin');
+        $user->independent_sponsor = $user->hasRole('Independent Sponsor');
 
         $user->activeGroup = $user->activeGroup();
         $user->verified = $user->verified();
+
         $userArray = $user->toArray();
-        unset($userArray['roles']);
 
         $groups = $user->groups()->get();
         $groupArray = $groups->toArray();

@@ -1,7 +1,7 @@
 angular.module('madisonApp.services')
   .service('SessionService', function ($rootScope) {
     this.user = null;
-    this.groups = null;
+    this.groups = [];
 
     this.create = function (user, groups) {
       this.user = user;

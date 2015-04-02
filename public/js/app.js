@@ -58,7 +58,7 @@ app.config(['$locationProvider',
     $locationProvider.html5Mode(true);
   }]);
 
-app.run(function (AuthService, AUTH_EVENTS, $rootScope) {
+app.run(function (AuthService, AUTH_EVENTS, $rootScope, $state, growl) {
   AuthService.setUser(user);
 
   $rootScope.$on('$stateChangeStart', function (event, next) {
@@ -75,6 +75,15 @@ app.run(function (AuthService, AUTH_EVENTS, $rootScope) {
         $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
       }
     }
+  });
+
+  $rootScope.$on(AUTH_EVENTS.notAuthorized, function () {
+    growl.error('You are not authorized to view that page');
+  });
+
+  $rootScope.$on(AUTH_EVENTS.notAuthenticated, function () {
+    growl.error('You must be logged in to view that page');
+    $state.go('index');
   });
 });
 

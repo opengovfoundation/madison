@@ -17,11 +17,6 @@ angular.module('madisonApp.controllers')
         $scope.groups = SessionService.getGroups();
       });
 
-      $scope.$on(AUTH_EVENTS.notAuthenticated, function () {
-        growl.error("You must log in to view this page.");
-        $state.go('index');
-      });
-
       /*jslint unparam: true*/
       $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
         $scope.prevState = {

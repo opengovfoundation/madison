@@ -86,16 +86,44 @@ angular.module('madisonApp.services')
       };
 
       authService.isAuthorized = function (authorizedRoles) {
-        if(!angular.isArray(authorizedRoles)) {
+        var authorized = false;
+
+        if (!angular.isArray(authorizedRoles)) {
           authorizedRoles = [authorizedRoles];
         }
 
         //If everyone's allowed, or the user is an admin, return true
-        if(authorizedRoles.indexOf(USER_ROLES.all) !== -1){
-          return true;
+        if (authorizedRoles.indexOf(USER_ROLES.all) !== -1) {
+          authorized = true;
+        } else if (!authService.isAuthenticated()) { //If the user isn't authenticated
+          //Check guest role
+          if (authorizedRoles.indexOf(USER_ROLES.guest) !== -1){
+            authorized = true;
+          }
+
+        } else { //If the user is authenticated
+          //Check Basic role
+          if (authorizedRoles.indexOf(USER_ROLES.basic) !== -1) {
+            authorized = true;
+          }
+
+          //Check Independent Sponsor Role
+          if (authorizedRoles.indexOf(USER_ROLES.independent) !== -1 && SessionService.user.independent_sponsor === true){
+            authorized = true;
+          }
+
+          //Check Group Member Role
+          if (authorizedRoles.indexOf(USER_ROLES.groupMember) !== -1 && SessionService.groups.length > 0) {
+            authorized = true;
+          }
+
+          //Allow admins access to all routes
+          if (SessionService.user.admin === true) {
+            authorized = true;
+          }
         }
 
-        return (authService.isAuthenticated() && authorizedRoles.indexOf(SessionService.user.role) !== -1);
+        return authorized;
       };
 
       authService.logout = function () {
