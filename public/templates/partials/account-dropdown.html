@@ -8,7 +8,13 @@
   <li class="dropdown-submenu">
     <a class="dropdown-trigger" href="#" data-toggle="dropdown">Use Madison As</a>
     <ul class="dropdown-menu" role="menu">
-      <li class="link-settings"><a href="/groups/active/0">{{ user.fname }} {{ user.lname }}</a></li>
+      <li class="link-settings">
+        <a ng-click="setUserActive()">{{ user.fname }} {{ user.lname }}</a>
+      </li>
+      <li class="divider"></li>
+      <li ng-repeat="group in groups">
+        <a ng-click="setGroupActive(group.id)">{{ group.display_name }}</a>
+      </li>
     </ul>
   </li>
   <li class="link-logout"><a ng-click="logout()">Logout</a></li>
