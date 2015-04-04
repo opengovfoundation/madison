@@ -31,14 +31,14 @@ class DocumentsController extends Controller
         $groups = Auth::user()->groups()->get();
         $groupDocs = [];
 
-        foreach($groups as $group) {
+        foreach ($groups as $group) {
             $tempDocs = $group->docs()->get()->toArray();
             array_push($groupDocs, ['name' => $group->name, 'docs' => $tempDocs]);
         }
 
         $returned = [
             'independent'   => $docs,
-            'group'         => $groupDocs
+            'group'         => $groupDocs,
         ];
 
         return Response::json($returned);

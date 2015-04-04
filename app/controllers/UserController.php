@@ -211,7 +211,7 @@ class UserController extends BaseController
         $returned = [
         'user'      => $userArray,
         'groups'    => $groupArray,
-        'activeGroupId' => $activeGroupId
+        'activeGroupId' => $activeGroupId,
         ];
 
         return Response::json($returned);

@@ -209,6 +209,7 @@ class GroupsController extends BaseController
             return Response::json($this->growlMessage('Active group changed', 'success'));
         } catch (\Exception $e) {
             Log::error($e);
+
             return Response::json($this->growlMessage('There was an error changing the active group', 'error'), 500);
         }
     }
