@@ -68,6 +68,16 @@ angular.module('madisonApp.services')
           });
       };
 
+      authService.getMyDocs = function () {
+        return $http.get('/api/user/' + SessionService.user.id + '/docs')
+          .success(function (data) {
+            SessionService.setDocs(data);
+          }).error(function (response) {
+            growl.error('There was an error retrieving your documents.');
+            console.error(response);
+          });
+      };
+
       authService.login = function (credentials) {
         return $http.post('/api/user/login', credentials)
                     .then(function () {
