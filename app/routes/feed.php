@@ -1,9 +1,9 @@
 <?php
 
 /**
-*   RSS Feed Route
-*/
-Route::get('docs/feed', function(){
+ *   RSS Feed Route.
+ */
+Route::get('docs/feed', function () {
     //Grab all documents
     $docs = Doc::with('sponsor', 'content')->orderBy('updated_at', 'DESC')->take(20)->get();
 
@@ -15,20 +15,20 @@ Route::get('docs/feed', function(){
     $feed->pubdate = $docs->first()->updated_at;
     $feed->lang = 'en';
 
-    foreach($docs as $doc){
+    foreach ($docs as $doc) {
         $sponsor = $doc->sponsor->first();
-        if($sponsor instanceof User){
-            $display_name = $sponsor->fname . ' ' . $sponsor->lname;
-        }else if($sponsor instanceof Group){
+        if ($sponsor instanceof User) {
+            $display_name = $sponsor->fname.' '.$sponsor->lname;
+        } elseif ($sponsor instanceof Group) {
             $display_name = $sponsor->display_name;
-        }else{
+        } else {
             $display_name = '';
         }
 
         $item = array();
         $item['title'] = $doc->title;
         $item['author'] = $display_name;
-        $item['link'] = URL::to('docs/' . $doc->slug);
+        $item['link'] = URL::to('docs/'.$doc->slug);
         $item['pubdate'] = $doc->updated_at;
         $item['description'] = $doc->title;
         $item['content'] = $doc->content->html();
@@ -39,4 +39,3 @@ Route::get('docs/feed', function(){
     return $feed->render('atom');
 
 });
-

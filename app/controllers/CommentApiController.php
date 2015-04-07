@@ -1,132 +1,138 @@
 <?php
 /**
- * 	Controller for Document actions
+ * 	Controller for Document actions.
  */
-class CommentApiController extends ApiController{
+class CommentApiController extends ApiController
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-	public function __construct(){
-		parent::__construct();
+        $this->beforeFilter('auth', array('on' => array('post', 'put', 'delete')));
+    }
 
-		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
-	}
-	
-	public function getIndex($doc, $comment = null){
-		try{
-			$userId = null;
-			if(Auth::check()){
-				$userId = Auth::user()->id;
-			}
+    public function getIndex($doc, $comment = null)
+    {
+        try {
+            $userId = null;
+            if (Auth::check()) {
+                $userId = Auth::user()->id;
+            }
 
-			$results = Comment::loadComments($doc, $comment, $userId);
-		}catch(Exception $e){
-			throw $e;
-			App::abort(500, $e->getMessage());
-		}
+            $results = Comment::loadComments($doc, $comment, $userId);
+        } catch (Exception $e) {
+            throw $e;
+            App::abort(500, $e->getMessage());
+        }
 
-		return Response::json($results);
-	}
+        return Response::json($results);
+    }
 
-	public function postIndex($doc){
-		$comment = Input::get('comment');
+    public function postIndex($doc)
+    {
+        $comment = Input::get('comment');
 
-		$newComment = new Comment();
-		$newComment->user_id = Auth::user()->id;
-		$newComment->doc_id = $comment['doc']['id'];
-		$newComment->text = $comment['text'];
-		$newComment->save();
+        $newComment = new Comment();
+        $newComment->user_id = Auth::user()->id;
+        $newComment->doc_id = $comment['doc']['id'];
+        $newComment->text = $comment['text'];
+        $newComment->save();
 
-		Event::fire(MadisonEvent::DOC_COMMENTED, $newComment);
+        Event::fire(MadisonEvent::DOC_COMMENTED, $newComment);
 
-		$return = Comment::loadComments($newComment->doc_id, $newComment->id, $newComment->user_id);
-		return Response::json($return);
-	}
+        $return = Comment::loadComments($newComment->doc_id, $newComment->id, $newComment->user_id);
 
-	public function postSeen($docId, $commentId) {
-		$allowed = false;
+        return Response::json($return);
+    }
 
-		$user = Auth::user();
-		$user->load('docs');
+    public function postSeen($docId, $commentId)
+    {
+        $allowed = false;
 
-		// Check user documents against current document
-		foreach($user->docs as $doc){
-			if($doc->id == $docId){
-				$allowed = true;
-				break;
-			}
-		}
+        $user = Auth::user();
+        $user->load('docs');
 
-		if(!$allowed){
-			throw new Exception("You are not authorized to mark this annotation as seen.");
-		}
+        // Check user documents against current document
+        foreach ($user->docs as $doc) {
+            if ($doc->id == $docId) {
+                $allowed = true;
+                break;
+            }
+        }
 
-		$comment = Comment::find($commentId);
-		$comment->seen = 1;
-		$comment->save();
-		
-		$doc = Doc::find($docId);
-		$vars = array('sponsor' => $user->fname . ' ' . $user->lname, 'label' => 'comment', 'slug' => $doc->slug, 'title' => $doc->title, 'text' => $comment->text);
-		$email = $comment->user->email;
+        if (!$allowed) {
+            throw new Exception("You are not authorized to mark this annotation as seen.");
+        }
 
-		Mail::queue('email.read', $vars, function ($message) use ($email)
-		{
-    		$message->subject('Your feedback on Madison was viewed by a sponsor!');
-    		$message->from('sayhello@opengovfoundation.org', 'Madison');
-    		$message->to($email); // Recipient address
-		});
+        $comment = Comment::find($commentId);
+        $comment->seen = 1;
+        $comment->save();
 
-		return Response::json($comment);
-	
-	}
-	
-	public function postLikes($docId, $commentId) {
-		$comment = Comment::find($commentId);
-		$comment->saveUserAction(Auth::user()->id, Comment::ACTION_LIKE);
+        $doc = Doc::find($docId);
+        $vars = array('sponsor' => $user->fname.' '.$user->lname, 'label' => 'comment', 'slug' => $doc->slug, 'title' => $doc->title, 'text' => $comment->text);
+        $email = $comment->user->email;
 
-		//Load fields for notification
-		$comment->load('user');
-		$comment->type = 'comment';
+        Mail::queue('email.read', $vars, function ($message) use ($email) {
+            $message->subject('Your feedback on Madison was viewed by a sponsor!');
+            $message->from('sayhello@opengovfoundation.org', 'Madison');
+            $message->to($email); // Recipient address
+        });
 
-		Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'like', 'activity' => $comment, 'user'	=> Auth::user()));
+        return Response::json($comment);
+    }
 
-		return Response::json($comment->loadArray());
-	}
+    public function postLikes($docId, $commentId)
+    {
+        $comment = Comment::find($commentId);
+        $comment->saveUserAction(Auth::user()->id, Comment::ACTION_LIKE);
 
-	public function postDislikes($docId, $commentId) {
-		$comment = Comment::find($commentId);
-		$comment->saveUserAction(Auth::user()->id, Comment::ACTION_DISLIKE);
+        //Load fields for notification
+        $comment->load('user');
+        $comment->type = 'comment';
 
-		//Load fields for notification
-		$comment->load('user');
-		$comment->type = 'comment';
+        Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'like', 'activity' => $comment, 'user'    => Auth::user()));
 
-		Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'dislike', 'activity' => $comment, 'user'	=> Auth::user()));
+        return Response::json($comment->loadArray());
+    }
 
-		return Response::json($comment->loadArray());
-	}
+    public function postDislikes($docId, $commentId)
+    {
+        $comment = Comment::find($commentId);
+        $comment->saveUserAction(Auth::user()->id, Comment::ACTION_DISLIKE);
 
-	public function postFlags($docId, $commentId) {
-		$comment = Comment::find($commentId);
-		$comment->saveUserAction(Auth::user()->id, Comment::ACTION_FLAG);
+        //Load fields for notification
+        $comment->load('user');
+        $comment->type = 'comment';
 
-		return Response::json($comment->loadArray());
-	}
+        Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'dislike', 'activity' => $comment, 'user'    => Auth::user()));
 
-	public function postComments($docId, $commentId) {
-		$comment = Input::get('comment');
+        return Response::json($comment->loadArray());
+    }
 
-		$parent = Comment::where('doc_id', '=', $docId)
-								->where('id', '=', $commentId)
-							    ->first();
+    public function postFlags($docId, $commentId)
+    {
+        $comment = Comment::find($commentId);
+        $comment->saveUserAction(Auth::user()->id, Comment::ACTION_FLAG);
 
-		$parent->load('user');
-		$parent->type = 'comment';
+        return Response::json($comment->loadArray());
+    }
 
-		//Returns the new saved Comment with the User relationship loaded
-		$result = $parent->addOrUpdateComment($comment);
+    public function postComments($docId, $commentId)
+    {
+        $comment = Input::get('comment');
 
-		Event::fire(MadisonEvent::DOC_SUBCOMMENT, array('comment' => $result, 'parent' => $parent));
-		
-		return Response::json($result);
-	}
+        $parent = Comment::where('doc_id', '=', $docId)
+                                ->where('id', '=', $commentId)
+                                ->first();
+
+        $parent->load('user');
+        $parent->type = 'comment';
+
+        //Returns the new saved Comment with the User relationship loaded
+        $result = $parent->addOrUpdateComment($comment);
+
+        Event::fire(MadisonEvent::DOC_SUBCOMMENT, array('comment' => $result, 'parent' => $parent));
+
+        return Response::json($result);
+    }
 }
-

@@ -11,11 +11,11 @@
 |
 */
 
-Artisan::add(new CreateUser);
-Artisan::add(new UserRole);
+Artisan::add(new CreateUser());
+Artisan::add(new UserRole());
 Artisan::add(new SponsorCommand());
-Artisan::add(new ActivityExport);
-Artisan::add(new DatabaseBackup);
-Artisan::add(new CreateRole);
-Artisan::add(new dbUpdateGroups);
-Artisan::add(new DatabaseClear);
+Artisan::add(new ActivityExport());
+Artisan::add(new DatabaseBackup());
+Artisan::add(new CreateRole());
+Artisan::add(new dbUpdateGroups());
+Artisan::add(new DatabaseClear());

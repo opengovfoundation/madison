@@ -1,6 +1,6 @@
 <?php
 
-use Zizaco\Entrust\Entrust;
+
 /*
 |--------------------------------------------------------------------------
 | Application & Route Filters
@@ -12,15 +12,12 @@ use Zizaco\Entrust\Entrust;
 |
 */
 
-App::before(function($request)
-{
-	Request::setTrustedProxies([$request->getClientIP()]);
+App::before(function ($request) {
+    Request::setTrustedProxies([$request->getClientIP()]);
 });
 
-
-App::after(function($request, $response)
-{
-	//
+App::after(function ($request, $response) {
+    //
 });
 
 /*
@@ -34,21 +31,23 @@ App::after(function($request, $response)
 |
 */
 
-Route::filter('auth', function()
-{
-	if (Auth::guest()) return Redirect::to('user/login');
+Route::filter('auth', function () {
+    if (Auth::guest()) {
+        return Redirect::to('user/login');
+    }
 });
 
-Route::filter('admin', function(){
-	
-	$user = Auth::user();
-	
-	if(Auth::guest() || !$user->hasRole('Admin')) return Redirect::home()->with('message', 'You are not authorized to view that page');
+Route::filter('admin', function () {
+
+    $user = Auth::user();
+
+    if (Auth::guest() || !$user->hasRole('Admin')) {
+        return Redirect::home()->with('message', 'You are not authorized to view that page');
+    }
 });
 
-Route::filter('auth.basic', function()
-{
-	return Auth::basic();
+Route::filter('auth.basic', function () {
+    return Auth::basic();
 });
 
 /*
@@ -62,9 +61,10 @@ Route::filter('auth.basic', function()
 |
 */
 
-Route::filter('guest', function()
-{
-	if (Auth::check()) return Redirect::to('/');
+Route::filter('guest', function () {
+    if (Auth::check()) {
+        return Redirect::to('/');
+    }
 });
 
 /*
@@ -78,20 +78,17 @@ Route::filter('guest', function()
 |
 */
 
-Route::filter('csrf', function()
-{
-	if (Session::token() != Input::get('_token'))
-	{
-		throw new Illuminate\Session\TokenMismatchException;
-	}
+Route::filter('csrf', function () {
+    if (Session::token() != Input::get('_token')) {
+        throw new Illuminate\Session\TokenMismatchException();
+    }
 });
 
-Route::filter('disable profiler', function()
-{
-	try {
-		$profiler = App::make('profiler');
-		$profiler->disable();
-	} catch(\Exception $e) {
-		// do nothing.
-	}
+Route::filter('disable profiler', function () {
+    try {
+        $profiler = App::make('profiler');
+        $profiler->disable();
+    } catch (\Exception $e) {
+        // do nothing.
+    }
 });

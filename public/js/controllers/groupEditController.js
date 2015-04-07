@@ -12,7 +12,6 @@ angular.module('madisonApp.controllers')
       $scope.saveGroup = function () {
         var request = $scope.group.$save(function (group, headers) {
           $state.go('group-management');
-          console.log(group, headers);
         });
       };
 

@@ -76,7 +76,7 @@
 					</div>
 					<div class="col-md-4 col-md-offset-1">
 						<div class="row" ng-if="dates.length > 0">
-							<strong>Existing Dates:</strong>	
+							<strong>Existing Dates:</strong>
 						</div>
 						<div class="existing-date row" ng-repeat="date in dates">
 							<form class="form-horizontal">

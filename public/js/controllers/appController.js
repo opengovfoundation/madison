@@ -1,6 +1,8 @@
 angular.module('madisonApp.controllers')
   .controller('AppController', ['$rootScope', '$scope', 'AuthService', 'USER_ROLES', 'AUTH_EVENTS', 'SessionService', 'growl', '$state', 'loginPopupService',
     function ($rootScope, $scope, AuthService, USER_ROLES, AUTH_EVENTS, SessionService, growl, $state, loginPopupService) {
+      "use strict";
+
       $scope.user = null;
       $scope.userRoles = USER_ROLES;
       $scope.isAuthorized = AuthService.isAuthorized;
@@ -12,19 +14,13 @@ angular.module('madisonApp.controllers')
         $scope.loggingInState = loginPopupService.state;
       });
 
-      $scope.setUser = function (user) {
-        $scope.user = user;
-      };
-
-      $scope.setUser(SessionService.getUser());
-
       $scope.$on('sessionChanged', function () {
-        $scope.setUser(SessionService.user);
+        $scope.user = SessionService.getUser();
+        $scope.groups = SessionService.getGroups();
       });
 
-      $scope.$on(AUTH_EVENTS.notAuthenticated, function () {
-        growl.error("You must log in to view this page.");
-        $state.go('index');
+      $scope.$on('activeGroupChanged', function () {
+        $scope.activeGroup = SessionService.getActiveGroup();
       });
 
       /*jslint unparam: true*/
@@ -36,7 +32,14 @@ angular.module('madisonApp.controllers')
       });
       /*jslint unparam: false*/
 
-      $scope.setUser = function (user) {
-        $scope.user = user;
+      AuthService.getUser();
+
+      //Set active group from the account dropdown
+      $scope.setActiveGroup = function (groupId) {
+        AuthService.setActiveGroup(groupId);
+      };
+
+      $scope.removeActiveGroup = function () {
+        AuthService.removeActiveGroup();
       };
     }]);

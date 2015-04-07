@@ -45,7 +45,7 @@
             <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Contact Phone Number" value="{{ Auth::user()->phone_number }}"/>
           </div>
           <button type="submit" class="btn btn-default">Submit</button>
-          
+
           {{ Form::token() }}
           {{ Form::close() }}
         </div>

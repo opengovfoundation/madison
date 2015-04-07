@@ -58,7 +58,7 @@
 									<button class="btn btn-default" ng-show="!short_url" ng-click="getShortUrl()">Get Short Url</button>
 									<input type="text" class="form-control" ng-show="short_url" ng-model="short_url">
 								</div>
-								
+
 							</div>
 							<div class="form-group">
 								<label for="status" class="col-sm-2 control-label">Status: </label>
@@ -91,7 +91,7 @@
 					</div>
 					<div class="col-md-4 col-md-offset-1">
 						<div class="row" ng-if="dates.length > 0">
-							<strong>Existing Dates:</strong>	
+							<strong>Existing Dates:</strong>
 						</div>
 						<div class="existing-date row" ng-repeat="date in dates">
 							<form class="form-horizontal">

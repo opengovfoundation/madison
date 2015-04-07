@@ -1,304 +1,320 @@
 <?php
 /**
- * 	Controller for Document actions
+ * 	Controller for Document actions.
  */
-class AnnotationApiController extends ApiController{
+class AnnotationApiController extends ApiController
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-	public function __construct(){
-		parent::__construct();
+        $this->beforeFilter('auth', array('on' => array('post', 'put', 'delete')));
+    }
 
-		$this->beforeFilter('auth', array('on' => array('post','put', 'delete')));
-	}	
-	
-	//Route for /api/docs{doc}/annotation/{annotation}
-	//	Returns json annotation if id found,
-	//		404 with error message if id not found,
-	//		404 if no id passed
-	
-	/**
-	 * Get annotations by document ID and annotation ID
-	 * @param integer $docId
-	 * @param string $annotationId optional, if not provided get all
-	 * @throws Exception
-	 */
-	public function getIndex($docId, $annotationId = null){
-		try{
-			$userId = null;
-			if(Auth::check()){
-				$userId = Auth::user()->id;
-			}
-			
-			$results = Annotation::loadAnnotationsForAnnotator($docId, $annotationId, $userId);
-		}catch(Exception $e){
-			throw $e;
-			App::abort(500, $e->getMessage());
-		} 
-		
-		if(isset($annotationId)){
-			return Response::json($results[0]);
-		}
+    //Route for /api/docs{doc}/annotation/{annotation}
+    //	Returns json annotation if id found,
+    //		404 with error message if id not found,
+    //		404 if no id passed
 
-		return Response::json($results);
-	}
+    /**
+     * Get annotations by document ID and annotation ID.
+     *
+     * @param integer $docId
+     * @param string  $annotationId optional, if not provided get all
+     *
+     * @throws Exception
+     */
+    public function getIndex($docId, $annotationId = null)
+    {
+        try {
+            $userId = null;
+            if (Auth::check()) {
+                $userId = Auth::user()->id;
+            }
 
-	/**
-	 * Create a new annotation
-	 * @param document ID $doc
-	 * @throws Exception
-	 * @return 303 redirect to annotation link
-	 */
-	public function postIndex($doc){
-		$body = Input::all();
-		$body['doc_id'] = $doc;
-		$is_edit = false;
+            $results = Annotation::loadAnnotationsForAnnotator($docId, $annotationId, $userId);
+        } catch (Exception $e) {
+            throw $e;
+            App::abort(500, $e->getMessage());
+        }
 
-		//Check for edit tag
-		if(in_array('edit', $body['tags'])){
-			$is_edit = true;
+        if (isset($annotationId)) {
+            return Response::json($results[0]);
+        }
 
-			//If no explanation present, throw error
-			if(!isset($body['explanation'])){
-				throw new Exception('Explanation required for edits');
-			}
-		}
+        return Response::json($results);
+    }
 
-		$id = DB::transaction(function() use ($body, $doc, $is_edit){
-			$annotation = new Annotation();
-			$annotation->doc_id = $doc;
-			$annotation->user_id = Auth::user()->id;
-			$annotation->quote = $body['quote'];
-			$annotation->text = $body['text'];
-			$annotation->uri = $body['uri'];
+    /**
+     * Create a new annotation.
+     *
+     * @param document ID $doc
+     *
+     * @throws Exception
+     *
+     * @return 303 redirect to annotation link
+     */
+    public function postIndex($doc)
+    {
+        $body = Input::all();
+        $body['doc_id'] = $doc;
+        $is_edit = false;
 
-			$annotation->save();
+        //Check for edit tag
+        if (in_array('edit', $body['tags'])) {
+            $is_edit = true;
 
-			foreach($body['ranges'] as $range){
-				$rangeObj = new AnnotationRange();
-				$rangeObj->annotation_id = $annotation->id;
-				$rangeObj->start_offset = $range['startOffset'];
-				$rangeObj->end_offset = $range['endOffset'];
-				$rangeObj->start = $range['start'];
-				$rangeObj->end = $range['end'];
+            //If no explanation present, throw error
+            if (!isset($body['explanation'])) {
+                throw new Exception('Explanation required for edits');
+            }
+        }
 
-				$rangeObj->save();
-			}
-			
-			$permissions = new AnnotationPermission();
-			$permissions->annotation_id = $annotation->id;
-			$permissions->user_id = Auth::user()->id;
-			$permissions->read = 1;
-			$permissions->update = 0;
-			$permissions->delete = 0;
-			$permissions->admin = 0;
-			$permissions->save();
+        $id = DB::transaction(function () use ($body, $doc, $is_edit) {
+            $annotation = new Annotation();
+            $annotation->doc_id = $doc;
+            $annotation->user_id = Auth::user()->id;
+            $annotation->quote = $body['quote'];
+            $annotation->text = $body['text'];
+            $annotation->uri = $body['uri'];
 
-			foreach($body['tags'] as $tag){
-				$tagObj = new AnnotationTag();
-				$tagObj->annotation_id = $annotation->id;
-				$tagObj->tag = $tag;
-				$tagObj->save();
-			}
+            $annotation->save();
 
-			if($is_edit){
-				$comment = new AnnotationComment();
-				$comment->text = $body['explanation'];
-				$comment->user_id = $annotation->user_id;
-				$comment->annotation_id = $annotation->id;
+            foreach ($body['ranges'] as $range) {
+                $rangeObj = new AnnotationRange();
+                $rangeObj->annotation_id = $annotation->id;
+                $rangeObj->start_offset = $range['startOffset'];
+                $rangeObj->end_offset = $range['endOffset'];
+                $rangeObj->start = $range['start'];
+                $rangeObj->end = $range['end'];
 
-				$comment->save();
-			}
+                $rangeObj->save();
+            }
 
-			//$annotation->updateSearchIndex();
+            $permissions = new AnnotationPermission();
+            $permissions->annotation_id = $annotation->id;
+            $permissions->user_id = Auth::user()->id;
+            $permissions->read = 1;
+            $permissions->update = 0;
+            $permissions->delete = 0;
+            $permissions->admin = 0;
+            $permissions->save();
 
-			return $annotation->id;
-		});
+            foreach ($body['tags'] as $tag) {
+                $tagObj = new AnnotationTag();
+                $tagObj->annotation_id = $annotation->id;
+                $tagObj->tag = $tag;
+                $tagObj->save();
+            }
 
-		$annotation = Annotation::find($id);
+            if ($is_edit) {
+                $comment = new AnnotationComment();
+                $comment->text = $body['explanation'];
+                $comment->user_id = $annotation->user_id;
+                $comment->annotation_id = $annotation->id;
 
-		Event::fire(MadisonEvent::DOC_ANNOTATED, $annotation);
+                $comment->save();
+            }
 
-		return Redirect::to('/api/docs/' . $doc . '/annotations/' . $id, 303);
-	}
+            //$annotation->updateSearchIndex();
 
-	public function postSeen($docId, $annotationId) {
-		$allowed = false;
+            return $annotation->id;
+        });
 
-		$user = Auth::user();
-		$user->load('docs');
+        $annotation = Annotation::find($id);
 
-		// Check user documents against current document
-		foreach($user->docs as $doc){
-			if($doc->id == $docId){
-				$allowed = true;
-				break;
-			}
-		}
+        Event::fire(MadisonEvent::DOC_ANNOTATED, $annotation);
 
-		if(!$allowed){
-			throw new Exception("You are not authorized to mark this annotation as seen.");
-		}
+        return Redirect::to('/api/docs/'.$doc.'/annotations/'.$id, 303);
+    }
 
-		//The user is allowed to make this action		
-		$annotation = Annotation::find($annotationId);
-		$annotation->seen = 1;
-		$annotation->save();
+    public function postSeen($docId, $annotationId)
+    {
+        $allowed = false;
 
-		$doc = Doc::find($docId);
-		$vars = array('sponsor' => $user->fname . ' ' . $user->lname, 'label' => 'annotation', 'slug' => $doc->slug, 'title' => $doc->title, 'text' => $annotation->text);
-		$email = $annotation->user->email;
+        $user = Auth::user();
+        $user->load('docs');
 
-		Mail::queue('email.read', $vars, function ($message) use ($email)
-		{
-    		$message->subject('Your feedback on Madison was viewed by a sponsor!');
-    		$message->from('sayhello@opengovfoundation.org', 'Madison');
-    		$message->to($email); // Recipient address
-		});
+        // Check user documents against current document
+        foreach ($user->docs as $doc) {
+            if ($doc->id == $docId) {
+                $allowed = true;
+                break;
+            }
+        }
 
-		return Response::json($annotation);		
-	}
+        if (!$allowed) {
+            throw new Exception("You are not authorized to mark this annotation as seen.");
+        }
 
-	/**
-	 * Update an existing annotation
-	 * @param string $id
-	 */
-	public function putIndex($id = null){
-		
-		//If no id requested, return 404
-		if($id === null){
-			App::abort(404, 'No annotation id passed.');
-		}
+        //The user is allowed to make this action
+        $annotation = Annotation::find($annotationId);
+        $annotation->seen = 1;
+        $annotation->save();
 
-		$body = Input::all();
-		
-		$annotation = Annotation::createFromAnnotatorArray($body);
-		$annotation->updateSearchIndex();
-		
-		return Response::json($annotation);
-	}
+        $doc = Doc::find($docId);
+        $vars = array('sponsor' => $user->fname.' '.$user->lname, 'label' => 'annotation', 'slug' => $doc->slug, 'title' => $doc->title, 'text' => $annotation->text);
+        $email = $annotation->user->email;
 
-	/**
-	 * Delete an annotation by doc ID and annotation ID
-	 * 
-	 * @param int $doc
-	 * @param int $annotation
-	 */
-	public function deleteIndex($doc, $annotation){
-		//If no id requested, return 404
-		if($annotation === null){
-			App::abort(404, 'No annotation id passed.');
-		}
+        Mail::queue('email.read', $vars, function ($message) use ($email) {
+            $message->subject('Your feedback on Madison was viewed by a sponsor!');
+            $message->from('sayhello@opengovfoundation.org', 'Madison');
+            $message->to($email); // Recipient address
+        });
 
-		$annotation = Annotation::find($annotation);
-		
-		$ret = $annotation->delete();
-		
-		return Response::make(null, 204);
-	}
+        return Response::json($annotation);
+    }
 
-	/**
-	 * Return search results for annotations
-	 */
-	public function getSearch(){
-		return false;
-	}
+    /**
+     * Update an existing annotation.
+     *
+     * @param string $id
+     */
+    public function putIndex($id = null)
+    {
+        //If no id requested, return 404
+        if ($id === null) {
+            App::abort(404, 'No annotation id passed.');
+        }
 
-	public function getLikes($doc, $annotation = null){
-		if($annotation === null){
-			App::abort(404, 'No annotation id passed.');
-		}
+        $body = Input::all();
 
-		$likes = Annotation::getMetaCount($annotation, 'likes');
+        $annotation = Annotation::createFromAnnotatorArray($body);
+        $annotation->updateSearchIndex();
 
-		return Response::json(array('likes' => $likes));
-	}
+        return Response::json($annotation);
+    }
 
-	public function getDislikes($doc, $annotation = null){
-		if($annotation === null){
-			App::abort(404, 'No annotation id passed.');
-		}
+    /**
+     * Delete an annotation by doc ID and annotation ID.
+     *
+     * @param int $doc
+     * @param int $annotation
+     */
+    public function deleteIndex($doc, $annotation)
+    {
+        //If no id requested, return 404
+        if ($annotation === null) {
+            App::abort(404, 'No annotation id passed.');
+        }
 
-		$dislikes = Annotation::getMetaCount($annotation, 'dislikes');
+        $annotation = Annotation::find($annotation);
 
-		return Response::json(array('dislikes' => $dislikes));
-	}
+        $ret = $annotation->delete();
 
-	public function getFlags($doc, $annotation = null){
-		if($annotation === null){
-			App::abort(404, 'No annotation id passed.');
-		}
+        return Response::make(null, 204);
+    }
 
-		$flags = Annotation::getMetaCount($annotation, 'flags');
+    /**
+     * Return search results for annotations.
+     */
+    public function getSearch()
+    {
+        return false;
+    }
 
-		return Response::json(array('flags' => $flags));
-	}
+    public function getLikes($doc, $annotation = null)
+    {
+        if ($annotation === null) {
+            App::abort(404, 'No annotation id passed.');
+        }
 
-	public function postLikes($doc, $annotation = null){
-		if($annotation === null){
-			App::abort(404, 'No note id passed');
-		}
+        $likes = Annotation::getMetaCount($annotation, 'likes');
 
-		$annotation = Annotation::find($annotation);
-		$annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_LIKE);
+        return Response::json(array('likes' => $likes));
+    }
 
-		//Load fields for notification
-		$annotation->link = $annotation->getLink();
-		$annotation->load('user');
-		$annotation->type = 'annotation';
+    public function getDislikes($doc, $annotation = null)
+    {
+        if ($annotation === null) {
+            App::abort(404, 'No annotation id passed.');
+        }
 
-		Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'like', 'activity' => $annotation, 'user'	=> Auth::user()));
+        $dislikes = Annotation::getMetaCount($annotation, 'dislikes');
 
-		return Response::json($annotation->toAnnotatorArray());
-	}
+        return Response::json(array('dislikes' => $dislikes));
+    }
 
-	public function postDislikes($doc, $annotation = null){
-		if($annotation === null){
-			App::abort(404, 'No note id passed');
-		}
+    public function getFlags($doc, $annotation = null)
+    {
+        if ($annotation === null) {
+            App::abort(404, 'No annotation id passed.');
+        }
 
-		$annotation = Annotation::find($annotation);
-		$annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_DISLIKE);
+        $flags = Annotation::getMetaCount($annotation, 'flags');
 
-		//Load fields for notification
-		$annotation->link = $annotation->getLink();
-		$annotation->load('user');
-		$annotation->type = 'annotation';
+        return Response::json(array('flags' => $flags));
+    }
 
-		Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'dislike', 'activity' => $annotation, 'user'	=> Auth::user()));
+    public function postLikes($doc, $annotation = null)
+    {
+        if ($annotation === null) {
+            App::abort(404, 'No note id passed');
+        }
 
-		return Response::json($annotation->toAnnotatorArray());
-	}	
+        $annotation = Annotation::find($annotation);
+        $annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_LIKE);
 
-	public function postFlags($doc, $annotation = null){
-		if($annotation === null){
-			App::abort(404, 'No note id passed');
-		}
+        //Load fields for notification
+        $annotation->link = $annotation->getLink();
+        $annotation->load('user');
+        $annotation->type = 'annotation';
 
-		$annotation = Annotation::find($annotation);
-		$annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_FLAG);
+        Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'like', 'activity' => $annotation, 'user'    => Auth::user()));
 
-		return Response::json($annotation->toAnnotatorArray());
-	}
+        return Response::json($annotation->toAnnotatorArray());
+    }
 
-	public function postComments($docId, $annotationId){
+    public function postDislikes($doc, $annotation = null)
+    {
+        if ($annotation === null) {
+            App::abort(404, 'No note id passed');
+        }
 
-		$comment = Input::get('comment');
+        $annotation = Annotation::find($annotation);
+        $annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_DISLIKE);
 
-		$annotation = Annotation::where('doc_id', '=', $docId)
-								->where('id', '=', $annotationId)
-							    ->first();
+        //Load fields for notification
+        $annotation->link = $annotation->getLink();
+        $annotation->load('user');
+        $annotation->type = 'annotation';
 
-		$annotation->link = $annotation->getLink();
-		$annotation->type = 'annotation';
+        Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'dislike', 'activity' => $annotation, 'user'    => Auth::user()));
 
-		$result = $annotation->addOrUpdateComment($comment);
+        return Response::json($annotation->toAnnotatorArray());
+    }
 
-		// TODO: Hack to allow notification events.  Needs cleaned up.
-		$result->doc_id = $docId;
-		$result->link = $result->getLink($docId);
+    public function postFlags($doc, $annotation = null)
+    {
+        if ($annotation === null) {
+            App::abort(404, 'No note id passed');
+        }
 
-		Event::fire(MadisonEvent::DOC_SUBCOMMENT, array('subcomment' => $result, 'parent' => $annotation));
-		
-		return Response::json($result);
-	}
+        $annotation = Annotation::find($annotation);
+        $annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_FLAG);
+
+        return Response::json($annotation->toAnnotatorArray());
+    }
+
+    public function postComments($docId, $annotationId)
+    {
+        $comment = Input::get('comment');
+
+        $annotation = Annotation::where('doc_id', '=', $docId)
+                                ->where('id', '=', $annotationId)
+                                ->first();
+
+        $annotation->link = $annotation->getLink();
+        $annotation->type = 'annotation';
+
+        $result = $annotation->addOrUpdateComment($comment);
+
+        // TODO: Hack to allow notification events.  Needs cleaned up.
+        $result->doc_id = $docId;
+        $result->link = $result->getLink($docId);
+
+        Event::fire(MadisonEvent::DOC_SUBCOMMENT, array('subcomment' => $result, 'parent' => $annotation));
+
+        return Response::json($result);
+    }
 }
-

@@ -5,11 +5,11 @@
 |--------------------------------------------------------------------------
 */
 
-if(file_exists(app_path() . '/config/oauth_creds.yml')){
-	$consumers = yaml_parse_file(app_path() . '/config/oauth_creds.yml');
+if (file_exists(app_path().'/config/oauth_creds.php')) {
+    require_once app_path().'/config/oauth_creds.php';
 }
 
 return array(
-	'storage' => 'Session',
-	'consumers' => $consumers
+    'storage' => 'Session',
+    'consumers' => $consumers,
 );

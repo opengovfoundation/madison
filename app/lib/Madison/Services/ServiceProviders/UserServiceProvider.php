@@ -4,21 +4,22 @@ namespace Madison\Services\ServiceProviders;
 
 use Illuminate\Support\ServiceProvider;
 
-class UserServiceProvider extends ServiceProvider{
+class UserServiceProvider extends ServiceProvider
+{
+    protected $defer = true;
 
-  protected $defer = true;
-
-  public function register(){
-    $this->app->bind(
+    public function register()
+    {
+        $this->app->bind(
        'Madison\\Storage\\Interfaces\\UserRepositoryInterface',
        'Madison\\Storage\\UserRepository'
     );
-  }
+    }
 
-  public function provides(){
-    return array(
-       'Madison\\Storage\\Interfaces\\UserRepositoryInterface'
+    public function provides()
+    {
+        return array(
+       'Madison\\Storage\\Interfaces\\UserRepositoryInterface',
     );
-  }
-
+    }
 }

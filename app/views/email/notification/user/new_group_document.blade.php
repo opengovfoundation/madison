@@ -1,4 +1,4 @@
-{{-- 
+{{--
 Expects:
   $group (Group)
   $doc (Doc)
@@ -22,5 +22,3 @@ Expects:
     <p>&ndash; The OpenGov Foundation Team</p>
   </body>
 </html>
-
-

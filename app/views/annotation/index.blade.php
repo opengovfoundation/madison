@@ -31,7 +31,7 @@
 							<blockquote>
 								{{ $comment->text }}
 								<div class="comment-author">
-									<a href="{{ URL::to('user/' . $comment->user()->id) }}">{{ $comment->user()->fname }}</a>	
+									<a href="{{ URL::to('user/' . $comment->user()->id) }}">{{ $comment->user()->fname }}</a>
 								</div>
 							</blockquote>
 						</div>

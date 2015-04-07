@@ -1,6 +1,6 @@
 <div id="participate-comment" class="row participate-comment" ng-if="user.id">
   <div class="comment-field" ng-if="user.id">
-    <form name="add-comment-form" ng-submit="commentSubmit()">
+    <form name="add-comment-form" ng-submit="commentSubmit(comment)">
         <input ng-model="comment.text" id="doc-comment-field" type="text" class="form-control centered" placeholder="Add a comment" required />
     </form>    
   </div>
