@@ -1,6 +1,6 @@
 /* Document */
 .back-link {
-    @extend .col-md-12;
+    @extend .col-md-24;
 
     a {
         @extend .small-caps;
@@ -58,11 +58,11 @@
 }
 
 .doc-main {
-    @extend .col-md-8;
+    @extend .col-md-16;
 }
 
 .doc-secondary-content {
-    @extend .col-md-4;
+    @extend .col-md-8;
 
     & > section {
         padding-bottom: 20px;
@@ -82,7 +82,7 @@
     }
 
     .stats-number {
-        @extend .col-md-4;
+        @extend .col-md-8;
     }
 }
 
@@ -100,11 +100,21 @@
 
     .stat-value {
         font-size: em(20px);
-        font-style: italic;
     }
 }
 
+.stats-value, .stats-number {
+    font-family: $fancy-font;
+    font-style: italic;
+}
+
+.chart-title {
+    @extend .small-caps;
+}
+
 .chart-title .vs {
+    text-transform: none;
+    font-family: $fancy-font;
     font-style: italic;
 }
 
@@ -118,6 +128,21 @@
     .border line {
         stroke:rgb(0,0,0);
         stroke-width:1;
+    }
+}
+
+.chart-stat {
+    @extend .col-md-12;
+
+    &.oppose {
+        text-align: right;
+    }
+    &.support {
+        text-align: left;
+    }
+
+    .chart-label {
+        @extend .screen-hidden;
     }
 }
 
@@ -159,6 +184,11 @@
 }
 
 /* Table of Contents */
+
+.toc-open .document-toc {
+        left: 0;
+    }
+
 .document-toc {
     // The width of the whole block.
     $toc-width: 400px;
@@ -168,6 +198,12 @@
 
     // The padding for the box.
     $toc-padding: 10px;
+
+    // The shortest the box can be, to accomodate text.
+    $min-height: 250px;
+
+    // The tallest the box can be, triggers scrollbars.
+    $max-height: 400px;
 
     background: $lightest-grey;
     box-shadow: 0px 2px 5px $dark-grey;
@@ -179,14 +215,11 @@
     padding: $toc-padding;
     padding-right: ($toc-heading-width);
     width: $toc-width;
-    min-height: 250px;
+    min-height: $min-height;
 
     // Slide in/out
     left: $toc-heading-width - $toc-width;
     @include single-transition(left, 0.4s, ease-in-out);
-    &.open {
-        left: 0;
-    }
 
     .inner {
         // Setup for moving the header
@@ -204,6 +237,8 @@
         right: $toc-heading-width * -1;
         width: $toc-heading-width;
 
+        min-height: $min-height;
+
         // Prevent the weird bug where clicking the tabs activates the TOC.
         overflow: hidden;
 
@@ -216,8 +251,8 @@
             color: $light-medium-grey;
             display: block;
             // Give us enough room that the line doesn't wrap.
-            width: $toc-width;
-            max-width: $toc-width;
+            width: $min-height;
+            max-width: $min-height;
             // And a little offset from the top.
             margin-top: 20px;
             span {
@@ -236,7 +271,7 @@
 
     .toc-content {
         width: $toc-width - ($toc-heading-width + $toc-padding);
-        max-height: $toc-width;
+        max-height: $max-height;
         overflow: auto;
 
         ul {

@@ -6,6 +6,9 @@
 // We want our page a little wider than the default.
 $container-large-desktop: 1265px;
 
+// Double the columns for more granularity.
+$grid-columns: 24;
+
 // Colors
 $headline-color: $black;
 $text-color: $black;

@@ -1,13 +1,15 @@
-<div class="document-wrapper single-doc">
+<div class="document-wrapper single-doc" ng-class="{'toc-open': tocOpen}">
   <header class="back-link">
     <a href="/docs/">All Bills</a>
   </header>
-  <article class="doc-main">
+
+  <article class="doc-main doc doc-full">
+    <aside class="toc" doc-toc ng-class="{'hide': !tocShow}"></aside>
+
     <header class="doc-header">
       <div class="doc-info-container">
         <div class="doc-info">
           <h1 class="heading">{{ doc.title }}</h1>
-          <div class="toc" doc-toc></div>
           <div class="doc-sponsor" ng-repeat="sponsor in doc.sponsor">
             <strong>Sponsored by </strong><span>{{ sponsor.display_name }}</span>
           </div>
@@ -34,7 +36,7 @@
     </ul>
     <div class="tab-content doc-tabs">
       <section id="tab-activity" ng-class="{'active':secondtab == false}" class="tab-pane">
-        <div id="content" class="content doc_content">
+        <div id="content" class="content doc-content">
           <h2 class="screen-hidden">Document Text</h2>
           <article id="doc_content" ng-bind-html="doc.html"></article>
         </div>
@@ -53,19 +55,32 @@
       <h2 class="normal-title">Bill Stats</h2>
 
       <div class="support-chart">
-        <span class="chart-title">Oppose <span class="vs">vs</span> Support</span>
+        <div class="chart-title">
+            Oppose <span class="vs">vs</span> Support
+        </div>
          <svg class="chart" viewbox="-50 0 100 30" width="100%" height="30">
-            <g transform="translate(0,9)" class="support">
-              <rect width="40" height="12"></rect>
+            <g transform="rotate(180) translate(1,-21)" class="oppose">
+              <rect width="60" height="12"></rect>
             </g>
             <g class="border">
               <line x1="0" y1="0" x2="0" y2="30">
             </g>
-            <g transform="rotate(180) translate(1,-21)" class="oppose">
-              <rect width="60" height="12"></rect>
+            <g transform="translate(0,9)" class="support">
+              <rect width="40" height="12"></rect>
             </g>
         </svg>
+        <div class="chart-labels">
+          <dl class="chart-stat oppose">
+            <dt class="chart-label">Oppose</dt>
+            <dd class="chart-value">60</dd>
+          </dl>
+          <dl class="chart-stat support">
+            <dt class="chart-label">Support</dt>
+            <dd class="chart-value">40</dd>
+          </dl>
+        </div>
       </div>
+
       <dl class="stats-number">
         <dt class="stat-label">Views</dt>
         <dd class="stat-value">4,224</dd>

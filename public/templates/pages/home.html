@@ -53,7 +53,7 @@
     <section class="doc-results-list">
       <h2 class="normal-title">Recent Legislation</h2>
       <article ng-repeat="doc in docs | toArray | filter:docSearch | orderBy:dateSort:reverse"
-        ng-show="docFilter(doc)" class="doc-list-item">
+        ng-show="docFilter(doc)" class="doc-list-item doc doc-small">
         <div doc-list-item class="inside"></div>
       </article>
     </section>

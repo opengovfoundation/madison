@@ -1,5 +1,5 @@
 .home-feature {
-    @extend .col-md-6;
+    @extend .col-md-12;
     padding: 0;
 
     .read-button {
@@ -22,7 +22,7 @@
 }
 
 .search-list {
-    @extend .col-md-6;
+    @extend .col-md-12;
 
     h2.heading {
         font-size: em(80px);
@@ -79,13 +79,13 @@
     }
 
     .doc-info {
-        @extend .col-sm-8;
+        @extend .col-sm-16;
         padding-top: 25px;
         padding-bottom: 15px;
     }
 
     .doc-meta {
-        @extend .col-sm-4;
+        @extend .col-sm-8;
         padding-top: 15px;
 
         // Make this relative so we can stick the action button to the bottom of it.
@@ -99,6 +99,12 @@
             // Glue this to the bottom of the box.
             position: absolute;
             bottom: 15px;
+        }
+    }
+
+    .doc-categories {
+        ul {
+            padding-left: 0;
         }
     }
 
@@ -169,7 +175,7 @@
 
 // Reusable Document Styles (maybe?)
 .doc-info {
-    @extend .col-sm-12;
+    @extend .col-sm-24;
     padding-top: 20px;
     padding-bottom: 25px;
     background-color: $lighter-grey;
@@ -221,6 +227,11 @@
 
 .doc-content {
     float: left;
+
+    h1, h2 {
+        font-family: $fancy-font;
+        font-weight: normal;
+    }
 }
 
 .doc-summary {
@@ -265,7 +276,7 @@
 }
 
 .recent-activity, .most-active {
-    @extend .col-md-6;
+    @extend .col-md-12;
 
     h2 {
         margin-bottom: 25px;

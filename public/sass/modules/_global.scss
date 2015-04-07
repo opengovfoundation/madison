@@ -3,7 +3,8 @@
 // Miscell
 
 // Import our fonts.
-@include web-fonts("Patua One", ("Open Sans": ("300", "300 italic", "700")));
+@include web-fonts("Patua One", ("Open Sans": ("300", "300 italic", "700")),
+    ("Libre+Baskerville": ("300", "300 italic")));
 
 /* Titles. */
 h1, h2, h3, h4, h5, h6 {
