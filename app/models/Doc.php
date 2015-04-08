@@ -110,6 +110,18 @@ class Doc extends Eloquent
         return $this->hasMany('Comment');
     }
 
+    public function getCommentCount() {
+        return $this->comments()->count();
+    }
+
+    public function getAnnotationCount() {
+        return $this->annotations()->count();
+    }
+
+    public function getUserCount() {
+        return false;
+    }
+
     public function annotations()
     {
         return $this->hasMany('Annotation');
@@ -281,19 +293,6 @@ class Doc extends Eloquent
         }
 
         return $results;
-    }
-
-    public function setActionCount()
-    {
-        $es = self::esConnect();
-
-        $params['index'] = $this->index;
-        $params['type'] = 'annotation';
-        $params['body']['term']['doc'] = (string) $this->id;
-
-        $count = $es->count($params);
-
-        $this->annotationCount = $count['count'];
     }
 
     public function get_file_path($format = 'markdown')
