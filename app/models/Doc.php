@@ -116,13 +116,30 @@ class Doc extends Eloquent
         return $this->annotations()->count();
     }
 
+    public function getAnnotationCommentCount () {
+        return count($this->getAnnotationComments());
+    }
+
     public function getUserCount() {
+
+
         return false;
     }
 
     public function annotations()
     {
         return $this->hasMany('Annotation');
+    }
+
+    public function getAnnotationComments() {
+
+        $annotationComments = DB::table('annotation_comments')
+            ->join('annotations', function ($join) {
+                $join->on('annotation_comments.annotation_id', '=', 'annotations.id')
+                    ->where('annotations.doc_id', '=', $this->id);
+            })->get();
+
+        return $annotationComments;
     }
 
     public function getLink()
