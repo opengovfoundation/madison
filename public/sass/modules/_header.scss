@@ -1,91 +1,91 @@
 // Navbar
 .navbar {
-	background-color: $dark-grey;
+    background-color: $dark-grey;
 
-	a {
-		color: $white;
-	}
-	a:hover, a:active a.current {
-		text-decoration: underline;
-		background-color: transparent;
-	}
+    a {
+        color: $white;
+    }
+    a:hover, a:active a.current {
+        text-decoration: underline;
+        background-color: transparent;
+    }
 }
 
 // Logo.
 .brand {
-	@extend .fancy-title;
-	font-size: em(26px);
+    @extend .accent-title;
+    font-size: em(26px);
 }
 
 .dot-io {
-	color: $medium-grey;
+    color: $medium-grey;
 }
 
 .navbar-toggle {
-	background-color: $dark-grey;
-	.icon-bar {
-		background-color: $white;
-	}
+    background-color: $dark-grey;
+    .icon-bar {
+        background-color: $white;
+    }
 }
 
 .navbar-nav {
-	@extend .navbar-collapse;
-	@extend .collapse;
-	@extend .navbar-right;
-	margin-top: 5px;
+    @extend .navbar-collapse;
+    @extend .collapse;
+    @extend .navbar-right;
+    margin-top: 5px;
 
-	li a {
-		text-transform: uppercase;
-		padding: 10px 10px;
-	}
+    li a {
+        text-transform: uppercase;
+        padding: 10px 10px;
+    }
 
-	// Tablet
-	@include breakpoint(0 $screen-md-min) {
-		margin-top: 0px;
-	}
+    // Tablet
+    @include breakpoint(0 $screen-md-min) {
+        margin-top: 0px;
+    }
 
-	// Smartphone
-	@include breakpoint(0 $screen-sm-min) {
-		ul {
-			margin: 0;
-		}
+    // Smartphone
+    @include breakpoint(0 $screen-sm-min) {
+        ul {
+            margin: 0;
+        }
 
-		li {
-			font-size: 1.2em;
-			padding: 0;
-			border-bottom: 1px solid $white;
-			&:last-child {
-				border-bottom: none;
-			}
+        li {
+            font-size: 1.2em;
+            padding: 0;
+            border-bottom: 1px solid $white;
+            &:last-child {
+                border-bottom: none;
+            }
 
-			a {
-				padding: 12px 15px;
-				color: $white;
-			}
+            a {
+                padding: 12px 15px;
+                color: $white;
+            }
 
-		}
-	}
+        }
+    }
 }
 
 .welcome {
-	$welcome-height: 80px;
-	height: $welcome-height;
-	background-color: $green;
-	text-align: center;
-	color: $white;
+    $welcome-height: 80px;
+    height: $welcome-height;
+    background-color: $green;
+    text-align: center;
+    color: $white;
 
-	margin-bottom: 25px;
+    margin-bottom: 25px;
 
-	.message {
-		font-size: em(24px);
-		letter-spacing: 2px;
-		line-height: $welcome-height;
-	}
-	a {
-		color: $white;
-		text-decoration: underline;
-		&:hover {
-			text-decoration: none;
-		}
-	}
+    .message {
+        font-size: em(24px);
+        letter-spacing: 2px;
+        line-height: $welcome-height;
+    }
+    a {
+        color: $white;
+        text-decoration: underline;
+        &:hover {
+            text-decoration: none;
+        }
+    }
 }
