@@ -122,8 +122,34 @@ class Doc extends Eloquent
 
     public function getUserCount() {
 
+        //Return user objects with only user_id property
+        $annotationUsers = DB::table('annotations')
+            ->where('doc_id', '=', $this->id)
+            ->get(['user_id']);
 
-        return false;
+        //Returns user objects with only user_id property
+        $commentUsers = DB::table('comments')
+            ->where('doc_id', '=', $this->id)
+            ->get(['user_id']);
+
+        //Returns user objects with only user_id property
+        $annotationCommentUsers = DB::table('annotation_comments')
+            ->join('annotations', function ($join) {
+                $join->on('annotation_comments.annotation_id', '=', 'annotations.id')
+                    ->where('annotations.doc_id', '=', $this->id);
+            })
+            ->get(['annotation_comments.user_id']);
+
+        //Merge object arrays
+        $users = array_merge($annotationUsers, $commentUsers, $annotationCommentUsers);
+
+        //Grab only the user_id attributes
+        $userArray = array_map(function ($user) {
+            return $user->user_id;
+        }, $users);
+
+        //Return the count of the array with uniques filtered
+        return count(array_unique($userArray));
     }
 
     public function annotations()
