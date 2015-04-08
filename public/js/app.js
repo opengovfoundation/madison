@@ -58,9 +58,10 @@ app.config(['$locationProvider',
     $locationProvider.html5Mode(true);
   }]);
 
-app.run(function (AuthService, AUTH_EVENTS, $rootScope) {
+app.run(function (AuthService, AUTH_EVENTS, $rootScope, $window, $location) {
   AuthService.setUser(user);
 
+  //Check authorization on state change
   $rootScope.$on('$stateChangeStart', function (event, next) {
     var authorizedRoles = next.data.authorizedRoles;
 
@@ -76,6 +77,14 @@ app.run(function (AuthService, AUTH_EVENTS, $rootScope) {
       }
     }
   });
+
+  //Pass state change to Google Analytics
+  $rootScope.$on('$stateChangeSuccess',
+    function () {
+      if ($window.ga) {
+        $window.ga('send', 'pageview', {page: $location.path()});
+      }
+    });
 });
 
 //Manually bootstrap app because we want to get data before running
