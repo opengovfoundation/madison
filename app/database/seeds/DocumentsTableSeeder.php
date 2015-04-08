@@ -20,6 +20,8 @@ class DocumentsTableSeeder extends Seeder
     $docSeedPath = app_path().'/database/seeds/example.md';
         if (file_exists($docSeedPath)) {
             $content = file_get_contents($docSeedPath);
+        } else {
+            $content = "New Document Content";
         }
         $docOptions = array(
       'title'       => 'Example Document',
@@ -37,6 +39,8 @@ class DocumentsTableSeeder extends Seeder
     $docSeedPath = app_path().'/database/seeds/example2.md';
         if (file_exists($docSeedPath)) {
             $content = file_get_contents($docSeedPath);
+        } else {
+            $content = "New Document Content";
         }
 
         $docOptions = array(

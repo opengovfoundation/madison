@@ -4,11 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 
 abstract class DualMigration extends Migration implements DualMigrationInterface
 {
-  public function up()
-  {
-      $connection = DB::connection()->getDriverName();
+    public function up()
+    {
+        $connection = DB::connection()->getDriverName();
 
-      switch ($connection) {
+        switch ($connection) {
       case 'mysql':
         $this->upMySQL();
         break;
@@ -20,7 +20,7 @@ abstract class DualMigration extends Migration implements DualMigrationInterface
       default:
         throw new Exception("Unknown connection $connection");
     }
-  }
+    }
 
     public function down()
     {

@@ -2,6 +2,6 @@
 
 interface ActivityInterface
 {
-  public function getLink();
+    public function getLink();
     public function getFeedItem();
 }

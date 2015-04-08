@@ -10,6 +10,7 @@ class Group extends Eloquent
 {
     public static $timestamp = true;
     protected $softDelete = true;
+    protected $hidden = ['pivot', 'deleted_at', 'updated_at', 'created_at'];
 
     const STATUS_ACTIVE = 'active';
     const STATUS_PENDING = 'pending';
@@ -427,6 +428,13 @@ class Group extends Eloquent
         $groupMember = $this->findMemberByUserId($userId);
 
         return $groupMember->role == static::ROLE_OWNER;
+    }
+
+    public function getMemberRole($userId)
+    {
+        $groupMember = $this->findMemberByUserId($userId);
+
+        return $groupMember->role;
     }
 
     public function addMember($userId, $role = null)

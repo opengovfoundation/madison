@@ -8,19 +8,21 @@
       <li ng-if="doc_count == 0">No Documents Found</li>
       <hr>
       <strong>Independently authored documents:</strong><br>
-        <li ng-repeat="doc in documents.independent">
+        <li ng-repeat="doc in docs.independent">
           <a href="/documents/edit/{{ doc.id }}">{{ doc.title }}</a>
         </li>
         <hr>
         <strong>Group authored documents:</strong><br><br>
-        <li ng-repeat="group in documents.group">
-          Group '{{ group }}'
-          <li ng-if="group.length == 0">
+        <li ng-repeat="group in docs.group">
+          Group '{{ group.name }}'
+          <ul ng-if="group.docs.length > 0">
+            <li ng-repeat="doc in group.docs">
+              <a href="/dashboard/docs/{{ doc.id }}">{{ doc.title }}</a>
+            </li>
+          </ul>
+          <div ng-if="group.docs.length == 0">
             There are no documents for this group.
-          </li>              
-          <li ng-repeat="doc in group.docs">
-            <a href="/documents/edit/{{ doc.id }}">{{ doc.title }}</a>
-          </li>
+          </div>
         </li>
       </ul>
     </div>
@@ -39,7 +41,6 @@
       </div>
     </div>
     <div class="col-md-12">
-      <h1>Documents</h1>
       <p>Want to be a document sponsor? <a href="/documents/sponsor/request">Request to be an Independent Sponsor</a></p>
     </div>
 </div>

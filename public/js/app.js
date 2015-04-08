@@ -58,7 +58,7 @@ app.config(['$locationProvider',
     $locationProvider.html5Mode(true);
   }]);
 
-app.run(function (AuthService, AUTH_EVENTS, $rootScope, $window, $location) {
+app.run(function (AuthService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl) {
   AuthService.setUser(user);
 
   //Check authorization on state change
@@ -85,6 +85,17 @@ app.run(function (AuthService, AUTH_EVENTS, $rootScope, $window, $location) {
         $window.ga('send', 'pageview', {page: $location.path()});
       }
     });
+
+  //Check for 403 Errors ( Forbidden )
+  $rootScope.$on(AUTH_EVENTS.notAuthorized, function () {
+    growl.error('You are not authorized to view that page');
+  });
+
+  //Check for 401 Errors ( Not Authorized / Not logged in )
+  $rootScope.$on(AUTH_EVENTS.notAuthenticated, function () {
+    growl.error('You must be logged in to view that page');
+    $state.go('index');
+  });
 });
 
 //Manually bootstrap app because we want to get data before running

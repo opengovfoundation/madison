@@ -191,24 +191,26 @@ class GroupsController extends BaseController
     {
         try {
             if (!Auth::check()) {
-                return Redirect::back()->with('error', 'You must be logged in to set a group');
+                return Response::json($this->growlMessage('You must be logged in to use Madison as a group', 'error'), 401);
             }
 
             if ($groupId == 0) {
                 Session::remove('activeGroupId');
 
-                return Redirect::back()->with('message', 'Active Group has been removed');
+                return Response::json($this->growlMessage('Active group has been removed', 'success'));
             }
 
             if (!Group::isValidUserForGroup(Auth::user()->id, $groupId)) {
-                return Redirect::back()->with('error', 'Invalid Group');
+                return Response::json($this->growlMessage('Invalid group', 'error'), 403);
             }
 
             Session::put('activeGroupId', $groupId);
 
-            return Redirect::back()->with('message', "Active Group Changed");
+            return Response::json($this->growlMessage('Active group changed', 'success'));
         } catch (\Exception $e) {
-            return Redirect::back()->with('error', 'There was an error processing your request');
+            Log::error($e);
+
+            return Response::json($this->growlMessage('There was an error changing the active group', 'error'), 500);
         }
     }
 

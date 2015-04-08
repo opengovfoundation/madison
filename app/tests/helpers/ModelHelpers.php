@@ -2,13 +2,13 @@
 
 trait ModelHelpers
 {
-  public function assertValid($model)
-  {
-      $this->assertTrue(
+    public function assertValid($model)
+    {
+        $this->assertTrue(
       $model->validate(),
       'Model did not pass validation.'
     );
-  }
+    }
 
     public function assertNotValid($model)
     {

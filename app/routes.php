@@ -37,7 +37,7 @@ Route::get('modals/annotation_thanks', array(
 ));
 
 Route::post('groups/member/{memberId}/role', 'GroupsController@changeMemberRole');
-Route::get('groups/active/{groupId}', 'GroupsController@setActiveGroup');
+Route::post('api/groups/active/{groupId}', 'GroupsController@setActiveGroup');
 
 Route::get('api/groups/roles', 'GroupsController@getRoles');
 Route::get('api/groups/{group?}', 'GroupsController@getGroup');

@@ -10,6 +10,11 @@ class GroupsTableSeeder extends Seeder
         $group->status = Group::STATUS_ACTIVE;
         $group->name = 'Example Group';
         $group->display_name = 'Example Group Display';
+        $group->address1 = '1234 Somewhere';
+        $group->city = 'City';
+        $group->state = 'DC';
+        $group->postal_code = '12345';
+        $group->phone_number = '555-555-5555';
         $group->save();
 
         $adminEmail = Config::get('madison.seeder.admin_email');

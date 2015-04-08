@@ -12,7 +12,7 @@
         <option value="category_{{ category.id }}" ng-repeat="category in categories">{{ category.name }}</option>
       </optgroup>
       <optgroup label="Sponsor">
-        <option value="sponsor_{{ sponsor.id }}" ng-repeat="sponsor in sponsors">{{ sponsor.fname }} {{ sponsor.lname }}</option>
+        <option value="sponsor_{{ sponsor.id }}" ng-repeat="sponsor in sponsors">{{ sponsor.display_name }}</option>
       </optgroup>
       <optgroup label="Status">
         <option value="status_{{ status.id}}" ng-repeat="status in statuses">{{ status.label}}</option>
