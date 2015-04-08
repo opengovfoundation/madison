@@ -253,6 +253,54 @@ class Doc extends Eloquent
                     strtolower($this->title));
     }
 
+    public static function getActive($num)
+    {
+        $docIds = DB::select(
+            DB::raw(
+                "SELECT doc_id, SUM(num) AS total FROM (
+                    SELECT doc_id, COUNT(*) AS num
+                        FROM annotations
+                        GROUP BY doc_id
+                    UNION ALL
+                    SELECT doc_id, COUNT(*) AS num
+                        FROM comments
+                        GROUP BY doc_id
+                    UNION ALL
+                    SELECT annotations.doc_id, COUNT(*) AS num
+                        FROM annotation_comments
+                        INNER JOIN annotations
+                        ON annotation_comments.annotation_id = annotations.id
+                        GROUP BY doc_id
+
+                ) total_count
+                GROUP BY doc_id
+                ORDER BY total DESC
+                LIMIT :limit"
+            ),
+            array($num)
+        );
+
+        $docArray = [];
+
+        //Create array of [id => total] for each document
+        foreach ($docIds as $docId) {
+            $docArray[$docId->doc_id] = $docId->total;
+        }
+
+        //Grab out most active documents
+        $docs = Doc::whereIn('id', array_keys($docArray))->get();
+
+        //Set the sort value to the total count
+        foreach ($docs as $doc) {
+            $doc->participationTotal = $docArray[$doc->id];
+        }
+
+        //Sort by the sort value descending
+        $docs = $docs->sortByDesc('participationTotal');
+
+        return $docs;
+    }
+
     public static function allOwnedBy($userId)
     {
         $rawDocs = DB::select(

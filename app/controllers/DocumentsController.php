@@ -44,6 +44,17 @@ class DocumentsController extends Controller
         return Response::json($returned);
     }
 
+    public function getActive($query = null)
+    {
+        if (!isset($query)) {
+            $query = 10;
+        }
+
+        $docs = Doc::getActive($query);
+
+        return Response::json($docs);
+    }
+
     public function saveDocumentEdits($documentId)
     {
         if (!Auth::check()) {

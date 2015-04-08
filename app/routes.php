@@ -127,6 +127,7 @@ Route::controller('dashboard', 'DashboardController');
 
     //Document Api Routes
     Route::get('api/docs/recent/{query?}', 'DocumentApiController@getRecent')->where('query', '[0-9]+');
+    Route::get('api/docs/active/{query?}', 'DocumentsController@getActive')->where('query', '[0-9]+');
     Route::get('api/docs/categories', 'DocumentApiController@getCategories');
     Route::get('api/docs/statuses', 'DocumentApiController@getAllStatuses');
     Route::get('api/docs/sponsors', 'DocumentApiController@getAllSponsors');
