@@ -108,19 +108,23 @@ class Doc extends Eloquent
         return $this->hasMany('Comment');
     }
 
-    public function getCommentCount() {
+    public function getCommentCount()
+    {
         return $this->comments()->count();
     }
 
-    public function getAnnotationCount() {
+    public function getAnnotationCount()
+    {
         return $this->annotations()->count();
     }
 
-    public function getAnnotationCommentCount () {
+    public function getAnnotationCommentCount()
+    {
         return count($this->getAnnotationComments());
     }
 
-    public function getUserCount() {
+    public function getUserCount()
+    {
 
         //Return user objects with only user_id property
         $annotationUsers = DB::table('annotations')
@@ -157,8 +161,8 @@ class Doc extends Eloquent
         return $this->hasMany('Annotation');
     }
 
-    public function getAnnotationComments() {
-
+    public function getAnnotationComments()
+    {
         $annotationComments = DB::table('annotation_comments')
             ->join('annotations', function ($join) {
                 $join->on('annotation_comments.annotation_id', '=', 'annotations.id')

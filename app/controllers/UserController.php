@@ -172,7 +172,7 @@ class UserController extends BaseController
     }
 
     /**
-     *	Api route to get logged in user / group
+     *	Api route to get logged in user / group.
      *
      *	@param void
      *

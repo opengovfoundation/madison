@@ -118,7 +118,6 @@ class DocumentApiController extends ApiController
         $return_docs = array();
 
         foreach ($docs as $doc) {
-
             $doc->annotation_count = $doc->getAnnotationCount();
             $doc->annotation_comments_count = $doc->getAnnotationCommentCount();
             $doc->comment_count = $doc->getCommentCount();
