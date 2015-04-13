@@ -47,6 +47,9 @@ class BaseController extends Controller
         }
 
         if ($params) {
+            if (!is_array($params)) {
+                $params = [$params];
+            }
             return array_merge($growled, $params);
         }
 
