@@ -597,6 +597,11 @@ angular.module('madisonApp.controllers')
           }).success(function (data, status, headers, config) {
             $scope.uploadType = 'success';
 
+            $timeout(function () {
+              console.log('removing progress bar');
+              $scope.uploadProgress = null;
+            }, 5000);
+
             console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
           });
         } else {

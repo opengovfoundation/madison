@@ -544,6 +544,34 @@ ol.breadcrumb li.active {
   background: #fff;
 }
 
+/* line 15, ../sass/_animations.scss */
+.fade.ng-enter, .fade.ng-leave {
+  -moz-transition: all 2s linear;
+  -o-transition: all 2s linear;
+  -webkit-transition: all 2s linear;
+  transition: all 2s linear;
+}
+/* line 19, ../sass/_animations.scss */
+.fade.ng-enter {
+  max-height: 0px;
+  opacity: 0;
+}
+/* line 23, ../sass/_animations.scss */
+.fade.ng-enter.ng-enter-active {
+  max-height: 999px;
+  opacity: 1;
+}
+/* line 29, ../sass/_animations.scss */
+.fade.ng-leave {
+  max-height: 999px;
+  opacity: 1;
+}
+/* line 33, ../sass/_animations.scss */
+.fade.ng-leave.ng-leave-active {
+  max-height: 0;
+  opacity: 0;
+}
+
 /* line 1, ../sass/_annotator.scss */
 .annotator-widget .annotator-editor-edit-wrapper {
   text-align: center;
