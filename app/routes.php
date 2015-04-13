@@ -148,6 +148,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/title', 'DocumentApiController@postTitle');
     Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug');
     Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent');
+    Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage');
     Route::get('api/docs/', 'DocumentApiController@getDocs');
     Route::post('api/docs/', 'DocumentApiController@postDocs');
 

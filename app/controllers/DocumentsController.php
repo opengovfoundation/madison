@@ -1,6 +1,6 @@
 <?php
 
-class DocumentsController extends Controller
+class DocumentsController extends BaseController
 {
     public function getDocument($slug)
     {
@@ -194,6 +194,18 @@ class DocumentsController extends Controller
             return Redirect::to("documents/edit/{$document->id}")->with('success_message', "Document Created Successfully");
         } catch (\Exception $e) {
             return Redirect::to("documents")->withInput()->with('error', "Sorry there was an error processing your request - {$e->getMessage()}");
+        }
+    }
+
+    public function uploadImage() {
+        if(Input::hasFile('file')) {
+            $file = Input::file('file');
+
+            $params = ['imagePath' => '/path/to/image'];
+
+            return Response::json($this->growlMessage("Upload successful", 'success', $params));
+        } else {
+            return Response::json($this->growlMessage("There was an error uploading your image.", 'error'));
         }
     }
 }
