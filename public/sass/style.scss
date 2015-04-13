@@ -2,26 +2,44 @@
  * !!! Note: To edit the stylesheet, please edit the scss files, not the finished CSS !!!
  */
 
+/*
+ * Config
+ */
 // Config must come first.
+@import 'mixins/em';
 @import 'config/settings';
 
-// Import our helper packages.
+// Get our bootstrap overrides.
+@import 'config/bootstrap-settings';
+
+// Import the bootstrap variables.
+@import 'config/bootstrap-variables';
+
+
+/*
+ * Libraries
+ */
 @import 'font-awesome';
 @import 'compass/css3/transform';
 @import 'compass/css3/transition';
 @import 'compass/utilities/general/clearfix';
 @import 'breakpoint';
 
-// Import our mixins.
+/*
+ * Mixins
+ */
 @import 'mixins/bootstrap-minimal';
 @import 'mixins/web-fonts';
-@import 'mixins/em';
 
-// Import our page modules.
+/*
+ * Page modules
+ */
 @import 'modules/global';
 @import 'modules/header';
 @import 'modules/footer';
 
-// Finally, import our actual page-specific styles.
+/*
+ * Page-specific styles
+ */
 @import 'pages/home';
 @import 'pages/document';

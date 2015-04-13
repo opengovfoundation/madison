@@ -1,6 +1,8 @@
 // Navbar
 .navbar {
     background-color: $dark-grey;
+    height: $header-height;
+    border: 0;
 
     a {
         color: $white;
@@ -14,7 +16,7 @@
 // Logo.
 .brand {
     @extend .accent-title;
-    font-size: em(26px);
+    font-size: 2em;
 }
 
 .dot-io {
@@ -68,16 +70,15 @@
 }
 
 .welcome {
-    $welcome-height: 80px;
-    height: $welcome-height;
+    $welcome-height: 4rem;
     background-color: $green;
     text-align: center;
     color: $white;
 
-    margin-bottom: 25px;
+    margin-bottom: 2rem;
 
     .message {
-        font-size: em(24px);
+        font-size: 1.5rem;
         letter-spacing: 2px;
         line-height: $welcome-height;
     }

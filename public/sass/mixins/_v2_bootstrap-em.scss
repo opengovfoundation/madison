@@ -1,0 +1,110 @@
+@function strip-units($number) {// From : http://stackoverflow.com/a/12335841/1339426
+  @return $number / ($number * 0 + 1);
+}
+
+/**
+* Use em or rem font-size in Bootstrap 3
+* Based on Less version here: https://gist.github.com/jasny/9731895
+* Values pulled from _variables.scss
+*/
+$font-size-root: $font-size-base;
+$font-unit: 1rem; // Pick em or rem here
+
+
+// Convert all variables to em
+
+$font-size-base: 1 * $font-unit;
+$font-size-large: ($font-size-large / $font-size-root) * $font-unit;
+$font-size-small: ($font-size-small / $font-size-root) * $font-unit;
+
+$font-size-h1: ($font-size-h1 / $font-size-root) * $font-unit;
+$font-size-h2: ($font-size-h2 / $font-size-root) * $font-unit;
+$font-size-h3: ($font-size-h3 / $font-size-root) * $font-unit;
+$font-size-h4: ($font-size-h4 / $font-size-root) * $font-unit;
+$font-size-h5: ($font-size-h5 / $font-size-root) * $font-unit;
+$font-size-h6: ($font-size-h6 / $font-size-root) * $font-unit;
+
+$line-height-computed: ($font-size-base * $line-height-base);
+
+$padding-base-vertical: (($padding-base-vertical / $font-size-root) * $font-unit);
+$padding-base-horizontal: (($padding-base-horizontal / $font-size-root) * $font-unit);
+
+$padding-large-vertical: (($padding-large-vertical / $font-size-root) * $font-unit);
+$padding-large-horizontal: (($padding-large-horizontal / $font-size-root) * $font-unit);
+
+$padding-small-vertical: (($padding-small-vertical/ $font-size-root) * $font-unit);
+$padding-small-horizontal: (($padding-small-horizontal / $font-size-root) * $font-unit);
+
+$padding-xs-vertical: (($padding-xs-vertical / $font-size-root) * $font-unit);
+$padding-xs-horizontal: (($padding-xs-horizontal / $font-size-root) * $font-unit);
+
+$border-radius-base: (($border-radius-base / $font-size-root) * $font-unit);
+$border-radius-large: (($border-radius-large / $font-size-root) * $font-unit);
+$border-radius-small: (($border-radius-small / $font-size-root) * $font-unit);
+
+$caret-width-base: (($caret-width-base / $font-size-root) * $font-unit);
+$caret-width-large: (($caret-width-large / $font-size-root) * $font-unit);
+
+$table-cell-padding: (($table-cell-padding / $font-size-root) * $font-unit);
+$table-condensed-cell-padding: (($table-condensed-cell-padding / $font-size-root) * $font-unit);
+
+//** Default `.form-control` height
+$input-height-base: ($line-height-computed + ($padding-base-vertical * 2));
+//** Large `.form-control` height
+$input-height-large: (($font-size-large * $line-height-large) + ($padding-large-vertical * 2));
+//** Small `.form-control` height
+$input-height-small: (($font-size-small * $line-height-small) + ($padding-small-vertical * 2));
+
+
+// Set root font size
+
+html {
+font-size: $font-size-root;
+}
+
+
+// Change styling for elements that mix pixels and ems
+
+pre {
+font-size: ( $font-size-base - ($font-unit / strip-units($font-size-root)));
+}
+
+.form-control-feedback {
+width: calc($input-height-base + 2px);
+height: calc($input-height-base + 2px);
+}
+.input-lg + .form-control-feedback {
+width: calc($input-height-large + 2px);
+height: calc($input-height-large + 2px);
+}
+.input-sm + .form-control-feedback {
+width: calc($input-height-small + 2px);
+height: calc($input-height-small + 2px);
+}
+
+.form-control {
+height: calc($input-height-base + 2px);
+}
+
+.form-horizontal {
+.radio, .checkbox, .radio-inline, .checkbox-inline {
+padding: $padding-base-vertical;
+border: 1px solid transparent;
+}
+.radio, .checkbox {
+min-height: calc(($line-height-computed + $padding-base-vertical) + 1px);
+}
+.form-control-static {
+padding-top: $padding-base-vertical;
+border-top: 1px solid transparent;
+padding-bottom: $padding-base-vertical;
+border-bottom: 1px solid transparent;
+}
+
+@media (min-width: #{$screen-sm-min}) {
+.control-label {
+padding-top: $padding-base-vertical;
+border-top: 1px solid transparent;
+}
+}
+}

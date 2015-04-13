@@ -2,51 +2,57 @@
     @extend .col-md-12;
     padding: 0;
 
+
     .read-button {
         @extend .button;
         @extend .action-button;
         @extend .go-button;
         float: right;
 
-        font-size: em(12px);
     }
+}
 
-    h2 {
-        font-size: em(72px);
-    }
-
-    .feature-image {
-        height: 345px;
-        width: 100%;
-    }
+// If we have a background image.
+.main-feature.has-image {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+.has-image .doc-info {
+    margin-top: 20rem;
 }
 
 .search-list {
     @extend .col-md-12;
 
     h2.heading {
-        font-size: em(80px);
         @extend .title-underline-thick;
     }
 
     .normal-title {
         display: block;
         @extend .small-caps;
-        font-weight: normal;
-        margin-bottom: 10px;
+        font-weight: bold;
+        margin-bottom: 0;
     }
 }
 
 .search-form {
-    margin-bottom: 15px;
-
+    margin-bottom: 2rem;
     .text-search {
         display: block;
         overflow: hidden;
         margin-right: 100px;
 
         input {
-            @extend .form-control;
+            display: block;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0 10px;
+            margin: 0;
+            line-height: calc(2rem - 2px);
+            height: auto;
         }
     }
     .search-button {
@@ -54,7 +60,6 @@
         @extend .action-button;
         @extend .go-button;
         float: right;
-        margin-top: 3px;
         max-width: 100px;
     }
 }
@@ -63,7 +68,9 @@
     float: left;
     display: block;
     width: 100%;
-    margin-bottom: 10px;
+
+    // The 1em here falls back into rhythm with the 1em padding on the boxes.
+    margin-bottom: 1rem;
 
     // To make both columns equal height, we need to make this a table.
     // The next block of declarations achieve this.
@@ -80,25 +87,27 @@
 
     .doc-info {
         @extend .col-sm-16;
-        padding-top: 25px;
-        padding-bottom: 15px;
+        padding-top: 0;
+        // This falls into rhythm with the margin-bottom above.
+        padding-bottom: 1rem;
     }
 
     .doc-meta {
         @extend .col-sm-8;
-        padding-top: 15px;
+        padding-top: 0;
 
         // Make this relative so we can stick the action button to the bottom of it.
         position: relative;
 
-        // Give enough room for that button.
-        // 15px + height of button (~35px) + 10px of top-margin.
-        padding-bottom: 60px;
+        // Give enough room for that button plus padding for the rhythm.
+        // 2rem (buttom) + 1rem (padding) = 3rem
+        // This falls into rhythm with the margin-bottom above.
+        padding-bottom: 3rem;
 
         .read-action {
-            // Glue this to the bottom of the box.
+            // Glue this to the bottom of the box, in rhythm.
             position: absolute;
-            bottom: 15px;
+            bottom: 1rem;
         }
     }
 
@@ -111,30 +120,27 @@
     .category {
         display: inline-block;
         list-style: none;
-        $category-height: 20px;
-        margin-right: 10px;
+        $category-height: 1.2rem;
+        margin-left: 10px;
 
         span {
+            @extend .small-caps;
             display: inline-block;
             background-color: $light-grey;
-            line-height: $category-height;
             height: $category-height;
+            line-height: $category-height;
             padding-right: 7px;
             padding-left: 5px;
-            vertical-align: top;
-
-            @extend .small-caps;
         }
 
         &:before {
-            border-top: ceil($category-height/2) solid transparent;
-            border-bottom: ceil($category-height/2) solid transparent;
-
-            border-right: ceil($category-height/2) solid $light-grey;
+            border-top:    $category-height/2 solid transparent;
+            border-bottom: $category-height/2 solid transparent;
+            border-right:  $category-height/2 solid $light-grey;
             border-left: none;
             width: 0px;
             display: inline-block;
-            vertical-align: top;
+            vertical-align: middle;
 
             content: " ";
 
@@ -149,7 +155,7 @@
     }
 
     .stats {
-        margin-top: 10px;
+        margin-top: 2em;
         margin-bottom: 0px;
 
         // Hide our table header.
@@ -168,7 +174,6 @@
         }
 
         td {
-            padding: 7px 0;
         }
     }
 }
@@ -176,8 +181,8 @@
 // Reusable Document Styles (maybe?)
 .doc-info {
     @extend .col-sm-24;
-    padding-top: 20px;
-    padding-bottom: 25px;
+    padding-top: 0;
+    padding-bottom: 2em;
     background-color: $lighter-grey;
 
     .heading {
@@ -185,8 +190,8 @@
     }
 
     .subheading {
-        font-size: em(30px);
         @extend .title-underline-medium;
+        @extend .medium-heading;
     }
 }
 
@@ -235,7 +240,7 @@
 }
 
 .doc-summary {
-    margin-top: 25px;
+    margin-top: 2em;
 }
 
 .read-action {
@@ -262,16 +267,17 @@
 
 .previous-features {
     @extend .row;
-    margin-top: 20px;
+    margin-top: 2rem;
 
     .message {
         // Actually, this is kinda buttony.
         @extend .button;
         @extend .btn-success;
+        line-height: 4rem;
 
         display: block;
-        padding: 15px 0;
-        margin: 0 15px 24px;
+
+        margin: 0 15px 2rem;
     }
 }
 
@@ -279,15 +285,13 @@
     @extend .col-md-12;
 
     h2 {
-        margin-bottom: 25px;
+        margin-bottom: 2rem;
         font-family: $main-font;
-        font-weight: bold;
-        text-transform: uppercase;
-        font-size: em(14px);
+        @extend .normal-title;
     }
 
     article {
-        margin-bottom: 25px;
+        margin-bottom: 2rem;
     }
 
     .author, .title {

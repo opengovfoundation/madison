@@ -2,9 +2,14 @@
  * Bootstrap-specific settings.
  */
 
+// Fonts, relative sizing overrides for ems.
+$font-size-base: 1rem;
+$line-height-base: 2;
+$header-height: 4rem;
+
 // Page settings
 // We want our page a little wider than the default.
-$container-large-desktop: 1265px;
+$container-large-desktop: 1266px;
 
 // Double the columns for more granularity.
 $grid-columns: 24;
@@ -17,8 +22,6 @@ $link-color: $black;
 $link-hover-color: $black;
 $link-hover-decoration: underline;
 
-// Header
-$header-height: 50px;
 
 // Buttons
 $btn-primary-bg: $blue;

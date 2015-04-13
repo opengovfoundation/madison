@@ -1,37 +1,76 @@
 /* Global styles. */
 
-// Miscell
-
 // Import our fonts.
 @include web-fonts("Patua One", ("Open Sans": ("300", "300 italic", "700")),
     ("Libre+Baskerville": ("300", "300 italic")));
 
-/* Titles. */
-h1, h2, h3, h4, h5, h6 {
-    padding: 0;
-    margin: 0;
+// Fix our baselines.
+html {
+    // Reset font size.
+    font-size: 16px;
+    line-height: $line-height-base;
+    font-size: $font-size-base;
 }
 
+// Set our sizes.
+// Generated with http://www.gridlover.net/app/
+body, .normal-text {
+  font-size: 1rem;
+  line-height: 2rem;
+}
+
+h1, h2, .large-heading {
+  font-size: 5.8125rem;
+  line-height: 6rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+}
+
+h3, .medium-heading {
+  font-size: 3.25rem;
+  line-height: 4rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+}
+
+h4, .small-heading {
+  font-size: 1.8125rem;
+  line-height: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+}
+
+h5,h6 {
+  @extend .normal-text;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+}
+
+p, ul, ol, pre, table, blockquote {
+  margin-bottom: 2rem;
+}
+
+// Reusable title helpers.
 .accent-title {
     font-family: $accent-font;
 }
 
 .title-underline-thick {
-    padding-bottom: 10px;
-    border-bottom: 10px solid $black;
-    margin-bottom: 15px;
+    padding-bottom: 1.6rem;
+    border-bottom: 0.8rem solid $black;
+    margin-bottom: 1.6rem;
 }
 
 .title-underline-medium {
-    padding-bottom: 5px;
-    border-bottom: 6px solid $black;
-    margin-bottom: 10px;
+    padding-bottom: 0.75rem;
+    border-bottom: 0.5rem solid $black;
+    margin-bottom: 0.75rem;
 }
 
 .title-underline-thin {
-    padding-bottom: 10px;
+    padding-bottom: 1rem;
     border-bottom: 1px solid $black;
-    margin-bottom: 10px;
+    margin-bottom: calc(1rem - 1px);
 }
 
 h1, h2, h3 {
@@ -39,7 +78,8 @@ h1, h2, h3 {
 }
 
 .small-caps {
-    font-size: em(12px);
+    font-size:0.813rem; // About 13px
+    line-height: 2rem;
     text-transform: uppercase;
 }
 
@@ -62,8 +102,11 @@ h1, h2, h3 {
 /* Buttons. */
 .button {
     @extend .btn;
-    font-size: em(16px);
-    padding: 2px 10px 1px;
+    border: none;
+    font-size: 1.05rem;
+    line-height: 2rem;
+    margin: 0;
+    padding: 0 10px;
 }
 
 .action-button {
@@ -89,4 +132,14 @@ h1, h2, h3 {
 .BETA {
     color: #f00 !important;
     background-color: rgba(255,0,0,0.05) !important;
+}
+
+.TYPE-DEBUG {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 3000px;
+    background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAAgCAYAAAA40qkZAAAAG0lEQVQYV2NkgALGUQYDAyIQysvL/3d2djICACdABCFY2RRTAAAAAElFTkSuQmCC);
+    z-index: 1000;
 }

@@ -99,7 +99,7 @@
     }
 
     .stat-value {
-        font-size: em(20px);
+        font-size: 1.5em;
     }
 }
 
@@ -180,7 +180,7 @@
 }
 
 .content {
-    margin-top: 25px;
+    margin-top: $vertical-padding * 2;
 }
 
 /* Table of Contents */

@@ -2,14 +2,12 @@
 .footer {
     float: left;
     width: 100%;
-    min-height: 200px;
-
-    padding: 50px 0 45px;
-
+    min-height: 16rem;
+    padding: 4rem 0;
 
     background-color: $dark-grey;
     color: $white;
-    margin-top: 2*$side-padding;
+    margin-top: 4rem;
 
     .brand {
         display: inline-block;
@@ -24,25 +22,23 @@
         font-style: italic;
         li {
             display: list-item;
-            margin: 10px 0;
 
             .for-role {
                 font-style: normal;
                 text-transform: uppercase;
-                font-size: em(12px);
+                font-size: 0.85em;
             }
         }
     }
 
     .footer-links {
-        font-size: em(12px);
-        line-height: 1.5em;
+        font-size: 0.85em;
     }
 
     a {
         display: inline-block;
         color: $white;
-        padding: 10px;
+        padding: 1rem 10px;
     }
 
     // Smartphone
