@@ -60,7 +60,7 @@
                 <label for="doc-image">Image:</label>
                 <div class="image-upload" ng-file-select ng-file-drop ng-accept="'image/*'" ng-file-change="uploadImage($files)">Drag file or click to upload image</div>
                 <div class="progress" ng-if="uploadProgress" class="fade">
-                  <progressbar class="animated" max="100" value="uploadProgress" type="{{ uploadType }}"><span>{{ uploadProgress }}%</span></progressbar>
+                  <progressbar class="progress-striped active" max="100" value="uploadProgress" type="{{ uploadType }}"><span>{{ uploadProgress }}%</span></progressbar>
                 </div>
                 <div class="image-preview" ng-if="!!featuredImage.path">
                   <img ng-src="{{ featuredImage.path }}" class="img-responsive" alt="featured-image">
