@@ -197,26 +197,27 @@ class DocumentsController extends BaseController
         }
     }
 
-    public function uploadImage($docId) {
-        if(Input::hasFile('file')) {
+    public function uploadImage($docId)
+    {
+        if (Input::hasFile('file')) {
             $file = Input::file('file');
 
             $extension = $file->guessExtension();
 
             $filename = "default.$extension";
-            $public_directory = "/img/doc-" . $docId . "/";
-            $web_path = $public_directory . $filename;
+            $public_directory = "/img/doc-".$docId."/";
+            $web_path = $public_directory.$filename;
 
-            $path = public_path() . $public_directory;
+            $path = public_path().$public_directory;
 
-            try{
+            try {
                 $file->move($path, $filename);
             } catch (Exception $e) {
                 return Response::json($this->growlMessage('There was an error with the image upload', 'error'), 500);
             }
 
             $params = [
-                'imagePath' => $web_path
+                'imagePath' => $web_path,
             ];
 
             return Response::json($this->growlMessage("Upload successful", 'success', $params));
