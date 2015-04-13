@@ -589,21 +589,27 @@ angular.module('madisonApp.controllers')
           $upload.upload({
             url: '/api/docs/' + $scope.doc.id + '/featured-image',
             file: file
-          }).progress(function (event) {
-            var progressPercentage = parseInt(100.0 * event.loaded / event.total, 10);
-            console.log('progress:' + progressPercentage + '% ' + event.config.file.name);
+          })
+            //Update the progress bar
+            .progress(function (event) {
+              var progressPercentage = parseInt(100.0 * event.loaded / event.total, 10);
 
-            $scope.uploadProgress = progressPercentage;
-          }).success(function (data, status, headers, config) {
-            $scope.uploadType = 'success';
-
-            $timeout(function () {
-              console.log('removing progress bar');
-              $scope.uploadProgress = null;
-            }, 5000);
-
-            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-          });
+              $scope.uploadProgress = progressPercentage;
+            })
+            //Update progress bar class on success
+            .success(function (data, status, headers, config) {
+              $scope.uploadType = 'success';
+            })
+            //Update progress bar class on error
+            .error(function () {
+              $scope.uploadType = 'danger';
+            })
+            //Remove progress bar
+            .finally(function () {
+              $timeout(function () {
+                $scope.uploadProgress = null;
+              }, 5000);
+            });
         } else {
           console.error("Error uploading %o", file);
           growl.error('There was an error with the image upload');
