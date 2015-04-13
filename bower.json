@@ -1,6 +1,9 @@
 {
   "name": "madison",
-  "dependencies": {},
+  "dependencies": {
+    "ng-file-upload": "~3.2.4",
+    "moment": "~2.10.2"
+  },
   "devDependencies": {
     "pagedown": "~1.1.0",
     "angular": "1.2.28",
