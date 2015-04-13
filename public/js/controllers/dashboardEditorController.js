@@ -1,8 +1,8 @@
 /*global Markdown*/
 /*global alert*/
 angular.module('madisonApp.controllers')
-  .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$location', '$filter', 'growl',
-    function ($scope, $http, $timeout, $location, $filter, growl) {
+  .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$location', '$filter', 'growl', '$upload',
+    function ($scope, $http, $timeout, $location, $filter, growl, $upload) {
       $scope.doc = {};
       $scope.sponsor = {};
       $scope.status = {};
@@ -16,10 +16,17 @@ angular.module('madisonApp.controllers')
       $scope.suggestedCategories = [];
       $scope.suggestedStatuses = [];
       $scope.dates = [];
+      $scope.featuredImage = null;
 
       var abs = $location.absUrl();
       var id = abs.match(/.*\/(\d+)$/)[1];
 
+      $scope.$watch('files', function (newValue, oldValue) {
+        console.log(newValue, oldValue);
+        if (newValue !== oldValue) {
+          $scope.uploadImage($scope.files);
+        }
+      });
 
       function clean_slug(string) {
         return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').replace(/ +/g, '-');
@@ -181,7 +188,6 @@ angular.module('madisonApp.controllers')
       $scope.setSelectOptions();
 
       var initCategories = true;
-      var initIntroText = true;
       var initSponsor = true;
       var initStatus = true;
 
@@ -195,7 +201,7 @@ angular.module('madisonApp.controllers')
         // We don't control the pagedown CSS, and this DIV needs to be scrollable
         $("#wmd-preview").css("overflow", "scroll");
 
-        // Resizing dynamically according to the textarea is hard, 
+        // Resizing dynamically according to the textarea is hard,
         // so just set the height once (22 is padding)
         $("#wmd-preview").css("height", ($("#wmd-input").height() + 22));
         $("#wmd-input").scroll(function () {
@@ -270,13 +276,14 @@ angular.module('madisonApp.controllers')
             // Changing doc.slug in-place will trigger the $watch
             var safe_slug = $scope.doc.slug;
             var sanitized_slug = clean_slug(safe_slug);
-            // If cleaning the slug didn't change anything, we have a valid NEW slug, 
+            // If cleaning the slug didn't change anything, we have a valid NEW slug,
             // and we can save it
-            if (safe_slug == sanitized_slug) {
+            if (safe_slug === sanitized_slug) {
               $scope.saveSlug();
             } else {
               // Change the slug in-place, which will trigger another watch
               // (handled by the POST function)
+              growl.error('Error saving slug');
               console.log('Invalid slug, reverting');
               $scope.doc.slug = sanitized_slug;
             }
@@ -338,7 +345,7 @@ angular.module('madisonApp.controllers')
         });
       };
 
-      
+
 
       $scope.statusChange = function (status) {
         $scope.status = status;
@@ -564,6 +571,38 @@ angular.module('madisonApp.controllers')
           }).error(function (data) {
             console.error("Error saving intro text for document %o: %o", $scope.doc, $scope.introtext);
           });
+      };
+
+      //Handle image uploads
+      $scope.uploadImage = function (file) {
+        //This is passed an empty array when the file selection is shown for some reason (?)
+        if (file.length === 0) {
+          return;
+        }
+
+        console.log("Uploading %o", file);
+
+        $scope.uploadProgress = 0;
+        $scope.uploadType = 'info';
+
+        if (file && file.length === 1) {
+          $upload.upload({
+            url: '/api/docs/' + $scope.doc.id + '/featured-image',
+            file: file
+          }).progress(function (event) {
+            var progressPercentage = parseInt(100.0 * event.loaded / event.total, 10);
+            console.log('progress:' + progressPercentage + '% ' + event.config.file.name);
+
+            $scope.uploadProgress = progressPercentage;
+          }).success(function (data, status, headers, config) {
+            $scope.uploadType = 'success';
+
+            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+          });
+        } else {
+          console.error("Error uploading %o", file);
+          growl.error('There was an error with the image upload');
+        }
       };
     }
     ]);
