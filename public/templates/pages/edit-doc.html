@@ -62,9 +62,10 @@
                 <div class="progress" ng-if="uploadProgress" class="fade">
                   <progressbar class="progress-striped active" max="100" value="uploadProgress" type="{{ uploadType }}"><span>{{ uploadProgress }}%</span></progressbar>
                 </div>
-                <div class="image-preview" ng-if="!!featuredImage.path">
+                <article class="image-preview" ng-if="!!featuredImage.path">
+                  <h1>Image Preview:</h1>
                   <img ng-src="{{ featuredImage.path }}" class="img-responsive" alt="featured-image">
-                </div>
+                </article>
               </div>
             </form>
           </div>

@@ -40,6 +40,8 @@ angular.module('madisonApp.controllers')
             angular.forEach(data.categories, function (category) {
               $scope.categories.push(angular.copy(category.name));
             });
+
+            $scope.featuredImage = {path: $scope.doc.thumbnail + '?' + new Date().getTime()};
           });
       };
 
@@ -580,8 +582,6 @@ angular.module('madisonApp.controllers')
           return;
         }
 
-        console.log("Uploading %o", file);
-
         $scope.uploadProgress = 0;
         $scope.uploadType = 'info';
 
@@ -599,6 +599,8 @@ angular.module('madisonApp.controllers')
             //Update progress bar class on success
             .success(function (data, status, headers, config) {
               $scope.uploadType = 'success';
+
+              $scope.featuredImage = {path: data.imagePath + '?' + new Date().getTime()};
             })
             //Update progress bar class on error
             .error(function () {

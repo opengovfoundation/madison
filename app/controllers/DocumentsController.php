@@ -210,7 +210,12 @@ class DocumentsController extends BaseController
 
             $path = public_path().$public_directory;
 
+            $doc = Doc::where('id', $docId)->first();
+            $doc->thumbnail = $web_path;
+
             try {
+                $doc->save();
+
                 $file->move($path, $filename);
             } catch (Exception $e) {
                 return Response::json($this->growlMessage('There was an error with the image upload', 'error'), 500);
