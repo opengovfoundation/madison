@@ -230,7 +230,6 @@ class DashboardController extends BaseController{
 			$rules = array('title' => 'required');
 			$validation = Validator::make($doc_details, $rules);
 			if($validation->fails()){
-				die($validation);
 				return Redirect::to('dashboard/docs')->withInput()->withErrors($validation);
 			}
 	
