@@ -9,8 +9,9 @@
 
         // Bigger click box.
         display: inline-block;
-        padding: 10px;
-        margin-left: -10px;
+
+        line-height: 2em;
+        padding: 0 10px;
     }
 }
 
@@ -24,19 +25,30 @@
 }
 
 .single-doc {
+    // Vertically center the buttons.
+    .support-oppose-buttons {
+        float: left;
+        margin: 0.5em 0;
+    }
+
     .doc-info .button {
-        padding: 7px 15px;
-        margin-right: 10px;
+        padding: 0 15px;
+        line-height: 3rem;
+        margin-right: 10px
     }
 
     .nav-tabs {
         @extend .row;
+
+
         background-color: $lighter-grey;
 
         padding-left: 10px;
         li {
             a {
-                padding: 7px 15px;
+                padding: 0 15px;
+                // This completes the 2rem rhythm.
+                line-height: 2rem;
                 border: none;
                 &:hover, &:active {
                     border: none;
@@ -46,7 +58,6 @@
 
                 @extend .small-caps;
                 font-weight: bold;
-
             }
             &.active a {
                 background-color: $white;
@@ -65,8 +76,9 @@
     @extend .col-md-8;
 
     & > section {
-        padding-bottom: 20px;
-        margin-bottom: 20px;
+        // Match our for rhythm.
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
     }
 
     .normal-title {
@@ -99,7 +111,7 @@
     }
 
     .stat-value {
-        font-size: 1.5em;
+        font-size: 1.5rem;
     }
 }
 
@@ -110,15 +122,25 @@
 
 .chart-title {
     @extend .small-caps;
-}
-
-.chart-title .vs {
-    text-transform: none;
-    font-family: $fancy-font;
-    font-style: italic;
+    // There's some weirdness with the fancy font screwing up
+    // font sizes.  We hide overflow to fix this.
+    height: 2rem;
+    overflow: hidden;
+    .vs {
+        text-transform: none;
+        font-family: $fancy-font;
+        font-style: italic;
+    }
 }
 
 .chart {
+    height: 2rem;
+    overflow: hidden;
+
+    svg {
+        height: 2rem;
+    }
+
     .oppose rect {
         fill: $orange;
     }
@@ -154,7 +176,7 @@
     position: relative;
     padding: 10px;
     right: 0px;
-    bottom: 10px;
+    bottom: 0.25rem;
 
     // Hide the button text.
     width: 30px;
@@ -177,10 +199,6 @@
         text-decoration: none;
         background-color: $light-medium-grey;
     }
-}
-
-.content {
-    margin-top: $vertical-padding * 2;
 }
 
 /* Table of Contents */
@@ -287,7 +305,7 @@
             list-style: none;
             margin-left: $toc-padding * -1;
 
-            font-size: 1.1em;
+            font-size: 1.1rem;
             font-weight: bold;
         }
         .toc-h2 {
@@ -299,15 +317,15 @@
         }
         .toc-h4{
             margin-left: $toc-padding * 3;
-            font-size: 0.9em;
+            font-size: 0.9rem;
         }
         .toc-h5{
             margin-left: $toc-padding * 4;
-            font-size: 0.9em;
+            font-size: 0.9rem;
         }
         .toc-h6{
             margin-left: $toc-padding * 5;
-            font-size: 0.9em;
+            font-size: 0.9rem;
         }
 
     }

@@ -15,39 +15,43 @@ html {
 // Set our sizes.
 // Generated with http://www.gridlover.net/app/
 body, .normal-text {
-  font-size: 1rem;
-  line-height: 2rem;
+    font-size: 1rem;
+    line-height: 2rem;
 }
 
 h1, h2, .large-heading {
-  font-size: 5.8125rem;
-  line-height: 6rem;
-  margin-top: 0rem;
-  margin-bottom: 2rem;
+    font-size: 5.8125rem;
+    line-height: 6rem;
+    margin-top: 0rem;
+    margin-bottom: 2rem;
 }
 
 h3, .medium-heading {
-  font-size: 3.25rem;
-  line-height: 4rem;
-  margin-top: 0rem;
-  margin-bottom: 2rem;
+    font-size: 3.25rem;
+    line-height: 4rem;
+    margin-top: 0rem;
+    margin-bottom: 2rem;
 }
 
 h4, .small-heading {
-  font-size: 1.8125rem;
-  line-height: 2rem;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
+    font-size: 1.8125rem;
+    line-height: 2rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
 }
 
 h5,h6 {
-  @extend .normal-text;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
+    @extend .normal-text;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
 }
 
 p, ul, ol, pre, table, blockquote {
-  margin-bottom: 2rem;
+    margin-bottom: 2rem;
+}
+
+dt, dd {
+  line-height: 2rem;
 }
 
 // Reusable title helpers.
@@ -85,8 +89,40 @@ h1, h2, h3 {
 
 // Some headings we just want to be simple titles.
 .normal-title {
-    font-size: 1em;
+    font-size: 1rem;
+    line-height: 2rem;
     font-family: $main-font;
+}
+
+// Inside of our content, we use different title treatment
+.doc-content {
+    h1, h2, h3, h4, h5, h6 {
+        font-family: $fancy-font;
+        font-weight: normal;
+        margin-bottom: 0;
+    }
+
+    h1 {
+        font-size: 4rem;
+        line-height: 6rem;
+    }
+    h2 {
+        font-size: 3rem;
+        line-height: 4rem;
+    }
+    h3 {
+        font-size: 2rem;
+        line-height: 4rem;
+    }
+    h4 {
+        font-size: 1.8rem;
+    }
+    h5 {
+        font-size: 1.5rem;
+    }
+    h6 {
+        font-size: 1.2rem;
+    }
 }
 
 // Sometimes, we want to have titles visible only to screen readers.

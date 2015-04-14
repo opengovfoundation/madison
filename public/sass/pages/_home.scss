@@ -19,7 +19,7 @@
     background-position: 0 0;
 }
 .has-image .doc-info {
-    margin-top: 20rem;
+    margin-top: 22rem;
 }
 
 .search-list {
@@ -232,11 +232,6 @@
 
 .doc-content {
     float: left;
-
-    h1, h2, h3, h4, h5, h6 {
-        font-family: $fancy-font;
-        font-weight: normal;
-    }
 }
 
 .doc-summary {
