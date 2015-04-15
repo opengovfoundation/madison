@@ -22,7 +22,6 @@ angular.module('madisonApp.controllers')
       var id = abs.match(/.*\/(\d+)$/)[1];
 
       $scope.$watch('files', function (newValue, oldValue) {
-        console.log(newValue, oldValue);
         if (newValue !== oldValue) {
           $scope.uploadImage($scope.files);
         }
@@ -41,7 +40,10 @@ angular.module('madisonApp.controllers')
               $scope.categories.push(angular.copy(category.name));
             });
 
-            $scope.featuredImage = {path: $scope.doc.thumbnail + '?' + new Date().getTime()};
+            if ($scope.doc.thumbnail !== null) {
+              console.log($scope.doc.thumbnail);
+              $scope.featuredImage = {path: $scope.doc.thumbnail + '?' + new Date().getTime()};
+            }
           });
       };
 
