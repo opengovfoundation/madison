@@ -52,10 +52,11 @@ class Doc extends Eloquent
         return $this->hasMany('Date');
     }
 
-    public function getFeaturedAttribute() {
+    public function getFeaturedAttribute()
+    {
         $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
 
-        if($featuredSetting) {
+        if ($featuredSetting) {
             return $featuredSetting->meta_value == $this->id;
         }
 

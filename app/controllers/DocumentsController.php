@@ -231,16 +231,17 @@ class DocumentsController extends BaseController
         }
     }
 
-    public function deleteImage($docId) {
+    public function deleteImage($docId)
+    {
         $doc = Doc::where('id', $docId)->first();
 
         if ($doc->featured) {
             return Response::json($this->growlMessage('You cannot delete the image of a Featured Document', 'error'), 500);
         }
 
-        $image_path = public_path() . $doc->thumbnail;
+        $image_path = public_path().$doc->thumbnail;
 
-        try{
+        try {
             File::delete($image_path);
             $doc->thumbnail = null;
             $doc->save();
@@ -252,19 +253,22 @@ class DocumentsController extends BaseController
         return Response::json($this->growlMessage('Image deleted successfully', 'success'));
     }
 
-    public function getFeatured() {
+    public function getFeatured()
+    {
         $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
 
         if ($featuredSetting) {
-            $featuredId = (int)$featuredSetting->meta_value;
+            $featuredId = (int) $featuredSetting->meta_value;
             $doc = Doc::where('id', $featuredId)->first();
+
             return Response::json($doc);
         }
 
         return Response::json(null);
     }
 
-    public function postFeatured() {
+    public function postFeatured()
+    {
         if (!Auth::user()->hasRole('Admin')) {
             return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
         }
@@ -275,9 +279,9 @@ class DocumentsController extends BaseController
 
         $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
 
-        try{
+        try {
             //If we're setting a new Featured Document
-            if(!$featuredSetting) {
+            if (!$featuredSetting) {
                 $featuredSetting = new Setting();
                 $featuredSetting->meta_key = 'featured-doc';
                 $featuredSetting->meta_value = $docId;
@@ -285,11 +289,10 @@ class DocumentsController extends BaseController
                 $featuredSetting->save();
             }
             //We're removing the featured document
-            else if ($featuredSetting->meta_value == $docId) {
+            elseif ($featuredSetting->meta_value == $docId) {
                 $featuredSetting->delete();
 
                 $message = 'Removed Featured Document';
-
             }
             //We're changing the Featured Document
             else {
