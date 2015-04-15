@@ -43,6 +43,7 @@
         display: block;
         overflow: hidden;
         margin-right: 100px;
+        height: 2rem;
 
         input {
             display: block;
@@ -86,15 +87,16 @@
     }
 
     .doc-info {
-        @extend .col-sm-16;
+        width: 66.6666%;
         padding-top: 0;
         // This falls into rhythm with the margin-bottom above.
         padding-bottom: 1rem;
     }
 
     .doc-meta {
-        @extend .col-sm-8;
+        width: 33.3333%;
         padding-top: 0;
+        padding-left: $grid-gutter-width/2;
 
         // Make this relative so we can stick the action button to the bottom of it.
         position: relative;
