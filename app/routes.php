@@ -149,6 +149,9 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug');
     Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent');
     Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage');
+    Route::delete('api/docs/{doc}/featured-image', 'DocumentsController@deleteImage');
+    Route::get('api/docs/featured', 'DocumentsController@getFeatured');
+    Route::post('api/docs/featured', 'DocumentsController@postFeatured');
     Route::get('api/docs/', 'DocumentApiController@getDocs');
     Route::post('api/docs/', 'DocumentApiController@postDocs');
 

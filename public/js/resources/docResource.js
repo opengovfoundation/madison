@@ -10,6 +10,10 @@ angular.module('madisonApp.resources')
         method: 'GET',
         url: '/api/docs/:id/content',
         params: {id: '@id'}
+      },
+      getFeaturedDoc: {
+        method: 'GET',
+        url: '/api/docs/featured'
       }
     });
 

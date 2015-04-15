@@ -1,8 +1,8 @@
 /*global Markdown*/
 /*global alert*/
 angular.module('madisonApp.controllers')
-  .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$location', '$filter', 'growl', '$upload',
-    function ($scope, $http, $timeout, $location, $filter, growl, $upload) {
+  .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$location', '$filter', 'growl', '$upload', 'modalService', 'Doc',
+    function ($scope, $http, $timeout, $location, $filter, growl, $upload, modalService, Doc) {
       $scope.doc = {};
       $scope.sponsor = {};
       $scope.status = {};
@@ -17,6 +17,7 @@ angular.module('madisonApp.controllers')
       $scope.suggestedStatuses = [];
       $scope.dates = [];
       $scope.featuredImage = null;
+      $scope.featuredDoc = false;
 
       var abs = $location.absUrl();
       var id = abs.match(/.*\/(\d+)$/)[1];
@@ -41,7 +42,6 @@ angular.module('madisonApp.controllers')
             });
 
             if ($scope.doc.thumbnail !== null) {
-              console.log($scope.doc.thumbnail);
               $scope.featuredImage = {path: $scope.doc.thumbnail + '?' + new Date().getTime()};
             }
           });
@@ -344,7 +344,7 @@ angular.module('madisonApp.controllers')
         }).success(function (data) {
           $scope.short_url = data.shorturl;
         }).error(function (data) {
-          console.error(data);
+          console.error("Error generating short url: %o", data);
           growl.error('There was an error generating your short url.');
         });
       };
@@ -618,6 +618,64 @@ angular.module('madisonApp.controllers')
           console.error("Error uploading %o", file);
           growl.error('There was an error with the image upload');
         }
+      };
+
+      $scope.deleteFeaturedImage = function () {
+        if ($scope.doc.featured === true) {
+          growl.error('You cannot delete the image of a Featured Document');
+        } else {
+          return $http.delete('/api/docs/' + $scope.doc.id + '/featured-image')
+            .success(function () {
+              $scope.featuredImage = null;
+              $scope.doc.thumbnail = null;
+            });
+        }
+      };
+
+      $scope.tryFeaturedDoc = function () {
+        //If there is no document image, display error
+        if ($scope.doc.featured === true && $scope.featuredImage === null) {
+          growl.error('You must upload an image to set document as the Featured Document');
+          $scope.doc.featured = false;
+        } else {
+          //Check if any other documents are featured
+          var featuredDoc = Doc.getFeaturedDoc();
+
+          //Wait for the response
+          featuredDoc.$promise.then(function () {
+            //If so, display confirmation
+            if (featuredDoc.id !== undefined) {
+              console.log(featuredDoc);
+
+              var modalOptions = {
+                closeButtonText: 'Cancel',
+                actionButtonText: 'Change Featured Document',
+                headerText: 'Change Featured Document?',
+                bodyText: 'A Featured Document is already set.  Are you sure you want to change the Featured Document?'
+              };
+
+              //Open the dialog
+              var res = modalService.showModal({}, modalOptions);
+
+              //Reset doc featured status on cancel
+              res.catch(function () {
+                $scope.doc.featured = false;
+              });
+
+              //Only executed if the user confirms.  Set this doc as featured.
+              res.then(function () {
+                $scope._setFeaturedDoc();
+              });
+            } else {
+              //If the featured document isn't set, set this one as the featured document
+              $scope._setFeaturedDoc();
+            }
+          });
+        }
+      };
+
+      $scope._setFeaturedDoc = function () {
+        return $http.post('/api/docs/featured', {id: $scope.doc.id});
       };
     }
     ]);

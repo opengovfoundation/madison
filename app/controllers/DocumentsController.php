@@ -230,4 +230,57 @@ class DocumentsController extends BaseController
             return Response::json($this->growlMessage("There was an error uploading your image.", 'error'));
         }
     }
+
+    public function deleteImage($docId) {
+        $doc = Doc::where('id', $docId)->first();
+
+        $image_path = public_path() . $doc->thumbnail;
+
+        try{
+            File::delete($image_path);
+            $doc->thumbnail = null;
+            $doc->save();
+        } catch (Exception $e) {
+            Log::error("Error deleting document featured image for document id $docId");
+            Log::error($e);
+        }
+
+        return Response::json($this->growlMessage('Image deleted successfully', 'success'));
+    }
+
+    public function getFeatured() {
+        $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+        if ($featuredSetting) {
+            $featuredId = (int)$featuredSetting->meta_value;
+            $doc = Doc::where('id', $featuredId)->first();
+            return Response::json($doc);
+        }
+
+        return Response::json(null);
+    }
+
+    public function postFeatured() {
+        if (!Auth::user()->hasRole('Admin')) {
+            return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
+        }
+
+        $docId = Input::get('id');
+
+        $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+        if(!$featuredSetting) {
+            $featuredSetting = new Setting();
+            $featuredSetting->meta_key = 'featured-doc';
+        }
+
+        $featuredSetting->meta_value = $docId;
+        try{
+            $featuredSetting->save();
+        } catch (Exception $e) {
+            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        }
+
+        return Response::json($this->growlMessage('Featured Document saved successfully.', 'success'));
+    }
 }
