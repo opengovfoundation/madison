@@ -8,6 +8,8 @@ class Doc extends Eloquent
     protected $index;
     protected $softDelete = true;
 
+    protected $appends = ['featured'];
+
     const TYPE = 'doc';
 
     const SPONSOR_TYPE_INDIVIDUAL = "individual";
@@ -48,6 +50,16 @@ class Doc extends Eloquent
     public function dates()
     {
         return $this->hasMany('Date');
+    }
+
+    public function getFeaturedAttribute() {
+        $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+        if($featuredSetting) {
+            return $featuredSetting->meta_value == $this->id;
+        }
+
+        return false;
     }
 
     public function canUserEdit($user)

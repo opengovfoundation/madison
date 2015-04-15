@@ -234,6 +234,10 @@ class DocumentsController extends BaseController
     public function deleteImage($docId) {
         $doc = Doc::where('id', $docId)->first();
 
+        if ($doc->featured) {
+            return Response::json($this->growlMessage('You cannot delete the image of a Featured Document', 'error'), 500);
+        }
+
         $image_path = public_path() . $doc->thumbnail;
 
         try{
@@ -265,22 +269,37 @@ class DocumentsController extends BaseController
             return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
         }
 
+        $message = 'Featured Document saved successfully.';
+
         $docId = Input::get('id');
 
         $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
 
-        if(!$featuredSetting) {
-            $featuredSetting = new Setting();
-            $featuredSetting->meta_key = 'featured-doc';
-        }
-
-        $featuredSetting->meta_value = $docId;
         try{
-            $featuredSetting->save();
+            //If we're setting a new Featured Document
+            if(!$featuredSetting) {
+                $featuredSetting = new Setting();
+                $featuredSetting->meta_key = 'featured-doc';
+                $featuredSetting->meta_value = $docId;
+
+                $featuredSetting->save();
+            }
+            //We're removing the featured document
+            else if ($featuredSetting->meta_value == $docId) {
+                $featuredSetting->delete();
+
+                $message = 'Removed Featured Document';
+
+            }
+            //We're changing the Featured Document
+            else {
+                $featuredSetting->meta_value = $docId;
+                $featuredSetting->save();
+            }
         } catch (Exception $e) {
             return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
         }
 
-        return Response::json($this->growlMessage('Featured Document saved successfully.', 'success'));
+        return Response::json($this->growlMessage($message, 'success'));
     }
 }

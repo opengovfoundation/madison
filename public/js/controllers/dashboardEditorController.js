@@ -646,12 +646,20 @@ angular.module('madisonApp.controllers')
             //If so, display confirmation
             if (featuredDoc.id !== undefined) {
               console.log(featuredDoc);
+              var bodyText;
+
+              if (featuredDoc.id === $scope.doc.id) {
+                bodyText = 'Are you sure you want to unset this as the Featured Document?';
+              } else {
+                bodyText = 'A Featured Document is already set.  Are you sure you want to change the Featured Document?';
+              }
+
 
               var modalOptions = {
                 closeButtonText: 'Cancel',
                 actionButtonText: 'Change Featured Document',
                 headerText: 'Change Featured Document?',
-                bodyText: 'A Featured Document is already set.  Are you sure you want to change the Featured Document?'
+                bodyText: bodyText
               };
 
               //Open the dialog
@@ -659,7 +667,7 @@ angular.module('madisonApp.controllers')
 
               //Reset doc featured status on cancel
               res.catch(function () {
-                $scope.doc.featured = false;
+                $scope.doc.featured = !$scope.doc.featured;
               });
 
               //Only executed if the user confirms.  Set this doc as featured.
