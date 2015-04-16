@@ -61,7 +61,8 @@ class DatabaseBackup extends Command {
             $creds = array('database'=> $_ENV['DB_NAME'], 'username'=> $_ENV['DB_USER'], 'password'=> $_ENV['DB_PASS']);
         }
         
-        $timestamp = date("d-m-Y_H-i-s");
+        $timestamp = date('c', strtotime('now'));
+		$timestamp = str_replace(':','',$timestamp);
 		$filename = $timestamp . '_bak.sql';
 
 		exec('mysqldump ' . $creds['database'] . ' -u' . $creds['username'] . ' -p' . $creds['password'] . ' > ' . $backups_path . '/' . $filename);
