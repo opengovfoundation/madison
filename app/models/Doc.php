@@ -110,15 +110,18 @@ class Doc extends Eloquent
         return $this->hasMany('Comment');
     }
 
-    public function getCommentCount() {
+    public function getCommentCount()
+    {
         return $this->comments()->count();
     }
 
-    public function getAnnotationCount() {
+    public function getAnnotationCount()
+    {
         return $this->annotations()->count();
     }
 
-    public function getUserCount() {
+    public function getUserCount()
+    {
         return false;
     }
 
