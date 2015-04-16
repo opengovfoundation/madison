@@ -241,7 +241,7 @@ $max-height: 350px;
     position: fixed;
     z-index: 10;
     top: 250px;
-    padding: 1rem $toc-padding;
+    padding: 0 $toc-padding 2rem;
     //padding-right: ($toc-heading-width);
     width: $toc-width;
     min-height: $min-height;
@@ -279,7 +279,7 @@ $max-height: 350px;
 
 
         background: $lightest-grey;
-        box-shadow: 0px 0px 5px $dark-grey;
+        @include single-box-shadow( 0px, 0px, 5px, $dark-grey );
         border: 1px solid $light-medium-grey;
 
         .normal-title {
@@ -295,7 +295,7 @@ $max-height: 350px;
                 font-weight: bold;
                 display: inline-block;
                 // Rotate around the middle of the far left edge, to hold our position.
-                transform-origin: ceil($toc-heading-width/2) ceil($toc-heading-width/2);
+                @include transform-origin( ceil($toc-heading-width/2) ceil($toc-heading-width/2));
                 @include rotate(90deg);
 
                 // Center this, more or less.
@@ -349,6 +349,9 @@ $max-height: 350px;
     }
 
 .toc-title {
+    @include single-box-shadow( 0px, 6px, 5px, -3px, #CCC );
+    margin: 0 -10px;
+    padding: 0 10px;
     .toc-title-string {
         @extend .small-caps;
         font-weight: bold;
