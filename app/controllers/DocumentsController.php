@@ -1,6 +1,6 @@
 <?php
 
-class DocumentsController extends Controller
+class DocumentsController extends BaseController
 {
     public function getDocument($slug)
     {
@@ -42,6 +42,17 @@ class DocumentsController extends Controller
         ];
 
         return Response::json($returned);
+    }
+
+    public function getActive($query = null)
+    {
+        if (!isset($query)) {
+            $query = 10;
+        }
+
+        $docs = Doc::getActive($query);
+
+        return Response::json($docs);
     }
 
     public function saveDocumentEdits($documentId)
@@ -184,5 +195,114 @@ class DocumentsController extends Controller
         } catch (\Exception $e) {
             return Redirect::to("documents")->withInput()->with('error', "Sorry there was an error processing your request - {$e->getMessage()}");
         }
+    }
+
+    public function uploadImage($docId)
+    {
+        if (Input::hasFile('file')) {
+            $file = Input::file('file');
+
+            $extension = $file->guessExtension();
+
+            $filename = "default.$extension";
+            $public_directory = "/img/doc-".$docId."/";
+            $web_path = $public_directory.$filename;
+
+            $path = public_path().$public_directory;
+
+            $doc = Doc::where('id', $docId)->first();
+            $doc->thumbnail = $web_path;
+
+            try {
+                $doc->save();
+
+                $file->move($path, $filename);
+            } catch (Exception $e) {
+                return Response::json($this->growlMessage('There was an error with the image upload', 'error'), 500);
+            }
+
+            $params = [
+                'imagePath' => $web_path,
+            ];
+
+            return Response::json($this->growlMessage("Upload successful", 'success', $params));
+        } else {
+            return Response::json($this->growlMessage("There was an error uploading your image.", 'error'));
+        }
+    }
+
+    public function deleteImage($docId)
+    {
+        $doc = Doc::where('id', $docId)->first();
+
+        if ($doc->featured) {
+            return Response::json($this->growlMessage('You cannot delete the image of a Featured Document', 'error'), 500);
+        }
+
+        $image_path = public_path().$doc->thumbnail;
+
+        try {
+            File::delete($image_path);
+            $doc->thumbnail = null;
+            $doc->save();
+        } catch (Exception $e) {
+            Log::error("Error deleting document featured image for document id $docId");
+            Log::error($e);
+        }
+
+        return Response::json($this->growlMessage('Image deleted successfully', 'success'));
+    }
+
+    public function getFeatured()
+    {
+        $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+        if ($featuredSetting) {
+            $featuredId = (int) $featuredSetting->meta_value;
+            $doc = Doc::where('id', $featuredId)->first();
+
+            return Response::json($doc);
+        }
+
+        return Response::json(null);
+    }
+
+    public function postFeatured()
+    {
+        if (!Auth::user()->hasRole('Admin')) {
+            return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
+        }
+
+        $message = 'Featured Document saved successfully.';
+
+        $docId = Input::get('id');
+
+        $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+        try {
+            //If we're setting a new Featured Document
+            if (!$featuredSetting) {
+                $featuredSetting = new Setting();
+                $featuredSetting->meta_key = 'featured-doc';
+                $featuredSetting->meta_value = $docId;
+
+                $featuredSetting->save();
+            }
+            //We're removing the featured document
+            elseif ($featuredSetting->meta_value == $docId) {
+                $featuredSetting->delete();
+
+                $message = 'Removed Featured Document';
+            }
+            //We're changing the Featured Document
+            else {
+                $featuredSetting->meta_value = $docId;
+                $featuredSetting->save();
+            }
+        } catch (Exception $e) {
+            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        }
+
+        return Response::json($this->growlMessage($message, 'success'));
     }
 }

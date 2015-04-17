@@ -15,12 +15,15 @@ class BaseController extends Controller
      *
      *	@param string $message
      *	@param string $severity
+     *  @param array $params
      *
      *	@return array $growled
      *
      * @todo this should accept an array of messages / severities
+     *
+     *  $params is an easy way to append other return information
      */
-    protected function growlMessage($messages, $severity)
+    protected function growlMessage($messages, $severity, $params = null)
     {
         $growled = array('messages'    => array());
 
@@ -41,6 +44,14 @@ class BaseController extends Controller
             }
         } else {
             array_push($growled['messages'], array('text'    => $messages, 'severity' => $severity));
+        }
+
+        if ($params) {
+            if (!is_array($params)) {
+                $params = [$params];
+            }
+
+            return array_merge($growled, $params);
         }
 
         return $growled;

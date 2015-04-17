@@ -119,6 +119,7 @@ class DocumentApiController extends ApiController
 
         foreach ($docs as $doc) {
             $doc->annotation_count = $doc->getAnnotationCount();
+            $doc->annotation_comments_count = $doc->getAnnotationCommentCount();
             $doc->comment_count = $doc->getCommentCount();
             $doc->user_count = $doc->getUserCount();
 
@@ -141,11 +142,7 @@ class DocumentApiController extends ApiController
             $recent = $query;
         }
 
-        $docs = Doc::take(10)->with('categories')->orderBy('updated_at', 'DESC')->get();
-
-        //foreach($docs as $doc){
-            //$doc->setActionCount();
-        //}
+        $docs = Doc::take($recent)->with('categories')->orderBy('updated_at', 'DESC')->get();
 
         return Response::json($docs);
     }

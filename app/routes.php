@@ -127,6 +127,7 @@ Route::controller('dashboard', 'DashboardController');
 
     //Document Api Routes
     Route::get('api/docs/recent/{query?}', 'DocumentApiController@getRecent')->where('query', '[0-9]+');
+    Route::get('api/docs/active/{query?}', 'DocumentsController@getActive')->where('query', '[0-9]+');
     Route::get('api/docs/categories', 'DocumentApiController@getCategories');
     Route::get('api/docs/statuses', 'DocumentApiController@getAllStatuses');
     Route::get('api/docs/sponsors', 'DocumentApiController@getAllSponsors');
@@ -147,6 +148,10 @@ Route::controller('dashboard', 'DashboardController');
     Route::post('api/docs/{doc}/title', 'DocumentApiController@postTitle');
     Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug');
     Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent');
+    Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage');
+    Route::delete('api/docs/{doc}/featured-image', 'DocumentsController@deleteImage');
+    Route::get('api/docs/featured', 'DocumentsController@getFeatured');
+    Route::post('api/docs/featured', 'DocumentsController@postFeatured');
     Route::get('api/docs/', 'DocumentApiController@getDocs');
     Route::post('api/docs/', 'DocumentApiController@postDocs');
 

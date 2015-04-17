@@ -15,6 +15,7 @@ public/.sas-cache
 public/sass/.sass-cache
 public/private/*
 public/bower_components/
+public/img/doc*
 
 # Vagrant
 VagrantConfig.json

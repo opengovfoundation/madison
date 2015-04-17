@@ -19,7 +19,8 @@ var imports = [
   'ngSanitize',
   'angular-growl',
   'ngResource',
-  'ipCookie'
+  'ipCookie',
+  'angularFileUpload'
 ];
 
 try {

@@ -1,8 +1,8 @@
 /*global Markdown*/
 /*global alert*/
 angular.module('madisonApp.controllers')
-  .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$location', '$filter', 'growl',
-    function ($scope, $http, $timeout, $location, $filter, growl) {
+  .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$location', '$filter', 'growl', '$upload', 'modalService', 'Doc',
+    function ($scope, $http, $timeout, $location, $filter, growl, $upload, modalService, Doc) {
       $scope.doc = {};
       $scope.sponsor = {};
       $scope.status = {};
@@ -16,10 +16,17 @@ angular.module('madisonApp.controllers')
       $scope.suggestedCategories = [];
       $scope.suggestedStatuses = [];
       $scope.dates = [];
+      $scope.featuredImage = null;
+      $scope.featuredDoc = false;
 
       var abs = $location.absUrl();
       var id = abs.match(/.*\/(\d+)$/)[1];
 
+      $scope.$watch('files', function (newValue, oldValue) {
+        if (newValue !== oldValue) {
+          $scope.uploadImage($scope.files);
+        }
+      });
 
       function clean_slug(string) {
         return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').replace(/ +/g, '-');
@@ -33,6 +40,10 @@ angular.module('madisonApp.controllers')
             angular.forEach(data.categories, function (category) {
               $scope.categories.push(angular.copy(category.name));
             });
+
+            if ($scope.doc.thumbnail !== null) {
+              $scope.featuredImage = {path: $scope.doc.thumbnail + '?' + new Date().getTime()};
+            }
           });
       };
 
@@ -181,7 +192,6 @@ angular.module('madisonApp.controllers')
       $scope.setSelectOptions();
 
       var initCategories = true;
-      var initIntroText = true;
       var initSponsor = true;
       var initStatus = true;
 
@@ -195,7 +205,7 @@ angular.module('madisonApp.controllers')
         // We don't control the pagedown CSS, and this DIV needs to be scrollable
         $("#wmd-preview").css("overflow", "scroll");
 
-        // Resizing dynamically according to the textarea is hard, 
+        // Resizing dynamically according to the textarea is hard,
         // so just set the height once (22 is padding)
         $("#wmd-preview").css("height", ($("#wmd-input").height() + 22));
         $("#wmd-input").scroll(function () {
@@ -270,13 +280,14 @@ angular.module('madisonApp.controllers')
             // Changing doc.slug in-place will trigger the $watch
             var safe_slug = $scope.doc.slug;
             var sanitized_slug = clean_slug(safe_slug);
-            // If cleaning the slug didn't change anything, we have a valid NEW slug, 
+            // If cleaning the slug didn't change anything, we have a valid NEW slug,
             // and we can save it
-            if (safe_slug == sanitized_slug) {
+            if (safe_slug === sanitized_slug) {
               $scope.saveSlug();
             } else {
               // Change the slug in-place, which will trigger another watch
               // (handled by the POST function)
+              growl.error('Error saving slug');
               console.log('Invalid slug, reverting');
               $scope.doc.slug = sanitized_slug;
             }
@@ -333,12 +344,12 @@ angular.module('madisonApp.controllers')
         }).success(function (data) {
           $scope.short_url = data.shorturl;
         }).error(function (data) {
-          console.error(data);
+          console.error("Error generating short url: %o", data);
           growl.error('There was an error generating your short url.');
         });
       };
 
-      
+
 
       $scope.statusChange = function (status) {
         $scope.status = status;
@@ -564,6 +575,115 @@ angular.module('madisonApp.controllers')
           }).error(function (data) {
             console.error("Error saving intro text for document %o: %o", $scope.doc, $scope.introtext);
           });
+      };
+
+      //Handle image uploads
+      $scope.uploadImage = function (file) {
+        //This is passed an empty array when the file selection is shown for some reason (?)
+        if (file.length === 0) {
+          return;
+        }
+
+        $scope.uploadProgress = 0;
+        $scope.uploadType = 'info';
+
+        if (file && file.length === 1) {
+          $upload.upload({
+            url: '/api/docs/' + $scope.doc.id + '/featured-image',
+            file: file
+          })
+            //Update the progress bar
+            .progress(function (event) {
+              var progressPercentage = parseInt(100.0 * event.loaded / event.total, 10);
+
+              $scope.uploadProgress = progressPercentage;
+            })
+            //Update progress bar class on success
+            .success(function (data, status, headers, config) {
+              $scope.uploadType = 'success';
+
+              $scope.featuredImage = {path: data.imagePath + '?' + new Date().getTime()};
+            })
+            //Update progress bar class on error
+            .error(function () {
+              $scope.uploadType = 'danger';
+            })
+            //Remove progress bar
+            .finally(function () {
+              $timeout(function () {
+                $scope.uploadProgress = null;
+              }, 5000);
+            });
+        } else {
+          console.error("Error uploading %o", file);
+          growl.error('There was an error with the image upload');
+        }
+      };
+
+      $scope.deleteFeaturedImage = function () {
+        if ($scope.doc.featured === true) {
+          growl.error('You cannot delete the image of a Featured Document');
+        } else {
+          return $http.delete('/api/docs/' + $scope.doc.id + '/featured-image')
+            .success(function () {
+              $scope.featuredImage = null;
+              $scope.doc.thumbnail = null;
+            });
+        }
+      };
+
+      $scope.tryFeaturedDoc = function () {
+        //If there is no document image, display error
+        if ($scope.doc.featured === true && $scope.featuredImage === null) {
+          growl.error('You must upload an image to set document as the Featured Document');
+          $scope.doc.featured = false;
+        } else {
+          //Check if any other documents are featured
+          var featuredDoc = Doc.getFeaturedDoc();
+
+          //Wait for the response
+          featuredDoc.$promise.then(function () {
+            //If so, display confirmation
+            if (featuredDoc.id !== undefined) {
+              console.log(featuredDoc);
+              var bodyText;
+
+              if (featuredDoc.id === $scope.doc.id) {
+                bodyText = 'Are you sure you want to unset this as the Featured Document?';
+              } else {
+                bodyText = 'A Featured Document is already set.  Are you sure you want to change the Featured Document?';
+              }
+
+
+              var modalOptions = {
+                closeButtonText: 'Cancel',
+                actionButtonText: 'Change Featured Document',
+                headerText: 'Change Featured Document?',
+                bodyText: bodyText
+              };
+
+              //Open the dialog
+              var res = modalService.showModal({}, modalOptions);
+
+              //Reset doc featured status on cancel
+              res.catch(function () {
+                $scope.doc.featured = !$scope.doc.featured;
+              });
+
+              //Only executed if the user confirms.  Set this doc as featured.
+              res.then(function () {
+                $scope._setFeaturedDoc();
+              });
+            } else {
+              //If the featured document isn't set, set this one as the featured document
+              $scope._setFeaturedDoc();
+            }
+          });
+        }
+      };
+
+      $scope._setFeaturedDoc = function () {
+        return $http.post('/api/docs/featured', {id: $scope.doc.id});
       };
     }
     ]);
