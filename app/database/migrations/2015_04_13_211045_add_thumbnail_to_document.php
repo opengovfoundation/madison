@@ -3,7 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddThumbnailToDocument extends Migration {
+class AddThumbnailToDocument extends Migration
+{
 
     /**
      * Run the migrations.
@@ -28,5 +29,4 @@ class AddThumbnailToDocument extends Migration {
             $table->dropColumn('thumbnail');
         });
     }
-
 }
