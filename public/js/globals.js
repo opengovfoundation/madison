@@ -15,3 +15,11 @@ window.getLoginPopupService = function () {
 
   return loginPopupService;
 };
+
+window.getAuthService = function () {
+  var elem = angular.element($('html'));
+  var injector = elem.injector();
+  var AuthService = injector.get('AuthService');
+
+  return AuthService;
+};
