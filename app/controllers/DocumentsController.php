@@ -260,11 +260,12 @@ class DocumentsController extends BaseController
         if ($featuredSetting) {
             $featuredId = (int) $featuredSetting->meta_value;
             $doc = Doc::where('id', $featuredId)->first();
-
-            return Response::json($doc);
+        } else {
+            $doc = Doc::orderBy('created_at', 'desc')->first();
+            $doc->thumbnail = '/img/default/default.jpg';
         }
 
-        return Response::json(null);
+        return Response::json($doc);
     }
 
     public function postFeatured()
