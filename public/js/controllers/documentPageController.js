@@ -52,11 +52,14 @@ angular.module('madisonApp.controllers')
 
       $scope.setSponsor = function () {
         try {
-          if ($scope.doc.group_sponsor.length !== 0) {
+          //If the sponsor is a group
+          if ($scope.doc.group_sponsor.length > 0) {
             $scope.doc.sponsor = $scope.doc.group_sponsor;
-          } else {
+          } else if ($scope.doc.user_sponsor.length > 0) { //Otherwise it's an individual
             $scope.doc.sponsor = $scope.doc.user_sponsor;
             $scope.doc.sponsor[0].display_name = $scope.doc.sponsor[0].fname + ' ' + $scope.doc.sponsor[0].lname;
+          } else { //This document has no sponsor!
+            console.error("No sponsor found.");
           }
         } catch (err) {
           console.error(err);
