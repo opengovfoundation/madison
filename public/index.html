@@ -47,30 +47,28 @@
     <!--[if lt IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <tour step="currentStep" post-tour="tourComplete()" post-step="stepComplete()">
-      <div growl></div>
-      <div login-form ng-if="loggingIn" class="popup"></div>
-      <div id="wrap">
-        <header id="header-main" class="navbar" role="navigation">
-          <div ng-include="'/templates/partials/header.html'"></div>
-        </header>
-        <header class="welcome">
-          <div ng-include="'/templates/partials/welcome.html'"></div>
-        </header>
-        <div class="row">
-          <div profile-completion-message></div>
-        </div>
-        <main id="main" class="">
-          <div class="container">
-            <div class="content">
-              <div ui-view></div>
-            </div>
-          </div>
-        </main>
-        <footer id="footer" class="footer">
-          <div ng-include="'/templates/partials/footer.html'"class="container"></div>
-        </footer>
+    <div growl></div>
+    <div login-form ng-if="loggingIn" class="popup"></div>
+    <div id="wrap">
+      <header id="header-main" class="navbar" role="navigation">
+        <div ng-include="'/templates/partials/header.html'"></div>
+      </header>
+      <header class="welcome">
+        <div ng-include="'/templates/partials/welcome.html'"></div>
+      </header>
+      <div class="row">
+        <div profile-completion-message></div>
       </div>
-    </tour>
+      <main id="main" class="">
+        <div class="container">
+          <div class="content">
+            <div ui-view></div>
+          </div>
+        </div>
+      </main>
+      <footer id="footer" class="footer">
+        <div ng-include="'/templates/partials/footer.html'"class="container"></div>
+      </footer>
+    </div>
   </body>
 </html>
