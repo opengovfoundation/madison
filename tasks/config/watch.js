@@ -2,11 +2,14 @@ module.exports = function (grunt) {
   grunt.config.set('watch', {
     scripts: {
       files: ['public/js/**/*.js', 'Gruntfile.js'],
-      tasks: ['build']
+      tasks: ['buildJS']
     },
     sass: {
       files: './public/sass/**/*.scss',
-      tasks: ['build']
+      tasks: ['buildCSS'],
+      options: {
+        livereload: true
+      }
     }
   });
 
