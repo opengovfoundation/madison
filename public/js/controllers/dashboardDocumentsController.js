@@ -40,8 +40,7 @@ angular.module('madisonApp.controllers')
 
         $http.post('/api/docs', {title: title})
           .success(function (data) {
-            console.log('Redirect to new document');
-            //$state.go('edit-doc', {id: data.id});
+            $state.go('edit-doc', {id: data.id});
           })
           .error(function () {
             $scope.newDocTitle = null;

@@ -1,0 +1,20 @@
+.document-list {
+    margin-top:3rem;
+
+    li {
+        list-style: none;
+    }
+
+    .group-docs-empty {
+        font-style: italic;
+        padding-left:2rem;
+    }
+}
+
+.create-document-wrapper {
+    margin-top:4rem;
+}
+
+.create-document {
+    margin-top:3rem;
+}
