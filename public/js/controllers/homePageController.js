@@ -2,6 +2,7 @@ angular.module('madisonApp.controllers')
   .controller('HomePageController', ['$scope', '$filter', 'Doc',
     function ($scope, $filter, Doc) {
       $scope.docs = [];
+      $scope.featured = {};
       $scope.categories = [];
       $scope.sponsors = [];
       $scope.statuses = [];
@@ -17,6 +18,12 @@ angular.module('madisonApp.controllers')
         $scope.parseDocs(data);
       }).$promise.catch(function (data) {
         console.error("Unable to get documents: %o", data);
+      });
+
+      Doc.getFeaturedDoc(function (data) {
+        $scope.featured = data;
+      }).$promise.catch(function (data) {
+        console.error("Unable to get featured document: %o", data);
       });
 
       $scope.select2Config = {

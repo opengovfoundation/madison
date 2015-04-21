@@ -1,24 +1,35 @@
-<div class="home-feature BETA">
-    <article class="main-feature hentry doc doc-full has-image"
-        style="background-image: url(http://placekitten.com/625/320)">
+<div class="home-feature">
+    <article class="main-feature hentry doc doc-full" ng-class="{'has-image' : featured.thumbnail}"
+        style="background-image: url({{ featured.thumbnail }})">
 
         <header class="doc-info">
             <h2 class="heading entry-title">
-                <a href="#" rel="bookmark" title="Read more on {{doc.title}}">FEATURED BILL GOES HERE</a>
+                <a href="{{ featured.url }}" rel="bookmark" title="Read more on {{featured.title}}">{{ featured.title }}</a>
             </h2>
 
-            <div class="doc-sponsor">
+            <div class="doc-sponsor" ng-if="featured.sponsor">
                 Sponsored by
                 <ul>
-                    <li class="author">OpenGov Foundation</li>
+                  <li ng-repeat="sponsor in featured.sponsor" class="author">
+                    {{ sponsor.display_name }}
+                  </li>
                 </ul>
             </div>
 
             <div class="doc-stats">
                 <ul>
-                    <li>12 Comments</li>
-                    <li>7 Collaborators</li>
-                    <li>Posted <time class="published" datetime="2015-03-12">12 Mar 2015</time></li>
+                    <li class="BETA">12 Comments</li>
+                    <li class="BETA">7 Collaborators</li>
+                    <li>
+                        <span ng-hide="featured.updated_at" class="date">
+                          Posted <time class="published doc-created-date" datetime="{{ featured.created_at }}"
+                          >{{ featured.created_at | date:'mediumDate' }}</time>
+                        </span>
+                        <span ng-show="featured.updated_at" class="date">
+                          Updated <time class="updated doc-updated-date" datetime="{{ featured.updated_at }}"
+                          >{{ featured.updated_at | date:'mediumDate' }}</time>
+                        </span>
+                    </li>
                     <!-- OR -->
                     <!--li>Updated <time class="updated" datetime="2015-03-15">15 Mar 2015</time></li-->
                 </ul>
@@ -27,12 +38,7 @@
 
         <div class="doc-content">
             <div class="doc-summary entry-summary">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus nisi urna, ut vulputate nunc imperdiet vitae. Maecenas viverra ut risus et rhoncus. Vivamus sodales, mi tincidunt blandit mollis, urna nulla sagittis arcu, sit amet condimentum velit nunc ac magna. Suspendisse potenti. Nulla ornare ultricies neque et cursus. Etiam vel molestie erat. Donec vitae pellentesque massa. Curabitur ultricies, tellus id feugiat maximus, urna nunc lacinia dui, et efficitur tortor quam a nunc. Integer suscipit sed risus et consequat. Donec sit amet sodales erat. Curabitur fermentum et ipsum sed aliquet. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                </p>
-                <p>
-                    Nullam blandit dui ac sodales molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean placerat, nisl sit amet tempor tristique, ex tellus bibendum magna, a tempus felis odio ac ligula. Praesent viverra sapien ut velit pharetra, eu rhoncus risus vestibulum. Integer vehicula, nisi vel aliquam aliquam, lacus velit vulputate orci, sed tempus lacus elit id felis. Sed eget porta ante. Praesent malesuada nunc vitae elit tempus, nec convallis neque condimentum. Nulla ac dapibus felis. Sed sed elit eleifend, scelerisque ipsum a, ullamcorper nulla. Sed felis ligula, euismod et neque blandit, venenatis egestas eros. Sed odio nibh, fermentum a scelerisque id, blandit at risus. Aliquam ac ex ipsum. Phasellus blandit dolor vel metus mattis pretium. Sed dictum venenatis est quis suscipit.
-                </p>
+                {{ featured.introtext }}
             </div>
             <a class="read-button" href="#" rel="bookmark" role="button" title="Read more on {{doc.title}}">Read More</a>
         </div>

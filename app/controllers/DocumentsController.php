@@ -257,15 +257,23 @@ class DocumentsController extends BaseController
     {
         $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
 
+        $doc = Doc::with('categories')->with('sponsor')->with('statuses')->with('dates');
+
         if ($featuredSetting) {
             $featuredId = (int) $featuredSetting->meta_value;
-            $doc = Doc::where('id', $featuredId)->first();
+            $doc = $doc->where('id', $featuredId)->first();
         } else {
-            $doc = Doc::orderBy('created_at', 'desc')->first();
+            $doc = $doc->orderBy('created_at', 'desc')->first();
             $doc->thumbnail = '/img/default/default.jpg';
         }
+        $return_doc = $doc->toArray();
 
-        return Response::json($doc);
+        $return_doc['introtext'] = $doc->introtext()->first()['meta_value'];
+
+        $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
+        $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
+
+        return Response::json($return_doc);
     }
 
     public function postFeatured()
