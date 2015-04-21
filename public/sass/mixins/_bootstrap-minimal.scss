@@ -1,8 +1,9 @@
 // Remove any bootstrap modules we're not using from this file.
 
 // Core variables and mixins
-// We get these earlier.
-// @import "bootstrap/variables";
+// Use our local overrides to rem/em first.
+@import "bootstrap-variables";
+@import "bootstrap/variables";
 
 //@import "bootstrap/mixins";
 // Inline our mixins below.
