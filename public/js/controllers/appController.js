@@ -1,6 +1,6 @@
 angular.module('madisonApp.controllers')
-  .controller('AppController', ['$rootScope', '$scope', 'AuthService', 'USER_ROLES', 'AUTH_EVENTS', 'SessionService', 'growl', '$state', 'loginPopupService',
-    function ($rootScope, $scope, AuthService, USER_ROLES, AUTH_EVENTS, SessionService, growl, $state, loginPopupService) {
+  .controller('AppController', ['$rootScope', '$scope', 'AuthService', 'USER_ROLES', 'SessionService', 'loginPopupService', '$location', '$anchorScroll',
+    function ($rootScope, $scope, AuthService, USER_ROLES, SessionService, loginPopupService, $location, $anchorScroll) {
       "use strict";
 
       $scope.user = null;
@@ -41,5 +41,11 @@ angular.module('madisonApp.controllers')
 
       $scope.removeActiveGroup = function () {
         AuthService.removeActiveGroup();
+      };
+
+      $scope.scrollTo = function (id) {
+        console.log('Scrolling to ' + id);
+        $location.hash(id);
+        $anchorScroll();
       };
     }]);
