@@ -54,6 +54,10 @@ dt, dd {
   line-height: 2rem;
 }
 
+a {
+    color:$blue;
+}
+
 // Reusable title helpers.
 .accent-title {
     font-family: $accent-font;
