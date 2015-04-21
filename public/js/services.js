@@ -41,8 +41,8 @@ angular.module('madisonApp.services', [])
               var error_html = $('<ul></ul>');
 
               /*jslint unparam:true*/
-              $(response.errors).each(function (i, key) {
-                error_html.append('<li>' + response.errors[key][0] + '</li>');
+              angular.forEach(response.errors, function (value, key) {
+                error_html.append('<li>' + value + '</li>');
               });
               /*jslint unparam:false*/
 
