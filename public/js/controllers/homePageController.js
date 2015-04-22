@@ -3,6 +3,8 @@ angular.module('madisonApp.controllers')
     function ($scope, $filter, Doc) {
       $scope.docs = [];
       $scope.featured = {};
+      $scope.mostActive = [];
+      $scope.mostRecent = [];
       $scope.categories = [];
       $scope.sponsors = [];
       $scope.statuses = [];
@@ -13,8 +15,11 @@ angular.module('madisonApp.controllers')
       $scope.reverse = true;
       $scope.startStep = 0;
 
-      //Retrieve all docs
-      Doc.query(function (data) {
+      // Retrieve all docs
+      Doc.query({
+          'order': $scope.docSort,
+          'order_dir': ($scope.reverse ? 'DESC' : 'ASC')
+      },function (data) {
         $scope.parseDocs(data);
       }).$promise.catch(function (data) {
         console.error("Unable to get documents: %o", data);
@@ -24,6 +29,34 @@ angular.module('madisonApp.controllers')
         $scope.featured = data;
       }).$promise.catch(function (data) {
         console.error("Unable to get featured document: %o", data);
+      });
+
+      // Get the most recent docs
+      Doc.query(
+        {
+          'order': 'updated_at',
+          'order_dir': 'DESC',
+          'limit': 6
+        },
+        function (data) {
+          $scope.mostRecent = data;
+        }
+      ).$promise.catch(function (data) {
+        console.error("Unable to get documents: %o", data);
+      });
+
+      // Get the most active docs
+      Doc.query(
+        {
+          'order': 'activity',
+          'order_dir': 'DESC',
+          'limit': 6
+        },
+        function (data) {
+          $scope.mostActive = data;
+        }
+      ).$promise.catch(function (data) {
+        console.error("Unable to get documents: %o", data);
       });
 
       $scope.select2Config = {

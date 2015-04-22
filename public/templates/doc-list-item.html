@@ -30,7 +30,7 @@
       >{{ doc.updated_at | date:'mediumDate' }}</time>
     </span>
 
-    <table class="stats BETA">
+    <table class="stats">
       <thead>
         <tr>
           <th>Value</th>
@@ -39,16 +39,16 @@
       </thead>
       <tbody>
         <tr>
-          <td class="stats-value">99</td>
+          <td class="stats-value">{{doc.comment_count}}</td>
           <td class="stats-name">Comments</td>
         </tr>
         <tr>
-          <td class="stats-value">72</td>
-          <td class="stats-name">Collaborators</td>
+          <td class="stats-value">{{doc.annotation_count}}</td>
+          <td class="stats-name">Annotations</td>
         </tr>
         <tr>
-          <td class="stats-value">5</td>
-          <td class="stats-name">Tags</td>
+          <td class="stats-value">{{doc.user_count}}</td>
+          <td class="stats-name">Collaborators</td>
         </tr>
       </tbody>
     </table>

@@ -20,7 +20,8 @@ var imports = [
   'angular-growl',
   'ngResource',
   'ipCookie',
-  'angularFileUpload'
+  'angularFileUpload',
+  'yaru22.angular-timeago'
 ];
 
 try {

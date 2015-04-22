@@ -44,17 +44,6 @@ class DocumentsController extends BaseController
         return Response::json($returned);
     }
 
-    public function getActive($query = null)
-    {
-        if (!isset($query)) {
-            $query = 10;
-        }
-
-        $docs = Doc::getActive($query);
-
-        return Response::json($docs);
-    }
-
     public function saveDocumentEdits($documentId)
     {
         if (!Auth::check()) {
@@ -266,6 +255,8 @@ class DocumentsController extends BaseController
             $doc = $doc->orderBy('created_at', 'desc')->first();
             $doc->thumbnail = '/img/default/default.jpg';
         }
+        $doc->enableCounts();
+
         $return_doc = $doc->toArray();
 
         $return_doc['introtext'] = $doc->introtext()->first()['meta_value'];

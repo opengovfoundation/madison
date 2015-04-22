@@ -126,14 +126,29 @@ class Doc extends Eloquent
         return $this->comments()->count();
     }
 
+    public function getCommentCountAttribute()
+    {
+        return $this->getCommentCount();
+    }
+
     public function getAnnotationCount()
     {
         return $this->annotations()->count();
     }
 
+    public function getAnnotationCountAttribute()
+    {
+        return $this->getAnnotationCount();
+    }
+
     public function getAnnotationCommentCount()
     {
         return count($this->getAnnotationComments());
+    }
+
+    public function getAnnotationCommentCountAttribute()
+    {
+        return $this->getAnnotationCommentCount();
     }
 
     public function getUserCount()
@@ -167,6 +182,22 @@ class Doc extends Eloquent
 
         //Return the count of the array with uniques filtered
         return count(array_unique($userArray));
+    }
+
+    public function getUserCountAttribute()
+    {
+        return $this->getUserCount();
+    }
+
+    /*
+     * Add the "count" fields before serializing.
+     */
+    public function enableCounts()
+    {
+        $this->appends[] = 'comment_count';
+        $this->appends[] = 'annotation_count';
+        $this->appends[] = 'annotation_comment_count';
+        $this->appends[] = 'user_count';
     }
 
     public function annotations()
@@ -274,8 +305,29 @@ class Doc extends Eloquent
                     strtolower($this->title));
     }
 
-    public static function getActive($num)
+    /*
+     * Simple wrapper for our most commonly used joins.
+     */
+    public static function getEager()
     {
+        return Doc::with('categories')->with('sponsor')->with('statuses')->with('dates');
+    }
+
+    /*
+     * Active documents are much harder to query.  We do this with its own
+     * custom query.
+     */
+    public static function getActive($num, $offset)
+    {
+        // Defaults to limit 10 because of the expense here.
+        if (!$num) {
+            $num = 10;
+        }
+
+        if (!$offset) {
+            $offset = 0;
+        }
+
         $docIds = DB::select(
             DB::raw(
                 "SELECT doc_id, SUM(num) AS total FROM (
@@ -296,9 +348,12 @@ class Doc extends Eloquent
                 ) total_count
                 GROUP BY doc_id
                 ORDER BY total DESC
-                LIMIT :limit"
+                LIMIT :offset, :limit"
             ),
-            array($num)
+            array(
+                ':offset' => $offset,
+                ':limit' => $num
+            )
         );
 
         $docArray = [];
@@ -307,17 +362,20 @@ class Doc extends Eloquent
         foreach ($docIds as $docId) {
             $docArray[$docId->doc_id] = $docId->total;
         }
+        $docs = false;
 
-        //Grab out most active documents
-        $docs = Doc::whereIn('id', array_keys($docArray))->get();
+        if (count($docArray) > 0) {
+            //Grab out most active documents
+            $docs = Doc::getEager()->whereIn('id', array_keys($docArray))->get();
 
-        //Set the sort value to the total count
-        foreach ($docs as $doc) {
-            $doc->participationTotal = $docArray[$doc->id];
+            //Set the sort value to the total count
+            foreach ($docs as $doc) {
+                $doc->participationTotal = $docArray[$doc->id];
+            }
+
+            //Sort by the sort value descending
+            $docs = $docs->sortByDesc('participationTotal');
         }
-
-        //Sort by the sort value descending
-        $docs = $docs->sortByDesc('participationTotal');
 
         return $docs;
     }

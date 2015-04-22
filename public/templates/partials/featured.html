@@ -4,7 +4,7 @@
 
         <header class="doc-info">
             <h2 class="heading entry-title">
-                <a href="{{ featured.url }}" rel="bookmark" title="Read more on {{featured.title}}">{{ featured.title }}</a>
+                <a href="{{ featured.url }}" rel="bookmark" title="Read more on {{ featured.title }}">{{ featured.title }}</a>
             </h2>
 
             <div class="doc-sponsor" ng-if="featured.sponsor">
@@ -18,8 +18,8 @@
 
             <div class="doc-stats">
                 <ul>
-                    <li class="BETA">12 Comments</li>
-                    <li class="BETA">7 Collaborators</li>
+                    <li>{{ featured.comment_count }} Comments</li>
+                    <li>{{ featured.annotation_count }} Annotations</li>
                     <li>
                         <span ng-hide="featured.updated_at" class="date">
                           Posted <time class="published doc-created-date" datetime="{{ featured.created_at }}"
@@ -40,7 +40,7 @@
             <div class="doc-summary entry-summary">
                 {{ featured.introtext }}
             </div>
-            <a class="read-button" href="#" rel="bookmark" role="button" title="Read more on {{doc.title}}">Read More</a>
+            <a class="read-button" href="{{ featured.url }}" rel="bookmark" role="button" title="Read more on {{doc.title}}">Read More</a>
         </div>
     </article>
 
@@ -52,80 +52,25 @@
         <div class="recent-activity">
             <h2>Recent Activity</h2>
 
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
-            </article>
-
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
-            </article>
-
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
-            </article>
-
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
-            </article>
-
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
-            </article>
-
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
+            <article ng-repeat="doc in mostRecent | toArray">
+                <span class="title">"{{ doc.title }}"</span></a>
+                <span class="date">updated
+                    <time class="updated" datetime="{{ doc.updated_at }}">{{ doc.updated_at | timeAgo }}</time>
+                </span>
             </article>
         </div>
 
         <div class="most-active">
             <h2>Most Active Documents</h2>
 
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
-            </article>
-
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
-            </article>
-
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
-            </article>
-
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
-            </article>
-
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
-            </article>
-
-            <article>
-                <a href="#" rel="bookmark"><span class="author">Paul Paulson</span> annotated
-                <span class="title">"Sidewalk Safety Amendment Act of 2012"</span></a>
-                <time class="updated" datetime="2015-03-15">27 minutes ago</time>
+            <article ng-repeat="doc in mostActive | toArray">
+                <span class="title">"{{ doc.title }}"</span></a>
+                <div class="doc-stats">
+                    <ul>
+                        <li>{{ doc.comment_count }} Comments</li>
+                        <li>{{ doc.annotation_count }} Annotations</li>
+                    </ul>
+                </div>
             </article>
         </div>
     </section>

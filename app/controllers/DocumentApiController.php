@@ -113,15 +113,44 @@ class DocumentApiController extends ApiController
 
     public function getDocs()
     {
-        $docs = Doc::with('categories')->with('sponsor')->with('statuses')->with('dates')->orderBy('updated_at', 'DESC')->get();
+        // Handle order by.
+        $order_field = Input::get('order', 'updated_at');
+        $order_dir = Input::get('order_dir', 'DESC');
+
+        // Handle pagination.
+        $limit = null;
+        $offset = null;
+
+        if (Input::has('limit')) {
+            $limit = Input::get('limit');
+
+            if (Input::has('page')) {
+                $offset = (Input::get('page') - 1) * Input::get('limit');
+            }
+        }
+
+        // Activity is a wholly different beast right now, requiring complicated
+        // queries.
+        if ($order_field === 'activity') {
+            // TODO: Make this handle DESC order, maybe?
+            $docs = Doc::getActive($limit, $offset);
+        } else {
+            $doc = Doc::getEager()->orderBy($order_field, $order_dir);
+
+            if (isset($limit)) {
+                $doc->take($limit);
+                if (isset($offset)) {
+                    $doc->skip($offset);
+                }
+            }
+
+            $docs = $doc->get();
+        }
 
         $return_docs = array();
 
         foreach ($docs as $doc) {
-            $doc->annotation_count = $doc->getAnnotationCount();
-            $doc->annotation_comments_count = $doc->getAnnotationCommentCount();
-            $doc->comment_count = $doc->getCommentCount();
-            $doc->user_count = $doc->getUserCount();
+            $doc->enableCounts();
 
             $return_doc = $doc->toArray();
 
@@ -132,19 +161,6 @@ class DocumentApiController extends ApiController
         }
 
         return Response::json($return_docs);
-    }
-
-    public function getRecent($query = null)
-    {
-        $recent = 10;
-
-        if (isset($query)) {
-            $recent = $query;
-        }
-
-        $docs = Doc::take($recent)->with('categories')->orderBy('updated_at', 'DESC')->get();
-
-        return Response::json($docs);
     }
 
     public function getCategories($doc = null)

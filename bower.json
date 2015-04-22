@@ -19,6 +19,7 @@
     "angular-mocks": "~1.2.16",
     "angular-cookies": "~1.2.16",
     "angular-sanitize": "~1.2.16",
+    "angular-timeago": "~0.1.9",
     "angular-bootstrap-datetimepicker": "~0.2.2",
     "google-diff-match-patch-js": "~1.0.0",
     "angular-resource": "~1.2.22",
