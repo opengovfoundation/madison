@@ -127,6 +127,13 @@ angular.module('madisonApp.controllers')
 
       $scope.attachAnnotator = function (doc, user) {
 
+        //If we already have annotator instantiated, destroy it.
+        //It will be re-created below.
+        if ($window.annotator !== undefined) {
+          console.log($window.annotator);
+          $window.annotator.destroy();
+        }
+
         $window.doc = doc;
         $window.user = user;
 
@@ -138,6 +145,7 @@ angular.module('madisonApp.controllers')
           readOnly = false;
         }
 
+        //Wait for #doc_content to load completely.
         $timeout(function () {
 
           $window.annotator = $('#doc_content').annotator({
@@ -223,7 +231,6 @@ angular.module('madisonApp.controllers')
       //Load annotations
       $scope.$on('annotationsUpdated', function () {
         $scope.annotations = annotationService.annotations;
-        $scope.$apply();
 
         //Check that we have a direct annotation link
         if ($location.$hash) {
