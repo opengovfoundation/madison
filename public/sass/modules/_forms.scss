@@ -3,6 +3,10 @@ label {
     margin-top:1rem;
 }
 
+.help-block {
+    margin:0;
+}
+
 .form-control {
     height:2rem;
 }
@@ -19,4 +23,26 @@ label {
     }
 
     margin-bottom:0;
+}
+
+.select2-container {
+    //This is pretty hacky.  Based on the document editor page on the Document Information tab.
+    margin-top:-3px;
+
+    width:100%;
+
+    .select2-choice {
+        height:2rem;
+        line-height:2rem;
+    }
+}
+
+.select2-container-multi {
+    .select2-choices {
+        .select2-search-field {
+            input {
+                height:2rem;
+            }
+        }
+    }
 }

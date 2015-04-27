@@ -6,6 +6,7 @@
 .document-edit-tabs {
     .nav-tabs {
         @extend .row;
+        border-bottom: none;
 
         padding-left: 10px;
         li {
@@ -65,6 +66,33 @@
     position:relative;
 }
 
-.document-information {
 
+.document-information {
+    @extend .col-md-14;
+}
+
+.document-dates {
+    margin-top:3rem;
+    @extend .col-md-7;
+    @extend .col-md-offset-1;
+
+    .dates-header {
+        @extend .row;
+    }
+
+    .existing-date {
+        @extend .row;
+    }
+
+    .dates {
+        @extend .row;
+    }
+
+    .datetimepicker {
+        background:$light-grey;
+
+        table {
+            width:100%;
+        }
+    }
 }
