@@ -41,11 +41,14 @@ header {
     @extend .navbar-collapse;
     @extend .collapse;
     @extend .navbar-right;
-    margin-top: 5px;
 
     li a {
         text-transform: uppercase;
-        padding: 10px 10px;
+        padding: 1rem 10px;
+    }
+
+    .dropdown-menu {
+        padding: 0;
     }
 
     // Tablet
