@@ -130,8 +130,8 @@ angular.module('madisonApp.controllers')
         //If we already have annotator instantiated, destroy it.
         //It will be re-created below.
         if ($window.annotator !== undefined) {
-          console.log($window.annotator);
-          $window.annotator.destroy();
+          console.log($window.Annotator.prototype);
+          $window.Annotator.prototype.destroy();
         }
 
         $window.doc = doc;
