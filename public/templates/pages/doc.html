@@ -51,7 +51,7 @@
   </article>
 
   <aside class="doc-secondary-content">
-    <section class="stats BETA">
+    <section class="stats">
       <h2 class="normal-title">Bill Stats</h2>
 
       <div class="support-chart">
@@ -61,42 +61,46 @@
         <div class="chart">
            <svg viewbox="-50 0 100 32" width="100%">
               <g transform="rotate(180) translate(1,-21)" class="oppose">
-                <rect width="60" height="12"></rect>
+                <rect width="{{ doc.oppose * 100 / (doc.support + doc.oppose) | number:0}}" height="12"></rect>
               </g>
               <g class="border">
                 <line x1="0" y1="0" x2="0" y2="30">
               </g>
               <g transform="translate(0,9)" class="support">
-                <rect width="40" height="12"></rect>
+                <rect width="{{ doc.support * 100 / (doc.support + doc.oppose) | number:0}}" height="12"></rect>
               </g>
           </svg>
         </div>
         <div class="chart-labels">
           <dl class="chart-stat oppose">
             <dt class="chart-label">Oppose</dt>
-            <dd class="chart-value">60</dd>
+            <dd class="chart-value">{{ doc.oppose }}</dd>
           </dl>
           <dl class="chart-stat support">
             <dt class="chart-label">Support</dt>
-            <dd class="chart-value">40</dd>
+            <dd class="chart-value">{{ doc.support }}</dd>
           </dl>
         </div>
       </div>
 
       <dl class="stats-number">
-        <dt class="stat-label">Views</dt>
-        <dd class="stat-value">4,224</dd>
+        <dt class="stat-label">Participants</dt>
+        <dd class="stat-value">{{ doc.user_count }}</dd>
       </dl>
       <dl class="stats-number">
         <dt class="stat-label">Comments</dt>
-        <dd class="stat-value">10</dd>
+        <dd class="stat-value">{{ doc.comment_count }}</dd>
       </dl>
       <dl class="stats-number">
-        <dt class="stat-label">Shares</dt>
-        <dd class="stat-value">271</dd>
+        <dt class="stat-label">Annotations</dt>
+        <dd class="stat-value">{{ doc.annotation_count }}</dd>
       </dl>
       <div class="stats-history">
-        4 Revisions to the bill text, most recently 17 days ago.
+        <!-- revisions should go here -->
+        <span ng-show="doc.updated_at" class="date">
+          Updated <time class="updated doc-updated-date" datetime="{{ doc.updated_at }}"
+        >{{ doc.updated_at | timeAgo }}</time>
+    </span>
       </div>
     </section>
 
