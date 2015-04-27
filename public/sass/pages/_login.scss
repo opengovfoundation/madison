@@ -1,0 +1,11 @@
+section.login {
+    margin-top:3rem;
+}
+
+.social-login {
+    @extend .row;
+
+    .oauth-login {
+        @extend .col-md-6;
+    }
+}

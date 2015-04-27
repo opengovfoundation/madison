@@ -1,62 +1,20 @@
 /*global annotator*/
 /*global Markdown*/
 angular.module('madisonApp.controllers')
-  .controller('DocumentPageController', ['$scope', '$state', '$timeout', 'growl', '$location', '$window', 'Doc', '$sce', '$stateParams', '$http', 'loginPopupService', 'annotationService', '$anchorScroll',
-    function ($scope, $state, $timeout, growl, $location, $window, Doc, $sce, $stateParams, $http, loginPopupService, annotationService, $anchorScroll) {
+  .controller('DocumentPageController', ['$scope', '$state', '$timeout', 'growl', '$location', '$window', 'Doc', '$sce', '$stateParams', '$http', 'loginPopupService', 'annotationService', '$anchorScroll', 'AuthService',
+    function ($scope, $state, $timeout, growl, $location, $window, Doc, $sce, $stateParams, $http, loginPopupService, annotationService, $anchorScroll, AuthService) {
       $scope.annotations = [];
-
-      $scope.$on('annotationsUpdated', function () {
-        $scope.annotations = annotationService.annotations;
-        $scope.$apply();
-
-        if ($location.$hash) {
-          $scope.evalAsync(function () {
-            $anchorScroll();
-          });
-        }
-      });
-
-      //Load the document
-      $scope.doc = Doc.getDocBySlug({slug: $stateParams.slug});
-
-      //After loading the document
-      $scope.doc.$promise.then(function (doc) {
-
-        $scope.setSponsor();
-        $scope.getSupported();
-
-        $scope.checkExists(doc);//Redirect if document doesn't exist
-
-        //Load content.  Then attach annotator.
-        $scope.loadContent(doc).then(function () {
-          $scope.attachAnnotator($scope.doc, $scope.user);
-        });
-
-        //Load introduction section from sponsor
-        $scope.loadIntrotext(doc);//Load the document introduction text
-
-        //Check if we're linking to the discussion tab
-        $scope.checkActiveTab($scope.doc, $scope.user);
-
-        /*jslint unparam: true*/
-        $scope.$on('tocAdded', function (event, toc) {
-          $scope.toc = toc;
-        });
-        /*jslint unparam: false*/
-
-        //When the session is changed, re-attach annotator
-        $scope.$on('sessionChanged', function () {
-          $scope.attachAnnotator($scope.doc, $scope.user);
-        });
-      });
 
       $scope.setSponsor = function () {
         try {
-          if ($scope.doc.group_sponsor.length !== 0) {
+          //If the sponsor is a group
+          if ($scope.doc.group_sponsor.length > 0) {
             $scope.doc.sponsor = $scope.doc.group_sponsor;
-          } else {
+          } else if ($scope.doc.user_sponsor.length > 0) { //Otherwise it's an individual
             $scope.doc.sponsor = $scope.doc.user_sponsor;
             $scope.doc.sponsor[0].display_name = $scope.doc.sponsor[0].fname + ' ' + $scope.doc.sponsor[0].lname;
+          } else { //This document has no sponsor!
+            console.error("No sponsor found.");
           }
         } catch (err) {
           console.error(err);
@@ -235,4 +193,88 @@ angular.module('madisonApp.controllers')
           });
         });
       };
+
+      $scope.checkLoginPopupBinding = function () {
+        //Check if the user is logged in
+        if (!AuthService.isAuthenticated()) {
+          $scope._bindLoginPopup();
+        } else { //If the user isn't logged in, unbind mouseup
+          angular.element('#doc_content').unbind('mouseup');
+        }
+      };
+
+      $scope._bindLoginPopup = function () {
+        angular.element('#doc_content').on('mouseup', function (event) {
+          //Check for selection
+          var selection = $window.getSelection();
+
+          //If the selection is a range, show login popup
+          if (selection.type === "Range") {
+            loginPopupService.showLoginForm(event);
+          }
+        });
+      };
+
+
+      /**
+      * Executed on controller initialization
+      */
+
+      //Load annotations
+      $scope.$on('annotationsUpdated', function () {
+        $scope.annotations = annotationService.annotations;
+        $scope.$apply();
+
+        //Check that we have a direct annotation link
+        if ($location.$hash) {
+          $scope.evalAsync(function () {
+            $anchorScroll();
+          });
+        }
+      });
+
+      //Initial bind for login popup
+      if (!AuthService.isAuthenticated()) {
+        $scope._bindLoginPopup();
+      }
+
+      //Conditionally bind login popup on user authentication
+      $scope.$on('sessionChanged', function () {
+        $scope.checkLoginPopupBinding();
+      });
+
+      //Load the document
+      $scope.doc = Doc.getDocBySlug({slug: $stateParams.slug});
+
+      //After loading the document
+      $scope.doc.$promise.then(function (doc) {
+
+        $scope.setSponsor();
+        $scope.getSupported();
+
+        $scope.checkExists(doc);//Redirect if document doesn't exist
+
+        //Load content.  Then attach annotator.
+        $scope.loadContent(doc).then(function () {
+          $scope.attachAnnotator($scope.doc, $scope.user);
+        });
+
+        //Load introduction section from sponsor
+        $scope.loadIntrotext(doc);//Load the document introduction text
+
+        //Check if we're linking to the discussion tab
+        $scope.checkActiveTab($scope.doc, $scope.user);
+
+        /*jslint unparam: true*/
+        $scope.$on('tocAdded', function (event, toc) {
+          $scope.toc = toc;
+        });
+        /*jslint unparam: false*/
+
+        //When the session is changed, re-attach annotator
+        $scope.$on('sessionChanged', function () {
+          $scope.attachAnnotator($scope.doc, $scope.user);
+        });
+      });
+
     }]);

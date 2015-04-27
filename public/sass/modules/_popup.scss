@@ -1,0 +1,12 @@
+.popup {
+    position:absolute;
+    background: $lighter-grey;
+    padding: $side-padding;
+    border: 1px solid $medium-grey;
+    border-radius: 4px;
+    z-index:999;
+}
+
+.popup-close {
+    cursor:pointer;
+}

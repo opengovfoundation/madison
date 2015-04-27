@@ -1,33 +1,30 @@
-<div class="row">
-  <div class="md-col-12">
-    <h1>Login</h1>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-10 col-md-offset-1">
-    <form ng-submit="login()">
-      <!-- Email -->
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" name="email" placeholder="Email" class="form-control" ng-model="credentials.email">
-      </div>
-      <!-- Password -->
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" name="password" placeholder="Password" class="form-control" ng-model="credentials.password">
-      </div>
+<header>
+  <h1>Login</h1>
+</header>
+<section class="login">
+  <form ng-submit="login()">
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" name="email" placeholder="Email" class="form-control" ng-model="credentials.email">
+    </div>
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" name="password" placeholder="Password" class="form-control" ng-model="credentials.password">
+
       <!-- Remember checkbox -->
-      <div class="checkbox">
+      <div class="checkbox remember-me">
         <label for="remember">Remember me</label>
         <input type="checkbox" name="remember" ng-model="credentials.remember">
       </div>
-      <!-- Submit -->
-      <button class="btn btn-default">Login</button>
-      <a class="forgot-password" href="/password/reset">Forgot your password?</a>
-      <a class="forgot-password" href="/verification/resend">Resend confirmation email</a>
-    </form>
-  </div>
-</div>
-<div class="row">
-  <div social-login message="Log in"></div>
-</div>
+    </div>
+    <!-- Submit -->
+    <div class="form-group">
+      <button class="login-button">Login</button>
+      <a class="login-help" href="/password/reset">Forgot your password?</a>
+      <a class="login-help" href="/verification/resend">Resend confirmation email</a>
+    </div>
+  </form>
+  <section social-login message="Log in"></section>
+</section>

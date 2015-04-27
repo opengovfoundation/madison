@@ -54,6 +54,11 @@ dt, dd {
   line-height: 2rem;
 }
 
+a {
+    color:$blue;
+    cursor:pointer;
+}
+
 // Reusable title helpers.
 .accent-title {
     font-family: $accent-font;
@@ -177,5 +182,5 @@ h1, h2, h3 {
     right: 0;
     min-height: 3000px;
     background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAAgCAYAAAA40qkZAAAAG0lEQVQYV2NkgALGUQYDAyIQysvL/3d2djICACdABCFY2RRTAAAAAElFTkSuQmCC);
-    z-index: 1000;
+    z-index: -1;
 }

@@ -34,9 +34,17 @@
 @import 'modules/global';
 @import 'modules/header';
 @import 'modules/footer';
+@import 'modules/popup';
+@import 'modules/forms';
+@import 'modules/imageUpload';
+@import 'modules/login';
 
 /*
  * Page-specific styles
  */
 @import 'pages/home';
 @import 'pages/document';
+@import 'pages/login';
+@import 'pages/admin-document-list';
+@import 'pages/my-documents';
+@import 'pages/edit-document';

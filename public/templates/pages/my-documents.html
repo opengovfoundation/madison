@@ -1,46 +1,47 @@
-<div class="row">
-  <div admin-breadcrumb></div>
-</div>
-<div class="row content">
-  <div class="col-md-8 admin-document-list">
-    <h1>Documents</h1>
-    <ul>
-      <li ng-if="doc_count == 0">No Documents Found</li>
-      <hr>
-      <strong>Independently authored documents:</strong><br>
+<div admin-breadcrumb></div>
+<section class="my-documents-list">
+  <header>
+    <h1>My Documents</h1>
+  </header>
+  <div class="document-list">
+    <strong><a ng-click="scrollTo('create-document-wrapper')">Create a document</a></strong>
+    <article class="independent-docs">
+      <h2 class="small-heading">Independently authored documents:</h2>
+      <ul>
         <li ng-repeat="doc in docs.independent">
           <a href="/documents/edit/{{ doc.id }}">{{ doc.title }}</a>
         </li>
-        <hr>
-        <strong>Group authored documents:</strong><br><br>
+      </ul>
+    </article>
+    <article class="group-docs">
+      <h2 class="small-heading">Group authored documents:</h2>
+      <ul>
         <li ng-repeat="group in docs.group">
-          Group '{{ group.name }}'
+          <span class="group-author">{{ group.name }}</span>
           <ul ng-if="group.docs.length > 0">
             <li ng-repeat="doc in group.docs">
               <a href="/dashboard/docs/{{ doc.id }}">{{ doc.title }}</a>
             </li>
           </ul>
-          <div ng-if="group.docs.length == 0">
+          <div ng-if="group.docs.length == 0" class="group-docs-empty">
             There are no documents for this group.
           </div>
         </li>
       </ul>
-    </div>
-    <div class="col-md-4 admin-add-documents">
-      <div class="row">
-        <h2>Create Document</h2>
-        <form action="/documents/create" method="POST" id="create-document-form">
-          <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" name="title" class="form-control" placeholder="Document Title">
-          </div>
-          <div class="form-group">
-            <button class="btn">Create Document</button>
-          </div>
-        </form>
+    </article>
+  </div>
+</section>
+<section class="create-document-wrapper" id="create-document-wrapper">
+  <header>
+    <h1>Create Document</h1>
+  </header>
+  <div class="create-document">
+    <form action="" id="create-document-form" class="create-document-form">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" class="form-control" placeholder="Document Title" ng-model="newDocTitle">
       </div>
-    </div>
-    <div class="col-md-12">
-      <p>Want to be a document sponsor? <a href="/documents/sponsor/request">Request to be an Independent Sponsor</a></p>
-    </div>
-</div>
+      <button ng-click="createDocument()" class="create-document-button">Create Document</button>
+    </form>
+  </div>
+</section>
