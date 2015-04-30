@@ -8,6 +8,8 @@ class DocumentsController extends BaseController
         $introtext = $doc->introtext()->first()['meta_value'];
         $doc->introtext = $introtext;
 
+        $doc->enableCounts();
+
         return Response::json($doc);
     }
 

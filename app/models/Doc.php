@@ -189,6 +189,16 @@ class Doc extends Eloquent
         return $this->getUserCount();
     }
 
+    public function getSupportAttribute()
+    {
+        return DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $this->id)->count();
+    }
+
+    public function getOpposeAttribute()
+    {
+        return DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $this->id)->count();
+    }
+
     /*
      * Add the "count" fields before serializing.
      */
@@ -198,6 +208,8 @@ class Doc extends Eloquent
         $this->appends[] = 'annotation_count';
         $this->appends[] = 'annotation_comment_count';
         $this->appends[] = 'user_count';
+        $this->appends[] = 'support';
+        $this->appends[] = 'oppose';
     }
 
     public function annotations()
