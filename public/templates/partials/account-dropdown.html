@@ -5,20 +5,18 @@
   <li><a href="/user/edit/{{ user.id }}/notifications">Notification Settings</a></li>
   <li class="link-settings"><a href="/groups">Group Management</a></li>
   <li ng-if="user.admin"><a href="/administrative-dashboard">Administrative Dashboard</a></li>
-  <li class="dropdown-submenu">
+  <li class="dropdown-submenu pull-left">
     <a class="dropdown-trigger" href="#" data-toggle="dropdown">Use Madison As</a>
     <ul class="dropdown-menu" role="menu">
-      <li class="link-settings" style="color:lightgray;">
+      <li class="link-settings">
         <small>Using Madison as:</small>
         <br>
         <span ng-if="!!activeGroup">{{ activeGroup.display_name }}</span>
         <span ng-if="!activeGroup">{{ user.display_name }}</span>
       </li>
-      <li class="divider"></li>
       <li ng-repeat="group in groups">
         <a ng-click="setActiveGroup(group.id)">{{ group.display_name }}</a>
       </li>
-      <li class="divider"></li>
       <li><a ng-click="removeActiveGroup()">Remove Active Group</a></li>
     </ul>
   </li>
