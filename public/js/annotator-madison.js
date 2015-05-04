@@ -1,9 +1,7 @@
 /*global Annotator*/
-/*global getAnnotationService*/
-/*global user*/
-/*global doc*/
 /*global diff_match_patch*/
-Annotator.Plugin.Madison = function () {
+Annotator.Plugin.Madison = function (element, options) {
+  console.log(options);
   Annotator.Plugin.apply(this, arguments);
 };
 
@@ -11,6 +9,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   events: {},
   options: {},
   pluginInit: function () {
+    var annotationService = this.options.annotationService;
     /**
      *  Subscribe to Store's `annotationsLoaded` event
      *    Stores all annotation objects provided by Store in the window
@@ -26,7 +25,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       });
 
       //Set the annotations in the annotationService
-      var annotationService = getAnnotationService();
       annotationService.setAnnotations(annotations);
     });
 

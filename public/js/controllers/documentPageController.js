@@ -127,78 +127,11 @@ angular.module('madisonApp.controllers')
 
       $scope.attachAnnotator = function (doc, user) {
 
-        //If we already have annotator instantiated, destroy it.
-        //It will be re-created below.
-        if ($window.annotator !== undefined) {
-          console.log($window.Annotator.prototype);
-          $window.Annotator.prototype.destroy();
-        }
+        var element = $('#doc_content');
 
-        $window.doc = doc;
-        $window.user = user;
-
-        var userId = null;
-        var readOnly = true;
-
-        if (user) {
-          userId = user.id;
-          readOnly = false;
-        }
-
-        //Wait for #doc_content to load completely.
         $timeout(function () {
-
-          $window.annotator = $('#doc_content').annotator({
-            readOnly: readOnly
-          });
-
-          $window.annotator.annotator('addPlugin', 'Unsupported');
-          $window.annotator.annotator('addPlugin', 'Tags');
-          $window.annotator.annotator('addPlugin', 'Markdown');
-          $window.annotator.annotator('addPlugin', 'Store', {
-            annotationData: {
-              'uri': $location.path(),
-              'comments': []
-            },
-            prefix: '/api/docs/' + doc.id + '/annotations',
-            urls: {
-              create: '',
-              read: '/:id',
-              update: '/:id',
-              destroy: '/:id',
-              search: '/search'
-            }
-          });
-
-          $window.annotator.annotator('addPlugin', 'Permissions', {
-            user: user,
-            permissions: {
-              'read': [],
-              'update': [userId],
-              'delete': [userId],
-              'admin': [userId]
-            },
-            showViewPermissionsCheckbox: false,
-            showEditPermissionsCheckbox: false,
-            userId: function (user) {
-              if (user && user.id) {
-                return user.id;
-              }
-
-              return user;
-            },
-            userString: function (user) {
-              if (user && user.name) {
-                return user.name;
-              }
-
-              return user;
-            }
-          });
-
-          $window.annotator.annotator('addPlugin', 'Madison', {
-            userId: userId
-          });
+          console.log('Attaching annotator');
+          annotationService.createAnnotator(element, doc, user);
         });
       };
 
