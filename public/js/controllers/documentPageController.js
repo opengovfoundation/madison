@@ -275,6 +275,17 @@ angular.module('madisonApp.controllers')
         $scope.$on('sessionChanged', function () {
           $scope.attachAnnotator($scope.doc, $scope.user);
         });
+
+        $scope.doc.support_percent = 0;
+        if(doc.support > 0) {
+          $scope.doc.support_percent = Math.round( doc.support * 100 / (doc.support + doc.oppose) );
+        }
+
+        $scope.doc.oppose_percent = 0;
+        if(doc.oppose > 0) {
+          $scope.doc.oppose_percent = Math.round( doc.oppose * 100 / (doc.support + doc.oppose) );
+        }
+
       });
 
     }]);
