@@ -51,7 +51,7 @@ Route::put('api/groups/{groupId}/members/{memberId}', 'GroupsController@putMembe
 Route::get('docs', 'DocController@index');
 Route::get('docs/{slug}', 'DocController@index');
 Route::get('docs/embed/{slug}', 'DocController@getEmbedded');
-Route::get('docs/{slug}/feed', 'DocController@getFeed');
+Route::get('api/docs/{slug}/feed', 'DocController@getFeed');
 Route::get('documents/search', 'DocumentsController@getSearch');
 Route::get('documents', 'DocumentsController@listDocuments');
 Route::get('documents/view/{documentId}', 'DocumentsController@viewDocument');

@@ -105,7 +105,7 @@
     </section>
 
     <section class="annotation-pane">
-      <h2 class="normal-title">Annotations <a href="{{ doc.slug }}/feed" class="rss-link" target="_self" title="RSS feed link">RSS</a></h2>
+      <h2 class="normal-title">Annotations <a href="/api/docs/{{ doc.slug }}/feed" class="rss-link" target="_self" title="RSS feed link">RSS</a></h2>
 
       <div ng-controller="AnnotationController" class="participate" ng-include="'/templates/partials/doc-annotations.html'"></div>
     </section>
