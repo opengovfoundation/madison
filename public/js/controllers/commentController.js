@@ -12,7 +12,7 @@ angular.module('madisonApp.controllers')
       if (subCommentId) {
         $scope.subCommentId = subCommentId[2];
       }
-      
+
       $scope.doc.$promise.then(function () {
         $scope.getDocComments();
       });
@@ -38,7 +38,7 @@ angular.module('madisonApp.controllers')
               }
 
               // If this is the comment being linked to, save it
-              if (comment.id == $scope.subCommentId) {
+              if (comment.id === $scope.subCommentId) {
                 $scope.collapsed_comment = comment;
               }
 
@@ -63,7 +63,7 @@ angular.module('madisonApp.controllers')
                   $scope.collapsed_comment = $scope.collapsed_comment.parentpointer;
                 } else {
                   // We have reached the first sublevel of comments, so set the top level
-                  // parent to expand and exit 
+                  // parent to expand and exit
                   not_parent = false;
                 }
               } while (not_parent === true);
@@ -87,22 +87,26 @@ angular.module('madisonApp.controllers')
         return sponsored;
       };
 
-      $scope.notifyAuthor = function (activity) {
+      // $scope.notifyAuthor = function (activity) {
 
-        // If the current user is a sponsor and the activity hasn't been seen yet, 
-        // post to API route depending on comment/annotation label
-        $http.post('/api/docs/' + doc.id + '/' + 'comments/' + activity.id + '/' + 'seen')
-          .success(function (data) {
-            activity.seen = data.seen;
-          }).error(function (data) {
-            console.error("Unable to mark activity as seen: %o", data);
-          });
-      };
+      //   // If the current user is a sponsor and the activity hasn't been seen yet,
+      //   // post to API route depending on comment/annotation label
+      //   $http.post('/api/docs/' + doc.id + '/' + 'comments/' + activity.id + '/' + 'seen')
+      //     .success(function (data) {
+      //       activity.seen = data.seen;
+      //     }).error(function (data) {
+      //       console.error("Unable to mark activity as seen: %o", data);
+      //     });
+      // };
 
       $scope.parentSearch = function (arr, val) {
-        for (var i=0; i<arr.length; i++)
-          if (arr[i].id === val)                    
+        var i;
+        for (i = 0; i < arr.length; i++) {
+          if (arr[i].id === val) {
             return i;
+          }
+        }
+
         return false;
       };
 
@@ -161,7 +165,6 @@ angular.module('madisonApp.controllers')
             activity.comments.push(data);
             subcomment.text = '';
             subcomment.user = '';
-            $scope.$apply();
           }).error(function (data) {
             console.error(data);
           });
