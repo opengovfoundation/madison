@@ -53,7 +53,7 @@
             <h2>Recent Activity</h2>
 
             <article ng-repeat="doc in mostRecent | toArray">
-                <span class="title">"{{ doc.title }}"</span></a>
+                <a href="/docs/{{ doc.slug }}"><span class="title">"{{ doc.title }}"</span></a>
                 <span class="date">updated
                     <time class="updated" datetime="{{ doc.updated_at }}">{{ doc.updated_at | timeAgo }}</time>
                 </span>
@@ -64,7 +64,7 @@
             <h2>Most Active Documents</h2>
 
             <article ng-repeat="doc in mostActive | toArray">
-                <span class="title">"{{ doc.title }}"</span></a>
+                <a href="/docs/{{ doc.slug }}"><span class="title">"{{ doc.title }}"</span></a>
                 <div class="doc-stats">
                     <ul>
                         <li>{{ doc.comment_count }} Comments</li>
