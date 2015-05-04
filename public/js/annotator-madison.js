@@ -1,9 +1,8 @@
 /*global Annotator*/
-/*global getAnnotationService*/
-/*global user*/
-/*global doc*/
 /*global diff_match_patch*/
-Annotator.Plugin.Madison = function () {
+/*global ZeroClipboard*/
+/*jslint newcap: true*/
+Annotator.Plugin.Madison = function (element, options) {
   Annotator.Plugin.apply(this, arguments);
 };
 
@@ -11,6 +10,8 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   events: {},
   options: {},
   pluginInit: function () {
+    var annotationService = this.options.annotationService;
+
     /**
      *  Subscribe to Store's `annotationsLoaded` event
      *    Stores all annotation objects provided by Store in the window
@@ -26,7 +27,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       });
 
       //Set the annotations in the annotationService
-      var annotationService = getAnnotationService();
       annotationService.setAnnotations(annotations);
     });
 
@@ -35,7 +35,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
      *    Adds new annotation to the sidebar
      */
     this.annotator.subscribe('annotationCreated', function (annotation) {
-      var annotationService = getAnnotationService();
       annotationService.addAnnotation(annotation);
       if ($.showAnnotationThanks) {
         $('#annotationThanks').modal({
@@ -179,6 +178,8 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     newField.html(toAdd);
   },
   addComments: function (field, annotation) {
+    var user = this.options.user;
+
     //Add comment wrapper and collapse the comment thread
     var commentsHeader = $('<div class="comment-toggle" data-toggle-"collapse" data-target="#current-comments">Comments <span id="comment-caret" class="caret caret-right"></span></button>').click(function () {
       $('#current-comments').collapse('toggle');
@@ -225,6 +226,8 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     $(field).append(commentsHeader, currentComments);
   },
   addNoteActions: function (field, annotation) {
+    var user = this.options.user;
+
     //Add actions ( like / dislike / error) to annotation viewer
     var annotationAction = $('<div></div>').addClass('annotation-action');
     var generalAction = $('<span></span>').addClass('glyphicon').data('annotation-id', annotation.id);
@@ -265,10 +268,11 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     $(field).append(annotationAction);
   },
   addNoteLink: function (field, annotation) {
+
     //Add link to annotation
     var noteLink = $('<div class="annotation-link"></div>');
-    var linkPath = window.location.origin + window.location.pathname + '#' + annotation.link;
-    var annotationLink = $('<a></a>').attr('href', window.location.pathname + '#' + annotation.link).text('Copy Annotation Link').addClass('annotation-permalink');
+    var linkPath = this.options.origin + this.options.path + '#' + annotation.link;
+    var annotationLink = $('<a></a>').attr('href', this.options.path + '#' + annotation.link).text('Copy Annotation Link').addClass('annotation-permalink');
     annotationLink.attr('data-clipboard-text', linkPath);
 
     var client = new ZeroClipboard(annotationLink);
@@ -277,6 +281,8 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     $(field).append(noteLink);
   },
   createComment: function (textElement, annotation) {
+    var user = this.options.user;
+    var doc = this.options.doc;
     var text = textElement.val();
     textElement.val('');
 
@@ -295,6 +301,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     }.bind(this));
   },
   addLike: function (annotation, element) {
+    var doc = this.options.doc;
     $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/likes', function (data) {
       element = $(element);
       element.children('.action-count').text(data.likes);
@@ -317,6 +324,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     });
   },
   addDislike: function (annotation, element) {
+    var doc = this.options.doc;
     $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/dislikes', function (data) {
       element = $(element);
       element.children('.action-count').text(data.dislikes);
@@ -339,6 +347,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     });
   },
   addFlag: function (annotation, element) {
+    var doc = this.options.doc;
     $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/flags', function (data) {
       element = $(element);
       element.children('.action-count').text(data.flags);

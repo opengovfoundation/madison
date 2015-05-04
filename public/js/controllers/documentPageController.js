@@ -127,70 +127,12 @@ angular.module('madisonApp.controllers')
 
       $scope.attachAnnotator = function (doc, user) {
 
-        $window.doc = doc;
-        $window.user = user;
+        //Grab the doc_content element that we want to attach Annotator to
+        var element = $('#doc_content');
 
-        var userId = null;
-        var readOnly = true;
-
-        if (user) {
-          userId = user.id;
-          readOnly = false;
-        }
-
+        //Use AnnotationService to create / store Annotator and annotations
         $timeout(function () {
-
-          $window.annotator = $('#doc_content').annotator({
-            readOnly: readOnly
-          });
-
-          $window.annotator.annotator('addPlugin', 'Unsupported');
-          $window.annotator.annotator('addPlugin', 'Tags');
-          $window.annotator.annotator('addPlugin', 'Markdown');
-          $window.annotator.annotator('addPlugin', 'Store', {
-            annotationData: {
-              'uri': $location.path(),
-              'comments': []
-            },
-            prefix: '/api/docs/' + doc.id + '/annotations',
-            urls: {
-              create: '',
-              read: '/:id',
-              update: '/:id',
-              destroy: '/:id',
-              search: '/search'
-            }
-          });
-
-          $window.annotator.annotator('addPlugin', 'Permissions', {
-            user: user,
-            permissions: {
-              'read': [],
-              'update': [userId],
-              'delete': [userId],
-              'admin': [userId]
-            },
-            showViewPermissionsCheckbox: false,
-            showEditPermissionsCheckbox: false,
-            userId: function (user) {
-              if (user && user.id) {
-                return user.id;
-              }
-
-              return user;
-            },
-            userString: function (user) {
-              if (user && user.name) {
-                return user.name;
-              }
-
-              return user;
-            }
-          });
-
-          $window.annotator.annotator('addPlugin', 'Madison', {
-            userId: userId
-          });
+          annotationService.createAnnotator(element, doc, user);
         });
       };
 
@@ -223,7 +165,6 @@ angular.module('madisonApp.controllers')
       //Load annotations
       $scope.$on('annotationsUpdated', function () {
         $scope.annotations = annotationService.annotations;
-        $scope.$apply();
 
         //Check that we have a direct annotation link
         if ($location.$hash) {
