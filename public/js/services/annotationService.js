@@ -48,7 +48,7 @@ angular.module('madisonApp.services')
       var userId = user === null ? null : user.id;
 
       this.annotator = element.annotator({
-        readOnly: AuthService.isAuthenticated()
+        readOnly: !AuthService.isAuthenticated()
       });
 
       this.annotator.annotator('addPlugin', 'Unsupported');
