@@ -42,13 +42,11 @@ header {
     @extend .collapse;
     @extend .navbar-right;
 
-    li a {
-        text-transform: uppercase;
-        padding: 1rem 10px;
-    }
-
-    .dropdown-menu {
-        padding: 0;
+    li {
+        a {
+            text-transform: uppercase;
+            padding: 1rem 10px;
+        }
     }
 
     // Tablet
@@ -76,6 +74,33 @@ header {
             }
 
         }
+    }
+}
+
+.dropdown {
+    li {
+        width: 100%;
+    }
+}
+
+.dropdown-menu, .dropdown-submenu {
+    padding: 0;
+    border: 0;
+}
+
+.dropdown-menu .dropdown-trigger {
+    &::after{
+        @include fa-icon();
+        content: $fa-var-angle-right;
+        line-height: 2rem;
+        margin-right: 10px;
+    }
+
+}
+
+.pull-left {
+    .dropdown-menu {
+        right: 100%;
     }
 }
 

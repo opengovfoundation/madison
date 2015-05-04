@@ -1,6 +1,7 @@
 /* Document */
 .back-link {
     @extend .col-md-24;
+    height: 2rem;
 
     a {
         @extend .small-caps;
@@ -10,7 +11,6 @@
         // Bigger click box.
         display: inline-block;
 
-        line-height: 2rem;
         padding: 0 10px;
     }
 }
