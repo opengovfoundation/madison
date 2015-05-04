@@ -5,7 +5,7 @@ angular.module('madisonApp.services')
 
     var converter = new Markdown.Converter();
     this.annotations = [];
-    this.annotator = {};
+    this.annotator = null;
 
     this.setAnnotations = function (annotations) {
 
@@ -30,14 +30,21 @@ angular.module('madisonApp.services')
       }
     };
 
+    this.destroyAnnotator = function () {
+      //If we have an instance of annotator, delete it
+      if (this.annotator !== null) {
+        this.annotator = null;
+        delete this.annotator;
+      }
+
+      //Reset our annotation store
+      this.annotations = [];
+    };
+
     this.createAnnotator = function (element, doc) {
       var user = SessionService.getUser();
       var path = $location.path();
       var userId = user === null ? null : user.id;
-
-      console.log(userId);
-
-      console.log("Path: %o", path);
 
       this.annotator = element.annotator({
         readOnly: AuthService.isAuthenticated()

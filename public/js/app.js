@@ -60,7 +60,7 @@ app.config(['$locationProvider',
     $locationProvider.html5Mode(true);
   }]);
 
-app.run(function (AuthService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl) {
+app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl) {
   AuthService.setUser(user);
 
   //Check authorization on state change
@@ -98,6 +98,15 @@ app.run(function (AuthService, AUTH_EVENTS, $rootScope, $window, $location, $sta
     growl.error('You must be logged in to view that page');
     $state.go('index');
   });
+
+  //Debugging Document Pages
+  $rootScope.$on('$stateChangeStart',
+    function (event, toState, toParams, fromState, fromParams) {
+      //console.log(toState);
+      if (toState.name === 'doc-page') {
+        annotationService.destroyAnnotator();
+      }
+    });
 });
 
 //Manually bootstrap app because we want to get data before running

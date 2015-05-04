@@ -1,7 +1,6 @@
 /*global Annotator*/
 /*global diff_match_patch*/
 Annotator.Plugin.Madison = function (element, options) {
-  console.log(options);
   Annotator.Plugin.apply(this, arguments);
 };
 

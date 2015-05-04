@@ -127,10 +127,11 @@ angular.module('madisonApp.controllers')
 
       $scope.attachAnnotator = function (doc, user) {
 
+        //Grab the doc_content element that we want to attach Annotator to
         var element = $('#doc_content');
 
+        //Use AnnotationService to create / store Annotator and annotations
         $timeout(function () {
-          console.log('Attaching annotator');
           annotationService.createAnnotator(element, doc, user);
         });
       };
