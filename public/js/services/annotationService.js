@@ -44,6 +44,7 @@ angular.module('madisonApp.services')
     this.createAnnotator = function (element, doc) {
       var user = SessionService.getUser();
       var path = $location.path();
+      var origin = $location.host();
       var userId = user === null ? null : user.id;
 
       this.annotator = element.annotator({
@@ -98,7 +99,9 @@ angular.module('madisonApp.services')
       this.annotator.annotator('addPlugin', 'Madison', {
         user: user,
         doc: doc,
-        annotationService: this
+        annotationService: this,
+        path: path,
+        origin: origin
       });
     };
 
