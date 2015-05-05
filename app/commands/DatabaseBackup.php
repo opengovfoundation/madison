@@ -55,8 +55,14 @@ class DatabaseBackup extends Command {
 
 	//Run mysqldump and include timestamp in file name
 	public function backup($backups_path){
-		$creds = yaml_parse_file(app_path() . '/config/creds.yml');
-		$timestamp = date('c', strtotime('now'));
+        if(file_exists(app_path() . '/config/creds.php')){
+            include(app_path() . '/config/creds.php');
+        }else{
+            $creds = array('database'=> $_ENV['DB_NAME'], 'username'=> $_ENV['DB_USER'], 'password'=> $_ENV['DB_PASS']);
+        }
+        
+        $timestamp = date('c', strtotime('now'));
+		$timestamp = str_replace(':','',$timestamp);
 		$filename = $timestamp . '_bak.sql';
 
 		exec('mysqldump ' . $creds['database'] . ' -u' . $creds['username'] . ' -p' . $creds['password'] . ' > ' . $backups_path . '/' . $filename);
