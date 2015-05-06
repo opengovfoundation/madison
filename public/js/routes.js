@@ -267,6 +267,15 @@ angular.module('madisonApp')
           authorizedRoles: [USER_ROLES.admin]
         }
       })
+      .state('site-settings', {
+        url: '/administrative-dashboard/site-settings',
+        templateUrl: '/templates/pages/site-settings.html',
+        controller: 'SiteSettingsController',
+        data: {
+          title: 'Administrative Site Settings',
+          authorizedRoles: [USER_ROLES.admin]
+        }
+      })
       .state('user', {
         url: '/user/:id',
         templateUrl: '/templates/pages/user.html',

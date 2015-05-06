@@ -1,0 +1,12 @@
+<div admin-breadcrumb></div>
+<header>
+  <h1>Site Settings</h1>
+</header>
+<section class="site-settings">
+  <form>
+    <div class="form-group">
+      <label for="featured-doc">Featured Document</label>
+      <input name="featured-doc" type="hidden" ui-select2="featuredOptions" ng-model="featuredDoc" ng-change="updateFeaturedDoc(doc)" data-placeholder="">
+    </div>
+  </form>
+</section>
