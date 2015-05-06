@@ -127,6 +127,7 @@
       <script src="/js/directives/stateSelectDirective.js"></script>
       <script src="/js/directives/subcommentLinkDirective.js"></script>
       <script src="/js/directives/updateTitleDirective.js"></script>
+      <script src="/js/directives/welcomeMessageDirective.js"></script>
     <script src="/js/filters.js"></script>
       <script src="/js/filters/getByIdFilter.js"></script>
       <script src="/js/filters/gravatarFilter.js"></script>
@@ -162,9 +163,7 @@
       <header id="header-main" class="navbar" role="navigation">
         <div ng-include="'/templates/partials/header.html'"></div>
       </header>
-      <header class="welcome">
-        <div ng-include="'/templates/partials/welcome.html'"></div>
-      </header>
+      <header welcome-message class="welcome" ng-if="!user"></header>
       <div class="row">
         <div profile-completion-message></div>
       </div>
