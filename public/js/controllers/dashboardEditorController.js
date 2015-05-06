@@ -633,53 +633,47 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.tryFeaturedDoc = function () {
-        //If there is no document image, display error
-        if ($scope.doc.featured === true && $scope.featuredImage === null) {
-          growl.error('You must upload an image to set document as the Featured Document');
-          $scope.doc.featured = false;
-        } else {
-          //Check if any other documents are featured
-          var featuredDoc = Doc.getFeaturedDoc();
+        //Check if any other documents are featured
+        var featuredDoc = Doc.getFeaturedDoc();
 
-          //Wait for the response
-          featuredDoc.$promise.then(function () {
-            //If so, display confirmation
-            if (featuredDoc.id !== undefined) {
-              console.log(featuredDoc);
-              var bodyText;
+        //Wait for the response
+        featuredDoc.$promise.then(function () {
+          //If so, display confirmation
+          if (featuredDoc.id !== undefined) {
+            console.log(featuredDoc);
+            var bodyText;
 
-              if (featuredDoc.id === $scope.doc.id) {
-                bodyText = 'Are you sure you want to unset this as the Featured Document?';
-              } else {
-                bodyText = 'A Featured Document is already set.  Are you sure you want to change the Featured Document?';
-              }
-
-
-              var modalOptions = {
-                closeButtonText: 'Cancel',
-                actionButtonText: 'Change Featured Document',
-                headerText: 'Change Featured Document?',
-                bodyText: bodyText
-              };
-
-              //Open the dialog
-              var res = modalService.showModal({}, modalOptions);
-
-              //Reset doc featured status on cancel
-              res.catch(function () {
-                $scope.doc.featured = !$scope.doc.featured;
-              });
-
-              //Only executed if the user confirms.  Set this doc as featured.
-              res.then(function () {
-                $scope._setFeaturedDoc();
-              });
+            if (featuredDoc.id === $scope.doc.id) {
+              bodyText = 'Are you sure you want to unset this as the Featured Document?';
             } else {
-              //If the featured document isn't set, set this one as the featured document
-              $scope._setFeaturedDoc();
+              bodyText = 'A Featured Document is already set.  Are you sure you want to change the Featured Document?';
             }
-          });
-        }
+
+
+            var modalOptions = {
+              closeButtonText: 'Cancel',
+              actionButtonText: 'Change Featured Document',
+              headerText: 'Change Featured Document?',
+              bodyText: bodyText
+            };
+
+            //Open the dialog
+            var res = modalService.showModal({}, modalOptions);
+
+            //Reset doc featured status on cancel
+            res.catch(function () {
+              $scope.doc.featured = !$scope.doc.featured;
+            });
+
+            //Only executed if the user confirms.  Set this doc as featured.
+            res.then(function () {
+              $scope._setFeaturedDoc();
+            });
+          } else {
+            //If the featured document isn't set, set this one as the featured document
+            $scope._setFeaturedDoc();
+          }
+        });
       };
 
       $scope._setFeaturedDoc = function () {
