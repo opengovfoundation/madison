@@ -28,6 +28,11 @@
           <label for="title">Title: </label>
           <input type="text" name="title" id="title" value="{{ doc.title }}" ng-model="doc.title" class="form-control" />
         </div>
+        <div class="form-group" ng-if="user.admin">
+          <button class="button" ng-class="{'action-button': !doc.featured}" ng-click="tryFeaturedDoc()" ng-disabled="doc.featured">
+            {{ doc.featured ? 'Already ' : '' }}Set as 'Featured Document'
+          </button>
+        </div>
         <div class="form-group">
           <label for="slug">Slug: </label>
           <input type="text" name="slug" id="slug" value="{{ doc.slug }}" ng-model="doc.slug" class="form-control"/>
@@ -49,11 +54,6 @@
           <label for="introtext">Intro Text: </label>
           <textarea class="form-control" rows="10" ng-model="introtext" ng-change="updateIntroText(introtext)"></textarea>
           <span class="help-block">Markdown Friendly.  Auto-saves 3 seconds after you're done editing.</span>
-        </div>
-        <div class="form-group" ng-if="user.admin">
-          <label for="featured">
-            Set as 'Featured Document': <input type="checkbox" ng-model="doc.featured" ng-change="tryFeaturedDoc()">
-          </label>
         </div>
         <div class="form-group image-upload-group">
           <label for="doc-image">Image:</label>
