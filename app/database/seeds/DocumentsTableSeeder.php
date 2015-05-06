@@ -34,6 +34,12 @@ class DocumentsTableSeeder extends Seeder
         Input::replace($input = ['content' => $content]);
         App::make('DocumentsController')->saveDocumentEdits($document->id);
 
+      //Set first doc as featured doc
+      $featuredSetting = new Setting();
+      $featuredSetting->meta_key = 'featured-doc';
+      $featuredSetting->meta_value = $document->id;
+      $featuredSetting->save();
+
     // Create second doc
 
     $docSeedPath = app_path().'/database/seeds/example2.md';
