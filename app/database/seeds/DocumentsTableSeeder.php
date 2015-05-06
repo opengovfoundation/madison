@@ -36,9 +36,9 @@ class DocumentsTableSeeder extends Seeder
 
       //Set first doc as featured doc
       $featuredSetting = new Setting();
-      $featuredSetting->meta_key = 'featured-doc';
-      $featuredSetting->meta_value = $document->id;
-      $featuredSetting->save();
+        $featuredSetting->meta_key = 'featured-doc';
+        $featuredSetting->meta_value = $document->id;
+        $featuredSetting->save();
 
     // Create second doc
 
