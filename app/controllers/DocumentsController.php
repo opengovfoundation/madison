@@ -226,10 +226,6 @@ class DocumentsController extends BaseController
     {
         $doc = Doc::where('id', $docId)->first();
 
-        if ($doc->featured) {
-            return Response::json($this->growlMessage('You cannot delete the image of a Featured Document', 'error'), 500);
-        }
-
         $image_path = public_path().$doc->thumbnail;
 
         try {
