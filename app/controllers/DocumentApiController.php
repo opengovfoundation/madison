@@ -120,6 +120,7 @@ class DocumentApiController extends ApiController
         // Handle pagination.
         $limit = null;
         $offset = null;
+        $title = null;
 
         if (Input::has('limit')) {
             $limit = Input::get('limit');
@@ -142,6 +143,11 @@ class DocumentApiController extends ApiController
                 if (isset($offset)) {
                     $doc->skip($offset);
                 }
+            }
+
+            if(Input::has('title')) {
+                $title = Input::get('title');
+                $doc->where('title', 'LIKE', "%$title%");
             }
 
             $docs = $doc->get();
