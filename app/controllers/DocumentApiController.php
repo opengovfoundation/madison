@@ -145,7 +145,7 @@ class DocumentApiController extends ApiController
                 }
             }
 
-            if(Input::has('title')) {
+            if (Input::has('title')) {
                 $title = Input::get('title');
                 $doc->where('title', 'LIKE', "%$title%");
             }
