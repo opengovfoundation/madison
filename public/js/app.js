@@ -11,6 +11,7 @@ var imports = [
   'madisonApp.resources',
   'madisonApp.directives',
   'madisonApp.controllers',
+  'madisonApp.prompts',
   'ui',
   'ui.router',
   'ui.bootstrap',

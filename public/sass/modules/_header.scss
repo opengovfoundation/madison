@@ -103,25 +103,3 @@ header {
         right: 100%;
     }
 }
-
-.welcome {
-    $welcome-height: 4rem;
-    background-color: $green;
-    text-align: center;
-    color: $white;
-
-    margin-bottom: 2rem;
-
-    .message {
-        font-size: 1.5rem;
-        letter-spacing: 2px;
-        line-height: $welcome-height;
-    }
-    a {
-        color: $white;
-        text-decoration: underline;
-        &:hover {
-            text-decoration: none;
-        }
-    }
-}
