@@ -41,10 +41,70 @@ angular.module('madisonApp.prompts')
 
 //The prompts provider
 angular.module('madisonApp.prompts').provider('prompts', function () {
+  this.$get = [
+    '$rootScope',
+    'promptMessages',
+    '$sce',
+    '$interpolate',
+    '$timeout',
+    function ($rootScope, promptMessages, $sce, $interpolate, $timeout) {
+      function broadcastPrompt(message) {
+        var polation = $interpolate(message.text);
+        message.text = polation;
 
+        var addedPrompt = promptMessages.addPrompt(message);
+
+        $rootScope.$broadcast('promptMessage', message);
+
+        // Is this necessary?
+        // $timeout(function () {
+        // }, 0);
+
+        return addedPrompt;
+      }
+
+      function sendPrompt(text, severity) {
+        var message = {
+          text: text,
+          severity: severity,
+          destroy: function () {
+            promptMessages.deletePrompt(message);
+          },
+          setText: function (newText) {
+            message.text = $sce.trustAsHtml(String(newText));
+          }
+        };
+
+        return broadcastPrompt(message);
+      }
+
+      function warning(text) {
+        return sendPrompt(text, 'warning');
+      }
+
+      function error(text) {
+        return sendPrompt(text, 'error');
+      }
+
+      function info(text) {
+        return sendPrompt(text, 'info');
+      }
+
+      function success(text) {
+        return sendPrompt(text, 'success');
+      }
+
+      return {
+        warning: warning,
+        error: error,
+        info: info,
+        success: success
+      };
+    }
+  ];
 });
 
-//The promptsMessages service
-angular.module('madisonApp.prompts').service('promptsMessages', [
+// //The promptMessages service
+// angular.module('madisonApp.prompts').service('promptMessages', [
 
-]);
+// ]);
