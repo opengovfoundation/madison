@@ -104,7 +104,35 @@ angular.module('madisonApp.prompts').provider('prompts', function () {
   ];
 });
 
-// //The promptMessages service
-// angular.module('madisonApp.prompts').service('promptMessages', [
+//The promptMessages service
+angular.module('madisonApp.prompts').service('promptMessages', [
+  '$sce',
+  '$timeout',
+  function ($sce, $timeout) {
+    'use strict';
 
-// ]);
+    this.messages = [];
+
+    this.addMessage = function (message) {
+      this.messages.push(message);
+    };
+
+    this.getAllMessages = function (message) {
+      return this.messages;
+    };
+
+    this.destroyAllMessages = function () {
+      angular.forEach(this.messages, function (message) {
+        message.destroy();
+      });
+
+      this.messages = [];
+    };
+
+    this.deleteMessage = function (message) {
+      //TODO: how to find message to delete?
+    };
+
+    return this;
+  }
+]);
