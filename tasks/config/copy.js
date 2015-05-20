@@ -12,6 +12,13 @@ module.exports = function (grunt) {
           rename: function (dest, src) {
             return dest + 'index.html';
           }
+        },
+        {
+          expand: true,
+          cwd: 'public/bower_components/font-awesome/',
+          src: ['fonts/*'],
+          dest: 'public/build/',
+          filter: 'isFile'
         }
       ]
     }
