@@ -56,6 +56,11 @@ angular.module('madisonApp.controllers')
             'support': supported
           })
             .success(function (data) {
+              $scope.doc.support = data.supports;
+              $scope.doc.oppose = data.opposes;
+
+              $scope.$broadcast('supportUpdated');
+
               //Parse data to see what user's action is currently
               if (data.support === null) {
                 $scope.supported = false;
@@ -157,6 +162,18 @@ angular.module('madisonApp.controllers')
         });
       };
 
+      $scope._calculateSupport = function () {
+        $scope.doc.support_percent = 0;
+
+        if ($scope.doc.support > 0) {
+          $scope.doc.support_percent = Math.round($scope.doc.support * 100 / ($scope.doc.support + $scope.doc.oppose));
+        }
+
+        $scope.doc.oppose_percent = 0;
+        if ($scope.doc.oppose > 0) {
+          $scope.doc.oppose_percent = Math.round($scope.doc.oppose * 100 / ($scope.doc.support + $scope.doc.oppose));
+        }
+      };
 
       /**
       * Executed on controller initialization
@@ -182,6 +199,10 @@ angular.module('madisonApp.controllers')
       //Conditionally bind login popup on user authentication
       $scope.$on('sessionChanged', function () {
         $scope.checkLoginPopupBinding();
+      });
+
+      $scope.$on('supportUpdated', function () {
+        $scope._calculateSupport();
       });
 
       //Load the document
@@ -217,15 +238,7 @@ angular.module('madisonApp.controllers')
           $scope.attachAnnotator($scope.doc, $scope.user);
         });
 
-        $scope.doc.support_percent = 0;
-        if(doc.support > 0) {
-          $scope.doc.support_percent = Math.round( doc.support * 100 / (doc.support + doc.oppose) );
-        }
-
-        $scope.doc.oppose_percent = 0;
-        if(doc.oppose > 0) {
-          $scope.doc.oppose_percent = Math.round( doc.oppose * 100 / (doc.support + doc.oppose) );
-        }
+        $scope._calculateSupport();
 
       });
 
