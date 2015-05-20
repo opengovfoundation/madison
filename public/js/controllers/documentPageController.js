@@ -25,22 +25,7 @@ angular.module('madisonApp.controllers')
         if ($scope.user) {
           $http.get('/api/users/' + $scope.user.id + '/support/' + $scope.doc.id)
             .success(function (data) {
-              switch (data.support) {
-              case "1":
-                $scope.supported = true;
-                break;
-              case "":
-                $scope.opposed = true;
-                break;
-              default:
-                $scope.supported = null;
-                $scope.opposed = null;
-              }
-
-              if ($scope.supported !== null && $scope.opposed !== null) {
-                $('#doc-support').text(data.supports + ' Support');
-                $('#doc-oppose').text(data.opposes + ' Oppose');
-              }
+              $scope._updateSupport(data);
             }).error(function () {
               console.error("Unable to get support info for user %o and doc %o", $scope.user, $scope.doc);
             });
@@ -48,7 +33,6 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.support = function (supported, $event) {
-
         if (!$scope.user) {
           loginPopupService.showLoginForm($event);
         } else {
@@ -56,31 +40,7 @@ angular.module('madisonApp.controllers')
             'support': supported
           })
             .success(function (data) {
-              $scope.doc.support = data.supports;
-              $scope.doc.oppose = data.opposes;
-
-              $scope.$broadcast('supportUpdated');
-
-              //Parse data to see what user's action is currently
-              if (data.support === null) {
-                $scope.supported = false;
-                $scope.opposed = false;
-              } else {
-                $scope.supported = data.support;
-                $scope.opposed = !data.support;
-              }
-
-              var button = $($event.target);
-              var otherButton = $($event.target).siblings('a.btn');
-
-              if (button.hasClass('doc-support')) {
-                button.text(data.supports + ' Support');
-                otherButton.text(data.opposes + ' Oppose');
-              } else {
-                button.text(data.opposes + ' Oppose');
-                otherButton.text(data.supports + ' Support');
-              }
-
+              $scope._updateSupport(data);
             })
             .error(function (data) {
               console.error("Error posting support: %o", data);
@@ -160,6 +120,23 @@ angular.module('madisonApp.controllers')
             loginPopupService.showLoginForm(event);
           }
         });
+      };
+
+      $scope._updateSupport = function (data) {
+        $scope.doc.support = data.supports;
+        $scope.doc.oppose = data.opposes;
+        $scope.voted = data.support === null ? false : true;
+
+        $scope.$broadcast('supportUpdated');
+
+        //Parse data to see what user's action is currently
+        if (data.support === null) {
+          $scope.supported = false;
+          $scope.opposed = false;
+        } else {
+          $scope.supported = data.support;
+          $scope.opposed = !data.support;
+        }
       };
 
       $scope._calculateSupport = function () {

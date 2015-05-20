@@ -24,8 +24,8 @@
             <div class="markdown" data-ng-bind-html="introtext"></div>
           </div>
           <div class="support-oppose-buttons">
-            <a id="doc-support" role="button" href="#" class="button doc-support-button" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">Support This Document</a>
-            <a id="doc-oppose" role="button" href="#" class="button doc-oppose-button" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">Oppose This Document</a>
+            <a id="doc-support" role="button" href="#" class="button doc-support-button" ng-click="support(true, $event)" ng-class="{'btn-success': supported}">{{ voted ? doc.support + ' Support' : 'Support This Document' }}</a>
+            <a id="doc-oppose" role="button" href="#" class="button doc-oppose-button" ng-click="support(false, $event)" ng-class="{'btn-danger': opposed}">{{ voted ? doc.oppose + ' Oppose' : 'Oppose This Document' }}</a>
           </div>
         </div>
       </div>
