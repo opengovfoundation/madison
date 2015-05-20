@@ -142,7 +142,7 @@ class UserApiController extends ApiController
         $docMeta = DocMeta::where('user_id', $user->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
 
         //Translate meta value
-        if(isset($docMeta) && $docMeta->meta_value == '1') {
+        if (isset($docMeta) && $docMeta->meta_value == '1') {
             $docMeta->meta_value = true;
         }
 
