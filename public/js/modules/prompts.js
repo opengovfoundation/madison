@@ -1,10 +1,11 @@
+/*
+  Build using angular-growl.js as a guide.
+*/
 angular.module('madisonApp.prompts', []);
 
 //The Directive <header prompts></header>
 angular.module('madisonApp.prompts')
   .directive('prompts', [function () {
-    var content = 'Want to help DC craft its legislation?  <a href="">Create an account to annotate and comment &raquo;</a>';
-
     return {
       restrict: 'A',
       templateUrl: '/templates/partials/prompts.html',
@@ -17,21 +18,16 @@ angular.module('madisonApp.prompts')
         'prompts',
         'promptMessages',
         function ($scope, prompts, promptMessages) {
-          $scope.referenceId = $scope.reference || 0;
-
-          promptMessages.initDirective($scope.referenceId);
 
           $scope.promptMessages = promptMessages;
 
           $scope.alertClasses = function (message) {
             return {
-              'alert-success': message.severity === 'success',
-              'alert-error': message.severity === 'error',
-              'alert-danger': message.severity === 'error',
-              'alert-info': message.severity === 'info',
-              'alert-warning': message.severity === 'warning',
-              'icon': message.disableIcons === false,
-              'alert-dismissable': !message.disableCloseButton
+              'prompt-success': message.severity === 'success',
+              'prompt-error': message.severity === 'error',
+              'prompt-danger': message.severity === 'error',
+              'prompt-info': message.severity === 'info',
+              'prompt-warning': message.severity === 'warning'
             };
           };
         }
@@ -50,13 +46,13 @@ angular.module('madisonApp.prompts').provider('prompts', function () {
     function ($rootScope, promptMessages, $sce, $interpolate, $timeout) {
       function broadcastPrompt(message) {
         var polation = $interpolate(message.text);
-        message.text = polation;
+        message.text = polation(message.variables);
 
-        var addedPrompt = promptMessages.addPrompt(message);
+        var addedPrompt = promptMessages.addMessage(message);
 
         $rootScope.$broadcast('promptMessage', message);
 
-        // Is this necessary?
+        //I think this re-runs the scope apply
         // $timeout(function () {
         // }, 0);
 
@@ -130,7 +126,14 @@ angular.module('madisonApp.prompts').service('promptMessages', [
     };
 
     this.deleteMessage = function (message) {
-      //TODO: how to find message to delete?
+      console.log("deleting %o", message);
+
+      var index = this.messages.indexOf(message);
+
+      if (index > -1) {
+        this.messages[index].close = true;
+        this.messages.splice(index, 1);
+      }
     };
 
     return this;

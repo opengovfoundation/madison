@@ -1,6 +1,6 @@
 angular.module('madisonApp.controllers')
-  .controller('AppController', ['$rootScope', '$scope', 'AuthService', 'USER_ROLES', 'SessionService', 'loginPopupService', '$location', '$anchorScroll',
-    function ($rootScope, $scope, AuthService, USER_ROLES, SessionService, loginPopupService, $location, $anchorScroll) {
+  .controller('AppController', ['$rootScope', '$scope', 'AuthService', 'USER_ROLES', 'SessionService', 'loginPopupService', '$location', '$anchorScroll', 'prompts',
+    function ($rootScope, $scope, AuthService, USER_ROLES, SessionService, loginPopupService, $location, $anchorScroll, prompts) {
       "use strict";
 
       $scope.user = null;
@@ -33,6 +33,10 @@ angular.module('madisonApp.controllers')
       /*jslint unparam: false*/
 
       AuthService.getUser();
+
+      if (!AuthService.isAuthenticated()) {
+        prompts.info('Want to help DC craft its legislation?  <a href="">Create an account to annotate and comment &raquo;</a>');
+      }
 
       //Set active group from the account dropdown
       $scope.setActiveGroup = function (groupId) {
