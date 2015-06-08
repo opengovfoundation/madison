@@ -8,15 +8,15 @@
 html {
     // Reset font size.
     font-size: 16px;
-    line-height: $line-height-base;
     font-size: $font-size-base;
+    line-height: $line-height-computed;
 }
 
 // Set our sizes.
 // Generated with http://www.gridlover.net/app/
 body, .normal-text {
-    font-size: 1rem;
-    line-height: 2rem;
+    font-size: $font-size-base;
+    line-height: $line-height-computed;
 }
 
 h1, h2, .large-heading {
@@ -52,11 +52,6 @@ p, ul, ol, pre, table, blockquote {
 
 dt, dd {
   line-height: 2rem;
-}
-
-a {
-    color:$blue;
-    cursor:pointer;
 }
 
 // Headings need to maintain their colors.
@@ -148,6 +143,10 @@ h1, h2, h3 {
 }
 
 /* Buttons. */
+button {
+    padding: 0 10px;
+}
+
 .button {
     @extend .btn;
     border: none;

@@ -30,3 +30,18 @@ $code-font: monospace;
 // Use this on all text blocks.
 $side-padding: 20px;
 $vertical-padding: 1rem;
+
+// Typography.
+
+// Our default baseline font size is 16px with a line height of 32px.  You can
+// change that here.
+$font-size-base: 1rem;
+
+// No units on our line height!
+$line-height-base: 2;
+
+// Line height with units.
+$line-height-computed:    ($font-size-base * $line-height-base) !default; // 2rem
+
+// Font units.
+$font-unit: 1rem;

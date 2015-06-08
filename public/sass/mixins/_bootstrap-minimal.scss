@@ -97,3 +97,6 @@
 // Utility classes
 @import "bootstrap/utilities";
 @import "bootstrap/responsive-utilities";
+
+// Overrides - fixes minor issues not worth replacing an entire file.
+@import "bootstrap-overrides";

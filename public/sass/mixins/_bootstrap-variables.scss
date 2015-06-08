@@ -1,8 +1,8 @@
-$bootstrap-sass-asset-helper: false !default;
 //
 // Variables
 // --------------------------------------------------
 
+$bootstrap-sass-asset-helper: false !default;
 
 //== Colors
 //
@@ -56,20 +56,20 @@ $font-size-base: 0.875 * $font-unit !default; // 14px
 
 $font-size-root: $font-size-base;
 
-$font-size-large:         ceil(($font-size-base * 1.25)) !default; // ~18px
-$font-size-small:         ceil(($font-size-base * 0.85)) !default; // ~12px
+$font-size-large:         ($font-size-base * 1.25) !default; // ~18px
+$font-size-small:         ($font-size-base * 0.85) !default; // ~12px
 
-$font-size-h1:            floor(($font-size-base * 2.6)) !default; // ~36px
-$font-size-h2:            floor(($font-size-base * 2.15)) !default; // ~30px
-$font-size-h3:            ceil(($font-size-base * 1.7)) !default; // ~24px
-$font-size-h4:            ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-h1:            ($font-size-base * 2.6) !default; // ~36px
+$font-size-h2:            ($font-size-base * 2.15) !default; // ~30px
+$font-size-h3:            ($font-size-base * 1.7) !default; // ~24px
+$font-size-h4:            ($font-size-base * 1.25) !default; // ~18px
 $font-size-h5:            $font-size-base !default;
-$font-size-h6:            ceil(($font-size-base * 0.85)) !default; // ~12px
+$font-size-h6:            ($font-size-base * 0.85) !default; // ~12px
 
 //** Unit-less `line-height` for use in components like buttons.
-$line-height-base:        1.428571429 !default; // 20/14
+$line-height-base:        2 !default; //
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
-$line-height-computed:    floor(($font-size-base * $line-height-base)) !default; // ~20px
+$line-height-computed:    ($font-size-base * $line-height-base) !default; // ~20px
 
 //** By default, this inherits from the `<body>`.
 $headings-font-family:    inherit !default;
@@ -98,20 +98,20 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
 //
 //## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
 
-$padding-base-vertical:     0.429 * $font-unit !default; // 6px
+$padding-base-vertical:     0.5 * $font-unit !default;
 $padding-base-horizontal:   12px !default;
 
-$padding-large-vertical:    0.714 * $font-unit !default; // 10px
+$padding-large-vertical:    1 * $font-unit !default;
 $padding-large-horizontal:  16px !default;
 
-$padding-small-vertical:    0.357 * $font-unit !default; // 5px
+$padding-small-vertical:    0.5 * $font-unit !default;
 $padding-small-horizontal:  10px !default;
 
-$padding-xs-vertical:       0.071 * $font-unit !default; // 1px
+$padding-xs-vertical:       0 * $font-unit !default;
 $padding-xs-horizontal:     5px !default;
 
-$line-height-large:         1.3333333 !default; // extra decimals for Win 8.1 Chrome
-$line-height-small:         1.5 !default;
+$line-height-large:         2 !default; // extra decimals for Win 8.1 Chrome
+$line-height-small:         2 !default;
 
 $border-radius-base:        4px !default;
 $border-radius-large:       6px !default;
@@ -133,9 +133,9 @@ $caret-width-large:         5px !default;
 //## Customizes the `.table` component with basic values, each used across all table variations.
 
 //** Padding for `<th>`s and `<td>`s.
-$table-cell-padding:            8px !default;
+$table-cell-padding:            1rem !default;
 //** Padding for cells in `.table-condensed`.
-$table-condensed-cell-padding:  5px !default;
+$table-condensed-cell-padding:  0.5rem !default;
 
 //** Default background color used for all tables.
 $table-bg:                      transparent !default;
@@ -212,11 +212,11 @@ $input-border-focus:             #66afe9 !default;
 $input-color-placeholder:        #999 !default;
 
 //** Default `.form-control` height
-$input-height-base:              ($line-height-computed + ($padding-base-vertical * 2) + 2) !default;
+$input-height-base:              ($line-height-computed + ($padding-base-vertical * 2)) !default;
 //** Large `.form-control` height
-$input-height-large:             (ceil($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + 2) !default;
+$input-height-large:             (ceil($font-size-large * $line-height-large) + ($padding-large-vertical * 2)) !default;
 //** Small `.form-control` height
-$input-height-small:             (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2) !default;
+$input-height-small:             (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2)) !default;
 
 $legend-color:                   $gray-dark !default;
 $legend-border-color:            #e5e5e5 !default;
@@ -359,7 +359,7 @@ $container-lg:                 $container-large-desktop !default;
 //##
 
 // Basics of a navbar
-$navbar-height:                    3.571 * $font-unit !default;
+$navbar-height:                    $line-height-base * 2 * $font-unit !default;
 $navbar-margin-bottom:             $line-height-computed !default;
 $navbar-border-radius:             $border-radius-base !default;
 $navbar-padding-horizontal:        floor(($grid-gutter-width / 2)) !default;
@@ -421,7 +421,7 @@ $navbar-inverse-toggle-border-color:        #333 !default;
 //##
 
 //=== Shared nav styles
-$nav-link-padding:                          10px 15px !default;
+$nav-link-padding:                          1rem 15px !default;
 $nav-link-hover-bg:                         $gray-lighter !default;
 
 $nav-disabled-link-color:                   $gray-light !default;
@@ -486,11 +486,13 @@ $pager-disabled-color:                 $pagination-disabled-color !default;
 //
 //##
 
-$jumbotron-padding:              30px !default;
+$jumbotron-padding:              2rem !default;
 $jumbotron-color:                inherit !default;
 $jumbotron-bg:                   $gray-lighter !default;
 $jumbotron-heading-color:        inherit !default;
-$jumbotron-font-size:            ceil(($font-size-base * 1.5)) !default;
+$jumbotron-font-size:            ($font-size-base * 1.5) !default;
+// Calculate our line height to be used in the override.
+$jumbotron-line-height: 		 ceil( $jumbotron-font-size / $line-height-base ) * $line-height-base !default;
 
 
 //== Form states and alerts
@@ -704,8 +706,8 @@ $list-group-link-heading-color: #333 !default;
 //##
 
 $panel-bg:                    #fff !default;
-$panel-body-padding:          15px !default;
-$panel-heading-padding:       10px 15px !default;
+$panel-body-padding:          1rem !default;
+$panel-heading-padding:       1rem 15px calc(1rem - 1px) !default;
 $panel-footer-padding:        $panel-heading-padding !default;
 $panel-border-radius:         $border-radius-base !default;
 

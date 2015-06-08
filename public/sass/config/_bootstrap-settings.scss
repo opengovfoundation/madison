@@ -18,8 +18,8 @@ $grid-columns: 24;
 $headline-color: $black;
 $text-color: $black;
 
-$link-color: $black;
-$link-hover-color: $black;
+$link-color: $blue;
+$link-hover-color: $blue;
 $link-hover-decoration: underline;
 
 
@@ -35,20 +35,8 @@ $btn-warning-border: transparent;
 $btn-danger-bg: $red;
 $btn-danger-border: transparent;
 
-// $font-weight-normal: normal !default;
-
-// $color-main-bg: #332e2b; // Warm Charcoal
-// $color-content-bg: #fbf7ea; // Parchment
-// $color-main-text: #332e2b; // Warm Charcoal
-// $color-main-link: #086EB1;
-
 $font-family-sans-serif: $main-font;
 $font-family-serif: $accent-font;
-
-// $body-bg: $color-main-bg;
-// $text-color: $color-main-text;
-// $link-color: $color-main-link;
-// $link-hover-color: lighten($link-color, 15%);
 
 // Navbar
 $navbar-height: $header-height;

@@ -3,10 +3,15 @@
  */
 
 /*
+ * Mixins
+ */
+@import 'mixins/em';
+@import 'mixins/web-fonts';
+
+/*
  * Config
  */
 // Config must come first.
-@import 'mixins/em';
 @import 'config/settings';
 
 // Get our bootstrap overrides.
@@ -21,12 +26,7 @@
 @import 'compass/css3/box-shadow';
 @import 'compass/utilities/general/clearfix';
 @import 'breakpoint';
-
-/*
- * Mixins
- */
 @import 'mixins/bootstrap-minimal';
-@import 'mixins/web-fonts';
 
 /*
  * Page modules
@@ -41,6 +41,7 @@
 @import 'modules/breadcrumb';
 @import 'modules/dropdown-sub';
 @import 'modules/prompts';
+@import 'modules/annotation';
 
 /*
  * Page-specific styles
