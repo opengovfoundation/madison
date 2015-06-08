@@ -94,9 +94,11 @@ angular.module('madisonApp.controllers')
         $http.post('/api/docs/' + comment.doc.id + '/comments', {
           'comment': comment
         })
-          .success(function () {
+          .success(function (data) {
+            console.log('comment', comment, data);
             comment.label = 'comment';
-            comment.user.fname = comment.user.name;
+            comment.user = data.user;
+            comment.created = data.created_at;
             $scope.stream.push(comment);
             $scope.comment.text = '';
           })

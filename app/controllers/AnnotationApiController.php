@@ -153,7 +153,7 @@ class AnnotationApiController extends ApiController
         $annotation->save();
 
         $doc = Doc::find($docId);
-        $vars = array('sponsor' => $user->fname.' '.$user->lname, 'label' => 'annotation', 'slug' => $doc->slug, 'title' => $doc->title, 'text' => $annotation->text);
+        $vars = array('sponsor' => $user->display_name, 'label' => 'annotation', 'slug' => $doc->slug, 'title' => $doc->title, 'text' => $annotation->text);
         $email = $annotation->user->email;
 
         Mail::queue('email.read', $vars, function ($message) use ($email) {

@@ -209,8 +209,6 @@ class Annotation extends Eloquent implements ActivityInterface
     public function toAnnotatorArray($userId = null)
     {
         $item = $this->toArray();
-        $item['created'] = $item['created_at'];
-        $item['updated'] = $item['updated_at'];
         $item['annotator_schema_version'] = 'v1.0';
         $item['ranges'] = array();
         $item['tags'] = array();
@@ -230,12 +228,12 @@ class Annotation extends Eloquent implements ActivityInterface
             $item['comments'][] = array(
                 'id' => $comment->id,
                 'text' => $comment->text,
-                'created' => $comment->created_at->toRFC2822String(),
-                'updated' => $comment->updated_at->toRFC2822String(),
+                'created_at' => $comment->created_at->toRFC2822String(),
+                'updated_at' => $comment->updated_at->toRFC2822String(),
                 'user' => array(
                     'id' => $user->id,
                     'email' => $user->email,
-                    'name' => "{$user->fname} {$user->lname[0]}",
+                    'display_name' => $user->display_name,
                 ),
             );
         }
@@ -253,7 +251,7 @@ class Annotation extends Eloquent implements ActivityInterface
 
         $user = User::where('id', '=', $item['user_id'])->first();
         $item['user'] = array_intersect_key($user->toArray(), array_flip(array('id', 'email')));
-        $item['user']['name'] = $user->fname.' '.$user->lname{0};
+        $item['user']['display_name'] = $user->display_name;
 
         $item['consumer'] = static::ANNOTATION_CONSUMER;
 
@@ -305,7 +303,7 @@ class Annotation extends Eloquent implements ActivityInterface
         $item['seen'] = $this->seen;
 
         $item = array_intersect_key($item, array_flip(array(
-            'id', 'annotator_schema_version', 'created', 'updated',
+            'id', 'annotator_schema_version', 'created_at', 'updated_at',
             'text', 'quote', 'uri', 'ranges', 'user', 'consumer', 'tags',
             'permissions', 'likes', 'dislikes', 'flags', 'seen', 'comments', 'doc_id',
             'user_action',
@@ -501,8 +499,8 @@ class Annotation extends Eloquent implements ActivityInterface
     {
         $user = $this->user()->get()->first();
 
-        $item['title'] = $user->fname.' '.$user->lname."'s Annotation";
-        $item['author'] = $user->fname.' '.$user->lname;
+        $item['title'] = $user->display_name."'s Annotation";
+        $item['author'] = $user->display_name;
         $item['link'] = $this->getLink();
         $item['pubdate'] = $this->updated_at;
         $item['description'] = $this->text;

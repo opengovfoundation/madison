@@ -45,7 +45,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     });
 
     this.annotator.subscribe('commentCreated', function (comment) {
-      comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
+      comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.display_name + '</div></blockquote></div>');
       var currentComments = $('#current-comments');
       currentComments.append(comment);
       currentComments.removeClass('hidden');
@@ -196,7 +196,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
     /*jslint unparam: true*/
     $.each(annotation.comments, function (index, comment) {
-      comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.name + '</div></blockquote></div>');
+      comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.display_name + '</div></blockquote></div>');
       currentComments.append(comment);
     });
     /*jslint unparam: false*/
