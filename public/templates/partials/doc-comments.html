@@ -1,17 +1,33 @@
-<div id="participate-comment" class="row participate-comment" ng-if="user.id">
-  <div class="comment-field" ng-if="user.id">
+<div class="comment-field" ng-show="user">
     <form name="add-comment-form" ng-submit="commentSubmit(comment)">
-        <input ng-model="comment.text" id="doc-comment-field" type="text" class="form-control centered" placeholder="Add a comment" required />
-    </form>    
-  </div>
-  <p ng-if="!user.id">Please <a href="/user/login">login</a> to comment.</p>
+        <textarea ng-model="comment.text" id="doc-comment-field" type="text" class="form-control centered" required></textarea>
+        <button class="btn btn-primary">Add Comment</button>
+    </form>
 </div>
-<div id="participate-activity" class="row participate-activity">
-  <h3>Comments</h3>
-  <div class="activity-thread col-md-12">
-      <div id="@{{ 'comment_' + comment.id }}" class="row activity-item" ng-repeat="comment in comments | orderBy:activityOrder:true track by $id(comment)" ng-class="comment.label">
-          <div comment-item activity-item-link="{{ comment.link }}"></div>
-      </div>
-  </div>
+<div class="comment-field" ng-hide="user">
+    <a href="/user/login" ng-click="loginPopupService.showLoginForm($event)">Login to comment</a>
+</div>
+<div class="comment-thread" ng-show="comments.length">
+    <article ng-repeat="comment in comments" class="comment">
+        <header class="comment-header">
+            <span class="author">{{ comment.user.display_name }}</span>
+            <time pubdate class="date" datetime="{{ comment.created_at }}">{{ comment.created_at | timeAgo }}</time>
+        </header>
+        <section class="content">
+            {{ comment.text }}
+        </section>
+    </article>
+</div>
+<div class="comment-field" ng-show="user && comments.length > 10">
+    <form name="add-comment-form" ng-submit="commentSubmit(comment)">
+        <textarea ng-model="comment.text" id="doc-comment-field" type="text" class="form-control centered" required></textarea>
+        <button class="btn btn-primary">Add Comment</button>
+    </form>
+</div>
+<div class="comment-field" ng-show="!user && comments.length > 10">
+    <a href="/user/login" ng-click="loginPopupService.showLoginForm($event)">Login to comment</a>
 </div>
 
+<div class="comment-thread" ng-hide="comments.length">
+    <p>No comments yet.</p>
+</div>

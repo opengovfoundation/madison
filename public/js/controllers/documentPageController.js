@@ -86,7 +86,15 @@ angular.module('madisonApp.controllers')
         $scope.secondtab = false;
         if (!annotationHash && ($location.hash())) {
           $scope.secondtab = true;
+          $scope.changeTab('comment');
         }
+        else {
+          $scope.changeTab('content');
+        }
+      };
+
+      $scope.changeTab = function (activeTab) {
+        $scope.activeTab = activeTab;
       };
 
 

@@ -5,6 +5,7 @@ angular.module('madisonApp.services')
 
     var converter = new Markdown.Converter();
     this.annotations = [];
+    this.annotationGroups = [];
     this.annotator = null;
 
     this.setAnnotations = function (annotations) {
@@ -12,6 +13,24 @@ angular.module('madisonApp.services')
       angular.forEach(annotations, function (annotation) {
         annotation.html = $sce.trustAsHtml(converter.makeHtml(annotation.text));
         this.annotations.push(annotation);
+
+        // Get the first highlight's parent, and show our toolbar link for it next to it.
+        var annotationParent = $(annotation.highlights[0]).parents('.anchor').first();
+
+        // The id of this element *should* be unique.
+        var annotationParentId = annotationParent.prop('id');
+
+        if( (typeof(this.annotationGroups[annotationParentId])).toLowerCase() === 'undefined' ) {
+          this.annotationGroups[annotationParentId] = {
+            annotations: [],
+            parent: annotationParent,
+            parentId: annotationParentId,
+            commentCount: 0
+          };
+        }
+
+        this.annotationGroups[annotationParentId].annotations.push(annotation);
+        this.annotationGroups[annotationParentId].commentCount += annotation.comments.length;
       }, this);
 
       this.broadcastUpdate();

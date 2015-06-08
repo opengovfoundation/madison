@@ -2,8 +2,11 @@ angular.module('madisonApp.controllers')
   .controller('AnnotationController', ['$scope', '$sce', '$http', 'annotationService', 'loginPopupService', 'growl', '$location', '$filter', '$timeout',
     function ($scope, $sce, $http, annotationService, loginPopupService, growl, $location, $filter, $timeout) {
       $scope.annotations = [];
+      $scope.annotationGroups = [];
       $scope.supported = null;
       $scope.opposed = false;
+      $scope.annotationsShow = false;
+      $scope.currentGroup = null;
 
       //Parse sub-comment hash if there is one
       var hash = $location.hash();
@@ -13,31 +16,84 @@ angular.module('madisonApp.controllers')
       }
 
       //Watch for annotationsUpdated broadcast
+      var loadTimeout;
       $scope.$on('annotationsUpdated', function () {
-        angular.forEach(annotationService.annotations, function (annotation) {
-          if ($.inArray(annotation, $scope.annotations) < 0) {
-            var collapsed = true;
-            if ($scope.subCommentId) {
-              angular.forEach(annotation.comments, function (subcomment) {
-                if (subcomment.id == $scope.subCommentId) {
-                  collapsed = false;
+        loadAnnotations();
+      });
+
+      function loadAnnotations() {
+        if(loadTimeout) {
+          clearTimeout(loadTimeout);
+        }
+
+        var firstAnnotation;
+        if(annotationService.annotationGroups) {
+          var groups = annotationService.annotationGroups;
+          firstAnnotation = groups[Object.keys(groups)[0]];
+        }
+
+        // If our annotations are ready show them.
+        if(
+          firstAnnotation &&
+          firstAnnotation.parent &&
+          firstAnnotation.parent.offset()
+        ) {
+          angular.forEach(annotationService.annotations, function (annotation) {
+            if ($.inArray(annotation, $scope.annotations) < 0) {
+              var collapsed = true;
+              if ($scope.subCommentId) {
+                angular.forEach(annotation.comments, function (subcomment) {
+                  if (subcomment.id == $scope.subCommentId) {
+                    collapsed = false;
+                  }
+                });
+              }
+
+              annotation.label = 'annotation';
+              annotation.commentsCollapsed = collapsed;
+              $scope.annotations.push(annotation);
+            }
+          });
+
+          for(var index in annotationService.annotationGroups) {
+            var annotationGroup = annotationService.annotationGroups[index];
+
+            //Calculate our offset from the top of the window
+            var parentTop = annotationGroup.parent.offset().top;
+            var containerTop = $('.doc-secondary-content').offset().top;
+            annotationGroup.top = (parentTop - containerTop) + 'px';
+
+            annotationGroup.users = [];
+            //Count the unique users for our annotations.
+            for(var annotationIndex in annotationGroup.annotations) {
+              var annotation = annotationGroup.annotations[annotationIndex];
+              if(annotationGroup.users.indexOf(annotation.user.id) < 0) {
+                annotationGroup.users.push(annotation.user.id);
+              }
+
+              //Then count the unique users for the responses to each annotation.
+              for(var commentIndex in annotation.comments) {
+                var comment = annotation.comments[commentIndex];
+                if(annotationGroup.users.indexOf(comment.user.id) < 0) {
+                  annotationGroup.users.push(comment.user.id);
                 }
-              });
+              }
             }
 
-            annotation.label = 'annotation';
-            annotation.commentsCollapsed = collapsed;
-            $scope.annotations.push(annotation);
+            $scope.annotationGroups.push(annotationGroup);
           }
-        });
 
-        $scope.$apply();
-      });
+          $scope.$apply();
+        }
+        // If annotations are not ready, wait half a second and try again.
+        else {
+          loadTimeout = setTimeout(loadAnnotations, 500);
+        }
+      }
 
       $scope.isSponsor = function () {
         var currentId = $scope.user.id;
         var sponsored = false;
-        console.log($scope.doc.sponsor);
         // angular.forEach($scope.doc.sponsor, function (sponsor) {
         //   console.log(sponsor);
         //   if (currentId === sponsor.id) {
@@ -95,7 +151,6 @@ angular.module('madisonApp.controllers')
           'comment': comment
         })
           .success(function (data) {
-            console.log('comment', comment, data);
             comment.label = 'comment';
             comment.user = data.user;
             comment.created = data.created_at;
@@ -114,7 +169,7 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.addAction = function (activity, action, $event) {
-        if ($scope.user.id !== '') {
+        if ($scope.user && $scope.user.id !== '') {
           $http.post('/api/docs/' + $scope.doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
             .success(function (data) {
               activity.likes = data.likes;
@@ -133,6 +188,15 @@ angular.module('madisonApp.controllers')
         activity.commentsCollapsed = !activity.commentsCollapsed;
       };
 
+      $scope.showCommentForm = function($event)
+      {
+        if ($scope.user && $scope.user.id !== '') {
+          $('#comment-form-field').focus();
+        } else {
+          loginPopupService.showLoginForm($event);
+        }
+      };
+
       $scope.subcommentSubmit = function (activity, subcomment) {
         subcomment.user = $scope.user;
 
@@ -147,6 +211,16 @@ angular.module('madisonApp.controllers')
           }).error(function (data) {
             console.error(data);
           });
+      };
+
+      $scope.showAnnotations = function(annotationGroup) {
+        $scope.annotationsShow = true;
+        $scope.currentGroup = annotationGroup;
+      };
+
+      $scope.hideAnnotations = function() {
+        $scope.annotationsShow = false;
+        $scope.currentGroup = null;
       };
     }
     ]);
