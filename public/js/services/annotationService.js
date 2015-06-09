@@ -15,9 +15,7 @@ angular.module('madisonApp.services')
         this.annotations.push(annotation);
 
         // Get the first highlight's parent, and show our toolbar link for it next to it.
-        var annotationParent = $(annotation.highlights[0]).parents('.anchor').first();
-
-        // The id of this element *should* be unique.
+        var annotationParent = $(annotation.highlights[0]);
         var annotationParentId = annotationParent.prop('id');
 
         if( (typeof(this.annotationGroups[annotationParentId])).toLowerCase() === 'undefined' ) {
