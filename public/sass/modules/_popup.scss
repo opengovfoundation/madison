@@ -1,12 +1,21 @@
 .popup {
-    position:absolute;
     background: $lighter-grey;
     padding: $side-padding;
-    border: 1px solid $medium-grey;
-    border-radius: 4px;
     z-index:999;
+
+    border: 2px solid $medium-grey;
+    @include single-box-shadow( 0px, 0px, 5px, $dark-grey );
+
+    position:fixed;
+    width: 250px;
+    top: 20%;
+    left: 50%;
+    left: calc(50% - 125px);
 }
 
 .popup-close {
+    @extend .fa;
+    @extend .fa-times;
     cursor:pointer;
+    float: right;
 }
