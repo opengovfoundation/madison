@@ -4,6 +4,7 @@ angular.module('madisonApp.controllers')
   .controller('DocumentPageController', ['$scope', '$state', '$timeout', 'growl', '$location', '$window', 'Doc', '$sce', '$stateParams', '$http', 'loginPopupService', 'annotationService', '$anchorScroll', 'AuthService',
     function ($scope, $state, $timeout, growl, $location, $window, Doc, $sce, $stateParams, $http, loginPopupService, annotationService, $anchorScroll, AuthService) {
       $scope.annotations = [];
+      $scope.activeTab = 'content';
 
       $scope.setSponsor = function () {
         try {
