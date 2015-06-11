@@ -1,7 +1,7 @@
 /*global Markdown*/
 /*global window*/
 angular.module('madisonApp.services')
-  .service('annotationService', function ($rootScope, $sce, $location, AuthService, SessionService) {
+  .service('annotationService', function ($rootScope, $sce, $location, AuthService, SessionService, loginPopupService) {
 
     var converter = new Markdown.Converter();
     this.annotations = [];
@@ -117,6 +117,7 @@ angular.module('madisonApp.services')
         user: user,
         doc: doc,
         annotationService: this,
+        showLoginForm: function(event) { loginPopupService.showLoginForm(event); },
         path: path,
         origin: origin
       });
