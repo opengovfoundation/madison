@@ -152,6 +152,8 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
       if(!this.options.user) {
         this.showLoginForm(event);
+        this.annotator.adder.hide();
+        this.annotator.ignoreMouseup = false;
       }
       else {
         this.onAdderClickOld(event);
