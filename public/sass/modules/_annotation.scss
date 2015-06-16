@@ -185,3 +185,7 @@
         margin: 1rem 0;
     }
 }
+
+.annotator-adder, .annotator-outer, .annotator-notice, .annotator-filter {
+  z-index: 1000 !important;
+}

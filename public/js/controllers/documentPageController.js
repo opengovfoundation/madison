@@ -4,6 +4,7 @@ angular.module('madisonApp.controllers')
   .controller('DocumentPageController', ['$scope', '$state', '$timeout', 'growl', '$location', '$window', 'Doc', '$sce', '$stateParams', '$http', 'loginPopupService', 'annotationService', '$anchorScroll', 'AuthService',
     function ($scope, $state, $timeout, growl, $location, $window, Doc, $sce, $stateParams, $http, loginPopupService, annotationService, $anchorScroll, AuthService) {
       $scope.annotations = [];
+      $scope.activeTab = 'content';
 
       $scope.setSponsor = function () {
         try {
@@ -109,27 +110,6 @@ angular.module('madisonApp.controllers')
         });
       };
 
-      $scope.checkLoginPopupBinding = function () {
-        //Check if the user is logged in
-        if (!AuthService.isAuthenticated()) {
-          $scope._bindLoginPopup();
-        } else { //If the user isn't logged in, unbind mouseup
-          angular.element('#doc_content').unbind('mouseup');
-        }
-      };
-
-      $scope._bindLoginPopup = function () {
-        angular.element('#doc_content').on('mouseup', function (event) {
-          //Check for selection
-          var selection = $window.getSelection();
-
-          //If the selection is a range, show login popup
-          if (selection.type === "Range") {
-            loginPopupService.showLoginForm(event);
-          }
-        });
-      };
-
       $scope._updateSupport = function (data) {
         $scope.doc.support = data.supports;
         $scope.doc.oppose = data.opposes;
@@ -174,16 +154,6 @@ angular.module('madisonApp.controllers')
             $anchorScroll();
           });
         }
-      });
-
-      //Initial bind for login popup
-      if (!AuthService.isAuthenticated()) {
-        $scope._bindLoginPopup();
-      }
-
-      //Conditionally bind login popup on user authentication
-      $scope.$on('sessionChanged', function () {
-        $scope.checkLoginPopupBinding();
       });
 
       $scope.$on('supportUpdated', function () {

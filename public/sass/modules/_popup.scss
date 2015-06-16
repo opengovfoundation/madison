@@ -1,7 +1,16 @@
+.modal-back {
+    z-index:1500;
+    height: 100%;
+    width: 100%;
+    background-color: $modal-background;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
 .popup {
     background: $lighter-grey;
     padding: $side-padding;
-    z-index:999;
 
     border: 2px solid $medium-grey;
     @include single-box-shadow( 0px, 0px, 5px, $dark-grey );
