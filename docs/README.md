@@ -83,7 +83,7 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
 * **Annotator loads and saves all annotations from / to the api**
 
 * We have created an [Annotator Plugin](http://docs.annotatorjs.org/en/v1.2.x/hacking/plugin-development.html) to add Madison-specific functionality to Annotator and allow Annotator to talk to our AngularJS application.
-* Madison used its `public/js/services/annotationService` to handle all front-end annotation functionality.  This service is injected into Annotator when it is instantiated and allows communication between the Angular application and Annotator.
+* Madison uses its `public/js/services/annotationService` to handle all front-end annotation functionality.  This service is injected into Annotator when it is instantiated and allows communication between the Angular application and Annotator.
 
 ### Authentication / Authorization
 
