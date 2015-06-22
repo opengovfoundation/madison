@@ -48,9 +48,19 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
 ### Manually
 
 **Requirements**
-Madison and Laravel use Composer for dependency management.  If you don't have it installed, [install Composer first](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx).
+* `PHP >= 5.4`
+* `MCrypt PHP Extension`
+* Madison and Laravel use `Composer` for dependency management.  If you don't have it installed, [install Composer first](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx).
+* See [Laravel Server Requirements](http://laravel.com/docs/4.2/installation#server-requirements) for setting up Laravel applications.
 
 1.  Clone the repo `git clone git@github.com:opengovfoundation/madison.git`
+1.  Create database and user
+1.  Set ENV variables in [Laravel's `.env` file](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration).
+1.  Run `php artisan migrate` to run all migrations
+1.  Make sure `ADMIN_EMAIL` and `ADMIN_PASSWORD` are set in the environment config and then run `php artisan db:seed` to run all database seeds.
+1.  Make sure the web server has write access to all folders within `app/storage`
+
+**That's it!**
 
 ## Theming
 
