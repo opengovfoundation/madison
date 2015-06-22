@@ -16,10 +16,10 @@ Madison is an open-source platform built by [The OpenGov Foundation](http://open
 **For Citizens:**
 This is your chance to tell policymakers how you really feel. Comment, ask questions, or suggest changes directly on legislation before it becomes law. These are your laws; it’s time for you to have your say.
 
-**For Authors**
+**For Authors:**
 There’s never been an easier way to get substantive feedback from both colleagues and citizens. Offer and receive input in real time from fellow policymakers, issue experts, and the citizens you represent. With Madison, your job has never been easier.
 
-**For Developers**
+**For Developers:**
 Check out the rest of the documentation and read through the [Contributing Guidelines].  Pull requests welcome!
 
 ## Installation
@@ -28,9 +28,22 @@ Madison is build on top of [Laravel] and uses many of configuration tools that L
 
 ### Via Laravel Forge
 
-We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, and manage Madison instances.  Forge is a [PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service) product that is tailored specifically to Laravel environments.
+We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, and manage Madison instances.  We use it ourselves at the OpenGov Foundation.  Forge is a [PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service) product that is tailored specifically to Laravel environments.
 
-1.
+1.  Create account and log in
+1.  Link cloud server account (Linode, Digital Ocean, etc.)
+1.  Click `Create Server`.  Forge will then create a server on your linked account with the necessary setup.
+1.  Create new site setting your `Root Domain` and keep `public` as the `web directory` setting.
+1.  Click `Manage` on your new site in the list of Active Sites below the New Site creation.
+1.  Enter your Github repository
+1.  Add necessary ENV variables in the `Environment` tab.
+  * DB_NAME
+  * DB_USER
+  * DB_PASS
+
+  *If environment has trouble pulling the credentials, deploy once and update Laravel's `.env` file with the necessary credentials*
+1.  Deploy
+1.  (Optional) Set up `Quick Deploy`, which will deploy on any pushes to your Github repo.
 
 ### Manually
 
