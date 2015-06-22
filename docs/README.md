@@ -2,12 +2,12 @@
 
 ## Contents:
 
-* [Introduction]
-* [Installation]
-* Theming
-* Architecture and Development notes
-* Contributing
-* Changelog
+* [Introduction](#introduction)
+* [Installation](#installation)
+* [Theming](#theming)
+* [Architecture and Development notes](#architecture-and-development-notes)
+* [Contributing](#contributing)
+* [Changelog](#changelog)
 
 ## Introduction:
 
