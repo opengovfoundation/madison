@@ -1,7 +1,7 @@
 /*global Markdown*/
 /*global window*/
 angular.module('madisonApp.services')
-  .service('annotationService', function ($rootScope, $sce, $location, AuthService, SessionService) {
+  .service('annotationService', function ($rootScope, $sce, $location, AuthService, SessionService, loginPopupService) {
 
     var converter = new Markdown.Converter();
     this.annotations = [];
@@ -15,9 +15,7 @@ angular.module('madisonApp.services')
         this.annotations.push(annotation);
 
         // Get the first highlight's parent, and show our toolbar link for it next to it.
-        var annotationParent = $(annotation.highlights[0]).parents('.anchor').first();
-
-        // The id of this element *should* be unique.
+        var annotationParent = $(annotation.highlights[0]);
         var annotationParentId = annotationParent.prop('id');
 
         if( (typeof(this.annotationGroups[annotationParentId])).toLowerCase() === 'undefined' ) {
@@ -119,6 +117,7 @@ angular.module('madisonApp.services')
         user: user,
         doc: doc,
         annotationService: this,
+        showLoginForm: function(event) { loginPopupService.showLoginForm(event); },
         path: path,
         origin: origin
       });

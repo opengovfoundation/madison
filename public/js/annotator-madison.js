@@ -11,6 +11,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   options: {},
   pluginInit: function () {
     var annotationService = this.options.annotationService;
+    this.showLoginForm = this.options.showLoginForm;
 
     /**
      *  Subscribe to Store's `annotationsLoaded` event
@@ -136,6 +137,28 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
         return hasEditTag;
       }
     });
+
+    // We want document events even on readOnly, which isn't the default
+    // behavior.
+    if (this.annotator.options.readOnly) {
+      this.annotator._setupDocumentEvents();
+    }
+
+    this.onAdderClickOld = this.annotator.onAdderClick;
+    this.annotator.onAdderClick = function(event) {
+      if (event !== null) {
+        event.preventDefault();
+      }
+
+      if(!this.options.user) {
+        this.showLoginForm(event);
+        this.annotator.adder.hide();
+        this.annotator.ignoreMouseup = false;
+      }
+      else {
+        this.onAdderClickOld(event);
+      }
+    }.bind(this);
   },
   addEditFields: function (field, annotation) {
     var newField = $(field);
