@@ -66,6 +66,49 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
 
 ## Architecture and Development Notes
 
+### Single Page Application Architecture
+* Madison uses a [Single Page Application](https://en.wikipedia.org/wiki/Single-page_application) architecture
+* The main routing is done in `app/routes/single.php`.
+  * All routes except those starting with `api` are served a single file at `public/index.html`
+    * This file loads the compiled `public/build/app.js` and `public/build/app.css` files.
+      * These files are cache-busted at build time with an md5 hash query.  The build process is covered below in the [Contribution Guidelines](#contributing)
+    * The Angular front-end communicates via API with the Laravel backend.
+  * All `api/**` routes reach the Larvel backend.
+
+*If `app.debug` is set, `public/pre-build` is served, and loads all non-minified, non-concatenated assets.*
+
+### Annotations
+* Madison uses [AnnotatorJS](http://annotatorjs.org/) as its Annotation engine.  This library is only loaded on document pages.
+
+* **Annotator loads and saves all annotations from / to the api**
+
+* We have created an [Annotator Plugin](http://docs.annotatorjs.org/en/v1.2.x/hacking/plugin-development.html) to add Madison-specific functionality to Annotator and allow Annotator to talk to our AngularJS application.
+* Madison used its `public/js/services/annotationService` to handle all front-end annotation functionality.  This service is injected into Annotator when it is instantiated and allows communication between the Angular application and Annotator.
+
+### Authentication / Authorization
+
+* `public/js/services/authService` handles all authentication / authorization for the front-end.
+  * This service keeps the user updated via its `getUser` method which pulls the current user session from Laravel.
+* All page-level authorizations are handled in `public/js/routes.js` in the `authorizedRoles` data attribute.  These are set when the user logs in.
+* All user session data is stored and shared across the app via the `public/js/services/sessionService`.
+* All app constants ( events and user roles ) can be found in `public/js/constants.js`
+
+### Helpers
+
+We've created a couple helper components devs should be aware of
+
+* Server Side Notifications
+  * The front-end is set up to automatically present notifications handled by the controller helper method `growlMessage($messages, $severity, $params)` which can be found in the `app/controllers/BaseController` class.
+    * `$messages` is an array of message texts
+    * `$severity` is the severity of the messages to pass (`error`, `success`, `info`)
+    * `$params` is an array of any extra data needed to pass in the JSON response.
+* Front-end helpers
+  * `modalService` can be used any time a modal needs to be displayed
+  * `prompts` module can be used to add prompt bars at the top of the main content
+    * eg. `prompts.info(<html-content>)`
+  * `loginPopupService` can be used to display the login modal
+
+
 ## Contributing
 
 ## Changelog
