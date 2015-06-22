@@ -4,6 +4,7 @@
 
 * [Introduction](#introduction)
 * [Installation](#installation)
+* [Administration](#administration)
 * [Theming](#theming)
 * [Architecture and Development notes](#architecture-and-development-notes)
 * [Contributing](#contributing)
@@ -61,6 +62,25 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
 1.  Make sure the web server has write access to all folders within `app/storage`
 
 **That's it!**
+
+## Administration
+
+Administering Madison is pretty simple at this stage of the project.  Any Madison administrator will have extra options in their account dropdown in the top-right corner of the application under `Administrative Dashboard` after logging in.  These options include:
+
+* `Edit Documents`
+  * Administrators have access to all documents in Madison.  This option will display all documents with links to the document editor for each.
+  * The option to create new documents is found at the bottom of this page.
+* `Verify Accounts`
+  * Verified users are presented as such on the public facing side of the application.  This is a way to separate notable accounts from the average registrant.
+  * Users request verified status from their `Account Settings` page and must be approved by a site admin.
+* `Verify Groups`
+  * Groups can be used for different organizations, legislative offices, etc.  Users request to create a group from their `Group Management` page and must be approved by an admin.  Groups have the ability to post new documents on Madison.
+* `Verify Independent Sponsors`
+  * Users to want to publish documents but are not part of a group can request `Independent Sponsor` status.  They do this from their `Account Settings` page and must be verified by an admin.  After verification, they will be able to post new documents on Madison.
+* `Administrative Notification Settings`
+  * Site admins may want to be notified when activity is happening on their installation.  This page allows them to subscribe to email notifications for events in Madison.
+* `Site Settings`
+  * This is where site Admins can change the `Featured Document` on Madison.  This can also be changed in the in`Document Information` tab in each document editor, but gives Admins another option
 
 ## Theming
 
