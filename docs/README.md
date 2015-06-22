@@ -20,11 +20,11 @@ This is your chance to tell policymakers how you really feel. Comment, ask quest
 There’s never been an easier way to get substantive feedback from both colleagues and citizens. Offer and receive input in real time from fellow policymakers, issue experts, and the citizens you represent. With Madison, your job has never been easier.
 
 **For Developers:**
-Check out the rest of the documentation and read through the [Contributing Guidelines].  Pull requests welcome!
+Check out the rest of the documentation and read through the [Contributing Guidelines](#contributing).  Pull requests welcome!
 
 ## Installation
 
-Madison is build on top of [Laravel] and uses many of configuration tools that Laravel provides ( specifically its [`.env` files](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration) )
+Madison is build on top of [Laravel v.4.2](http://laravel.com/docs/4.2) and uses many of configuration tools that Laravel provides ( specifically its [`.env` files](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration) )
 
 ### Via Laravel Forge
 
@@ -111,6 +111,34 @@ We've created a couple helper components devs should be aware of
 
 ## Contributing
 
+Please include a descriptive message ( and if possible an issue link ) with each pull request.  We will try to merge PRs as quickly as possible.
+
+### Code Style
+
+* Make sure to use the included `.editorconfig` file in your editor.  Instructions can be found [on the EditorConfig site](http://editorconfig.org/) on integrating it with your code editor.
+* All PHP code should be styled using `PSR-2` guidelines.  Please make sure to run [`php-cs-fixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer) before committing code.
+
+### Development Configuration
+
+By default, Madison loads the `public/index.html` file in a production environment.  If you have `app/debug` set to `true` in your `.env` file, `public/pre-build.html` will be loaded.
+  * This file loads all non-minified, non-concatenated dependencies ( many coming from the `public/bower_components` directory )
+  **You must install bower ( `npm install -g bower` ) and run `bower install` from the root directory to load all front-end dependencies before running a dev environment.**
+
+### Build Process
+
+* Madison uses [Grunt](http://gruntjs.com/) as its task runner for building assets.
+* You must have `npm` installed and run `npm install` to install all dev build dependencied.
+* You must also have `bower` installed and run `bower install` to install all front-end dependencies
+* All grunt tasks are found in the `tasks` directory.
+  * All npm imports can be found in `tasks/config`
+  * All custom tasks can be found in `tasks/register`
+* The default build command can be run using `grunt build` and will:
+  * Minify and concatenate all assets.  All included assets can be found in the `public/pre-build.html` file.
+  * Update `public/index.html` with the new hash of the compiled assets for cache-busting
+
+### Roadmap
+Madison's milestone is organized through its [Github Milestones](https://github.com/opengovfoundation/madison/milestones).  Please see milestone descriptions / issues for an up-to-date roadmap.
+
 ## Changelog
 
 * `1.8`
@@ -120,6 +148,3 @@ We've created a couple helper components devs should be aware of
   * The entire theme has been updated and streamlined.  All relevant assets are still included in the `public/sass` directory.  See the [Theming] documentation on how to customize the theme for your needs.
   * The build process has been streamlined and tasks have been separated in the `tasks` directory.  We've also included concatenation, minification, and cache-busting of the relevant JS and CSS assets.
   * All dependencies have been set to a minor version for stability.
-
-
-
