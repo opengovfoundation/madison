@@ -175,7 +175,7 @@ angular.module('madisonApp')
         templateUrl: "/templates/pages/group-management.html",
         data: {
           title: "Group Management",
-          authorizedRoles: [USER_ROLES.admin, USER_ROLES.groupMember]
+          authorizedRoles: [USER_ROLES.all]
         }
       })
       .state('create-group', {
