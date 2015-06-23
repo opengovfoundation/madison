@@ -293,15 +293,17 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   addNoteLink: function (field, annotation) {
 
     //Add link to annotation
+    var annotationLink = $('<a></a>').attr('href', this.options.path + '#' + annotation.link).text('Copy Annotation Link').addClass('annotation-permalink');
     var noteLink = $('<div class="annotation-link"></div>');
     var linkPath = this.options.origin + this.options.path + '#' + annotation.link;
-    var annotationLink = $('<a></a>').attr('href', this.options.path + '#' + annotation.link).text('Copy Annotation Link').addClass('annotation-permalink');
+
     annotationLink.attr('data-clipboard-text', linkPath);
 
     var client = new ZeroClipboard(annotationLink);
 
-    noteLink.append(annotationLink);
-    $(field).append(noteLink);
+    //noteLink.append(annotationLink);
+    annotationLink.append(noteLink);
+    $(field).append(annotationLink);
   },
   createComment: function (textElement, annotation) {
     var user = this.options.user;
