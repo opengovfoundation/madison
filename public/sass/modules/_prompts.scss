@@ -1,11 +1,11 @@
 .prompts {
     position:relative;
-    $prompt-height: 4rem;
+    $prompt-height: 2 * $line-height-computed;
     background-color: $green;
     text-align: center;
     color: $white;
 
-    margin-bottom: 2rem;
+    margin-bottom: $line-height-computed;
 
     .prompt-message {
         font-size: 1.5rem;

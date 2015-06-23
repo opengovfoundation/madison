@@ -12,8 +12,8 @@
         li {
             a {
                 padding: 0 15px;
-                // This completes the 2rem rhythm.
-                line-height: 2rem;
+                // This completes the rhythm.
+                line-height: $line-height-computed;
                 border: none;
                 &:hover, &:active {
                     border: none;
@@ -72,7 +72,7 @@
 }
 
 .document-dates {
-    margin-top:3rem;
+    margin-top:3 * $line-height-computed;
     @extend .col-md-7;
     @extend .col-md-offset-1;
 
