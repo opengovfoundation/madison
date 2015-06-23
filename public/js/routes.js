@@ -28,7 +28,7 @@ angular.module('madisonApp')
         templateUrl: "/templates/pages/my-documents.html",
         data: {
           title: "My Documents",
-          authorizedRoles: [USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember]
+          authorizedRoles: [USER_ROLES.all]
         }
       })
       .state('edit-doc', {

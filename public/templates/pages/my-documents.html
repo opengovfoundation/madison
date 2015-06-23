@@ -3,7 +3,8 @@
   <header>
     <h1>My Documents</h1>
   </header>
-  <div class="document-list">
+  <p ng-if="!canCreate">You are not authorized to create documents.  Go to the <a href="/user/edit/{{ user.id }}">Account Settings</a> page to request Independent Sponsor status or the <a href="/groups">Group Management</a> page to create a group.</p>
+  <div class="document-list" ng-if="canCreate">
     <strong><a ng-click="scrollTo('create-document-wrapper')">Create a document</a></strong>
     <article class="independent-docs">
       <h2 class="small-heading">Independently authored documents:</h2>
@@ -31,7 +32,7 @@
     </article>
   </div>
 </section>
-<section class="create-document-wrapper" id="create-document-wrapper">
+<section class="create-document-wrapper" id="create-document-wrapper" ng-if="canCreate">
   <header>
     <h1>Create Document</h1>
   </header>

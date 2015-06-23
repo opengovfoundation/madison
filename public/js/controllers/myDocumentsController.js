@@ -1,9 +1,15 @@
 angular.module('madisonApp.controllers')
-  .controller('MyDocumentsController', ['$scope', '$http', 'growl', 'SessionService', 'AuthService', '$state',
-    function ($scope, $http, growl, SessionService, AuthService, $state) {
+  .controller('MyDocumentsController', ['$scope', '$http', 'growl', 'SessionService', 'AuthService', '$state', 'USER_ROLES',
+    function ($scope, $http, growl, SessionService, AuthService, $state, USER_ROLES) {
       "use strict";
 
       AuthService.getMyDocs();
+
+      if (!AuthService.isAuthorized([USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember])) {
+        $scope.canCreate = false;
+      } else {
+        $scope.canCreate = true;
+      }
 
       $scope.$on('docsChanged', function () {
         $scope.docs = SessionService.getDocs();
