@@ -92,7 +92,7 @@ header {
     &::after{
         @include fa-icon();
         content: $fa-var-angle-right;
-        line-height: 2rem;
+        line-height: $line-height-computed;
         margin-right: 10px;
     }
 

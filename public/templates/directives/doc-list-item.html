@@ -2,33 +2,33 @@
 	<h3 class="subheading">
 		<a href="{{ doc.url }}">{{ doc.title }}</a>
 	</h3>
-  <span class="doc-sponsor">
+  <div class="doc-sponsor">
     Sponsored by
     <ul>
       <li ng-repeat="sponsor in doc.sponsor">
         {{ sponsor.display_name }}
       </li>
     </ul>
-  </span>
-	<span class="doc-categories">
+  </div>
+	<div class="doc-categories">
     <ul>
   	  <li class="category" ng-repeat="category in doc.categories"><span>{{ category.name }}</span></li>
     </ul>
-	</span>
-	<span class="doc-statuses">
+	</div>
+	<div class="doc-statuses">
 	  <span class="status" ng-repeat="status in doc.statuses">{{ status.label }}</span>
-	</span>
+	</div>
 </header>
 <div class="doc-meta">
 	<div class="list-doc-info">
-    <span ng-hide="doc.updated_at" class="date">
+    <div ng-hide="doc.updated_at" class="date">
       Posted <time class="published doc-created-date" datetime="{{ doc.created_at }}"
       >{{ doc.created_at | date:'mediumDate' }}</time>
-    </span>
-    <span ng-show="doc.updated_at" class="date">
+    </div>
+    <div ng-show="doc.updated_at" class="date">
       Updated <time class="updated doc-updated-date" datetime="{{ doc.updated_at }}"
       >{{ doc.updated_at | date:'mediumDate' }}</time>
-    </span>
+    </div>
 
     <table class="stats">
       <thead>

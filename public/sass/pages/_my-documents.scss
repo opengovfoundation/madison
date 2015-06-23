@@ -1,5 +1,5 @@
 .document-list {
-    margin-top:3rem;
+    margin-top: 1.5 * $line-height-computed;
 
     li {
         list-style: none;
@@ -7,14 +7,14 @@
 
     .group-docs-empty {
         font-style: italic;
-        padding-left:2rem;
+        padding-left: $line-height-computed;
     }
 }
 
 .create-document-wrapper {
-    margin-top:4rem;
+    margin-top: 2 * $line-height-computed;
 }
 
 .create-document {
-    margin-top:3rem;
+    margin-top: 1.5 * $line-height-computed;
 }

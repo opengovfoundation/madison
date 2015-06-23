@@ -8,7 +8,7 @@ label {
 }
 
 .form-control {
-    height:2rem;
+    height:$line-height-computed;
 }
 
 .form-group {
@@ -33,8 +33,8 @@ label {
     width:100%;
 
     .select2-choice {
-        height:2rem;
-        line-height:2rem;
+        height:$line-height-computed;
+        line-height:$line-height-computed;
     }
 }
 
@@ -42,7 +42,7 @@ label {
     .select2-choices {
         .select2-search-field {
             input {
-                height:2rem;
+                height:$line-height-computed;
             }
         }
     }

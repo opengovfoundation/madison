@@ -40,8 +40,8 @@
         display: inline-block;
         text-align: center;
         background-color: $lighter-grey;
-        height: 2rem;
-        min-width: 2rem;
+        height: $line-height-computed;
+        min-width: $line-height-computed;
         border-radius: 7px;
     }
 
@@ -52,7 +52,7 @@
         margin-left: 10px;
         padding: 0 10px;
         display: inline-block;
-        line-height: 2rem;
+        line-height: $line-height-computed;
 
         &::before {
             font-style: normal;
@@ -137,7 +137,7 @@
 
 .annotation-pane, .comments-pane {
     article {
-        padding: 2rem 0 0;
+        padding: $line-height-computed 0 0;
         margin: 0 20px;
     }
 }
@@ -175,7 +175,7 @@
 }
 
 .subcomment-form {
-    margin: 2rem;
+    margin: $line-height-computed;
 
     h4 {
         @extend .small-caps;

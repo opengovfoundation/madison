@@ -3,9 +3,7 @@
  */
 
 // Fonts, relative sizing overrides for ems.
-$font-size-base: 1rem;
-$line-height-base: 2;
-$header-height: 4rem;
+$header-height: 2 * $line-height-computed;
 
 // Page settings
 // We want our page a little wider than the default.
@@ -42,7 +40,7 @@ $font-family-serif: $accent-font;
 $navbar-height: $header-height;
 $navbar-margin-bottom: 0;
 $navbar-border-radius: 0;
-$border-radius-base: 0;
+$border-radius-base: 7px;
 
 
 $nav-tabs-border-color: transparent;

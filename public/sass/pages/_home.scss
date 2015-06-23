@@ -19,7 +19,7 @@
     background-position: 0 0;
 }
 .has-image .doc-info {
-    margin-top: 22rem;
+    margin-top: 12 * $line-height-computed;
 }
 
 .search-list {
@@ -38,12 +38,11 @@
 }
 
 .search-form {
-    margin-bottom: 2rem;
+    margin-bottom: $line-height-computed;
     .text-search {
         display: block;
         overflow: hidden;
         margin-right: 100px;
-        height: 2rem;
 
         input {
             display: block;
@@ -51,8 +50,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             padding: 0 10px;
-            margin: 0;
-            line-height: calc(2rem - 2px);
+            @extend %medium-size;
             height: auto;
         }
     }
@@ -71,7 +69,7 @@
     width: 100%;
 
     // The 1em here falls back into rhythm with the 1em padding on the boxes.
-    margin-bottom: 1rem;
+    margin-bottom: .5 * $line-height-computed;
 
     // To make both columns equal height, we need to make this a table.
     // The next block of declarations achieve this.
@@ -90,7 +88,7 @@
         width: 66.6666%;
         padding-top: 0;
         // This falls into rhythm with the margin-bottom above.
-        padding-bottom: 1rem;
+        padding-bottom: .5 * $line-height-computed;
     }
 
     .doc-meta {
@@ -102,14 +100,13 @@
         position: relative;
 
         // Give enough room for that button plus padding for the rhythm.
-        // 2rem (buttom) + 1rem (padding) = 3rem
         // This falls into rhythm with the margin-bottom above.
-        padding-bottom: 3rem;
+        padding-bottom: 1.5 * $line-height-computed;
 
         .read-action {
             // Glue this to the bottom of the box, in rhythm.
             position: absolute;
-            bottom: 1rem;
+            bottom: 0.5 * $line-height-computed;
         }
     }
 
@@ -184,11 +181,14 @@
 .doc-info {
     @extend .col-sm-24;
     padding-top: 0;
-    padding-bottom: 2em;
+    padding-bottom: $line-height-computed;
     background-color: $lighter-grey;
 
     .heading {
         @extend .title-underline-thick;
+        padding-bottom: calc( #{.5 * $line-height-computed} - 5px );
+        border-bottom: 10px solid #000;
+        margin-bottom: calc( #{.5 * $line-height-computed} - 5px );
     }
 
     .subheading {
@@ -199,8 +199,13 @@
 
 .doc-sponsor {
     display: block;
+    // We have to float this so the padding doesn't collapse.
+    float: left;
+    width: 100%;
 
-    @extend .title-underline-thin;
+    border-bottom: 1px solid $black;
+    margin-top: .5 * $line-height-computed;
+    margin-bottom: calc( #{.5 * $line-height-computed} - 1px);
 
     font-weight: bold;
 }
@@ -237,7 +242,7 @@
 }
 
 .doc-summary {
-    margin-top: 2em;
+    margin-top: $line-height-computed;
 }
 
 .read-action {
@@ -264,17 +269,15 @@
 
 .previous-features {
     @extend .row;
-    margin-top: 2rem;
+    margin-top: $line-height-computed;
 
     .message {
-        // Actually, this is kinda buttony.
-        @extend .button;
-        @extend .btn-success;
-        line-height: 4rem;
-
         display: block;
-
-        margin: 0 15px 2rem;
+        margin-left: 15px;
+        margin-right: 15px;
+        @extend h3;
+        @extend .title-underline-medium;
+        text-align: center;
     }
 }
 
@@ -282,13 +285,13 @@
     @extend .col-md-12;
 
     h2 {
-        margin-bottom: 2rem;
+        margin-bottom: $line-height-computed;
         font-family: $main-font;
         @extend .normal-title;
     }
 
     article {
-        margin-bottom: 2rem;
+        margin-bottom: $line-height-computed;
     }
 
     .author, .title {

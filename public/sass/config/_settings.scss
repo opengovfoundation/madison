@@ -40,7 +40,7 @@ $vertical-padding: 1rem;
 $font-size-base: 1rem;
 
 // No units on our line height!
-$line-height-base: 2;
+$line-height-base: 1.625;
 
 // Line height with units.
 $line-height-computed:    ($font-size-base * $line-height-base) !default; // 2rem

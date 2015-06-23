@@ -60,7 +60,7 @@ angular.module('madisonApp.controllers')
 
             //Calculate our offset from the top of the window
             var parentTop = annotationGroup.parent.offset().top;
-            var containerTop = $('.doc-secondary-content').offset().top;
+            var containerTop = $('.annotation-container').offset().top;
             annotationGroup.top = (parentTop - containerTop) + 'px';
 
             annotationGroup.users = [];
