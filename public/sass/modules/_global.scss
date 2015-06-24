@@ -46,6 +46,10 @@ h5,h6 {
     margin-bottom: 0rem;
 }
 
+a {
+    cursor:pointer;
+}
+
 p, ul, ol, pre, table, blockquote {
     margin-bottom: $line-height-computed;
 }
