@@ -112,6 +112,14 @@
             top:12px;
         }
 
+        .close-text {
+            @include rotate(-90deg);
+            position:absolute;
+            top:50%;
+            left:-3rem;
+            letter-spacing:1rem;
+        }
+
         &:hover {
             background:$blue;
             cursor:pointer;
