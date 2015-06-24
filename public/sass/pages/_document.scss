@@ -129,6 +129,7 @@
 
 .chart-title {
     @extend .small-caps;
+    font-weight: bold;
     // There's some weirdness with the fancy font screwing up
     // font sizes.  We hide overflow to fix this.
     height: $line-height-computed;
@@ -137,6 +138,7 @@
         text-transform: none;
         font-family: $fancy-font;
         font-style: italic;
+        font-weight: normal;
     }
 }
 
@@ -212,6 +214,35 @@
     .normal-title {
         // Slight offset so bottom border matches up.
         margin-top: .5 * $line-height-computed;
+    }
+}
+
+// Inside of our content, we use different title treatment
+.doc-content {
+    h1, h2, h3, h4, h5, h6 {
+        font-family: $fancy-font;
+        font-style: italic;
+        font-weight: normal;
+        margin-bottom: 0;
+    }
+
+    h1 {
+        @extend h3;
+    }
+    h2 {
+        @extend h3;
+    }
+    h3 {
+        @extend h4;
+    }
+    h4 {
+        @extend h4;
+    }
+
+    blockquote {
+        margin-left: 4rem;
+        font-family: $fancy-font;
+        font-style: italic;
     }
 }
 

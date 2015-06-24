@@ -34,7 +34,7 @@ h3, .medium-heading {
 }
 
 h4, .small-heading {
-    font-size: 1.6875rem;
+    font-size: 1.5rem;
     line-height: $line-height-computed;
     margin-top: 0rem;
     margin-bottom: 0rem;
@@ -48,6 +48,10 @@ h5,h6 {
 
 p, ul, ol, pre, table, blockquote {
     margin-bottom: $line-height-computed;
+}
+
+blockquote {
+    font-size: $font-size-base;
 }
 
 dt, dd {
@@ -99,37 +103,6 @@ h1, h2, h3 {
     font-size: 1rem;
     line-height: $line-height-computed;
     font-family: $main-font;
-}
-
-// Inside of our content, we use different title treatment
-.doc-content {
-    h1, h2, h3, h4, h5, h6 {
-        font-family: $fancy-font;
-        font-weight: normal;
-        margin-bottom: 0;
-    }
-
-    h1 {
-        font-size: 4rem;
-        line-height: 6rem;
-    }
-    h2 {
-        font-size: 3rem;
-        line-height: 4rem;
-    }
-    h3 {
-        font-size: $line-height-computed;
-        line-height: 4rem;
-    }
-    h4 {
-        font-size: 1.8rem;
-    }
-    h5 {
-        font-size: 1.5rem;
-    }
-    h6 {
-        font-size: 1.2rem;
-    }
 }
 
 // Sometimes, we want to have titles visible only to screen readers.

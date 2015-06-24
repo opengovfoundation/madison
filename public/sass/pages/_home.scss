@@ -186,9 +186,10 @@
 
     .heading {
         @extend .title-underline-thick;
-        padding-bottom: calc( #{.5 * $line-height-computed} - 5px );
+        margin-top: .5 * $line-height-computed;
+        padding-bottom: calc( #{ $line-height-computed} - 5px );
         border-bottom: 10px solid #000;
-        margin-bottom: calc( #{.5 * $line-height-computed} - 5px );
+        margin-bottom: calc( #{ .5 * $line-height-computed } - 5px );
     }
 
     .subheading {
@@ -204,8 +205,10 @@
     width: 100%;
 
     border-bottom: 1px solid $black;
-    margin-top: .5 * $line-height-computed;
-    margin-bottom: calc( #{.5 * $line-height-computed} - 1px);
+    // Some awkward shuffling to move this up into the previous heading's box.
+    margin-top: 0;
+    padding-bottom: calc( #{0.5 * $line-height-computed} - 1px);
+    margin-bottom: 0.5 * $line-height-computed;
 
     font-weight: bold;
 }
