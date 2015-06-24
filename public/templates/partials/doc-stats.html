@@ -2,29 +2,29 @@
 
 <div class="support-chart">
 <div class="chart-title">
-    Oppose <span class="vs">vs</span> Support
+    Support <span class="vs">vs</span> Oppose
 </div>
 <div class="chart">
    <svg viewbox="-50 0 100 32" width="100%">
-      <g transform="rotate(180) translate(1,-21)" class="oppose">
-        <rect ng-attr-width="{{ doc.oppose_percent }}" height="12"></rect>
+      <g transform="rotate(180) translate(1,-21)" class="support">
+        <rect ng-attr-width="{{ doc.support_percent }}" height="12"></rect>
       </g>
       <g class="border">
         <line x1="0" y1="0" x2="0" y2="30">
       </g>
-      <g transform="translate(0,9)" class="support">
-        <rect ng-attr-width="{{ doc.support_percent }}" height="12"></rect>
+      <g transform="translate(0,9)" class="oppose">
+        <rect ng-attr-width="{{ doc.oppose_percent }}" height="12"></rect>
       </g>
   </svg>
 </div>
 <div class="chart-labels">
   <dl class="chart-stat oppose">
-    <dt class="chart-label">Oppose</dt>
-    <dd class="chart-value">{{ doc.oppose }}</dd>
-  </dl>
-  <dl class="chart-stat support">
     <dt class="chart-label">Support</dt>
     <dd class="chart-value">{{ doc.support }}</dd>
+  </dl>
+  <dl class="chart-stat support">
+    <dt class="chart-label">Oppose</dt>
+    <dd class="chart-value">{{ doc.oppose }}</dd>
   </dl>
 </div>
 </div>
