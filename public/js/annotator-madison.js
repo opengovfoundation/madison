@@ -37,12 +37,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
      */
     this.annotator.subscribe('annotationCreated', function (annotation) {
       annotationService.addAnnotation(annotation);
-      if ($.showAnnotationThanks) {
-        $('#annotationThanks').modal({
-          remote: '/modals/annotation_thanks',
-          keyboard: true
-        });
-      }
     });
 
     this.annotator.subscribe('commentCreated', function (comment) {
@@ -145,17 +139,16 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     }
 
     this.onAdderClickOld = this.annotator.onAdderClick;
-    this.annotator.onAdderClick = function(event) {
+    this.annotator.onAdderClick = function (event) {
       if (event !== null) {
         event.preventDefault();
       }
 
-      if(!this.options.user) {
+      if (!this.options.user) {
         this.showLoginForm(event);
         this.annotator.adder.hide();
         this.annotator.ignoreMouseup = false;
-      }
-      else {
+      } else {
         this.onAdderClickOld(event);
       }
     }.bind(this);
