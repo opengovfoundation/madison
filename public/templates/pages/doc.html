@@ -38,9 +38,9 @@
       </ul>
       <div class="tab-content doc-tabs">
         <section id="tab-activity" ng-class="{'active':secondtab == false}" class="tab-pane">
-          <div id="content" class="content doc-content">
+          <div id="content" class="content">
             <h2 class="screen-hidden">Document Text</h2>
-            <article id="doc_content" ng-bind-html="doc.html" ng-mouseup=""></article>
+            <article class="doc-article" id="doc_content" ng-bind-html="doc.html" ng-mouseup=""></article>
           </div>
         </section>
         <aside id="tab-discussion" ng-class="{'active': secondtab == true}" class="tab-pane">
