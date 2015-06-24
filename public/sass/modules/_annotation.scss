@@ -94,6 +94,34 @@
     // Pad the top to allow the header to float above it.
     margin-top: 4rem;
 
+    .annotation-pane-close, .annotation-pane-body {
+        display:inline-block;
+        vertical-align:top;
+    }
+
+    .annotation-pane-close {
+        width:30px;
+        background:$light-grey;
+        height:100%;
+        position:absolute;
+
+        .close-icon {
+            @extend .fa, .fa-angle-double-right;
+            position:absolute;
+            left:12px;
+            top:12px;
+        }
+
+        &:hover {
+            background:$light-medium-grey;
+            cursor:pointer;
+        }
+    }
+
+    .annotation-pane-body {
+        padding-left:30px;
+    }
+
     .title-header {
         background-color: $dark-grey;
         color: $white;
