@@ -1,33 +1,30 @@
-.annotation {
+// Actions
+.activity-actions {
+    color: $light-medium-grey;
+}
 
-    // Actions
-    .activity-actions {
-        color: $light-medium-grey;
+.thumbs-up {
+    @extend .fa;
+    @extend .fa-thumbs-o-up;
+}
+
+.thumbs-down {
+    @extend .fa;
+    @extend .fa-thumbs-o-down;
+}
+
+.flag {
+    @extend .fa;
+    @extend .fa-flag;
+}
+
+.thumbs-up, .thumbs-down, .flag {
+    &::before {
+        margin-right: 4px;
     }
-
-    .thumbs-up {
-        @extend .fa;
-        @extend .fa-thumbs-o-up;
-    }
-
-    .thumbs-down {
-        @extend .fa;
-        @extend .fa-thumbs-o-down;
-    }
-
-    .flag {
-        @extend .fa;
-        @extend .fa-flag;
-    }
-
-    .thumbs-up, .thumbs-down, .flag {
-        &::before {
-            margin-right: 4px;
-        }
-        margin-right: 15px;
-        &:last-child {
-            margin-right: 0;
-        }
+    margin-right: 15px;
+    &:last-child {
+        margin-right: 0;
     }
 }
 
