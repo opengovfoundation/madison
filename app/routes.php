@@ -36,6 +36,11 @@ Route::get('modals/annotation_thanks', array(
     'before' => 'disable profiler',
 ));
 
+// Vendor Settings
+Route::get('api/settings/vendors', function () {
+    return ['uservoice' => $_ENV['USERVOICE'], 'ga' => $_ENV['GA']];
+});
+
 Route::post('groups/member/{memberId}/role', 'GroupsController@changeMemberRole');
 Route::post('api/groups/active/{groupId}', 'GroupsController@setActiveGroup');
 
