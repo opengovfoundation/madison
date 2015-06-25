@@ -26,4 +26,11 @@ return [
     'LI_CLIENT_ID'      => '',
     'LI_CLIENT_SECRET'  => '',
 
+    //This is the uservoice javascript file hash in the UV uv.src embed code
+    //Used as such: uv.src = '//widget.uservoice.com/' + uservoiceHash + '.js';
+    'USERVOICE'         => '',
+
+    //Your Google Analytics account (eg. 'UA-00000000-0')
+    'GA'                => '',
+
 ];
