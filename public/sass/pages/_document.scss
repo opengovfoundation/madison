@@ -260,10 +260,13 @@ $toc-heading-width: 35px;
 $toc-padding: 10px;
 
 // The shortest the box can be, to accomodate text.
-$min-height: 250px;
+$min-height: 30vh;
 
 // The tallest the box can be, triggers scrollbars.
-$max-height: 350px;
+$max-height: 50vh;
+
+// Fallback height for IE8;
+$fallback-height: 350px;
 
 .toc-open .document-toc {
     left: 0;
@@ -286,9 +289,11 @@ $max-height: 350px;
     position: fixed;
     z-index: 10;
     top: 250px;
+    top: 20vh;
     padding: 0 $toc-padding $line-height-computed;
     //padding-right: ($toc-heading-width);
     width: $toc-width;
+    min-height: $fallback-height;
     min-height: $min-height;
 
     // Slide in/out
@@ -314,6 +319,7 @@ $max-height: 350px;
     right: ($toc-heading-width + 10) * -1;
     width: $toc-heading-width;
 
+    min-height: $fallback-height;
     min-height: $min-height;
 
     // Prevent the weird bug where clicking the tabs activates the TOC.
@@ -331,8 +337,7 @@ $max-height: 350px;
         color: $light-medium-grey;
         display: block;
         // Give us enough room that the line doesn't wrap.
-        width: $min-height;
-        max-width: $min-height;
+        width: 150px;
         // And a little offset from the top.
         margin-top: 20px;
         span {
@@ -352,6 +357,7 @@ $max-height: 350px;
 .toc-content {
     // Leave room for the navbars.
     width: $toc-width - 10px;
+    max-height: $fallback-height;
     max-height: $max-height;
     overflow: auto;
 
