@@ -113,6 +113,15 @@ Administering Madison is pretty simple at this stage of the project.  Any Madiso
 * All user session data is stored and shared across the app via the `public/js/services/sessionService`.
 * All app constants ( events and user roles ) can be found in `public/js/constants.js`
 
+### Templates
+*All templates are in the `public/templates` directory.*
+**Disclaimer: We're still working on getting these organized.**
+
+* `templates/directives`: This directory is for anything being loaded via `templateUrl` in a directive.
+* `templates/partials`: This directory is for anything that is included as ng-include as a partial for a view
+* `templates/pages`: This directory is for page views being loaded in `routes.js`
+
+
 ### Helpers
 
 We've created a couple helper components devs should be aware of
