@@ -7,16 +7,27 @@ angular.module('madisonApp.services')
     this.annotations = [];
     this.annotationGroups = [];
     this.annotator = null;
+    this.count = 0;
 
     this.setAnnotations = function (annotations) {
+      var parentElements = 'h1,h2,h3,h4,h5,h6,li,p';
 
       angular.forEach(annotations, function (annotation) {
         annotation.html = $sce.trustAsHtml(converter.makeHtml(annotation.text));
         this.annotations.push(annotation);
 
         // Get the first highlight's parent, and show our toolbar link for it next to it.
-        var annotationParent = $(annotation.highlights[0]);
-        var annotationParentId = annotationParent.prop('id');
+        var annotationParent = $(annotation.highlights[0]).parents(parentElements).first();
+        var annotationParentId;
+        if(annotationParent.prop('id')) {
+          annotationParentId = annotationParent.prop('id');
+        }
+        else {
+          this.count++;
+          annotationParentId = 'annotationGroup-' + this.count;
+          annotationParent.prop('id', annotationParentId);
+        }
+
 
         if( (typeof(this.annotationGroups[annotationParentId])).toLowerCase() === 'undefined' ) {
           this.annotationGroups[annotationParentId] = {
