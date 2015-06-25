@@ -6,8 +6,16 @@ angular.module( 'madisonApp.services' )
     vendorService.installUservoice = function() {
       var uservoiceHash = vendorService.settings.uservoice;
 
+      if ( !uservoiceHash ) {
+        console.error('Unable to load UserVoice.  Settings: %o', vendorService.settings.uservoice);
+        return;
+      }
+
       //Install Uservoice ( copied from uservoice embed script )
-      var UserVoice = window.UserVoice || [];
+      //var UserVoice = window.UserVoice || [];
+      window.UserVoice = [];
+
+      console.log( UserVoice );
       var uv = document.createElement( 'script' );
       uv.type = 'text/javascript';
       uv.async = true;
@@ -16,7 +24,7 @@ angular.module( 'madisonApp.services' )
       s.parentNode.insertBefore( uv, s );
 
       // Set colors
-      UserVoice.push( [ 'set', {
+      window.UserVoice.push( [ 'set', {
         accent_color: '#448dd6',
         trigger_color: 'white',
         trigger_background_color: 'rgba(46, 49, 51, 0.6)'
@@ -24,7 +32,7 @@ angular.module( 'madisonApp.services' )
 
       // Identify the user and pass traits
       // To enable, replace sample data with actual user traits and uncomment the line
-      UserVoice.push( [ 'identify', {
+      window.UserVoice.push( [ 'identify', {
 
         //email:      'john.doe@example.com', // User’s email address
         //name:       'John Doe', // User’s real name
@@ -42,7 +50,7 @@ angular.module( 'madisonApp.services' )
       } ] );
 
       // Add default trigger to the bottom-right corner of the window:
-      UserVoice.push( [ 'addTrigger', {
+      window.UserVoice.push( [ 'addTrigger', {
         mode: 'contact',
         trigger_position: 'bottom-right'
       } ] );
@@ -51,7 +59,7 @@ angular.module( 'madisonApp.services' )
       //UserVoice.push(['addTrigger', '#id', { mode: 'contact' }]);
 
       // Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
-      UserVoice.push( [ 'autoprompt', {} ] );
+      window.UserVoice.push( [ 'autoprompt', {} ] );
     };
 
     vendorService.installGA = function() {
