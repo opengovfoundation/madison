@@ -7,7 +7,7 @@ angular.module( 'madisonApp.services' )
       var uservoiceHash = vendorService.settings.uservoice;
 
       if ( !uservoiceHash ) {
-        console.error('Unable to load UserVoice.  Settings: %o', vendorService.settings.uservoice);
+        console.error( 'Unable to load UserVoice.  Settings: %o', vendorService.settings.uservoice );
         return;
       }
 
@@ -15,7 +15,6 @@ angular.module( 'madisonApp.services' )
       //var UserVoice = window.UserVoice || [];
       window.UserVoice = [];
 
-      console.log( UserVoice );
       var uv = document.createElement( 'script' );
       uv.type = 'text/javascript';
       uv.async = true;
@@ -65,13 +64,53 @@ angular.module( 'madisonApp.services' )
     vendorService.installGA = function() {
       var gaAccount = vendorService.settings.ga;
 
-      //Install google analytics
+      if ( !gaAccount ) {
+        console.error( 'Unable to load UserVoice.  Settings: %o', vendorService.settings.uservoice );
+        return;
+      }
+
+      //Picking apart the GA embed script
+      /*
+        i = window;
+        s = document;
+        o = 'script';
+        g = '//www.google-analytics.com/analytics.js';
+        r = 'ga';
+      */
+
+      //i['GoogleAnalyticsObject'] = r;
+      window.GoogleAnalyticsObject = 'ga';
+
+      //i[r] = i[r] || function() {( i[r].q = i[r].q || [] ).push( arguments )}
+      window.ga = window.ga || function() {
+        ( window.ga.q || [] ).push( arguments );
+      };
+
+      //i[r].l = 1 * new Date();
+      window.ga.l = 1 * new Date();
+
+      //a = s.createElement( o )
+      var script = document.createElement( 'script' );
+
+      //m = s.getElementsByTagName( o )[0];
+      var scripts = document.getElementsByTagName( 'script' )[0];
+
+      //a.async = 1;
+      script.async = 1;
+
+      //a.src = g;
+      script.src = '//www.google-analytics.com/analytics.js';
+
+      //m.parentNode.insertBefore( a, m )
+      scripts.parentNode.insertBefore( script, scripts );
+
+      ga( 'create', 'UA-42400665-9', 'mymadison.io' );
+      ga( 'send', 'pageview' );
     };
 
     vendorService.installVendors = function() {
       $http.get( '/api/settings/vendors' )
         .success( function( data ) {
-          console.log( data );
           vendorService.settings = {
             "uservoice": data.uservoice,
             "ga": data.ga
