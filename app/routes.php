@@ -38,7 +38,18 @@ Route::get('modals/annotation_thanks', array(
 
 // Vendor Settings
 Route::get('api/settings/vendors', function () {
-    return ['uservoice' => $_ENV['USERVOICE'], 'ga' => $_ENV['GA']];
+    $uservoice = "";
+    $ga = "";
+
+    if(isset($_ENV['USERVOICE'])){
+        $uservoice = $_ENV['USERVOICE'];
+    }
+
+    if(isset($_ENV['GA'])){
+        $ga = $_ENV['GA'];
+    }
+
+    return ['uservoice' => $uservoice, 'ga' => $ga];
 });
 
 Route::post('groups/member/{memberId}/role', 'GroupsController@changeMemberRole');
