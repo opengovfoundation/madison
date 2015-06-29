@@ -270,12 +270,13 @@ $fallback-height: 350px;
 
 .toc-open .document-toc {
     left: 0;
+    @extend %simple-shadow;
 
     .toc-header {
         opacity: 0;
         width: 0;
         border: 0;
-        box-shadow: 0px 0px 0px $dark-grey;
+        @extend %simple-shadow;
     }
 }
 
@@ -283,7 +284,6 @@ $fallback-height: 350px;
 
 
     background: $lightest-grey;
-    box-shadow: 0px 0px 5px $dark-grey;
 
     // Floating sidebar
     position: fixed;
@@ -330,7 +330,7 @@ $fallback-height: 350px;
 
 
     background: $lightest-grey;
-    @include single-box-shadow( 0px, 0px, 5px, $dark-grey );
+    @extend %simple-shadow;
     border: 1px solid $light-medium-grey;
 
     .normal-title {

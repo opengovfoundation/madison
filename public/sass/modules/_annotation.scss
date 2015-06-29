@@ -87,6 +87,7 @@
     height: 100%;
     z-index: 10;
     background-color: $lighter-grey;
+    @extend %simple-shadow;
     padding: 0 0 (2 * $line-height-computed);
     // Pad the top to allow the header to float above it.
     margin-top: 0;
@@ -108,7 +109,7 @@
         width: 100%;
         position: fixed;
         top: 0;
-        z-index: 1000;
+        z-index: 11;
     }
 
     .annotation-list {
