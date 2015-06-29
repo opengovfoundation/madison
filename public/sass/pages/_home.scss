@@ -196,6 +196,12 @@
         @extend .title-underline-medium;
         @extend .medium-heading;
     }
+
+    .read-button {
+        position: absolute;
+        bottom: .5 * $line-height-computed;
+        right: 15px;
+    }
 }
 
 .doc-sponsor {
