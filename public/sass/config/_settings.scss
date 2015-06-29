@@ -47,3 +47,7 @@ $line-height-computed:    ($font-size-base * $line-height-base) !default; // 2re
 
 // Font units.
 $font-unit: 1rem;
+
+// Our custom transition.
+$transition-duration: 0.4s;
+$transition-easing: cubic-bezier(.62,.28,.23,.99);
