@@ -157,7 +157,7 @@ button {
 
 // Overlay shadows
 %simple-shadow {
-    @include single-box-shadow( 0px, 0px, 5px, 0px, $dark-grey );
+    @include single-box-shadow( 0px, 0px, 5px, 0px, $black );
 }
 
 /* Debugging */

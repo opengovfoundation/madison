@@ -331,7 +331,7 @@ $fallback-height: 350px;
 
     background: $lightest-grey;
     @extend %simple-shadow;
-    border: 1px solid $light-medium-grey;
+    //border: 1px solid $light-medium-grey;
 
     .normal-title {
         color: $light-medium-grey;
