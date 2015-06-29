@@ -298,7 +298,7 @@ $fallback-height: 350px;
 
     // Slide in/out
     left: $toc-width * -1;
-    @include single-transition(left, 0.4s, ease-in-out);
+    @include single-transition(left, $transition-duration, $transition-easing);
 
     .inner {
         // Setup for moving the header
@@ -307,7 +307,7 @@ $fallback-height: 350px;
 }
 .toc-header {
     // This goes invisible when the pane is open.
-    @include single-transition(all, 0.3s, ease-in-out);
+    @include single-transition(all, ($transition-duration - 0.1s), $transition-easing);
 
     // Shove the header all the way to the right, and out of the box.
     // Glue the top and bottom to the containing box.
