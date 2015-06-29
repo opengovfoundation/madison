@@ -34,9 +34,13 @@
                     <!--li>Updated <time class="updated" datetime="2015-03-15">15 Mar 2015</time></li-->
                 </ul>
             </div>
+
+            <div ng-if="!featured.introtext || featured.introtext === ''">
+                <a class="read-button" href="{{ featured.url }}" rel="bookmark" role="button" title="Read more on {{doc.title}}">Read More</a>
+            </div>
         </header>
 
-        <div class="doc-content">
+        <div class="doc-content" ng-if="featured.introtext">
             <div class="doc-summary entry-summary">
                 {{ featured.introtext }}
             </div>
