@@ -11,7 +11,7 @@ class CommentApiController extends ApiController
         $this->beforeFilter('auth', array('on' => array('post', 'put', 'delete')));
     }
 
-    public function getIndex($doc, $comment = null)
+    public function getIndex($doc)
     {
         try {
             $userId = null;
@@ -19,13 +19,32 @@ class CommentApiController extends ApiController
                 $userId = Auth::user()->id;
             }
 
-            $results = Comment::loadComments($doc, $comment, $userId);
+            $parentId = Input::get('parent_id');
+
+            $results = Comment::loadComments($doc, $parentId, $userId);
         } catch (Exception $e) {
             throw $e;
             App::abort(500, $e->getMessage());
         }
 
         return Response::json($results);
+    }
+
+    public function getComment($doc, $commentId)
+    {
+        try {
+            $userId = null;
+            if (Auth::check()) {
+                $userId = Auth::user()->id;
+            }
+
+            $result = Comment::loadComment($doc, $commentId, $userId);
+        } catch (Exception $e) {
+            throw $e;
+            App::abort(500, $e->getMessage());
+        }
+
+        return Response::json($result);
     }
 
     public function postIndex($doc)

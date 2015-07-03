@@ -37,8 +37,12 @@
   <section class="annotation-list">
     <article ng-repeat="annotation in currentGroup.annotations" class="annotation">
 
-      <blockquote ng-repeat="highlight in annotation.highlights">
-        &quot;{{ highlight.textContent }}&quot;
+      <blockquote>
+        &quot;
+          <span ng-repeat="highlight in annotation.highlights">
+            {{ highlight.textContent }}
+          </span>
+        &quot;
       </blockquote>
 
       <header class="annotation-header">
@@ -50,14 +54,11 @@
         {{ annotation.text }}
       </section>
 
+      <comment-actions object="annotation"></comment-actions>
+
       <footer>
         <div class="reply-action">
           <a ng-click="showCommentForm($event)">Add your reply</a>
-        </div>
-        <div class="activity-actions">
-          <span class="thumbs-up" ng-click="addAction(annotation, 'likes', $event)">{{ annotation.likes || '0' }}</span>
-          <span class="thumbs-down" ng-click="addAction(annotation, 'dislikes', $event)">{{ annotation.dislikes || '0' }}</span>
-          <span class="flag" ng-click="addAction(annotation, 'flags', $event)">{{ annotation.flags || '0' }}</span>
         </div>
       </footer>
       <section class="comments">
@@ -69,6 +70,7 @@
           <section class="content">
             {{ comment.text }}
           </section>
+          <comment-actions object="comment"></comment-actions>
         </article>
       </section>
       <section class="subcomment-form">

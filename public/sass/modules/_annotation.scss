@@ -87,6 +87,7 @@
     height: 100%;
     z-index: 10;
     background-color: $lighter-grey;
+    @extend %simple-shadow;
     padding: 0 0 (2 * $line-height-computed);
     // Pad the top to allow the header to float above it.
     margin-top: 0;
@@ -108,7 +109,7 @@
         width: 100%;
         position: fixed;
         top: 0;
-        z-index: 1000;
+        z-index: 11;
     }
 
     .annotation-list {
@@ -145,12 +146,12 @@
         margin-right: 0;
         padding-left: 0;
         padding-right: 0;
-        @extend .title-underline-medium;
+        @extend .title-underline-thin;
         border-color: $light-medium-grey;
     }
 }
 
-.annotation-pane, .comments-pane {
+.annotation-pane {
     article {
         padding: $line-height-computed 0 0;
         margin: 0 20px;
@@ -187,6 +188,10 @@
         font-size: 0.75rem;
         font-style: italic;
     }
+}
+
+.annotation:not(:last-child) {
+    @extend .title-underline-medium;
 }
 
 .subcomment-form {

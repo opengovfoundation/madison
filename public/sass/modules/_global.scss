@@ -155,6 +155,19 @@ button {
     }
 }
 
+// Loading widget.
+.loading {
+    @extend .fa;
+    @extend .fa-spinner;
+    @extend .fa-spin;
+    font-size: 1rem;
+}
+
+// Overlay shadows
+%simple-shadow {
+    @include single-box-shadow( 0px, 0px, 5px, 0px, $black );
+}
+
 /* Debugging */
 
 // Things that need functionality added to templates.

@@ -130,7 +130,7 @@ Route::controller('dashboard', 'DashboardController');
     //Document Comment Routes
     Route::post('api/docs/{doc}/comments', 'CommentApiController@postIndex');
     Route::get('api/docs/{doc}/comments', 'CommentApiController@getIndex');
-    Route::get('api/docs/{doc}/comments/{comment?}', 'CommentApiController@getIndex');
+    Route::get('api/docs/{doc}/comments/{comment?}', 'CommentApiController@getComment');
     Route::post('api/docs/{doc}/comments/{comment}/likes', 'CommentApiController@postLikes');
     Route::post('api/docs/{doc}/comments/{comment}/dislikes', 'CommentApiController@postDislikes');
     Route::post('api/docs/{doc}/comments/{comment}/flags', 'CommentApiController@postFlags');
