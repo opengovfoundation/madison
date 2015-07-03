@@ -1,0 +1,66 @@
+<header class="doc-info">
+	<h3 class="subheading">
+		<a href="{{ doc.url }}">{{ doc.title }}</a>
+	</h3>
+  <div class="doc-sponsor">
+    Sponsored by
+    <ul>
+      <li ng-repeat="sponsor in doc.sponsor">
+        {{ sponsor.display_name }}
+      </li>
+    </ul>
+  </div>
+	<div class="doc-categories">
+    <ul>
+  	  <li class="category" ng-repeat="category in doc.categories"><span>{{ category.name }}</span></li>
+    </ul>
+	</div>
+	<div class="doc-statuses">
+	  <span class="status" ng-repeat="status in doc.statuses">{{ status.label }}</span>
+	</div>
+</header>
+<div class="doc-meta">
+	<div class="list-doc-info">
+    <div ng-hide="doc.updated_at" class="date">
+      Posted <time class="published doc-created-date" datetime="{{ doc.created_at }}"
+      >{{ doc.created_at | date:'mediumDate' }}</time>
+    </div>
+    <div ng-show="doc.updated_at" class="date">
+      Updated <time class="updated doc-updated-date" datetime="{{ doc.updated_at }}"
+      >{{ doc.updated_at | date:'mediumDate' }}</time>
+    </div>
+
+    <table class="stats">
+      <thead>
+        <tr>
+          <th>Value</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="stats-value">{{doc.comment_count}}</td>
+          <td class="stats-name">Comments</td>
+        </tr>
+        <tr>
+          <td class="stats-value">{{doc.annotation_count}}</td>
+          <td class="stats-name">Annotations</td>
+        </tr>
+        <tr>
+          <td class="stats-value">{{doc.user_count}}</td>
+          <td class="stats-name">Collaborators</td>
+        </tr>
+      </tbody>
+    </table>
+
+	  <ul class="doc-dates">
+	    <li class="date" ng-repeat="date in doc.dates">
+        <time class="doc-other-date" datetime="{{ date.date }}"
+          {{ date.label }} on {{ date.date | date:'mediumDate' }}</time>
+      </li>
+	  </span>
+	</div>
+  <div class="read-action">
+    <a class="action-button button" role="button" href="{{ doc.url }}">Read Document</a>
+  </div>
+</div>
