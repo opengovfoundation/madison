@@ -74,6 +74,8 @@ angular.module('madisonApp.controllers')
               //Then count the unique users for the responses to each annotation.
               for(var commentIndex in annotation.comments) {
                 var comment = annotation.comments[commentIndex];
+                annotation.comments[commentIndex].label = 'comment';
+                annotation.comments[commentIndex].doc_id = annotation.doc_id;
                 if(annotationGroup.users.indexOf(comment.user.id) < 0) {
                   annotationGroup.users.push(comment.user.id);
                 }
@@ -127,6 +129,7 @@ angular.module('madisonApp.controllers')
                 angular.forEach(comment.comments, function (subcomment) {
                   if (subcomment.id == $scope.subCommentId) {
                     collapsed = false;
+                    subcomment.label = 'comment';
                   }
                 });
               }

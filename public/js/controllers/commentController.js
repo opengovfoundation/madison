@@ -5,6 +5,9 @@ angular.module('madisonApp.controllers')
       $scope.supported = null;
       $scope.opposed = false;
       $scope.collapsed_comment = {};
+      $scope.showReplyForm = {};
+      $scope.showReplies = {};
+      $scope.loadingReplies = {};
 
       // Parse comment/subcomment direct links
       var hash = $location.hash();
@@ -45,6 +48,7 @@ angular.module('madisonApp.controllers')
               comment.commentsCollapsed = true;
               comment.label = 'comment';
               comment.link = 'comment_' + comment.id;
+              comment.comments = [];
 
               // We only want to push top-level comments, they will include
               // subcomments in their comments array(s)
@@ -133,22 +137,6 @@ angular.module('madisonApp.controllers')
         return popularity;
       };
 
-      $scope.addAction = function (activity, action, $event) {
-        if ($scope.user.id !== '') {
-          $http.post('/api/docs/' + $scope.doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
-            .success(function (data) {
-              activity.likes = data.likes;
-              activity.dislikes = data.dislikes;
-              activity.flags = data.flags;
-            }).error(function (data) {
-              console.error(data);
-            });
-        } else {
-          loginPopupService.showLoginForm($event);
-        }
-
-      };
-
       $scope.collapseComments = function (activity) {
         activity.commentsCollapsed = !activity.commentsCollapsed;
       };
@@ -169,5 +157,48 @@ angular.module('madisonApp.controllers')
             console.error(data);
           });
       };
+
+      $scope.toggleReplies = function(comment, $event) {
+        if(comment.replyCount > 0 && comment.comments.length === 0) {
+          $scope.loadingReplies[comment.id] = true;
+          $http({
+            method: 'GET',
+            url: '/api/docs/' + comment.doc_id + '/comments',
+            params: {'parent_id' : comment.id}
+          })
+          .success(function (data) {
+            comment.comments = data;
+            var commentsLength = comment.comments.length;
+            for(i = 0; i < commentsLength; i++) {
+              comment.comments[i].label = 'comment';
+            }
+            $scope.toggleReplies(comment, $event);
+            $scope.loadingReplies[comment.id] = false;
+          });
+        }
+        else {
+          if($scope.showReplies[comment.id] === 'undefined' || !$scope.showReplies[comment.id]) {
+            $scope.showReplies[comment.id] = true;
+          }
+          else {
+            $scope.showReplies[comment.id] = false;
+          }
+        }
+      };
+
+      $scope.toggleReplyForm = function(comment, $event) {
+        if ($scope.user && $scope.user.id !== '') {
+          if($scope.showReplyForm[comment.id] === 'undefined' || !$scope.showReplyForm[comment.id]) {
+            $scope.showReplyForm[comment.id] = true;
+          }
+          else {
+            $scope.showReplyForm[comment.id] = false;
+          }
+        } else {
+          loginPopupService.showLoginForm($event);
+        }
+
+      };
+
     }
     ]);

@@ -75,10 +75,6 @@
     margin-top: $line-height-computed;
 }
 
-.comments-pane {
-    margin-top: $line-height-computed;
-}
-
 .doc-secondary-content {
     @extend .col-md-8;
 
@@ -243,6 +239,57 @@
         margin-left: 4rem;
         font-family: $fancy-font;
         font-style: italic;
+    }
+}
+
+/* Comments */
+
+.comment-thread {
+    margin-top: $line-height-computed;
+    font-size: 0.85rem;
+}
+
+.comment {
+    padding-bottom: calc(#{$line-height-computed} - 1px);
+    border-bottom: 1px solid $black;
+    margin-bottom: $line-height-computed;
+
+    &:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+        margin-bottom: $line-height-computed;
+    }
+
+    .content {
+        padding: (.5 * $line-height-computed) 25px;
+    }
+}
+
+.toggle-replies {
+    display: inline-block;
+}
+
+.login-message {
+    display: block;
+}
+
+.replies, .reply {
+    margin-left: 50px;
+}
+
+.replies {
+    margin-bottom: $line-height-computed;
+}
+
+.comment-reply {
+    margin-top: $line-height-computed;
+}
+
+.reply {
+    margin-top: $line-height-computed;
+
+    textarea {
+        height: 2 * $line-height-computed;
     }
 }
 

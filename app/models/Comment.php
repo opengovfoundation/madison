@@ -53,6 +53,11 @@ class Comment extends Eloquent implements ActivityInterface
         return $flags;
     }
 
+    public function replyCount()
+    {
+        return (int) static::where('parent_id', $this->id)->count();
+    }
+
     public function loadArray($userId = null)
     {
         $item = $this->toArray();
@@ -61,7 +66,7 @@ class Comment extends Eloquent implements ActivityInterface
         $item['likes'] = $this->likes();
         $item['dislikes'] = $this->dislikes();
         $item['flags'] = $this->flags();
-        $item['comments'] = array();
+        $item['replyCount'] = $this->replyCount();
 
         return $item;
     }
@@ -156,12 +161,23 @@ class Comment extends Eloquent implements ActivityInterface
         return $item;
     }
 
-    public static function loadComments($docId, $commentId, $userId)
+    /**
+     * Load multiple Comments.
+     *
+     * @param int $docId the document id.
+     * @param int $parentId the comment's parent.
+     * @param int $userId the owner's user id.
+     */
+    public static function loadComments($docId, $parentId = null, $userId = null)
     {
         $comments = static::where('doc_id', '=', $docId)->with('user');
 
-        if (!is_null($commentId)) {
-            $comments->where('id', '=', $commentId);
+        if (!is_null($parentId)) {
+            $comments->where('parent_id', '=', $parentId);
+        }
+        // If we don't have a $parentId, only return top-level comments.
+        else {
+            $comments->whereNull('parent_id');
         }
 
         $comments = $comments->get();
@@ -173,6 +189,30 @@ class Comment extends Eloquent implements ActivityInterface
 
         return $retval;
     }
+
+    /**
+     * Load a single Comment.
+     *
+     * @param int $docId the document id.
+     * @param int $commentId the comment id.
+     * @param int $userId the owner's user id.
+     */
+    public static function loadComment($docId, $commentId, $userId = null)
+    {
+        $comments = static::where('doc_id', '=', $docId)->with('user');
+
+        $comments->where('id', '=', $commentId);
+
+        $comments = $comments->get();
+
+        $retval = array();
+        foreach ($comments as $comment) {
+            $retval[] = $comment->loadArray();
+        }
+
+        return $retval;
+    }
+
 
     /**
      *   Include link to annotation when converted to array.

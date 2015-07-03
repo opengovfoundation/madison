@@ -146,12 +146,12 @@
         margin-right: 0;
         padding-left: 0;
         padding-right: 0;
-        @extend .title-underline-medium;
+        @extend .title-underline-thin;
         border-color: $light-medium-grey;
     }
 }
 
-.annotation-pane, .comments-pane {
+.annotation-pane {
     article {
         padding: $line-height-computed 0 0;
         margin: 0 20px;
@@ -188,6 +188,10 @@
         font-size: 0.75rem;
         font-style: italic;
     }
+}
+
+.annotation:not(:last-child) {
+    @extend .title-underline-medium;
 }
 
 .subcomment-form {
