@@ -1,0 +1,82 @@
+<div class="home-feature">
+    <article class="main-feature hentry doc doc-full" ng-class="{'has-image' : featured.thumbnail}"
+        style="background-image: url({{ featured.thumbnail }})">
+
+        <header class="doc-info">
+            <h2 class="heading entry-title">
+                <a href="{{ featured.url }}" rel="bookmark" title="Read more on {{ featured.title }}">{{ featured.title }}</a>
+            </h2>
+
+            <div class="doc-sponsor" ng-if="featured.sponsor">
+                Sponsored by
+                <ul>
+                  <li ng-repeat="sponsor in featured.sponsor" class="author">
+                    {{ sponsor.display_name }}
+                  </li>
+                </ul>
+            </div>
+
+            <div class="doc-stats">
+                <ul>
+                    <li>{{ featured.comment_count }} Comments</li>
+                    <li>{{ featured.annotation_count }} Annotations</li>
+                    <li>
+                        <span ng-hide="featured.updated_at" class="date">
+                          Posted <time class="published doc-created-date" datetime="{{ featured.created_at }}"
+                          >{{ featured.created_at | date:'mediumDate' }}</time>
+                        </span>
+                        <span ng-show="featured.updated_at" class="date">
+                          Updated <time class="updated doc-updated-date" datetime="{{ featured.updated_at }}"
+                          >{{ featured.updated_at | date:'mediumDate' }}</time>
+                        </span>
+                    </li>
+                    <!-- OR -->
+                    <!--li>Updated <time class="updated" datetime="2015-03-15">15 Mar 2015</time></li-->
+                </ul>
+            </div>
+
+            <div ng-if="!featured.introtext || featured.introtext === ''">
+                <a class="read-button" href="{{ featured.url }}" rel="bookmark" role="button" title="Read more on {{doc.title}}">Read More</a>
+            </div>
+        </header>
+
+        <div class="doc-content" ng-if="featured.introtext">
+            <div class="doc-summary entry-summary">
+                {{ featured.introtext }}
+            </div>
+            <a class="read-button" href="{{ featured.url }}" rel="bookmark" role="button" title="Read more on {{doc.title}}">Read More</a>
+        </div>
+    </article>
+
+    <section class="previous-features">
+        <span class="message">
+            Active Legislation
+        </span>
+
+        <div class="recent-activity">
+            <h2>Recent Activity</h2>
+
+            <article ng-repeat="doc in mostRecent | toArray">
+                <a href="/docs/{{ doc.slug }}" class="title">&quot;{{ doc.title }}&quot;</a>
+                <span class="date">updated
+                    <time class="updated" datetime="{{ doc.updated_at }}">{{ doc.updated_at | timeAgo }}</time>
+                </span>
+            </article>
+        </div>
+
+        <div class="most-active">
+            <h2>Most Active Documents</h2>
+
+            <article ng-repeat="doc in mostActive | toArray">
+                <a href="/docs/{{ doc.slug }}" class="title">&quot;{{ doc.title }}&quot;</a>
+                <div class="doc-stats">
+                    <ul>
+                        <li>{{ doc.comment_count }} Comments</li>
+                        <li>{{ doc.annotation_count }} Annotations</li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+    </section>
+
+</div>

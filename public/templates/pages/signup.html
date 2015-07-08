@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="md-col-12">
+    <h1>Signup</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <form ng-submit="signup()">
+      <!-- First Name -->
+      <div class="form-group">
+        <label for="fname">First Name</label>
+        <input type="text" name="fname" placeholder="First Name" ng-model="credentials.fname" class="form-control">
+      </div>
+      <!-- Last Name -->
+      <div class="form-group">
+        <label for="lname">Last Name</label>
+        <input type="text" name="lname" placeholder="Last Name" ng-model="credentials.lname" class="form-control">
+      </div>
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" name="email" placeholder="Email" ng-model="credentials.email" class="form-control">
+      </div>
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" placeholder="Password" ng-model="credentials.password" class="form-control">
+      </div>
+      <!-- Submit -->
+      <button class="button action-button go-button">Sign Up</button>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div social-login message="Sign up"></div>
+</div>

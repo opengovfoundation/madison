@@ -1,0 +1,48 @@
+<div admin-breadcrumb></div>
+<section class="my-documents-list">
+  <header>
+    <h1>My Documents</h1>
+  </header>
+  <p ng-if="!canCreate">You are not authorized to create documents.  Go to the <a href="/user/edit/{{ user.id }}">Account Settings</a> page to request Independent Sponsor status or the <a href="/groups">Group Management</a> page to create a group.</p>
+  <div class="document-list" ng-if="canCreate">
+    <strong><a ng-click="scrollTo('create-document-wrapper')">Create a document</a></strong>
+    <article class="independent-docs">
+      <h2 class="small-heading">Independently authored documents:</h2>
+      <ul>
+        <li ng-repeat="doc in docs.independent">
+          <a href="/documents/edit/{{ doc.id }}">{{ doc.title }}</a>
+        </li>
+      </ul>
+    </article>
+    <article class="group-docs">
+      <h2 class="small-heading">Group authored documents:</h2>
+      <ul>
+        <li ng-repeat="group in docs.group">
+          <span class="group-author">{{ group.name }}</span>
+          <ul ng-if="group.docs.length > 0">
+            <li ng-repeat="doc in group.docs">
+              <a href="/dashboard/docs/{{ doc.id }}">{{ doc.title }}</a>
+            </li>
+          </ul>
+          <div ng-if="group.docs.length == 0" class="group-docs-empty">
+            There are no documents for this group.
+          </div>
+        </li>
+      </ul>
+    </article>
+  </div>
+</section>
+<section class="create-document-wrapper" id="create-document-wrapper" ng-if="canCreate">
+  <header>
+    <h1>Create Document</h1>
+  </header>
+  <div class="create-document">
+    <form action="" id="create-document-form" class="create-document-form">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" class="form-control" placeholder="Document Title" ng-model="newDocTitle">
+      </div>
+      <button ng-click="createDocument()" class="create-document-button">Create Document</button>
+    </form>
+  </div>
+</section>

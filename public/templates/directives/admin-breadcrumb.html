@@ -1,0 +1,8 @@
+<nav>
+    <ol class="breadcrumb">
+      <li ng-repeat="crumb in crumbs" ng-class="{active: !crumb.link}">
+        <a ng-if="crumb.link" href="{{ crumb.link }}">{{ crumb.label }}</a>
+        <span ng-if="!crumb.link">{{ crumb.label }}</span>
+      </li>
+    </ol>
+</nav>

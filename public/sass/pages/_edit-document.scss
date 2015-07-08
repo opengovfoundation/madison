@@ -1,0 +1,98 @@
+.public-link {
+    float:right;
+}
+
+//Overrides
+.document-edit-tabs {
+    .nav-tabs {
+        @extend .row;
+        border-bottom: none;
+
+        padding-left: 10px;
+        li {
+            a {
+                padding: 0 15px;
+                // This completes the rhythm.
+                line-height: $line-height-computed;
+                border: none;
+                &:hover, &:active {
+                    border: none;
+                }
+                background-color: $green;
+                color: $white;
+
+                @extend .small-caps;
+                font-weight: bold;
+            }
+            &.active a {
+                background-color: $lighter-grey;
+                color: $black;
+                border: none;
+            }
+        }
+    }
+
+    .tab-pane {
+
+        .wmd-input {
+            height:100%;
+        }
+
+        .wmd-preview {
+            margin-top:0;
+        }
+
+        .wmd-button-row {
+            height:1rem;
+        }
+
+        .doc-content {
+            float:none;
+            height:40rem;
+            overflow:hidden;
+        }
+    }
+
+
+}
+
+.save-document-button {
+    @extend .button;
+    @extend .go-button;
+    @extend .action-button;
+
+    //This really shouldn't be necessary.  Not sure why it isn't lining up.
+    top:-3px;
+    position:relative;
+}
+
+
+.document-information {
+    @extend .col-md-14;
+}
+
+.document-dates {
+    margin-top:3 * $line-height-computed;
+    @extend .col-md-7;
+    @extend .col-md-offset-1;
+
+    .dates-header {
+        @extend .row;
+    }
+
+    .existing-date {
+        @extend .row;
+    }
+
+    .dates {
+        @extend .row;
+    }
+
+    .datetimepicker {
+        background:$light-grey;
+
+        table {
+            width:100%;
+        }
+    }
+}

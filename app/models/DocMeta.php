@@ -1,22 +1,22 @@
 <?php
 /**
- * 	Document meta model
+ * 	Document meta model.
  */
-class DocMeta extends Eloquent{
-	protected $table = 'doc_meta';
+class DocMeta extends Eloquent
+{
+    protected $table = 'doc_meta';
 
-	protected $softDelete = true;
-	public static $timestamp = true;
-	
-	//Document this meta is describing
-	public function doc(){
-		return $this->belongsTo('Doc');
-	}
+    protected $softDelete = true;
+    public static $timestamp = true;
 
-	public function user(){
-		return $this->belongsTo('User');
-	}
-	
-	
+    //Document this meta is describing
+    public function doc()
+    {
+        return $this->belongsTo('Doc');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('User');
+    }
 }
-

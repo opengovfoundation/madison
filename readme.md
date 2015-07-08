@@ -8,16 +8,14 @@ Madison is an open-source, collaborative document editing platform.  While Madis
 
 If you have questions about Madison, please open an issue and we will try to respond as soon as possible.
 
-Check out the [Madison Wiki](https://github.com/opengovfoundation/madison/wiki) or jump right into the [Madison Architecture](https://github.com/opengovfoundation/madison/wiki/madison-architecture/) for more information on the project.
+Check out the [Madison Documentation](http://madison.readthedocs.org/en/dev/) or jump right into the [Issue Log](https://github.com/opengovfoundation/madison/issues) for more information on the project.
 
 ## Installation
 
-Please take a look at the [Installation Instructions](install.md) for how to install Madison.
+Please take a look at the [Madison Documentation](http://madison.readthedocs.org/en/dev/) for how to install Madison.
 
 ## How to help
 
-Take a look at the [Project Notes](project.md)
-
-* Claim an issue, comment on an issue, or submit a pull request to resolve one
+* Open an issue, claim an issue, comment on an issue, or submit a pull request to resolve one
 * Document Madison - wiki documentation, installation guide, or docblocks internally
 * Clean up existing code - I'm sure we've taken shortcuts or added lazy code somewhere.

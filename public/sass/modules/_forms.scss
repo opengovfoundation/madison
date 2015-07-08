@@ -1,0 +1,49 @@
+label {
+    margin-bottom: 0;
+    margin-top:1rem;
+}
+
+.help-block {
+    margin:0;
+}
+
+.form-control {
+    height:$line-height-computed;
+}
+
+.form-group {
+    margin-bottom:1rem;
+    margin-top:1rem;
+
+    button{
+      margin-top:1rem;
+    }
+}
+
+.checkbox {
+    input[type="checkbox"] {
+        position:relative;
+        margin-left: 0;
+    }
+
+    margin-bottom:0;
+}
+
+.select2-container {
+    width:100%;
+
+    .select2-choice {
+        height:$line-height-computed;
+        line-height:$line-height-computed;
+    }
+}
+
+.select2-container-multi {
+    .select2-choices {
+        .select2-search-field {
+            input {
+                height:$line-height-computed;
+            }
+        }
+    }
+}

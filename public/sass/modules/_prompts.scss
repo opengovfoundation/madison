@@ -1,0 +1,30 @@
+.prompts {
+    position:relative;
+    $prompt-height: 2 * $line-height-computed;
+    background-color: $green;
+    text-align: center;
+    color: $white;
+
+    margin-bottom: $line-height-computed;
+
+    .prompt-message {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+        line-height: $prompt-height;
+    }
+
+    a {
+        color: $white;
+        text-decoration: underline;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    .prompt-close {
+        position:absolute;
+        top:1.5rem;
+        right:3rem;
+        cursor:pointer;
+    }
+}

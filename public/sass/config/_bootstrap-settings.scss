@@ -1,0 +1,50 @@
+/*
+ * Bootstrap-specific settings.
+ */
+
+// Fonts, relative sizing overrides for ems.
+$header-height: 2 * $line-height-computed;
+
+// Page settings
+// We want our page a little wider than the default.
+$container-large-desktop: 1266px;
+
+// Double the columns for more granularity.
+$grid-columns: 24;
+
+// Colors
+$headline-color: $black;
+$text-color: $black;
+
+$link-color: $blue;
+$link-hover-color: $blue;
+$link-hover-decoration: underline;
+
+
+// Buttons
+$btn-primary-bg: $blue;
+$btn-primary-border: transparent;
+$btn-success-bg: $green;
+$btn-success-border: transparent;
+$btn-info-bg: $yellow;
+$btn-info-border: transparent;
+$btn-warning-bg: $orange;
+$btn-warning-border: transparent;
+$btn-danger-bg: $red;
+$btn-danger-border: transparent;
+
+$font-family-sans-serif: $main-font;
+$font-family-serif: $accent-font;
+
+// Navbar
+$navbar-height: $header-height;
+$navbar-margin-bottom: 0;
+$navbar-border-radius: 0;
+$border-radius-base: 7px;
+
+
+$nav-tabs-border-color: transparent;
+$nav-tabs-link-hover-border-color: transparent;
+$nav-tabs-active-link-hover-border-color: transparent;
+$nav-tabs-justified-link-border-color: transparent;
+$nav-tabs-justified-active-link-border-color: transparent;

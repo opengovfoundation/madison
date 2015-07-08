@@ -1,0 +1,53 @@
+/*
+ * Settings for our app.
+ */
+
+$fa-font-path: '/build/fonts';
+
+// Main colors.
+$white: #ffffff;
+$black: #000000;
+$blue: #00cae5;
+$green: #8ce500;
+$yellow: #f2da00;
+$orange: #ff9d00;
+$red: #e50b18;
+
+// Secondary colors.
+$dark-grey: #4a4f51;
+$medium-grey: #929292;
+$light-medium-grey: #b3b3b3;
+$light-grey: #d7d7d7;
+$lighter-grey: #f5f5f5;
+$lightest-grey: #f9f9f9;
+
+$modal-background: rgba(0,0,0, 0.5);
+
+// Fonts.
+$main-font: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$accent-font: 'Patua One', Georgia, 'Times New Roman', Times, serif;
+$fancy-font: 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
+$code-font: monospace;
+
+// Use this on all text blocks.
+$side-padding: 20px;
+$vertical-padding: 1rem;
+
+// Typography.
+
+// Our default baseline font size is 16px with a line height of 32px.  You can
+// change that here.
+$font-size-base: 1rem;
+
+// No units on our line height!
+$line-height-base: 1.625;
+
+// Line height with units.
+$line-height-computed:    ($font-size-base * $line-height-base) !default; // 2rem
+
+// Font units.
+$font-unit: 1rem;
+
+// Our custom transition.
+$transition-duration: 0.4s;
+$transition-easing: cubic-bezier(.62,.28,.23,.99);

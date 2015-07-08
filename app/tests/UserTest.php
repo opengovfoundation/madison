@@ -1,7 +1,5 @@
 <?php
 
-use Way\Tests\Assert;
-use Way\Tests\Should;
 
 class UserTest extends TestCase
 {
@@ -10,13 +8,14 @@ class UserTest extends TestCase
     protected $user;
 
     /**
-    *   setUp
-    *   
-    *   Runs before each test
-    *       Stubs $this->user
-    *       Truncates User table
-    */
-    public function setUp(){
+     *   setUp.
+     *
+     *   Runs before each test
+     *       Stubs $this->user
+     *       Truncates User table
+     */
+    public function setUp()
+    {
         parent::setUp();
 
         Eloquent::unguard();
@@ -30,15 +29,17 @@ class UserTest extends TestCase
     }
 
     /**
-    *   stubUser
-    *
-    *   Helper function to stub a generic User
-    *  
-    *   @param void
-    *   @return User $user 
-    */
-    protected function stubUser(){
-        $user = new User;
+     *   stubUser.
+     *
+     *   Helper function to stub a generic User
+     *
+     *   @param void
+     *
+     *   @return User $user
+     */
+    protected function stubUser()
+    {
+        $user = new User();
         $user->email = 'user@mymadison.io';
         $user->password = 'password';
         $user->fname = 'First';
@@ -48,14 +49,16 @@ class UserTest extends TestCase
     }
 
     /**
-    *   stubOauthUser
-    *
-    *   Helper function to stub a Facebook Oauth User
-    *
-    *   @param void
-    *   @return User $user
-    */
-    protected function stubOAuthUser(){
+     *   stubOauthUser.
+     *
+     *   Helper function to stub a Facebook Oauth User
+     *
+     *   @param void
+     *
+     *   @return User $user
+     */
+    protected function stubOAuthUser()
+    {
         $user = $this->stubUser();
         unset($user->password);
         $user->oauth_vendor = 'facebook';
@@ -66,30 +69,33 @@ class UserTest extends TestCase
     }
 
     /**
-    *   stubTwitterUser
-    *
-    *   Helper function to stub a Twitter OAuth User
-    *
-    *   @param void
-    *   @return User $user
-    */
-    protected function stubTwitterUser(){
+     *   stubTwitterUser.
+     *
+     *   Helper function to stub a Twitter OAuth User
+     *
+     *   @param void
+     *
+     *   @return User $user
+     */
+    protected function stubTwitterUser()
+    {
         $user = $this->stubUser();
         unset($user->email);
         unset($user->password);
         $user->oauth_vendor = 'twitter';
         $user->oauth_id = '11111111';
         $user->oauth_update = 1;
-        
+
         return $user;
     }
 
     /**
-    *   @test
-    */
-    public function fname_is_required() {
+     *   @test
+     */
+    public function fname_is_required()
+    {
         unset($this->user->fname);
-        
+
         $this->assertFalse($this->user->save());
 
         $errors = $this->user->getErrors()->all();
@@ -102,9 +108,10 @@ class UserTest extends TestCase
     }
 
     /**
-    *   @test
-    */
-    public function lname_is_required() {
+     *   @test
+     */
+    public function lname_is_required()
+    {
         unset($this->user->lname);
 
         $this->assertFalse($this->user->save());
@@ -116,9 +123,10 @@ class UserTest extends TestCase
     }
 
     /**
-    *   @test
-    */
-    public function signup_rules_set_correctly(){
+     *   @test
+     */
+    public function signup_rules_set_correctly()
+    {
         $rules = $this->user->mergeRules();
 
         $this->assertArrayHasKey('fname', $rules);
@@ -133,26 +141,28 @@ class UserTest extends TestCase
     }
 
     /**
-    *   @test
-    */
-    public function update_rules_set_correctly(){
+     *   @test
+     */
+    public function update_rules_set_correctly()
+    {
         $this->user->save();
         $rules = $this->user->mergeRules();
 
         $expected_rules = array(
             'fname'     => 'required',
             'lname'     => 'required',
-            'email'     => 'required|unique:users,email,' . $this->user->id,
-            'password'  => 'required'
+            'email'     => 'required|unique:users,email,'.$this->user->id,
+            'password'  => 'required',
         );
 
         $this->assertEquals($expected_rules, $rules);
     }
 
     /**
-    *   @test
-    */
-    public function social_login_rules_set_correctly(){
+     *   @test
+     */
+    public function social_login_rules_set_correctly()
+    {
         $oauth_user = $this->stubOAuthUser();
         $rules = $oauth_user->mergeRules();
 
@@ -162,16 +172,17 @@ class UserTest extends TestCase
             'email'         => 'required|unique:users',
             'oauth_vendor'  => 'required',
             'oauth_id'      => 'required',
-            'oauth_update'  => 'required'
+            'oauth_update'  => 'required',
         );
-        
+
         $this->assertEquals($expected_rules, $rules);
     }
 
     /**
-    *   @test
-    */
-    public function twitter_login_rules_set_correctly(){
+     *   @test
+     */
+    public function twitter_login_rules_set_correctly()
+    {
         $twitter_user = $this->stubTwitterUser();
         $rules = $twitter_user->mergeRules();
 
@@ -180,24 +191,25 @@ class UserTest extends TestCase
             'lname' => 'required',
             'oauth_vendor'  => 'required',
             'oauth_id'      => 'required',
-            'oauth_update'  => 'required'
+            'oauth_update'  => 'required',
         );
 
         $this->assertEquals($expected_rules, $rules);
     }
 
     /**
-    *   @test
-    */
-    public function email_must_be_unique(){
+     *   @test
+     */
+    public function email_must_be_unique()
+    {
         $this->user->save();
 
-        $dupe = new User;
+        $dupe = new User();
         $dupe->fname = "Some";
         $dupe->lname = "Name";
         $dupe->email = "user@mymadison.io";
         $dupe->password = "something";
-        
+
         $dupe->rules = $dupe->mergeRules();
         $this->assertFalse($dupe->validate());
 
@@ -209,32 +221,36 @@ class UserTest extends TestCase
     }
 
     /**
-    *   @test
-    */
-    public function user_saved_correctly(){
+     *   @test
+     */
+    public function user_saved_correctly()
+    {
         $this->assertTrue($this->user->save());
         $this->assertTrue($this->user->exists);
     }
 
     /**
-    *   @test
-    */
-    public function hashes_password(){
+     *   @test
+     */
+    public function hashes_password()
+    {
         //Test that the password gets hashed
         $this->assertNotEquals($this->user->password, 'password');
     }
 
     /**
-    *   @test
-    */
-    public function display_name(){
+     *   @test
+     */
+    public function display_name()
+    {
         $this->assertEquals('First Last', $this->user->getDisplayName());
     }
 
     /**
-    *   @test
-    */
-    public function twitter_signup_saves() {
+     *   @test
+     */
+    public function twitter_signup_saves()
+    {
         unset($this->user->email);
         unset($this->user->password);
 
@@ -249,9 +265,10 @@ class UserTest extends TestCase
     }
 
     /**
-    *   @test
-    */
-    public function facebook_signup_saves(){
+     *   @test
+     */
+    public function facebook_signup_saves()
+    {
         unset($this->user->password);
 
         $this->user->oauth_vendor = 'facebook';
@@ -259,7 +276,6 @@ class UserTest extends TestCase
         $this->user->oauth_update = 1;
 
         $this->assertTrue($this->user->save());
-        $this->assertTrue($this->user->exists); 
+        $this->assertTrue($this->user->exists);
     }
-
 }

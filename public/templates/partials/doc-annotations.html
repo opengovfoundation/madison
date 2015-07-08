@@ -1,0 +1,86 @@
+<h2 class="normal-title">Annotations <a href="/api/docs/{{ doc.slug }}/feed" class="rss-link" target="_self" title="RSS feed link">RSS</a></h2>
+<div id="participate-activity" class="participate-activity">
+  <div class="activity-thread">
+    <div ng-hide="annotations.length">
+      No annotations yet. Add your own!
+    </div>
+
+    <div class="annotation-group" ng-repeat="annotationGroup in annotationGroups" style="top: {{ annotationGroup.top }}" ng-click="showAnnotations(annotationGroup)">
+        <span class="annotation-group-count">
+          {{ annotationGroup.annotations.length }}
+        </span>
+
+        <div class="annotation-group-statistics">
+          <span class="annotation-collaborator-count">
+            <ng-pluralize count="annotationGroup.users.length"
+               when="{'one': '1 collaborator',
+                     'other': '{} collaborators'}"></ng-pluralize>
+          </span>
+
+          <span class="annotation-comment-count" ng-show="annotationGroup.commentCount">
+            <ng-pluralize count="annotationGroup.commentCount"
+               when="{'0': '',
+                      'one': '1 comment',
+                      'other': '{} comments'}"></ng-pluralize>
+          </span>
+        </div>
+    </div>
+  </div>
+</div>
+
+<aside class="annotation-pane" ng-class="{'active': annotationsShow}">
+  <header class="title-header">
+    <h2>Annotation &amp; Discussion</h2>
+    <a class="close-button" ng-click="hideAnnotations()">Close Sidebar</a>
+  </header>
+
+  <section class="annotation-list">
+    <article ng-repeat="annotation in currentGroup.annotations" class="annotation">
+
+      <blockquote>
+        &quot;
+          <span ng-repeat="highlight in annotation.highlights">
+            {{ highlight.textContent }}
+          </span>
+        &quot;
+      </blockquote>
+
+      <header class="annotation-header">
+        <span class="author">{{ annotation.user.display_name }}</span>
+        <time pubdate class="date" datetime="{{ annotation.created_at }}">{{ annotation.created_at | timeAgo }}</time>
+      </header>
+
+      <section class="content">
+        {{ annotation.text }}
+      </section>
+
+      <comment-actions object="annotation"></comment-actions>
+
+      <footer>
+        <div class="reply-action">
+          <a ng-click="showCommentForm($event)">Add your reply</a>
+        </div>
+      </footer>
+      <section class="comments">
+        <article ng-repeat="comment in annotation.comments" class="comment">
+          <header class="comment-header">
+            <span class="author">{{ comment.user.display_name }}</span>
+            <time pubdate class="date" datetime="{{ comment.created_at }}">{{ comment.created_at | timeAgo }}</time>
+          </header>
+          <section class="content">
+            {{ comment.text }}
+          </section>
+          <comment-actions object="comment"></comment-actions>
+        </article>
+      </section>
+      <section class="subcomment-form">
+        <form name="add-subcomment-form" ng-submit="subcommentSubmit(annotation, subcomment)" ng-if="user">
+          <h4>Reply to this Annotation</h4>
+          <input id="comment-form-field" ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
+          <button class="comment-button" type="submit">Post Comment</button>
+        </form>
+      </section>
+    </article>
+  </section>
+
+</aside>

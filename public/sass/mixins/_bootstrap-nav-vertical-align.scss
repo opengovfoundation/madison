@@ -1,0 +1,15 @@
+// Navbar vertical align - this replaces the default bootstrap version to work with units other than px.
+//
+// Vertically center elements in the navbar.
+// Example: an element has a height of 30px, so write out `.navbar-vertical-align(30px);` to calculate the appropriate top margin.
+
+//Modified to work with _bootstrap-em.scss
+@mixin navbar-vertical-align($element-height) {
+	@if (unit($element-height) == 'px') {
+		margin-top: (($navbar-height - (($element-height / $font-conversion) * $font-size-root)) / 2);
+		margin-bottom: (($navbar-height - (($element-height / $font-conversion) * $font-size-root)) / 2);
+	} @else {
+		margin-top: (($navbar-height - $element-height) / 2);
+		margin-bottom: (($navbar-height - $element-height) / 2);
+	}
+}

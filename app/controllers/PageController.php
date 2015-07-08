@@ -1,72 +1,45 @@
 <?php
 
-class PageController extends BaseController 
+class PageController extends BaseController
 {
-	public $restful = true;
+    public $restful = true;
 
-	/**
-	 * Home Page
-	 */
-	public function home()
-	{
-		$data = array(
-			'page_id'		=> 'home',
-			'page_title'	=> 'Madison Home',
-		);
+    /**
+     * Home Page.
+     */
+    public function home()
+    {
+        return View::make('single');
+    }
 
-		return View::make('page.index', $data);
-	}
+    /**
+     * About Page.
+     */
+    public function getAbout()
+    {
+        return View::make('single');
+    }
 
-	/**
-	 * About Page
-	 */
-	public function getAbout()
-	{
-		$data = array(
-			'page_id'		=> 'about',
-			'page_title'	=> 'About the Madison Platform',
-		);
+    /**
+     * FAQ Page.
+     */
+    public function faq()
+    {
+        return View::make('single');
+    }
 
-		return View::make('page.index', $data);
-	}
+    public function privacyPolicy()
+    {
+        return View::make('single');
+    }
 
-	/**
-	 * FAQ Page
-	 */
-	public function faq()
-	{
-		$data = array(
-			'page_id'		=> 'faq',
-			'page_title'	=> 'Frequently Asked Questions',
-		);
+    public function terms()
+    {
+        return View::make('single');
+    }
 
-		return View::make('page.index', $data);
-	}
-
-	public function privacyPolicy(){
-		$data = array(
-			'page_id'	=> 'privacy',
-			'page_title'	=> 'Privacy Policy'
-		);
-
-		return View::make('page.index', $data);
-	}
-
-	public function terms(){
-		$data = array(
-			'page_id'	=> 'terms',
-			'page_title'	=> 'Terms and Conditions'
-		);
-
-		return View::make('page.index', $data);
-	}
-
-	public function copyright(){
-		$data = array(
-			'page_id' => 'copyright',
-			'page_title' => 'Copyright Policy'
-		);
-
-		return View::make('page.index', $data);
-	}
+    public function copyright()
+    {
+        return View::make('single');
+    }
 }

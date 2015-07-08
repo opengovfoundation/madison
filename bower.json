@@ -1,32 +1,41 @@
 {
   "name": "madison",
   "dependencies": {
-    "zeroclipboard": "~2.0.1",
-    "angular-growl": "~0.4.0"
+    "ng-file-upload": "~3.2.4",
+    "moment": "~2.10.2",
+    "angular-bootstrap": "~0.12.1"
   },
   "devDependencies": {
+    "jquery": "~2.1.3",
     "pagedown": "~1.1.0",
-    "angular": "~1.2.16",
+    "angular": "1.2.28",
     "angular-ui": "~0.4.0",
     "angular-animate": "~1.2.16",
-    "angular-bootstrap": "*",
+    "angular-growl-v2": "~0.7.3",
     "angular-select2": "*",
+    "angular-ui-router": "~0.2.13",
     "angular-ui-select2": "~0.0.5",
-    "bootstrap": "~3.1.1",
+    "bootstrap-sass-official": "3.3.3",
+    "font-awesome": "~4.2.0",
     "angular-mocks": "~1.2.16",
     "angular-cookies": "~1.2.16",
     "angular-sanitize": "~1.2.16",
+    "angular-timeago": "~0.1.9",
     "angular-bootstrap-datetimepicker": "~0.2.2",
     "google-diff-match-patch-js": "~1.0.0",
     "angular-resource": "~1.2.22",
     "crypto-js": "http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js",
     "google-translate": "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit",
-    "angular-tour": "~0.1.1",
     "angular-route": "~1.2.24",
-    "angular-cookie": "~4.0.2"
+    "angular-cookie": "~4.0.2",
+    "zeroclipboard": "~2.0.1",
+    "select2": "~3.4",
+    "underscore": "~1.7.0",
+    "compass-breakpoint": "~2.4.2"
   },
   "resolutions": {
     "select2": "~3.4",
-    "angular": "~1.2.16"
+    "angular": "1.2.28",
+    "jquery": "~2.1.3"
   }
 }

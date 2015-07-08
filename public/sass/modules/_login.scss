@@ -1,0 +1,30 @@
+.login-button {
+    @extend .button;
+    @extend .go-button;
+    @extend .action-button;
+}
+
+.login-help {
+    margin:0 1rem;
+}
+
+.remember-me {
+    margin-top:0;
+
+    label {
+        margin-top:0;
+        padding-left:0;
+    }
+}
+
+.oauth-login {
+    background: $medium-grey;
+    border-radius:10px;
+    margin:1rem;
+    padding:1rem;
+    color:white;
+
+    &:hover {
+        @extend .btn-primary;
+    }
+}

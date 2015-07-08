@@ -133,12 +133,6 @@ $(document).ready(function () {
 
         $('body').append(popup);
 
-        var position = {
-          'top': event.clientY - popup.height(),
-          'left': event.clientX
-        };
-        popup.css(position).css('position', 'absolute');
-
         this.ignoreMouseup = false;
         setTimeout(attach_handlers, 50);
       }
