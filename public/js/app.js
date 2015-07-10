@@ -180,7 +180,7 @@ angular.element(document).ready(function () {
 
     // Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
     window.UserVoice.push( [ 'autoprompt', {} ] );
-  };
+  }
 
   //Get the current user
   $http.get('/api/user/current')
