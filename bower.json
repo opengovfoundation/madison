@@ -31,7 +31,8 @@
     "zeroclipboard": "~2.0.1",
     "select2": "~3.4",
     "underscore": "~1.7.0",
-    "compass-breakpoint": "~2.4.2"
+    "compass-breakpoint": "~2.4.2",
+    "angulartics": "~0.19.0"
   },
   "resolutions": {
     "select2": "~3.4",

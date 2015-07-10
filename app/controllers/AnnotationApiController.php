@@ -2,6 +2,7 @@
 /**
  * 	Controller for Document actions.
  */
+
 class AnnotationApiController extends ApiController
 {
     public function __construct()

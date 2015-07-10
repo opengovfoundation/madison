@@ -2,6 +2,7 @@
 /**
  * 	Controller for User Login/Signup API actions.
  */
+
 class UserManageApiController extends ApiController
 {
     public function __construct()

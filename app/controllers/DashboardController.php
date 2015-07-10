@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Collection;
 /**
  * 	Controller for admin dashboard.
  */
+
 class DashboardController extends BaseController
 {
     public $restful = true;

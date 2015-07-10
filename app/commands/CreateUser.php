@@ -2,6 +2,7 @@
 
 use Illuminate\Console\Command;
 
+
 class CreateUser extends Command
 {
     /**
