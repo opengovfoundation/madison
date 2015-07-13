@@ -256,12 +256,11 @@ class UserController extends BaseController
             $messages = $user->getErrors()->toArray();
             $messageArray = [];
 
-            foreach($messages as $key => $value)
-            {
+            foreach ($messages as $key => $value) {
                 //If an array of messages have been passed, push each one onto messageArray
-                if(is_array($value)) {
+                if (is_array($value)) {
                     Log::info($value);
-                    foreach($value as $message) {
+                    foreach ($value as $message) {
                         array_push($messageArray, $message);
                     }
                 } else { //Otherwise just push the message value
