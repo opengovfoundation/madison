@@ -138,6 +138,13 @@ class DocumentApiController extends ApiController
         } else {
             $doc = Doc::getEager()->orderBy($order_field, $order_dir);
 
+            if(Input::has('category')) {
+                $doc = Doc::getEager()->whereHas('categories', function ($q) {
+                    $category = Input::get('category');
+                    $q->where('categories.name', 'LIKE', "%$category%");
+                });
+            }
+
             if (isset($limit)) {
                 $doc->take($limit);
                 if (isset($offset)) {
@@ -150,14 +157,7 @@ class DocumentApiController extends ApiController
                 $doc->where('title', 'LIKE', "%$title%");
             }
 
-            if(Input::has('category')) {
-                //$category = Input::get('category');
 
-                $doc = Doc::getEager()->whereHas('categories', function ($q) {
-                    $category = Input::get('category');
-                    $q->where('categories.name', 'LIKE', "%$category%");
-                });
-            }
 
             $docs = $doc->get();
         }
