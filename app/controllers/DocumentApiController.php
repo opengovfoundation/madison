@@ -150,6 +150,15 @@ class DocumentApiController extends ApiController
                 $doc->where('title', 'LIKE', "%$title%");
             }
 
+            if(Input::has('category')) {
+                //$category = Input::get('category');
+
+                $doc = Doc::getEager()->whereHas('categories', function ($q) {
+                    $category = Input::get('category');
+                    $q->where('categories.name', 'LIKE', "%$category%");
+                });
+            }
+
             $docs = $doc->get();
         }
 
