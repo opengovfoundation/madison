@@ -70,6 +70,32 @@ angular.module('madisonApp.controllers')
         placeholder: "Sort By Date"
       };
 
+      //Sets scope value for current category filter
+      $scope.filterByCategory = function (category) {
+        $scope.selectedCategory = category;
+      };
+
+      $scope.clearCategoryFilter = function () {
+        $scope.selectedCategory = null;
+      };
+
+      $scope.categoryFilter = function (doc) {
+        var found = false;
+
+        if(!$scope.selectedCategory) {
+          return true;
+        }
+
+        angular.forEach(doc.categories, function (category) {
+          if(angular.equals(category.name, $scope.selectedCategory.name)) {
+            found = true;
+            return;
+          }
+        });
+
+        return found;
+      };
+
       $scope.parseDocs = function (docs) {
         angular.forEach(docs, function (doc) {
           $scope.docs.push(doc);

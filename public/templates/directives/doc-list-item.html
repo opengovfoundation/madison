@@ -12,7 +12,7 @@
   </div>
 	<div class="doc-categories">
     <ul>
-  	  <li class="category" ng-repeat="category in doc.categories"><span>{{ category.name }}</span></li>
+  	  <li class="category" ng-repeat="category in doc.categories" ng-click="filterByCategory(category)"><span>{{ category.name }}</span></li>
     </ul>
 	</div>
 	<div class="doc-statuses">
