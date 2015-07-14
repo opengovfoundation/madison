@@ -75,6 +75,10 @@ angular.module('madisonApp.controllers')
         $scope.selectedCategory = category;
       };
 
+      $scope.clearCategoryFilter = function () {
+        $scope.selectedCategory = null;
+      };
+
       $scope.categoryFilter = function (doc) {
         var found = false;
 
