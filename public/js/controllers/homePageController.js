@@ -26,10 +26,13 @@ angular.module('madisonApp.controllers')
       });
 
       Doc.getFeaturedDoc(function (data) {
-        var converter = new Markdown.Converter();
-
         $scope.featured = data;
-        $scope.featured.introtext = $sce.trustAsHtml(converter.makeHtml(data.introtext));
+
+        //Parse introtext if it exists
+        if(!!data.introtext) {
+          var converter = new Markdown.Converter();
+          $scope.featured.introtext = $sce.trustAsHtml(converter.makeHtml(data.introtext));
+        }
       }).$promise.catch(function (data) {
         console.error("Unable to get featured document: %o", data);
       });
