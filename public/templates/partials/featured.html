@@ -41,9 +41,7 @@
         </header>
 
         <div class="doc-content" ng-if="featured.introtext">
-            <div class="doc-summary entry-summary">
-                {{ featured.introtext }}
-            </div>
+            <div class="doc-summary entry-summary markdown" data-ng-bind-html="featured.introtext"></div>
             <a class="read-button" href="{{ featured.url }}" rel="bookmark" role="button" title="Read more on {{doc.title}}">Read More</a>
         </div>
     </article>
