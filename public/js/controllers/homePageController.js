@@ -1,6 +1,6 @@
 angular.module('madisonApp.controllers')
-  .controller('HomePageController', ['$scope', '$filter', 'Doc',
-    function ($scope, $filter, Doc) {
+  .controller('HomePageController', ['$scope', '$filter', '$sce', 'Doc',
+    function ($scope, $filter, $sce, Doc) {
       $scope.docs = [];
       $scope.featured = {};
       $scope.mostActive = [];
@@ -26,7 +26,10 @@ angular.module('madisonApp.controllers')
       });
 
       Doc.getFeaturedDoc(function (data) {
+        var converter = new Markdown.Converter();
+
         $scope.featured = data;
+        $scope.featured.introtext = $sce.trustAsHtml(converter.makeHtml(data.introtext));
       }).$promise.catch(function (data) {
         console.error("Unable to get featured document: %o", data);
       });
