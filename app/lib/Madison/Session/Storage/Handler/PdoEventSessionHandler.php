@@ -2,7 +2,7 @@
 
 /*
  * This is a rewrite of the stock Symfony PdoSessionHandler to add extra event emitting. It also
- * is more permissive. It should be otherwise identical.
+ * is more permissive.  We also use json encoding instead of base64. It should be otherwise identical.
  */
 
 namespace Madison\Session\Storage\Handler;
@@ -163,7 +163,7 @@ class PdoEventSessionHandler implements \SessionHandlerInterface
             Event::fire('session.read.after', array($this, $sessionId, $sessionRows));
 
             if ($sessionRows) {
-                return base64_decode($sessionRows[0][0]);
+                return serialize(json_decode($sessionRows[0][0], true));
             }
 
 
@@ -180,7 +180,7 @@ class PdoEventSessionHandler implements \SessionHandlerInterface
     {
         Event::fire('session.write', array($this, $sessionId, $data));
 
-        $encoded = base64_encode($data);
+        $encoded = json_encode(unserialize($data));
 
         try {
             // We use a single MERGE SQL query when supported by the database.

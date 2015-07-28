@@ -96,7 +96,7 @@ return array(
     |
     */
 
-    'cookie' => 'session',
+    'cookie' => 'madison-session',
 
     /*
     |--------------------------------------------------------------------------
@@ -122,6 +122,6 @@ return array(
     |
     */
 
-    'domain' => null,
+    'domain' => getenv('COOKIE_DOMAIN') ?: null,
 
 );
