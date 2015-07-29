@@ -7,8 +7,6 @@ class SessionEventHandler
 {
     public function onSessionWriteAfter($sessionHandler, $sessionId, $data)
     {
-        // var_dump($sessionId, $data); die();
-
         $connection = $sessionHandler->getConnection();
         $user = Auth::user();
 
