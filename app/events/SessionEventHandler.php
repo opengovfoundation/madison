@@ -11,13 +11,13 @@ class SessionEventHandler
         $user = Auth::user();
 
         if ($user && $sessionId) {
-            $userId = $user->id;
-            $updateStatement = $connection->prepare(
-                "UPDATE $sessionHandler->table SET user_id = :user_id WHERE $sessionHandler->idCol = :id"
-            );
-            $updateStatement->bindParam(':id', $sessionId, \PDO::PARAM_STR);
-            $updateStatement->bindParam(':user_id', $userId, \PDO::PARAM_INT);
-            $updateStatement->execute();
+            $session = Sessions::find($sessionId);
+            $session->user_id = $user->id;
+            $payload = $session->payload;
+            $payload['user']['email'] = $user->email;
+            $session->payload = $payload;
+
+            $session->save();
         }
 
         // $request = $event->getRequest();
