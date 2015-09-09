@@ -39,12 +39,12 @@
     <h1>Create Document</h1>
   </header>
   <div class="admin-add-document">
-    <form action="" id="create-document-form">
+    <form action="" id="create-document-form" ng-submit="createDocument()">
       <div class="form-group">
         <label>Title</label>
-        <input type="text" class="form-control" placeholder="Document Title" ng-model="newDocTitle">
+        <input type="text" class="form-control" ng-model="newDoc.title" />
       </div>
-      <button ng-click="createDocument()" class="create-document-button">Create Document</button>
+      <button id="submit" class="create-document-button">Create Document</button>
     </form>
   </div>
 </section>

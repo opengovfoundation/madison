@@ -28,9 +28,9 @@ class DocumentsController extends BaseController
     public function listDocuments()
     {
         $user = Auth::user();
-        $docs = Auth::user()->docs()->get();
+        $docs = $user->docs->toArray();
 
-        $groups = Auth::user()->groups()->get();
+        $groups = Auth::user()->groups;
         $groupDocs = [];
 
         foreach ($groups as $group) {

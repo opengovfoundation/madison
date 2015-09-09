@@ -34,13 +34,28 @@ class DocumentApiController extends ApiController
         //Creating new document
         $title = Input::get('title');
         $slug = str_replace(array(' ', '.'), array('-', ''), strtolower($title));
+
+        // If the slug is taken
+        if(Doc::where('slug', $slug)->count())
+        {
+            $counter = 0;
+            $tooMany = 10;
+            do {
+                if($counter > $tooMany) {
+                    return Redirect::to('dashboard/docs')->withInput()->with('error', 'Can\'t create slug.');
+                }
+                $counter++;
+                $new_slug = $slug . '-' . $counter;
+            } while(Doc::where('slug', $new_slug)->count());
+
+            $slug = $new_slug;
+        }
+
         $doc_details = Input::all();
 
         $rules = array('title' => 'required');
         $validation = Validator::make($doc_details, $rules);
         if ($validation->fails()) {
-            die($validation);
-
             return Redirect::to('dashboard/docs')->withInput()->withErrors($validation);
         }
 
@@ -59,7 +74,9 @@ class DocumentApiController extends ApiController
             $doc->init_section = $starter->id;
             $doc->save();
 
-            return Response::json($this->growlMessage('Document created successfully', 'success'));
+            $response = $this->growlMessage('Document created successfully', 'success');
+            $response['doc'] = $doc->toArray();
+            return Response::json($response);
         } catch (Exception $e) {
             return Response::json($this->growlMessage($e->getMessage(), 'error'));
         }
