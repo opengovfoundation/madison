@@ -36,17 +36,16 @@ class DocumentApiController extends ApiController
         $slug = str_replace(array(' ', '.'), array('-', ''), strtolower($title));
 
         // If the slug is taken
-        if(Doc::where('slug', $slug)->count())
-        {
+        if (Doc::where('slug', $slug)->count()) {
             $counter = 0;
             $tooMany = 10;
             do {
-                if($counter > $tooMany) {
+                if ($counter > $tooMany) {
                     return Redirect::to('dashboard/docs')->withInput()->with('error', 'Can\'t create slug.');
                 }
                 $counter++;
                 $new_slug = $slug . '-' . $counter;
-            } while(Doc::where('slug', $new_slug)->count());
+            } while (Doc::where('slug', $new_slug)->count());
 
             $slug = $new_slug;
         }
@@ -155,7 +154,7 @@ class DocumentApiController extends ApiController
         } else {
             $doc = Doc::getEager()->orderBy($order_field, $order_dir);
 
-            if(Input::has('category')) {
+            if (Input::has('category')) {
                 $doc = Doc::getEager()->whereHas('categories', function ($q) {
                     $category = Input::get('category');
                     $q->where('categories.name', 'LIKE', "%$category%");
