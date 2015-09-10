@@ -2,7 +2,7 @@
   <div admin-breadcrumb></div>
 </div>
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-24">
     <h1>Verify Groups</h1>
     <table class="table table-striped">
       <thead>
@@ -17,7 +17,7 @@
           <td>{{ request.name }}</td>
           <td>{{ request.display_name }}</td>
           <td>
-            <div class="btn-group">
+            <div class="btn-group user-status">
               <button type="button" class="btn btn-success" ng-class="{active: request.status == 'active'}" ng-click="update(request, 'active')">Active</button>
               <button type="button" class="btn btn-warning" ng-class="{active: request.status == 'pending'}" ng-click="update(request, 'pending')">Pending</button>
             </div>

@@ -81,7 +81,12 @@ class UserApiController extends ApiController
     {
         $this->beforeFilter('admin');
 
-        $requests = UserMeta::where('meta_key', 'verify')->with('user')->get();
+        $userQuery = UserMeta::where('meta_key', 'verify');
+        if(Input::get('status'))
+        {
+            $userQuery->where('meta_value', Input::get('status'));
+        }
+        $requests = $userQuery->with('user')->get();
 
         return Response::json($requests);
     }

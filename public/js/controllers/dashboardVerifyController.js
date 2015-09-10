@@ -2,13 +2,16 @@ angular.module('madisonApp.controllers')
   .controller('DashboardVerifyController', ['$scope', '$http',
     function ($scope, $http) {
       $scope.requests = [];
+      $scope.formdata = {
+        'status' : 'pending'
+      };
 
       $scope.init = function () {
         $scope.getRequests();
       };
 
       $scope.getRequests = function () {
-        $http.get('/api/user/verify')
+        $http.get('/api/user/verify', { params: $scope.formdata } )
           .success(function (data) {
             $scope.requests = data;
           })
