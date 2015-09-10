@@ -31,7 +31,7 @@ angular.module('madisonApp.controllers')
           $http.post('/api/docs', {title: title})
             .success(function (data) {
               console.log(data.doc);
-              $scope.newDoc.title = ''
+              $scope.newDoc.title = '';
               $state.go('edit-doc', {id: data.doc.id});
             })
             .error(function (error) {
