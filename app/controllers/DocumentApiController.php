@@ -41,10 +41,10 @@ class DocumentApiController extends ApiController
             $tooMany = 10;
             do {
                 if ($counter > $tooMany) {
-                    return Redirect::to('dashboard/docs')->withInput()->with('error', 'Can\'t create slug.');
+                    return Response::json($this->growlMessage('Can\'t create document with that name, please try another.', 'error'));
                 }
                 $counter++;
-                $new_slug = $slug . '-' . $counter;
+                $new_slug = $slug . '-' . str_random(8);
             } while (Doc::where('slug', $new_slug)->count());
 
             $slug = $new_slug;
