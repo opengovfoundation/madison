@@ -162,6 +162,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::delete('api/docs/{doc}/dates/{date}', 'DocumentApiController@deleteDate');
     Route::get('api/docs/{doc}', 'DocumentApiController@getDoc');
     Route::post('api/docs/{doc}/title', 'DocumentApiController@postTitle');
+    Route::post('api/docs/{doc}/private', 'DocumentApiController@postPrivate');
     Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug');
     Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent');
     Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage');

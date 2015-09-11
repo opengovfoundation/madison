@@ -358,6 +358,7 @@ class Doc extends Eloquent
                         GROUP BY doc_id
 
                 ) total_count
+                WHERE private != 1
                 GROUP BY doc_id
                 ORDER BY total DESC
                 LIMIT :offset, :limit"

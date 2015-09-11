@@ -92,6 +92,17 @@ class DocumentApiController extends ApiController
         return Response::json($response);
     }
 
+    public function postPrivate($id)
+    {
+        $doc = Doc::find($id);
+        $doc->private = Input::get('private');
+        $doc->save();
+
+        $response['messages'][0] = array('text' => 'Document private saved', 'severity' => 'info');
+
+        return Response::json($response);
+    }
+
     public function postSlug($id)
     {
         $doc = Doc::find($id);
@@ -152,13 +163,14 @@ class DocumentApiController extends ApiController
             // TODO: Make this handle DESC order, maybe?
             $docs = Doc::getActive($limit, $offset);
         } else {
-            $doc = Doc::getEager()->orderBy($order_field, $order_dir);
+            $doc = Doc::getEager()->orderBy($order_field, $order_dir)
+                ->where('private', '!=', '1');
 
             if (Input::has('category')) {
                 $doc = Doc::getEager()->whereHas('categories', function ($q) {
                     $category = Input::get('category');
                     $q->where('categories.name', 'LIKE', "%$category%");
-                });
+                })->where('private', '!=', '1');
             }
 
             if (isset($limit)) {
