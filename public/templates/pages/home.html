@@ -52,7 +52,12 @@
     </section>
     <section class="doc-results-list">
       <h2 class="normal-title">Recent Legislation</h2>
-      <article ng-repeat="doc in docs | toArray | filter:docSearch | orderBy:dateSort:reverse"
+      <div class="category-filter" ng-if="selectedCategory">
+        Displaying:
+        <div class="category" ng-click="clearCategoryFilter()"><span>{{ selectedCategory.name }}</span></div>
+        <a class="clear-category" ng-click="clearCategoryFilter()">Clear</a>
+      </div>
+      <article ng-repeat="doc in docs | toArray | filter:docSearch | filter:categoryFilter | orderBy:dateSort:reverse"
         ng-show="docFilter(doc)" class="doc-list-item doc doc-small">
         <div doc-list-item class="inside"></div>
       </article>

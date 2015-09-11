@@ -43,6 +43,12 @@
           <input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" ng-change="statusChange(status)" data-placeholder="">
         </div>
         <div class="form-group">
+          <label for="private">Private: </label>
+          <input type="checkbox" name="private" id="private" value="{{ doc.private }}" ng-model="doc.private" class="form-control"
+            ng-true-value="1" ng-false-value="0" />
+          <small class="help-block">If a document is private, it will not show up in search or lists, but can still be accessed by anyone who has the link to the document.</small>
+        </div>
+        <div class="form-group">
           <label for="sponsor">Sponsor: </label>
           <input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" ng-change="sponsorChange(sponsor)" id="sponsor">
         </div>

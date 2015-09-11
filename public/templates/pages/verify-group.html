@@ -2,9 +2,19 @@
   <div admin-breadcrumb></div>
 </div>
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-24">
     <h1>Verify Groups</h1>
-    <table class="table table-striped">
+
+    <form class="filter-form">
+      <h4>Filter:</h4>
+      <fieldset class="btn-group user-status">
+        <button type="button" class="btn btn-success" ng-class="{active: formdata.status == 'verified'}" ng-click="formdata.status = 'verified'; getRequests()">Verified</button>
+        <button type="button" class="btn btn-warning" ng-class="{active: formdata.status == 'pending'}" ng-click="formdata.status = 'pending'; getRequests()">Pending</button>
+        <button type="button" class="btn btn-danger" ng-class="{active: formdata.status == 'denied'}" ng-click="formdata.status = 'denied'; getRequests()">Denied</button>
+      </fieldset>
+    </form>
+
+    <table class="table table-striped verify-list" ng-show="requests.length">
       <thead>
         <th>ID</th>
         <th>Group Name</th>
@@ -12,12 +22,12 @@
         <th>Status</th>
       </thead>
       <tbody>
-        <tr ng-repeat="request in requests">
+        <tr ng-repeat="request in requests" id="request-{{ request.id }}">
           <td>{{ request.id }}</td>
           <td>{{ request.name }}</td>
           <td>{{ request.display_name }}</td>
           <td>
-            <div class="btn-group">
+            <div class="btn-group user-status">
               <button type="button" class="btn btn-success" ng-class="{active: request.status == 'active'}" ng-click="update(request, 'active')">Active</button>
               <button type="button" class="btn btn-warning" ng-class="{active: request.status == 'pending'}" ng-click="update(request, 'pending')">Pending</button>
             </div>
@@ -25,5 +35,8 @@
         </tr>
       </tbody>
     </table>
+    <div ng-hide="requests.length">
+      No users {{formdata.status}}.
+    </div>
   </div>
 </div>

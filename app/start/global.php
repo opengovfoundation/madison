@@ -81,6 +81,13 @@ App::down(function () {
 });
 
 /*
+ * Register Events
+ */
+
+Event::subscribe(new NotificationEventHandler());
+Event::subscribe(new SessionEventHandler());
+
+/*
 |--------------------------------------------------------------------------
 | Require The Filters File
 |--------------------------------------------------------------------------
@@ -90,11 +97,5 @@ App::down(function () {
 | definitions instead of putting them all in the main routes file.
 |
 */
-
-/*
- * Register Events
- */
-
-Event::subscribe(new NotificationEventHandler());
 
 require app_path().'/filters.php';

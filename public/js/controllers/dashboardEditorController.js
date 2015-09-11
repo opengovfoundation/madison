@@ -196,6 +196,7 @@ angular.module('madisonApp.controllers')
       var initStatus = true;
 
       var initTitle = true;
+      var initPrivate = true;
       var initSlug = true;
       var initContent = true;
 
@@ -294,6 +295,16 @@ angular.module('madisonApp.controllers')
           }
         });
 
+        $scope.$watch('doc.private', function () {
+          if (initPrivate) {
+            $timeout(function () {
+              initPrivate = false;
+            });
+          } else {
+            $scope.savePrivate();
+          }
+        });
+
         // Save the content every 5 seconds
         var timeout = null;
         $scope.$watch('doc.content.content', function () {
@@ -369,6 +380,15 @@ angular.module('madisonApp.controllers')
             console.log("Title saved successfully: %o", data);
           }).error(function (data) {
             console.error("Error saving title for document:", data);
+          });
+      };
+
+      $scope.savePrivate = function () {
+        return $http.post('/api/docs/' + $scope.doc.id + '/private', {'private': $scope.doc.private})
+          .success(function (data) {
+            console.log("Private saved successfully: %o", data);
+          }).error(function (data) {
+            console.error("Error saving private for document:", data);
           });
       };
 

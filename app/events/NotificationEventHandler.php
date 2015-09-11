@@ -327,14 +327,16 @@ class NotificationEventHandler
         ));
     }
 
-    public function onVerifyUserRequest($data)
+    public function onVerifyUserRequest($user)
     {
+        $request = $user->user_meta()->where('meta_key', 'verify')->first();
+
         $notices = Notification::getActiveNotifications(MadisonEvent::VERIFY_REQUEST_USER);
 
         $notifications = $this->processNotices($notices, MadisonEvent::VERIFY_REQUEST_USER);
 
         $this->doNotificationActions($notifications, array(
-            'data' => array('user' => $data->toArray()),
+            'data' => array('user' => $user->toArray(), 'request' => $request->toArray()),
             'subject' => "An individual requests verification!",
             'from_email_address'    => static::FROM_EMAIL_ADDRESS,
             'from_email_name'            => static::FROM_EMAIL_NAME,

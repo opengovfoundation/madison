@@ -34,13 +34,27 @@ class DocumentApiController extends ApiController
         //Creating new document
         $title = Input::get('title');
         $slug = str_replace(array(' ', '.'), array('-', ''), strtolower($title));
+
+        // If the slug is taken
+        if (Doc::where('slug', $slug)->count()) {
+            $counter = 0;
+            $tooMany = 10;
+            do {
+                if ($counter > $tooMany) {
+                    return Response::json($this->growlMessage('Can\'t create document with that name, please try another.', 'error'));
+                }
+                $counter++;
+                $new_slug = $slug . '-' . str_random(8);
+            } while (Doc::where('slug', $new_slug)->count());
+
+            $slug = $new_slug;
+        }
+
         $doc_details = Input::all();
 
         $rules = array('title' => 'required');
         $validation = Validator::make($doc_details, $rules);
         if ($validation->fails()) {
-            die($validation);
-
             return Redirect::to('dashboard/docs')->withInput()->withErrors($validation);
         }
 
@@ -59,7 +73,9 @@ class DocumentApiController extends ApiController
             $doc->init_section = $starter->id;
             $doc->save();
 
-            return Response::json($this->growlMessage('Document created successfully', 'success'));
+            $response = $this->growlMessage('Document created successfully', 'success');
+            $response['doc'] = $doc->toArray();
+            return Response::json($response);
         } catch (Exception $e) {
             return Response::json($this->growlMessage($e->getMessage(), 'error'));
         }
@@ -72,6 +88,17 @@ class DocumentApiController extends ApiController
         $doc->save();
 
         $response['messages'][0] = array('text' => 'Document title saved', 'severity' => 'info');
+
+        return Response::json($response);
+    }
+
+    public function postPrivate($id)
+    {
+        $doc = Doc::find($id);
+        $doc->private = Input::get('private');
+        $doc->save();
+
+        $response['messages'][0] = array('text' => 'Document private saved', 'severity' => 'info');
 
         return Response::json($response);
     }
@@ -136,7 +163,15 @@ class DocumentApiController extends ApiController
             // TODO: Make this handle DESC order, maybe?
             $docs = Doc::getActive($limit, $offset);
         } else {
-            $doc = Doc::getEager()->orderBy($order_field, $order_dir);
+            $doc = Doc::getEager()->orderBy($order_field, $order_dir)
+                ->where('private', '!=', '1');
+
+            if (Input::has('category')) {
+                $doc = Doc::getEager()->whereHas('categories', function ($q) {
+                    $category = Input::get('category');
+                    $q->where('categories.name', 'LIKE', "%$category%");
+                })->where('private', '!=', '1');
+            }
 
             if (isset($limit)) {
                 $doc->take($limit);
@@ -149,6 +184,8 @@ class DocumentApiController extends ApiController
                 $title = Input::get('title');
                 $doc->where('title', 'LIKE', "%$title%");
             }
+
+
 
             $docs = $doc->get();
         }

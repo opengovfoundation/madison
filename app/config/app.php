@@ -102,6 +102,7 @@ return array(
         'Illuminate\Auth\Reminders\ReminderServiceProvider',
         'Illuminate\Database\SeedServiceProvider',
         'Illuminate\Session\SessionServiceProvider',
+        'Madison\Services\ServiceProviders\PdoEventSessionHandlerProvider',
         'Illuminate\Translation\TranslationServiceProvider',
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',

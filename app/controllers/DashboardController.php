@@ -238,6 +238,7 @@ class DashboardController extends BaseController
 
     /**
      * 	Post route for creating / updating documents.
+     *  Note: probably not used?  DocumentsApiController::postDocs seems to be the in-use route.
      */
     public function postDocs($id = '')
     {
