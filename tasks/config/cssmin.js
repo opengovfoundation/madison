@@ -1,7 +1,9 @@
 module.exports = function (grunt) {
   grunt.config.set('cssmin', {
     options: {
-      processImport: false
+      processImport: false,
+      keepSpecialComments: false,
+      advanced: false
     },
     generated: {
       combine: {
