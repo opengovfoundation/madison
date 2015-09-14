@@ -286,6 +286,10 @@
 // Features
 .main-feature {
     @include clearfix();
+
+    .doc-content {
+        @extend .col-md-24;
+    }
 }
 
 .previous-features {
