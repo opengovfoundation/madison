@@ -47,6 +47,7 @@ header {
         a {
             text-transform: uppercase;
             padding: 0 10px;
+            line-height: $header-height;
             line-height: calc($header-height - 1px);
         }
     }
@@ -54,6 +55,10 @@ header {
     // Tablet
     @include breakpoint(0 $screen-md-min) {
         margin-top: 0px;
+        margin-left: 0;
+        margin-right: -20px;
+        padding-left: 0;
+        padding-right: 0;
     }
 
     // Smartphone
