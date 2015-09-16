@@ -78,7 +78,21 @@ class UserManageApiController extends ApiController
                         );
         $validation = Validator::make($user_details, $rules);
         if ($validation->fails()) {
-            return Response::json($this->growlMessage($validation->messages()->getMessages(), 'error'), 500);
+            $errors = $validation->messages()->getMessages();
+            $messages = array();
+
+            $replacements = array(
+                'fname' => 'first name',
+                'lname' => 'last name'
+            );
+
+            foreach ($errors as $error) {
+                $error_message = str_replace(array_keys($replacements), array_values($replacements), $error[0]);
+
+                array_push($messages, $error_message);
+            }
+
+            return Response::json($this->growlMessage($messages, 'error'), 500);
         } else {
             //Create user token for email verification
             $token = str_random();
