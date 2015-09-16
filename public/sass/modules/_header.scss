@@ -23,6 +23,7 @@ header {
 // Logo.
 .brand {
     @extend .accent-title;
+    line-height: $header-height;
     font-size: 2em;
 }
 
@@ -45,7 +46,8 @@ header {
     li {
         a {
             text-transform: uppercase;
-            padding: 1rem 10px;
+            padding: 0 10px;
+            line-height: calc($header-height - 1px);
         }
     }
 
