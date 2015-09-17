@@ -200,5 +200,9 @@ angular.module('madisonApp.controllers')
 
       };
 
+      $scope.showLoginForm = function($event) {
+        loginPopupService.showLoginForm($event);
+      };
+
     }
     ]);

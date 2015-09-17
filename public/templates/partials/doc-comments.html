@@ -5,7 +5,7 @@
     </form>
 </div>
 <div class="comment-field" ng-hide="user">
-    <a href="/user/login" ng-click="loginPopupService.showLoginForm($event)">Login to comment</a>
+    <a ng-click="showLoginForm($event)">Login to comment</a>
 </div>
 <div class="comment-thread" ng-show="comments.length">
     <article ng-repeat="comment in comments" class="comment">
@@ -43,7 +43,7 @@
                 <span class="doc-replies-count">No replies</span>
             </div>
         </section>
-        <a href="/user/login" ng-click="loginPopupService.showLoginForm($event)" ng-show="!user" class="login-message">Login to reply</a>
+        <a ng-click="showLoginForm($event)" ng-show="!user" class="login-message">Login to reply</a>
         <section class="reply" ng-show="user">
             <form name="add-comment-form" ng-submit="subcommentSubmit(comment, commentReply)">
                 <input type="hidden" ng-model="commentReply.parent_id" value="{{comment.id}}" />
@@ -60,7 +60,7 @@
     </form>
 </div>
 <div class="comment-field" ng-show="!user && comments.length > 10">
-    <a href="/user/login" ng-click="loginPopupService.showLoginForm($event)">Login to comment</a>
+    <a ng-click="showLoginForm($event)">Login to comment</a>
 </div>
 
 <div class="comment-thread" ng-hide="comments.length">

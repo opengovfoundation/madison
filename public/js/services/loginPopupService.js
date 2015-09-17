@@ -1,6 +1,6 @@
 angular.module('madisonApp.services')
-  .factory('loginPopupService', ['$rootScope',
-    function ($rootScope) {
+  .factory('loginPopupService', ['$rootScope', '$state',
+    function ($rootScope, $state) {
       var loginPopupService = {
         loggingIn: false,
         state: null
