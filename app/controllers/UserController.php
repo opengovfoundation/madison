@@ -326,6 +326,8 @@ class UserController extends BaseController
      *	@param void
      *
      *	@return Illuminate\Http\RedirectResponse
+     *
+     *  @todo Does not appear to be used?
      */
     public function postLogin()
     {
