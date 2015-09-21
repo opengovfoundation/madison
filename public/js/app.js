@@ -52,7 +52,14 @@ try {
       growlProvider.messageTextKey("text");
       growlProvider.messageSeverityKey("severity");
       growlProvider.onlyUniqueMessages(true);
-      growlProvider.globalTimeToLive(3000);
+      growlProvider.globalTimeToLive(
+        {
+          'error': -1,
+          'info': 3000,
+          'warning': 3000,
+          'success': 3000
+        }
+      );
       $httpProvider.interceptors.push(growlProvider.serverMessagesInterceptor);
     }]);
 } catch (err) {
