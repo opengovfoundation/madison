@@ -5,6 +5,7 @@ angular.module('madisonApp.controllers')
     function ($scope, $state, $timeout, growl, $location, $window, Doc, $sce, $stateParams, $http, loginPopupService, annotationService, $anchorScroll, AuthService) {
       $scope.annotations = [];
       $scope.activeTab = 'content';
+      $scope.doc = {};
 
       $scope.setSponsor = function () {
         try {
@@ -175,6 +176,10 @@ angular.module('madisonApp.controllers')
         $scope.loadContent(doc).then(function () {
           $scope.attachAnnotator($scope.doc, $scope.user);
         });
+
+        if(typeof $scope.doc.comments === 'undefined') {
+          $scope.doc.comments = [];
+        }
 
         //Load introduction section from sponsor
         $scope.loadIntrotext(doc);//Load the document introduction text

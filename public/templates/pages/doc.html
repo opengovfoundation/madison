@@ -34,7 +34,7 @@
     <section class="doc-content">
       <ul class="nav nav-tabs" role="tablist">
         <li ng-class="{'active':secondtab == false}" ng-click="changeTab('content')"><a href="#tab-activity" target="_self" role="tab" data-toggle="tab">Bill Text</a></li>
-        <li ng-class="{'active':secondtab == true}" ng-click="changeTab('comment')"><a href="#tab-discussion" target="_self" role="tab" data-toggle="tab">Discussion ({{ doc.comment_count }})</a></li>
+        <li ng-class="{'active':secondtab == true}" ng-click="changeTab('comment')"><a href="#tab-discussion" target="_self" role="tab" data-toggle="tab">Discussion ({{ doc.comments.length }})</a></li>
       </ul>
       <div class="tab-content doc-tabs">
         <section id="tab-activity" ng-class="{'active':secondtab == false}" class="tab-pane">

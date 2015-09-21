@@ -57,11 +57,10 @@ class CommentApiController extends ApiController
         $newComment->text = $comment['text'];
         $newComment->save();
 
-        Event::fire(MadisonEvent::DOC_COMMENTED, $newComment);
+        // Late load the user.
+        $newComment->user;
 
-        $return = Comment::loadComments($newComment->doc_id, $newComment->id, $newComment->user_id);
-
-        return Response::json($return);
+        return Response::json($newComment->toArray());
     }
 
     public function postSeen($docId, $commentId)

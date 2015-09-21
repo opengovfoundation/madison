@@ -7,8 +7,8 @@
 <div class="comment-field" ng-hide="user">
     <a ng-click="showLoginForm($event)">Login to comment</a>
 </div>
-<div class="comment-thread" ng-show="comments.length">
-    <article ng-repeat="comment in comments" class="comment">
+<div class="comment-thread" ng-show="doc.comments.length">
+    <article ng-repeat="comment in doc.comments" class="comment">
         <header class="comment-header">
             <span class="author">{{ comment.user.display_name }}</span>
             <time pubdate class="date" datetime="{{ comment.created_at }}">{{ comment.created_at | timeAgo }}</time>
@@ -53,16 +53,16 @@
         </section>
     </article>
 </div>
-<div class="comment-field" ng-show="user && comments.length > 10">
+<div class="comment-field" ng-show="user && doc.comments.length > 10">
     <form name="add-comment-form" ng-submit="commentSubmit(comment)">
         <textarea ng-model="comment.text" id="doc-comment-field" type="text" class="form-control centered" required></textarea>
         <button class="btn btn-primary">Add Comment</button>
     </form>
 </div>
-<div class="comment-field" ng-show="!user && comments.length > 10">
+<div class="comment-field" ng-show="!user && doc.comments.length > 10">
     <a ng-click="showLoginForm($event)">Login to comment</a>
 </div>
 
-<div class="comment-thread" ng-hide="comments.length">
+<div class="comment-thread" ng-hide="doc.comments.length">
     <p>No comments yet.</p>
 </div>
