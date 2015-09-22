@@ -24,15 +24,14 @@ class GroupsController extends BaseController
     public function postGroup($id = null)
     {
         if (Input::has('id')) {
-            $group = Group::find( Input::get('id') );
+            $group = Group::find(Input::get('id'));
 
             if (!$group->isGroupOwner(Auth::user()->id)) {
                 return Response::json($this->growlMessage('You cannot modify a group you do not own.', 'error'));
             }
 
             $message = "Your group has been updated!";
-        }
-        else {
+        } else {
             $group = new Group();
             $group->status = Group::STATUS_PENDING;
 
@@ -41,7 +40,7 @@ class GroupsController extends BaseController
 
         $postData = array('name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone_number');
 
-        foreach($postData as $field) {
+        foreach ($postData as $field) {
             $group->$field = Input::get($field);
         }
 
@@ -53,8 +52,7 @@ class GroupsController extends BaseController
                 Event::fire(MadisonEvent::VERIFY_REQUEST_GROUP, $group);
             }
             return Response::json($this->growlMessage($message, 'success'));
-        }
-        else {
+        } else {
             return Response::json($this->growlMessage($group->getErrors()->all(), 'error'), 400);
         }
     }
