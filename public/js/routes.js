@@ -284,15 +284,6 @@ angular.module( 'madisonApp' )
           authorizedRoles: [ USER_ROLES.admin ]
         }
       } )
-      .state( 'user', {
-        url: '/user/:id',
-        templateUrl: '/templates/pages/user.html',
-        controller: 'UserPageController',
-        data: {
-          title: 'User Profile',
-          authorizedRoles: [ USER_ROLES.all ]
-        }
-      } )
       .state( 'user-edit', {
         url: '/user/edit/:id',
         templateUrl: '/templates/pages/user-edit.html',
@@ -300,6 +291,24 @@ angular.module( 'madisonApp' )
         data: {
           title: 'Edit User Profile',
           authorizedRoles: [ USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember, USER_ROLES.basic ]
+        }
+      } )
+      .state( 'user-sponsor-request', {
+        url: '/user/sponsor',
+        templateUrl: '/templates/pages/user-sponsor-request.html',
+        controller: 'UserSponsorPageController',
+        data: {
+          title: 'Request Sponsor Status',
+          authorizedRoles: [ USER_ROLES.all ]
+        }
+      } )
+      .state( 'user', {
+        url: '/user/:id',
+        templateUrl: '/templates/pages/user.html',
+        controller: 'UserPageController',
+        data: {
+          title: 'User Profile',
+          authorizedRoles: [ USER_ROLES.all ]
         }
       } )
       .state( '404', {

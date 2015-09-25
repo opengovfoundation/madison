@@ -76,8 +76,6 @@ Route::put('documents/edit/{documentId}', 'DocumentsController@saveDocumentEdits
 Route::post('documents/create', 'DocumentsController@createDocument');
 Route::post('documents/save', 'DocumentsController@saveDocument');
 Route::delete('/documents/delete/{slug}', 'DocumentsController@deleteDocument');
-Route::get('/documents/sponsor/request', 'SponsorController@getRequest');
-Route::post('/documents/sponsor/request', 'SponsorController@postRequest');
 
 //User Routes
 Route::get('user/{user}', 'UserController@getIndex');
@@ -176,6 +174,7 @@ Route::controller('dashboard', 'DashboardController');
     Route::get('api/user/{user}', 'UserApiController@getUser');
     Route::get('api/user/verify/', 'UserApiController@getVerify');
     Route::post('api/user/verify/', 'UserApiController@postVerify');
+    Route::put('api/user/sponsor', 'SponsorApiController@putRequest');
     Route::get('api/user/admin/', 'UserApiController@getAdmins');
     Route::post('api/user/admin/', 'UserApiController@postAdmin');
     Route::get('api/user/independent/verify/', 'UserApiController@getIndependentVerify');
