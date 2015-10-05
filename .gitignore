@@ -4,6 +4,7 @@ vendor/
 
 # Configuration
 app/config/local
+app/config/creds.php
 .env.*.php
 .env.php
 !.env.example.php
