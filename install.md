@@ -3,7 +3,7 @@
 For Mac OSX installation instructions, see INSTALL.OSX.md. 
 
 **Dependencies:**
-* PHP ( >= 5.4 )
+* PHP ( >= 5.5.9 )
   * libyaml
   * mcrypt
 * MySQL
