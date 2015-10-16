@@ -45,10 +45,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if (app('env') == 'production') {
-            return;
-        }
-
         $this->cleanDatabase();
 
         Eloquent::unguard();
