@@ -15,7 +15,7 @@ class DocumentApiController extends ApiController
     {
         $doc_id = $doc;
 
-        $doc = Doc::with('content')->with('categories')->with('introtext')->find($doc);
+        $doc = Doc::with('content')->with('categories')->with('introtext')->find($doc)->where('is_template', '!=', '1');
 
         return Response::json($doc);
     }
@@ -164,13 +164,16 @@ class DocumentApiController extends ApiController
             $docs = Doc::getActive($limit, $offset);
         } else {
             $doc = Doc::getEager()->orderBy($order_field, $order_dir)
-                ->where('private', '!=', '1');
+                ->where('private', '!=', '1')
+                ->where('is_template', '!=', '1');
 
             if (Input::has('category')) {
                 $doc = Doc::getEager()->whereHas('categories', function ($q) {
                     $category = Input::get('category');
                     $q->where('categories.name', 'LIKE', "%$category%");
-                })->where('private', '!=', '1');
+                })
+                    ->where('private', '!=', '1')
+                    ->where('is_template', '!=', '1');
             }
 
             if (isset($limit)) {

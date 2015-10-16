@@ -360,6 +360,7 @@ class Doc extends Eloquent
                 ) total_count
                 LEFT JOIN docs on doc_id = docs.id
                 WHERE docs.private != 1
+                AND docs.is_template != 1
                 GROUP BY doc_id
                 ORDER BY total DESC
                 LIMIT :offset, :limit"
