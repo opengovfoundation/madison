@@ -5,6 +5,7 @@ window.jQuery = window.$;
 var user;
 
 var imports = [
+  'pascalprecht.translate',
   'madisonApp.constants',
   'madisonApp.filters',
   'madisonApp.services',
@@ -12,6 +13,7 @@ var imports = [
   'madisonApp.directives',
   'madisonApp.controllers',
   'madisonApp.prompts',
+  'madisonApp.translate',
   'angulartics',
   'angulartics.google.analytics',
   'ui',

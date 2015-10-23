@@ -4,55 +4,57 @@
       <span class="popup-close" ng-click="closePopup()"></span>
       <form ng-submit="signup(credentials.fname, credentials.lname, credentials.email, credentials.password)" ng-switch-when="signup">
         <div class="errors"></div>
-        <!-- First Name -->
+
         <div class="form-group">
-          <label for="fname">First Name</label>
-          <input type="text" ng-model="credentials.fname" class="form-control" placeholder="First Name">
+          <label for="fname">{{ 'form.signup.firstname' | translate }}</label>
+          <input type="text" ng-model="credentials.fname" class="form-control" placeholder="{{ 'form.signup.firstname' | translate }}">
         </div>
-        <!-- Last Name -->
+
         <div class="form-group">
-          <label for="lname">Last Name</label>
-          <input type="text" ng-model="credentials.lname" class="form-control" placeholder="Last Name">
+          <label for="lname">{{ 'form.signup.lastname' | translate }}</label>
+          <input type="text" ng-model="credentials.lname" class="form-control" placeholder="{{ 'form.signup.firstname' | translate }}">
         </div>
-        <!-- Email -->
+
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="text" ng-model="credentials.email" class="form-control" placeholder="Email">
+          <label for="email">{{ 'form.signup.email' | translate }}</label>
+          <input type="text" ng-model="credentials.email" class="form-control" placeholder="{{ 'form.signup.email' | translate }}">
         </div>
-        <!-- Password -->
+
         <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" ng-model="credentials.password" class="form-control" placeholder="Password">
+          <label for="password">{{ 'form.signup.password' | translate }}</label>
+          <input type="password" ng-model="credentials.password" class="form-control" placeholder="{{ 'form.signup.password' | translate }}">
         </div>
-        <button class="btn btn-default">Signup</button>
+
+        <button class="btn btn-default">{{ 'form.signup.submit' | translate }}</button>
       </form>
+
       <form ng-submit="login(credentials.email, credentials.password, credentials.remember)" ng-switch-when="login">
-        <!-- Email -->
+
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="text" name="email" placeholder="Email" class="form-control" ng-model="credentials.email">
+          <label for="email">{{ 'form.login.email' | translate }}</label>
+          <input type="text" name="email" placeholder="{{ 'form.login.email' | translate }}" class="form-control" ng-model="credentials.email">
         </div>
-        <!-- Password -->
+
         <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" name="password" placeholder="Password" class="form-control" ng-model="credentials.password">
+          <label for="password">{{ 'form.login.password' | translate }}</label>
+          <input type="password" name="password" placeholder="{{ 'form.login.password' | translate }}" class="form-control" ng-model="credentials.password">
         </div>
-        <!-- Remember checkbox -->
+
         <div class="checkbox">
-          <label for="remember">Remember me</label>
+          <label for="remember">{{ 'form.login.rememberme' | translate }}</label>
           <input type="checkbox" name="remember" ng-model="credentials.remember">
         </div>
-        <!-- Submit -->
-        <button class="btn btn-default">Login</button>
+
+        <button class="btn btn-default">{{ 'form.login.submit' | translate }}</button>
         <br>
-        <small><a class="forgot-password" href="/password/reset">Forgot your password?</a></small>
+        <small><a class="forgot-password" href="/password/reset">{{ 'form.login.forgotpassword' | translate }}</a></small>
         <br>
-        <small><a class="forgot-password" href="/verification/resend">Resend confirmation email</a></small>
+        <small><a class="forgot-password" href="/verification/resend">{{ 'form.login.resendverification' | translate }}</a></small>
       </form>
       <form ng-switch-default>
-        <p>Please log in.</p>
-        <button class="btn btn-primary" ng-click="switchState('login')">Log In</button>
-        <button class="btn btn-primary" ng-click="switchState('signup')">Sign Up</button>
+        <p>{{ 'form.login.message' | translate }}</p>
+        <button class="btn btn-primary" ng-click="switchState('login')">{{ 'form.login.title' | translate }}</button>
+        <button class="btn btn-primary" ng-click="switchState('signup')">{{ 'form.signup.title' | translate }}</button>
       </form>
     </div>
   </div>

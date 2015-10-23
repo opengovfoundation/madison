@@ -1,0 +1,46 @@
+{
+  "site.name": "MyMadison",
+  "site.name.full": "MyMadison<span class=\"dot-io\">.io</span>",
+
+  "menu.nav.home": "Home",
+  "menu.nav.about": "About",
+  "menu.nav.faq": "FAQ",
+  "menu.nav.donate": "Donate",
+  "menu.nav.subscribe": "Subscribe",
+  "menu.nav.login": "Login",
+  "menu.nav.signup": "Sign Up",
+  "menu.nav.logout": "Logout",
+  "menu.nav.toggle": "Toggle navigation",
+
+  "footer.tagline": "<ul class=\"for-roles\"><li>for <span class=\"for-role\">Citizens</span></li><li>for <span class=\"for-role\">Authors</span></li><li>for <span class=\"for-role\">Developers</span></li></ul>",
+
+  "info.message.outdatedbrowser": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/\" target=\"_blank\">upgrade your browser</a> to improve your experience.",
+
+  "form.general.submit": "Submit",
+
+  "form.signup.title": "Sign Up",
+  "form.signup.firstname": "First Name",
+  "form.signup.lastname": "Last Name",
+  "form.signup.email": "Email",
+  "form.signup.password": "Password",
+  "form.signup.submit": "Sign Up",
+
+  "form.login.message": "Please log in.",
+  "form.login.title": "Login",
+  "form.login.email": "Email",
+  "form.login.password": "Password",
+  "form.login.rememberme": "Remember Me",
+  "form.login.submit": "Login",
+  "form.login.forgotpassword": "Forgot your password?",
+  "form.login.resendverification": "Resend confirmation email",
+
+  "document.interface.readmore": "Read More",
+  "document.interface.readdocument": "Read Document",
+
+  "document.label.sponsoredby": "Sponsored by",
+  "document.label.commentcount": "{count} {count, plural, one{Comment} other{Comments}}",
+  "document.label.annotationcount": "{count} {count, plural, one{Annotation} other{Annotations}}",
+  "document.label.collaboratorcount": "{count} {count, plural, one{Collaborator} other{Collaborators}}",
+  "document.label.updated": "Updated <time class=\"published doc-updated-date\" datetime=\"{{ created }}\">{{created | date:'mediumDate'}}</time>",
+  "document.label.created": "Posted <time class=\"created   doc-created-date\" datetime=\"{{ updated }}\">{{updated | date:'mediumDate'}}</time>"
+}

@@ -74,6 +74,10 @@
     <script src="/bower_components/angular-timeago/src/timeAgo.js"></script>
     <script src="/bower_components/angular-ui/build/angular-ui.min.js"></script>
     <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/angular-translate/angular-translate.min.js"></script>
+    <script src="/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+    <script src="/bower_components/messageformat/messageformat.js"></script>
+    <script src="/bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.min.js"></script>
     <!-- endbuild -->
 
     <!-- build:js /build/annotator.js -->
@@ -136,6 +140,7 @@
       <script src="/js/filters/parseDateFilter.js"></script>
       <script src="/js/filters/toArrayFilter.js"></script>
     <script src="/js/modules/prompts.js"></script>
+    <script src="/js/modules/translate.js"></script>
     <script src="/js/resources.js"></script>
       <script src="/js/resources/docResource.js"></script>
       <script src="/js/resources/groupResource.js"></script>
@@ -155,7 +160,7 @@
     <div class="TYPE-DEBUG"></div>
     <!-- endbuild -->
     <!--[if lt IE 8]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
+      <p class="browsehappy" translate="{{ 'info.message.outdatedbrowser' }}"></p>
     <![endif]-->
     <div growl></div>
     <div login-form ng-if="loggingIn"></div>

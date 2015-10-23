@@ -2,25 +2,25 @@
   <div class="row">
   <div class="navbar-header ">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-      <span class="sr-only">Toggle navigation</span>
+      <span class="sr-only">{{ 'menu.nav.toggle' | translate }}</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="brand logo-madison navbar-brand link-home" href="/" title="myMadison.io Home">
-      <span class="level"></span>MyMadison<span class="dot-io">.io</span>
+    <a class="brand logo-madison navbar-brand link-home" href="/" title="{{ 'site.name' | translate }}">
+      <span class="level"></span><span translate="{{ 'site.name.full' | translate }}"></span>
     </a>
   </div>
   <div class="nav nav-main navbar-collapse collapse">
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="/">Home</a></li>
-      <li class="link-about"><a href="/about">About</a></li>
-      <li class="link-faq"><a href="/faq">FAQ</a></li>
-      <li class="link-support"><a href="https://rally.org/opengovfoundation" target="_blank">Donate</a></li>
-      <li class="link-subscribe"><a href="http://opengovfoundation.us6.list-manage.com/subscribe?u=9d450bf68b3df1185fc9f62b2&id=40a5a16e19" target="_blank">Subscribe</a></li>
+      <li><a href="/">{{ 'menu.nav.home' | translate }}</a></li>
+      <li class="link-about"><a href="/about">{{ 'menu.nav.about' | translate }}</a></li>
+      <li class="link-faq"><a href="/faq">{{ 'menu.nav.faq' | translate }}</a></li>
+      <li class="link-support"><a href="https://rally.org/opengovfoundation" target="_blank">{{ 'menu.nav.donate' | translate }}</a></li>
+      <li class="link-subscribe"><a href="http://opengovfoundation.us6.list-manage.com/subscribe?u=9d450bf68b3df1185fc9f62b2&id=40a5a16e19" target="_blank">{{ 'menu.nav.subscribe' | translate }}</a></li>
       <li account-dropdown class="dropdown" ng-if="user"></li>
-      <li class="link-login" ng-if="!user"><a href="/user/login">Login</a></li>
-      <li class="link-signup" ng-if="!user"><a href="/user/signup">Sign Up</a></li>
+      <li class="link-login" ng-if="!user"><a href="/user/login">{{ 'menu.nav.login' | translate }}</a></li>
+      <li class="link-signup" ng-if="!user"><a href="/user/signup">{{ 'menu.nav.signup' | translate }}</a></li>
     </ul>
   </div><!--/.navbar-collapse -->
   </div>

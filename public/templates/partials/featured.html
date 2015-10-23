@@ -8,7 +8,7 @@
             </h2>
 
             <div class="doc-sponsor" ng-if="featured.sponsor">
-                Sponsored by
+                <span translate="document.label.sponsoredby"></span>
                 <ul>
                   <li ng-repeat="sponsor in featured.sponsor" class="author">
                     {{ sponsor.display_name }}
@@ -18,20 +18,20 @@
 
             <div class="doc-stats">
                 <ul>
-                    <li>{{ featured.comment_count }} Comments</li>
-                    <li>{{ featured.annotation_count }} Annotations</li>
+                    <li translate="document.label.commentcount"
+                        translate-values="{count: featured.comment_count}"
+                        translate-interpolation="messageformat"></li>
+                    <li translate="document.label.annotationcount"
+                        translate-values="{count: featured.annotation_count}"
+                        translate-interpolation="messageformat"></li>
                     <li>
-                        <span ng-hide="featured.updated_at" class="date">
-                          Posted <time class="published doc-created-date" datetime="{{ featured.created_at }}"
-                          >{{ featured.created_at | date:'mediumDate' }}</time>
-                        </span>
-                        <span ng-show="featured.updated_at" class="date">
-                          Updated <time class="updated doc-updated-date" datetime="{{ featured.updated_at }}"
-                          >{{ featured.updated_at | date:'mediumDate' }}</time>
-                        </span>
+                        <span ng-hide="featured.updated_at" class="date"
+                            translate="document.label.created"
+                            translate-values="{created: featured.created_at}"></span>
+                        <span ng-show="featured.updated_at" class="date"
+                            translate="document.label.updated"
+                            translate-values="{created: featured.updated_at}"></span>
                     </li>
-                    <!-- OR -->
-                    <!--li>Updated <time class="updated" datetime="2015-03-15">15 Mar 2015</time></li-->
                 </ul>
             </div>
 
