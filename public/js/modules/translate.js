@@ -8,5 +8,6 @@ angular.module('madisonApp.translate', ['pascalprecht.translate'])
     suffix: '.json'
   });
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
+  $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
   $translateProvider.use('en_US');
 });
