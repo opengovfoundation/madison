@@ -11,6 +11,15 @@
   "menu.nav.signup": "Sign Up",
   "menu.nav.logout": "Logout",
   "menu.nav.toggle": "Toggle navigation",
+  "menu.nav.accountwelcome": "Welcome {{ name }}",
+  "menu.nav.documents": "My Documents",
+  "menu.nav.settings": "Account Settings",
+  "menu.nav.notifications": "Notification Settings",
+  "menu.nav.groupmanagement": "Group Management",
+  "menu.nav.admin": "Administrative Dashboard",
+  "menu.nav.actas": "Use Madison As",
+  "menu.nav.actingas": "Using Madison as:",
+  "menu.nav.removegroup": "Remove Active Group",
 
   "footer.tagline": "<ul class=\"for-roles\"><li>for <span class=\"for-role\">Citizens</span></li><li>for <span class=\"for-role\">Authors</span></li><li>for <span class=\"for-role\">Developers</span></li></ul>",
 
@@ -36,6 +45,7 @@
 
   "form.search.title": "Search All Documents:",
   "form.search.placeholder": "Search titles",
+  "form.search.categoryheading": "Displaying:",
 
   "document.interface.readmore": "Read More",
   "document.interface.readmoretitle": "Read more of {{title}}",
@@ -44,6 +54,7 @@
   "document.title.activelegislation": "Active Legislation",
   "document.title.recentactivity": "Recent Activity",
   "document.title.mostactive": "Most Active Documents",
+  "document.title.recentlegislation": "Recent Legislation",
 
   "document.label.quotedtitle": "&quot;{{ title }}&quot;",
   "document.label.sponsoredby": "Sponsored by",
@@ -56,5 +67,5 @@
   "document.label.created.timeago": "Created <time class=\"created doc-updated-date\" datetime=\"{{ datetime }}\">{{ datetime | timeAgo }}</time>",
 
   "home.intro.title": "Add your voice...",
-  "home.intro.text": "Find legislation and regulations being developed and get informed. Then get involved and collaboratively craft the documents with the sponsors. To get started, choose from the recent documents below, or search the whole repository."
+  "home.intro.text": "<p>Find legislation and regulations being developed and get informed. Then get involved and collaboratively craft the documents with the sponsors. To get started, choose from the recent documents below, or search the whole repository.</p>"
 }
