@@ -47,6 +47,9 @@
   "form.search.placeholder": "Search titles",
   "form.search.categoryheading": "Displaying:",
 
+  "home.intro.title": "Add your voice...",
+  "home.intro.text": "<p>Find legislation and regulations being developed and get informed. Then get involved and collaboratively craft the documents with the sponsors. To get started, choose from the recent documents below, or search the whole repository.</p>",
+
   "document.interface.readmore": "Read More",
   "document.interface.readmoretitle": "Read more of {{title}}",
   "document.interface.readdocument": "Read Document",
@@ -65,7 +68,26 @@
   "document.label.updated.timeago": "Updated <time class=\"published doc-updated-date\" datetime=\"{{ datetime }}\">{{ datetime | timeAgo }}</time>",
   "document.label.created": "Posted <time class=\"created doc-created-date\" datetime=\"{{ datetime }}\">{{ datetime | date:'mediumDate' }}</time>",
   "document.label.created.timeago": "Created <time class=\"created doc-updated-date\" datetime=\"{{ datetime }}\">{{ datetime | timeAgo }}</time>",
+  "document.label.date.timeago": "<time class=\"date\" datetime=\"{{ datetime }}\">{{ datetime | timeAgo }}</time>",
 
-  "home.intro.title": "Add your voice...",
-  "home.intro.text": "<p>Find legislation and regulations being developed and get informed. Then get involved and collaboratively craft the documents with the sponsors. To get started, choose from the recent documents below, or search the whole repository.</p>"
+
+  "document.label.annotations": "Annotations",
+
+  "document.label.rss": "RSS",
+  "document.label.rss.title": "Subscribe to RSS Feed",
+  "document.label.annotationdiscussion": "Annotation &amp; Discussion",
+
+  "annotations.label.none": "No annotations yet. Add your own!",
+  "annotations.label.count": "{{count}}",
+  "annotations.label.collaborators": "{count} {count, plural, one{collaborator} other{collaborators}}",
+  "annotations.label.comments": "{count} {count, plural, one{comment} other{comments}}",
+
+  "document.actions.like": "Like this",
+  "document.actions.dislike": "Dislike this",
+  "document.actions.flag": "Flag this",
+  "document.actions.closesidebar": "Close Sidebar",
+  "document.actions.addreply": "Add your reply",
+  "document.actions.replyannotation": "Reply to this Annotation",
+  "document.actions.commentplaceholder": "Add a comment",
+  "document.actions.postcomment": "Post Comment"
 }

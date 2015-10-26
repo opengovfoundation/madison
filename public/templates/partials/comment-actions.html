@@ -1,5 +1,11 @@
 <div class="activity-actions">
-  <span class="thumbs-up" ng-click="addAction(obj, 'likes', $event)">{{ obj.likes || '0' }}</span>
-  <span class="thumbs-down" ng-click="addAction(obj, 'dislikes', $event)">{{ obj.dislikes || '0' }}</span>
-  <span class="flag" ng-click="addAction(obj, 'flags', $event)">{{ obj.flags || '0' }}</span>
+  <a class="thumbs-up" ng-click="addAction(obj, 'likes', $event)"
+    title="{{ 'document.actions.like' | translate }}"
+    >{{ obj.likes || '0' }}</a>
+  <a class="thumbs-down" ng-click="addAction(obj, 'dislikes', $event)"
+    title="{{ 'document.actions.dislike' | translate }}"
+    >{{ obj.dislikes || '0' }}</a>
+  <a class="flag" ng-click="addAction(obj, 'flags', $event)"
+    title="{{ 'document.actions.flag' | translate }}"
+    >{{ obj.flags || '0' }}</a>
 </div>
