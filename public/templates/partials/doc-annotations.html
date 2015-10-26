@@ -2,8 +2,8 @@
   <span translate="document.label.annotations"></span>
   <a href="/api/docs/{{ doc.slug }}/feed"
     class="rss-link" target="_self"
-    title="{{ 'document.actions.rss.title' | translate }}"
-    translate="document.actions.rss"></a>
+    title="{{ 'document.action.rss.title' | translate }}"
+    translate="document.action.rss"></a>
 </h2>
 <div id="participate-activity" class="participate-activity">
   <div class="activity-thread">
@@ -36,7 +36,7 @@
   <header class="title-header">
     <h2 translate="document.label.annotationdiscussion"></h2>
     <a class="close-button" ng-click="hideAnnotations()"
-      translate="document.actions.closesidebar"></a>
+      translate="document.action.closesidebar"></a>
   </header>
 
   <section class="annotation-list">
@@ -66,7 +66,7 @@
       <footer>
         <div class="reply-action">
           <a ng-click="showCommentForm($event)"
-            translate="document.actions.addreply"></a>
+            translate="document.action.addreply"></a>
         </div>
       </footer>
       <section class="comments">
@@ -85,12 +85,12 @@
       </section>
       <section class="subcomment-form">
         <form name="add-subcomment-form" ng-submit="subcommentSubmit(annotation, subcomment)" ng-if="user">
-          <h4 translate="document.actions.replyannotation"></h4>
+          <h4 translate="document.action.replyannotation"></h4>
           <input id="comment-form-field" ng-model="subcomment.text" type="text"
             class="form-control centered" required
-            placeholder="{{ document.actions.commentplaceholder | translate }}" />
+            placeholder="{{ document.action.commentplaceholder | translate }}" />
           <button class="comment-button" type="submit"
-            translate="document.actions.postcomment"></button>
+            translate="document.action.postcomment"></button>
         </form>
       </section>
     </article>

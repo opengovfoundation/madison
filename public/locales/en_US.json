@@ -26,6 +26,8 @@
   "info.message.outdatedbrowser": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/\" target=\"_blank\">upgrade your browser</a> to improve your experience.",
 
   "form.general.submit": "Submit",
+  "form.general.show": "Show",
+  "form.general.hide": "Hide",
 
   "form.signup.title": "Sign Up",
   "form.signup.firstname": "First Name",
@@ -58,21 +60,29 @@
   "document.title.recentactivity": "Recent Activity",
   "document.title.mostactive": "Most Active Documents",
   "document.title.recentlegislation": "Recent Legislation",
+  "document.title.tableofcontents": "Table of Contents",
 
   "document.label.quotedtitle": "&quot;{{ title }}&quot;",
   "document.label.sponsoredby": "Sponsored by",
   "document.label.commentcount": "{count} {count, plural, one{Comment} other{Comments}}",
   "document.label.annotationcount": "{count} {count, plural, one{Annotation} other{Annotations}}",
   "document.label.collaboratorcount": "{count} {count, plural, one{Collaborator} other{Collaborators}}",
+
+  "document.label.stats": "Bill Stats",
+  "document.label.supportoppose": "Support <span class=\"vs\">vs</span> Oppose",
+  "document.label.support": "Support",
+  "document.label.oppose": "Oppose",
+  "document.label.participants": "Participants",
+  "document.label.comments": "Comments",
+  "document.label.annotations": "Annotations",
+
   "document.label.updated": "Updated <time class=\"published doc-updated-date\" datetime=\"{{ datetime }}\">{{datetime | date:'mediumDate'}}</time>",
   "document.label.updated.timeago": "Updated <time class=\"published doc-updated-date\" datetime=\"{{ datetime }}\">{{ datetime | timeAgo }}</time>",
   "document.label.created": "Posted <time class=\"created doc-created-date\" datetime=\"{{ datetime }}\">{{ datetime | date:'mediumDate' }}</time>",
   "document.label.created.timeago": "Created <time class=\"created doc-updated-date\" datetime=\"{{ datetime }}\">{{ datetime | timeAgo }}</time>",
   "document.label.date.timeago": "<time class=\"date\" datetime=\"{{ datetime }}\">{{ datetime | timeAgo }}</time>",
 
-
   "document.label.annotations": "Annotations",
-
   "document.label.rss": "RSS",
   "document.label.rss.title": "Subscribe to RSS Feed",
   "document.label.annotationdiscussion": "Annotation &amp; Discussion",
@@ -81,13 +91,19 @@
   "annotations.label.count": "{{count}}",
   "annotations.label.collaborators": "{count} {count, plural, one{collaborator} other{collaborators}}",
   "annotations.label.comments": "{count} {count, plural, one{comment} other{comments}}",
+  "annotations.label.replies": "{count} {count, plural, one{reply} other{replies}}",
+  "annotations.label.replies.none": "No replies",
+  "annotations.label.comments.none": "No comments yet.",
 
-  "document.actions.like": "Like this",
-  "document.actions.dislike": "Dislike this",
-  "document.actions.flag": "Flag this",
-  "document.actions.closesidebar": "Close Sidebar",
-  "document.actions.addreply": "Add your reply",
-  "document.actions.replyannotation": "Reply to this Annotation",
-  "document.actions.commentplaceholder": "Add a comment",
-  "document.actions.postcomment": "Post Comment"
+  "document.action.like": "Like this",
+  "document.action.dislike": "Dislike this",
+  "document.action.flag": "Flag this",
+  "document.action.closesidebar": "Close Sidebar",
+  "document.action.addreply": "Add your reply",
+  "document.action.reply": "Reply",
+  "document.action.replyannotation": "Reply to this Annotation",
+  "document.action.commentplaceholder": "Add a comment",
+  "document.action.addcomment": "Add Comment",
+  "document.action.postcomment": "Post Comment",
+  "document.action.mustlogin": "Login to comment"
 }
