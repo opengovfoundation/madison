@@ -8,7 +8,7 @@ header {
 // Navbar
 .navbar {
     background-color: $dark-grey;
-    height: $header-height;
+    min-height: $header-height;
     border: 0;
 
     a {
@@ -52,6 +52,11 @@ header {
     // Tablet
     @include breakpoint(0 $screen-md-min) {
         margin-top: 0px;
+
+        // Hide our home link.
+        .link-home {
+            display: none;
+        }
     }
 
     // Smartphone
