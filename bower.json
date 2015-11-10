@@ -33,6 +33,7 @@
     "underscore": "~1.7.0",
     "compass-breakpoint": "~2.4.2",
     "angulartics": "~0.19.0",
+    "angular-i18n": "~1.5.0",
     "angular-translate": "~2.8.1",
     "angular-translate-loader-static-files": "~2.8.1",
     "angular-translate-interpolation-messageformat": "~2.8.1"

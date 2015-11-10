@@ -30,7 +30,8 @@
                 <span ng-if="showReplies[comment.id]"
                     translate="form.general.hide"></span>
                 <span translate="annotations.label.replies"
-                    translate-values="{count: comment.replyCount}"></span>
+                    translate-values="{count: comment.replyCount}"
+                    translate-interpolation="messageformat"></span>
             </a>
             <span class="loading"
                 ng-class="{hidden: !loadingReplies[comment.id]}"></span>

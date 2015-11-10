@@ -1,12 +1,17 @@
 angular.module('madisonApp.controllers')
-  .controller('PasswordResetLandingController', ['$scope', '$stateParams', '$http', '$state', 'growl',
-    function ($scope, $stateParams, $http, $state, growl) {
+  .controller('PasswordResetLandingController', ['$scope', '$stateParams',
+    '$http', '$state', 'growl', '$translate', 'pageService', 'SITE',
+    function ($scope, $stateParams, $http, $state, growl, $translate,
+      pageService, SITE) {
+
+      pageService.setTitle($translate.instant('content.intro.title',
+        {title: SITE.name}));
 
       $scope.token = $stateParams.token;
 
       $scope.savePassword = function () {
         if ($scope.password !== $scope.password_confirmation) {
-          growl.error('The passwords do not match.');
+          growl.error($translate.instant('errors.resetpassword.passwordmatch'));
           return;
         }
 
@@ -18,6 +23,7 @@ angular.module('madisonApp.controllers')
         }).success(function () {
           $state.go('login');
         }).error(function (response) {
+          growl.error($translate.instant('errors.resetpassword.general'));
           console.error(response);
         });
       };

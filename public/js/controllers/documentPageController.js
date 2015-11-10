@@ -1,8 +1,14 @@
 /*global annotator*/
 /*global Markdown*/
 angular.module('madisonApp.controllers')
-  .controller('DocumentPageController', ['$scope', '$state', '$timeout', 'growl', '$location', '$window', 'Doc', '$sce', '$stateParams', '$http', 'loginPopupService', 'annotationService', '$anchorScroll', 'AuthService',
-    function ($scope, $state, $timeout, growl, $location, $window, Doc, $sce, $stateParams, $http, loginPopupService, annotationService, $anchorScroll, AuthService) {
+  .controller('DocumentPageController', ['$scope', '$state', '$timeout',
+      'growl', '$location', '$window', 'Doc', '$sce', '$stateParams', '$http',
+      'loginPopupService', 'annotationService', '$anchorScroll', 'AuthService',
+      '$translate', 'pageService', 'SITE',
+    function ($scope, $state, $timeout, growl, $location, $window, Doc, $sce,
+      $stateParams, $http, loginPopupService, annotationService,
+      $anchorScroll, AuthService, $translate, pageService, SITE) {
+
       $scope.annotations = [];
       $scope.activeTab = 'content';
 
@@ -165,6 +171,9 @@ angular.module('madisonApp.controllers')
 
       //After loading the document
       $scope.doc.$promise.then(function (doc) {
+
+        pageService.setTitle($translate.instant('content.document.title',
+          {title: SITE.name, docTitle: doc.title}));
 
         $scope.setSponsor();
         $scope.getSupported();

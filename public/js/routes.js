@@ -1,5 +1,6 @@
 angular.module( 'madisonApp' )
-  .config( [ '$stateProvider', '$urlRouterProvider', 'USER_ROLES', function( $stateProvider, $urlRouterProvider, USER_ROLES ) {
+  .config( [ '$stateProvider', '$urlRouterProvider', 'USER_ROLES',
+    function( $stateProvider, $urlRouterProvider, USER_ROLES ) {
 
     $urlRouterProvider.otherwise( '404' );
 
@@ -9,15 +10,14 @@ angular.module( 'madisonApp' )
         controller: "HomePageController",
         templateUrl: "/templates/pages/home.html",
         data: {
-          title: "Madison Home",
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
       .state( 'intro', {
         url: '/intro',
+        controller: "IntroPageController",
         templateUrl: '/templates/pages/intro.html',
         data: {
-          title: 'Introduction',
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
@@ -26,7 +26,6 @@ angular.module( 'madisonApp' )
         controller: "DocumentPageController",
         templateUrl: "/templates/pages/doc.html",
         data: {
-          title: "Document Page",
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
@@ -35,7 +34,6 @@ angular.module( 'madisonApp' )
         controller: 'MyDocumentsController',
         templateUrl: "/templates/pages/my-documents.html",
         data: {
-          title: "My Documents",
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
@@ -45,7 +43,8 @@ angular.module( 'madisonApp' )
         templateUrl: '/templates/pages/edit-doc.html',
         data: {
           title: 'Edit Document',
-          authorizedRoles: [ USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember ]
+          authorizedRoles:
+            [ USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember ]
         }
       } )
       .state( 'login', {
@@ -53,36 +52,26 @@ angular.module( 'madisonApp' )
         controller: "LoginPageController",
         templateUrl: "/templates/pages/login.html",
         data: {
-          title: "Login to Madison",
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
       .state( 'facebook-login', {
         url: '/user/login/facebook-login',
-        controller: function( $state, growl ) {
-          growl.success( 'Facebook login successful.' );
-          $state.go( 'index' );
-        },
+        controller: 'OauthLoginController',
         data: {
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
       .state( 'twitter-login', {
         url: '/user/login/twitter-login',
-        controller: function( $state, growl ) {
-          growl.success( 'Twitter login successful.' );
-          $state.go( 'index' );
-        },
+        controller: 'OauthLoginController',
         data: {
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
       .state( 'linkedin-login', {
         url: '/user/login/linkedin-login',
-        controller: function( $state, growl ) {
-          growl.success( 'LinkedIn login successful.' );
-          $state.go( 'index' );
-        },
+        controller: 'OauthLoginController',
         data: {
           authorizedRoles: [ USER_ROLES.all ]
         }
@@ -92,7 +81,6 @@ angular.module( 'madisonApp' )
         controller: "SignupPageController",
         templateUrl: "/templates/pages/signup.html",
         data: {
-          title: "Signup for Madison",
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )

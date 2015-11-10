@@ -1,5 +1,6 @@
 <div class="home-feature">
-    <article class="main-feature hentry doc doc-full" ng-class="{'has-image' : featured.thumbnail}"
+    <article class="main-feature hentry doc doc-full"
+        ng-class="{'has-image' : featured.thumbnail}"
         style="background-image: url({{ featured.thumbnail }})">
 
         <header class="doc-info">
@@ -46,11 +47,12 @@
         </header>
 
         <div class="doc-content" ng-if="featured.introtext">
-            <div class="doc-summary entry-summary markdown" data-ng-bind-html="featured.introtext"></div>
-            <a class="read-button" href="{{ featured.url }}" rel="bookmark"
-                role="button"
-                title="{{ 'document.interface.readmoretitle' | translate:{title:featured.title} }}"
-                translate="{{ 'document.interface.readmore' }}"></a>
+            <div class="doc-summary entry-summary markdown"
+                data-ng-bind-html="featured.introtext"></div>
+                <a class="read-button" href="{{ featured.url }}" rel="bookmark"
+                    role="button"
+                    title="{{ 'document.interface.readmoretitle' | translate:{title:featured.title} }}"
+                    translate="{{ 'document.interface.readmore' }}"></a>
         </div>
     </article>
 

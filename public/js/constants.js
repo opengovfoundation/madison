@@ -14,4 +14,7 @@ angular.module('madisonApp.constants', [])
     groupMember: 'group-member',
     basic: 'basic',
     guest: 'guest'
+  })
+  .constant('SITE', {
+    name: 'Madison'
   });

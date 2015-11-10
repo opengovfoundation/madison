@@ -1,6 +1,9 @@
 angular.module('madisonApp.controllers')
-  .controller('AppController', ['$rootScope', '$scope', 'AuthService', 'USER_ROLES', 'SessionService', 'loginPopupService', '$location', '$anchorScroll', 'prompts',
-    function ($rootScope, $scope, AuthService, USER_ROLES, SessionService, loginPopupService, $location, $anchorScroll, prompts) {
+  .controller('AppController', ['$rootScope', '$scope', 'AuthService',
+      'USER_ROLES', 'SessionService', 'loginPopupService', 'pageService',
+      '$location', '$anchorScroll', 'prompts',
+    function ($rootScope, $scope, AuthService, USER_ROLES, SessionService,
+        loginPopupService, pageService, $location, $anchorScroll, prompts) {
       "use strict";
 
       $scope.user = null;
@@ -8,6 +11,7 @@ angular.module('madisonApp.controllers')
       $scope.isAuthorized = AuthService.isAuthorized;
       $scope.loggingIn = loginPopupService.loggingIn;
       $scope.loggingInState = null;
+      $scope.page = pageService;
 
       $scope.$on('loggingIn', function () {
         $scope.loggingIn = loginPopupService.loggingIn;

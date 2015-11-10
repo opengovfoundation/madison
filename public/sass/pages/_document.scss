@@ -387,7 +387,7 @@ $fallback-height: 350px;
         width: 150px;
         // And a little offset from the top.
         margin-top: 20px;
-        span {
+        .toc-title-side {
             @extend .small-caps;
             font-weight: bold;
             display: inline-block;

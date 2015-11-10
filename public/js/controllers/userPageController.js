@@ -56,7 +56,7 @@ angular.module('madisonApp.controllers')
       $scope.activityOrder = function (activity) {
         return Date.parse(activity.created_at);
       };
-      
+
       $scope.getUser();
     }
     ]);

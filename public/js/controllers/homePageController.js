@@ -1,6 +1,9 @@
 angular.module('madisonApp.controllers')
-  .controller('HomePageController', ['$scope', '$filter', '$sce', 'Doc',
-    function ($scope, $filter, $sce, Doc) {
+  .controller('HomePageController', ['$scope', '$filter', '$sce', '$translate',
+      'pageService', 'Doc', 'SITE',
+    function ($scope, $filter, $sce, $translate, pageService, Doc, SITE) {
+      pageService.setTitle($translate.instant('content.home.title', {title: SITE.name}));
+
       $scope.docs = [];
       $scope.featured = {};
       $scope.mostActive = [];

@@ -84,7 +84,8 @@
         </article>
       </section>
       <section class="subcomment-form">
-        <form name="add-subcomment-form" ng-submit="subcommentSubmit(annotation, subcomment)" ng-if="user">
+        <form name="add-subcomment-form"
+          ng-submit="subcommentSubmit(annotation, subcomment)" ng-if="user">
           <h4 translate="document.action.replyannotation"></h4>
           <input id="comment-form-field" ng-model="subcomment.text" type="text"
             class="form-control centered" required

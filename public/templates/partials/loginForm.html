@@ -2,59 +2,73 @@
   <div class="popup">
     <div ng-switch on="state">
       <span class="popup-close" ng-click="closePopup()"></span>
-      <form ng-submit="signup(credentials.fname, credentials.lname, credentials.email, credentials.password)" ng-switch-when="signup">
+      <form ng-submit="signup(credentials.fname, credentials.lname,
+        credentials.email, credentials.password)" ng-switch-when="signup">
         <div class="errors"></div>
 
         <div class="form-group">
-          <label for="fname">{{ 'form.signup.firstname' | translate }}</label>
-          <input type="text" ng-model="credentials.fname" class="form-control" placeholder="{{ 'form.signup.firstname' | translate }}">
+          <label for="fname" translate="form.signup.firstname"></label>
+          <input type="text" ng-model="credentials.fname" class="form-control"
+            placeholder="{{ 'form.signup.firstname' | translate }}">
         </div>
 
         <div class="form-group">
-          <label for="lname">{{ 'form.signup.lastname' | translate }}</label>
-          <input type="text" ng-model="credentials.lname" class="form-control" placeholder="{{ 'form.signup.firstname' | translate }}">
+          <label for="lname" translate="form.signup.lastname"></label>
+          <input type="text" ng-model="credentials.lname" class="form-control"
+            placeholder="{{ 'form.signup.firstname' | translate }}">
         </div>
 
         <div class="form-group">
-          <label for="email">{{ 'form.signup.email' | translate }}</label>
-          <input type="text" ng-model="credentials.email" class="form-control" placeholder="{{ 'form.signup.email' | translate }}">
+          <label for="email" translate="form.signup.email"></label>
+          <input type="text" ng-model="credentials.email" class="form-control"
+            placeholder="{{ 'form.signup.email' | translate }}">
         </div>
 
         <div class="form-group">
-          <label for="password">{{ 'form.signup.password' | translate }}</label>
-          <input type="password" ng-model="credentials.password" class="form-control" placeholder="{{ 'form.signup.password' | translate }}">
+          <label for="password" translate="form.signup.password"></label>
+          <input type="password" ng-model="credentials.password" class="form-control"
+            placeholder="{{ 'form.signup.password' | translate }}">
         </div>
 
-        <button class="btn btn-default">{{ 'form.signup.submit' | translate }}</button>
+        <button class="btn btn-default" translate="form.signup.submit"></button>
       </form>
 
-      <form ng-submit="login(credentials.email, credentials.password, credentials.remember)" ng-switch-when="login">
+      <form ng-submit="login(credentials.email, credentials.password,
+        credentials.remember)" ng-switch-when="login">
 
         <div class="form-group">
-          <label for="email">{{ 'form.login.email' | translate }}</label>
-          <input type="text" name="email" placeholder="{{ 'form.login.email' | translate }}" class="form-control" ng-model="credentials.email">
+          <label for="email" translate="form.login.email"></label>
+          <input type="text" name="email" class="form-control"
+            placeholder="{{ 'form.login.email' | translate }}"
+            ng-model="credentials.email">
         </div>
 
         <div class="form-group">
-          <label for="password">{{ 'form.login.password' | translate }}</label>
-          <input type="password" name="password" placeholder="{{ 'form.login.password' | translate }}" class="form-control" ng-model="credentials.password">
+          <label for="password" translate="form.login.password"></label>
+          <input type="password" name="password" class="form-control"
+            placeholder="{{ 'form.login.password' | translate }}"
+            ng-model="credentials.password">
         </div>
 
         <div class="checkbox">
-          <label for="remember">{{ 'form.login.rememberme' | translate }}</label>
+          <label for="remember" translate="form.login.rememberme"></label>
           <input type="checkbox" name="remember" ng-model="credentials.remember">
         </div>
 
-        <button class="btn btn-default">{{ 'form.login.submit' | translate }}</button>
+        <button class="btn btn-default" translate="form.login.submit"></button>
         <br>
-        <small><a class="forgot-password" href="/password/reset">{{ 'form.login.forgotpassword' | translate }}</a></small>
+        <small><a class="forgot-password" href="/password/reset"
+          translate="form.login.forgotpassword"></a></small>
         <br>
-        <small><a class="forgot-password" href="/verification/resend">{{ 'form.login.resendverification' | translate }}</a></small>
+        <small><a class="forgot-password" href="/verification/resend"
+          translate="form.login.resendverification"></a></small>
       </form>
       <form ng-switch-default>
-        <p>{{ 'form.login.message' | translate }}</p>
-        <button class="btn btn-primary" ng-click="switchState('login')">{{ 'form.login.title' | translate }}</button>
-        <button class="btn btn-primary" ng-click="switchState('signup')">{{ 'form.signup.title' | translate }}</button>
+        <p translate="form.login.message"></p>
+        <button class="btn btn-primary" ng-click="switchState('login')"
+          translate="form.login.title"></button>
+        <button class="btn btn-primary" ng-click="switchState('signup')"
+          translate="form.signup.title"></button>
       </form>
     </div>
   </div>
