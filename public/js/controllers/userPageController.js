@@ -38,8 +38,8 @@ angular.module('madisonApp.controllers')
             angular.forEach($scope.user.user_meta, function (meta) {
               var cont = true;
 
-              if (meta.meta_key === 'verify' && meta.meta_value === 'verified'
-                && cont) {
+              if (meta.meta_key === 'verify' && meta.meta_value === 'verified' &&
+                cont) {
                 $scope.verified = true;
                 cont = false;
               }
