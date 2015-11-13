@@ -1,34 +1,40 @@
-<div admin-breadcrumb></div>
 <section class="admin-document-list">
   <header>
-    <h1>
-      Documents
-      <small><a ng-click="scrollTo('create-document-form')">Or Create A Document</a></small>
-    </h1>
+    <h1 translate="content.admindocument.header"></h1>
   </header>
+  <div>
+    <a class="button action-button" ng-click="scrollTo('create-document-form')"
+      translate="content.admindocument.createdocument"></a>
+  </div>
   <div class="admin-document-filters">
-    <input type="text" ng-model="docSearch" class="form-control doc-search" placeholder="Filter document titles">
+    <input type="text" ng-model="docSearch" class="form-control doc-search"
+      placeholder="{{ 'content.admindocument.searchplaceholder' | translate }}">
     <select ui-select2="select2Config" ng-model="select2" class="doc-filter">
       <option value=""></option>
       <optgroup label="Category">
-        <option value="category_{{ category.id }}" ng-repeat="category in categories">{{ category.name }}</option>
+        <option value="category_{{ category.id }}"
+          ng-repeat="category in categories">{{ category.name }}</option>
       </optgroup>
       <optgroup label="Sponsor">
-        <option value="sponsor_{{ sponsor.id }}" ng-repeat="sponsor in sponsors">{{ sponsor.fname }} {{ sponsor.lname }}</option>
+        <option value="sponsor_{{ sponsor.id }}" ng-repeat="sponsor in sponsors"
+          >{{ sponsor.fname }} {{ sponsor.lname }}</option>
       </optgroup>
       <optgroup label="Status">
-        <option value="status_{{ status.id}}" ng-repeat="status in statuses">{{ status.label}}</option>
+        <option value="status_{{ status.id}}" ng-repeat="status in statuses"
+          >{{ status.label}}</option>
       </optgroup>
     </select>
-    <select ui-select2="dateSortConfig" id="dateSortSelect" ng-model="dateSort" class="doc-date-sort">
+    <select ui-select2="dateSortConfig" id="dateSortSelect" ng-model="dateSort"
+      class="doc-date-sort">
       <option value=""></option>
-      <option value="created_at">Date Posted</option>
-      <option value="updated_at">Last Updated</option>
+      <option value="created_at" translate="content.admindocument.dateposted"></option>
+      <option value="updated_at" translate="content.admindocument.lastupdated"></option>
     </select>
   </div>
   <div class="document-list">
     <ul>
-      <li ng-repeat="doc in docs | toArray | filter:docSearch | orderBy:dateSort:reverse" ng-show="docFilter(doc)">
+      <li ng-repeat="doc in docs | toArray | filter:docSearch | orderBy:dateSort:reverse"
+        ng-show="docFilter(doc)">
         <a href="/dashboard/docs/{{ doc.id }}">{{ doc.title }}</a>
       </li>
     </ul>
@@ -36,15 +42,16 @@
 </section>
 <section class="add-document-wrapper">
   <header>
-    <h1>Create Document</h1>
+    <h1 translate="content.admindocument.createdocument"></h1>
   </header>
   <div class="admin-add-document">
     <form action="" id="create-document-form" ng-submit="createDocument()">
       <div class="form-group">
-        <label>Title</label>
+        <label translate="form.admindocument.title.label"></label>
         <input type="text" class="form-control" ng-model="newDoc.title" />
       </div>
-      <button id="submit" class="create-document-button">Create Document</button>
+      <button id="submit" class="create-document-button"
+        translate="form.admindocument.submit"></button>
     </form>
   </div>
 </section>

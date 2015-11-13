@@ -1,19 +1,24 @@
-<div class="row">  
-  <h1>Add Member to {{ group.name }}</h1>
-  <p>Please type in the e-mail address of the user you would like to add to this group and select their role.</p>
+<div class="row">
+  <h1 translate="content.addmember.header"
+    translate-values="{group: group.name}"></h1>
+  <p translate="content.addmember.instructions"></p>
 </div>
 <div class="row">
   <form ng-submit="inviteMember()">
     <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="text" ng-model="email" class="form-control" name="email" id="email" placeholder="Enter User's e-mail"/>
+      <label for="email" translate="form.addmember.email.label"></label>
+      <input type="text" class="form-control" name="email" id="email"
+        ng-model="email" />
     </div>
     <div class="form-group">
-      <label for="role">User's Role:</label>
-      <select class="form-control" ng-model="role" ng-options="role for role in group.roles" placeholder="Select Role">
-        <option value="" disabled>Select Role</option>
+      <label for="role" translate="form.addmember.role.label"></label>
+      <select class="form-control" ng-model="role"
+        ng-options="role for role in group.roles">
+        <option value="" disabled translate="form.addmember.role.default"
+          ></option>
       </select>
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default" translate="form.group.submit"
+      ></button>
   </form>
 </div>

@@ -1,6 +1,10 @@
 angular.module('madisonApp.controllers')
-  .controller('DashboardVerifyGroupController', ['$scope', '$http',
-    function ($scope, $http) {
+  .controller('DashboardVerifyGroupController', ['$scope', '$http', '$translate',
+    'pageService', 'SITE',
+    function ($scope, $http, $translate, pageService, SITE) {
+      pageService.setTitle($translate.instant('content.verifygroups.title',
+        {title: SITE.name}));
+
       $scope.requests = [];
       $scope.formdata = {
         'status' : 'pending'

@@ -1,25 +1,31 @@
 <div class="row">
-  <div admin-breadcrumb></div>
-</div>
-<div class="row">
   <div class="col-md-24">
-    <h1>Verify Groups</h1>
+    <h1 translate="content.verifygroups.header"></h1>
 
     <form class="filter-form">
-      <h4>Filter:</h4>
+      <h4 translate="form.verify.filter"></h4>
       <fieldset class="btn-group user-status">
-        <button type="button" class="btn btn-success" ng-class="{active: formdata.status == 'verified'}" ng-click="formdata.status = 'verified'; getRequests()">Verified</button>
-        <button type="button" class="btn btn-warning" ng-class="{active: formdata.status == 'pending'}" ng-click="formdata.status = 'pending'; getRequests()">Pending</button>
-        <button type="button" class="btn btn-danger" ng-class="{active: formdata.status == 'denied'}" ng-click="formdata.status = 'denied'; getRequests()">Denied</button>
+        <button type="button" class="btn btn-success"
+          ng-class="{active: formdata.status == 'active'}"
+          ng-click="formdata.status = 'active'; getRequests()"
+          translate="form.verify.active"></button>
+        <button type="button" class="btn btn-warning"
+          ng-class="{active: formdata.status == 'pending'}"
+          ng-click="formdata.status = 'pending'; getRequests()"
+          translate="form.verify.pending"></button>
+        <!--button type="button" class="btn btn-danger"
+          ng-class="{active: formdata.status == 'denied'}"
+          ng-click="formdata.status = 'denied'; getRequests()"
+          translate="form.verify.denied"></button-->
       </fieldset>
     </form>
 
     <table class="table table-striped verify-list" ng-show="requests.length">
       <thead>
-        <th>ID</th>
-        <th>Group Name</th>
-        <th>Display Name</th>
-        <th>Status</th>
+        <th translate="form.verify.id"></th>
+        <th translate="form.verify.groupname"></th>
+        <th translate="form.verify.displayname"></th>
+        <th translate="form.verify.status"></th>
       </thead>
       <tbody>
         <tr ng-repeat="request in requests" id="request-{{ request.id }}">
@@ -28,15 +34,30 @@
           <td>{{ request.display_name }}</td>
           <td>
             <div class="btn-group user-status">
-              <button type="button" class="btn btn-success" ng-class="{active: request.status == 'active'}" ng-click="update(request, 'active')">Active</button>
-              <button type="button" class="btn btn-warning" ng-class="{active: request.status == 'pending'}" ng-click="update(request, 'pending')">Pending</button>
+              <button type="button" class="btn btn-success"
+                ng-class="{active: request.status == 'active'}"
+                ng-click="update(request, 'active')"
+                translate="form.verify.active"></button>
+              <button type="button" class="btn btn-warning"
+                ng-class="{active: request.status == 'pending'}"
+                ng-click="update(request, 'pending')"
+                translate="form.verify.pending"></button>
+              <!--button type="button" class="btn btn-danger"
+                ng-class="{active: request.status == 'denied'}"
+                ng-click="update(request, 'denied')"
+                translate="form.verify.denied"></button-->
             </div>
           </td>
         </tr>
       </tbody>
     </table>
     <div ng-hide="requests.length">
-      No users {{formdata.status}}.
+      <span ng-if="formdata.status == 'active'"
+        translate="form.verify.groups.none.active"></span>
+      <span ng-if="formdata.status == 'pending'"
+        translate="form.verify.groups.none.pending"></span>
+      <!--span ng-if="formdata.status == 'denied'"
+        translate="form.verify.groups.none.denied"></span-->
     </div>
   </div>
 </div>

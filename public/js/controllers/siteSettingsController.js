@@ -1,5 +1,9 @@
 angular.module('madisonApp.controllers')
-  .controller('SiteSettingsController', function ($scope, $http, modalService, Doc) {
+  .controller('SiteSettingsController', function ($scope, $http, modalService,
+    Doc, $translate, pageService, SITE) {
+    pageService.setTitle($translate.instant('content.sitesettings.title',
+      {title: SITE.name}));
+
     var featuredDoc = Doc.getFeaturedDoc();
     $scope.resetting = false;
 
@@ -21,10 +25,10 @@ angular.module('madisonApp.controllers')
         if (!angular.equals(newValue, oldValue)) {
           //Call modal for confirmation
           var modalOptions = {
-            closeButtonText: 'Cancel',
-            actionButtonText: 'Change Featured Document',
-            headerText: 'Change Featured Document?',
-            bodyText: 'Are you sure you want to change the featured document?'
+            closeButtonText: $translate.instant('form.general.cancel'),
+            actionButtonText: $translate.instant('form.document.featured.change'),
+            headerText: $translate.instant('form.document.featured.change'),
+            bodyText: $translate.instant('form.document.featured.confirm')
           };
 
           //Open the dialog

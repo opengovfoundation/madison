@@ -1,5 +1,4 @@
 <div class="row">
-
   <section ng-include="'/templates/partials/featured.html'"></section>
 
   <aside class="search-list">
@@ -10,7 +9,8 @@
         <h3 class="normal-title" for="doc-text-filter"
           translate="form.search.title"></h3>
 
-        <button class="search-button" type="submit" translate="form.general.submit"></button>
+        <button class="search-button" type="submit"
+          translate="form.general.submit"></button>
         <span class="text-search">
           <input id="doc-text-filter" type="text" ng-model="docSearch"
             class="" placeholder="{{ 'form.search.placeholder' | translate }}" />
@@ -44,12 +44,13 @@
       </div-->
     </section>
     <section class="doc-results-list">
-      <h2 class="normal-title"
-        translate="document.title.recentlegislation"></h2>
+      <h2 class="normal-title" translate="document.title.recentlegislation"></h2>
       <div class="category-filter" ng-if="selectedCategory">
         <span translate="form.search.categoryheading"></span>
-        <div class="category" ng-click="clearCategoryFilter()"><span>{{ selectedCategory.name }}</span></div>
-        <a class="clear-category" ng-click="clearCategoryFilter()">Clear</a>
+        <div class="category" ng-click="clearCategoryFilter()" role="button"
+          ><span>{{ selectedCategory.name }}</span></div>
+        <a class="clear-category" ng-click="clearCategoryFilter()"
+          role="button" translate="form.general.clearfilters"></a>
       </div>
       <article ng-repeat="doc in docs | toArray | filter:docSearch | filter:categoryFilter | orderBy:dateSort:reverse"
         ng-show="docFilter(doc)" class="doc-list-item doc doc-small">
