@@ -199,6 +199,9 @@
   "document.label.comments": "Comments",
   "document.label.annotations": "Annotations",
   "document.label.collaborators": "Collaborators",
+  "document.label.sponsors": "Sponsored by: ",
+  "document.label.status": "Status: ",
+  "document.label.introduction": "Introduction: ",
 
   "document.label.updated": "Updated <time class=\"published doc-updated-date\" datetime=\"{{ datetime }}\">{{datetime | parseDate | date:'mediumDate'}}</time>",
   "document.label.updated.timeago": "Updated <time class=\"published doc-updated-date\" datetime=\"{{ datetime }}\">{{ datetime | parseDate | timeAgo }}</time>",

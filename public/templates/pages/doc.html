@@ -11,17 +11,21 @@
         <div class="doc-info">
           <h1 class="heading">{{ doc.title }}</h1>
           <div class="doc-sponsor" ng-repeat="sponsor in doc.sponsor">
-            <strong>Sponsored by </strong><span>{{ sponsor.display_name }}</span>
+            <strong translate="document.label.sponsors"></strong>
+              <span>{{ sponsor.display_name }}</span>
           </div>
           <div class="doc-status" ng-repeat="status in doc.statuses">
-            <strong>Status: </strong><span>{{ status.label }}</span>
+            <strong translate="document.label.status"></strong>
+            <span>{{ status.label }}</span>
           </div>
           <div class="doc-date" ng-repeat="date in doc.dates">
             <strong>{{ date.label }}: </strong>
             <span>{{ date.date | parseDate | date:'shortDate' }}</span>
           </div>
           <div class="doc-intro" ng-if="introtext">
-            <p><strong>Introduction:</strong></p>
+            <p>
+              <strong translate="document.label.introduction"></strong>
+            </p>
             <div class="markdown" data-ng-bind-html="introtext"></div>
           </div>
           <div class="support-oppose-buttons">
