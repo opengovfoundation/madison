@@ -19,8 +19,11 @@ class DocumentsController extends BaseController
 
         $returned = array();
 
-        $returned['raw'] = $docContent->content;
-        $returned['html'] = $docContent->html();
+        if($docContent)
+        {
+            $returned['raw'] = $docContent->content;
+            $returned['html'] = $docContent->html();
+        }
 
         return Response::json($returned);
     }

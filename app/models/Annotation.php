@@ -69,6 +69,11 @@ class Annotation extends Eloquent implements ActivityInterface
         return $this->hasMany('AnnotationPermission', 'annotation_id');
     }
 
+    public function doc()
+    {
+        return $this->belongsTo('Doc', 'doc_id');
+    }
+
     public static function createFromAnnotatorArray(array $input)
     {
         if (isset($input['id'])) {
