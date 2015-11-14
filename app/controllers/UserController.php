@@ -191,7 +191,12 @@ class UserController extends BaseController
 
         $user->display_name = $user->getDisplayName();
         $user->admin = $user->hasRole('Admin');
-        $user->independent_sponsor = $user->hasRole('Independent Sponsor');
+        if($user->hasRole('Independent Sponsor')) {
+            $user->independent_sponsor = true;
+        }
+        elseif($user->getSponsorStatus() !== null) {
+            $user->independent_sponsor = $user->getSponsorStatus();
+        }
         $user->verified = $user->verified();
 
         //Grab all of the user's groups
