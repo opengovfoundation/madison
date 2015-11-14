@@ -1,6 +1,13 @@
 angular.module('madisonApp.controllers')
-.controller('UserSponsorPageController', ['$scope', '$http', '$location', 'SessionService', 'AuthService', 'growl', 'growlMessages', 'PROVINCES',
-	function ($scope, $http, $location, SessionService, AuthService, growl, growlMessages, PROVINCES) {
+.controller('UserSponsorPageController', ['$scope', '$http', '$location',
+  'SessionService', 'AuthService', 'growl', 'growlMessages', 'PROVINCES',
+  '$translate', 'pageService', 'SITE',
+	function ($scope, $http, $location, SessionService, AuthService, growl,
+    growlMessages, PROVINCES, $translate, pageService, SITE) {
+
+    pageService.setTitle($translate.instant('content.sponsorrequest.title',
+      {title: SITE.name}));
+
     $scope.provinces = [];
     $scope.formData = {};
 

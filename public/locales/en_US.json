@@ -38,6 +38,7 @@
   "form.general.update": "Update",
   "form.general.cancel": "Cancel",
   "form.general.clearfilters": "Clear",
+  "form.general.required": "Required",
 
   "form.signup.title": "Sign Up",
   "form.signup.firstname": "First Name",
@@ -55,6 +56,11 @@
   "form.edituser.password.confirm": "Re-enter New Password",
   "form.edituser.url": "Website",
   "form.edituser.phone": "Phone Number",
+  "form.edituser.address1": "Address 1",
+  "form.edituser.address2": "Address 2",
+  "form.edituser.city": "City",
+  "form.edituser.state": "State",
+  "form.edituser.postalcode": "Postal Code",
   "form.edituser.verify.label": "Request a Verified Account",
   "form.edituser.verify.pending": "Your request for a Verified Account is pending",
   "form.edituser.verify.verified": "Your account is Verified.",
@@ -262,6 +268,10 @@
 
   "content.users.title": "{{ title }} - Users",
   "content.users.header": "Users",
+
+  "content.sponsorrequest.title": "{{ title }} - Request Sponsor Status",
+  "content.sponsorrequest.header": "Request Sponsor Status",
+  "content.sponsorrequest.instructions": "We'll need to contact you to verify your identity to before making you an independent sponsor.  Please fill out the information below and we'll be in touch soon!",
 
   "content.confirmationresend.title": "{{ title }} - Resend Confirmation",
   "content.confirmationresend.header": "Resend Confirmation Email",
