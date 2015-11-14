@@ -1,6 +1,10 @@
 angular.module('madisonApp.controllers')
-  .controller('ResendConfirmationController', ['$scope', '$http', '$state', '$stateParams',
-    function ($scope, $http, $state, $stateParams) {
+  .controller('ResendConfirmationController', ['$scope', '$http', '$state',
+    '$stateParams', '$translate', 'pageService', 'SITE',
+    function ($scope, $http, $state, $stateParams, $translate, pageService,
+      SITE) {
+      pageService.setTitle($translate.instant('content.confirmationresend.title',
+        {title: SITE.name}));
 
       //If we're following a link from the verification email
       if ($stateParams.token) {

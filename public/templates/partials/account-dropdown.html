@@ -1,15 +1,26 @@
-<a class="dropdown-trigger" href="#" data-toggle="dropdown">Welcome {{ user.display_name }} <span class="caret"></span></a>
+<a class="dropdown-trigger" href="#" data-toggle="dropdown">
+  <span translate="menu.nav.accountwelcome"
+  translate-values="{ name: user.display_name }"></span>
+  <span class="caret"></span></a>
 <ul class="dropdown-menu" role="menu">
-  <li class="link-settings"><a href="/documents">My Documents</a>
-  <li class="link-settings"><a href="/user/edit/{{ user.id }}">Account Settings</a></li>
-  <li><a href="/user/edit/{{ user.id }}/notifications">Notification Settings</a></li>
-  <li class="link-settings"><a href="/groups">Group Management</a></li>
-  <li ng-if="user.admin"><a href="/administrative-dashboard">Administrative Dashboard</a></li>
+  <li class="link-settings">
+    <a href="/documents" translate="menu.nav.documents"></a>
+  </li>
+  <li class="link-settings">
+    <a href="/user/edit/{{ user.id }}" translate="menu.nav.settings"></a>
+  </li>
+  <li>
+    <a href="/user/edit/{{ user.id }}/notifications" translate="menu.nav.notifications"></a>
+  </li>
+  <li class="link-settings">
+    <a href="/groups" translate="menu.nav.groupmanagement"></a>
+  </li>
   <li class="dropdown-submenu pull-left">
-    <a class="dropdown-trigger" href="#" data-toggle="dropdown">Use Madison As</a>
+    <a class="dropdown-trigger" href="#" data-toggle="dropdown"
+      translate="menu.nav.actas"></a>
     <ul class="dropdown-menu" role="menu">
       <li class="link-settings">
-        <small>Using Madison as:</small>
+        <small translate="menu.nav.actingas"></small>
         <br>
         <span ng-if="!!activeGroup">{{ activeGroup.display_name }}</span>
         <span ng-if="!activeGroup">{{ user.display_name }}</span>
@@ -17,8 +28,12 @@
       <li ng-repeat="group in groups">
         <a ng-click="setActiveGroup(group.id)">{{ group.display_name }}</a>
       </li>
-      <li><a ng-click="removeActiveGroup()">Remove Active Group</a></li>
+      <li>
+        <a ng-click="removeActiveGroup()" translate="menu.nav.removegroup"></a>
+      </li>
     </ul>
   </li>
-  <li class="link-logout"><a ng-click="logout()">Logout</a></li>
+  <li class="link-logout">
+    <a ng-click="logout()" translate="menu.nav.logout"></a>
+  </li>
 </ul>

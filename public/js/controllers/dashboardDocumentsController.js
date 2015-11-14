@@ -1,6 +1,11 @@
 angular.module('madisonApp.controllers')
-  .controller('DashboardDocumentsController', ['$scope', '$http', '$filter', 'growl', '$state',
-    function ($scope, $http, $filter, growl, $state) {
+  .controller('DashboardDocumentsController', ['$scope', '$http', '$filter',
+    'growl', '$state', '$translate', 'pageService', 'SITE',
+    function ($scope, $http, $filter, growl, $state, $translate, pageService,
+      SITE) {
+      pageService.setTitle($translate.instant('content.admindocument.title',
+        {title: SITE.name}));
+
       $scope.docs = [];
       $scope.categories = [];
       $scope.sponsors = [];
@@ -14,7 +19,7 @@ angular.module('madisonApp.controllers')
       $scope.select2Config = {
         multiple: true,
         allowClear: true,
-        placeholder: "Filter documents by category, sponsor, or status"
+        placeholder: $translate.instant('content.admindocument.searchfilter')
       };
 
       $scope.dateSortConfig = {
@@ -35,7 +40,7 @@ angular.module('madisonApp.controllers')
         var title = $scope.newDocTitle;
 
         if (!title || !title.trim()) {
-          growl.error('You must enter a document title to create a new document.');
+          growl.error($translate.instant('form.admindocument.title.error'));
         }
 
         $http.post('/api/docs', {title: title})

@@ -1,30 +1,34 @@
 <header>
-  <h1>Login</h1>
+  <h1 translate="content.login.header"></h1>
 </header>
 <section class="login">
   <form ng-submit="login()">
     <!-- Email -->
     <div class="form-group">
-      <label for="email">Email</label>
-      <input type="text" name="email" placeholder="Email" class="form-control" ng-model="credentials.email">
+      <label for="email" translate="form.login.email"></label>
+      <input type="text" name="email" class="form-control"
+        ng-model="credentials.email">
     </div>
     <!-- Password -->
     <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" name="password" placeholder="Password" class="form-control" ng-model="credentials.password">
+      <label for="password" translate="form.login.password"></label>
+      <input type="password" name="password" class="form-control"
+        ng-model="credentials.password">
 
       <!-- Remember checkbox -->
       <div class="checkbox remember-me">
-        <label for="remember">Remember me</label>
+        <label for="remember" translate="form.login.rememberme"></label>
         <input type="checkbox" name="remember" ng-model="credentials.remember">
       </div>
     </div>
     <!-- Submit -->
     <div class="form-group">
-      <button class="login-button">Login</button>
-      <a class="login-help" href="/password/reset">Forgot your password?</a>
-      <a class="login-help" href="/verification/resend">Resend confirmation email</a>
+      <button class="login-button" translate="form.login.submit"></button>
+      <a class="login-help" href="/password/reset"
+        translate="form.login.forgotpassword"></a>
+      <a class="login-help" href="/verification/resend"
+        translate="form.login.resendverification"></a>
     </div>
   </form>
-  <section social-login message="Log in"></section>
+  <section social-login></section>
 </section>

@@ -1,6 +1,10 @@
 angular.module('madisonApp.controllers')
   .controller('UserPageController', ['$scope', '$http', '$location',
-    function ($scope, $http, $location) {
+    '$translate', 'pageService', 'SITE',
+    function ($scope, $http, $location, $translate, pageService, SITE) {
+      pageService.setTitle($translate.instant('content.users.title',
+        {title: SITE.name}));
+
       $scope.user = {};
       $scope.meta = '';
       $scope.docs = [];
@@ -34,7 +38,8 @@ angular.module('madisonApp.controllers')
             angular.forEach($scope.user.user_meta, function (meta) {
               var cont = true;
 
-              if (meta.meta_key === 'verify' && meta.meta_value === 'verified' && cont) {
+              if (meta.meta_key === 'verify' && meta.meta_value === 'verified' &&
+                cont) {
                 $scope.verified = true;
                 cont = false;
               }
@@ -56,7 +61,7 @@ angular.module('madisonApp.controllers')
       $scope.activityOrder = function (activity) {
         return Date.parse(activity.created_at);
       };
-      
+
       $scope.getUser();
     }
     ]);

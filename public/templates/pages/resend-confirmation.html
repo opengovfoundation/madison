@@ -1,18 +1,20 @@
-
 <div class="row">
-  <h1>Resend confirmation email</h1>
+  <h1 translate="content.confirmationresend.header"></h1>
 </div>
 <div class="row">
   <form ng-submit="resendConfirmation()">
-    <p>Please fill out the form below to resend your confirmation email.</p>
+    <div translate="form.confirmationresend.message"></div>
     <div class="form-group">
-      <label for="email">Email Address</label>
-      <input id="email" type="email" name="email" class="form-control" ng-model="email">
+      <label for="email" translate="form.confirmationresend.email"></label>
+      <input id="email" type="email" name="email" class="form-control"
+        ng-model="email">
     </div>
     <div class="form-group">
-      <label for="password">Password</label>
-      <input id="password" type="password" name="password" class="form-control" ng-model="password">
+      <label for="password" translate="form.confirmationresend.password"></label>
+      <input id="password" type="password" name="password" class="form-control"
+        ng-model="password">
     </div>
-    <input class="btn btn-default" type="submit" value="Resend my confirmation email">
+    <input class="btn btn-default" type="submit"
+      value="{{ 'form.confirmationresend.submit' | translate }}">
   </form>
 </div>

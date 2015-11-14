@@ -1,22 +1,31 @@
-<div class="row">  
-  <h1>Members of {{ group.name }} <span ng-if="group.status != 'active'">({{ group.status }})</span></h1>
-  <p ng-if="group.status == 'active'"><a href="/groups/{{ group.id }}/invite">Add new member</a></p>
+<div class="row">
+  <h1>
+    <span translate="content.groupmembers.header"
+      translate-values="{group: group.name}"></span>
+    <span ng-if="group.status != 'active'">({{ group.status }})</span>
+  </h1>
+  <p ng-if="group.status == 'active'">
+    <a href="/groups/{{ group.id }}/invite" class="button action-button"
+      translate="content.groupmembers.addmember"></a>
+  </p>
   <table class="table table-striped" id="groupsTable">
     <thead>
-      <th>Name</th>
-      <th>Role</th>
-      <th>Joined</th>
+      <th translate="content.groupmembers.name"></th>
+      <th translate="content.groupmembers.role"></th>
+      <th translate="content.groupmembers.joined"></th>
       <th>&nbsp;</th>
     </thead>
     <tbody>
       <tr ng-repeat="member in group.members">
         <td>{{ member.name }}</td>
         <td>
-          <select ng-model="member.role" ng-change="updateMemberRole(member)" ng-options="role for role in group.roles">
+          <select ng-model="member.role" ng-change="updateMemberRole(member)"
+            ng-options="role for role in group.roles">
           </select>
         </td>
         <td>{{ member.created_at }} </td>
-        <td><button ng-click="removeMember($index)" class="btn btn-danger">remove</button></td>
+        <td><button ng-click="removeMember($index)" class="btn btn-danger"
+          translate="content.groupmembers.remove"></button></td>
       </tr>
     </tbody>
   </table>

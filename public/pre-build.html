@@ -2,7 +2,7 @@
 <html xmlns:ng="http://angularjs.org" ng-controller="AppController" lang="en">
   <head>
     <meta charset="utf-8" />
-    <title update-title></title>
+    <title>{{ page.title() }}</title>
     <!-- Mobile Optimization -->
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
@@ -59,6 +59,7 @@
 
     <!-- build:js /build/angular.js -->
     <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-i18n/angular-locale_en-us.js"></script>
     <script src="/bower_components/angulartics/dist/angulartics.min.js"></script>
     <script src="/bower_components/angulartics/dist/angulartics-ga.min.js"></script>
     <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
@@ -74,6 +75,10 @@
     <script src="/bower_components/angular-timeago/src/timeAgo.js"></script>
     <script src="/bower_components/angular-ui/build/angular-ui.min.js"></script>
     <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/angular-translate/angular-translate.min.js"></script>
+    <script src="/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+    <script src="/bower_components/messageformat/messageformat.js"></script>
+    <script src="/bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.min.js"></script>
     <!-- endbuild -->
 
     <!-- build:js /build/annotator.js -->
@@ -89,6 +94,7 @@
       <script src="/js/controllers/annotationController.js"></script>
       <script src="/js/controllers/appController.js"></script>
       <script src="/js/controllers/commentController.js"></script>
+      <script src="/js/controllers/contentController.js"></script>
       <script src="/js/controllers/dashboardDocumentsController.js"></script>
       <script src="/js/controllers/dashboardEditorController.js"></script>
       <script src="/js/controllers/dashboardNotificationsController.js"></script>
@@ -102,8 +108,10 @@
       <script src="/js/controllers/groupManagementController.js"></script>
       <script src="/js/controllers/groupMembersController.js"></script>
       <script src="/js/controllers/homePageController.js"></script>
+      <script src="/js/controllers/introPageController.js"></script>
       <script src="/js/controllers/loginPageController.js"></script>
       <script src="/js/controllers/myDocumentsController.js"></script>
+      <script src="/js/controllers/oauthLoginController.js"></script>
       <script src="/js/controllers/passwordResetController.js"></script>
       <script src="/js/controllers/passwordResetLandingController.js"></script>
       <script src="/js/controllers/resendConfirmationController.js"></script>
@@ -137,12 +145,14 @@
       <script src="/js/filters/parseDateFilter.js"></script>
       <script src="/js/filters/toArrayFilter.js"></script>
     <script src="/js/modules/prompts.js"></script>
+    <script src="/js/modules/translate.js"></script>
     <script src="/js/resources.js"></script>
       <script src="/js/resources/docResource.js"></script>
       <script src="/js/resources/groupResource.js"></script>
     <script src="/js/services.js"></script>
       <script src="/js/services/annotationService.js"></script>
       <script src="/js/services/authService.js"></script>
+      <script src="/js/services/pageService.js"></script>
       <script src="/js/services/loginPopupService.js"></script>
       <script src="/js/services/modalService.js"></script>
       <script src="/js/services/sessionService.js"></script>
@@ -156,7 +166,7 @@
     <div class="TYPE-DEBUG"></div>
     <!-- endbuild -->
     <!--[if lt IE 8]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
+      <p class="browsehappy" translate="{{ 'info.message.outdatedbrowser' }}"></p>
     <![endif]-->
     <div growl></div>
     <div login-form ng-if="loggingIn"></div>

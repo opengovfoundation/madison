@@ -1,47 +1,60 @@
 <div class="row">
-    <h1><span ng-if="groupId > 0">Edit</span><span ng-if="!groupId">Create</span> Group Profile</h1>
-    <p ng-if="group.id > 0">If you would like to manage the members of your group, <a href="/groups/{{ group.id }}/members">click here</a></p>
+    <h1>
+      <span ng-if="groupId > 0" translate="content.editgroup.header"></span>
+      <span ng-if="!groupId" translate="content.creategroup.header"></span>
+    </h1>
+    <p ng-if="group.id > 0" translate="form.group.memberslink"
+      translate-values="{groupid: group.id}"></p>
   </div>
 </div>
 <div class="row">
   <div class="col-md-10 col-md-offset-1">
     <form ng-submit="saveGroup()">
       <div class="form-group" ng-if="group.id > 0">
-        <b>Group Status: {{ group.status }}</b>
+        <strong translate="form.group.status"
+        translate-values="{ status: group.status }"></strong>
       </div>
       <div class="form-group">
-        <label for="gname">Group Name:</label>
-        <input type="text" class="form-control" name="gname" id="gname" placeholder="Enter Group Name" ng-model="group.name"/>
+        <label for="gname" translate="form.group.name.label"></label>
+        <input type="text" class="form-control" name="gname" id="gname"
+          ng-model="group.name"/>
       </div>
       <div class="form-group">
-        <label for="dname">Display Name:</label>
-        <input type="text" class="form-control" name="dname" id="dname" placeholder="Enter the Display Name" ng-model="group.display_name"/>
+        <label for="dname" translate="form.group.displayname.label"></label>
+        <input type="text" class="form-control" name="dname" id="dname"
+          ng-model="group.display_name"/>
       </div>
       <div class="form-group">
-        <label for="address1">Address 1:</label>
-        <input type="text" class="form-control" name="address1" id="address1" placeholder="Enter Address Line 1" ng-model="group.address1"/>
+        <label for="address1" translate="form.group.address1.label"></label>
+        <input type="text" class="form-control" name="address1" id="address1"
+          ng-model="group.address1"/>
       </div>
       <div class="form-group">
-        <label for="address2">Address 2:</label>
-        <input type="text" class="form-control" name="address2" id="address2" placeholder="Enter Address Line 2" ng-model="group.address2"/>
+        <label for="address2" translate="form.group.address2.label"></label>
+        <input type="text" class="form-control" name="address2" id="address2"
+          ng-model="group.address2"/>
       </div>
       <div class="form-group">
-        <label for="city">City:</label>
-        <input type="text" class="form-control" name="city" id="city" placeholder="City" ng-model="group.city"/>
+        <label for="city" translate="form.group.city.label"></label>
+        <input type="text" class="form-control" name="city" id="city"
+          ng-model="group.city"/>
       </div>
       <div class="form-group">
-        <label for="state">State:</label>
-        <select state-select ng-model="group.state"></select>
+        <label for="state" translate="form.group.state.label"></label>
+        <select state-select ng-model="group.state" class="form-control"></select>
       </div>
       <div class="form-group">
-        <label for="postal">Postal Code:</label>
-        <input type="text" class="form-control" name="postal" id="postal" placeholder="Enter Postal / Zip Code" ng-model="group.postal_code"/>
+        <label for="postal" translate="form.group.postalcode.label"></label>
+        <input type="text" class="form-control" name="postal" id="postal"
+          ng-model="group.postal_code"/>
       </div>
       <div class="form-group">
-        <label for="phone">Contact Phone:</label>
-        <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Contact Phone Number" ng-model="group.phone_number"/>
+        <label for="phone" translate="form.group.contactphone.label"></label>
+        <input type="text" class="form-control" name="phone" id="phone"
+          ng-model="group.phone_number"/>
       </div>
-      <button type="submit" class="btn btn-default">Submit</button>
+      <button type="submit" class="btn btn-default"
+        translate="form.group.submit"></button>
     </form>
   </div>
 </div>

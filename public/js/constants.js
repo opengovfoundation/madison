@@ -78,4 +78,7 @@ angular.module('madisonApp.constants', [])
       'PR': 'Puerto Rico',
       'VI': 'Virgin Islands',
     }
+  })
+  .constant('SITE', {
+    name: 'Madison'
   });

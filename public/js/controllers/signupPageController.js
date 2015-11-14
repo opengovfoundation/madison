@@ -1,6 +1,10 @@
 angular.module('madisonApp.controllers')
-  .controller('SignupPageController', ['$scope', '$state', 'AuthService', 'growl',
-    function ($scope, $state, AuthService, growl) {
+  .controller('SignupPageController', ['$scope', '$state', 'AuthService',
+    'growl', '$translate', 'pageService', 'SITE',
+    function ($scope, $state, AuthService, growl, $translate, pageService, SITE) {
+      pageService.setTitle($translate.instant('content.signup.title',
+        {title: SITE.name}));
+
       $scope.signup = function () {
         var signup = AuthService.signup($scope.credentials);
 
@@ -8,12 +12,12 @@ angular.module('madisonApp.controllers')
           $scope.credentials = {fname: "", lname: "", email: "", password: ""};
           AuthService.getUser();
           $state.go('index');
-          growl.success("Welcome to Madison!  We just sent you an email.  Please click on the activation link to log in.");
+          growl.success($translate.instant('form.signup.success'));
         })
           .error(function (response) {
             console.error(response);
             if (!response.messages) {
-              growl.error("There was an error signing you up.  Check your console for details.");
+              growl.error($translate.instant('form.signup.error'));
             }
           });
       };

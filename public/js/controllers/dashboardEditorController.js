@@ -1,8 +1,15 @@
 /*global Markdown*/
 /*global alert*/
 angular.module('madisonApp.controllers')
-  .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$location', '$filter', 'growl', '$upload', 'modalService', 'Doc',
-    function ($scope, $http, $timeout, $location, $filter, growl, $upload, modalService, Doc) {
+  .controller('DashboardEditorController', ['$scope', '$http', '$timeout',
+      '$location', '$filter', 'growl', '$upload', 'modalService', 'Doc',
+      '$translate', 'pageService', 'SITE',
+    function ($scope, $http, $timeout, $location, $filter, growl, $upload,
+      modalService, Doc, $translate, pageService, SITE) {
+
+      pageService.setTitle($translate.instant('content.editdocument.title',
+        {title: SITE.name}));
+
       $scope.doc = {};
       $scope.sponsor = {};
       $scope.status = {};
@@ -29,7 +36,8 @@ angular.module('madisonApp.controllers')
       });
 
       function clean_slug(string) {
-        return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').replace(/ +/g, '-');
+        return string.toLowerCase().replace(/[^a-zA-Z0-9\- ]/g, '').
+          replace(/ +/g, '-');
       }
 
       $scope.getDoc = function (id) {
@@ -42,8 +50,13 @@ angular.module('madisonApp.controllers')
             });
 
             if ($scope.doc.thumbnail !== null) {
-              $scope.featuredImage = {path: $scope.doc.thumbnail + '?' + new Date().getTime()};
+              $scope.featuredImage = {path: $scope.doc.thumbnail + '?' +
+                new Date().getTime()};
             }
+
+            pageService.setTitle($translate.instant(
+              'content.editdocument.title.loaded',
+              {title: SITE.name, docTitle: data.title}));
           });
       };
 
@@ -72,7 +85,7 @@ angular.module('madisonApp.controllers')
 
       $scope.setSelectOptions = function () {
         $scope.categoryOptions = {
-          placeholder: "Add document categories",
+          placeholder: $translate.instant('form.document.category.placeholder'),
           multiple: true,
           simple_tags: true,
           tokenSeparators: [","],
@@ -94,7 +107,7 @@ angular.module('madisonApp.controllers')
 
         /*jslint unparam: true*/
         $scope.statusOptions = {
-          placeholder: "Select Document Status",
+          placeholder: $translate.instant('form.document.status.placeholder'),
           ajax: {
             url: "/api/docs/statuses",
             dataType: 'json',
@@ -133,7 +146,7 @@ angular.module('madisonApp.controllers')
         };
 
         $scope.sponsorOptions = {
-          placeholder: "Select Document Sponsor",
+          placeholder: $translate.instant('form.document.sponsor.placeholder'),
           allowClear: true,
           ajax: {
             url: "/api/user/sponsors/all",
@@ -154,10 +167,12 @@ angular.module('madisonApp.controllers')
 
                 switch (sponsor.sponsorType) {
                 case 'group':
-                  text = "[Group] " + sponsor.name;
+                  text = $translate.instant('form.document.sponsor.groupflag',
+                    {name: sponsor.name});
                   break;
                 case 'user':
-                  text = sponsor.fname + " " + sponsor.lname + " - " + sponsor.email;
+                  text = sponsor.fname + " " + sponsor.lname + " - " +
+                    sponsor.email;
                   break;
                 }
 
@@ -203,7 +218,8 @@ angular.module('madisonApp.controllers')
       docDone.then(function () {
         new Markdown.Editor(Markdown.getSanitizingConverter()).run();
 
-        // We don't control the pagedown CSS, and this DIV needs to be scrollable
+        // We don't control the pagedown CSS, and this DIV needs to be
+        // scrollable
         $("#wmd-preview").css("overflow", "scroll");
 
         // Resizing dynamically according to the textarea is hard,
@@ -219,7 +235,9 @@ angular.module('madisonApp.controllers')
           if (introTextTimeout) {
             $timeout.cancel(introTextTimeout);
           }
-          introTextTimeout = $timeout(function () { $scope.saveIntroText(newValue); }, 3000);
+          introTextTimeout = $timeout(function () {
+              $scope.saveIntroText(newValue);
+          }, 3000);
         };
 
         $scope.getDocSponsor().then(function () {
@@ -281,14 +299,14 @@ angular.module('madisonApp.controllers')
             // Changing doc.slug in-place will trigger the $watch
             var safe_slug = $scope.doc.slug;
             var sanitized_slug = clean_slug(safe_slug);
-            // If cleaning the slug didn't change anything, we have a valid NEW slug,
-            // and we can save it
+            // If cleaning the slug didn't change anything, we have a valid NEW
+            // slug, and we can save it
             if (safe_slug === sanitized_slug) {
               $scope.saveSlug();
             } else {
               // Change the slug in-place, which will trigger another watch
               // (handled by the POST function)
-              growl.error('Error saving slug');
+              growl.error($translate.instant('errors.document.edit.slug'));
               console.log('Invalid slug, reverting');
               $scope.doc.slug = sanitized_slug;
             }
@@ -325,12 +343,14 @@ angular.module('madisonApp.controllers')
       * getShortUrl
       *
       * Makes API call to opngv.us/api
-      *   Runs when the 'Get Short Url' button is clicked on the 'Document Information' tab.
+      *   Runs when the 'Get Short Url' button is clicked on the 'Document
+      *   Information' tab.
       */
       $scope.getShortUrl = function () {
         /**
         * Hardcoded API Credentials
         */
+        // TODO: Why are these hardcoded?
         var opngv = {
           username: 'madison-robot',
           password: 'MeV3MJJE',
@@ -339,7 +359,8 @@ angular.module('madisonApp.controllers')
 
         //Construct document url
         var slug = $scope.doc.slug;
-        var long_url = $location.protocol() + '://' + $location.host() + '/docs/' + slug;
+        var long_url = $location.protocol() + '://' + $location.host() +
+          '/docs/' + slug;
 
         $http({
           url: opngv.api,
@@ -356,7 +377,7 @@ angular.module('madisonApp.controllers')
           $scope.short_url = data.shorturl;
         }).error(function (data) {
           console.error("Error generating short url: %o", data);
-          growl.error('There was an error generating your short url.');
+          growl.error($translate.instant('errors.document.edit.shorturl'));
         });
       };
 
@@ -375,7 +396,8 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.saveTitle = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/title', {'title': $scope.doc.title})
+        return $http.post('/api/docs/' + $scope.doc.id + '/title',
+            {'title': $scope.doc.title})
           .success(function (data) {
             console.log("Title saved successfully: %o", data);
           }).error(function (data) {
@@ -384,7 +406,8 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.savePrivate = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/private', {'private': $scope.doc.private})
+        return $http.post('/api/docs/' + $scope.doc.id + '/private',
+            {'private': $scope.doc.private})
           .success(function (data) {
             console.log("Private saved successfully: %o", data);
           }).error(function (data) {
@@ -393,7 +416,8 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.saveSlug = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/slug', {'slug': $scope.doc.slug})
+        return $http.post('/api/docs/' + $scope.doc.id + '/slug',
+            {'slug': $scope.doc.slug})
           .success(function (data) {
             console.log("Slug sent: %o", data);
           }).error(function (data) {
@@ -402,7 +426,8 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.saveContent = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/content', {'content': $scope.doc.content.content})
+        return $http.post('/api/docs/' + $scope.doc.id + '/content',
+            {'content': $scope.doc.content.content})
           .success(function (data) {
             console.log("Content saved successfully: %o", data);
           }).error(function (data) {
@@ -483,7 +508,8 @@ angular.module('madisonApp.controllers')
               $scope.categories.push(category.name);
             });
           }).error(function (data) {
-            console.error("Unable to get categories for document %o: %o", $scope.doc, data);
+            console.error("Unable to get categories for document %o: %o",
+              $scope.doc, data);
           });
       };
 
@@ -492,7 +518,8 @@ angular.module('madisonApp.controllers')
           .success(function (data) {
             $scope.introtext = data.meta_value;
           }).error(function (data) {
-            console.error("Unable to get Intro Text for document %o: %o", $scope.doc, data);
+            console.error("Unable to get Intro Text for document %o: %o",
+              $scope.doc, data);
           });
       };
 
@@ -508,9 +535,11 @@ angular.module('madisonApp.controllers')
 
             switch (data.sponsorType.toLowerCase()) {
             case 'group':
-              text = "[Group] " + data.name;
+              text = $translate.instant('form.document.sponsor.groupflag',
+                {name: data.name});
               break;
             case 'user':
+              // TODO: i18n on names is hard. Revisit this.
               text = data.fname + " " + data.lname + " - " + data.email;
               break;
             }
@@ -581,7 +610,8 @@ angular.module('madisonApp.controllers')
           .success(function (data) {
             console.log("Categories saved successfully: %o", data);
           }).error(function (data) {
-            console.error("Error saving categories for document %o: %o \n %o", $scope.doc, $scope.categories, data);
+            console.error("Error saving categories for document %o: %o \n %o",
+              $scope.doc, $scope.categories, data);
           });
       };
 
@@ -593,13 +623,15 @@ angular.module('madisonApp.controllers')
           .success(function (data) {
             console.log("Intro Text saved successfully: %o", data);
           }).error(function (data) {
-            console.error("Error saving intro text for document %o: %o", $scope.doc, $scope.introtext);
+            console.error("Error saving intro text for document %o: %o",
+              $scope.doc, $scope.introtext);
           });
       };
 
       //Handle image uploads
       $scope.uploadImage = function (file) {
-        //This is passed an empty array when the file selection is shown for some reason (?)
+        //This is passed an empty array when the file selection is shown for
+        //some reason (?)
         if (file.length === 0) {
           return;
         }
@@ -614,7 +646,8 @@ angular.module('madisonApp.controllers')
           })
             //Update the progress bar
             .progress(function (event) {
-              var progressPercentage = parseInt(100.0 * event.loaded / event.total, 10);
+              var progressPercentage =
+                parseInt(100.0 * event.loaded / event.total, 10);
 
               $scope.uploadProgress = progressPercentage;
             })
@@ -622,7 +655,8 @@ angular.module('madisonApp.controllers')
             .success(function (data, status, headers, config) {
               $scope.uploadType = 'success';
 
-              $scope.featuredImage = {path: data.imagePath + '?' + new Date().getTime()};
+              $scope.featuredImage = {path: data.imagePath + '?' +
+                new Date().getTime()};
             })
             //Update progress bar class on error
             .error(function () {
@@ -636,13 +670,13 @@ angular.module('madisonApp.controllers')
             });
         } else {
           console.error("Error uploading %o", file);
-          growl.error('There was an error with the image upload');
+          growl.error($translate.instant('errors.document.edit.image'));
         }
       };
 
       $scope.deleteFeaturedImage = function () {
         if ($scope.doc.featured === true) {
-          growl.error('You cannot delete the image of a Featured Document');
+          growl.error($translate.instant('errors.document.edit.imagerequired'));
         } else {
           return $http.delete('/api/docs/' + $scope.doc.id + '/featured-image')
             .success(function () {
@@ -664,16 +698,19 @@ angular.module('madisonApp.controllers')
             var bodyText;
 
             if (featuredDoc.id === $scope.doc.id) {
-              bodyText = 'Are you sure you want to unset this as the Featured Document?';
+              bodyText = $translate.instant('errors.document.edit.unfeatured');
             } else {
-              bodyText = 'A Featured Document is already set.  Are you sure you want to change the Featured Document?';
+              bodyText = $translate.instant('errors.document.edit.multiplefeatured');
             }
 
 
             var modalOptions = {
-              closeButtonText: 'Cancel',
-              actionButtonText: 'Change Featured Document',
-              headerText: 'Change Featured Document?',
+              closeButtonText:
+                $translate.instant('form.general.cancel'),
+              actionButtonText:
+                $translate.instant('form.document.featured.change'),
+              headerText:
+                $translate.instant('form.document.featured.confirm'),
               bodyText: bodyText
             };
 
@@ -690,7 +727,8 @@ angular.module('madisonApp.controllers')
               $scope._setFeaturedDoc();
             });
           } else {
-            //If the featured document isn't set, set this one as the featured document
+            //If the featured document isn't set, set this one as the featured
+            //document
             $scope._setFeaturedDoc();
           }
         });

@@ -80,10 +80,6 @@
         @extend .row;
     }
 
-    .existing-date {
-        @extend .row;
-    }
-
     .dates {
         @extend .row;
     }
@@ -94,5 +90,20 @@
         table {
             width:100%;
         }
+    }
+}
+
+
+.existing-date {
+    @extend .row;
+    position: relative;
+    padding-right: 25px;
+
+    .close-label {
+        position: absolute;
+        top: 0.5 * $line-height-computed;
+        right: 0px;
+        padding-top: 0;
+        margin-top: 0;
     }
 }

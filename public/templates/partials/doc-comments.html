@@ -1,38 +1,49 @@
 <div class="comment-field" ng-show="user">
     <form name="add-comment-form" ng-submit="commentSubmit(comment)">
-        <textarea ng-model="comment.text" id="doc-comment-field" type="text" class="form-control centered" required></textarea>
-        <button class="btn btn-primary">Add Comment</button>
+        <textarea ng-model="comment.text" id="doc-comment-field" type="text"
+            class="form-control centered" required></textarea>
+        <button class="btn btn-primary"
+            translate="document.action.addcomment"></button>
     </form>
 </div>
 <div class="comment-field" ng-hide="user">
-    <a ng-click="showLoginForm($event)">Login to comment</a>
+    <a href="/user/login"
+        ng-click="showLoginForm($event)"
+        translate="document.action.mustlogin"></a>
 </div>
 <div class="comment-thread" ng-show="doc.comments.length">
     <article ng-repeat="comment in doc.comments" class="comment">
         <header class="comment-header">
             <span class="author">{{ comment.user.display_name }}</span>
-            <time pubdate class="date" datetime="{{ comment.created_at }}">{{ comment.created_at | timeAgo }}</time>
+
+            <span translate="document.label.date.timeago"
+                translate-values="{datetime: comment.created_at}"></span>
         </header>
         <section class="content">
             {{ comment.text }}
         </section>
         <div ng-if="comment.replyCount > 0" class="toggle-replies">
-            <a class="doc-replies-count" ng-click="toggleReplies(comment, $event)">
-                <span ng-if="!showReplies[comment.id]">Show</span>
-                <span ng-if="showReplies[comment.id]">Hide</span>
-                <ng-pluralize count="comment.replyCount"
-                   when="{'0': '',
-                          'one': 'reply (1)',
-                          'other': 'replies ({})'}"></ng-pluralize>
+            <a class="doc-replies-count"
+                ng-click="toggleReplies(comment, $event)">
+                <span ng-if="!showReplies[comment.id]"
+                    translate="form.general.show"></span>
+                <span ng-if="showReplies[comment.id]"
+                    translate="form.general.hide"></span>
+                <span translate="annotations.label.replies"
+                    translate-values="{count: comment.replyCount}"
+                    translate-interpolation="messageformat"></span>
             </a>
-            <span class="loading" ng-class="{hidden: !loadingReplies[comment.id]}"></span>
+            <span class="loading"
+                ng-class="{hidden: !loadingReplies[comment.id]}"></span>
         </div>
         <comment-actions object="comment"></comment-actions>
         <section class="replies" ng-show="showReplies[comment.id]">
             <article ng-repeat="reply in comment.comments" class="comment-reply">
                 <header class="comment-header">
                     <span class="author">{{ reply.user.display_name }}</span>
-                    <time pubdate class="date" datetime="{{ reply.created_at }}">{{ reply.created_at | timeAgo }}</time>
+
+                    <span translate="document.label.date.timeago"
+                        translate-values="{datetime: reply.created_at}"></span>
                 </header>
                 <section class="content">
                     {{ reply.text }}
@@ -40,29 +51,39 @@
                 <comment-actions object="reply"></comment-actions>
             </article>
             <div ng-if="comment.replyCount == 0">
-                <span class="doc-replies-count">No replies</span>
+                <span class="doc-replies-count"
+                    translate="annotations.label.replies.none"></span>
             </div>
         </section>
-        <a ng-click="showLoginForm($event)" ng-show="!user" class="login-message">Login to reply</a>
+        <a href="/user/login" ng-show="!user" class="login-message"
+            ng-click="showLoginForm($event)"
+            translate="document.action.mustlogin"></a>
         <section class="reply" ng-show="user">
-            <form name="add-comment-form" ng-submit="subcommentSubmit(comment, commentReply)">
-                <input type="hidden" ng-model="commentReply.parent_id" value="{{comment.id}}" />
-                <textarea ng-model="commentReply.text" id="doc-comment-field" type="text" class="form-control centered" required></textarea>
-                <button class="btn btn-primary">Reply</button>
+            <form name="add-comment-form"
+                ng-submit="subcommentSubmit(comment, commentReply)">
+                <input type="hidden" ng-model="commentReply.parent_id"
+                    value="{{comment.id}}" />
+                <textarea ng-model="commentReply.text" id="doc-comment-field"
+                    type="text" class="form-control centered" required></textarea>
+                <button class="btn btn-primary"
+                    translate="document.action.reply"></button>
             </form>
         </section>
     </article>
 </div>
 <div class="comment-field" ng-show="user && doc.comments.length > 10">
     <form name="add-comment-form" ng-submit="commentSubmit(comment)">
-        <textarea ng-model="comment.text" id="doc-comment-field" type="text" class="form-control centered" required></textarea>
-        <button class="btn btn-primary">Add Comment</button>
+        <textarea ng-model="comment.text" id="doc-comment-field" type="text"
+            class="form-control centered" required></textarea>
+        <button class="btn btn-primary"
+            translate="document.action.addcomment"></button>
     </form>
 </div>
 <div class="comment-field" ng-show="!user && doc.comments.length > 10">
-    <a ng-click="showLoginForm($event)">Login to comment</a>
+    <a href="/user/login" ng-click="showLoginForm($event)"
+        translate="document.action.mustlogin"></a>
 </div>
 
 <div class="comment-thread" ng-hide="doc.comments.length">
-    <p>No comments yet.</p>
+    <p translate="annotations.label.comments.none"></p>
 </div>

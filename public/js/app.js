@@ -5,6 +5,10 @@ window.jQuery = window.$;
 var user;
 
 var imports = [
+  'ngAnimate',
+  'ngSanitize',
+  'ngResource',
+  'pascalprecht.translate',
   'madisonApp.constants',
   'madisonApp.filters',
   'madisonApp.services',
@@ -12,16 +16,14 @@ var imports = [
   'madisonApp.directives',
   'madisonApp.controllers',
   'madisonApp.prompts',
+  'madisonApp.translate',
   'angulartics',
   'angulartics.google.analytics',
   'ui',
   'ui.router',
   'ui.bootstrap',
   'ui.bootstrap.datetimepicker',
-  'ngAnimate',
-  'ngSanitize',
   'angular-growl',
-  'ngResource',
   'ipCookie',
   'angularFileUpload',
   'yaru22.angular-timeago'

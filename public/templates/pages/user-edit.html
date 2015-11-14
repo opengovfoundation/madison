@@ -1,59 +1,79 @@
 <div class="row">
-  <h1>Edit Profile</h1>
+  <h1 translate="content.edituser.header"></h1>
 </div>
 <div class="row">
   <form ng-submit="saveUser()">
     <!-- First Name -->
     <div class="form-group">
-      <label for="fname">First Name:</label>
-      <input type="text" class="form-control" name="fname" id="fname" placeholder="Enter First Name" ng-model="user.fname"/>
+      <label for="fname" translate="form.edituser.firstname"></label>
+      <input type="text" class="form-control" name="fname" id="fname"
+        ng-model="user.fname"/>
     </div>
     <!-- Last Name -->
     <div class="form-group">
-      <label for="lname">Last Name:</label>
-      <input type="text" class="form-control" name="lname" id="lname" placeholder="Enter Last Name" ng-model="user.lname"/>
+      <label for="lname" translate="form.edituser.lastname"></label>
+      <input type="text" class="form-control" name="lname" id="lname"
+        ng-model="user.lname"/>
     </div>
     <!-- Email -->
     <div class="form-group">
-      <label for="email">Email Address:</label>
-      <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" ng-model="user.email"/>
+      <label for="email" translate="form.edituser.email"></label>
+      <input type="email" class="form-control" name="email" id="email"
+        ng-model="user.email"/>
     </div>
     <!-- URL -->
     <div class="form-group">
-      <label for="url">URL:</label>
-      <input type="url" ng-model="user.url" class="form-control" placeholder="Enter URL" />
+      <label for="url" translate="form.edituser.url"></label>
+      <input type="url" class="form-control" name="url" id="url"
+        ng-model="user.url" placeholder="https://example.com" />
     </div>
     <!-- Phone -->
     <div class="form-group">
-      <label for="phone">Phone number:</label>
-      <input type="tel" ng-model="user.phone" class="form-control" placeholder="Enter phone" />
+      <label for="phone" translate="form.edituser.phone"></label>
+      <input type="tel" class="form-control" name="phone" id="phone"
+        ng-model="user.phone" />
     </div>
     <!-- Password -->
     <div class="form-group">
-      <label for="password_1">Change password:</label>
-      <input type="password" ng-model="user.password" name="password_1" class="form-control" placeholder="New password" />
+      <label for="password_1" translate="form.edituser.password"></label>
+      <input type="password" class="form-control" name="password_1" id="password_1"
+        ng-model="user.password" />
     </div>
     <div class="form-group">
-      <label for="password_2">Confirm password:</label>
-      <input type="password" ng-model="password_confirmation" name="password_2" class="form-control" placeholder="Repeat new password" />
+      <label for="password_2" translate="form.edituser.password.confirm"></label>
+      <input type="password" class="form-control" name="password_2" id="password_2"
+        ng-model="password_confirmation" />
     </div>
     <div class="checkbox">
-      <label ng-if="user.verified">
-        <input name="verify" type="checkbox" checked disabled> Request 'Verified Account' is '{{ user.verified }}'
-      </label>
+      <span ng-if="user.verified == 'pending'"
+        translate="form.edituser.verify.pending">
+      <span ng-if="user.verified == 'verified'"
+        translate="form.edituser.verify.verified">
+      <span ng-if="user.verified == 'rejected'"
+        translate="form.edituser.verify.rejected">
       <label ng-if="!user.verified">
-        <input name="verify" id="verify" type="checkbox" ng-model="user.verify_request"> Request 'Verified Account'
+        <input name="verify" id="verify" type="checkbox"
+          ng-model="user.verify_request" />
+        <span translate="form.edituser.verify.label"></span>
       </label>
     </div>
     <div class="form-group">
-      <p ng-if="user.independent_sponsor === true"><span class="glyphicon glyphicon-check"></span> Your account is able to sponsor documents as an individual.</p>
-      <p ng-if="user.independent_sponsor === false">Your request to become an Independent Sponsor is 'pending'.</p>
-      <p ng-if="!user.independent_sponsor">Want to be a document sponsor? <a href="/user/sponsor">Request to be an Independent Sponsor.</a></p>
+      {{ user.independent_sponsor }}
+      <p ng-if="user.independent_sponsor === true">
+        <span class="glyphicon glyphicon-check"></span>
+        <span translate="form.edituser.sponsor.active"></span>
+      </p>
+      <p ng-if="user.independent_sponsor === false"
+        translate="form.edituser.sponsor.pending"></p>
+      <p ng-if="user.independent_sponsor === undefined"
+        translate="form.edituser.sponsor.request"></p>
     </div>
     <div class="form-group">
       <!-- Change avatar at gravatar.com -->
-      <a href="https://gravatar.com" target="_blank" class="red">Change your avatar at Gravatar.com</a>
+      <a href="https://gravatar.com" target="_blank"
+        translate="form.edituser.gravatar"></a>
     </div>
-    <button type="submit" class="btn btn-default" ng-click="saveUser()">Save</button>
+    <button type="submit" class="btn btn-default" ng-click="saveUser()"
+      translate="form.edituser.submit"></button>
   </form>
 </div>

@@ -8,7 +8,7 @@ header {
 // Navbar
 .navbar {
     background-color: $dark-grey;
-    height: $header-height;
+    min-height: $header-height;
     border: 0;
 
     a {
@@ -59,6 +59,11 @@ header {
         margin-right: -20px;
         padding-left: 0;
         padding-right: 0;
+
+        // Hide our home link.
+        .link-home {
+            display: none;
+        }
     }
 
     // Smartphone

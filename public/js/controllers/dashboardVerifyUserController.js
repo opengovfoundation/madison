@@ -1,6 +1,10 @@
 angular.module('madisonApp.controllers')
-  .controller('DashboardVerifyUserController', ['$scope', '$http',
-    function ($scope, $http) {
+  .controller('DashboardVerifyUserController', ['$scope', '$http', '$translate',
+    'pageService', 'SITE',
+    function ($scope, $http, $translate, pageService, SITE) {
+      pageService.setTitle($translate.instant('content.verifyindependent.title',
+        {title: SITE.name}));
+
       $scope.requests = [];
       $scope.formdata = {
         'status' : 'pending'
@@ -17,7 +21,8 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.update = function (request, status) {
-        $http.post('/api/user/independent/verify', {'request': request, 'status': status})
+        $http.post('/api/user/independent/verify',
+            {'request': request, 'status': status})
           .success(function (data) {
             request.meta_value = status;
             location.reload();

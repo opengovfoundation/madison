@@ -1,112 +1,146 @@
 <div admin-breadcrumbs></div>
 <header>
-  <h1>Edit Document</h1>
+  <h1 translate="content.editdocument.header"></h1>
 </header>
-<a href="/docs/{{ doc.slug }}" class="public-link" target="_self"><i class="fa fa-eye"></i> Public View</a>
+<a href="/docs/{{ doc.slug }}" class="public-link" target="_self"
+  translate="form.document.publicview"></a>
 <section class="document-edit-tabs">
   <tabset>
     <!-- Start document content tab -->
-    <tab class="document-edit-tab" heading="Document Content">
-      <small>Document content saves automatically after 3 seconds.</small>
+    <tab class="document-edit-tab"
+      heading="{{ 'content.editdocument.tab.content' | translate }}">
+      <small translate="content.editdocument.savemessage"></small>
       <div class="doc-content">
         <div id="wmd-button-bar"></div>
-        <textarea class="wmd-input" id="wmd-input" name="content" ng-model="doc.content.content"></textarea>
+        <textarea class="wmd-input" id="wmd-input" name="content"
+          ng-model="doc.content.content"></textarea>
         <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
       </div>
       <div class="doc-content-helpers">
-        <p><small>Need help converting a Microsoft Word document?  <a href="http://word-to-markdown.herokuapp.com/" target="_blank">There's a tool for that.</a></small></p>
-        <p><small>New to Markdown? Check out our <a href="/pdf/MarkdownCheatSheet.pdf" target="_blank">Markdown Cheat Sheet.</a></small></p>
-        <button class="save-document-button">Save Now</button>
+        <p><small translate="content.editdocument.wordmessage"></small></p>
+        <p><small translate="content.editdocument.markdownmessage"
+          ></a></small></p>
+        <button class="save-document-button"
+          translate="form.general.savenow"></button>
       </div>
     </tab>
     <!-- End document content tab -->
 
     <!-- Start document information tab -->
-    <tab heading="Document Information">
+    <tab heading="{{ 'content.editdocument.tab.information' | translate }}">
       <form class="document-information">
         <div class="form-group">
-          <label for="title">Title: </label>
-          <input type="text" name="title" id="title" value="{{ doc.title }}" ng-model="doc.title" class="form-control" />
+          <label for="title" translate="form.document.title.label"></label>
+          <input type="text" name="title" id="title" value="{{ doc.title }}"
+            ng-model="doc.title" class="form-control"
+            placeholder="{{ 'form.document.title.placeholder' | translate }}"/>
         </div>
         <div class="form-group" ng-if="user.admin">
-          <button class="button" ng-class="{'action-button': !doc.featured}" ng-click="tryFeaturedDoc()" ng-disabled="doc.featured">
-            {{ doc.featured ? 'Already ' : '' }}Set as 'Featured Document'
+          <button class="button" ng-class="{'action-button': !doc.featured}"
+            ng-click="tryFeaturedDoc()" ng-disabled="doc.featured">
+            {{ doc.featured ? 'form.document.featured.already' :
+              'form.document.featured.set' | translate }}
           </button>
         </div>
         <div class="form-group">
-          <label for="slug">Slug: </label>
-          <input type="text" name="slug" id="slug" value="{{ doc.slug }}" ng-model="doc.slug" class="form-control"/>
-          <small class="help-block">a-z (lowercase), 0-9, and "-" only.</small>
+          <label for="slug" translate="form.document.slug.label"></label>
+          <input type="text" name="slug" id="slug" value="{{ doc.slug }}"
+            ng-model="doc.slug" class="form-control"
+            placeholder="{{ 'form.document.slug.placeholder' | translate }}" />
+          <small class="help-block" translate="form.document.slug.instructions"
+            ></small>
         </div>
         <div class="form-group">
-          <label for="status">Status: </label>
-          <input name="status" type="hidden" ui-select2="statusOptions" ng-model="status" ng-change="statusChange(status)" data-placeholder="">
+          <label for="status" translate="form.document.status.label"></label>
+          <input name="status" type="hidden" ui-select2="statusOptions"
+            ng-model="status" ng-change="statusChange(status)"
+            data-placeholder="">
         </div>
         <div class="form-group">
-          <label for="private">Private: </label>
-          <input type="checkbox" name="private" id="private" value="{{ doc.private }}" ng-model="doc.private" class="form-control"
-            ng-true-value="1" ng-false-value="0" />
-          <small class="help-block">If a document is private, it will not show up in search or lists, but can still be accessed by anyone who has the link to the document.</small>
+          <label for="private" translate="form.document.private.label"></label>
+          <input type="checkbox" name="private" id="private"
+            value="{{ doc.private }}" ng-model="doc.private"
+            class="checkbox" ng-true-value="1" ng-false-value="0" />
+          <small class="help-block" translate="form.document.private.help"></small>
         </div>
         <div class="form-group">
-          <label for="sponsor">Sponsor: </label>
-          <input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor" ng-change="sponsorChange(sponsor)" id="sponsor">
+          <label for="sponsor" translate="form.document.sponsor.label"></label>
+          <input type="hidden" ui-select2="sponsorOptions" ng-model="sponsor"
+            ng-change="sponsorChange(sponsor)" id="sponsor">
         </div>
         <div class="form-group">
-          <label for="categories">Categories: </label>
-          <div name="categories" type="hidden" ui-select2="categoryOptions" ng-model="categories" ng-change="categoriesChange(categories)" multiple ></div>
+          <label for="categories" translate="form.document.category.label"></label>
+          <div name="categories" type="hidden" ui-select2="categoryOptions"
+            ng-model="categories" ng-change="categoriesChange(categories)"
+            multiple ></div>
         </div>
         <div class="form-group">
-          <label for="introtext">Intro Text: </label>
-          <textarea class="form-control" rows="10" ng-model="introtext" ng-change="updateIntroText(introtext)"></textarea>
-          <span class="help-block">Markdown Friendly.  Auto-saves 3 seconds after you're done editing.</span>
+          <label for="introtext" translate="form.document.introtext.label"></label>
+          <textarea class="form-control" rows="10" ng-model="introtext"
+            ng-change="updateIntroText(introtext)"></textarea>
+          <span class="help-block" translate="form.document.introtext.help"></span>
         </div>
         <div class="form-group image-upload-group">
-          <label for="doc-image">Image:</label>
-          <div class="image-upload" ng-file-select ng-file-drop ng-accept="'image/*'" ng-file-change="uploadImage($files)">Drag file or click to upload image</div>
+          <label for="doc-image" translate="form.document.image.label"></label>
+          <div class="image-upload" ng-file-select ng-file-drop
+            ng-accept="'image/*'" ng-file-change="uploadImage($files)"
+            translate="form.document.image.help" role="button"></div>
           <div class="progress" ng-if="uploadProgress" class="fade">
-            <progressbar class="progress-striped active" max="100" value="uploadProgress" type="{{ uploadType }}"><span>{{ uploadProgress }}%</span></progressbar>
+            <progressbar class="progress-striped active" max="100"
+            value="uploadProgress" type="{{ uploadType }}"
+              ><span>{{ uploadProgress }}%</span></progressbar>
           </div>
           <article class="image-preview" ng-if="!!featuredImage.path">
-            <h1>Image Preview:</h1>
-            <a class="image-delete" ng-click="deleteFeaturedImage()">Delete Image</a>
-            <img ng-src="{{ featuredImage.path }}" class="img-responsive" alt="featured-image">
+            <h1 translate="form.document.image.preview"></h1>
+            <a class="image-delete" ng-click="deleteFeaturedImage()"
+              translate="form.document.image.remove" role="button"></a>
+            <img ng-src="{{ featuredImage.path }}" class="img-responsive"
+              alt="{{ 'form.document.image.title' | translate }}">
           </article>
         </div>
       </form>
       <div class="document-dates">
+        <label>Event Dates</label>
         <div class="dates-header" ng-if="dates.lengh > 0">
-          <strong>Existing Dates:</strong>
+          <strong translate="form.document.date.existing"></strong>
         </div>
-        <div class="existing-date" ng-repeat="date in dates">
+        <div class="existing-date form-group" ng-repeat="date in dates">
           <form class="form-horizontal">
-            <div class="form-group no-bottom-margin">
-              <div class="col-sm-10">
+            <div class="">
+              <div class="date-label-container">
                 <input class="date-label form-control" ng-model="date.label" />
               </div>
-              <label class="control-label col-sm-1"><a class="close" ng-click="deleteDate(date)">&times;</a></label>
             </div>
             <div class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
                 {{ date.date | date:'short' }}
               </a>
               <ul class="dropdown-menu">
-                <datetimepicker ng-model="date.date" datetimepicker-config="{dropdownSelector: '.dropdown-toggle' }"></datetimepicker>
+                <datetimepicker ng-model="date.date"
+                  datetimepicker-config="{dropdownSelector: '.dropdown-toggle' }"
+                ></datetimepicker>
               </ul>
             </div>
-            <div class="btn btn-info" ng-show="date.$changed" ng-click="saveDate(date)">Update</div>
+            <div class="btn btn-info" ng-show="date.$changed" role="button"
+              ng-click="saveDate(date)" translate="form.general.update"
+              aria-label="{{ 'form.general.update' | translate }}"></div>
+            <label class="control-label close-label"><a class="close"
+              ng-click="deleteDate(date)" role="button"
+              title="{{ 'form.document.date.remove' | translate }}"
+              aria-label="{{ 'form.document.date.remove' | translate }}"
+              >&times;</a></label>
           </form>
         </div>
-        <div class="dates">
-          <form>
-            <div class="form-group">
-              <div class="new-date">
-                <input name="newdate-label" class="form-control" ng-model="newdate.label" type="text" placeholder="Date Label" />
-                <datetimepicker ng-model="newdate.date" on-set-time="createDate"></datetimepicker>
-              </div>
-            </div>
-          </form>
-        </div>
+        <form class="form-group dates">
+          <label>Add new date</label>
+          <div class="new-date">
+            <input name="newdate-label" class="form-control"
+              ng-model="newdate.label" type="text"
+              placeholder="{{ 'form.document.datelabel.placeholder' | translate }}" />
+            <datetimepicker ng-model="newdate.date" on-set-time="createDate"
+              ></datetimepicker>
+          </div>
+        </form>
       </div>
     </tab>
     <!-- End document information tab -->
