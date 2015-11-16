@@ -62,7 +62,7 @@ class RemindersController extends BaseController
             case Password::INVALID_PASSWORD:
             case Password::INVALID_TOKEN:
             case Password::INVALID_USER:
-                return Response::json($this->growlMessage(Lang::get($response), 'error'));
+                return Response::json($this->growlMessage(Lang::get($response)), 'error');
 
             case Password::PASSWORD_RESET:
                 return Response::json($this->growlMessage('Password changed successfully.', 'success'));

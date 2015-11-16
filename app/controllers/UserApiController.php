@@ -13,7 +13,7 @@ class UserApiController extends ApiController
 
     public function getUser($user)
     {
-        $user->load('docs', 'user_meta', 'comments', 'annotations');
+        $user->load('docs', 'user_meta', 'comments', 'comments.doc', 'annotations', 'annotations.doc');
 
         return Response::json($user);
     }
