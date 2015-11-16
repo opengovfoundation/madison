@@ -7,6 +7,7 @@
 * [Administration](#administration)
 * [Theming](#theming)
 * [Architecture and Development notes](#architecture-and-development-notes)
+* [Localization](#localization)
 * [Contributing](#contributing)
 * [Changelog](#changelog)
 
@@ -96,6 +97,20 @@ Administering Madison is pretty simple at this stage of the project.  Any Madiso
   * All `api/**` routes reach the Larvel backend.
 
 *If `app.debug` is set, `public/pre-build` is served, and loads all non-minified, non-concatenated assets.*
+
+## Localization
+
+Madison has internationalization support, and but currently only has localization for US English.  To create a new localization, you just need to create a new language file in `public/locales` that matches the name of your language, and then add suitable translations for all the phrases in the English file.
+
+Madison uses the Angular-Translate plugin for frontend translation.  As a result, there are a few oddities:
+
+* In most cases, we're using [the `translate` directive](http://angular-translate.github.io/docs/#/guide/05_using-translate-directive), which results in the content being hidden until it's translated. This also means that html is rendered properly, so it may be used safely in your translations.  The major exception to this is for any html-attribute text that's translated, such as `placeholder` attributes; in these cases, we're using [the `translate` filter](http://angular-translate.github.io/docs/#/guide/04_using-translate-filter) instead.
+
+* In a few places, we need to deal with fancy pluralization/language rules, so we're using [the MessageFormat syntax](http://angular-translate.github.io/docs/#/guide/14_pluralization) in those cases.  In most places, we're using standard interpolation.  This is a bit inconsistent, unfortunately - be careful when creating new locales.
+
+* There are a few outstanding localization issues on the server-side, all covered here: https://github.com/opengovfoundation/madison/issues/513
+
+We encourage you to create new locale files and submit them back to the project!  We hope to support many languages in the future.
 
 ### Annotations
 * Madison uses [AnnotatorJS](http://annotatorjs.org/) as its Annotation engine.  This library is only loaded on document pages.
