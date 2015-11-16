@@ -59,7 +59,7 @@ class CommentApiController extends ApiController
 
         Event::fire(MadisonEvent::DOC_COMMENTED, $newComment);
 
-        $return = Comment::loadComments($newComment->doc_id, $newComment->id, $newComment->user_id);
+        $return = Comment::loadComment($newComment->doc_id, $newComment->id, $newComment->user_id);
 
         return Response::json($return);
     }
