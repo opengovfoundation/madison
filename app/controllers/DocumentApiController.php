@@ -17,8 +17,6 @@ class DocumentApiController extends ApiController
 
         $doc = Doc::with('content')->with('categories')->with('introtext')->where('is_template', '!=', '1')->find($doc);
 
-        file_put_contents('/tmp/madison_debug', $doc, FILE_APPEND);
-
         return Response::json($doc);
     }
 
