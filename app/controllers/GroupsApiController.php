@@ -15,10 +15,9 @@ class GroupsApiController extends ApiController
 
         $status = Input::get('status');
 
-        if($status) {
+        if ($status) {
             $groups = Group::where('status', '=', $status)->get();
-        }
-        else {
+        } else {
             $groups = Group::all();
         }
 

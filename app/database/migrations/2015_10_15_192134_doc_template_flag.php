@@ -3,8 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DocTemplateFlag extends Migration {
-
+class DocTemplateFlag extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -27,5 +27,4 @@ class DocTemplateFlag extends Migration {
             $table->dropColumn('is_template');
         });
     }
-
 }

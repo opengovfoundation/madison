@@ -19,8 +19,7 @@ class DocumentsController extends BaseController
 
         $returned = array();
 
-        if($docContent)
-        {
+        if ($docContent) {
             $returned['raw'] = $docContent->content;
             $returned['html'] = $docContent->html();
         }
