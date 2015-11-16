@@ -195,15 +195,17 @@ class DocumentApiController extends ApiController
 
         $return_docs = array();
 
-        foreach ($docs as $doc) {
-            $doc->enableCounts();
+        if ($docs) {
+            foreach ($docs as $doc) {
+                $doc->enableCounts();
 
-            $return_doc = $doc->toArray();
+                $return_doc = $doc->toArray();
 
-            $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
-            $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
+                $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
+                $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
 
-            $return_docs[] = $return_doc;
+                $return_docs[] = $return_doc;
+            }
         }
 
         return Response::json($return_docs);
