@@ -72,7 +72,7 @@ angular.module('madisonApp.services')
 
     this.getPreviousState = function () {
       return this.previousState;
-    }
+    };
 
     return this;
   });
