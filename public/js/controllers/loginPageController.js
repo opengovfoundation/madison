@@ -1,7 +1,7 @@
 angular.module('madisonApp.controllers')
-  .controller('LoginPageController', ['$rootScope', '$scope', '$state', 'AuthService',
+  .controller('LoginPageController', ['$rootScope', '$scope', '$state', 'AuthService', 'SessionService',
     'growl', '$translate', 'pageService', '$location', '$http', 'SITE',
-    function ($rootScope, $scope, $state, AuthService, growl, $translate, pageService,
+    function ($rootScope, $scope, $state, AuthService, SessionService, growl, $translate, pageService,
       $location, $http, SITE) {
 
       pageService.setTitle($translate.instant('content.login.title',
@@ -21,36 +21,10 @@ angular.module('madisonApp.controllers')
         var login = AuthService.login($scope.credentials);
 
         login.then(function () {
-          growl.destroyAllMessages();
+          var previousState = SessionService.getPreviousState();
           $scope.credentials = {email: "", password: "", remember: false};
 
-          $http.get('/api/user/current')
-            .success(function (res) {
-              var key;
-              var user = {};
-              if (!$.isEmptyObject(res) && Object.getOwnPropertyNames(res.user).length > 0) {
-                for (key in res.user) {
-                  if (res.user.hasOwnProperty(key)) {
-                    user[key] = res.user[key];
-                  }
-                }
-              } else {
-                user = null;
-              }
-              AuthService.setUser(user)
-
-              var url = 'index';
-              if($rootScope.returnTo)
-              {
-                url = $rootScope.returnTo;
-              }
-              console.log('url', url);
-
-              growl.success($translate.instant('form.login.success'));
-              $location.url(url);
-
-
-            });
+          $state.go(previousState.name, previousState.fromParams);
         });
       };
 
