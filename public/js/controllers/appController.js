@@ -27,15 +27,6 @@ angular.module('madisonApp.controllers')
         $scope.activeGroup = SessionService.getActiveGroup();
       });
 
-      /*jslint unparam: true*/
-      $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
-        $scope.prevState = {
-          from: from,
-          fromParams: fromParams
-        };
-      });
-      /*jslint unparam: false*/
-
       AuthService.getUser();
 
       if (!AuthService.isAuthenticated()) {
