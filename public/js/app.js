@@ -74,7 +74,7 @@ app.config(['$locationProvider',
     $locationProvider.html5Mode(true);
   }]);
 
-app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl, SessionService) {
+app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, $stateParams, growl, SessionService) {
   AuthService.setUser(user);
 
   //Check authorization on state change
@@ -92,10 +92,6 @@ app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $wind
         $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
       }
     }
-  });
-
-  $rootScope.$on('$stateChangeSuccess', function (event, to, toParams, from, fromParams) {
-    SessionService.setPreviousState(from);
   });
 
   //Check for 403 Errors ( Forbidden )
