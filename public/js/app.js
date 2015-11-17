@@ -74,7 +74,7 @@ app.config(['$locationProvider',
     $locationProvider.html5Mode(true);
   }]);
 
-app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, $stateParams, growl, SessionService) {
+app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl, SessionService) {
   AuthService.setUser(user);
 
   //Check authorization on state change
