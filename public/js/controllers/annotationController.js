@@ -166,9 +166,9 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.activityOrder = function (activity) {
-        var popularity = activity.likes - activity.dislikes;
-
-        return popularity;
+        // Leaving this function in case we want to implement a more complex
+        // ordering algorithm in the future
+        return activity.likes;
       };
 
       $scope.addAction = function (activity, action, $event) {
@@ -176,7 +176,6 @@ angular.module('madisonApp.controllers')
           $http.post('/api/docs/' + $scope.doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
             .success(function (data) {
               activity.likes = data.likes;
-              activity.dislikes = data.dislikes;
               activity.flags = data.flags;
             }).error(function (data) {
               console.error(data);

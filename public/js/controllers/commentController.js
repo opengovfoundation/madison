@@ -131,9 +131,9 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.activityOrder = function (activity) {
-        var popularity = activity.likes - activity.dislikes;
-
-        return popularity;
+        // Leaving this function in case we want to implement a more complex
+        // ordering algorithm in the future
+        return activity.likes;
       };
 
       $scope.collapseComments = function (activity) {

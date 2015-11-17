@@ -23,7 +23,6 @@ class OldAnnotation
     public $tags;
     public $permissions;
     public $likes = null;
-    public $dislikes = null;
     public $flags = null;
     public $comments = array();
     public $user_action = null;
@@ -80,7 +79,6 @@ class OldAnnotation
     public function setActionCounts()
     {
         $this->likes = $this->likes();
-        $this->dislikes = $this->dislikes();
         $this->flags = $this->flags();
     }
 
@@ -249,13 +247,6 @@ class OldAnnotation
         return $likes;
     }
 
-    public function dislikes($disliked = null)
-    {
-        $dislikes = NoteMeta::where('note_id', $this->id)->where('meta_key', '=', 'user_action')->where('meta_value', '=', 'dislike')->count();
-
-        return $dislikes;
-    }
-
     public function flags($flags = null)
     {
         $flags = NoteMeta::where('note_id', $this->id)->where('meta_key', '=', 'user_action')->where('meta_value', '=', 'flag')->count();
@@ -348,7 +339,6 @@ class OldAnnotation
         $toReturn = array(
                           'action'        => null,
                           'likes'        => -1,
-                          'dislikes'    => -1,
                           'flags'        => -1,
                     );
 
@@ -386,7 +376,6 @@ class OldAnnotation
         }
 
         $toReturn['likes'] = $annotation->likes();
-        $toReturn['dislikes'] = $annotation->dislikes();
         $toReturn['flags'] = $annotation->flags();
 
         return $toReturn;
@@ -426,7 +415,6 @@ class OldAnnotation
         }
 
         $retval->likes = isset($input['likes']) ? (int) $input['likes'] : 0;
-        $retval->dislikes = isset($input['dislikes']) ? (int) $input['dislikes'] : 0;
         $retval->flags = isset($input['flags']) ? (int) $input['flags'] : 0;
 
         DB::transaction(function () use ($retval, $input) {

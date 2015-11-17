@@ -227,9 +227,6 @@ class NotificationEventHandler
             case 'like':
                 $intro = 'Congrats';
                 break;
-            case 'dislike':
-                $intro = 'Oops';
-                break;
             default:
                 $intro = 'Hey';
                 break;

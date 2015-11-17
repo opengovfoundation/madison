@@ -225,17 +225,6 @@ class AnnotationApiController extends ApiController
         return Response::json(array('likes' => $likes));
     }
 
-    public function getDislikes($doc, $annotation = null)
-    {
-        if ($annotation === null) {
-            App::abort(404, 'No annotation id passed.');
-        }
-
-        $dislikes = Annotation::getMetaCount($annotation, 'dislikes');
-
-        return Response::json(array('dislikes' => $dislikes));
-    }
-
     public function getFlags($doc, $annotation = null)
     {
         if ($annotation === null) {
@@ -262,25 +251,6 @@ class AnnotationApiController extends ApiController
         $annotation->type = 'annotation';
 
         Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'like', 'activity' => $annotation, 'user'    => Auth::user()));
-
-        return Response::json($annotation->toAnnotatorArray());
-    }
-
-    public function postDislikes($doc, $annotation = null)
-    {
-        if ($annotation === null) {
-            App::abort(404, 'No note id passed');
-        }
-
-        $annotation = Annotation::find($annotation);
-        $annotation->saveUserAction(Auth::user()->id, Annotation::ACTION_DISLIKE);
-
-        //Load fields for notification
-        $annotation->link = $annotation->getLink();
-        $annotation->load('user');
-        $annotation->type = 'annotation';
-
-        Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'dislike', 'activity' => $annotation, 'user'    => Auth::user()));
 
         return Response::json($annotation->toAnnotatorArray());
     }

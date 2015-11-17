@@ -27,7 +27,6 @@
         </div>
         <div class="col-md-8 activity-actions">
             <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(activity, 'likes', $event)">({{ activity.likes || '0' }})</span>
-            <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(activity, 'dislikes', $event)">({{ activity.dislikes || '0' }})</span>
             <span class="glyphicon glyphicon-flag" ng-click="addAction(activity, 'flags', $event)">({{ activity.flags || '0' }})</span>
         </div>
     </div>
@@ -58,7 +57,6 @@
         </div>
         <div class="col-md-7 activity-actions">
             <span class="glyphicon glyphicon-thumbs-up" ng-click="addAction(comment, 'likes', $event)">({{ comment.likes || '0' }})</span>
-            <span class="glyphicon glyphicon-thumbs-down" ng-click="addAction(comment, 'dislikes', $event)">({{ comment.dislikes || '0' }})</span>
             <span class="glyphicon glyphicon-flag" ng-click="addAction(comment, 'flags', $event)">({{ comment.flags || '0' }})</span>
         </div>
     </div>
