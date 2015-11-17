@@ -5,7 +5,6 @@ class Comment extends Eloquent implements ActivityInterface
     protected $softDelete = true;
 
     const ACTION_LIKE = 'like';
-    const ACTION_DISLIKE = 'dislike';
     const ACTION_FLAG = 'flag';
 
     public function doc()
@@ -33,16 +32,6 @@ class Comment extends Eloquent implements ActivityInterface
         return $likes;
     }
 
-    public function dislikes()
-    {
-        $dislikes = CommentMeta::where('comment_id', $this->id)
-                             ->where('meta_key', '=', CommentMeta::TYPE_USER_ACTION)
-                             ->where('meta_value', '=', static::ACTION_DISLIKE)
-                             ->count();
-
-        return $dislikes;
-    }
-
     public function flags()
     {
         $flags = CommentMeta::where('comment_id', $this->id)
@@ -64,7 +53,6 @@ class Comment extends Eloquent implements ActivityInterface
         $item['created'] = $item['created_at'];
         $item['updated'] = $item['updated_at'];
         $item['likes'] = $this->likes();
-        $item['dislikes'] = $this->dislikes();
         $item['flags'] = $this->flags();
         $item['replyCount'] = $this->replyCount();
 
@@ -75,7 +63,6 @@ class Comment extends Eloquent implements ActivityInterface
     {
         switch ($action) {
             case static::ACTION_LIKE:
-            case static::ACTION_DISLIKE:
             case static::ACTION_FLAG:
                 break;
             default:

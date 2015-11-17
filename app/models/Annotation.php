@@ -7,7 +7,6 @@ class Annotation extends Eloquent implements ActivityInterface
     const ANNOTATION_CONSUMER = "Madison";
 
     const ACTION_LIKE = 'like';
-    const ACTION_DISLIKE = 'dislike';
     const ACTION_FLAG = 'flag';
 
     protected $table = "annotations";
@@ -303,14 +302,13 @@ class Annotation extends Eloquent implements ActivityInterface
         }
 
         $item['likes'] = $this->likes();
-        $item['dislikes'] = $this->dislikes();
         $item['flags'] = $this->flags();
         $item['seen'] = $this->seen;
 
         $item = array_intersect_key($item, array_flip(array(
             'id', 'annotator_schema_version', 'created_at', 'updated_at',
             'text', 'quote', 'uri', 'ranges', 'user', 'consumer', 'tags',
-            'permissions', 'likes', 'dislikes', 'flags', 'seen', 'comments', 'doc_id',
+            'permissions', 'likes', 'flags', 'seen', 'comments', 'doc_id',
             'user_action',
         )));
 
@@ -424,7 +422,6 @@ class Annotation extends Eloquent implements ActivityInterface
     public function saveUserAction($userId, $action)
     {
         switch ($action) {
-            case static::ACTION_DISLIKE:
             case static::ACTION_LIKE:
             case static::ACTION_FLAG:
                 break;
@@ -457,16 +454,6 @@ class Annotation extends Eloquent implements ActivityInterface
                          ->count();
 
         return $likes;
-    }
-
-    public function dislikes()
-    {
-        $dislikes = NoteMeta::where('annotation_id', $this->id)
-                             ->where('meta_key', '=', NoteMeta::TYPE_USER_ACTION)
-                             ->where('meta_value', '=', static::ACTION_DISLIKE)
-                             ->count();
-
-        return $dislikes;
     }
 
     public function flags()

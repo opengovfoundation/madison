@@ -45,10 +45,6 @@
                 ng-click="addAction(annotation, 'likes', $event)"
                 >
                 {{ annotation.likes || '0' }}</span>
-            <span class="thumbs-down" role="button"
-                aria-label="{{ 'document.action.dislike' | translate }}"
-                ng-click="addAction(annotation, 'dislikes', $event)">
-                {{ annotation.dislikes || '0' }}</span>
             <span class="flag" role="button"
                 aria-label="{{ 'document.action.flag' | translate }}"
                 ng-click="addAction(annotation, 'flags', $event)">

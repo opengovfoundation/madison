@@ -15,7 +15,6 @@ angular.module('madisonApp.directives')
             $http.post('/api/docs/' + activity.doc_id + '/' + activity.label + 's/' + activity.id + '/' + action)
               .success(function (data) {
                 activity.likes = data.likes;
-                activity.dislikes = data.dislikes;
                 activity.flags = data.flags;
               }).error(function (data) {
                 console.error(data);

@@ -234,7 +234,6 @@
   "annotation.label.jumpto": "Jump to {{title}}",
 
   "document.action.like": "Like this",
-  "document.action.dislike": "Dislike this",
   "document.action.flag": "Flag this",
   "document.action.closesidebar": "Close Sidebar",
   "document.action.closecomments": "Close Comment List",
