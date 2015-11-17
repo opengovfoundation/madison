@@ -74,7 +74,7 @@ app.config(['$locationProvider',
     $locationProvider.html5Mode(true);
   }]);
 
-app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl) {
+app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl, SessionService) {
   AuthService.setUser(user);
 
   //Check authorization on state change
@@ -102,7 +102,11 @@ app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $wind
   //Check for 401 Errors ( Not Authorized / Not logged in )
   $rootScope.$on(AUTH_EVENTS.notAuthenticated, function () {
     growl.error('You must be logged in to view that page');
-    $state.go('index');
+    if($location.path() !== '/login')
+    {
+      $rootScope.returnTo = $location.path();
+    }
+    $state.go('login');
   });
 
   //Debugging Document Pages
