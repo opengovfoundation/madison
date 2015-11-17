@@ -2,7 +2,7 @@
 <html xmlns:ng="http://angularjs.org" ng-controller="AppController" lang="en">
   <head>
     <meta charset="utf-8" />
-    <title update-title></title>
+    <title>{{ page.title() }}</title>
     <!-- Mobile Optimization -->
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
@@ -31,20 +31,19 @@
 
 
 
-    <link rel="stylesheet" href="/build/app.css?760803db">
+    <link rel="stylesheet" href="/build/app.css?af769993">
 
     <script src="/build/components.js?ac8cdf3e"></script>
 
-    <script src="/build/angular.js?53037269"></script>
+    <script src="/build/angular.js?942e930d"></script>
 
     <script src="/build/annotator.js?949a18f6"></script>
 
-    <script src="/build/app.js?b66323ad"></script>
+    <script src="/build/app.js?bb125955"></script>
   </head>
   <body>
-
     <!--[if lt IE 8]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
+      <p class="browsehappy" translate="{{ 'info.message.outdatedbrowser' }}"></p>
     <![endif]-->
     <div growl></div>
     <div login-form ng-if="loggingIn"></div>

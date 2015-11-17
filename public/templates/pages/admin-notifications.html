@@ -1,17 +1,15 @@
 <div class="row">
-  <div admin-breadcrumb></div>
-</div>
-<div class="row">
-  <h1>Edit Notifications</h1>
+  <h1 translate="content.sitenotifications.header"></h1>
 </div>
 <div class="row">
   <div class="col-md-12">
-    <p>Please select the notifications you would like to recieve via e-mail.</p>
+    <p translate="content.sitenotifications.instructions"></p>
     <div class="checkbox" ng-repeat="notification in notifications">
       <label>
-        <input type="checkbox" name="{{ notification.event }}" ng-model="notification.selected">
+        <input type="checkbox" name="{{ notification.event }}"
+          ng-model="notification.selected">
         {{ notification.description }}
       </label>
-    </div>  
+    </div>
   </div>
 </div>

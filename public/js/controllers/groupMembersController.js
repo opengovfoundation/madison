@@ -1,6 +1,11 @@
 angular.module('madisonApp.controllers')
-  .controller('GroupMembersController', ['$scope', '$stateParams', 'Group', '$state',
-    function ($scope, $stateParams, Group, $state) {
+  .controller('GroupMembersController', ['$scope', '$stateParams', 'Group',
+    '$state', '$translate', 'pageService', 'SITE',
+    function ($scope, $stateParams, Group, $state, $translate, pageService,
+    SITE) {
+      pageService.setTitle($translate.instant('content.groupmembers.title',
+        {title: SITE.name}));
+
       $scope.group = Group.get({id: $stateParams.id});
 
       $scope.group.$promise.then(function () {
@@ -19,12 +24,13 @@ angular.module('madisonApp.controllers')
       });
 
       $scope.updateMemberRole = function (member) {
-        Group.updateMemberRole({id: $stateParams.id, memberId: member.id, memberRole: member.role});
+        Group.updateMemberRole({id: $stateParams.id, memberId: member.id,
+          memberRole: member.role});
       };
 
       $scope.inviteMember = function () {
-        Group.inviteMember({id: $stateParams.id, email: $scope.email, role: $scope.role}).$promise.then(
-          function () {
+        Group.inviteMember({id: $stateParams.id, email: $scope.email,
+          role: $scope.role}).$promise.then(function () {
             $state.go('manage-group-members', {id: $stateParams.id});
           }
         );
@@ -33,8 +39,8 @@ angular.module('madisonApp.controllers')
       $scope.removeMember = function (index) {
         var member = $scope.group.members[index];
 
-        Group.removeMember({id: $stateParams.id, memberId: member.id}).$promise.then(
-          function (response) {
+        Group.removeMember({id: $stateParams.id, memberId: member.id}).$promise
+          .then(function (response) {
             //Remove member from members array if response a success
             if (response.messages[0].severity === 'success') {
               $scope.group.members.splice(index, 1);

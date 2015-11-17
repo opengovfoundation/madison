@@ -66,5 +66,13 @@ angular.module('madisonApp.services')
       $rootScope.$broadcast('activeGroupChanged');
     };
 
+    this.setPreviousState = function (previous) {
+      this.previousState = previous;
+    };
+
+    this.getPreviousState = function () {
+      return this.previousState;
+    };
+
     return this;
   });

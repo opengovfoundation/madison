@@ -19,8 +19,10 @@ class DocumentsController extends BaseController
 
         $returned = array();
 
-        $returned['raw'] = $docContent->content;
-        $returned['html'] = $docContent->html();
+        if ($docContent) {
+            $returned['raw'] = $docContent->content;
+            $returned['html'] = $docContent->html();
+        }
 
         return Response::json($returned);
     }
@@ -249,10 +251,14 @@ class DocumentsController extends BaseController
         if ($featuredSetting) {
             $featuredId = (int) $featuredSetting->meta_value;
             $doc = $doc->where('id', $featuredId)
-                ->where('private', '!=', '1')->first();
+                ->where('private', '!=', '1')
+                ->where('is_template', '!=', '1')
+                ->first();
         } else {
             $doc = $doc->orderBy('created_at', 'desc')
-                ->where('private', '!=', '1')->first();
+                ->where('private', '!=', '1')
+                ->where('is_template', '!=', '1')
+                ->first();
             $doc->thumbnail = '/img/default/default.jpg';
         }
         $doc->enableCounts();

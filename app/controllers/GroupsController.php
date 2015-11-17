@@ -23,47 +23,38 @@ class GroupsController extends BaseController
 
     public function postGroup($id = null)
     {
-        $group_details = Input::all();
-
-        if (isset($group_details['id'])) {
-            $groupId = $group_details['id'];
-        }
-
-        if (!isset($groupId)) {
-            $group = new Group();
-            $group->status = Group::STATUS_PENDING;
-
-            $message = "Your group has been created! It must be approved before you can invite others to join or create documents.";
-        } else {
-            $group = Group::find($groupId);
+        if (Input::has('id')) {
+            $group = Group::find(Input::get('id'));
 
             if (!$group->isGroupOwner(Auth::user()->id)) {
                 return Response::json($this->growlMessage('You cannot modify a group you do not own.', 'error'));
             }
 
             $message = "Your group has been updated!";
+        } else {
+            $group = new Group();
+            $group->status = Group::STATUS_PENDING;
+
+            $message = "Your group has been created! It must be approved before you can invite others to join or create documents.";
         }
 
-        $group->name = $group_details['name'];
-        $group->display_name = $group_details['display_name'];
-        $group->address1 = $group_details['address1'];
-        if (isset($group_details['address2'])) {
-            $group->address2 = $group_details['address2'];
+        $postData = array('name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone_number');
+
+        foreach ($postData as $field) {
+            $group->$field = Input::get($field);
         }
 
-        $group->city = $group_details['city'];
-        $group->state = $group_details['state'];
-        $group->postal_code = $group_details['postal_code'];
-        $group->phone_number = $group_details['phone_number'];
+        if ($group->validate()) {
+            $group->save();
+            $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
 
-        $group->save();
-        $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
-
-        if ($group->status == Group::STATUS_PENDING) {
-            Event::fire(MadisonEvent::VERIFY_REQUEST_GROUP, $group);
+            if ($group->status === Group::STATUS_PENDING) {
+                Event::fire(MadisonEvent::VERIFY_REQUEST_GROUP, $group);
+            }
+            return Response::json($this->growlMessage($message, 'success'));
+        } else {
+            return Response::json($this->growlMessage($group->getErrors()->all(), 'error'), 400);
         }
-
-        return Response::json($this->growlMessage($message, 'success'));
     }
 
     public function processMemberInvite($groupId)

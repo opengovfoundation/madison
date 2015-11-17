@@ -1,26 +1,19 @@
 <div class="row">
-
   <section ng-include="'/templates/partials/featured.html'"></section>
 
   <aside class="search-list">
-    <h2 class="heading">Add your voice...</h2>
-    <div>
-      <p>
-        Find legislation and regulations being developed and
-        get informed. Then get involved and collaboratively craft the documents
-        with the sponsors. To get started, choose from the recent documents
-        below, or search the whole repository.
-      </p>
-    </div>
+    <h2 class="heading" translate="home.intro.title"></h2>
+    <div translate="home.intro.text"></div>
     <section class="search-form">
       <div>
-        <h3 class="normal-title" for="doc-text-filter">
-          Search all documents:
-        </h3>
-        <button class="search-button" type="submit">Submit</button>
+        <h3 class="normal-title" for="doc-text-filter"
+          translate="form.search.title"></h3>
+
+        <button class="search-button" type="submit"
+          translate="form.general.submit"></button>
         <span class="text-search">
           <input id="doc-text-filter" type="text" ng-model="docSearch"
-            class="" placeholder="Search titles" />
+            class="" placeholder="{{ 'form.search.placeholder' | translate }}" />
         </span>
       </div>
       <!--div class="home-select2-container">
@@ -51,11 +44,13 @@
       </div-->
     </section>
     <section class="doc-results-list">
-      <h2 class="normal-title">Recent Legislation</h2>
+      <h2 class="normal-title" translate="document.title.recentlegislation"></h2>
       <div class="category-filter" ng-if="selectedCategory">
-        Displaying:
-        <div class="category" ng-click="clearCategoryFilter()"><span>{{ selectedCategory.name }}</span></div>
-        <a class="clear-category" ng-click="clearCategoryFilter()">Clear</a>
+        <span translate="form.search.categoryheading"></span>
+        <div class="category" ng-click="clearCategoryFilter()" role="button"
+          ><span>{{ selectedCategory.name }}</span></div>
+        <a class="clear-category" ng-click="clearCategoryFilter()"
+          role="button" translate="form.general.clearfilters"></a>
       </div>
       <article ng-repeat="doc in docs | toArray | filter:docSearch | filter:categoryFilter | orderBy:dateSort:reverse"
         ng-show="docFilter(doc)" class="doc-list-item doc doc-small">

@@ -1,7 +1,12 @@
 angular.module('madisonApp.controllers')
-  .controller('UserNotificationsController', ['$scope', '$http', 'SessionService', function ($scope, $http, SessionService) {
+  .controller('UserNotificationsController', ['$scope', '$http', 'SessionService',
+    'growl', '$translate', 'pageService', 'SITE',
+    function ($scope, $http, SessionService, growl, $translate, pageService,
+      SITE) {
     //This may not be necessary.
-    //$scope.user = SessionService.user;
+    $scope.user = SessionService.user;
+    pageService.setTitle($translate.instant('content.notificationsettings.title',
+    {title: SITE.name}));
 
     $http.get('/api/user/' + $scope.user.id + '/notifications')
       .success(function (data) {
@@ -14,7 +19,8 @@ angular.module('madisonApp.controllers')
     $scope.$watch('notifications', function (newValue, oldValue) {
       if (oldValue !== undefined) {
         //Save notifications
-        $http.put('/api/user/' + $scope.user.id + '/notifications', {notifications: newValue})
+        $http.put('/api/user/' + $scope.user.id + '/notifications',
+          {notifications: newValue})
           .error(function (data) {
             console.error("Error updating notification settings: %o", data);
           });

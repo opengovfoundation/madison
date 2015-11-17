@@ -1,7 +1,6 @@
 angular.module('madisonApp.controllers')
   .controller('CommentController', ['$scope', '$sce', '$http', 'annotationService', 'loginPopupService', 'growl', '$location', '$filter', '$timeout',
     function ($scope, $sce, $http, annotationService, loginPopupService, growl, $location, $filter, $timeout) {
-      $scope.comments = [];
       $scope.supported = null;
       $scope.opposed = false;
       $scope.collapsed_comment = {};
@@ -53,7 +52,7 @@ angular.module('madisonApp.controllers')
               // We only want to push top-level comments, they will include
               // subcomments in their comments array(s)
               if (comment.parent_id === null) {
-                $scope.comments.push(comment);
+                $scope.doc.comments.push(comment);
               }
             });
 
@@ -122,8 +121,8 @@ angular.module('madisonApp.controllers')
           'comment': comment
         })
           .success(function (data) {
-            data[0].label = 'comment';
-            $scope.comments.push(data[0]);
+            data.label = 'comment';
+            $scope.doc.comments.push(data);
             comment.text = '';
           })
           .error(function (data) {
@@ -198,6 +197,10 @@ angular.module('madisonApp.controllers')
           loginPopupService.showLoginForm($event);
         }
 
+      };
+
+      $scope.showLoginForm = function($event) {
+        loginPopupService.showLoginForm($event);
       };
 
     }

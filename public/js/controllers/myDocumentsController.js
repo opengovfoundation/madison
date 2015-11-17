@@ -1,7 +1,13 @@
 angular.module('madisonApp.controllers')
-  .controller('MyDocumentsController', ['$scope', '$http', 'growl', 'SessionService', 'AuthService', '$state', 'USER_ROLES',
-    function ($scope, $http, growl, SessionService, AuthService, $state, USER_ROLES) {
+  .controller('MyDocumentsController', ['$scope', '$http', '$translate', 'growl',
+      'SessionService', 'AuthService', 'pageService', '$state', 'USER_ROLES',
+      'SITE',
+    function ($scope, $http, $translate, growl, SessionService, AuthService,
+      pageService, $state, USER_ROLES, SITE) {
       "use strict";
+
+      pageService.setTitle($translate.instant('content.mydocuments.title',
+        {title: SITE.name}));
 
       $scope.newDoc = {
         'title': ''
@@ -11,7 +17,8 @@ angular.module('madisonApp.controllers')
 
       AuthService.getMyDocs();
 
-      if (!AuthService.isAuthorized([USER_ROLES.admin, USER_ROLES.independent, USER_ROLES.groupMember])) {
+      if (!AuthService.isAuthorized([USER_ROLES.admin, USER_ROLES.independent,
+        USER_ROLES.groupMember])) {
         $scope.canCreate = false;
       } else {
         $scope.canCreate = true;
@@ -25,17 +32,16 @@ angular.module('madisonApp.controllers')
         var title = $scope.newDoc.title;
 
         if (!title || !title.trim()) {
-          growl.error('You must enter a document title to create a new document.');
+          growl.error( $translate.instant('errors.document.new.notitle') );
         }
         else {
           $http.post('/api/docs', {title: title})
             .success(function (data) {
-              console.log(data.doc);
               $scope.newDoc.title = '';
               $state.go('edit-doc', {id: data.doc.id});
             })
             .error(function (error) {
-              growl.error('There was an error creating the document. Please try again later.');
+              growl.error( $translate.instant('errors.document.new.general') );
               console.log('Error: ', error);
             });
         }

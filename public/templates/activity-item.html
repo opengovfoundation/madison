@@ -1,3 +1,5 @@
+<!-- Is this still being used? -->
+
 <div class="col-md-12">
     <div class="row">
         <div class="activity-author col-md-8">
@@ -79,7 +81,7 @@
             <form name="add-subcomment-form" ng-submit="subcommentSubmit(activity, subcomment)">
                 <input ng-model="subcomment.text" type="text" class="form-control centered" placeholder="Add a comment" required />
             </form>
-        </div>        
+        </div>
         <div id="subcomment_{{ comment.id }}" class="activity-reply col-md-12" ng-repeat="comment in activity.comments" ng-include="'subcomment_renderer.html'">
             <div sub-comment-id="{{ comment.id }}"></div>
         </div>

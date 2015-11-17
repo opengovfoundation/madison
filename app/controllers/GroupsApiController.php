@@ -13,7 +13,13 @@ class GroupsApiController extends ApiController
     {
         $this->beforeFilter('admin');
 
-        $groups = Group::all();
+        $status = Input::get('status');
+
+        if ($status) {
+            $groups = Group::where('status', '=', $status)->get();
+        } else {
+            $groups = Group::all();
+        }
 
         return Response::json($groups);
     }

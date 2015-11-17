@@ -5,6 +5,10 @@ window.jQuery = window.$;
 var user;
 
 var imports = [
+  'ngAnimate',
+  'ngSanitize',
+  'ngResource',
+  'pascalprecht.translate',
   'madisonApp.constants',
   'madisonApp.filters',
   'madisonApp.services',
@@ -12,16 +16,14 @@ var imports = [
   'madisonApp.directives',
   'madisonApp.controllers',
   'madisonApp.prompts',
+  'madisonApp.translate',
   'angulartics',
   'angulartics.google.analytics',
   'ui',
   'ui.router',
   'ui.bootstrap',
   'ui.bootstrap.datetimepicker',
-  'ngAnimate',
-  'ngSanitize',
   'angular-growl',
-  'ngResource',
   'ipCookie',
   'angularFileUpload',
   'yaru22.angular-timeago'
@@ -52,7 +54,14 @@ try {
       growlProvider.messageTextKey("text");
       growlProvider.messageSeverityKey("severity");
       growlProvider.onlyUniqueMessages(true);
-      growlProvider.globalTimeToLive(3000);
+      growlProvider.globalTimeToLive(
+        {
+          'error': -1,
+          'info': 3000,
+          'warning': 3000,
+          'success': 3000
+        }
+      );
       $httpProvider.interceptors.push(growlProvider.serverMessagesInterceptor);
     }]);
 } catch (err) {
@@ -65,7 +74,7 @@ app.config(['$locationProvider',
     $locationProvider.html5Mode(true);
   }]);
 
-app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl) {
+app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl, SessionService) {
   AuthService.setUser(user);
 
   //Check authorization on state change
@@ -93,7 +102,11 @@ app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $wind
   //Check for 401 Errors ( Not Authorized / Not logged in )
   $rootScope.$on(AUTH_EVENTS.notAuthenticated, function () {
     growl.error('You must be logged in to view that page');
-    $state.go('index');
+    if($location.path() !== '/login')
+    {
+      $rootScope.returnTo = $location.path();
+    }
+    $state.go('login');
   });
 
   //Debugging Document Pages

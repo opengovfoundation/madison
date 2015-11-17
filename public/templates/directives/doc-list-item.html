@@ -3,7 +3,7 @@
 		<a href="{{ doc.url }}">{{ doc.title }}</a>
 	</h3>
   <div class="doc-sponsor">
-    Sponsored by
+    <span translate="document.label.sponsoredby"></span>
     <ul>
       <li ng-repeat="sponsor in doc.sponsor">
         {{ sponsor.display_name }}
@@ -12,55 +12,57 @@
   </div>
 	<div class="doc-categories">
     <ul>
-  	  <li class="category" ng-repeat="category in doc.categories" ng-click="filterByCategory(category)"><span>{{ category.name }}</span></li>
+  	  <li class="category" ng-repeat="category in doc.categories"
+        ng-click="filterByCategory(category)"
+        ><span>{{ category.name }}</span>
+      </li>
     </ul>
 	</div>
 	<div class="doc-statuses">
-	  <span class="status" ng-repeat="status in doc.statuses">{{ status.label }}</span>
+	  <span class="status"
+      ng-repeat="status in doc.statuses">{{ status.label }}</span>
 	</div>
 </header>
 <div class="doc-meta">
 	<div class="list-doc-info">
-    <div ng-hide="doc.updated_at" class="date">
-      Posted <time class="published doc-created-date" datetime="{{ doc.created_at }}"
-      >{{ doc.created_at | date:'mediumDate' }}</time>
-    </div>
-    <div ng-show="doc.updated_at" class="date">
-      Updated <time class="updated doc-updated-date" datetime="{{ doc.updated_at }}"
-      >{{ doc.updated_at | date:'mediumDate' }}</time>
-    </div>
+    <div ng-hide="doc.updated_at" class="date"
+      translate="document.label.created"
+      translate-values="{datetime: doc.created_at}"></div>
+    <div ng-show="doc.updated_at" class="date"
+      translate="document.label.updated"
+      translate-values="{datetime: doc.updated_at}"></div>
 
     <table class="stats">
       <thead>
         <tr>
-          <th>Value</th>
-          <th>Name</th>
+          <th translate="document.label.value"></th>
+          <th translate="document.label.name"></th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td class="stats-value">{{doc.comment_count}}</td>
-          <td class="stats-name">Comments</td>
+          <td class="stats-name" translate="document.label.comments"></td>
         </tr>
         <tr>
           <td class="stats-value">{{doc.annotation_count}}</td>
-          <td class="stats-name">Annotations</td>
+          <td class="stats-name" translate="document.label.annotations"></td>
         </tr>
         <tr>
           <td class="stats-value">{{doc.user_count}}</td>
-          <td class="stats-name">Collaborators</td>
+          <td class="stats-name" translate="document.label.collaborators"></td>
         </tr>
       </tbody>
     </table>
 
 	  <ul class="doc-dates">
-	    <li class="date" ng-repeat="date in doc.dates">
-        <time class="doc-other-date" datetime="{{ date.date }}"
-          {{ date.label }} on {{ date.date | date:'mediumDate' }}</time>
-      </li>
+	    <li class="date" ng-repeat="date in doc.dates"
+        translate="document.label.namedevent"
+        translate-values="{datetime: date.date, name: date.label}"></li>
 	  </span>
 	</div>
   <div class="read-action">
-    <a class="action-button button" role="button" href="{{ doc.url }}">Read Document</a>
+    <a class="action-button button" role="button" href="{{ doc.url }}"
+      translate="document.interface.readdocument"></a>
   </div>
 </div>

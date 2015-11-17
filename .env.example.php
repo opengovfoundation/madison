@@ -26,6 +26,10 @@ return [
     'LI_CLIENT_ID'      => '',
     'LI_CLIENT_SECRET'  => '',
 
+    // This should be set to whatever domain your local Madison instance is
+    // running on so the session cookie will be set appropriately
+    'COOKIE_DOMAIN'     => 'madison.local',
+
     //This is the uservoice javascript file hash in the UV uv.src embed code
     //Used as such: uv.src = '//widget.uservoice.com/' + uservoiceHash + '.js';
     'USERVOICE'         => '',

@@ -1,17 +1,19 @@
 <div class="social-login">
   <a ng-click="facebookLogin()" class="button oauth-login facebook-login">
-    <img src="/img/icon-facebook.png" alt="facebook icon" />
-    {{ message }} with Facebook
+    <img src="/img/icon-facebook.png"
+        alt="{{ 'user.login.facebook.icon' | translate }}" />
+    <span translate="user.login.facebook">
   </a>
   <a ng-click="twitterLogin()" class="button oauth-login twitter-login">
-    <img src="/img/icon-twitter.png" alt="twitter icon" />
-    {{ message }} with Twitter
+    <img src="/img/icon-twitter.png"
+        alt="{{ 'user.login.twitter.icon' | translate }}" />
+    <span translate="user.login.twitter">
   </a>
-  <!--<div class="col-md-4">
-    <a ng-click="linkedinLogin()" class="btn btn-default social-login-btn linkedin-login-btn">
-      <img src="/img/icon-linkedin.png" alt="linkedin icon" />
-      {{ message }} with LinkedIn
+  <!--
+    <a ng-click="linkedinLogin()" class="button oauth-login linkedin-login">
+      <img src="/img/icon-linkedin.png"
+        alt="{{ 'user.login.linkedin.icon' | translate }}" />
+      <span translate="user.login.linkedin">
     </a>
-  </div>-->
-  </div>
+  -->
 </div>

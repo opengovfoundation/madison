@@ -1,42 +1,34 @@
 <div class="row">
-  <div admin-breadcrumb></div>
-</div>
-<div class="row">
   <div class="col-md-24">
-    <h1>Verify Independent Sponsors</h1>
-
-    <form class="filter-form">
-      <h4>Filter:</h4>
-      <fieldset class="btn-group user-status">
-        <button type="button" class="btn btn-success" ng-class="{active: formdata.status == 'verified'}" ng-click="formdata.status = 'verified'; getRequests()">Verified</button>
-        <button type="button" class="btn btn-warning" ng-class="{active: formdata.status == 'pending'}" ng-click="formdata.status = 'pending'; getRequests()">Pending</button>
-        <button type="button" class="btn btn-danger" ng-class="{active: formdata.status == 'denied'}" ng-click="formdata.status = 'denied'; getRequests()">Denied</button>
-      </fieldset>
-    </form>
+    <h1 translate="content.verifyindependent.header"></h1>
 
     <table class="table table-striped verify-list" ng-show="requests.length">
       <thead>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Status</th>
+        <th translate="form.verify.id"</th>
+        <th translate="form.verify.firstname"></th>
+        <th translate="form.verify.lastname"></th>
+        <th translate="form.verify.status"></th>
       </thead>
       <tbody>
         <tr ng-repeat="request in requests" id="request-{{ request.id }}">
-          <td>@{{ request.user.id }}</td>
-          <td>@{{ request.user.fname }}</td>
-          <td>@{{ request.user.lname }}</td>
+          <td>{{ request.user.id }}</td>
+          <td>{{ request.user.fname }}</td>
+          <td>{{ request.user.lname }}</td>
           <td>
             <div class="btn-group user-status">
-              <button type="button" class="btn btn-success" ng-click="update(request, 'verified')">Verified</button>
-              <button type="button" class="btn btn-danger"  ng-click="update(request, 'denied')">Denied</button>
+              <button type="button" class="btn btn-success"
+                ng-click="update(request, 'verified')"
+                translate="form.verify.verified"></button>
+              <button type="button" class="btn btn-danger"
+                ng-click="update(request, 'denied')"
+                translate="form.verify.denied"></button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
     <div ng-hide="requests.length">
-      No users {{formdata.status}}.
+      <span translate="form.verify.independent.none.pending"></span>
     </div>
   </div>
 </div>

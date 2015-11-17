@@ -1,10 +1,17 @@
 /*global annotator*/
 /*global Markdown*/
 angular.module('madisonApp.controllers')
-  .controller('DocumentPageController', ['$scope', '$state', '$timeout', 'growl', '$location', '$window', 'Doc', '$sce', '$stateParams', '$http', 'loginPopupService', 'annotationService', '$anchorScroll', 'AuthService',
-    function ($scope, $state, $timeout, growl, $location, $window, Doc, $sce, $stateParams, $http, loginPopupService, annotationService, $anchorScroll, AuthService) {
+  .controller('DocumentPageController', ['$scope', '$state', '$timeout',
+      'growl', '$location', '$window', 'Doc', '$sce', '$stateParams', '$http',
+      'loginPopupService', 'annotationService', '$anchorScroll', 'AuthService',
+      '$translate', 'pageService', 'SITE',
+    function ($scope, $state, $timeout, growl, $location, $window, Doc, $sce,
+      $stateParams, $http, loginPopupService, annotationService,
+      $anchorScroll, AuthService, $translate, pageService, SITE) {
+
       $scope.annotations = [];
       $scope.activeTab = 'content';
+      $scope.doc = {};
 
       $scope.setSponsor = function () {
         try {
@@ -166,6 +173,9 @@ angular.module('madisonApp.controllers')
       //After loading the document
       $scope.doc.$promise.then(function (doc) {
 
+        pageService.setTitle($translate.instant('content.document.title',
+          {title: SITE.name, docTitle: doc.title}));
+
         $scope.setSponsor();
         $scope.getSupported();
 
@@ -175,6 +185,10 @@ angular.module('madisonApp.controllers')
         $scope.loadContent(doc).then(function () {
           $scope.attachAnnotator($scope.doc, $scope.user);
         });
+
+        if(typeof $scope.doc.comments === 'undefined') {
+          $scope.doc.comments = [];
+        }
 
         //Load introduction section from sponsor
         $scope.loadIntrotext(doc);//Load the document introduction text
