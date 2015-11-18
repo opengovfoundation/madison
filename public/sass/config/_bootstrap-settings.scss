@@ -13,38 +13,38 @@ $container-large-desktop: 1266px;
 $grid-columns: 24;
 
 // Colors
-$headline-color: $black;
-$text-color: $black;
+$headline-color: $black !default;
+$text-color: $black !default;
 
-$link-color: $blue;
-$link-hover-color: $blue;
-$link-hover-decoration: underline;
+$link-color: $blue !default;
+$link-hover-color: $blue !default;
+$link-hover-decoration: underline !default;
 
 
 // Buttons
-$btn-primary-bg: $blue;
-$btn-primary-border: transparent;
-$btn-success-bg: $green;
-$btn-success-border: transparent;
-$btn-info-bg: $yellow;
-$btn-info-border: transparent;
-$btn-warning-bg: $orange;
-$btn-warning-border: transparent;
-$btn-danger-bg: $red;
-$btn-danger-border: transparent;
+$btn-primary-bg: $blue !default;
+$btn-primary-border: transparent !default;
+$btn-success-bg: $green !default;
+$btn-success-border: transparent !default;
+$btn-info-bg: $yellow !default;
+$btn-info-border: transparent !default;
+$btn-warning-bg: $orange !default;
+$btn-warning-border: transparent !default;
+$btn-danger-bg: $red !default;
+$btn-danger-border: transparent !default;
 
-$font-family-sans-serif: $main-font;
-$font-family-serif: $accent-font;
+$font-family-sans-serif: $main-font !default;
+$font-family-serif: $accent-font !default;
 
 // Navbar
-$navbar-height: $header-height;
-$navbar-margin-bottom: 0;
-$navbar-border-radius: 0;
-$border-radius-base: 7px;
+$navbar-height: $header-height !default;
+$navbar-margin-bottom: 0 !default;
+$navbar-border-radius: 0 !default;
+$border-radius-base: 7px !default;
 
 
-$nav-tabs-border-color: transparent;
-$nav-tabs-link-hover-border-color: transparent;
-$nav-tabs-active-link-hover-border-color: transparent;
-$nav-tabs-justified-link-border-color: transparent;
-$nav-tabs-justified-active-link-border-color: transparent;
+$nav-tabs-border-color: transparent !default;
+$nav-tabs-link-hover-border-color: transparent !default;
+$nav-tabs-active-link-hover-border-color: transparent !default;
+$nav-tabs-justified-link-border-color: transparent !default;
+$nav-tabs-justified-active-link-border-color: transparent !default;
