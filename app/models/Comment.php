@@ -174,6 +174,11 @@ class Comment extends Eloquent implements ActivityInterface
             $retval[] = $comment->loadArray();
         }
 
+        usort($retval, function ($a, $b) {
+            if ($a['likes'] == $b['likes']) return 0;
+            return ($a['likes'] > $b['likes']) ? -1 : 1;
+        });
+
         return $retval;
     }
 
