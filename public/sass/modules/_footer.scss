@@ -33,7 +33,11 @@
 
     .footer-links {
         @extend .pull-right;
+
         font-size: 0.85em;
+        list-style: none;
+
+        li { display: inline; }
     }
 
     a {
