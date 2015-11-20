@@ -1,6 +1,11 @@
 angular.module('madisonApp.controllers')
-  .controller('AnnotationController', ['$scope', '$sce', '$http', 'annotationService', 'loginPopupService', 'growl', '$location', '$filter', '$timeout',
-    function ($scope, $sce, $http, annotationService, loginPopupService, growl, $location, $filter, $timeout) {
+  .controller('AnnotationController', ['$scope', '$sce', '$http',
+    'annotationService', 'loginPopupService', 'growl', '$location',
+    '$filter', '$timeout', '$anchorScroll',
+
+    function ($scope, $sce, $http, annotationService, loginPopupService, growl,
+      $location, $filter, $timeout, $anchorScroll) {
+
       $scope.annotations = [];
       $scope.annotationGroups = [];
       $scope.supported = null;
@@ -10,9 +15,38 @@ angular.module('madisonApp.controllers')
 
       //Parse sub-comment hash if there is one
       var hash = $location.hash();
+
+      var annotationId = hash.match(/^annotation_([0-9]+)$/);
       var subCommentId = hash.match(/^annsubcomment_([0-9]+)$/);
+
       if (subCommentId) {
-        $scope.subCommentId = subCommentId[1];
+        $scope.subCommentId = parseInt(subCommentId[1]);
+      }
+
+      if (annotationId) {
+        $scope.$on('annotationsSet', function () {
+          var id = parseInt(annotationId[1]);
+          var group = findGroupFromAnnotationId(id);
+
+          if (!group) return;
+
+          $scope.showAnnotations(group);
+          $anchorScroll();
+        });
+      }
+
+      function findGroupFromAnnotationId(annotationId) {
+        var foundGroup;
+
+        angular.forEach($scope.annotationGroups, function (group) {
+          var idsInGroup = group.annotations.map(function (annotation)  {
+            return annotation.id;
+          });
+
+          if (idsInGroup.indexOf(annotationId) !== -1) foundGroup = group;
+        });
+
+        return foundGroup;
       }
 
       //Watch for annotationsUpdated broadcast

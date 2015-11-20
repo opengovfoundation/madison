@@ -90,21 +90,25 @@ angular.module('madisonApp.controllers')
         // Check which tab needs to be active - if the location hash
         // is #annsubcomment or there is no hash, the annotation/bill tab needs to be active
         // Otherwise, the hash is #subcomment/#comment and the discussion tab should be active
-        var annotationHash = $location.hash().match(/^annsubcomment_([0-9]+)$/);
+        var subCommentHash = $location.hash().match(/^annsubcomment_([0-9]+)$/);
+        var annotationHash = $location.hash().match(/^annotation_([0-9]+)$/);
+
         $scope.secondtab = false;
-        if (!annotationHash && ($location.hash())) {
-          $scope.secondtab = true;
-          $scope.changeTab('comment');
+
+        // TODO: Once the hash for comments is decided, we can test for just
+        // that and go to the comment tab, otherwise stay on content.
+        if (subCommentHash || annotationHash || !$location.hash()) {
+          $scope.changeTab('content');
         }
         else {
-          $scope.changeTab('content');
+          $scope.secondtab = true;
+          $scope.changeTab('comment');
         }
       };
 
       $scope.changeTab = function (activeTab) {
         $scope.activeTab = activeTab;
       };
-
 
       $scope.attachAnnotator = function (doc, user) {
 

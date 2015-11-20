@@ -29,6 +29,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
       //Set the annotations in the annotationService
       annotationService.setAnnotations(annotations);
+      annotationService.broadcastSet();
     });
 
     /**

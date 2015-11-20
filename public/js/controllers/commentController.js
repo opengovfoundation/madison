@@ -12,7 +12,7 @@ angular.module('madisonApp.controllers')
       var hash = $location.hash();
       var subCommentId = hash.match(/(sub)?comment_([0-9]+)$/);
       if (subCommentId) {
-        $scope.subCommentId = subCommentId[2];
+        $scope.subCommentId = parseInt(subCommentId[2]);
       }
 
       $scope.doc.$promise.then(function () {
