@@ -16,23 +16,44 @@ angular.module('madisonApp.controllers')
       //Parse sub-comment hash if there is one
       var hash = $location.hash();
 
-      var annotationId = hash.match(/^annotation_([0-9]+)$/);
-      var subCommentId = hash.match(/^annsubcomment_([0-9]+)$/);
+      var annotationId = hash.match(ANNOTATION_HASH_REGEX);
+      var subCommentId = hash.match(ANNOTATION_COMMENT_HASH_REGEX);
 
-      if (subCommentId) {
-        $scope.subCommentId = parseInt(subCommentId[1]);
+
+      if (annotationId || subCommentId) {
+        if (subCommentId) {
+          $scope.subCommentId = parseInt(subCommentId[1]);
+        }
+
+        $scope.$on('annotationsSet', function () {
+          var parentAnnotationId = annotationId ?
+            parseInt(annotationId[1]) : parentAnnotationIdFromComment(parseInt(subCommentId[1]));
+
+          openPanelForAnnotationId(parentAnnotationId);
+        });
       }
 
-      if (annotationId) {
-        $scope.$on('annotationsSet', function () {
-          var id = parseInt(annotationId[1]);
-          var group = findGroupFromAnnotationId(id);
+      function openPanelForAnnotationId(id) {
+        var group = findGroupFromAnnotationId(id);
 
-          if (!group) return;
+        if (!group) return;
 
-          $scope.showAnnotations(group);
-          $anchorScroll();
+        $scope.showAnnotations(group);
+        $location.hash('annotation_' + id);
+        $anchorScroll();
+      }
+
+      function parentAnnotationIdFromComment(commentId) {
+        var foundId;
+
+        angular.forEach($scope.annotations, function (annotation) {
+          var commentIds = annotation.comments.map(function (comment) {
+            return comment.id;
+          });
+          if (commentIds.indexOf(commentId) !== -1) foundId = annotation.id;
         });
+
+        return foundId;
       }
 
       function findGroupFromAnnotationId(annotationId) {
