@@ -71,7 +71,7 @@
       </footer>
       <section class="comments">
         <article ng-repeat="comment in annotation.comments" class="comment">
-          <header class="comment-header">
+          <header class="comment-header" id="annsubcomment_{{comment.id}}">
             <span class="author">{{ comment.user.display_name }}</span>
 
             <span translate="document.label.date.timeago"

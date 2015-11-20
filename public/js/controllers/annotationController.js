@@ -30,6 +30,7 @@ angular.module('madisonApp.controllers')
             parseInt(annotationId[1]) : parentAnnotationIdFromComment(parseInt(subCommentId[1]));
 
           openPanelForAnnotationId(parentAnnotationId);
+          if ($scope.subCommentId) scrollToAnnotationComment($scope.subCommentId);
         });
       }
 
@@ -39,8 +40,16 @@ angular.module('madisonApp.controllers')
         if (!group) return;
 
         $scope.showAnnotations(group);
-        $location.hash('annotation_' + id);
-        $anchorScroll();
+        $(document).scrollTop($('#annotation_' + id).offset().top - 50);
+      }
+
+      function scrollToAnnotationComment(commentId) {
+        var subCommentHash = 'annsubcomment_' + commentId;
+
+        // Have to wait for sidebar animation to complete before scrolling
+        $timeout(function() {
+          $('.annotation-list').scrollTop($('#' + subCommentHash).offset().top);
+        }, 1000);
       }
 
       function parentAnnotationIdFromComment(commentId) {
