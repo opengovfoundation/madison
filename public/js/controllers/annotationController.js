@@ -48,8 +48,12 @@ angular.module('madisonApp.controllers')
 
         // Have to wait for sidebar animation to complete before scrolling
         $timeout(function() {
-          $('.annotation-list').scrollTop($('#' + subCommentHash).offset().top);
-        }, 1000);
+          // Get difference of y position of annotation list and y position
+          // of annotation comment to know how much to scroll annotation window
+          var top = $('#' + subCommentHash).offset().top;
+          var annotationListTop = $('.annotation-list').offset().top;
+          $('.annotation-list').scrollTop(top - annotationListTop - 20);
+        }, 1500);
       }
 
       function parentAnnotationIdFromComment(commentId) {

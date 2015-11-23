@@ -263,6 +263,10 @@
     .content {
         padding: (.5 * $line-height-computed) 25px;
     }
+
+    &.highlight {
+        background-color: lighten($yellow, 30%);
+    }
 }
 
 .toggle-replies {
