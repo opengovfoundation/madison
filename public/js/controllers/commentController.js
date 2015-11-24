@@ -1,18 +1,26 @@
 angular.module('madisonApp.controllers')
-  .controller('CommentController', ['$scope', '$sce', '$http', 'annotationService', 'loginPopupService', 'growl', '$location', '$filter', '$timeout',
-    function ($scope, $sce, $http, annotationService, loginPopupService, growl, $location, $filter, $timeout) {
+  .controller('CommentController',
+    ['$scope', '$sce', '$http', 'annotationService', 'loginPopupService',
+      'growl', '$location', '$filter', '$timeout', '$anchorScroll',
+    function ($scope, $sce, $http, annotationService, loginPopupService,
+      growl, $location, $filter, $timeout, $anchorScroll) {
+
       $scope.supported = null;
       $scope.opposed = false;
-      $scope.collapsed_comment = {};
       $scope.showReplyForm = {};
       $scope.showReplies = {};
       $scope.loadingReplies = {};
+      $scope.commentId = null;
+      $scope.subCommentId = null;
 
       // Parse comment/subcomment direct links
       var hash = $location.hash();
-      var subCommentId = hash.match(/(sub)?comment_([0-9]+)$/);
-      if (subCommentId) {
-        $scope.subCommentId = parseInt(subCommentId[2]);
+      var commentId = hash.match(COMMENT_HASH_REGEX);
+
+      if (commentId) {
+        // If it's a subcomment link, it will be list of parent-child chain
+        $scope.commentId = parseInt(commentId[1]);
+        if (commentId[2]) $scope.subCommentId = parseInt(commentId[2]);
       }
 
       $scope.doc.$promise.then(function () {
@@ -21,60 +29,38 @@ angular.module('madisonApp.controllers')
 
       $scope.getDocComments = function () {
         var docId = $scope.doc.id;
-
         // Get all doc comments, regardless of nesting level
         $http({
           method: 'GET',
           url: '/api/docs/' + docId + '/comments'
         })
-          .success(function (data) {
+        .success(function (data) {
+          // API only returns top level comments initially, the rest are
+          // grabbed as needed from the "show replies" link
+          angular.forEach(data, function (comment) {
+            comment.commentsCollapsed = true;
+            comment.label = 'comment';
+            comment.link = 'comment_' + comment.id;
+            comment.comments = [];
 
-            // Build child-parent relationships for each comment
-            angular.forEach(data, function (comment) {
+            $scope.doc.comments.push(comment);
 
-              // If this isn't a parent comment, we need to find the parent and push this comment there
-              if (comment.parent_id !== null) {
-                var parent = $scope.parentSearch(data, comment.parent_id);
-                comment.parentpointer = data[parent];
-                data[parent].comments.push(comment);
-              }
-
-              // If this is the comment being linked to, save it
-              if (comment.id === $scope.subCommentId) {
-                $scope.collapsed_comment = comment;
-              }
-
-              comment.commentsCollapsed = true;
-              comment.label = 'comment';
-              comment.link = 'comment_' + comment.id;
-              comment.comments = [];
-
-              // We only want to push top-level comments, they will include
-              // subcomments in their comments array(s)
-              if (comment.parent_id === null) {
-                $scope.doc.comments.push(comment);
-              }
-            });
-
-            // If we are linking directly to a comment, we need to expand comments
-            if ($scope.subCommentId) {
-              var not_parent = true;
-              // Expand comments, moving up towards the parent, until all are expanded
-              do {
-                $scope.collapsed_comment.commentsCollapsed = false;
-                if ($scope.collapsed_comment.parent_id !== null) {
-                  $scope.collapsed_comment = $scope.collapsed_comment.parentpointer;
-                } else {
-                  // We have reached the first sublevel of comments, so set the top level
-                  // parent to expand and exit
-                  not_parent = false;
-                }
-              } while (not_parent === true);
+            if ($scope.subCommentId && comment.id === $scope.commentId) {
+              $scope.toggleReplies(comment);
             }
-          })
-          .error(function (data) {
-            console.error("Error loading comments: %o", data);
           });
+
+          var offInitialSubCommentsLoaded = $scope.$on('commentRepliesShown', function() {
+            $timeout($anchorScroll, 0); // Next tick will have subcomments rendered
+            offInitialSubCommentsLoaded(); // This deregisters the event, so it only happens once
+          });
+
+          // Next tick will have comments rendered
+          $timeout($anchorScroll, 0);
+        })
+        .error(function (data) {
+          console.error("Error loading comments: %o", data);
+        });
       };
 
       $scope.isSponsor = function () {
@@ -160,7 +146,7 @@ angular.module('madisonApp.controllers')
       $scope.toggleReplies = function(comment, $event) {
         if(comment.replyCount > 0 && comment.comments.length === 0) {
           $scope.loadingReplies[comment.id] = true;
-          $http({
+          return $http({
             method: 'GET',
             url: '/api/docs/' + comment.doc_id + '/comments',
             params: {'parent_id' : comment.id}
@@ -170,6 +156,7 @@ angular.module('madisonApp.controllers')
             var commentsLength = comment.comments.length;
             for(i = 0; i < commentsLength; i++) {
               comment.comments[i].label = 'comment';
+              comment.comments[i].parentPointer = comment;
             }
             $scope.toggleReplies(comment, $event);
             $scope.loadingReplies[comment.id] = false;
@@ -178,9 +165,11 @@ angular.module('madisonApp.controllers')
         else {
           if($scope.showReplies[comment.id] === 'undefined' || !$scope.showReplies[comment.id]) {
             $scope.showReplies[comment.id] = true;
+            $scope.$broadcast('commentRepliesShown');
           }
           else {
             $scope.showReplies[comment.id] = false;
+            $scope.$broadcast('commentRepliesHidden');
           }
         }
       };
@@ -197,6 +186,16 @@ angular.module('madisonApp.controllers')
           loginPopupService.showLoginForm($event);
         }
 
+      };
+
+      $scope.shouldHighlightComment = function(comment) {
+        // Only highlight top level comment if we're
+        // *not* higlighting a subcomment
+        return !$scope.subCommentId && comment.id === $scope.commentId;
+      };
+
+      $scope.shouldHighlightSubComment = function(comment) {
+        return comment.id === $scope.subCommentId;
       };
 
       $scope.showLoginForm = function($event) {

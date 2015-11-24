@@ -17,7 +17,12 @@
         @extend .fa-flag;
     }
 
-    .thumbs-up, .thumbs-down, .flag {
+    .link {
+        @extend .fa;
+        @extend .fa-link;
+    }
+
+    .thumbs-up, .thumbs-down, .flag, .link {
         &::before {
             margin-right: 4px;
         }

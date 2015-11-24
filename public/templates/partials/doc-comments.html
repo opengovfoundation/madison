@@ -12,21 +12,29 @@
         translate="document.action.mustlogin"></a>
 </div>
 <div class="comment-thread" ng-show="doc.comments.length">
-    <article ng-repeat="comment in doc.comments" class="comment">
-        <header class="comment-header">
-            <span class="author">{{ comment.user.display_name }}</span>
+    <article id="comment_{{comment.id}}"
+        class="comment"
+        ng-repeat="comment in doc.comments">
 
-            <span translate="document.label.date.timeago"
-                translate-values="{datetime: comment.created_at}"></span>
-        </header>
-        <section class="content">
-            {{ comment.text }}
-        </section>
+        <div ng-class="{ highlight: shouldHighlightComment(comment) }" class="comment-body">
+            <header class="comment-header">
+
+                <span class="author">{{ comment.user.display_name }}</span>
+
+                <span translate="document.label.date.timeago"
+                    translate-values="{datetime: comment.created_at}"></span>
+            </header>
+
+            <section class="content">
+                {{ comment.text }}
+            </section>
+        </div>
+
         <div ng-if="comment.replyCount > 0" class="toggle-replies">
             <a class="doc-replies-count"
                 ng-click="toggleReplies(comment, $event)">
                 <span ng-if="!showReplies[comment.id]"
-                    translate="form.general.show"></span>
+                    translate="form.general.show">j</span>
                 <span ng-if="showReplies[comment.id]"
                     translate="form.general.hide"></span>
                 <span translate="annotations.label.replies"
@@ -36,18 +44,26 @@
             <span class="loading"
                 ng-class="{hidden: !loadingReplies[comment.id]}"></span>
         </div>
-        <comment-actions object="comment"></comment-actions>
-        <section class="replies" ng-show="showReplies[comment.id]">
-            <article ng-repeat="reply in comment.comments" class="comment-reply">
-                <header class="comment-header">
-                    <span class="author">{{ reply.user.display_name }}</span>
 
-                    <span translate="document.label.date.timeago"
-                        translate-values="{datetime: reply.created_at}"></span>
-                </header>
-                <section class="content">
-                    {{ reply.text }}
-                </section>
+        <comment-actions object="comment"></comment-actions>
+
+        <section class="replies" ng-show="showReplies[comment.id]">
+            <article ng-repeat="reply in comment.comments"
+                class="comment-reply"
+                id="comment_{{comment.id}}-{{reply.id}}">
+
+                <div ng-class="{ highlight: shouldHighlightSubComment(reply) }" class="comment-body">
+                    <header class="comment-header">
+
+                        <span class="author">{{ reply.user.display_name }}</span>
+
+                        <span translate="document.label.date.timeago"
+                            translate-values="{datetime: reply.created_at}"></span>
+                    </header>
+                    <section class="content">
+                        {{ reply.text }}
+                    </section>
+                </div>
                 <comment-actions object="reply"></comment-actions>
             </article>
             <div ng-if="comment.replyCount == 0">

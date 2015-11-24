@@ -50,16 +50,20 @@
         &quot;
       </blockquote>
 
-      <header class="annotation-header">
-        <span class="author">{{ annotation.user.display_name }}</span>
+      <div class="comment-body"
+        ng-class="{ highlight: annotation.id === annotationId }">
 
-        <span translate="document.label.date.timeago"
-          translate-values="{ datetime: annotation.created_at }"></span>
-      </header>
+        <header class="annotation-header">
+          <span class="author">{{ annotation.user.display_name }}</span>
 
-      <section class="content">
-        {{ annotation.text }}
-      </section>
+          <span translate="document.label.date.timeago"
+            translate-values="{ datetime: annotation.created_at }"></span>
+        </header>
+
+        <section class="content">
+          {{ annotation.text }}
+        </section>
+      </div>
 
       <comment-actions object="annotation"></comment-actions>
 

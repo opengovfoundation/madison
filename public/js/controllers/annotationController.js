@@ -21,9 +21,8 @@ angular.module('madisonApp.controllers')
 
 
       if (annotationId || subCommentId) {
-        if (subCommentId) {
-          $scope.subCommentId = parseInt(subCommentId[1]);
-        }
+        if (annotationId) $scope.annotationId = parseInt(annotationId[1]);
+        if (subCommentId) $scope.subCommentId = parseInt(subCommentId[1]);
 
         $scope.$on('annotationsSet', function () {
           var parentAnnotationId = annotationId ?
@@ -142,7 +141,7 @@ angular.module('madisonApp.controllers')
               //Then count the unique users for the responses to each annotation.
               for(var commentIndex in annotation.comments) {
                 var comment = annotation.comments[commentIndex];
-                annotation.comments[commentIndex].label = 'comment';
+                annotation.comments[commentIndex].label = 'annsubcomment';
                 annotation.comments[commentIndex].doc_id = annotation.doc_id;
                 if(annotationGroup.users.indexOf(comment.user.id) < 0) {
                   annotationGroup.users.push(comment.user.id);

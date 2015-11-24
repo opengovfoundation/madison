@@ -1,6 +1,8 @@
 angular.module('madisonApp.directives')
-  .directive('commentActions', ['loginPopupService', 'SessionService', '$http',
-    function(loginPopupService, SessionService, $http) {
+  .directive('commentActions',
+    ['loginPopupService', 'SessionService', '$http', '$location', 'growl',
+    function(loginPopupService, SessionService, $http, $location, growl) {
+
     return {
       restrict: 'E',
       templateUrl: '/templates/partials/comment-actions.html',
@@ -8,9 +10,10 @@ angular.module('madisonApp.directives')
         obj: '=object'
       },
       controller: function ($scope) {
+        $scope.permalink = buildPermalink($scope.obj);
+
         $scope.user = SessionService.user;
         $scope.addAction = function (activity, action, $event) {
-          console.log($scope.user, activity, action);
           if ($scope.user && $scope.user.id !== '') {
             $http.post('/api/docs/' + activity.doc_id + '/' + activity.label + 's/' + activity.id + '/' + action)
               .success(function (data) {
@@ -21,6 +24,31 @@ angular.module('madisonApp.directives')
               });
           } else {
             loginPopupService.showLoginForm($event);
+          }
+        };
+
+        function buildPermalink(comment) {
+          var hash = '#' + comment.label + '_';
+
+          if (comment.parent_id) {
+            hash += comment.parent_id + '-' + comment.id;
+          } else {
+            hash += comment.id;
+          }
+
+          return window.location.origin + window.location.pathname + hash;
+        }
+      },
+      compile: function() {
+        return {
+          post: function(scope, element, attrs) {
+            var link = element.find('.link');
+            var client = new ZeroClipboard(link);
+            client.on('aftercopy', function (event) {
+              scope.$apply(function () {
+                growl.success("Link copied to clipboard.");
+              });
+            });
           }
         };
       }
