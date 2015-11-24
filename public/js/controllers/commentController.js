@@ -191,11 +191,19 @@ angular.module('madisonApp.controllers')
       $scope.shouldHighlightComment = function(comment) {
         // Only highlight top level comment if we're
         // *not* higlighting a subcomment
-        return !$scope.subCommentId && comment.id === $scope.commentId;
+        if (!$scope.subCommentId && comment.id === $scope.commentId) {
+          return true;
+        } else {
+          return false;
+        }
       };
 
       $scope.shouldHighlightSubComment = function(comment) {
-        return comment.id === $scope.subCommentId;
+        if (comment.id === $scope.subCommentId) {
+          return true;
+        } else {
+          return false;
+        }
       };
 
       $scope.showLoginForm = function($event) {
