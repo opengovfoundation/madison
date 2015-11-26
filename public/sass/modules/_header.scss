@@ -39,10 +39,6 @@ header {
 }
 
 .navbar-nav {
-    @extend .navbar-collapse;
-    @extend .collapse;
-    @extend .navbar-right;
-
     li {
         a {
             text-transform: uppercase;
