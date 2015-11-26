@@ -321,7 +321,7 @@ class DocumentApiController extends ApiController
                     $response = $group;
                     break;
                 default:
-                    throw new Exception('Unknown sponsor type '.$type);
+                    throw new Exception('Unknown sponsor type '.$sponsor['type']);
             }
         }
 
