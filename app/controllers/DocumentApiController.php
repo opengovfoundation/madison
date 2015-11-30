@@ -55,7 +55,7 @@ class DocumentApiController extends ApiController
         $rules = array('title' => 'required');
         $validation = Validator::make($doc_details, $rules);
         if ($validation->fails()) {
-            return Redirect::to('dashboard/docs')->withInput()->withErrors($validation);
+            return Response::json($this->growlMessage('A valid title is required.', 'error'));
         }
 
         try {
