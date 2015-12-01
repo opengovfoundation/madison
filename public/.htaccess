@@ -5,35 +5,12 @@
 
     RewriteEngine On
 
-    RewriteCond %{HTTPS} off
-    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-    RewriteRule ^(.*)$ http://%1/$1 [R=301,L,NE]
-
-    RewriteCond %{HTTPS} on
-    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-    RewriteRule ^(.*)$ https://${HTTP_HOST} [R=301,L,NE]
-
-    # Redirect Trailing Slashes...
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 
     # Handle Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-
-    # Enable Gzip Compression
-    <ifmodule mod_deflate.c>
-        AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript text/javascript
-    </ifmodule>
-    # End Gzip
-
-    <FilesMatch "\.html$">
-        FileETag None
-
-        Header unset ETag
-        Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-        Header set Pragma "no-cache"
-        header set Expires "-1"
-    </FilesMatch>
-
 </IfModule>
