@@ -1,13 +1,8 @@
-# Laravel
-bootstrap/compiled.php
-vendor/
-
-# Configuration
-app/config/local
-app/config/creds.php
-.env.*.php
-.env.php
-!.env.example.php
+/vendor
+/node_modules
+Homestead.yaml
+Homestead.json
+.env
 
 # Assets
 node_modules
