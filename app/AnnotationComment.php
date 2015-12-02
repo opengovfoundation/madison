@@ -16,12 +16,12 @@ class AnnotationComment extends Model
 
     public function annotation()
     {
-        return $this->belongsTo('DBAnnotation');
+        return $this->belongsTo('App\DBAnnotation');
     }
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('App\User');
     }
 
   /**
@@ -34,8 +34,8 @@ class AnnotationComment extends Model
    */
   public function getLink($doc_id)
   {
-      $slug = DB::table('docs')->where('id', $doc_id)->pluck('slug');
+      $slug = \DB::table('docs')->where('id', $doc_id)->pluck('slug');
 
-      return URL::to('docs/'.$slug.'#annsubcomment_'.$this->id);
+      return \URL::to('docs/'.$slug.'#annsubcomment_'.$this->id);
   }
 }
