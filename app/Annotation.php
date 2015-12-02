@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\NoteMeta;
 
 class Annotation extends Model implements ActivityInterface
 {
@@ -55,27 +56,27 @@ class Annotation extends Model implements ActivityInterface
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('App\User');
     }
 
     public function comments()
     {
-        return $this->hasMany('AnnotationComment', 'annotation_id');
+        return $this->hasMany('App\AnnotationComment', 'annotation_id');
     }
 
     public function tags()
     {
-        return $this->hasMany('AnnotationTag', 'annotation_id');
+        return $this->hasMany('App\AnnotationTag', 'annotation_id');
     }
 
     public function permissions()
     {
-        return $this->hasMany('AnnotationPermission', 'annotation_id');
+        return $this->hasMany('App\AnnotationPermission', 'annotation_id');
     }
 
     public function doc()
     {
-        return $this->belongsTo('Doc', 'doc_id');
+        return $this->belongsTo('App\Doc', 'doc_id');
     }
 
     public static function createFromAnnotatorArray(array $input)
@@ -480,9 +481,9 @@ class Annotation extends Model implements ActivityInterface
      */
     public function getLink()
     {
-        $slug = DB::table('docs')->where('id', $this->doc_id)->pluck('slug');
+        $slug = \DB::table('docs')->where('id', $this->doc_id)->pluck('slug');
 
-        return URL::to('docs/'.$slug.'#annotation_'.$this->id);
+        return \URL::to('docs/'.$slug.'#annotation_'.$this->id);
     }
 
     /**
