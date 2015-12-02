@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Response;
+use App\DocMeta;
+
 /**
  * 	Controller for User actions.
  */
