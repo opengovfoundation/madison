@@ -3,10 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AnnotationPermission extends Model
 {
-    use Illuminate\Database\Eloquent\SoftDeletes;
 
     protected $table = "annotation_permissions";
     protected $fillable = array('annotation_id', 'user_id');

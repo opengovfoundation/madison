@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 namespace App;
 
 class Notification extends Model
 {
-    use Illuminate\Database\Eloquent\SoftDeletes;
     protected $dates = ['deleted_at'];
 
     const TYPE_EMAIL = "email";

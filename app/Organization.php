@@ -4,13 +4,13 @@ use Illuminate\Database\Eloquent\Model;
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 /**
  * 	Organization Model.
  */
 class Organization extends Model
 {
-    use Illuminate\Database\Eloquent\SoftDeletes;
-
     public static $timestamp = true;
     protected $dates = ['deleted_at'];
 
