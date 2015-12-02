@@ -6,6 +6,7 @@ use Auth;
 use Response;
 use Input;
 use Event;
+use Redirect;
 use App\Annotation;
 use App\MadisonEvent;
 use App\AnnotationRange;

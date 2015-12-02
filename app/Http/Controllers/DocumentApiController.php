@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use Input;
 use Response;
+use Event;
 use App\Doc;
+use App\DocMeta;
+use App\DocContent;
+use App\Category;
+use App\MadisonEvent;
 
 /**
  * 	Controller for Document actions.
