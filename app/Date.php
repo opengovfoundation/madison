@@ -12,6 +12,6 @@ class Date extends Model
     //Document this meta is describing
     public function docs()
     {
-        return $this->belongsTo('Doc');
+        return $this->belongsTo('App\Doc');
     }
 }

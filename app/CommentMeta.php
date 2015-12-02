@@ -15,11 +15,11 @@ class CommentMeta extends Model
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('App\User');
     }
 
     public function parent()
     {
-        return $this->belongsTo('Comment');
+        return $this->belongsTo('App\Comment');
     }
 }

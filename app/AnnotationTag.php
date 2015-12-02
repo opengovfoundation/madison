@@ -14,6 +14,6 @@ class AnnotationTag extends Model
 
     public function annotation()
     {
-        return $this->belongsTo('DBAnnotation');
+        return $this->belongsTo('App\DBAnnotation');
     }
 }

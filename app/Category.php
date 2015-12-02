@@ -12,6 +12,6 @@ class Category extends Model
     //Document this meta is describing
     public function docs()
     {
-        return $this->belongsToMany('Doc');
+        return $this->belongsToMany('App\Doc');
     }
 }
