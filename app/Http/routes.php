@@ -78,8 +78,8 @@ Route::pattern('group', '[0-9]+');
 /*
 *   Route - Model bindings
 */
-Route::model('user', 'User');
-Route::model('user/edit', 'User');
+Route::model('user', 'App\User');
+Route::model('user/edit', 'App\User');
 
 /*
 |--------------------------------------------------------------------------
