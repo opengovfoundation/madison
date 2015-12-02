@@ -148,7 +148,8 @@ return [
         /**
          * Vendor Providers...
          */
-        Zizaco\Entrust\EntrustServiceProvider::class
+        Zizaco\Entrust\EntrustServiceProvider::class,
+        GrahamCampbell\Markdown\MarkdownServiceProvider::class
 
     ],
 

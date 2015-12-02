@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use GrahamCampbell\Markdown\Facades\Markdown;
+
 class DocContent extends Model
 {
     protected $table = 'doc_contents';
@@ -32,6 +34,6 @@ class DocContent extends Model
 
     public function html()
     {
-        return Markdown::render($this->content);
+        return Markdown::convertToHtml($this->content);
     }
 }
