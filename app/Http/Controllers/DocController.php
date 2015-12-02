@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Response;
+use Feed;
+use Input;
+use App\Doc;
+use App\DocMeta;
+
 /**
  * 	Controller for Document actions.
  */
