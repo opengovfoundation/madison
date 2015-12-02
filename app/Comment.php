@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\CommentMeta;
 
 class Comment extends Model implements ActivityInterface
 {
@@ -15,17 +16,17 @@ class Comment extends Model implements ActivityInterface
 
     public function doc()
     {
-        return $this->belongsTo('Doc', 'doc_id');
+        return $this->belongsTo('App\Doc', 'doc_id');
     }
 
     public function user()
     {
-        return $this->belongsTo('User', 'user_id');
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     public function comments()
     {
-        return $this->hasMany('Comment', 'parent_id');
+        return $this->hasMany('App\Comment', 'parent_id');
     }
 
     public function likes()
@@ -129,9 +130,9 @@ class Comment extends Model implements ActivityInterface
      */
     public function getLink()
     {
-        $slug = DB::table('docs')->where('id', $this->doc_id)->pluck('slug');
+        $slug = \DB::table('docs')->where('id', $this->doc_id)->pluck('slug');
 
-        return URL::to('docs/'.$slug.'#comment_'.$this->id);
+        return \URL::to('docs/'.$slug.'#comment_'.$this->id);
     }
 
     /**
