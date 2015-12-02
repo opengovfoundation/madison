@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\User;
+
 class GroupMember extends Model
 {
     protected $dates = ['deleted_at'];
@@ -13,12 +15,12 @@ class GroupMember extends Model
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('App\User');
     }
 
     public function group()
     {
-        return $this->belongsTo('Group');
+        return $this->belongsTo('App\Group');
     }
 
     public static function findByGroupId($groupId)

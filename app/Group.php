@@ -11,6 +11,10 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\GroupMember;
+use App\Role;
+use App\Permission;
+
 class Group extends Model
 {
     protected $dates = ['deleted_at'];
@@ -172,7 +176,7 @@ class Group extends Model
 
     public function docs()
     {
-        return $this->belongsToMany('Doc');
+        return $this->belongsToMany('App\Doc');
     }
 
     public function getDisplayName()
@@ -348,7 +352,7 @@ class Group extends Model
 
     public function members()
     {
-        return $this->hasMany('GroupMember');
+        return $this->hasMany('App\GroupMember');
     }
 
     public static function findByUserId($userId, $onlyActive = true)

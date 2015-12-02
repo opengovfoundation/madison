@@ -18,11 +18,11 @@ class DocMeta extends Model
     //Document this meta is describing
     public function doc()
     {
-        return $this->belongsTo('Doc');
+        return $this->belongsTo('App\Doc');
     }
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('App\User');
     }
 }

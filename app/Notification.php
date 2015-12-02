@@ -3,6 +3,8 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\MadisonEvent;
+
 namespace App;
 
 class Notification extends Model
@@ -17,12 +19,12 @@ class Notification extends Model
 
     public function group()
     {
-        return $this->belongsTo('Group', 'group_id');
+        return $this->belongsTo('App\Group', 'group_id');
     }
 
     public function user()
     {
-        return $this->belongsTo('User', 'user_id');
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     /**

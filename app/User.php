@@ -16,6 +16,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Session;
 
+use App\Group;
+use App\GroupMember;
+use App\Role;
+use App\UserMeta;
+
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
@@ -323,7 +328,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function organization()
     {
-        return $this->belongsTo('Organization');
+        return $this->belongsTo('App\Organization');
     }
 
     /**
@@ -337,7 +342,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function note_meta()
     {
-        return $this->hasMany('NoteMeta');
+        return $this->hasMany('App\NoteMeta');
     }
 
     /**
@@ -382,7 +387,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function setIndependentAuthor($bool)
     {
         if ($bool) {
-            DB::transaction(function () {
+            \DB::transaction(function () {
                 $metaKey = UserMeta::where('user_id', '=', $this->id)
                                    ->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
                                    ->first();
