@@ -1,5 +1,58 @@
 <?php
 
+/**
+ * Partial Routing File.
+ *
+ * This file includes all page routes that have already been converted to the single-page-app-ness
+ */
+
+//Match any slug that does not begin with api/ and serve up index.html
+  //Angular takes it from there and communicates via api
+Route::any('{slug}', function ($slug) {
+  if (!Config::get('app.debug')) {
+      return File::get(public_path().'/index.html');
+  } else {
+      return File::get(public_path().'/pre-build.html');
+  }
+
+})->where('slug', '^(?!api/)(.*)$');
+
+/**
+ * Sitemap Route
+ * TODO: What are the performance implications of this?  Are the results cached?  I would assume so, but not sure.
+ */
+Route::get('sitemap', function () {
+
+  $sitemap = App::make('sitemap');
+
+  $pages = array('about', 'faq', 'user/login', 'user/signup');
+
+  foreach ($pages as $page) {
+      $sitemap->add($page);
+  }
+
+    $docs = Doc::all();
+
+    foreach ($docs as $doc) {
+        $sitemap->add('docs/'.$doc->slug);
+    }
+
+    $annotations = Annotation::all();
+
+    foreach ($annotations as $annotation) {
+        $sitemap->add('annotation/'.$annotation->id);
+    }
+
+    $users = User::all();
+
+    foreach ($users as $user) {
+        $sitemap->add('user/'.$user->id);
+    }
+
+    // show your sitemap (options: 'xml' (default), 'html', 'txt', 'ror-rss', 'ror-rdf')
+    return $sitemap->render('xml');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -243,59 +296,6 @@ Route::get('docs/feed', function () {
 
     return $feed->render('atom');
 
-});
-
-/**
- * Partial Routing File.
- *
- * This file includes all page routes that have already been converted to the single-page-app-ness
- */
-
-//Match any slug that does not begin with api/ and serve up index.html
-  //Angular takes it from there and communicates via api
-Route::any('{slug}', function ($slug) {
-  if (!Config::get('app.debug')) {
-      return File::get(public_path().'/index.html');
-  } else {
-      return File::get(public_path().'/pre-build.html');
-  }
-
-})->where('slug', '^(?!api/)(.*)$');
-
-/**
- * Sitemap Route
- * TODO: What are the performance implications of this?  Are the results cached?  I would assume so, but not sure.
- */
-Route::get('sitemap', function () {
-
-  $sitemap = App::make('sitemap');
-
-  $pages = array('about', 'faq', 'user/login', 'user/signup');
-
-  foreach ($pages as $page) {
-      $sitemap->add($page);
-  }
-
-    $docs = Doc::all();
-
-    foreach ($docs as $doc) {
-        $sitemap->add('docs/'.$doc->slug);
-    }
-
-    $annotations = Annotation::all();
-
-    foreach ($annotations as $annotation) {
-        $sitemap->add('annotation/'.$annotation->id);
-    }
-
-    $users = User::all();
-
-    foreach ($users as $user) {
-        $sitemap->add('user/'.$user->id);
-    }
-
-    // show your sitemap (options: 'xml' (default), 'html', 'txt', 'ror-rss', 'ror-rdf')
-    return $sitemap->render('xml');
 });
 
 
