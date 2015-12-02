@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Response;
+use Input;
+use Event;
 use App\Annotation;
+use App\AnnotationRange;
+use App\AnnotationPermission;
 
 /**
  * 	Controller for Document actions.
@@ -76,7 +80,7 @@ class AnnotationApiController extends ApiController
             }
         }
 
-        $id = DB::transaction(function () use ($body, $doc, $is_edit) {
+        $id = \DB::transaction(function () use ($body, $doc, $is_edit) {
             $annotation = new Annotation();
             $annotation->doc_id = $doc;
             $annotation->user_id = Auth::user()->id;
