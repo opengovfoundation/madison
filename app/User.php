@@ -25,6 +25,8 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
+    use SoftDeletes;
+
     use Authenticatable, CanResetPassword;
     protected $dates = ['deleted_at'];
 

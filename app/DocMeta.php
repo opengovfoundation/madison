@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class DocMeta extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'doc_meta';
 
     public static $timestamp = true;

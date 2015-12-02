@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AnnotationPermission extends Model
 {
+    use SoftDeletes;
 
     protected $table = "annotation_permissions";
     protected $fillable = array('annotation_id', 'user_id');

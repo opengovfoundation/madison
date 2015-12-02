@@ -17,6 +17,8 @@ use App\Permission;
 
 class Group extends Model
 {
+    use SoftDeletes;
+
     protected $dates = ['deleted_at'];
 
     public static $timestamp = true;

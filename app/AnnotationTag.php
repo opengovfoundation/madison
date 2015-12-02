@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AnnotationTag extends Model
 {
+    use SoftDeletes;
 
     protected $table = "annotation_tags";
     protected $fillable = array('annotation_id', 'tag');
