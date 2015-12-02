@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use Input;
+use Response;
+use App\Comment;
+
 /**
  * 	Controller for Document actions.
  */

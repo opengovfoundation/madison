@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Input;
 use Response;
 use Validator;
-use App\User;
 use Auth;
+use App\User;
 
 /**
  * 	Controller for User Login/Signup API actions.

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use Response;
+use App\Annotation;
+
 /**
  * 	Controller for Document actions.
  */
