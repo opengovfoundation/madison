@@ -3,10 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AnnotationComment extends Model
 {
-    use Illuminate\Database\Eloquent\SoftDeletes;
 
     protected $table = "annotation_comments";
     public $incrementing = false;
