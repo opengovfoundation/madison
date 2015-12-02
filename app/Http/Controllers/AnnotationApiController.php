@@ -7,6 +7,7 @@ use Response;
 use Input;
 use Event;
 use App\Annotation;
+use App\MadisonEvent;
 use App\AnnotationRange;
 use App\AnnotationPermission;
 
