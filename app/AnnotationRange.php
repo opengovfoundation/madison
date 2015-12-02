@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AnnotationRange extends Model
 {
+    use SoftDeletes;
 
     protected $table = "annotation_ranges";
     public $incrementing = false;

@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Organization extends Model
 {
+    use SoftDeletes;
+
     public static $timestamp = true;
     protected $dates = ['deleted_at'];
 

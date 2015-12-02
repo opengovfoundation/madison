@@ -10,6 +10,7 @@ use URL;
 
 class Doc extends Model
 {
+    use SoftDeletes;
 
     public static $timestamp = true;
 

@@ -8,6 +8,8 @@ use App\CommentMeta;
 
 class Comment extends Model implements ActivityInterface
 {
+    use SoftDeletes;
+
     protected $table = 'comments';
     protected $dates = ['deleted_at'];
 

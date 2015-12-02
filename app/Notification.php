@@ -9,6 +9,8 @@ namespace App;
 
 class Notification extends Model
 {
+    use SoftDeletes;
+
     protected $dates = ['deleted_at'];
 
     const TYPE_EMAIL = "email";

@@ -9,6 +9,8 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 
 class DocContent extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'doc_contents';
     protected $dates = ['deleted_at'];
 

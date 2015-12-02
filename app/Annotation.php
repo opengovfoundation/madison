@@ -8,6 +8,8 @@ use App\NoteMeta;
 
 class Annotation extends Model implements ActivityInterface
 {
+    use SoftDeletes;
+
     const INDEX_TYPE = 'annotation';
 
     const ANNOTATION_CONSUMER = "Madison";

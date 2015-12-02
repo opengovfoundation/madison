@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AnnotationComment extends Model
 {
+    use SoftDeletes;
 
     protected $table = "annotation_comments";
     public $incrementing = false;
