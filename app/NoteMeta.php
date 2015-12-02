@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model;
-
 namespace App;
+
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * 	Note meta model.
