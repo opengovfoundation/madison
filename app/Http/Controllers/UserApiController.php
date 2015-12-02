@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Input;
 use Response;
 use App\DocMeta;
+use App\UserMeta;
 
 /**
  * 	Controller for User actions.
