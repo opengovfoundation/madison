@@ -11,6 +11,8 @@ use App\Models\Annotation;
 use App\Models\MadisonEvent;
 use App\Models\AnnotationRange;
 use App\Models\AnnotationPermission;
+use App\Models\AnnotationTag;
+use App\Models\AnnotationComment;
 
 /**
  * 	Controller for Document actions.
