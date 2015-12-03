@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 /**
  * 	User Model.
@@ -16,10 +16,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Session;
 
-use App\Group;
-use App\GroupMember;
-use App\Role;
-use App\UserMeta;
+use App\Models\Group;
+use App\Models\GroupMember;
+use App\Models\Role;
+use App\Models\UserMeta;
 
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
@@ -190,7 +190,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function docs()
     {
-        return $this->belongsToMany('App\Doc');
+        return $this->belongsToMany('App\Models\Doc');
     }
 
     /**
@@ -241,7 +241,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function groups()
     {
-        return $this->belongsToMany('App\Group', 'group_members');
+        return $this->belongsToMany('App\Models\Group', 'group_members');
     }
 
     /**
@@ -255,7 +255,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function comments()
     {
-        return $this->hasMany('App\Comment');
+        return $this->hasMany('App\Models\Comment');
     }
 
     /**
@@ -269,7 +269,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function annotations()
     {
-        return $this->hasMany('App\Annotation');
+        return $this->hasMany('App\Models\Annotation');
     }
 
     /**
@@ -330,7 +330,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function organization()
     {
-        return $this->belongsTo('App\Organization');
+        return $this->belongsTo('App\Models\Organization');
     }
 
     /**
@@ -344,7 +344,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function note_meta()
     {
-        return $this->hasMany('App\NoteMeta');
+        return $this->hasMany('App\Models\NoteMeta');
     }
 
     /**
@@ -358,7 +358,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function user_meta()
     {
-        return $this->hasMany('App\UserMeta');
+        return $this->hasMany('App\Models\UserMeta');
     }
 
     /**
@@ -462,7 +462,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function doc_meta()
     {
-        return $this->hasMany('App\DocMeta');
+        return $this->hasMany('App\Models\DocMeta');
     }
 
     /**

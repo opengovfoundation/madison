@@ -1,11 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\User;
+use App\Models\User;
 
 class GroupMember extends Model
 {
@@ -17,12 +17,12 @@ class GroupMember extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function group()
     {
-        return $this->belongsTo('App\Group');
+        return $this->belongsTo('App\Models\Group');
     }
 
     public static function findByGroupId($groupId)

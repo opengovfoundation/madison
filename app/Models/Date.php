@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +12,6 @@ class Date extends Model
     //Document this meta is describing
     public function docs()
     {
-        return $this->belongsTo('App\Doc');
+        return $this->belongsTo('App\Models\Doc');
     }
 }

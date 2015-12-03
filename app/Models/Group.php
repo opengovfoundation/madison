@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 /**
  *	Group Model.
@@ -11,9 +11,9 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\GroupMember;
-use App\Role;
-use App\Permission;
+use App\Models\GroupMember;
+use App\Models\Role;
+use App\Models\Permission;
 
 class Group extends Model
 {
@@ -178,7 +178,7 @@ class Group extends Model
 
     public function docs()
     {
-        return $this->belongsToMany('App\Doc');
+        return $this->belongsToMany('App\Models\Doc');
     }
 
     public function getDisplayName()
@@ -354,7 +354,7 @@ class Group extends Model
 
     public function members()
     {
-        return $this->hasMany('App\GroupMember');
+        return $this->hasMany('App\Models\GroupMember');
     }
 
     public static function findByUserId($userId, $onlyActive = true)

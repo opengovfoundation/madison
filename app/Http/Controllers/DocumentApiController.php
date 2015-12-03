@@ -7,11 +7,11 @@ use Validator;
 use Input;
 use Response;
 use Event;
-use App\Doc;
-use App\DocMeta;
-use App\DocContent;
-use App\Category;
-use App\MadisonEvent;
+use App\Models\Doc;
+use App\Models\DocMeta;
+use App\Models\DocContent;
+use App\Models\Category;
+use App\Models\MadisonEvent;
 
 /**
  * 	Controller for Document actions.

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,6 +15,6 @@ class AnnotationPermission extends Model
 
     public function annotation()
     {
-        return $this->belongsTo('App\DBAnnotation');
+        return $this->belongsTo('App\Models\DBAnnotation');
     }
 }

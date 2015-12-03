@@ -6,7 +6,7 @@ use Input;
 use Response;
 use Validator;
 use Auth;
-use App\User;
+use App\Models\User;
 
 /**
  * 	Controller for User Login/Signup API actions.
