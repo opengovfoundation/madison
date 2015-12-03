@@ -1,0 +1,43 @@
+language: php
+php:
+  - 5.4
+  - 5.5
+
+# Set environment variables
+node_js:
+  - "0.10"
+env:
+  matrix:
+  - DB_HOST=localhost DB_NAME=madison_grunt_test DB_USER=root ENV=testing
+  global:
+  - secure: XPSHwPKz6T6gKRYD8gmBZI1TRU79VpE/puIdIzno3mcVfR9Mt0jR39r759EGOGX94rNo2vjoBlOHLvECSYKl6kn1gjuWQDq8LkOD2QGKO+KmE8GDaED4DFds6EvtoHm/pkFpVBsvjGucU6PEZo4ghxhQAGpuX112V5mj1qmf7g0=
+  - secure: eRHMypmB5JXiQXwa++FHjbNPg1LnLxJ97HTt/tcL4hrb9KTAioIg4vvOM07PaekLVkZnTtUnOUDDaOlkhSUzjUKaU+fnw4GcUvXTzj73efBSfkoSvWgkquiVCLV+8PJuYkske93ZcR5s91+4oPITQZ4IQVmviaUz3XdLFOgUUFk=
+addons:
+  sauce_connect: true
+  hosts:
+   - madison
+before_install:
+  - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B -n 1 $TRAVIS_COMMIT)\""
+before_script:
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - npm install
+  - grunt install
+  - grunt test_setup
+  
+# Commands you want to run that will verify your build.
+script: 
+  #- grunt karma
+  #- grunt test_firefox
+  #- grunt test_chrome
+  #- grunt test_ie
+  #- grunt test_safari
+  - phpunit
+
+# allow_failures: Allow this build to fail under the specified environments.
+# fast_finish: If your build fails do not continue trying to build, just stop.
+matrix:
+  fast_finish: true
+notifications:
+  on_success: never
+  on_failure: always
