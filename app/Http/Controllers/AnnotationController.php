@@ -9,6 +9,8 @@ class AnnotationController extends Controller
 {
     public function __construct()
     {
+        parent::__construct();
+
         //Require the user to be signed in to create, update notes
         $this->beforeFilter('auth', array('on' => array('post', 'put')));
 

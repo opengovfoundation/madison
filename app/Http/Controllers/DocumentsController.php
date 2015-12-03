@@ -14,6 +14,11 @@ use App\MadisonEvent;
 
 class DocumentsController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function getDocument($slug)
     {
         $doc = Doc::findDocBySlug($slug);

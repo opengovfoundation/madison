@@ -10,6 +10,11 @@ use Response;
  */
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      *	getGroups
      *		Returns a user's groups with the user's role included.
