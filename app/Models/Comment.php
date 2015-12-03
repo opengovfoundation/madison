@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\CommentMeta;
+use App\Models\CommentMeta;
 
 class Comment extends Model implements ActivityInterface
 {
@@ -18,17 +18,17 @@ class Comment extends Model implements ActivityInterface
 
     public function doc()
     {
-        return $this->belongsTo('App\Doc', 'doc_id');
+        return $this->belongsTo('App\Models\Doc', 'doc_id');
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 
     public function comments()
     {
-        return $this->hasMany('App\Comment', 'parent_id');
+        return $this->hasMany('App\Models\Comment', 'parent_id');
     }
 
     public function likes()

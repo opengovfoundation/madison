@@ -7,10 +7,10 @@ use Response;
 use Auth;
 use Input;
 use Redirect;
-use App\Setting;
-use App\DocContent;
-use App\Doc;
-use App\MadisonEvent;
+use App\Models\Setting;
+use App\Models\DocContent;
+use App\Models\Doc;
+use App\Models\MadisonEvent;
 
 class DocumentsController extends Controller
 {

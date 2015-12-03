@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 /**
  * @author Philipp Strazny <philipp at strazny dot com>

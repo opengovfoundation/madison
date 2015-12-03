@@ -6,8 +6,8 @@ use Auth;
 use Response;
 use Feed;
 use Input;
-use App\Doc;
-use App\DocMeta;
+use App\Models\Doc;
+use App\Models\DocMeta;
 
 /**
  * 	Controller for Document actions.

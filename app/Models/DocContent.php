@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,22 +16,22 @@ class DocContent extends Model
 
     public function doc()
     {
-        return $this->belongsTo('App\Doc');
+        return $this->belongsTo('App\Models\Doc');
     }
 
     public function notes()
     {
-        return $this->hasMany('App\Note', 'section_id');
+        return $this->hasMany('App\Models\Note', 'section_id');
     }
 
     public function content_children()
     {
-        return $this->hasMany('App\DocContent', 'parent_id');
+        return $this->hasMany('App\Models\DocContent', 'parent_id');
     }
 
     public function content_parent()
     {
-        return $this->belongsTo('App\DocContent', 'parent_id');
+        return $this->belongsTo('App\Models\DocContent', 'parent_id');
     }
 
     public function html()

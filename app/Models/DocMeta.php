@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,11 +20,11 @@ class DocMeta extends Model
     //Document this meta is describing
     public function doc()
     {
-        return $this->belongsTo('App\Doc');
+        return $this->belongsTo('App\Models\Doc');
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 }

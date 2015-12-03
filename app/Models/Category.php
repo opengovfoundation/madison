@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +12,6 @@ class Category extends Model
     //Document this meta is describing
     public function docs()
     {
-        return $this->belongsToMany('App\Doc');
+        return $this->belongsToMany('App\Models\Doc');
     }
 }

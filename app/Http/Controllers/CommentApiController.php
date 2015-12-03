@@ -6,8 +6,8 @@ use Auth;
 use Input;
 use Response;
 use Event;
-use App\MadisonEvent;
-use App\Comment;
+use App\Models\MadisonEvent;
+use App\Models\Comment;
 
 /**
  * 	Controller for Document actions.

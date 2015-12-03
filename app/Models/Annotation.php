@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\NoteMeta;
+use App\Models\NoteMeta;
 
 class Annotation extends Model implements ActivityInterface
 {
@@ -58,27 +58,27 @@ class Annotation extends Model implements ActivityInterface
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function comments()
     {
-        return $this->hasMany('App\AnnotationComment', 'annotation_id');
+        return $this->hasMany('App\Models\AnnotationComment', 'annotation_id');
     }
 
     public function tags()
     {
-        return $this->hasMany('App\AnnotationTag', 'annotation_id');
+        return $this->hasMany('App\Models\AnnotationTag', 'annotation_id');
     }
 
     public function permissions()
     {
-        return $this->hasMany('App\AnnotationPermission', 'annotation_id');
+        return $this->hasMany('App\Models\AnnotationPermission', 'annotation_id');
     }
 
     public function doc()
     {
-        return $this->belongsTo('App\Doc', 'doc_id');
+        return $this->belongsTo('App\Models\Doc', 'doc_id');
     }
 
     public static function createFromAnnotatorArray(array $input)

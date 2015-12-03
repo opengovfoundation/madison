@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -53,12 +53,12 @@ class Doc extends Model
 
     public function introtext()
     {
-        return $this->hasMany('App\DocMeta')->where('meta_key', '=', 'intro-text');
+        return $this->hasMany('App\Models\DocMeta')->where('meta_key', '=', 'intro-text');
     }
 
     public function dates()
     {
-        return $this->hasMany('App\Date');
+        return $this->hasMany('App\Models\Date');
     }
 
     public function getFeaturedAttribute()
@@ -96,38 +96,38 @@ class Doc extends Model
 
     public function sponsor()
     {
-        $sponsor = $this->belongsToMany('App\Group')->first();
+        $sponsor = $this->belongsToMany('App\Models\Group')->first();
 
         if (!$sponsor) {
-            return $this->belongsToMany('App\User');
+            return $this->belongsToMany('App\Models\User');
         }
 
-        return $this->belongsToMany('App\Group');
+        return $this->belongsToMany('App\Models\Group');
     }
 
     public function userSponsor()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\Models\User');
     }
 
     public function groupSponsor()
     {
-        return $this->belongsToMany('App\Group');
+        return $this->belongsToMany('App\Models\Group');
     }
 
     public function statuses()
     {
-        return $this->belongsToMany('App\Status');
+        return $this->belongsToMany('App\Models\Status');
     }
 
     public function categories()
     {
-        return $this->belongsToMany('App\Category');
+        return $this->belongsToMany('App\Models\Category');
     }
 
     public function comments()
     {
-        return $this->hasMany('App\Comment');
+        return $this->hasMany('App\Models\Comment');
     }
 
     public function getCommentCount()
@@ -223,7 +223,7 @@ class Doc extends Model
 
     public function annotations()
     {
-        return $this->hasMany('App\Annotation');
+        return $this->hasMany('App\Models\Annotation');
     }
 
     public function getAnnotationComments()
@@ -252,12 +252,12 @@ class Doc extends Model
 
     public function content()
     {
-        return $this->hasOne('App\DocContent');
+        return $this->hasOne('App\Models\DocContent');
     }
 
     public function doc_meta()
     {
-        return $this->hasMany('App\DocMeta');
+        return $this->hasMany('App\Models\DocMeta');
     }
 
     public static function createEmptyDocument(array $params)

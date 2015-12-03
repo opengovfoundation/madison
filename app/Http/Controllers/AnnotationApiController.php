@@ -7,10 +7,10 @@ use Response;
 use Input;
 use Event;
 use Redirect;
-use App\Annotation;
-use App\MadisonEvent;
-use App\AnnotationRange;
-use App\AnnotationPermission;
+use App\Models\Annotation;
+use App\Models\MadisonEvent;
+use App\Models\AnnotationRange;
+use App\Models\AnnotationPermission;
 
 /**
  * 	Controller for Document actions.
