@@ -14,6 +14,11 @@ use App\User;
 
 class UserManageApiController extends ApiController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function postLogin()
     {
         //Retrieve POST values

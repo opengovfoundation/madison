@@ -14,13 +14,13 @@ class DashboardController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
+
         //Filter to ensure user is signed in has an admin role
         $this->beforeFilter('admin');
 
         //Run csrf filter before all posts
         $this->beforeFilter('csrf', array('on' => 'post'));
-
-        parent::__construct();
     }
 
     /**

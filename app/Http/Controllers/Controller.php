@@ -11,6 +11,10 @@ abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function __construct()
+    {
+    }
+
     /**
      *	Helper function to return error as growl message.
      *

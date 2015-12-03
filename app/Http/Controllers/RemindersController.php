@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 
 class RemindersController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Display the password reminder view.
      *

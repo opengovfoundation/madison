@@ -9,6 +9,11 @@ class ApiController extends Controller
 {
     protected $es; // ElasticSearch client
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     // public function getIndex(){
     // 	$api = array(
     // 		'message' 	=> 'Madison API',
