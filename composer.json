@@ -30,6 +30,7 @@
     },
     "autoload": {
         "classmap": [
+            "app/Models/",
             "app/Http/Controllers/Controller.php",
             "app/Http/Controllers/",
             "app/Console/Commands/",
