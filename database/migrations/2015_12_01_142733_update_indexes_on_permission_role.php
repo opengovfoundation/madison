@@ -13,6 +13,9 @@ class UpdateIndexesOnPermissionRole extends Migration
     public function up()
     {
         Schema::table('permission_role', function ($table) {
+            $table->dropForeign('permission_role_permission_id_foreign');
+            $table->dropForeign('permission_role_role_id_foreign');
+
             $table->unique('id');
             $table->dropPrimary('PRIMARY');
 
