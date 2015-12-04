@@ -36,7 +36,22 @@ class UpdateIndexesOnPermissionRole extends Migration
     public function down()
     {
         Schema::table('permission_role', function ($table) {
-            //$table->dropPrimary(['permission_id', 'role_id']);
+            // Set this to unique so we can set `id` back as primary
+            $table->unique(['permission_id', 'role_id']);
+
+            $table->dropPrimary('PRIMARY');
+            $table->primary('id');
+
+            // Put foreign keys back
+            $table->dropForeign('permission_role_permission_id_foreign');
+            $table->dropForeign('permission_role_role_id_foreign');
+
+            $table->foreign('permission_id')->references('id')->on('permissions'); // assumes a users table
+            $table->foreign('role_id')->references('id')->on('roles');
+
+            // This is going to get added back in if migration is re-run,
+            // so drop here
+            $table->dropUnique('permission_role_id_unique');
         });
     }
 }
