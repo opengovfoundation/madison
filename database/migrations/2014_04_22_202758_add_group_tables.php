@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use App\Group;
+use App\Models\Group;
 
 class AddGroupTables extends Migration
 {
