@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Role;
-use App\Permission;
-use App\User;
-use App\Group;
+use App\Models\Role;
+use App\Models\Permission;
+use App\Models\User;
+use App\Models\Group;
 
 class RbacSeeder extends Seeder
 {

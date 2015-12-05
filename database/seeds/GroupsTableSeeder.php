@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Group;
-use App\User;
+use App\Models\User;
+use App\Models\Group;
 
 class GroupsTableSeeder extends Seeder
 {

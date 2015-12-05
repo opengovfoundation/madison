@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use App\Group;
-use App\Doc;
-use App\Setting;
+use App\Models\Group;
+use App\Models\Doc;
+use App\Models\Setting;
 
 class DocumentsTableSeeder extends Seeder
 {
