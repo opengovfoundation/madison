@@ -158,8 +158,16 @@
 
 .annotation-pane {
     article {
-        padding: $line-height-computed 0 0;
+        /*padding: $line-height-computed 0 0;*/
         margin: 0 20px;
+    }
+
+    article.comment {
+        border-bottom: 0;
+        padding-top: $vertical-padding;
+        margin-top: $vertical-padding;
+        margin-right: 0;
+        border-top: 1px solid $light-medium-grey;
     }
 }
 
