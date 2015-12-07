@@ -1,9 +1,9 @@
 angular.module('madisonApp.controllers')
   .controller('MyDocumentsController', ['$scope', '$http', '$translate', 'growl',
-      'SessionService', 'AuthService', 'pageService', '$state', 'USER_ROLES',
-      'SITE',
-    function ($scope, $http, $translate, growl, SessionService, AuthService,
-      pageService, $state, USER_ROLES, SITE) {
+      'growlMessages', 'SessionService', 'AuthService', 'pageService', '$state',
+      'USER_ROLES', 'SITE',
+    function ($scope, $http, $translate, growl, growlMessages, SessionService,
+      AuthService, pageService, $state, USER_ROLES, SITE) {
       "use strict";
 
       pageService.setTitle($translate.instant('content.mydocuments.title',
@@ -29,6 +29,7 @@ angular.module('madisonApp.controllers')
       });
 
       $scope.createDocument = function () {
+        growlMessages.destroyAllMessages();
         var title = $scope.newDoc.title;
 
         if (!title || !title.trim()) {
