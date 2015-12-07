@@ -12,26 +12,14 @@ module.exports = function (grunt) {
     vagrant_setup: {
       cmd: 'vagrant up'
     },
-    create_testdb: {
-      cmd: function () {
-        var database = "madison_grunt_test";
-        var user = "root";
-        var command = 'mysqladmin -u' + user + " create " + database;
-        return command;
-      }
-    },
-    drop_testdb: {
-      cmd: function () {
-        var database = "madison_grunt_test";
-        var user = "root";
-        return 'mysql -u' + user + " -e 'DROP DATABASE IF EXISTS " + database + ";'";
-      }
+    rebuild_db: {
+      cmd: 'php artisan migrate --database=grunt_test'
     },
     migrate: {
-      cmd: "php artisan migrate"
+      cmd: "php artisan migrate --database=grunt_test"
     },
     seed: {
-      cmd: "php artisan db:seed"
+      cmd: "php artisan db:seed --database=grunt_test"
     }
   });
 
