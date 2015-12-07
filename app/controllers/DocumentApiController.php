@@ -55,7 +55,7 @@ class DocumentApiController extends ApiController
         $rules = array('title' => 'required');
         $validation = Validator::make($doc_details, $rules);
         if ($validation->fails()) {
-            return Redirect::to('dashboard/docs')->withInput()->withErrors($validation);
+            return Response::json($this->growlMessage('A valid title is required.', 'error'));
         }
 
         try {
@@ -83,6 +83,12 @@ class DocumentApiController extends ApiController
 
     public function postTitle($id)
     {
+        $rules = array('title' => 'required');
+        $validation = Validator::make(Input::only('title'), $rules);
+        if ($validation->fails()) {
+            return Response::json($this->growlMessage('A valid title is required, changes are not saved', 'error'));
+        }
+        
         $doc = Doc::find($id);
         $doc->title = Input::get('title');
         $doc->save();
@@ -321,7 +327,7 @@ class DocumentApiController extends ApiController
                     $response = $group;
                     break;
                 default:
-                    throw new Exception('Unknown sponsor type '.$type);
+                    throw new Exception('Unknown sponsor type '.$sponsor['type']);
             }
         }
 

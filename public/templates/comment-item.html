@@ -14,10 +14,6 @@
                 aria-label="{{ 'document.action.like' | translate }}"
                 ng-click="addAction(comment, 'likes', $event)">
                 {{ comment.likes || '0' }}</span>
-            <span class="glyphicon glyphicon-thumbs-down" role="Button"
-                aria-label="{{ 'document.action.dislike' | translate }}"
-                ng-click="addAction(comment, 'dislikes', $event)">
-                {{ comment.dislikes || '0' }}</span>
             <span class="glyphicon glyphicon-flag" role="button"
                 aria-label="{{ 'document.action.flag' | translate }}"
                 ng-click="addAction(comment, 'flags', $event)">
@@ -56,10 +52,6 @@
                     aria-label="{{ 'document.action.like' | translate }}"
                     ng-click="addAction(comment, 'likes', $event)">
                     {{ comment.likes || '0' }}</span>
-                <span class="glyphicon glyphicon-thumbs-down" role="button"
-                    aria-label="{{ 'document.action.dislike' | translate }}"
-                    ng-click="addAction(comment, 'dislikes', $event)">
-                    {{ comment.dislikes || '0' }}</span>
                 <span class="glyphicon glyphicon-flag" role="button"
                     aria-label="{{ 'document.action.flag' | translate }}"
                     ng-click="addAction(comment, 'flags', $event)">

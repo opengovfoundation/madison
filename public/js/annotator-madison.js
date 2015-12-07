@@ -29,6 +29,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
       //Set the annotations in the annotationService
       annotationService.setAnnotations(annotations);
+      annotationService.broadcastSet();
     });
 
     /**
@@ -244,23 +245,20 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   addNoteActions: function (field, annotation) {
     var user = this.options.user;
 
-    //Add actions ( like / dislike / error) to annotation viewer
+    //Add actions ( like / error) to annotation viewer
     var annotationAction = $('<div></div>').addClass('activity-actions');
     var generalAction = $('<span></span>').data('annotation-id', annotation.id);
 
     var annotationLike = generalAction.clone().addClass('thumbs-up').append('<span class="action-count">' + annotation.likes + '</span>');
-    var annotationDislike = generalAction.clone().addClass('thumbs-down').append('<span class="action-count">' + annotation.dislikes + '</span>');
     var annotationFlag = generalAction.clone().addClass('flag').append('<span class="action-count">' + annotation.flags + '</span>');
 
-    annotationAction.append(annotationLike, annotationDislike, annotationFlag);
+    annotationAction.append(annotationLike, annotationFlag);
 
     //If user is logged in add his current action and enable the action buttons
     if (user !== null) {
       if (annotation.user_action) {
         if (annotation.user_action === 'like') {
           annotationLike.addClass('selected');
-        } else if (annotation.user_action === 'dislike') {
-          annotationDislike.addClass('selected');
         } else if (annotation.user_action === 'flag') {
           annotationFlag.addClass('selected');
         } // else this user doesn't have any actions on this annotation
@@ -270,10 +268,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
       annotationLike.addClass('logged-in').click(function () {
         that.addLike(annotation, this);
-      });
-
-      annotationDislike.addClass('logged-in').click(function () {
-        that.addDislike(annotation, this);
       });
 
       annotationFlag.addClass('logged-in').click(function () {
@@ -332,36 +326,11 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       }
 
       element.siblings('.thumbs-up').children('.action-count').text(data.likes);
-      element.siblings('.thumbs-down').children('.action-count').text(data.dislikes);
       element.siblings('.flag').children('.action-count').text(data.flags);
 
       annotation.likes = data.likes;
-      annotation.dislikes = data.dislikes;
       annotation.flags = data.flags;
       annotation.user_action = 'like';
-    });
-  },
-  addDislike: function (annotation, element) {
-    var doc = this.options.doc;
-    $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/dislikes', function (data) {
-      element = $(element);
-      element.children('.action-count').text(data.dislikes);
-      element.siblings('span').removeClass('selected');
-
-      if (data.action) {
-        element.addClass('selected');
-      } else {
-        element.removeClass('selected');
-      }
-
-      element.siblings('.thumbs-up').children('.action-count').text(data.likes);
-      element.siblings('.thumbs-down').children('.action-count').text(data.dislikes);
-      element.siblings('.flag').children('.action-count').text(data.flags);
-
-      annotation.likes = data.likes;
-      annotation.dislikes = data.dislikes;
-      annotation.flags = data.flags;
-      annotation.user_action = 'dislike';
     });
   },
   addFlag: function (annotation, element) {
@@ -378,10 +347,8 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       }
 
       element.siblings('.thumbs-up').children('.action-count').text(data.likes);
-      element.siblings('.thumbs-down ').children('.action-count').text(data.dislikes);
 
       annotation.likes = data.likes;
-      annotation.dislikes = data.dislikes;
       annotation.flags = data.flags;
       annotation.user_action = 'flag';
     });

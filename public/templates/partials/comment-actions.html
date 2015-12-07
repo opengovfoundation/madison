@@ -3,12 +3,11 @@
     title="{{ 'document.action.like' | translate }}"
     aria-label="{{ 'document.action.like' | translate }}" role="button"
     >{{ obj.likes || '0' }}</a>
-  <a class="thumbs-down" ng-click="addAction(obj, 'dislikes', $event)"
-    title="{{ 'document.action.dislike' | translate }}"
-    aria-label="{{ 'document.action.dislike' | translate }}" role="button"
-    >{{ obj.dislikes || '0' }}</a>
   <a class="flag" ng-click="addAction(obj, 'flags', $event)"
     title="{{ 'document.action.flag' | translate }}"
     aria-label="{{ 'document.action.flag' | translate }}" role="button"
     >{{ obj.flags || '0' }}</a>
+  <a class="link" data-clipboard-text="{{ permalink }}"
+    aria-label="{{ 'document.action.permalink' | translate }}" role="button"
+    title="{{ 'document.action.permalink' | translate }}">&nbsp;</a>
 </div>

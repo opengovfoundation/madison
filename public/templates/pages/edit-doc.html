@@ -10,7 +10,7 @@
     <tab class="document-edit-tab"
       heading="{{ 'content.editdocument.tab.content' | translate }}">
       <small translate="content.editdocument.savemessage"></small>
-      <div class="doc-content">
+      <div class="doc-content-editor">
         <div id="wmd-button-bar"></div>
         <textarea class="wmd-input" id="wmd-input" name="content"
           ng-model="doc.content.content"></textarea>
@@ -20,7 +20,7 @@
         <p><small translate="content.editdocument.wordmessage"></small></p>
         <p><small translate="content.editdocument.markdownmessage"
           ></a></small></p>
-        <button class="save-document-button"
+        <button class="save-document-button" ng-click="saveContent()"
           translate="form.general.savenow"></button>
       </div>
     </tab>

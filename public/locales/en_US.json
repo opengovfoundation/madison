@@ -234,7 +234,6 @@
   "annotation.label.jumpto": "Jump to {{title}}",
 
   "document.action.like": "Like this",
-  "document.action.dislike": "Dislike this",
   "document.action.flag": "Flag this",
   "document.action.closesidebar": "Close Sidebar",
   "document.action.closecomments": "Close Comment List",
@@ -246,6 +245,7 @@
   "document.action.postcomment": "Post Comment",
   "document.action.mustlogin": "Login to comment",
   "document.action.create": "Create document",
+  "document.action.permalink": "Copy link to this comment",
 
   "user.label.verified": "Verified",
   "user.label.membersince": "Member since <time datetime=\"{{ datetime }}\">{{ datetime | parseDate | date:'mediumDate' }}</time>",

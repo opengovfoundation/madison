@@ -5,7 +5,7 @@ angular.module('madisonApp.services')
 
     var converter = new Markdown.Converter();
     this.annotations = [];
-    this.annotationGroups = [];
+    this.annotationGroups = {};
     this.annotator = null;
     this.count = 0;
 
@@ -136,6 +136,10 @@ angular.module('madisonApp.services')
 
     this.broadcastUpdate = function () {
       $rootScope.$broadcast('annotationsUpdated');
+    };
+
+    this.broadcastSet = function () {
+      $rootScope.$broadcast('annotationsSet');
     };
 
     return this;
