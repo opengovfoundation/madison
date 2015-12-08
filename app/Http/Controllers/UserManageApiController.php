@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Input;
+use Hash;
+use Mail;
 use Response;
 use Validator;
 use Auth;

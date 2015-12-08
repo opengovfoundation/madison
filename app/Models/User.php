@@ -15,6 +15,7 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Session;
+use Hash;
 
 use App\Models\Group;
 use App\Models\GroupMember;
