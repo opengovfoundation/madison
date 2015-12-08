@@ -21,7 +21,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\DatabaseBackup::class,
         \App\Console\Commands\CreateRole::class,
         \App\Console\Commands\dbUpdateGroups::class,
-        \App\Console\Commands\DatabaseClear::class
+        \App\Console\Commands\DatabaseClear::class,
+        \App\Console\Commands\DatabaseRebuild::class
     ];
 
     /**
