@@ -1,9 +1,6 @@
 <?php
-
 namespace App\Console\Commands;
-
 use Illuminate\Console\Command;
-
 class DatabaseClear extends Command
 {
     /**
@@ -11,15 +8,13 @@ class DatabaseClear extends Command
      *
      * @var string
      */
-    protected $signature = 'db:rebuild {--database=mysql}';
-
+    protected $name = 'db:clear';
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Drops and recreates the database.';
-
+    protected $description = 'Clears the database.';
     /**
      * Create a new command instance.
      */
@@ -27,7 +22,6 @@ class DatabaseClear extends Command
     {
         parent::__construct();
     }
-
     /**
      * Execute the console command.
      *
@@ -35,9 +29,12 @@ class DatabaseClear extends Command
      */
     public function fire()
     {
-        $database = \Config::get('database')['connections'][$this->option('database')]['database'];
-
-        \DB::statement('DROP DATABASE IF EXISTS '.$database);
-        \DB::statement('CREATE DATABASE '.$database);
+        $database = Config::get('database')['connections']['mysql']['database'];
+        $tables = DB::select("select * from information_schema.tables where table_schema='".$database."'");
+        DB::statement('SET foreign_key_checks = 0');
+        foreach ($tables as $table) {
+            Schema::drop($table->TABLE_NAME);
+        }
+        DB::statement('SET foreign_key_checks = 1');
     }
 }
