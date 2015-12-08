@@ -53,9 +53,14 @@ registering new users).
 12. Run `php artisan migrate` and `php artisan db:seed` from the root directory to
 set up the database.
 
-13. Finally, install and run elasticsearch. [See here for installation](elasticsearch).
+13. Install and run elasticsearch. [See here for installation](elasticsearch).
   1. Additionally, run `curl -XPUT http://localhost:9200/madison` when ES is running
   to create a new index.
+
+14. Copy the `.env.example` file to `.env` and set the appropriate variables.
+  1. If you don't have one already, set up an account at [MailTrap](mailtrap)
+  and set the `MAIL_USERNAME` and `MAIL_PASSWORD` variables to what it provides
+  for your test inbox. This is needed for user signup.
 
 ### Note
 
