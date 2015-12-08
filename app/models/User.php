@@ -490,6 +490,37 @@ class User extends Eloquent implements UserInterface, RemindableInterface
     }
 
     /**
+     *  hasRole.
+     *
+     *  Returns a boolean if the user has the given role or not.  This overrides
+     *  the default hasRole() from Entrust.
+     *
+     *  This is just a temporary hotfix, using the Entrust Role object anywhere
+     *  is causing an uncatchable fatal error in PHP on Laravel Forge.  While we
+     *  investigate that, this will suffice in the meantime.
+     *
+     *  @param string $role
+     *
+     *  @return bool
+     */
+    public function hasRole($role)
+    {
+        $results = DB::select(
+            DB::raw('SELECT COUNT(*) AS count ' .
+                'FROM assigned_roles LEFT JOIN roles ' .
+                'ON assigned_roles.role_id = roles.id ' .
+                'WHERE assigned_roles.user_id = :userid ' .
+                'AND roles.name = :role'),
+            array('userid' => $this->id, 'role' => $role));
+
+        if ($results && isset($results[0]) && isset($results[0]->count) && $results[0]->count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      *	beforeSave.
      *
      *	Validates before saving.  Returns whether the User can be saved.
