@@ -41,4 +41,9 @@ describe('madison home doc list', function() {
     expect(docTitle.getText()).toBe('Example Document');
   });
 
+  // TODO: Test that "Recent Activity", "Recent Legislation and "Most Active
+  // Documents" show in correct orders. Will require some kind of control over
+  // document and activity dates. Currently the database seeding just takes
+  // current timestamps, so that will need to be adjusted.
+
 });

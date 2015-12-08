@@ -11,10 +11,12 @@ exports.config = {
   // Spec patterns are relative to the current working directly when
   // protractor is called.
   seleniumAddress: 'http://localhost:4444/wd/hub',
-  specs: ['tests/client/e2e/home.spec.js'],
+  specs: [
+    'tests/client/e2e/home.spec.js',
+    'tests/client/e2e/login.spec.js'
+  ],
 
-  // TODO: Need a way to dynamically set this for Travis / wherever else it runs
-  // * Check for TRAVIS_BASE_URL and default back to what's in .env for COOKIE_SESSION
+  // TODO: pull in dotenv for node and grab the `COOKIE_SESSION` env var
   baseUrl: 'http://core.mymadison.local',
 
   // Options to be passed to Jasmine-node.
