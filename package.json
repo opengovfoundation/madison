@@ -46,7 +46,7 @@
     "mocha": "^1.21.4",
     "moment": "~2.5.1",
     "pagedown": "~1.1.0",
-    "protractor": "^1.0.0",
+    "protractor": "3.0.0",
     "select2": "~3.4.5",
     "sinon": "^1.10.3",
     "twitter-bootstrap-3.0.0": "~3.0.0",

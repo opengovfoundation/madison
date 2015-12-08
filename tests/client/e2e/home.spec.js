@@ -1,20 +1,14 @@
-var ptor;
-
-ptor = protractor.getInstance();
+//var ptor = protractor.getInstance();
+var ptor = require('protractor');
+var fs = require('fs');
 
 describe('madison home doc list', function () {
+  beforeEach(function() {
+    browser.get('/');
+  });
+
   it('should see a list of documents', function () {
-    browser.get('http://madison');
-
-    waitLoader = by.css('.wait-loader');
-
-    browser.wait(function () {
-      return ptor.isElementPresent(waitLoader);
-    }, 8000);
-
     var docList = element.all(by.repeater('doc in docs'));
-    docList.wait()
-    console.log(docList.length);
-    expect(docList.count().toBeGreaterThan(0));
+    expect(docList.count()).toBe(2);
   });
 });

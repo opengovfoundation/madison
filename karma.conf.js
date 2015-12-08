@@ -35,7 +35,7 @@ module.exports = function(config) {
         'public/bower_components/moment/min/moment.min.js',
         'public/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
         'public/js/*.js',
-        'test/unit/*.spec.js'
+        'tests/client/unit/*.spec.js'
     ],
 
 
