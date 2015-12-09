@@ -64,10 +64,10 @@ return [
             'strict'    => false,
         ],
 
-        'grunt_test' => [
+        'mysql_testing' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
-            'database'  => 'madison_grunt_test',
+            'database'  => 'madison_testing',
             'username'  => env('DB_USERNAME', 'root'),
             'password'  => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',

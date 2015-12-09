@@ -13,13 +13,13 @@ module.exports = function (grunt) {
       cmd: 'vagrant up'
     },
     rebuild_db: {
-      cmd: 'php artisan db:rebuild --database=grunt_test'
+      cmd: 'php artisan db:rebuild --database=mysql_testing'
     },
     migrate: {
-      cmd: "php artisan migrate --database=grunt_test"
+      cmd: "php artisan migrate --database=mysql_testing"
     },
     seed: {
-      cmd: "php artisan db:seed --database=grunt_test"
+      cmd: "php artisan db:seed --database=mysql_testing"
     }
   });
 

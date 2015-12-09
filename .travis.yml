@@ -8,7 +8,7 @@ node_js:
   - "0.10"
 env:
   matrix:
-  - DB_HOST=localhost DB_DATABASE=madison_grunt_test DB_USERNAME=root ENV=testing COOKIE_SESSION=http://localhost:9000
+  - DB_HOST=localhost DB_DATABASE=madison_testing DB_USERNAME=root ENV=testing COOKIE_SESSION=http://localhost:9000
   global:
   - secure: XPSHwPKz6T6gKRYD8gmBZI1TRU79VpE/puIdIzno3mcVfR9Mt0jR39r759EGOGX94rNo2vjoBlOHLvECSYKl6kn1gjuWQDq8LkOD2QGKO+KmE8GDaED4DFds6EvtoHm/pkFpVBsvjGucU6PEZo4ghxhQAGpuX112V5mj1qmf7g0=
   - secure: eRHMypmB5JXiQXwa++FHjbNPg1LnLxJ97HTt/tcL4hrb9KTAioIg4vvOM07PaekLVkZnTtUnOUDDaOlkhSUzjUKaU+fnw4GcUvXTzj73efBSfkoSvWgkquiVCLV+8PJuYkske93ZcR5s91+4oPITQZ4IQVmviaUz3XdLFOgUUFk=
