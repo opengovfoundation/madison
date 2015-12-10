@@ -286,6 +286,7 @@
 // Features
 .main-feature {
     @include clearfix();
+    margin-bottom: $line-height-computed;
 
     .doc-content {
         @extend .col-md-24;
@@ -294,14 +295,13 @@
 
 .previous-features {
     @extend .row;
-    margin-top: $line-height-computed;
 
-    .message {
+    .heading {
         display: block;
         margin-left: 15px;
         margin-right: 15px;
-        @extend h3;
-        @extend .title-underline-medium;
+        @extend h2;
+        @extend .title-underline-thick;
         text-align: center;
     }
 }
@@ -309,7 +309,7 @@
 .recent-activity, .most-active {
     @extend .col-md-12;
 
-    h2 {
+    h3 {
         margin-bottom: $line-height-computed;
         font-family: $main-font;
         @extend .normal-title;
