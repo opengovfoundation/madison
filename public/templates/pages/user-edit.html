@@ -46,19 +46,18 @@
     </div>
     <div class="checkbox">
       <span ng-if="user.verified == 'pending'"
-        translate="form.edituser.verify.pending">
+        translate="form.edituser.verify.pending"></span>
       <span ng-if="user.verified == 'verified'"
-        translate="form.edituser.verify.verified">
+        translate="form.edituser.verify.verified"></span>
       <span ng-if="user.verified == 'rejected'"
-        translate="form.edituser.verify.rejected">
-      <label ng-if="!user.verified">
+        translate="form.edituser.verify.rejected"></span>
+      <label ng-if="user.verified === undefined || user.verified === null">
         <input name="verify" id="verify" type="checkbox"
           ng-model="user.verify_request" />
         <span translate="form.edituser.verify.label"></span>
       </label>
     </div>
     <div class="form-group">
-      {{ user.independent_sponsor }}
       <p ng-if="user.independent_sponsor === true">
         <span class="glyphicon glyphicon-check"></span>
         <span translate="form.edituser.sponsor.active"></span>

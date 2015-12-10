@@ -355,7 +355,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface
      */
     public function getSponsorStatus()
     {
-        return $this->user_meta()->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)->first();
+        $result = $this->user_meta()->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)->first();
+        if ($result) {
+            return (bool) $result->meta_value;
+        } else {
+            return;
+        }
     }
 
     /**
