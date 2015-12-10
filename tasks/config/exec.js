@@ -12,6 +12,11 @@ module.exports = function (grunt) {
     vagrant_setup: {
       cmd: 'vagrant up'
     },
+    serve: {
+      cmd: 'DB_CONNECTION=mysql_testing php -S localhost:8100 -t ./public&',
+      stdout: false,
+      stderr: false
+    },
     rebuild_db: {
       cmd: 'php artisan db:rebuild --database=mysql_testing'
     },

@@ -16,8 +16,7 @@ exports.config = {
     'tests/client/e2e/login.spec.js'
   ],
 
-  // TODO: pull in dotenv for node and grab the `COOKIE_SESSION` env var
-  baseUrl: 'http://core.mymadison.local',
+  baseUrl: 'http://localhost:8100',
 
   // Options to be passed to Jasmine-node.
   // jasmineNodeOpts: {

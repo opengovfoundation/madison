@@ -26,13 +26,12 @@ describe('Auth test', function() {
   });
 
   // Check unconfirmed email sign in
-  //it('should fail to sign in into unconfirmed account', function() {
-  //  browser.get('/user/login');
-  //  element(by.id('email')).sendKeys('test2@opengovfoundation.org');
-  //  element(by.id('password')).sendKeys('password');
-  //  element.all(by.css('.btn')).get(0).click();
-  //  browser.sleep(4000);
-  //  expect(element(by.css('.alert-danger')).getText()).toEqual('Please click the link sent to your email to verify your account.');
-  //});
+  it('should fail to sign in into unconfirmed account', function() {
+    browser.get('/user/login');
+    element(by.name('email')).sendKeys('user2@example.com');
+    element(by.name('password')).sendKeys('password');
+    element(by.css('.login-button')).click();
+    expect(element(by.css('.growl-item.alert-error .growl-message')).getText()).toMatch(/Please click the link sent to your email to verify your account/i);
+  });
 
 });
