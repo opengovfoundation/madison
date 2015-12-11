@@ -25,6 +25,7 @@ before_script:
   - npm install -g bower
   - npm install
   - grunt install
+  - mysql -e 'create database madison_testing;'
   - grunt test_setup
 
 # Commands you want to run that will verify your build.
