@@ -6,6 +6,8 @@ php:
 # Set environment variables
 node_js:
   - "0.10"
+services:
+  - mysql
 env:
   matrix:
   - DB_HOST=localhost DB_DATABASE=madison_testing DB_USERNAME=root
