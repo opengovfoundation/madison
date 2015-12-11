@@ -33,7 +33,7 @@ class DatabaseRebuild extends Command
     public function fire()
     {
         $database = \Config::get('database')['connections'][$this->option('database')]['database'];
-        \DB::statement('DROP DATABASE IF EXISTS '.$database);
+        //\DB::statement('DROP DATABASE IF EXISTS '.$database);
         \DB::statement('CREATE DATABASE '.$database);
     }
 }
