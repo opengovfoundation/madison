@@ -10,13 +10,13 @@ exports.config = {
 
   // Spec patterns are relative to the current working directly when
   // protractor is called.
-  seleniumAddress: 'http://localhost:4444/wd/hub',
+  //seleniumAddress: 'http://localhost:4444/wd/hub',
   specs: [
     'tests/client/e2e/home.spec.js',
     'tests/client/e2e/login.spec.js'
   ],
 
-  baseUrl: 'http://localhost:8100',
+  baseUrl: 'http://localhost:8100'
 
   // Options to be passed to Jasmine-node.
   // jasmineNodeOpts: {
