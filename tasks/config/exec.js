@@ -1,5 +1,3 @@
-var TEST_PORT = process.env.TRAVIS_JOB_NUMBER ? '80' : '8100';
-
 module.exports = function (grunt) {
   grunt.config.set('exec', {
     install_composer: {
@@ -15,9 +13,8 @@ module.exports = function (grunt) {
       cmd: 'vagrant up'
     },
     serve: {
-      //cmd: 'DB_CONNECTION=mysql_testing php -S localhost:8100 -t ./public&',
+      cmd: 'DB_CONNECTION=mysql_testing php artisan serve --host 0.0.0.0 --port 8100&',
       stdout: true,
-      cmd: 'DB_CONNECTION=mysql_testing php artisan serve --port ' + TEST_PORT + '&',
       stderr: true
     },
     rebuild_db: {
