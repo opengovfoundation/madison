@@ -18,7 +18,7 @@ exports.config = {
     'tests/client/e2e/login.spec.js'
   ],
 
-  baseUrl: 'http://localhost:8100'
+  baseUrl: process.env.TRAVIS_JOB_NUMBER ? 'http://localhost' : 'http://localhost:8100',
 
   // Options to be passed to Jasmine-node.
   // jasmineNodeOpts: {
