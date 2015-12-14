@@ -8,9 +8,11 @@ exports.config = {
     'name': "PHP " + process.env.TRAVIS_PHP_VERSION + "-" + process.env.TRAVIS_COMMIT_MSG
   },
 
+  // If we're in travis, use sauce, otherwise use local selenium
+  seleniumAddress: process.env.TRAVIS_JOB_NUMBER ? null : 'http://localhost:4444/wd/hub',
+
   // Spec patterns are relative to the current working directly when
   // protractor is called.
-  //seleniumAddress: 'http://localhost:4444/wd/hub',
   specs: [
     'tests/client/e2e/home.spec.js',
     'tests/client/e2e/login.spec.js'
