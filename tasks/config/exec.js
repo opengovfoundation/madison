@@ -14,8 +14,9 @@ module.exports = function (grunt) {
     },
     serve: {
       cmd: 'DB_CONNECTION=mysql_testing php artisan serve --host 0.0.0.0 --port 8100&',
-      stdout: true,
-      stderr: true
+      // Silence these so they don't clutter up the build logs
+      stdout: false,
+      stderr: false
     },
     rebuild_db: {
       cmd: 'php artisan db:rebuild --database=mysql_testing'
