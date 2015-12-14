@@ -1,7 +1,3 @@
-//var ptor = protractor.getInstance();
-var ptor = require('protractor');
-var fs = require('fs');
-
 describe('madison home doc list', function() {
   beforeEach(function() {
     browser.get('/');
