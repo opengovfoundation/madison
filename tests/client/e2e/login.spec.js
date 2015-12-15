@@ -34,4 +34,7 @@ describe('Auth test', function() {
     expect(element(by.css('.growl-item.alert-error .growl-message')).getText()).toMatch(/Please click the link sent to your email to verify your account/i);
   });
 
+  // TODO: Forgot password tests?
+  // TODO: Confirmation email tests (and resend)?
+
 });

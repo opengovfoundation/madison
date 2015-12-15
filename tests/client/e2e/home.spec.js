@@ -13,7 +13,7 @@ describe('madison home doc list', function() {
     var mostActiveDoc = activeDocs.first();
     expect(activeDocs.count()).toBe(1);
     expect(mostActiveDoc.getText()).toMatch(/Example Document/);
-    expect(mostActiveDoc.getText()).toMatch(/0 Comments/);
+    expect(mostActiveDoc.getText()).toMatch(/3 Comments/);
     expect(mostActiveDoc.getText()).toMatch(/2 Annotations/);
   });
 
@@ -21,7 +21,7 @@ describe('madison home doc list', function() {
     var featuredDoc = element(by.css('.main-feature'));
     expect(featuredDoc.getText()).toMatch(/Example Document/);
     expect(featuredDoc.getText()).toMatch(/Sponsored by Example Group Display/);
-    expect(featuredDoc.getText()).toMatch(/0 Comments/);
+    expect(featuredDoc.getText()).toMatch(/3 Comments/);
     expect(featuredDoc.getText()).toMatch(/2 Annotation/);
   });
 
