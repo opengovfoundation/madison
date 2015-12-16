@@ -1,4 +1,4 @@
-var helpers = require('../spec-helpers');
+var helpers = require('../support/helpers');
 
 describe('Logged In - Document view', function() {
 
