@@ -23,5 +23,14 @@ class UsersTableSeeder extends Seeder
             'lname' => $creds['admin_lname'],
             'token' => '',
         ));
+
+        DB::table('users')->insert(array(
+            'email' => $creds['unconfirmed_email'],
+            'password' => Hash::make($creds['unconfirmed_password']),
+            'fname' => $creds['unconfirmed_fname'],
+            'lname' => $creds['unconfirmed_lname'],
+            'token' => '12345',
+        ));
+
     }
 }
