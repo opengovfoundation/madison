@@ -64,10 +64,10 @@ return array(
 
         'pgsql' => array(
             'driver'   => 'pgsql',
-            'host'      => getenv('DB_HOST') ?: null,
-            'database'  => getenv('DB_DATABASE') ?: null,
-            'username'  => getenv('DB_USERNAME') ?: null,
-            'password'  => getenv('DB_PASSWORD') ?: null,
+            'host'     => getenv('DB_HOST') ?: null,
+            'database' => getenv('DB_DATABASE') ?: null,
+            'username' => getenv('DB_USERNAME') ?: null,
+            'password' => getenv('DB_PASSWORD') ?: null,
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',
@@ -75,10 +75,10 @@ return array(
 
         'sqlsrv' => array(
             'driver'   => 'sqlsrv',
-            'host'      => getenv('DB_HOST') ?: null,
-            'database'  => getenv('DB_DATABASE') ?: null,
-            'username'  => getenv('DB_USERNAME') ?: null,
-            'password'  => getenv('DB_PASSWORD') ?: null,
+            'host'     => getenv('DB_HOST') ?: null,
+            'database' => getenv('DB_DATABASE') ?: null,
+            'username' => getenv('DB_USERNAME') ?: null,
+            'password' => getenv('DB_PASSWORD') ?: null,
             'prefix'   => '',
         ),
 
