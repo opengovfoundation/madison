@@ -22,6 +22,10 @@ exports.config = {
 
   baseUrl: 'http://0.0.0.0:8100',
 
+  onPrepare: function() {
+    browser.driver.manage().window().setSize(1024, 768);
+  }
+
   // Options to be passed to Jasmine-node.
   // jasmineNodeOpts: {
   //   defaultTimeoutInterval: 100000

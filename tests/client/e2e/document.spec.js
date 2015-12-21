@@ -1,6 +1,11 @@
+var pages = require('./pages');
+
 describe('Document view', function() {
+  var docPage;
+
   beforeEach(function() {
-    browser.get('/docs/example-document');
+    docPage = new pages.Document();
+    docPage.get();
   });
 
   it('shows the document specified by the URL', function() {
@@ -52,7 +57,10 @@ describe('Document view', function() {
   describe('Document comments', function() {
     beforeEach(function() {
       // Click the discussion tab button
-      var discussionTabBtn = element(by.cssContainingText('.nav-tabs a', 'Discussion'));
+      var discussionTabBtn = element(
+        by.cssContainingText('.doc-content .nav-tabs a', 'Discussion')
+      );
+
       discussionTabBtn.click();
     });
 

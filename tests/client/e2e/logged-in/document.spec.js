@@ -1,10 +1,18 @@
-var helpers = require('../support/helpers');
+var pages = require('../pages');
 
 describe('Logged In - Document view', function() {
+  var loginPage, docPage;
 
   beforeEach(function() {
-    helpers.loginUser();
-    browser.get('/docs/example-document');
+    loginPage = new pages.Login();
+    docPage = new pages.Document();
+
+    loginPage.loginUser();
+    docPage.get();
+  });
+
+  afterEach(function() {
+    loginPage.logout();
   });
 
   describe('Supporting / Opposing document', function() {
@@ -55,13 +63,13 @@ describe('Logged In - Document view', function() {
     });
   });
 
-  describe('Document comments', function() {
-    xit('handles adding a comment to a document');
-    xit('handles replying to a comment on a document');
-    xit('handles liking a comment');
-    xit('handles liking a comment reply');
-    xit('handles flagging a comment');
-    xit('handles flagging a comment reply');
-  });
+  //describe('Document comments', function() {
+  //  xit('handles adding a comment to a document');
+  //  xit('handles replying to a comment on a document');
+  //  xit('handles liking a comment');
+  //  xit('handles liking a comment reply');
+  //  xit('handles flagging a comment');
+  //  xit('handles flagging a comment reply');
+  //});
 
 });
