@@ -28,7 +28,7 @@ describe('madison home doc list', function() {
 
   it('goes to the document page when featured title is clicked', function() {
     homePage.featuredDoc.title.click();
-    expect(docPage.docInfo.title.getText()).toBe('Example Document');
+    expect(docPage.info.title.getText()).toBe('Example Document');
   });
 
   // TODO: Test that "Recent Activity", "Recent Legislation and "Most Active
