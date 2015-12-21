@@ -39,10 +39,6 @@ var LoginPage = function() {
       element(by.css('.account-dropdown')).click();
       element(by.css('li.link-logout a')).click();
     });
-    //browser.driver.wait(
-    //  protractor.until.elementIsNotVisible(by.css('.account-dropdown')),
-    //  5000
-    //);
   };
 };
 
