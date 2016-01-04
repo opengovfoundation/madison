@@ -13,7 +13,7 @@ module.exports = function (grunt) {
       cmd: 'vagrant up'
     },
     serve: {
-      cmd: 'APP_DEBUG=true TESTING=true DB_CONNECTION=mysql_testing php artisan serve --host 0.0.0.0 --port 8100&',
+      cmd: 'TESTING=true DB_CONNECTION=mysql_testing php artisan serve --host 0.0.0.0 --port 8100&',
       // Silence these so they don't clutter up the build logs
       stdout: false,
       stderr: false
