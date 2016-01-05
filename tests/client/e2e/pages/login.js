@@ -11,7 +11,7 @@ var LoginPage = function() {
     browser.get('/user/login');
     emailField.sendKeys('user@example.com');
     passwordField.sendKeys('password');
-    loginButton.click();
+    clickLoginButton();
     browser.driver.wait(
       protractor.until.elementLocated(by.css('.account-dropdown')),
       5000
@@ -22,14 +22,14 @@ var LoginPage = function() {
     browser.get('/user/login');
     emailField.sendKeys('user@example.com');
     passwordField.sendKeys('wrongpassword');
-    loginButton.click();
+    clickLoginButton();
   };
 
   this.loginUnconfirmed = function() {
     browser.get('/user/login');
     emailField.sendKeys('user2@example.com');
     passwordField.sendKeys('password');
-    element(by.css('.login-button')).click();
+    clickLoginButton();
   };
 
   this.logout = function() {
@@ -41,5 +41,15 @@ var LoginPage = function() {
     });
   };
 };
+
+// Convenience function to make sure login button is clickable first
+// Seems to be something that is needed during Safari tests
+function clickLoginButton() {
+  browser.driver.wait(
+    protractor.until.elementLocated(by.css('.login-button')),
+    5000
+  );
+  loginButton.click();
+}
 
 module.exports = LoginPage;
