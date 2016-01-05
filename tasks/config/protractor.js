@@ -37,7 +37,7 @@ module.exports = function (grunt) {
         args: {
           sauceUser: process.env.SAUCE_USERNAME,
           sauceKey: process.env.SAUCE_ACCESS_KEY,
-          //browser: "safari"
+          browser: "safari"
           capabilites: {
             platform: 'OS X 10.11',
             browserName: 'safari',
