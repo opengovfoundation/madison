@@ -11,14 +11,16 @@ describe('Auth test', function() {
     pageLayout = new pages.Layout();
   });
 
+  afterEach(function() {
+    loginPage.logout();
+  });
+
   // Check simple sign in
   it('should be able to sign in', function() {
     loginPage.loginUser();
 
     expect(pageLayout.accountDropdown().getText())
     .toMatch(/Welcome John Appleseed/i);
-
-    loginPage.logout();
   });
 
   // Check incorrect password sign in
