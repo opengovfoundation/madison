@@ -4,6 +4,7 @@ var HomePage = function() {
   var activeDocs = element.all(by.repeater('doc in mostActive'));
   var mostActiveDoc = activeDocs.first();
   var featuredDoc = element(by.css('.main-feature'));
+  var recentList = element.all(by.css('.search-list .doc-list-item'));
 
   this.get = function() {
     browser.get('/');
@@ -41,6 +42,14 @@ var HomePage = function() {
     annotations: featuredDoc.element(
       by.cssContainingText('.doc-stats li', 'Annotations')
     )
+  };
+
+  this.mostRecentDoc = function() {
+    var mostRecent = recentList.first();
+    return {
+      title: mostRecent.element(by.css('.doc-info h3')),
+      readButton: mostRecent.element(by.css('.read-action a.action-button'))
+    };
   };
 };
 
