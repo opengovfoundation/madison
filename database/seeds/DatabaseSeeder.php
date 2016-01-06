@@ -56,6 +56,7 @@ class DatabaseSeeder extends Seeder
         $this->call('RbacSeeder');
         $this->call('GroupsTableSeeder');
         $this->call('DocumentsTableSeeder');
+        $this->call('CategoriesTableSeeder');
         $this->call('CommentsTableSeeder');
         $this->call('AnnotationsTableSeeder');
 
