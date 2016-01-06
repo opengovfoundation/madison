@@ -43,6 +43,14 @@ describe('madison home doc list', function() {
     });
   });
 
+  describe('clicking a category to filter', function() {
+    it('only shows documents from clicked category', function() {
+      homePage.leastRecentDoc().findCategory(2).click();
+      expect(homePage.recentList.count()).toBe(1);
+      expect(homePage.currentCategory.getText()).toMatch(/second category/i);
+    });
+  });
+
   // TODO: Test that "Recent Activity", "Recent Legislation and "Most Active
   // Documents" show in correct orders. Will require some kind of control over
   // document and activity dates. Currently the database seeding just takes

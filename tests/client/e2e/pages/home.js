@@ -6,6 +6,7 @@ var HomePage = function() {
   var featuredDoc = element(by.css('.main-feature'));
   var recentList = element.all(by.css('.search-list .doc-list-item'));
   var searchBox = element(by.model('docSearch'));
+  var currentCategory = element(by.css('.category-filter .category'));
 
   this.get = function() {
     browser.get('/');
@@ -53,7 +54,24 @@ var HomePage = function() {
     };
   };
 
+  this.leastRecentDoc = function() {
+    var leastRecent = recentList.last();
+    return {
+      title: leastRecent.element(by.css('.doc-info h3')),
+
+      readButton: leastRecent.element(by.css('.read-action a.action-button')),
+
+      findCategory: function(idx) {
+        return leastRecent.element(
+          by.css('.doc-categories li:nth-child(' + idx + ')')
+        );
+      }
+    };
+  };
+
   this.recentList = recentList;
+
+  this.currentCategory = currentCategory;
 
   this.searchDocs = function(term) {
     searchBox.sendKeys(term);
