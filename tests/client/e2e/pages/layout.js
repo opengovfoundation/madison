@@ -11,7 +11,10 @@ var PageLayout = function() {
     donate: element(by.cssContainingText('.nav-main .link-support', 'Donate')),
     subscribe: element(by.css('.nav-main .link-subscribe')),
     login: element(by.css('.nav-main .link-login')),
-    signup: element(by.css('.nav-main .link-signup'))
+    signup: element(by.css('.nav-main .link-signup')),
+    footer: {
+      intro: element(by.css('.nav-footer > a'))
+    }
   };
 
   this.links = links;

@@ -79,5 +79,10 @@ describe('Madison page layout', function() {
     });
   });
 
-  describe('footer links', function() {});
+  describe('footer links', function() {
+    it('takes you to intro page for each "for ___" link', function() {
+      pageLayout.links.footer.intro.click();
+      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8100/intro');
+    });
+  });
 });
