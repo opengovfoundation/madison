@@ -43,11 +43,20 @@ describe('madison home doc list', function() {
     });
   });
 
-  describe('clicking a category to filter', function() {
-    it('only shows documents from clicked category', function() {
+  describe('filtering recent docs by category', function() {
+    beforeEach(function() {
       homePage.leastRecentDoc().findCategory(2).click();
+    });
+
+    it('only shows documents from clicked category', function() {
       expect(homePage.recentList.count()).toBe(1);
       expect(homePage.currentCategory.getText()).toMatch(/second category/i);
+    });
+
+    it('removes the filter when "clear" is clicked', function() {
+      homePage.clearCategory();
+      expect(homePage.recentList.count()).toBe(2);
+      expect(homePage.categoryFilter.isPresent()).toBe(false);
     });
   });
 

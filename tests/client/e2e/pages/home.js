@@ -4,9 +4,11 @@ var HomePage = function() {
   var activeDocs = element.all(by.repeater('doc in mostActive'));
   var mostActiveDoc = activeDocs.first();
   var featuredDoc = element(by.css('.main-feature'));
-  var recentList = element.all(by.css('.search-list .doc-list-item'));
+  var recentList = this.recentList = element.all(by.css('.search-list .doc-list-item'));
   var searchBox = element(by.model('docSearch'));
-  var currentCategory = element(by.css('.category-filter .category'));
+  var currentCategory = this.currentCategory = element(by.css('.category-filter .category'));
+  var categoryFilter = this.categoryFilter = element(by.css('.category-filter'));
+  var clearCategoryBtn = element(by.css('a.clear-category'));
 
   this.get = function() {
     browser.get('/');
@@ -69,12 +71,12 @@ var HomePage = function() {
     };
   };
 
-  this.recentList = recentList;
-
-  this.currentCategory = currentCategory;
-
   this.searchDocs = function(term) {
     searchBox.sendKeys(term);
+  };
+
+  this.clearCategory = function() {
+    clearCategoryBtn.click();
   };
 };
 
