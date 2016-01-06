@@ -31,10 +31,6 @@ var PageLayout = function() {
 
   // This is a function because it may not be available immediately
   this.growlError = function() {
-    browser.driver.wait(
-      protractor.until.elementLocated(by.css('.growl-item')),
-      5000
-    );
     return element(by.css('.growl-item.alert-error .growl-message'));
   };
 };

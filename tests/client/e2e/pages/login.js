@@ -37,11 +37,7 @@ var LoginPage = function() {
     .then(function(presence) {
       if (!presence) return;
       element(by.css('.account-dropdown')).click();
-      browser.driver.wait(
-        protractor.until.elementLocated(by.css('li.link-logout')),
-        5000
-      );
-      element(by.css('li.link-logout')).click();
+      element(by.css('li.link-logout a')).click();
     });
   };
 };
