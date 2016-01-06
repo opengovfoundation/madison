@@ -38,7 +38,7 @@ describe('madison home doc list', function() {
 
   describe('searching recent documents', function() {
     it('filters documents in "recent" list based on search term', function() {
-      homePage.searchDocs('second');
+      homePage.searchDocs('second example');
       expect(homePage.recentList.count()).toBe(1);
     });
   });
