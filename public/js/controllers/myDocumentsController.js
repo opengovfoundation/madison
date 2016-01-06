@@ -15,6 +15,7 @@ angular.module('madisonApp.controllers')
       };
       $scope.docs = [];
       $scope.canCreate = false;
+      $scope.independent_sponsor = false;
 
       AuthService.getUser().then(function() {
         $scope.canCreate = false;
@@ -27,17 +28,14 @@ angular.module('madisonApp.controllers')
           $scope.canCreate = true;
         }
 
+        $scope.independent_sponsor = SessionService.user.independent_sponsor;
+
         for(var i = 0; i < SessionService.groups.length; i++) {
           var group = SessionService.groups[i];
           if(group.status === 'active') {
           console.log(group.name, group.status);
             $scope.groupOptions.push([group.id, group.name]);
           }
-        }
-
-        // If there's not already a group, select the first one.
-        if($scope.groupOptions.length && !$scope.newDoc.group_id) {
-          $scope.newDoc.group_id = $scope.groupOptions[0][0];
         }
 
         $scope.$on('docsChanged', function () {

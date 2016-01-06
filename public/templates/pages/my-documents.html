@@ -55,10 +55,11 @@
       </div>
       <div class="form-group">
         <label for="group-id" translate="form.document.createas.label"></label>
+
         <select ng-model="newDoc.group_id" ng-options="option as option[1] for option in groupOptions track by option[0]">
-          <option ng-if="SessionService.user.independent_sponsor" value=""
+          <option ng-if="independent_sponsor" value=""
             translate="form.document.createas.independentsponsor"></option>
-          <option ng-if="!SessionService.user.independent_sponsor" value=""
+          <option ng-if="!independent_sponsor" value=""
             style="display:none"></option>
         </select>
       </div>
