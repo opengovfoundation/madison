@@ -33,7 +33,9 @@ class DocumentApiController extends ApiController
 
         //Creating new document
         $title = Input::get('title');
-        $slug = str_replace(array(' ', '.'), array('-', ''), strtolower($title));
+        $slug = Input::get('slug',
+            str_replace(array(' ', '.'), array('-', ''), strtolower($title)));
+
 
         // If the slug is taken
         if (Doc::where('slug', $slug)->count()) {
@@ -54,6 +56,7 @@ class DocumentApiController extends ApiController
 
         $rules = array('title' => 'required');
         $validation = Validator::make($doc_details, $rules);
+        // TODO: Validate permissions.
         if ($validation->fails()) {
             return Response::json($this->growlMessage('A valid title is required.', 'error'));
         }
@@ -63,7 +66,12 @@ class DocumentApiController extends ApiController
             $doc->title = $title;
             $doc->slug = $slug;
             $doc->save();
-            $doc->sponsor()->sync(array($user->id));
+
+            if (Input::get('group_id')) {
+                $doc->groupSponsor()->sync(array(Input::get('group_id')));
+            } else {
+                $doc->sponsor()->sync(array($user->id));
+            }
 
             $starter = new DocContent();
             $starter->doc_id = $doc->id;

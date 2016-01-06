@@ -10,20 +10,34 @@ angular.module('madisonApp.controllers')
         {title: SITE.name}));
 
       $scope.newDoc = {
-        'title': ''
+        'title': '',
+        'group_id': null
       };
       $scope.docs = [];
       $scope.canCreate = false;
 
       AuthService.getUser().then(function() {
+        $scope.canCreate = false;
+        $scope.groupOptions = [];
 
         AuthService.getMyDocs();
 
-        if (!AuthService.isAuthorized([USER_ROLES.admin, USER_ROLES.independent,
+        if (AuthService.isAuthorized([USER_ROLES.admin, USER_ROLES.independent,
           USER_ROLES.groupMember])) {
-          $scope.canCreate = false;
-        } else {
           $scope.canCreate = true;
+        }
+
+        for(var i = 0; i < SessionService.groups.length; i++) {
+          var group = SessionService.groups[i];
+          if(group.status === 'active') {
+          console.log(group.name, group.status);
+            $scope.groupOptions.push([group.id, group.name]);
+          }
+        }
+
+        // If there's not already a group, select the first one.
+        if($scope.groupOptions.length && !$scope.newDoc.group_id) {
+          $scope.newDoc.group_id = $scope.groupOptions[0][0];
         }
 
         $scope.$on('docsChanged', function () {
@@ -32,13 +46,12 @@ angular.module('madisonApp.controllers')
 
         $scope.createDocument = function () {
           growlMessages.destroyAllMessages();
-          var title = $scope.newDoc.title;
 
-          if (!title || !title.trim()) {
+          if (!$scope.newDoc.title || !$scope.newDoc.title.trim()) {
             growl.error( $translate.instant('errors.document.new.notitle') );
           }
           else {
-            $http.post('/api/docs', {title: title})
+            $http.post('/api/docs', $scope.newDoc)
               .success(function (data) {
                 $scope.newDoc.title = '';
                 $state.go('edit-doc', {id: data.doc.id});
