@@ -28,7 +28,19 @@ class DocumentApiController extends ApiController
         $user = Auth::user();
 
         if (!$user->can('admin_manage_documents')) {
-            return Response::json($this->growlMessage("You do not have permission", 'error'));
+            // If there's a group
+            if (Input::get('group_id')) {
+                $groupUser = User::with('groups')->whereHas('groups', function ($query) {
+                     $query->where('status', 'active');
+                     $query->where('group_id', Input::get('group_id'));
+                })->find($user->id);
+
+                if (!isset($groupUser->id)) {
+                    return Response::json($this->growlMessage("You do not have permission", 'error'));
+                }
+            } elseif (!$user->getSponsorStatus()) {
+                return Response::json($this->growlMessage("You do not have permission", 'error'));
+            }
         }
 
         //Creating new document
@@ -56,7 +68,6 @@ class DocumentApiController extends ApiController
 
         $rules = array('title' => 'required');
         $validation = Validator::make($doc_details, $rules);
-        // TODO: Validate permissions.
         if ($validation->fails()) {
             return Response::json($this->growlMessage('A valid title is required.', 'error'));
         }
