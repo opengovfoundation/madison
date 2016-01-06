@@ -7,8 +7,9 @@
     translate-values="{ userLink: '/user/edit/{{ user.id }}',
       groupLink: '/groups' }"
     ></div>
-  <div class="document-list" ng-if="canCreate">
-    <strong><a ng-click="scrollTo('create-document-wrapper')"
+  <div class="document-list">
+    <strong ng-if="canCreate"
+      ><a ng-click="scrollTo('create-document-wrapper')"
       translate="content.mydocuments.createheader"></a></strong>
 
     <article class="independent-docs">
@@ -51,6 +52,15 @@
         <input type="text" name="title" class="form-control"
           placeholder="{{ 'form.document.title.placeholder' | translate }}"
           ng-model="newDoc.title">
+      </div>
+      <div class="form-group">
+        <label for="group-id" translate="form.document.createas.label"></label>
+        <select ng-model="newDoc.group_id" ng-options="option as option[1] for option in groupOptions track by option[0]">
+          <option ng-if="SessionService.user.independent_sponsor" value=""
+            translate="form.document.createas.independentsponsor"></option>
+          <option ng-if="!SessionService.user.independent_sponsor" value=""
+            style="display:none"></option>
+        </select>
       </div>
       <button id="submit" class="create-document-button"
         translate="document.action.create"></button>

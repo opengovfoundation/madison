@@ -10,42 +10,58 @@ angular.module('madisonApp.controllers')
         {title: SITE.name}));
 
       $scope.newDoc = {
-        'title': ''
+        'title': '',
+        'group_id': null
       };
       $scope.docs = [];
       $scope.canCreate = false;
 
-      AuthService.getMyDocs();
-
-      if (!AuthService.isAuthorized([USER_ROLES.admin, USER_ROLES.independent,
-        USER_ROLES.groupMember])) {
+      AuthService.getUser().then(function() {
         $scope.canCreate = false;
-      } else {
-        $scope.canCreate = true;
-      }
+        $scope.groupOptions = [];
 
-      $scope.$on('docsChanged', function () {
-        $scope.docs = SessionService.getDocs();
+        AuthService.getMyDocs();
+
+        if (AuthService.isAuthorized([USER_ROLES.admin, USER_ROLES.independent,
+          USER_ROLES.groupMember])) {
+          $scope.canCreate = true;
+        }
+
+        for(var i = 0; i < SessionService.groups.length; i++) {
+          var group = SessionService.groups[i];
+          if(group.status === 'active') {
+          console.log(group.name, group.status);
+            $scope.groupOptions.push([group.id, group.name]);
+          }
+        }
+
+        // If there's not already a group, select the first one.
+        if($scope.groupOptions.length && !$scope.newDoc.group_id) {
+          $scope.newDoc.group_id = $scope.groupOptions[0][0];
+        }
+
+        $scope.$on('docsChanged', function () {
+          $scope.docs = SessionService.getDocs();
+        });
+
+        $scope.createDocument = function () {
+          growlMessages.destroyAllMessages();
+
+          if (!$scope.newDoc.title || !$scope.newDoc.title.trim()) {
+            growl.error( $translate.instant('errors.document.new.notitle') );
+          }
+          else {
+            $http.post('/api/docs', $scope.newDoc)
+              .success(function (data) {
+                $scope.newDoc.title = '';
+                $state.go('edit-doc', {id: data.doc.id});
+              })
+              .error(function (error) {
+                growl.error( $translate.instant('errors.document.new.general') );
+                console.log('Error: ', error);
+              });
+          }
+        };
       });
-
-      $scope.createDocument = function () {
-        growlMessages.destroyAllMessages();
-        var title = $scope.newDoc.title;
-
-        if (!title || !title.trim()) {
-          growl.error( $translate.instant('errors.document.new.notitle') );
-        }
-        else {
-          $http.post('/api/docs', {title: title})
-            .success(function (data) {
-              $scope.newDoc.title = '';
-              $state.go('edit-doc', {id: data.doc.id});
-            })
-            .error(function (error) {
-              growl.error( $translate.instant('errors.document.new.general') );
-              console.log('Error: ', error);
-            });
-        }
-      };
 
     }]);
