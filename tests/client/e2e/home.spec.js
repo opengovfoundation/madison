@@ -36,6 +36,13 @@ describe('madison home doc list', function() {
     expect(docPage.info.title.getText()).toBe('Second Example Document');
   });
 
+  describe('searching recent documents', function() {
+    it('filters documents in "recent" list based on search term', function() {
+      homePage.searchDocs('second');
+      expect(homePage.recentList.count()).toBe(1);
+    });
+  });
+
   // TODO: Test that "Recent Activity", "Recent Legislation and "Most Active
   // Documents" show in correct orders. Will require some kind of control over
   // document and activity dates. Currently the database seeding just takes

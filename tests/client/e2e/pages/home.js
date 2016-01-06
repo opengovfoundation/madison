@@ -5,6 +5,7 @@ var HomePage = function() {
   var mostActiveDoc = activeDocs.first();
   var featuredDoc = element(by.css('.main-feature'));
   var recentList = element.all(by.css('.search-list .doc-list-item'));
+  var searchBox = element(by.model('docSearch'));
 
   this.get = function() {
     browser.get('/');
@@ -50,6 +51,12 @@ var HomePage = function() {
       title: mostRecent.element(by.css('.doc-info h3')),
       readButton: mostRecent.element(by.css('.read-action a.action-button'))
     };
+  };
+
+  this.recentList = recentList;
+
+  this.searchDocs = function(term) {
+    searchBox.sendKeys(term);
   };
 };
 
