@@ -1,6 +1,9 @@
 var PageLayout = function() {
 
-  this.links = {
+  var signupBanner = element(by.cssContainingText('.prompt.prompt-info', 'Want to help'));
+
+  var links = {
+    logo: element(by.css('.logo-madison')),
     home: element(by.css('.nav-main .link-home')),
     about: element(by.css('.nav-main .link-about')),
     faq: element(by.css('.nav-main .link-faq')),
@@ -11,6 +14,16 @@ var PageLayout = function() {
     signup: element(by.css('.nav-main .link-signup'))
   };
 
+  this.links = links;
+
+  this.signupBanner = function() {
+    return signupBanner;
+  };
+
+  this.closeSignupBanner = function() {
+    return signupBanner.element(by.css('.prompt-close')).click();
+  };
+
   // This is a function because it may not be available immediately
   this.accountDropdown = function() {
     return element(by.css('.account-dropdown'));
@@ -18,6 +31,10 @@ var PageLayout = function() {
 
   // This is a function because it may not be available immediately
   this.growlError = function() {
+    browser.driver.wait(
+      protractor.until.elementLocated(by.css('.growl-item')),
+      5000
+    );
     return element(by.css('.growl-item.alert-error .growl-message'));
   };
 };
