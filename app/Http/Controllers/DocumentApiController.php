@@ -232,8 +232,7 @@ class DocumentApiController extends ApiController
     }
 
     public function getDocCount() {
-        $docs = Doc::getEager()
-            ->where('private', '!=', '1')
+        $docs = Doc::where('private', '!=', '1')
             ->where('is_template', '!=', '1');
 
         $docCount = $docs->count();
