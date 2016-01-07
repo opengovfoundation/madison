@@ -102,7 +102,7 @@ class DocumentApiController extends ApiController
         if ($validation->fails()) {
             return Response::json($this->growlMessage('A valid title is required, changes are not saved', 'error'));
         }
-        
+
         $doc = Doc::find($id);
         $doc->title = Input::get('title');
         $doc->save();
@@ -229,6 +229,15 @@ class DocumentApiController extends ApiController
         }
 
         return Response::json($return_docs);
+    }
+
+    public function getDocCount() {
+        $docs = Doc::where('private', '!=', '1')
+            ->where('is_template', '!=', '1');
+
+        $docCount = $docs->count();
+
+        return Response::json([ 'count' => $docCount ]);
     }
 
     public function getCategories($doc = null)

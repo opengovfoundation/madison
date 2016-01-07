@@ -44,6 +44,9 @@
       </div-->
     </section>
     <section class="doc-results-list">
+      <pagination boundary-links="true" class="pagination pagination-sm" previous-text="&lsaquo;"
+        next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="getDocs(page)"
+        rotate="true" max-size="6" total-items="totalItems" page="currentPage" items-per-page="itemsPerPage"></pagination>
       <h2 class="normal-title" translate="document.title.recentlegislation"></h2>
       <div class="category-filter" ng-if="selectedCategory">
         <span translate="form.search.categoryheading"></span>

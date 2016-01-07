@@ -18,15 +18,33 @@ angular.module('madisonApp.controllers')
       $scope.reverse = true;
       $scope.startStep = 0;
 
-      // Retrieve all docs
-      Doc.query({
+      // Pagination values
+      $scope.totalItems = 0;
+      $scope.itemsPerPage = 5;
+      $scope.currentPage = 1;
+
+      // Get document count for pagination
+      Doc.getDocCount(function(data) {
+        $scope.totalItems = data.count;
+      }).$promise.catch(function() {
+        console.error('Unable to get document count');
+      });
+
+      $scope.getDocs = function(page) {
+        // Retrieve all docs
+        Doc.query({
+          'limit': $scope.itemsPerPage,
+          'page': page,
           'order': $scope.docSort,
           'order_dir': ($scope.reverse ? 'DESC' : 'ASC')
-      },function (data) {
-        $scope.parseDocs(data);
-      }).$promise.catch(function (data) {
-        console.error("Unable to get documents: %o", data);
-      });
+        },function (data) {
+          $scope.parseDocs(data);
+        }).$promise.catch(function (data) {
+          console.error("Unable to get documents: %o", data);
+        });
+      };
+
+      $scope.getDocs(1); // Get our initial set of documents
 
       Doc.getFeaturedDoc(function (data) {
         $scope.featured = data;
@@ -106,6 +124,8 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.parseDocs = function (docs) {
+        $scope.docs = [];
+
         angular.forEach(docs, function (doc) {
           $scope.docs.push(doc);
 

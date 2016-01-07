@@ -14,6 +14,10 @@ angular.module('madisonApp.resources')
       getFeaturedDoc: {
         method: 'GET',
         url: '/api/docs/featured'
+      },
+      getDocCount: {
+        method: 'GET',
+        url: '/api/docs/count'
       }
     });
 

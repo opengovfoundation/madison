@@ -67,6 +67,23 @@
     .clear-category {
         margin-left:10px;
     }
+
+    .pagination {
+        float: right;
+        margin: 0 0 10px 0;
+
+        a { line-height: 0.9rem; }
+
+        &> .active > a,
+        &> .active > a:hover,
+        &> .active > a:focus,
+        &> .active > span,
+        &> .active > span:hover,
+        &> .active > span:focus {
+            background-color: $blue;
+            border-color: $blue;
+        }
+    }
 }
 
 .category-filter {
