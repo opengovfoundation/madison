@@ -22,6 +22,7 @@ var imports = [
   'ui',
   'ui.router',
   'ui.bootstrap',
+  'ui.bootstrap.pagination',
   'ui.bootstrap.datetimepicker',
   'angular-growl',
   'ipCookie',
