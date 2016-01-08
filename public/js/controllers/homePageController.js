@@ -5,7 +5,7 @@ angular.module('madisonApp.controllers')
       pageService.setTitle($translate.instant('content.home.title', {title: SITE.name}));
 
       $scope.docs = [];
-      $scope.featured = {};
+      $scope.featured = null;
       $scope.mostActive = [];
       $scope.mostRecent = [];
       $scope.categories = [];

@@ -6,7 +6,8 @@
     "require": true,
     "console": true,
     "__dirname": true,
-    "global": true
+    "global": true,
+    "angular": true
   },
   "globalstrict": false,
   "quotmark": true,

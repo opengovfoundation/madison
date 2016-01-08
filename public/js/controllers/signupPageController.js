@@ -1,12 +1,15 @@
 angular.module('madisonApp.controllers')
   .controller('SignupPageController', ['$scope', '$state', 'AuthService',
-    'growl', '$translate', 'pageService', 'SITE',
-    function ($scope, $state, AuthService, growl, $translate, pageService, SITE) {
+    'growl', 'growlMessages', '$translate', 'pageService', 'SITE',
+    function ($scope, $state, AuthService, growl, growlMessages, $translate,
+      pageService, SITE) {
       pageService.setTitle($translate.instant('content.signup.title',
         {title: SITE.name}));
 
       $scope.signup = function () {
         var signup = AuthService.signup($scope.credentials);
+        growlMessages.destroyAllMessages();
+
 
         signup.success(function () {
           $scope.credentials = {fname: "", lname: "", email: "", password: ""};

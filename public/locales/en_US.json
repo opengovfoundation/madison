@@ -149,6 +149,8 @@
   "form.document.date.existing": "Existing Dates",
   "form.document.date.remove": "Remove date",
   "form.document.datelabel.placeholder": "Date Label",
+  "form.document.createas.label": "Sponsor as",
+  "form.document.createas.independentsponsor": "Myself",
 
   "form.group.memberslink": "If you would like to manage the members of your group, <a href=\"/groups/{{ groupid }}/members\">click here</a>",
   "form.group.name.label": "Group Name",

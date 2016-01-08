@@ -110,7 +110,7 @@ class UserManageApiController extends ApiController
             //Create new user
             $user = new User();
             $user->email = $email;
-            $user->password = Hash::make($password);
+            $user->password = $password;
             $user->fname = $fname;
             $user->lname = $lname;
             $user->token = $token;
