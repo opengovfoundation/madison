@@ -38,7 +38,10 @@ angular.module('madisonApp.controllers')
           }
         }
 
-        if($scope.groupOptions.length && !$scope.independent_sponsor) {
+        if($scope.independent_sponsor) {
+          $scope.newDoc.group_id = '';
+        }
+        else if($scope.groupOptions.length) {
           $scope.newDoc.group_id = $scope.groupOptions[0][0];
         }
 
