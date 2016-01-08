@@ -126,8 +126,6 @@ angular.module('madisonApp.prompts').service('promptMessages', [
     };
 
     this.deleteMessage = function (message) {
-      console.log("deleting %o", message);
-
       var index = this.messages.indexOf(message);
 
       if (index > -1) {

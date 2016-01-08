@@ -43,7 +43,6 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.scrollTo = function (id) {
-        console.log('Scrolling to ' + id);
         $location.hash(id);
         $anchorScroll();
       };
