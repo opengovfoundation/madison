@@ -117,6 +117,7 @@
   "form.search.title": "Search All Documents:",
   "form.search.placeholder": "Search titles",
   "form.search.categoryheading": "Displaying:",
+  "form.search.searchheading": "Search:",
 
   "form.document.title.label": "Title",
   "form.document.title.placeholder": "Document Title",

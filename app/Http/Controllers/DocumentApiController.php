@@ -232,10 +232,22 @@ class DocumentApiController extends ApiController
     }
 
     public function getDocCount() {
-        $docs = Doc::where('private', '!=', '1')
+        $doc = Doc::where('private', '!=', '1')
             ->where('is_template', '!=', '1');
 
-        $docCount = $docs->count();
+        if (Input::has('category')) {
+            $doc->whereHas('categories', function ($q) {
+                $category = Input::get('category');
+                $q->where('categories.name', 'LIKE', "%$category%");
+            });
+        }
+
+        if (Input::has('title')) {
+            $title = Input::get('title');
+            $doc->where('title', 'LIKE', "%$title%");
+        }
+
+        $docCount = $doc->count();
 
         return Response::json([ 'count' => $docCount ]);
     }
