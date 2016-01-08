@@ -10,6 +10,10 @@ module.exports = function (grunt) {
       options: {
         livereload: true
       }
+    },
+    tests: {
+      files: './tests/client/**/*.js',
+      tasks: ['test_chrome']
     }
   });
 

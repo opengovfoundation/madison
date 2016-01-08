@@ -195,21 +195,6 @@ angular.module('madisonApp.controllers')
         return activity.likes;
       };
 
-      $scope.addAction = function (activity, action, $event) {
-        if ($scope.user && $scope.user.id !== '') {
-          $http.post('/api/docs/' + $scope.doc.id + '/' + activity.label + 's/' + activity.id + '/' + action)
-            .success(function (data) {
-              activity.likes = data.likes;
-              activity.flags = data.flags;
-            }).error(function (data) {
-              console.error(data);
-            });
-        } else {
-          loginPopupService.showLoginForm($event);
-        }
-
-      };
-
       $scope.collapseComments = function (activity) {
         activity.commentsCollapsed = !activity.commentsCollapsed;
       };

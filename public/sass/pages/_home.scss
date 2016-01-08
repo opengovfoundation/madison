@@ -67,11 +67,36 @@
     .clear-category {
         margin-left:10px;
     }
+
+    .pagination {
+        float: right;
+        margin: 0 0 10px 0;
+
+        a { line-height: 0.9rem; }
+
+        &> .active > a,
+        &> .active > a:hover,
+        &> .active > a:focus,
+        &> .active > span,
+        &> .active > span:hover,
+        &> .active > span:focus {
+            background-color: $blue;
+            border-color: $blue;
+        }
+    }
 }
 
-.category-filter {
-    font-weight:bold;
-    margin-bottom:1rem;
+.category-filter,
+.search-filter {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    clear: both;
+
+    .search-query {
+        font-weight: normal;
+        padding-left: 10px;
+    }
+
 }
 
 .category {
