@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doc;
+use App\Models\UserMeta;
+use Response;
+use Validator;
+use Auth;
+use Input;
 
 
 class SponsorApiController extends ApiController

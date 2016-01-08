@@ -7,6 +7,7 @@ use Validator;
 use Input;
 use Response;
 use Event;
+use App\Models\User;
 use App\Models\Doc;
 use App\Models\DocMeta;
 use App\Models\DocContent;
