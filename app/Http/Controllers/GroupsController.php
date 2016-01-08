@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Input;
+use Response;
+use Event;
+use Auth;
+use App\Models\Group;
+use App\Models\MadisonEvent;
 
 class GroupsController extends Controller
 {
