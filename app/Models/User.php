@@ -22,6 +22,8 @@ use App\Models\GroupMember;
 use App\Models\Role;
 use App\Models\UserMeta;
 
+use DB;
+
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
@@ -532,9 +534,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         $results = DB::select(
             DB::raw('SELECT COUNT(*) AS count ' .
-                'FROM assigned_roles LEFT JOIN roles ' .
-                'ON assigned_roles.role_id = roles.id ' .
-                'WHERE assigned_roles.user_id = :userid ' .
+                'FROM role_user LEFT JOIN roles ' .
+                'ON role_user.role_id = roles.id ' .
+                'WHERE role_user.user_id = :userid ' .
                 'AND roles.name = :role'),
             array('userid' => $this->id, 'role' => $role));
 
