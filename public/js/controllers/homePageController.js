@@ -23,21 +23,31 @@ angular.module('madisonApp.controllers')
       $scope.itemsPerPage = 5;
       $scope.currentPage = 1;
 
-      // Get document count for pagination
-      Doc.getDocCount(function(data) {
-        $scope.totalItems = data.count;
-      }).$promise.catch(function() {
-        console.error('Unable to get document count');
-      });
-
       $scope.getDocs = function(page) {
+        // Get document count for pagination
+        var docCountQuery = {};
+
+        if ($scope.docSearch) {
+          docCountQuery.title = $scope.docSearch;
+        }
+
+        if ($scope.selectedCategory) {
+          docCountQuery.category = $scope.selectedCategory.name;
+        }
+
+        Doc.getDocCount(docCountQuery, function(data) {
+          $scope.totalItems = data.count;
+        }).$promise.catch(function() {
+          console.error('Unable to get document count');
+        });
+
         // Retrieve all docs
-        Doc.query({
+        Doc.query(angular.extend(docCountQuery, {
           'limit': $scope.itemsPerPage,
           'page': page,
           'order': $scope.docSort,
           'order_dir': ($scope.reverse ? 'DESC' : 'ASC')
-        },function (data) {
+        }), function(data) {
           $scope.parseDocs(data);
         }).$promise.catch(function (data) {
           console.error("Unable to get documents: %o", data);
@@ -86,24 +96,42 @@ angular.module('madisonApp.controllers')
         console.error("Unable to get documents: %o", data);
       });
 
-      $scope.select2Config = {
-        multiple: true,
-        allowClear: true,
-        placeholder: "Filter documents by category, sponsor, or status"
-      };
+      //$scope.select2Config = {
+      //  multiple: true,
+      //  allowClear: true,
+      //  placeholder: "Filter documents by category, sponsor, or status"
+      //};
 
       $scope.dateSortConfig = {
         allowClear: true,
         placeholder: "Sort By Date"
       };
 
+      $scope.submitSearch = function() {
+        $scope.docSearch = $scope.docSearchInput;
+        $scope.currentPage = 1;
+        $scope.getDocs(1);
+        $scope.docSearchInput = '';
+      };
+
+      $scope.clearSearch = function() {
+        $scope.docSeachInput = '';
+        $scope.docSearch = null;
+        $scope.currentPage = 1;
+        $scope.getDocs(1);
+      };
+
       //Sets scope value for current category filter
       $scope.filterByCategory = function (category) {
         $scope.selectedCategory = category;
+        $scope.currentPage = 1;
+        $scope.getDocs(1);
       };
 
       $scope.clearCategoryFilter = function () {
         $scope.selectedCategory = null;
+        $scope.currentPage = 1;
+        $scope.getDocs(1);
       };
 
       $scope.categoryFilter = function (doc) {
