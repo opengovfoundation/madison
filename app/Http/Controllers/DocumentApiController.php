@@ -113,7 +113,7 @@ class DocumentApiController extends ApiController
 
             $response = $this->growlMessage('Document created successfully', 'success');
             $response['doc'] = $doc->toArray();
-            return Response::json($response);
+            return Response::json($response, 200);
         } catch (Exception $e) {
             return Response::json($this->growlMessage($e->getMessage(), 'error'));
         }
