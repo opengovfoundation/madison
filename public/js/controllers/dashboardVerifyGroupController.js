@@ -1,11 +1,12 @@
 angular.module('madisonApp.controllers')
   .controller('DashboardVerifyGroupController', ['$scope', '$http', '$translate',
-    'pageService', 'SITE',
-    function ($scope, $http, $translate, pageService, SITE) {
+    'growl', 'growlMessages', 'pageService', 'SITE',
+    function ($scope, $http, $translate, growl, growlMessages, pageService,
+      SITE) {
       pageService.setTitle($translate.instant('content.verifygroups.title',
         {title: SITE.name}));
 
-      $scope.requests = [];
+      $scope.requests = null;
       $scope.formdata = {
         'status' : 'pending'
       };
@@ -13,19 +14,30 @@ angular.module('madisonApp.controllers')
       $scope.getRequests = function () {
         $http.get('/api/groups/verify', { params: $scope.formdata } )
           .success(function (data) {
-            $scope.requests = data;
+            if(data.length) {
+              $scope.requests = {};
+              for(i in data) {
+                $scope.requests[data[i].id] = data[i];
+              }
+            }
           })
           .error(function (data) {
             console.error(data);
           });
       };
 
-      $scope.update = function (request, status) {
-        $http.post('/api/groups/verify', {'request': request, 'status': status})
+      $scope.update = function (group, status) {
+        growlMessages.destroyAllMessages();
+
+        // Copy the object.
+        var newGroup = angular.extend({}, group, {status: status});
+
+        $http.put('/api/groups/verify/' + newGroup.id, newGroup)
           .success(function (data) {
-            request.status = status;
+            $scope.requests[data.id] = group = data;
           })
           .error(function (data) {
+            growl.error('Unable to update group.');
             console.error(data);
           });
       };

@@ -246,7 +246,7 @@ Route::get('api/user/linkedin-login', 'UserController@getLinkedinLogin');
 
 // Group Routes
 Route::get('api/groups/verify/', 'GroupsApiController@getVerify');
-Route::post('api/groups/verify/', 'GroupsApiController@postVerify');
+Route::put('api/groups/verify/{groupId}', 'GroupsApiController@putVerify');
 
 // User Login / Signup AJAX requests
 Route::get('api/user/login', 'UserManageApiController@getLogin');
