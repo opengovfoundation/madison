@@ -6,6 +6,7 @@ use Input;
 use Response;
 use Event;
 use Auth;
+use Session;
 use App\Models\Group;
 use App\Models\MadisonEvent;
 
