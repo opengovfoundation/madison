@@ -16,7 +16,7 @@ angular.module('madisonApp.controllers')
           .success(function (data) {
             if(data.length) {
               $scope.requests = {};
-              for(i in data) {
+              for(var i in data) {
                 $scope.requests[data[i].id] = data[i];
               }
             }
