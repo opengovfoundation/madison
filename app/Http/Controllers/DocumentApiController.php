@@ -7,6 +7,7 @@ use Validator;
 use Input;
 use Response;
 use Event;
+use App\Models\User;
 use App\Models\Doc;
 use App\Models\DocMeta;
 use App\Models\DocContent;
@@ -31,7 +32,11 @@ class DocumentApiController extends ApiController
 
         $doc = Doc::with('content')->with('categories')->with('introtext')->where('is_template', '!=', '1')->find($doc);
 
-        return Response::json($doc);
+        // We have to manually json_encode this instead of using Response::json
+        // because the encoding is inconsistent for integers between PHP
+        // versions.  We use the JSON_NUMERIC_CHECK flag to normalize this.
+        return Response::make(
+            json_encode($doc->toArray(), JSON_NUMERIC_CHECK), 200);
     }
 
     /**

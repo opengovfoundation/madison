@@ -12,9 +12,11 @@ class AddUseridToSessionTable extends Migration
      */
     public function up()
     {
-        Schema::table('sessions', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-        });
+        if (!Schema::hasColumn('sessions', 'user_id')) {
+            Schema::table('sessions', function (Blueprint $table) {
+                $table->integer('user_id')->unsigned();
+            });
+        }
     }
 
     /**

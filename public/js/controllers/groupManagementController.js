@@ -21,6 +21,7 @@ angular.module('madisonApp.controllers')
             });
           });
       } else {
+        // TODO: Add error handling here.
         console.log($scope.user, SessionService.getUser(), SessionService);
       }
 

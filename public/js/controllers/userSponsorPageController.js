@@ -31,7 +31,6 @@ angular.module('madisonApp.controllers')
     $scope.loadData = function() {
       $http.get('/api/user/current')
       .success(function (data) {
-        console.log('user data', data);
         var formFields = [
           'address1',
           'address2',
