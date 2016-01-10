@@ -19,11 +19,12 @@
     <a class="dropdown-trigger" href="#" data-toggle="dropdown"
       translate="menu.nav.actas"></a>
     <ul class="dropdown-menu" role="menu">
-      <li class="link-settings">
-        <small translate="menu.nav.actingas"></small>
-        <br>
-        <span ng-if="!!activeGroup">{{ activeGroup.display_name }}</span>
-        <span ng-if="!activeGroup">{{ user.display_name }}</span>
+      <li class="link-settings active-group">
+        <a>
+          <span ng-if="!!activeGroup">{{ activeGroup.display_name }}</span>
+          <span ng-if="!activeGroup">{{ user.display_name }}</span>
+          <span class="current-active" translate="menu.nav.currentlyactive"></span>
+        </a>
       </li>
       <li ng-repeat="group in groups">
         <a ng-click="setActiveGroup(group.id)">{{ group.display_name }}</a>

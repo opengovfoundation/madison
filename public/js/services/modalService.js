@@ -1,6 +1,6 @@
 //Built using the tutorial at http://weblogs.asp.net/dwahlin/building-an-angularjs-modal-service
 angular.module('madisonApp.services')
-  .service('modalService', ['$modal',
+  .service('modalService', ['$uibModal',
     function ($modal) {
 
       //Set modal defaults
