@@ -18,7 +18,8 @@
 
 
 .doc-support-button {
-    @extend .action-button;
+    @extend .btn-success;
+    text-transform: uppercase;
 }
 
 .doc-oppose-button {
@@ -52,16 +53,26 @@
                 &:hover, &:active {
                     border: none;
                 }
-                background-color: $green;
-                color: $white;
+                background-color: $light-grey;
+                color: $black;
 
                 @extend .small-caps;
                 font-weight: bold;
+
+                &:hover {
+                    background-color: mix($blue, $lighter-grey, 20%);
+                    color: $dark-grey;
+                }
             }
             &.active a {
-                background-color: $white;
-                color: $black;
+                background-color: $blue;
+                color: $white;
                 border: none;
+
+                &:hover {
+                    background-color: $blue;
+                    color: $white;
+                }
             }
         }
     }
@@ -150,7 +161,7 @@
         fill: $orange;
     }
     .support rect {
-        fill: $blue;
+        fill: $green;
     }
     .border line {
         stroke:rgb(0,0,0);
