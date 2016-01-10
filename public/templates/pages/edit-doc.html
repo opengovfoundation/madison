@@ -5,10 +5,23 @@
 <a href="/docs/{{ doc.slug }}" class="public-link" target="_self"
   translate="form.document.publicview"></a>
 <section class="document-edit-tabs">
-  <tabset>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active">
+      <a href="#tab-content" target="_self" role="tab" data-toggle="tab"
+        translate="content.editdocument.tab.content"
+        aria-controls="{{ 'content.editdocument.tab.content' | translate }}"
+        data-toggle="tab"></a></li>
+    <li >
+      <a href="#tab-info" target="_self" role="tab" data-toggle="tab"
+        translate="content.editdocument.tab.information"
+        aria-controls="{{ 'content.editdocument.tab.information' | translate }}"
+        data-toggle="tab"></a></li>
+  </ul>
+  <div class="tab-content doc-tabs">
+
     <!-- Start document content tab -->
-    <tab class="document-edit-tab"
-      heading="{{ 'content.editdocument.tab.content' | translate }}">
+    <section id="tab-content" class="tab-pane document-edit-tab active">
+
       <small translate="content.editdocument.savemessage"></small>
       <div class="doc-content-editor">
         <div id="wmd-button-bar"></div>
@@ -23,11 +36,11 @@
         <button class="save-document-button" ng-click="saveContent()"
           translate="form.general.savenow"></button>
       </div>
-    </tab>
+    </section>
     <!-- End document content tab -->
 
     <!-- Start document information tab -->
-    <tab heading="{{ 'content.editdocument.tab.information' | translate }}">
+    <section id="tab-info" class="tab-pane">
       <form class="document-information">
         <div class="form-group">
           <label for="title" translate="form.document.title.label"></label>
@@ -143,7 +156,7 @@
           </div>
         </form>
       </div>
-    </tab>
+    </section>
     <!-- End document information tab -->
-  </tabset>
+  </div>
 </section>
