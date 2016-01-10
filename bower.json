@@ -36,7 +36,8 @@
     "angular-i18n": "~1.5.0",
     "angular-translate": "~2.8.1",
     "angular-translate-loader-static-files": "~2.8.1",
-    "angular-translate-interpolation-messageformat": "~2.8.1"
+    "angular-translate-interpolation-messageformat": "~2.8.1",
+    "madison-locales": "git@github.com:opengovfoundation/madison-locales.git"
   },
   "resolutions": {
     "select2": "~3.4",

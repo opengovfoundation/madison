@@ -2,7 +2,7 @@ angular.module('madisonApp.translate', ['pascalprecht.translate'])
 
 .config(function ($translateProvider) {
   $translateProvider.useStaticFilesLoader({
-    prefix: '/locales/',
+    prefix: '/bower_components/madison-locales/locales/',
     suffix: '.json'
   });
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
