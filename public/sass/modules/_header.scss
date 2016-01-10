@@ -94,20 +94,24 @@ header {
 .dropdown-menu, .dropdown-submenu {
     padding: 0;
     border: 0;
+    min-width: 250px;
+
+    .active-group a {
+        font-weight: bold;
+    }
 }
 
 .dropdown-menu .dropdown-trigger {
     &::after{
         @include fa-icon();
         content: $fa-var-angle-right;
-        line-height: $line-height-computed;
+        line-height: inherit;
         margin-right: 10px;
     }
 
 }
 
-.pull-left {
-    .dropdown-menu {
-        right: 100%;
-    }
+.dropdown-submenu.pull-left>.dropdown-menu {
+    right: 100%;
+    left: inherit;
 }

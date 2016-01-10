@@ -18,7 +18,7 @@
   "menu.nav.groupmanagement": "Group Management",
   "menu.nav.admin": "Admin",
   "menu.nav.actas": "Use Madison As",
-  "menu.nav.actingas": "Using Madison as:",
+  "menu.nav.currentlyactive": "(active)",
   "menu.nav.removegroup": "Remove Active Group",
   "menu.admin.nav.documents": "Edit Documents",
   "menu.admin.nav.verifyaccounts": "Verify Accounts",
