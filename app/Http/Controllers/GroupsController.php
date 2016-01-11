@@ -7,7 +7,10 @@ use Response;
 use Event;
 use Auth;
 use Session;
+use Mail;
+use App\Models\User;
 use App\Models\Group;
+use App\Models\GroupMember;
 use App\Models\MadisonEvent;
 
 class GroupsController extends Controller
