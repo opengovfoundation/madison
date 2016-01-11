@@ -33,7 +33,7 @@ angular.module('madisonApp.controllers')
         for(var i = 0; i < SessionService.groups.length; i++) {
           var group = SessionService.groups[i];
           if(group.status === 'active') {
-            $scope.groupOptions.push([group.id, group.name]);
+            $scope.groupOptions.push(group);
           }
         }
 
@@ -41,7 +41,7 @@ angular.module('madisonApp.controllers')
           $scope.newDoc.group_id = '';
         }
         else if($scope.groupOptions.length) {
-          $scope.newDoc.group_id = $scope.groupOptions[0][0];
+          $scope.newDoc.group_id = $scope.groupOptions[0].id;
         }
 
         $scope.$on('docsChanged', function () {
