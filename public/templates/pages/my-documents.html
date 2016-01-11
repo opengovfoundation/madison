@@ -61,8 +61,8 @@
             translate="form.document.createas.independentsponsor"></option>
           <option ng-if="!independent_sponsor" value=""
             style="display:none"></option>
-          <option ng-repeat="option in groupOptions" value="{{ option.id }}"
-            >{{ option.name }}</option>
+          <option ng-repeat="option in groupOptions" value="{{ option[0] }}"
+            >{{ option[1] }}</option>
         </select>
       </div>
       <button id="submit" class="create-document-button"
