@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Input;
+use Response;
+use View;
+use Mail;
+use Lang;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RemindersController extends Controller
 {
+
     public function __construct()
     {
         parent::__construct();
-    }
-
-    /**
-     * Display the password reminder view.
-     *
-     * @return Response
-     */
-    public function getRemind()
-    {
-        $data = array(
-            'page_id'        => 'dashboard',
-            'page_title'    => 'Dashboard',
-        );
-
-        return View::make('password.remind', $data);
     }
 
     /**
@@ -30,17 +27,21 @@ class RemindersController extends Controller
      *
      * @return Response
      */
-    public function postRemind()
+    public function postRemind(Request $request)
     {
-        switch ($response = Password::remind(Input::only('email'), function ($message) {
-            $message->subject('Madison Password Reset');
-        })) {
+
+        $this->validate($request, ['email' => 'required|email']);
+
+        $response = Password::sendResetLink($request->only('email'), function (Message $message) {
+            $message->subject('Password Reset');
+        });
+
+        switch ($response) {
+            case Password::RESET_LINK_SENT:
+                return Response::json($this->growlMessage('Password change instructions have been sent to your email address.', 'warning'));
 
             case Password::INVALID_USER:
                 return Response::json($this->growlMessage(Lang::get($response)), 'error');
-
-            case Password::REMINDER_SENT:
-                return Response::json($this->growlMessage('Password change instructions have been sent to your email address.', 'warning'));
         }
     }
 
