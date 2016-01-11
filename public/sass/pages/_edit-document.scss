@@ -18,16 +18,26 @@
                 &:hover, &:active {
                     border: none;
                 }
-                background-color: $green;
-                color: $white;
+                background-color: $light-grey;
+                color: $black;
 
                 @extend .small-caps;
                 font-weight: bold;
+
+                &:hover {
+                    background-color: mix($blue, $white, 20%);
+                    color: $dark-grey;
+                }
             }
             &.active a {
-                background-color: $lighter-grey;
-                color: $black;
+                background-color: $blue;
+                color: $white;
                 border: none;
+
+                &:hover {
+                    background-color: $blue;
+                    color: $white;
+                }
             }
         }
     }
