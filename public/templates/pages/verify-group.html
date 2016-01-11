@@ -20,7 +20,7 @@
       </fieldset>
     </form>
 
-    <table class="table table-striped verify-list" ng-show="requests.length">
+    <table class="table table-striped verify-list" ng-show="requests">
       <thead>
         <th translate="form.verify.id"></th>
         <th translate="form.verify.groupname"></th>
@@ -28,7 +28,7 @@
         <th translate="form.verify.status"></th>
       </thead>
       <tbody>
-        <tr ng-repeat="request in requests" id="request-{{ request.id }}">
+        <tr ng-repeat="(id,request) in requests" id="request-{{ request.id }}">
           <td>{{ request.id }}</td>
           <td>{{ request.name }}</td>
           <td>{{ request.display_name }}</td>
@@ -51,7 +51,7 @@
         </tr>
       </tbody>
     </table>
-    <div ng-hide="requests.length">
+    <div ng-hide="requests">
       <span ng-if="formdata.status == 'active'"
         translate="form.verify.groups.none.active"></span>
       <span ng-if="formdata.status == 'pending'"
