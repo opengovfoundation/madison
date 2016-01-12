@@ -21,19 +21,19 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.deny = function(request, idx) {
-        //var modalOptions = {
-        //  closeButtonText: $translate.instant('form.general.cancel'),
-        //  actionButtonText: $translate.instant('form.verify.deny'),
-        //  headerText: $translate.instant('form.verify.deny.confirm'),
-        //  bodyText: $translate.instant('form.verify.confirm.body')
-        //};
+        var modalOptions = {
+          closeButtonText: $translate.instant('form.general.cancel'),
+          actionButtonText: $translate.instant('form.verify.deny'),
+          headerText: $translate.instant('form.verify.areyousure'),
+          bodyText: $translate.instant('form.verify.deny.confirm.body')
+        };
 
-        ////Open the dialog
-        //var res = modalService.showModal({}, modalOptions);
+        //Open the dialog
+        var res = modalService.showModal({}, modalOptions);
 
-        //res.then(function () {
-          $scope.update(requst, idx, 'denied');
-        //});
+        res.then(function () {
+          $scope.update(request, idx, 'denied');
+        });
       };
 
       $scope.update = function (request, idx, status) {
@@ -48,7 +48,7 @@ angular.module('madisonApp.controllers')
                 $scope.requests[idx].meta_value = '0';
                 break;
               case 'denied':
-                delete $scope.requests[idx];
+                $scope.requests.splice(idx, 1);
                 break;
             }
           })
