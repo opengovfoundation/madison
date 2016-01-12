@@ -9,6 +9,13 @@ angular.module('madisonApp.services')
     this.annotator = null;
     this.count = 0;
 
+    this.resetAnnotationService = function () {
+      this.annotations = [];
+      this.annotationGroups = {};
+      this.annotator = null;
+      this.count = 0;
+    };
+
     this.setAnnotations = function (annotations) {
       var parentElements = 'h1,h2,h3,h4,h5,h6,li,p';
 
@@ -66,7 +73,7 @@ angular.module('madisonApp.services')
       }
 
       //Reset our annotation store
-      this.annotations = [];
+      this.resetAnnotationService();
     };
 
     this.createAnnotator = function (element, doc) {
