@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Event;
 use Input;
+use Log;
 use Response;
 use App\Models\User;
 use App\Models\UserMeta;
 use App\Models\Notification;
+use App\Models\MadisonEvent;
 
 /**
  * 	Controller for user actions.
