@@ -23,7 +23,7 @@ angular.module('madisonApp.controllers')
       $scope.itemsPerPage = 5;
       $scope.currentPage = 1;
 
-      $scope.getDocs = function(page) {
+      $scope.getDocs = function() {
         // Get document count for pagination
         var docCountQuery = {};
 
@@ -44,7 +44,7 @@ angular.module('madisonApp.controllers')
         // Retrieve all docs
         Doc.query(angular.extend(docCountQuery, {
           'limit': $scope.itemsPerPage,
-          'page': page,
+          'page': $scope.currentPage,
           'order': $scope.docSort,
           'order_dir': ($scope.reverse ? 'DESC' : 'ASC')
         }), function(data) {
@@ -54,7 +54,7 @@ angular.module('madisonApp.controllers')
         });
       };
 
-      $scope.getDocs(1); // Get our initial set of documents
+      $scope.getDocs(); // Get our initial set of documents
 
       Doc.getFeaturedDoc(function (data) {
         $scope.featured = data;
@@ -110,7 +110,7 @@ angular.module('madisonApp.controllers')
       $scope.submitSearch = function() {
         $scope.docSearch = $scope.docSearchInput;
         $scope.currentPage = 1;
-        $scope.getDocs(1);
+        $scope.getDocs();
         $scope.docSearchInput = '';
       };
 
@@ -118,20 +118,20 @@ angular.module('madisonApp.controllers')
         $scope.docSeachInput = '';
         $scope.docSearch = null;
         $scope.currentPage = 1;
-        $scope.getDocs(1);
+        $scope.getDocs();
       };
 
       //Sets scope value for current category filter
       $scope.filterByCategory = function (category) {
         $scope.selectedCategory = category;
         $scope.currentPage = 1;
-        $scope.getDocs(1);
+        $scope.getDocs();
       };
 
       $scope.clearCategoryFilter = function () {
         $scope.selectedCategory = null;
         $scope.currentPage = 1;
-        $scope.getDocs(1);
+        $scope.getDocs();
       };
 
       $scope.categoryFilter = function (doc) {

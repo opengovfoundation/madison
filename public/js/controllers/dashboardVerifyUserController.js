@@ -1,7 +1,7 @@
 angular.module('madisonApp.controllers')
   .controller('DashboardVerifyUserController', ['$scope', '$http', '$translate',
-    'pageService', 'SITE',
-    function ($scope, $http, $translate, pageService, SITE) {
+    'pageService', 'SITE', 'modalService',
+    function ($scope, $http, $translate, pageService, SITE, modalService) {
       pageService.setTitle($translate.instant('content.verifyindependent.title',
         {title: SITE.name}));
 
@@ -20,12 +20,37 @@ angular.module('madisonApp.controllers')
           });
       };
 
-      $scope.update = function (request, status) {
+      $scope.deny = function(request, idx) {
+        var modalOptions = {
+          closeButtonText: $translate.instant('form.general.cancel'),
+          actionButtonText: $translate.instant('form.verify.deny'),
+          headerText: $translate.instant('form.verify.areyousure'),
+          bodyText: $translate.instant('form.verify.deny.confirm.body')
+        };
+
+        //Open the dialog
+        var res = modalService.showModal({}, modalOptions);
+
+        res.then(function () {
+          $scope.update(request, idx, 'denied');
+        });
+      };
+
+      $scope.update = function (request, idx, status) {
         $http.post('/api/user/independent/verify',
             {'request': request, 'status': status})
           .success(function (data) {
-            request.meta_value = status;
-            location.reload();
+            switch (status) {
+              case 'verified':
+                $scope.requests[idx].meta_value = '1';
+                break;
+              case 'pending':
+                $scope.requests[idx].meta_value = '0';
+                break;
+              case 'denied':
+                $scope.requests.splice(idx, 1);
+                break;
+            }
           })
           .error(function (data) {
             console.error(data);

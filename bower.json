@@ -21,7 +21,6 @@
     "angular-sanitize": "~1.4.8",
     "angular-timeago": "~0.2.4",
     "angular-bootstrap-datetimepicker": "~0.4.0",
-    "angular-bootstrap-pagination": "*",
     "google-diff-match-patch-js": "~1.0.0",
     "angular-resource": "~1.4.8",
     "crypto-js": "http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js",
