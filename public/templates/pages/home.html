@@ -9,12 +9,14 @@
         <h3 class="normal-title" for="doc-text-filter"
           translate="form.search.title"></h3>
 
-        <button class="search-button" type="submit" ng-click="submitSearch()"
-          translate="form.general.submit"></button>
-        <span class="text-search">
-          <input id="doc-text-filter" type="text" ng-model="docSearchInput"
-            class="" placeholder="{{ 'form.search.placeholder' | translate }}" />
-        </span>
+        <form ng-submit="submitSearch()">
+          <button class="search-button" type="submit"
+            translate="form.general.submit"></button>
+          <span class="text-search">
+            <input id="doc-text-filter" type="text" ng-model="docSearchInput"
+              class="" placeholder="{{ 'form.search.placeholder' | translate }}" />
+          </span>
+        </form>
       </div>
       <!--div class="home-select2-container">
         <select id="doc-category-filter" ui-select2="select2Config"
