@@ -118,7 +118,10 @@
         display: none;
     }
     .annotator-hl {
-        display: none !important;
+        background: transparent !important;
+    }
+    .annotator-outer {
+        display: none;
     }
 }
 
