@@ -108,7 +108,7 @@
     }
 
     .stats-number {
-        @extend .col-md-8;
+        @extend .col-xs-8;
     }
 }
 
@@ -170,7 +170,7 @@
 }
 
 .chart-stat {
-    @extend .col-md-12;
+    @extend .col-xs-12;
 
     &.oppose {
         text-align: right;
@@ -480,5 +480,16 @@ $fallback-height: 350px;
         @extend .small-caps;
         color: $blue;
         margin-right: 10px;
+    }
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+    .single-doc {
+        .support-oppose-buttons {
+            float: none;
+        }
+        .stats {
+            padding-top: $padding-base-vertical;
+        }
     }
 }
