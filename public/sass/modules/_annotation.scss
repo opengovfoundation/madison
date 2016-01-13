@@ -222,3 +222,55 @@
 .annotator-adder, .annotator-outer, .annotator-notice, .annotator-filter {
   z-index: 1000 !important;
 }
+
+.mobile-annotation-message {
+    display: none;
+}
+
+// Mobile phone-sizes
+@media only screen and (max-width: $screen-sm-min) {
+    .annotation-title {
+        display: none;
+    }
+
+    .mobile-annotation-message {
+        display: block;
+        margin: $line-height-computed 0;
+        font-style: italic;
+    }
+
+    // Leave room for annotation numbers
+    .doc-content {
+        padding-right: 2rem;
+    }
+
+    .annotation-group {
+        // Move these over
+        right: 0;
+
+        // Make the numbers more visible.
+        .annotation-group-count {
+        background-color: $dark-grey;
+        color: $white;
+        }
+
+
+        // Hide the details on annotations in the sidebar.
+        .annotation-group-statistics {
+            display: none;
+        }
+    }
+
+    .annotation-pane {
+        left: 100%;
+
+        &.active {
+            left: 0;
+        }
+    }
+
+    // Hide all inline annotations for now.
+    .annotator-outer {
+        display: none;
+    }
+}
