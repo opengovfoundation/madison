@@ -108,7 +108,6 @@
     }
 
     .stats-number {
-        @extend .col-md-8;
         @extend .col-xs-8;
     }
 }
@@ -171,7 +170,6 @@
 }
 
 .chart-stat {
-    @extend .col-md-12;
     @extend .col-xs-12;
 
     &.oppose {
