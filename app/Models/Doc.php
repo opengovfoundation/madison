@@ -61,6 +61,11 @@ class Doc extends Model
         return $this->hasMany('App\Models\Date');
     }
 
+    public function publishState()
+    {
+        return $this->belongsTo('App\Models\PublishState');
+    }
+
     public function getFeaturedAttribute()
     {
         $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
