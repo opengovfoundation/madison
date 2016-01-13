@@ -71,7 +71,10 @@ try {
 //Set HTML5 mode
 app.config(['$locationProvider',
   function ($locationProvider) {
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
   }]);
 
 app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl, SessionService) {
