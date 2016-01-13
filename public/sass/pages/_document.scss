@@ -112,6 +112,16 @@
     }
 }
 
+@media only screen and (max-width: $screen-sm-min) {
+    // Hide all annotations for now.
+    .annotation-container {
+        display: none;
+    }
+    .annotator-hl {
+        display: none !important;
+    }
+}
+
 .stats {
     text-align: center;
 
@@ -419,6 +429,14 @@ $fallback-height: 350px;
             // Center this, more or less.
             line-height: $toc-heading-width + 4px;
         }
+    }
+}
+
+// Remove TOC on small screens.
+
+@media only screen and (max-width: $screen-sm-min) {
+    .toc {
+        display: none;
     }
 }
 
