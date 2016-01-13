@@ -71,7 +71,10 @@ try {
 //Set HTML5 mode
 app.config(['$locationProvider',
   function ($locationProvider) {
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
   }]);
 
 app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl, SessionService) {
@@ -221,7 +224,22 @@ angular.element(document).ready(function () {
           angular.bootstrap(document, ['madisonApp']);
         });
     });
+
+    $(document).delegate(
+      '.nav-main li a:not(.dropdown-trigger)',
+      'click',
+      collapseNavMenu);
+
+    $(document).delegate(
+      '.link-home',
+      'click',
+      collapseNavMenu);
+
+    function collapseNavMenu() {
+      $('.navbar-collapse').collapse('hide');
+    }
 });
+
 
 window.console = window.console || {};
 window.console.log = window.console.log || function () {return; };
