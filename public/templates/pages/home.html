@@ -9,12 +9,14 @@
         <h3 class="normal-title" for="doc-text-filter"
           translate="form.search.title"></h3>
 
-        <button class="search-button" type="submit" ng-click="submitSearch()"
-          translate="form.general.submit"></button>
-        <span class="text-search">
-          <input id="doc-text-filter" type="text" ng-model="docSearchInput"
-            class="" placeholder="{{ 'form.search.placeholder' | translate }}" />
-        </span>
+        <form ng-submit="submitSearch()">
+          <button class="search-button" type="submit"
+            translate="form.general.submit"></button>
+          <span class="text-search">
+            <input id="doc-text-filter" type="text" ng-model="docSearchInput"
+              class="" placeholder="{{ 'form.search.placeholder' | translate }}" />
+          </span>
+        </form>
       </div>
       <!--div class="home-select2-container">
         <select id="doc-category-filter" ui-select2="select2Config"
@@ -44,9 +46,9 @@
       </div-->
     </section>
     <section class="doc-results-list">
-      <pagination boundary-links="true" class="pagination pagination-sm" previous-text="&lsaquo;"
-        next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="getDocs(page)"
-        rotate="true" max-size="6" total-items="totalItems" page="currentPage" items-per-page="itemsPerPage"></pagination>
+      <uib-pagination boundary-links="true" class="pagination pagination-sm" previous-text="&lsaquo;"
+        next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="getDocs()"
+        rotate="true" max-size="6" total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage"></uib-pagination>
       <h2 class="normal-title" translate="document.title.recentlegislation"></h2>
       <div class="category-filter" ng-if="selectedCategory">
         <span translate="form.search.categoryheading"></span>
