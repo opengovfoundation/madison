@@ -1,6 +1,7 @@
 .prompts {
     position:relative;
     $prompt-height: 2.5 * $line-height-computed;
+    $prompt-font-size: 1.4rem;
     background-color: $blue;
     text-align: center;
     color: $white;
@@ -8,9 +9,12 @@
     margin-bottom: $line-height-computed;
 
     .prompt-message {
-        font-size: 1.4rem;
+        font-size: $prompt-font-size;
+        line-height: $line-height-computed;
         font-weight: bold;
-        line-height: $prompt-height;
+
+        padding-top: ($prompt-height - $prompt-font-size) / 2;
+        padding-bottom: ($prompt-height - $prompt-font-size) / 2;
     }
 
     a {
@@ -24,7 +28,7 @@
     .prompt-close {
         position:absolute;
         top:1.5rem;
-        right:3rem;
+        right:4%;
         cursor:pointer;
     }
 }
