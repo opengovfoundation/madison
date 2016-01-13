@@ -18,7 +18,7 @@
   "menu.nav.groupmanagement": "Group Management",
   "menu.nav.admin": "Admin",
   "menu.nav.actas": "Use Madison As",
-  "menu.nav.actingas": "Using Madison as:",
+  "menu.nav.currentlyactive": "(active)",
   "menu.nav.removegroup": "Remove Active Group",
   "menu.admin.nav.documents": "Edit Documents",
   "menu.admin.nav.verifyaccounts": "Verify Accounts",
@@ -75,6 +75,9 @@
   "form.verify.verified": "Verified",
   "form.verify.pending": "Pending",
   "form.verify.denied": "Denied",
+  "form.verify.areyousure": "Are you sure?",
+  "form.verify.deny": "Deny",
+  "form.verify.deny.confirm.body": "Denying this request will remove it from the list. The user will need to resubmit a request to make a new attempt.",
   "form.verify.active": "Active",
   "form.verify.id": "ID",
   "form.verify.firstname": "First Name",
@@ -117,6 +120,7 @@
   "form.search.title": "Search All Documents:",
   "form.search.placeholder": "Search titles",
   "form.search.categoryheading": "Displaying:",
+  "form.search.searchheading": "Search:",
 
   "form.document.title.label": "Title",
   "form.document.title.placeholder": "Document Title",
@@ -148,6 +152,8 @@
   "form.document.date.existing": "Existing Dates",
   "form.document.date.remove": "Remove date",
   "form.document.datelabel.placeholder": "Date Label",
+  "form.document.createas.label": "Sponsor as",
+  "form.document.createas.independentsponsor": "Myself",
 
   "form.group.memberslink": "If you would like to manage the members of your group, <a href=\"/groups/{{ groupid }}/members\">click here</a>",
   "form.group.name.label": "Group Name",
@@ -174,7 +180,7 @@
 
   "document.interface.readmore": "Read More",
   "document.interface.readmoretitle": "Read more of {{title}}",
-  "document.interface.readdocument": "Read Document",
+  "document.interface.readdocument": "Read More",
   "document.interface.copylink": "Copy link to clipboard",
 
   "document.title.activelegislation": "Active Legislation",

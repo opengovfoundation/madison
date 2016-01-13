@@ -1,5 +1,5 @@
 <div class="home-feature">
-    <article class="main-feature hentry doc doc-full"
+    <article class="main-feature hentry doc doc-full" ng-if="featured"
         ng-class="{'has-image' : featured.thumbnail}"
         style="background-image: url({{ featured.thumbnail }})">
 
@@ -57,12 +57,12 @@
     </article>
 
     <section class="previous-features">
-        <span class="message"
+        <h2 class="heading"
             translate="{{ 'document.title.activelegislation' }}">
-        </span>
+        </h2>
 
         <div class="recent-activity">
-            <h2 translate="{{ 'document.title.recentactivity' }}"></h2>
+            <h3 translate="{{ 'document.title.recentactivity' }}"></h2>
 
             <article ng-repeat="doc in mostRecent | toArray">
                 <a href="/docs/{{ doc.slug }}" class="title"
@@ -77,7 +77,7 @@
         </div>
 
         <div class="most-active">
-            <h2 translate="{{ 'document.title.mostactive' }}"></h2>
+            <h3 translate="{{ 'document.title.mostactive' }}"></h2>
 
             <article ng-repeat="doc in mostActive | toArray">
                 <a href="/docs/{{ doc.slug }}" class="title"

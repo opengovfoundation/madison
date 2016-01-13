@@ -140,7 +140,15 @@ angular.module('madisonApp.controllers')
             data.comments = [];
             data.permalinkBase = 'comment';
             data.label = 'comment';
+            if(!activity.comments) {
+              activity.comments = [];
+            }
             activity.comments.push(data);
+            // Show our comment.
+            if(activity.label === 'comment') {
+              $scope.showReplies[activity.id] = true;
+            }
+            // Clear the submit box.
             subcomment.text = '';
             subcomment.user = '';
           }).error(function (data) {

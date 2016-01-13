@@ -5,12 +5,25 @@
 <a href="/docs/{{ doc.slug }}" class="public-link" target="_self"
   translate="form.document.publicview"></a>
 <section class="document-edit-tabs">
-  <tabset>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active">
+      <a href="#tab-content" target="_self" role="tab" data-toggle="tab"
+        translate="content.editdocument.tab.content"
+        aria-controls="{{ 'content.editdocument.tab.content' | translate }}"
+        data-toggle="tab"></a></li>
+    <li >
+      <a href="#tab-info" target="_self" role="tab" data-toggle="tab"
+        translate="content.editdocument.tab.information"
+        aria-controls="{{ 'content.editdocument.tab.information' | translate }}"
+        data-toggle="tab"></a></li>
+  </ul>
+  <div class="tab-content doc-tabs">
+
     <!-- Start document content tab -->
-    <tab class="document-edit-tab"
-      heading="{{ 'content.editdocument.tab.content' | translate }}">
+    <section id="tab-content" class="tab-pane document-edit-tab active">
+
       <small translate="content.editdocument.savemessage"></small>
-      <div class="doc-content">
+      <div class="doc-content-editor">
         <div id="wmd-button-bar"></div>
         <textarea class="wmd-input" id="wmd-input" name="content"
           ng-model="doc.content.content"></textarea>
@@ -20,14 +33,14 @@
         <p><small translate="content.editdocument.wordmessage"></small></p>
         <p><small translate="content.editdocument.markdownmessage"
           ></a></small></p>
-        <button class="save-document-button"
+        <button class="save-document-button" ng-click="saveContent()"
           translate="form.general.savenow"></button>
       </div>
-    </tab>
+    </section>
     <!-- End document content tab -->
 
     <!-- Start document information tab -->
-    <tab heading="{{ 'content.editdocument.tab.information' | translate }}">
+    <section id="tab-info" class="tab-pane">
       <form class="document-information">
         <div class="form-group">
           <label for="title" translate="form.document.title.label"></label>
@@ -60,7 +73,8 @@
           <label for="private" translate="form.document.private.label"></label>
           <input type="checkbox" name="private" id="private"
             value="{{ doc.private }}" ng-model="doc.private"
-            class="checkbox" ng-true-value="1" ng-false-value="0" />
+            class="checkbox" ng-true-value="1" ng-false-value="0"
+            ng-checked="doc.private == 1"/>
           <small class="help-block" translate="form.document.private.help"></small>
         </div>
         <div class="form-group">
@@ -142,7 +156,7 @@
           </div>
         </form>
       </div>
-    </tab>
+    </section>
     <!-- End document information tab -->
-  </tabset>
+  </div>
 </section>

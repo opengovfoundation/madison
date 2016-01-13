@@ -7,6 +7,7 @@ use Validator;
 use Input;
 use Response;
 use Event;
+use App\Models\User;
 use App\Models\Doc;
 use App\Models\DocMeta;
 use App\Models\DocContent;
@@ -31,7 +32,11 @@ class DocumentApiController extends ApiController
 
         $doc = Doc::with('content')->with('categories')->with('introtext')->where('is_template', '!=', '1')->find($doc);
 
-        return Response::json($doc);
+        // We have to manually json_encode this instead of using Response::json
+        // because the encoding is inconsistent for integers between PHP
+        // versions.  We use the JSON_NUMERIC_CHECK flag to normalize this.
+        return Response::make(
+            json_encode($doc->toArray(), JSON_NUMERIC_CHECK), 200);
     }
 
     /**
@@ -42,12 +47,26 @@ class DocumentApiController extends ApiController
         $user = Auth::user();
 
         if (!$user->can('admin_manage_documents')) {
-            return Response::json($this->growlMessage("You do not have permission", 'error'));
+            // If there's a group
+            if (Input::get('group_id')) {
+                $groupUser = User::with('groups')->whereHas('groups', function ($query) {
+                     $query->where('status', 'active');
+                     $query->where('group_id', Input::get('group_id'));
+                })->find($user->id);
+
+                if (!isset($groupUser->id)) {
+                    return Response::json($this->growlMessage("You do not have permission", 'error'));
+                }
+            } elseif (!$user->getSponsorStatus()) {
+                return Response::json($this->growlMessage("You do not have permission", 'error'));
+            }
         }
 
         //Creating new document
         $title = Input::get('title');
-        $slug = str_replace(array(' ', '.'), array('-', ''), strtolower($title));
+        $slug = Input::get('slug',
+            str_replace(array(' ', '.'), array('-', ''), strtolower($title)));
+
 
         // If the slug is taken
         if (Doc::where('slug', $slug)->count()) {
@@ -77,7 +96,12 @@ class DocumentApiController extends ApiController
             $doc->title = $title;
             $doc->slug = $slug;
             $doc->save();
-            $doc->sponsor()->sync(array($user->id));
+
+            if (Input::get('group_id')) {
+                $doc->groupSponsor()->sync(array(Input::get('group_id')));
+            } else {
+                $doc->sponsor()->sync(array($user->id));
+            }
 
             $starter = new DocContent();
             $starter->doc_id = $doc->id;
@@ -89,7 +113,7 @@ class DocumentApiController extends ApiController
 
             $response = $this->growlMessage('Document created successfully', 'success');
             $response['doc'] = $doc->toArray();
-            return Response::json($response);
+            return Response::json($response, 200);
         } catch (Exception $e) {
             return Response::json($this->growlMessage($e->getMessage(), 'error'));
         }
@@ -102,7 +126,7 @@ class DocumentApiController extends ApiController
         if ($validation->fails()) {
             return Response::json($this->growlMessage('A valid title is required, changes are not saved', 'error'));
         }
-        
+
         $doc = Doc::find($id);
         $doc->title = Input::get('title');
         $doc->save();
@@ -229,6 +253,27 @@ class DocumentApiController extends ApiController
         }
 
         return Response::json($return_docs);
+    }
+
+    public function getDocCount() {
+        $doc = Doc::where('private', '!=', '1')
+            ->where('is_template', '!=', '1');
+
+        if (Input::has('category')) {
+            $doc->whereHas('categories', function ($q) {
+                $category = Input::get('category');
+                $q->where('categories.name', 'LIKE', "%$category%");
+            });
+        }
+
+        if (Input::has('title')) {
+            $title = Input::get('title');
+            $doc->where('title', 'LIKE', "%$title%");
+        }
+
+        $docCount = $doc->count();
+
+        return Response::json([ 'count' => $docCount ]);
     }
 
     public function getCategories($doc = null)

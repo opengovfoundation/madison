@@ -9,18 +9,18 @@
 */
 
 $consumers = array(
-  'Facebook'  => array(
-    'client_id'     => '',
-    'client_secret' => '',
-    'scope'         => array('email')
-  ),
-  'Twitter'   => array(
-    'client_id'     => '',
-    'client_secret' => ''
-  ),
-  'Linkedin'  => array(
-    'client_id'     => '',
-    'client_secret' => '',
-    'scope'         => array('r_basicprofile', 'r_emailaddress')
-  )
+    'Facebook' => array(
+        'client_id'     => '',
+        'client_secret' => '',
+        'scope'         => array('email')
+    ),
+        'Twitter' => array(
+        'client_id'     => '',
+        'client_secret' => ''
+    ),
+    'Linkedin' => array(
+        'client_id'     => '',
+        'client_secret' => '',
+        'scope'         => array('r_basicprofile', 'r_emailaddress')
+    )
 );

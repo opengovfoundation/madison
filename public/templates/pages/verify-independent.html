@@ -10,17 +10,22 @@
         <th translate="form.verify.status"></th>
       </thead>
       <tbody>
-        <tr ng-repeat="request in requests" id="request-{{ request.id }}">
+        <tr ng-repeat="request in requests track by $index" id="request-{{ request.id }}">
           <td>{{ request.user.id }}</td>
           <td>{{ request.user.fname }}</td>
           <td>{{ request.user.lname }}</td>
           <td>
             <div class="btn-group user-status">
               <button type="button" class="btn btn-success"
-                ng-click="update(request, 'verified')"
+                ng-class="{ active: request.meta_value === '1' }"
+                ng-click="update(request, $index, 'verified')"
                 translate="form.verify.verified"></button>
+              <button type="button" class="btn btn-warning"
+                ng-class="{ active: request.meta_value === '0' }"
+                ng-click="update(request, $index, 'pending')"
+                translate="form.verify.pending"></button>
               <button type="button" class="btn btn-danger"
-                ng-click="update(request, 'denied')"
+                ng-click="deny(request, $index)"
                 translate="form.verify.denied"></button>
             </div>
           </td>

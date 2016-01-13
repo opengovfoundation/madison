@@ -12,18 +12,6 @@ angular.module('madisonApp.controllers')
         $scope.verified = SessionService.verified;
       });
 
-      $scope.isUserVerified = function () {
-        if ($scope.user.user_meta) {
-          angular.forEach($scope.user.user_meta, function (meta) {
-            if (meta.meta_key === 'verify') {
-              $scope.user.verified = meta.meta_value;
-            }
-          });
-        } else {
-          $scope.user.verified = false;
-        }
-      };
-
       $scope.saveUser = function () {
         //If the user is changing their password
         if (!!$scope.user.password) {

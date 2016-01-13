@@ -67,11 +67,36 @@
     .clear-category {
         margin-left:10px;
     }
+
+    .pagination {
+        float: right;
+        margin: 0 0 10px 0;
+
+        a { line-height: 0.9rem; }
+
+        &> .active > a,
+        &> .active > a:hover,
+        &> .active > a:focus,
+        &> .active > span,
+        &> .active > span:hover,
+        &> .active > span:focus {
+            background-color: $blue;
+            border-color: $blue;
+        }
+    }
 }
 
-.category-filter {
-    font-weight:bold;
-    margin-bottom:1rem;
+.category-filter,
+.search-filter {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    clear: both;
+
+    .search-query {
+        font-weight: normal;
+        padding-left: 10px;
+    }
+
 }
 
 .category {
@@ -286,6 +311,7 @@
 // Features
 .main-feature {
     @include clearfix();
+    margin-bottom: $line-height-computed;
 
     .doc-content {
         @extend .col-md-24;
@@ -293,15 +319,15 @@
 }
 
 .previous-features {
-    @extend .row;
-    margin-top: $line-height-computed;
 
-    .message {
+    @extend .row;
+
+    .heading {
         display: block;
         margin-left: 15px;
         margin-right: 15px;
-        @extend h3;
-        @extend .title-underline-medium;
+        @extend h2;
+        @extend .title-underline-thick;
         text-align: center;
     }
 }
@@ -309,7 +335,7 @@
 .recent-activity, .most-active {
     @extend .col-md-12;
 
-    h2 {
+    h3 {
         margin-bottom: $line-height-computed;
         font-family: $main-font;
         @extend .normal-title;
@@ -334,4 +360,8 @@
     time {
         font-style: italic;
     }
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+    .previous-features { display: none; }
 }

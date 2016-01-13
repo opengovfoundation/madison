@@ -40,7 +40,6 @@ angular.module('madisonApp.controllers')
             }
             AuthService.setUser(user);
 
-            console.log('relocated', url);
             $location.url(url);
           });
 

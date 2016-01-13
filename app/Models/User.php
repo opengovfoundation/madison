@@ -16,11 +16,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Session;
 use Hash;
+use Log;
 
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\Role;
 use App\Models\UserMeta;
+
+use DB;
 
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
@@ -375,7 +378,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function getSponsorStatus()
     {
-        return $this->user_meta()->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)->first();
+        $result = $this->user_meta()->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)->first();
+        if ($result) {
+            return (bool) $result->meta_value;
+        } else {
+            return;
+        }
     }
 
     /**
@@ -507,6 +515,37 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public static function findByRoleName($role)
     {
         return Role::where('name', '=', $role)->first()->users()->get();
+    }
+
+    /**
+     *  hasRole.
+     *
+     *  Returns a boolean if the user has the given role or not.  This overrides
+     *  the default hasRole() from Entrust.
+     *
+     *  This is just a temporary hotfix, using the Entrust Role object anywhere
+     *  is causing an uncatchable fatal error in PHP on Laravel Forge.  While we
+     *  investigate that, this will suffice in the meantime.
+     *
+     *  @param string $role
+     *
+     *  @return bool
+     */
+    public function hasRole($role)
+    {
+        $results = DB::select(
+            DB::raw('SELECT COUNT(*) AS count ' .
+                'FROM role_user LEFT JOIN roles ' .
+                'ON role_user.role_id = roles.id ' .
+                'WHERE role_user.user_id = :userid ' .
+                'AND roles.name = :role'),
+            array('userid' => $this->id, 'role' => $role));
+
+        if ($results && isset($results[0]) && isset($results[0]->count) && $results[0]->count > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

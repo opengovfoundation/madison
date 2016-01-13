@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Input;
+use Response;
+use DB;
+use App\Models\Group;
 
 class GroupsApiController extends ApiController
 {
@@ -27,36 +31,35 @@ class GroupsApiController extends ApiController
         return Response::json($groups);
     }
 
-    public function postVerify()
+    public function putVerify($groupId)
     {
         $this->beforeFilter('admin');
 
-        $request = Input::get('request');
-        $status = Input::get('status');
+        $newGroup = (object) Input::all();
 
-        if (!Group::isValidStatus($status)) {
+        if (!Group::isValidStatus($newGroup->status)) {
             throw new \Exception("Invalid value for verify request");
         }
 
-        $group = Group::where('id', '=', $request['id'])->first();
+        $group = Group::where('id', '=', $groupId)->first();
 
         if (!$group) {
             throw new \Exception("Invalid Group");
         }
 
-        $group->status = $status;
+        $group->status = $newGroup->status;
 
         DB::transaction(function () use ($group) {
             $group->save();
 
-            switch ($group->status) {
-                case Group::STATUS_ACTIVE:
-                    $group->createRbacRules();
-                    break;
-                case Group::STATUS_PENDING:
-                    $group->destroyRbacRules();
-                    break;
-            }
+            // switch ($group->status) {
+            //     case Group::STATUS_ACTIVE:
+            //         $group->createRbacRules();
+            //         break;
+            //     case Group::STATUS_PENDING:
+            //         $group->destroyRbacRules();
+            //         break;
+            // }
         });
 
         return Response::json($group);

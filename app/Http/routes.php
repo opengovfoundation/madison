@@ -221,6 +221,7 @@ Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage');
 Route::delete('api/docs/{doc}/featured-image', 'DocumentsController@deleteImage');
 Route::get('api/docs/featured', 'DocumentsController@getFeatured');
 Route::post('api/docs/featured', 'DocumentsController@postFeatured');
+Route::get('api/docs/count', 'DocumentApiController@getDocCount');
 Route::get('api/docs/', 'DocumentApiController@getDocs');
 Route::post('api/docs/', 'DocumentApiController@postDocs');
 
@@ -245,7 +246,7 @@ Route::get('api/user/linkedin-login', 'UserController@getLinkedinLogin');
 
 // Group Routes
 Route::get('api/groups/verify/', 'GroupsApiController@getVerify');
-Route::post('api/groups/verify/', 'GroupsApiController@postVerify');
+Route::put('api/groups/verify/{groupId}', 'GroupsApiController@putVerify');
 
 // User Login / Signup AJAX requests
 Route::get('api/user/login', 'UserManageApiController@getLogin');

@@ -48,3 +48,9 @@ $nav-tabs-link-hover-border-color: transparent !default;
 $nav-tabs-active-link-hover-border-color: transparent !default;
 $nav-tabs-justified-link-border-color: transparent !default;
 $nav-tabs-justified-active-link-border-color: transparent !default;
+
+// Bootstrap selector-specific overrides
+input[type="text"].form-control {
+    padding: 0 12px;
+}
+

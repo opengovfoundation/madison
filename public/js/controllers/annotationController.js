@@ -1,10 +1,10 @@
 angular.module('madisonApp.controllers')
   .controller('AnnotationController', ['$scope', '$sce', '$http',
     'annotationService', 'loginPopupService', 'growl', '$location',
-    '$filter', '$timeout', '$anchorScroll',
+    '$filter', '$timeout',
 
     function ($scope, $sce, $http, annotationService, loginPopupService, growl,
-      $location, $filter, $timeout, $anchorScroll) {
+      $location, $filter, $timeout) {
 
       $scope.annotations = [];
       $scope.annotationGroups = [];
@@ -127,6 +127,10 @@ angular.module('madisonApp.controllers')
             var annotationGroup = annotationService.annotationGroups[index];
 
             //Calculate our offset from the top of the window
+            //Skip this group if there is no parent
+            if(annotationGroup.parent.length === 0) {
+              continue;
+            }
             var parentTop = annotationGroup.parent.offset().top;
             var containerTop = $('.annotation-container').offset().top;
             annotationGroup.top = (parentTop - containerTop) + 'px';
@@ -166,7 +170,6 @@ angular.module('madisonApp.controllers')
         var currentId = $scope.user.id;
         var sponsored = false;
         // angular.forEach($scope.doc.sponsor, function (sponsor) {
-        //   console.log(sponsor);
         //   if (currentId === sponsor.id) {
         //     sponsored = true;
         //   }

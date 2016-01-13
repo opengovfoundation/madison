@@ -5,7 +5,7 @@ angular.module('madisonApp.controllers')
       pageService.setTitle($translate.instant('content.home.title', {title: SITE.name}));
 
       $scope.docs = [];
-      $scope.featured = {};
+      $scope.featured = null;
       $scope.mostActive = [];
       $scope.mostRecent = [];
       $scope.categories = [];
@@ -18,15 +18,43 @@ angular.module('madisonApp.controllers')
       $scope.reverse = true;
       $scope.startStep = 0;
 
-      // Retrieve all docs
-      Doc.query({
+      // Pagination values
+      $scope.totalItems = 0;
+      $scope.itemsPerPage = 5;
+      $scope.currentPage = 1;
+
+      $scope.getDocs = function() {
+        // Get document count for pagination
+        var docCountQuery = {};
+
+        if ($scope.docSearch) {
+          docCountQuery.title = $scope.docSearch;
+        }
+
+        if ($scope.selectedCategory) {
+          docCountQuery.category = $scope.selectedCategory.name;
+        }
+
+        Doc.getDocCount(docCountQuery, function(data) {
+          $scope.totalItems = data.count;
+        }).$promise.catch(function() {
+          console.error('Unable to get document count');
+        });
+
+        // Retrieve all docs
+        Doc.query(angular.extend(docCountQuery, {
+          'limit': $scope.itemsPerPage,
+          'page': $scope.currentPage,
           'order': $scope.docSort,
           'order_dir': ($scope.reverse ? 'DESC' : 'ASC')
-      },function (data) {
-        $scope.parseDocs(data);
-      }).$promise.catch(function (data) {
-        console.error("Unable to get documents: %o", data);
-      });
+        }), function(data) {
+          $scope.parseDocs(data);
+        }).$promise.catch(function (data) {
+          console.error("Unable to get documents: %o", data);
+        });
+      };
+
+      $scope.getDocs(); // Get our initial set of documents
 
       Doc.getFeaturedDoc(function (data) {
         $scope.featured = data;
@@ -68,24 +96,42 @@ angular.module('madisonApp.controllers')
         console.error("Unable to get documents: %o", data);
       });
 
-      $scope.select2Config = {
-        multiple: true,
-        allowClear: true,
-        placeholder: "Filter documents by category, sponsor, or status"
-      };
+      //$scope.select2Config = {
+      //  multiple: true,
+      //  allowClear: true,
+      //  placeholder: "Filter documents by category, sponsor, or status"
+      //};
 
       $scope.dateSortConfig = {
         allowClear: true,
         placeholder: "Sort By Date"
       };
 
+      $scope.submitSearch = function() {
+        $scope.docSearch = $scope.docSearchInput;
+        $scope.currentPage = 1;
+        $scope.getDocs();
+        $scope.docSearchInput = '';
+      };
+
+      $scope.clearSearch = function() {
+        $scope.docSeachInput = '';
+        $scope.docSearch = null;
+        $scope.currentPage = 1;
+        $scope.getDocs();
+      };
+
       //Sets scope value for current category filter
       $scope.filterByCategory = function (category) {
         $scope.selectedCategory = category;
+        $scope.currentPage = 1;
+        $scope.getDocs();
       };
 
       $scope.clearCategoryFilter = function () {
         $scope.selectedCategory = null;
+        $scope.currentPage = 1;
+        $scope.getDocs();
       };
 
       $scope.categoryFilter = function (doc) {
@@ -106,6 +152,8 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.parseDocs = function (docs) {
+        $scope.docs = [];
+
         angular.forEach(docs, function (doc) {
           $scope.docs.push(doc);
 

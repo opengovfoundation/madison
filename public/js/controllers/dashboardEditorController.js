@@ -694,7 +694,6 @@ angular.module('madisonApp.controllers')
         featuredDoc.$promise.then(function () {
           //If so, display confirmation
           if (featuredDoc.id !== undefined) {
-            console.log(featuredDoc);
             var bodyText;
 
             if (featuredDoc.id === $scope.doc.id) {

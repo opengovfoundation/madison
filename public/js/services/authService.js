@@ -49,7 +49,6 @@ angular.module('madisonApp.services')
             'url': user.url,
             'phone': user.phone
           }).then(function (res) {
-            console.log(res);
             authService.getUser();
           });
       };

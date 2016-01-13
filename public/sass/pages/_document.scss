@@ -18,7 +18,8 @@
 
 
 .doc-support-button {
-    @extend .action-button;
+    @extend .btn-success;
+    text-transform: uppercase;
 }
 
 .doc-oppose-button {
@@ -52,16 +53,26 @@
                 &:hover, &:active {
                     border: none;
                 }
-                background-color: $green;
-                color: $white;
+                background-color: $light-grey;
+                color: $black;
 
                 @extend .small-caps;
                 font-weight: bold;
+
+                &:hover {
+                    background-color: mix($blue, $lighter-grey, 20%);
+                    color: $dark-grey;
+                }
             }
             &.active a {
-                background-color: $white;
-                color: $black;
+                background-color: $blue;
+                color: $white;
                 border: none;
+
+                &:hover {
+                    background-color: $blue;
+                    color: $white;
+                }
             }
         }
     }
@@ -97,7 +108,20 @@
     }
 
     .stats-number {
-        @extend .col-md-8;
+        @extend .col-xs-8;
+    }
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+    // Hide all annotations for now.
+    .annotation-container {
+        display: none;
+    }
+    .annotator-hl {
+        background: transparent !important;
+    }
+    .annotator-outer {
+        display: none;
     }
 }
 
@@ -150,7 +174,7 @@
         fill: $orange;
     }
     .support rect {
-        fill: $blue;
+        fill: $green;
     }
     .border line {
         stroke:rgb(0,0,0);
@@ -159,7 +183,7 @@
 }
 
 .chart-stat {
-    @extend .col-md-12;
+    @extend .col-xs-12;
 
     &.oppose {
         text-align: right;
@@ -411,6 +435,14 @@ $fallback-height: 350px;
     }
 }
 
+// Remove TOC on small screens.
+
+@media only screen and (max-width: $screen-sm-min) {
+    .toc {
+        display: none;
+    }
+}
+
 .toc-content {
     // Leave room for the navbars.
     width: $toc-width - 10px;
@@ -469,5 +501,16 @@ $fallback-height: 350px;
         @extend .small-caps;
         color: $blue;
         margin-right: 10px;
+    }
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+    .single-doc {
+        .support-oppose-buttons {
+            float: none;
+        }
+        .stats {
+            padding-top: $padding-base-vertical;
+        }
     }
 }
