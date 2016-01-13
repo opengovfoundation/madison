@@ -30,6 +30,7 @@
   "footer.tagline": "<ul class=\"for-roles\"><li>for <span class=\"for-role\">Citizens</span></li><li>for <span class=\"for-role\">Authors</span></li><li>for <span class=\"for-role\">Developers</span></li></ul>",
 
   "info.message.outdatedbrowser": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/\" target=\"_blank\">upgrade your browser</a> to improve your experience.",
+  "info.message.mobilebrowser.annotate": "You cannot annotate documents right now since you're using a mobile browser. Please use a desktop ot laptop computer if you'd like to annotate.",
 
   "form.general.submit": "Submit",
   "form.general.show": "Show",

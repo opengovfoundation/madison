@@ -112,19 +112,6 @@
     }
 }
 
-@media only screen and (max-width: $screen-sm-min) {
-    // Hide all annotations for now.
-    .annotation-container {
-        display: none;
-    }
-    .annotator-hl {
-        background: transparent !important;
-    }
-    .annotator-outer {
-        display: none;
-    }
-}
-
 .stats {
     text-align: center;
 
