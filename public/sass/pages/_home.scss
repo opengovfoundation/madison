@@ -319,9 +319,6 @@
 }
 
 .previous-features {
-    @media only screen and (max-width: $screen-sm-min) {
-        display: none;
-    }
 
     @extend .row;
 
@@ -363,4 +360,8 @@
     time {
         font-style: italic;
     }
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+    .previous-features { display: none; }
 }
