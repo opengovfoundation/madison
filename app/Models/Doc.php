@@ -373,7 +373,8 @@ class Doc extends Model
 
                 ) total_count
                 LEFT JOIN docs on doc_id = docs.id
-                WHERE docs.private != 1
+                LEFT JOIN publish_states on docs.publish_state_id = publish_states.id
+                WHERE publish_states.value = 'published'
                 AND docs.is_template != 1
                 GROUP BY doc_id
                 ORDER BY total DESC

@@ -269,7 +269,9 @@ class DocumentsController extends Controller
             $doc = Doc::with('categories')->with('sponsor')->with('statuses')
                 ->with('dates')
                 ->where('id', $featuredId)
-                ->where('private', '!=', '1')
+                ->whereHas('publishState', function($q) {
+                    $q->where('value', '=', 'published');
+                })
                 ->where('is_template', '!=', '1')
                 ->first();
         }
@@ -278,7 +280,9 @@ class DocumentsController extends Controller
         if (empty($doc)) {
             $doc = Doc::with('categories')->with('sponsor')->with('statuses')
                 ->with('dates')
-                ->where('private', '!=', '1')
+                ->whereHas('publishState', function($q) {
+                    $q->where('value', '=', 'published');
+                })
                 ->where('is_template', '!=', '1')
                 ->orderBy('created_at', 'desc')
                 ->first();

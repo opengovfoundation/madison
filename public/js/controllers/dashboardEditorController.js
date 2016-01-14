@@ -23,6 +23,7 @@ angular.module('madisonApp.controllers')
       $scope.suggestedCategories = [];
       $scope.suggestedStatuses = [];
       $scope.dates = [];
+      $scope.publishStates = [];
       $scope.featuredImage = null;
       $scope.featuredDoc = false;
 
@@ -70,6 +71,13 @@ angular.module('madisonApp.controllers')
           .error(function (data) {
             console.error("Unable to get document categories: %o", data);
           });
+      };
+
+      $scope.getPublishStates = function() {
+        $http.get('/api/publishstates')
+        .success(function(data) {
+          $scope.publishStates = data;
+        });
       };
 
       $scope.getVerifiedUsers = function () {
@@ -205,6 +213,7 @@ angular.module('madisonApp.controllers')
       $scope.getAllCategories();
       $scope.getVerifiedUsers();
       $scope.setSelectOptions();
+      $scope.getPublishStates();
 
       var initCategories = true;
       var initSponsor = true;
@@ -313,13 +322,13 @@ angular.module('madisonApp.controllers')
           }
         });
 
-        $scope.$watch('doc.private', function () {
+        $scope.$watch('doc.publish_state_id', function () {
           if (initPrivate) {
             $timeout(function () {
               initPrivate = false;
             });
           } else {
-            $scope.savePrivate();
+            $scope.savePublishState();
           }
         });
 
@@ -405,11 +414,11 @@ angular.module('madisonApp.controllers')
           });
       };
 
-      $scope.savePrivate = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/private',
-            {'private': $scope.doc.private})
+      $scope.savePublishState = function () {
+        return $http.post('/api/docs/' + $scope.doc.id + '/publishstate',
+            {'publish_state_id': $scope.doc.publish_state_id})
           .success(function (data) {
-            console.log("Private saved successfully: %o", data);
+            console.log("Publish state saved successfully: %o", data);
           }).error(function (data) {
             console.error("Error saving private for document:", data);
           });

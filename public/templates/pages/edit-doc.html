@@ -70,12 +70,11 @@
             data-placeholder="">
         </div>
         <div class="form-group">
-          <label for="private" translate="form.document.private.label"></label>
-          <input type="checkbox" name="private" id="private"
-            value="{{ doc.private }}" ng-model="doc.private"
-            class="checkbox" ng-true-value="1" ng-false-value="0"
-            ng-checked="doc.private == 1"/>
-          <small class="help-block" translate="form.document.private.help"></small>
+          <label for="publish_state_id" translate="form.document.publishstate.label"></label>
+          <select name="publish_state_id" ng-model="doc.publish_state_id"
+            ng-options="state.value for state in publishStates track by state.id">
+          </select>
+          <small class="help-block" translate="form.document.publishstate.help"></small>
         </div>
         <div class="form-group">
           <label for="sponsor" translate="form.document.sponsor.label"></label>
