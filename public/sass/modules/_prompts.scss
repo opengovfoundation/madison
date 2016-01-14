@@ -26,9 +26,16 @@
     }
 
     .prompt-close {
-        position:absolute;
-        top:1.5rem;
-        right:4%;
+        float: right;
+        margin-top: 28px;
         cursor:pointer;
+    }
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+    .prompts {
+        .prompt-close {
+            margin-top: 1rem;
+        }
     }
 }
