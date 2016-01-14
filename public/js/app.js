@@ -132,10 +132,36 @@ angular.element(document).ready(function () {
 
     //Check we're actually passed an account value
     if ( gaAccount ) {
+      //Convert account into an array.
+      //Split it if we can.
+      if(gaAccount.match(/,/)) {
+        gaAccount = gaAccount.split(',');
+      }
+      else {
+        gaAccount = [gaAccount];
+      }
+
       var embed = document.createElement( 'script' );
-      embed.text = "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', '" + gaAccount + "', 'auto');//ga('send', 'pageview');";
+      embed.text = "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');";
+
+      for(var i = 0; i < gaAccount.length; i++) {
+        //We need a unique tracker name after the first one.
+        var trackerName = '';
+        if(i > 0) {
+          trackerName = ", 'tracker" + i + "'";
+          //Additional trackers get added as a config setting.
+          // $analyticsProvider.settings.ga.additionalAccountNames.push(trackerName);
+        }
+
+        embed.text += "ga('create', '" + gaAccount[i] + "', 'auto'" +
+          trackerName + ");"
+      }
+
+      //We don't send pageviews here
+      //embed.text += "ga('send', 'pageview');";
 
       var scripts = document.getElementsByTagName( 'script' )[0];
+
       scripts.parentNode.insertBefore( embed, scripts );
     } else {
       console.info( "Couldn't install Google Analytics: %s", gaAccount );
