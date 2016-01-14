@@ -336,7 +336,7 @@ class Doc extends Model
      */
     public static function getEager()
     {
-        return Doc::with('categories')->with('sponsor')->with('statuses')->with('dates');
+        return Doc::with('categories')->with('sponsor')->with('statuses')->with('dates')->with('publishState');
     }
 
     /*

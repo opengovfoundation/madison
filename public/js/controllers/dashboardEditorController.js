@@ -322,7 +322,7 @@ angular.module('madisonApp.controllers')
           }
         });
 
-        $scope.$watch('doc.publish_state_id', function () {
+        $scope.$watch('doc.publish_state', function () {
           if (initPrivate) {
             $timeout(function () {
               initPrivate = false;
@@ -416,7 +416,7 @@ angular.module('madisonApp.controllers')
 
       $scope.savePublishState = function () {
         return $http.post('/api/docs/' + $scope.doc.id + '/publishstate',
-            {'publish_state_id': $scope.doc.publish_state_id})
+            {'publish_state': $scope.doc.publish_state})
           .success(function (data) {
             console.log("Publish state saved successfully: %o", data);
           }).error(function (data) {

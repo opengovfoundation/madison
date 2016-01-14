@@ -70,8 +70,8 @@
             data-placeholder="">
         </div>
         <div class="form-group">
-          <label for="publish_state_id" translate="form.document.publishstate.label"></label>
-          <select name="publish_state_id" ng-model="doc.publish_state_id"
+          <label for="publish_state" translate="form.document.publishstate.label"></label>
+          <select name="publish_state" ng-model="doc.publish_state"
             ng-options="state.value for state in publishStates track by state.id">
           </select>
           <small class="help-block" translate="form.document.publishstate.help"></small>

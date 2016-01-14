@@ -30,7 +30,7 @@ class DocumentApiController extends ApiController
     {
         $doc_id = $doc;
 
-        $doc = Doc::with('content')->with('categories')->with('introtext')->where('is_template', '!=', '1')->find($doc);
+        $doc = Doc::with('content')->with('categories')->with('introtext')->with('publishState')->where('is_template', '!=', '1')->find($doc);
 
         // We have to manually json_encode this instead of using Response::json
         // because the encoding is inconsistent for integers between PHP
@@ -139,8 +139,7 @@ class DocumentApiController extends ApiController
     public function postPublishState($id)
     {
         $doc = Doc::find($id);
-        file_put_contents('/tmp/madison_debug', print_r(Input::get('publish_state_id'), true)."\n\n", FILE_APPEND);
-        $doc->publish_state_id = Input::get('publish_state_id')['id'];
+        $doc->publish_state_id = Input::get('publish_state')['id'];
         $doc->save();
 
         $response['messages'][0] = array('text' => 'Document publish state saved', 'severity' => 'info');
