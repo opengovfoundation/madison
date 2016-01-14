@@ -229,6 +229,10 @@
 
 // Mobile phone-sizes
 @media only screen and (max-width: $screen-sm-min) {
+    .annotation-container {
+        left: calc(100% - 2rem);
+    }
+
     .annotation-title {
         display: none;
     }
@@ -246,7 +250,6 @@
 
     .annotation-group {
         // Move these over
-        right: 0;
 
         // Make the numbers more visible.
         .annotation-group-count {
