@@ -505,4 +505,13 @@ $fallback-height: 350px;
             padding-top: $padding-base-vertical;
         }
     }
+
+    .doc-content {
+        max-width: 100%;
+
+        blockquote {
+            margin-left: 5px;
+            padding-left: 5px;
+        }
+    }
 }
