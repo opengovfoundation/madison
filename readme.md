@@ -21,6 +21,40 @@ We have also created a very short survey to find out more about the developers u
 
 Please take a look at the [Madison Documentation](https://github.com/opengovfoundation/madison/tree/master/docs) for how to install Madison.
 
+## Testing Suite
+
+To run the automated test suite locally you will first need to use the
+webdriver manager provided by protractor. This allows you to install and run
+selenium through a simple cli.
+
+```
+$ npm install -g protractor
+$ webdriver-manager update
+```
+
+To start the selenium server:
+
+```
+$ webdriver-manager start
+```
+
+Once that is installed, you should be able to run tests for various browsers
+using `grunt test_{browser name}` like so:
+
+```
+$ grunt test_chrome
+$ grunt test_firefox
+$ grunt test_ie
+```
+
+A database is automatically created in mysql for testing, so no need to create
+one.
+
+You will need to have drivers installed for these browsers to test them locally.
+When a pull request is created, the tests will be run for all browsers using
+[Sauce Labs](https://saucelabs.com/).
+
+
 ## How to help
 
 * Open an issue, claim an issue, comment on an issue, or submit a pull request to resolve one
