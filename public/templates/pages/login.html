@@ -6,14 +6,14 @@
     <!-- Email -->
     <div class="form-group">
       <label for="email" translate="form.login.email"></label>
-      <input type="text" name="email" class="form-control"
-        ng-model="credentials.email">
+      <input type="email" name="email" class="form-control"
+        ng-model="credentials.email" required>
     </div>
     <!-- Password -->
     <div class="form-group">
       <label for="password" translate="form.login.password"></label>
       <input type="password" name="password" class="form-control"
-        ng-model="credentials.password">
+        ng-model="credentials.password" required>
 
       <!-- Remember checkbox -->
       <div class="checkbox remember-me">
