@@ -85,6 +85,14 @@ Administering Madison is pretty simple at this stage of the project.  Any Madiso
 
 ## Theming
 
+**Note: Madison's styles are built using grunt, via [Compass](http://compass-style.org/) which uses [SASS](http://sass-lang.com/).  You'll need to have a decent knowledge of SASS and CSS to customize the theme currently.**
+
+To customize the Madison design, simply add a new file in the `public/sass/custom/` directory with your custom styles.  All files in this directory will be pulled in automatically [_after_ the global variables are defined](https://github.com/opengovfoundation/madison/blob/master/public/sass/style.scss#L25).  This will allow you to use or override the existing variables, as well as adding custom styles.
+
+The site also has a `.madison` class on the body of the page, so you can override individual style rules by copying any existing rule and adding `.madison` as the top level selector.  For instance, if you want to override the `.navbar` background color, simply apply a new color to `.madison .navbar` instead.
+
+To see a live example, have a look at [DC's custom theme file](https://github.com/DCgov/dc-madison/blob/master/public/sass/custom/_dc.scss) which overrides variables and styles.
+
 ## Architecture and Development Notes
 
 ### Single Page Application Architecture
