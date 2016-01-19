@@ -214,14 +214,10 @@ class DocumentApiController extends ApiController
                 ->where('is_template', '!=', '1');
 
             if (Input::has('category')) {
-                $doc = Doc::getEager()->whereHas('categories', function ($q) {
+                $doc->whereHas('categories', function ($q) {
                     $category = Input::get('category');
                     $q->where('categories.name', 'LIKE', "%$category%");
-                })
-                    ->whereHas('publishState', function($q) {
-                        $q->where('value', '=', 'published');
-                    })
-                    ->where('is_template', '!=', '1');
+                });
             }
 
             if (isset($limit)) {
@@ -235,8 +231,6 @@ class DocumentApiController extends ApiController
                 $title = Input::get('title');
                 $doc->where('title', 'LIKE', "%$title%");
             }
-
-
 
             $docs = $doc->get();
         }
