@@ -265,43 +265,49 @@ class DocumentsController extends Controller
 
         if ($featuredSetting) {
             // Make sure our featured document can be viewed by the public.
-            $featuredId = (int) $featuredSetting->meta_value;
-            $doc = Doc::with('categories')->with('sponsor')->with('statuses')
+            $featuredIds = explode(',', $featuredSetting->meta_value);
+            $docs = Doc::with('categories')->with('sponsor')->with('statuses')
                 ->with('dates')
-                ->where('id', $featuredId)
+                ->whereIn('id', $featuredIds)
                 ->where('private', '!=', '1')
                 ->where('is_template', '!=', '1')
-                ->first();
+                ->get();
         }
 
         // If we don't have a document, just find anything recent.
-        if (empty($doc)) {
-            $doc = Doc::with('categories')->with('sponsor')->with('statuses')
+        if (empty($docs)) {
+            $docs = array(
+                Doc::with('categories')->with('sponsor')->with('statuses')
                 ->with('dates')
                 ->where('private', '!=', '1')
                 ->where('is_template', '!=', '1')
                 ->orderBy('created_at', 'desc')
-                ->first();
-            if (!empty($doc)) {
-                $doc->thumbnail = '/img/default/default.jpg';
-            }
+                ->first()
+            );
         }
 
         // If we still don't have a document, give up.
-        if (empty($doc)) {
+        if (empty($docs)) {
             return Response::make(null, 404);
         }
 
-        $doc->enableCounts();
+        $return_docs = array();
+        foreach($docs as $key => $doc) {
+            $doc->enableCounts();
+            $return_doc = $doc->toArray();
 
-        $return_doc = $doc->toArray();
+            $return_doc['introtext'] = $doc->introtext()->first()['meta_value'];
+            $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
+            $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
 
-        $return_doc['introtext'] = $doc->introtext()->first()['meta_value'];
+            if(!$return_doc['thumbnail']) {
+                $return_doc['thumbnail'] = '/img/default/default.jpg';
+            }
 
-        $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
-        $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
+            $return_docs[] = $return_doc;
+        }
 
-        return Response::json($return_doc);
+        return Response::json($return_docs);
     }
 
     public function postFeatured()

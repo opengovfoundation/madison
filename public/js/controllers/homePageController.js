@@ -5,7 +5,7 @@ angular.module('madisonApp.controllers')
       pageService.setTitle($translate.instant('content.home.title', {title: SITE.name}));
 
       $scope.docs = [];
-      $scope.featured = null;
+      $scope.featured = [];
       $scope.mostActive = [];
       $scope.mostRecent = [];
       $scope.categories = [];
@@ -56,13 +56,20 @@ angular.module('madisonApp.controllers')
 
       $scope.getDocs(); // Get our initial set of documents
 
-      Doc.getFeaturedDoc(function (data) {
+      Doc.getFeaturedDocs(function (data) {
         $scope.featured = data;
 
         //Parse introtext if it exists
-        if(!!data.introtext) {
-          var converter = new Markdown.Converter();
-          $scope.featured.introtext = $sce.trustAsHtml(converter.makeHtml(data.introtext));
+        for(i in data) {
+          if(!!data[i].introtext) {
+            var converter = new Markdown.Converter();
+            $scope.featured[i].introtext = $sce.trustAsHtml(converter.makeHtml(data[i].introtext));
+          }
+
+          // Hack to remove featured image on all documents after the first one.
+          if(i > 0) {
+            data[i].thumbnail = null;
+          }
         }
       }).$promise.catch(function (data) {
         console.error("Unable to get featured document: %o", data);

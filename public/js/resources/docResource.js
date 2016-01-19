@@ -11,9 +11,10 @@ angular.module('madisonApp.resources')
         url: '/api/docs/:id/content',
         params: {id: '@id'}
       },
-      getFeaturedDoc: {
+      getFeaturedDocs: {
         method: 'GET',
-        url: '/api/docs/featured'
+        url: '/api/docs/featured',
+        isArray:true
       },
       getDocCount: {
         method: 'GET',
