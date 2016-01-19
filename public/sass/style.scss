@@ -8,13 +8,6 @@
 @import 'mixins/em';
 @import 'mixins/web-fonts';
 
-/**
- * Import custom variable overrides
- *
- * This will only override variables that have a !default flag
- */
-@import 'custom';
-
 /*
  * Config
  */
@@ -23,6 +16,13 @@
 
 // Get our bootstrap overrides.
 @import 'config/bootstrap-settings';
+
+/**
+ * Import custom variable overrides
+ *
+ * This will only override variables that have a !default flag
+ */
+@import 'custom';
 
 /*
  * Libraries

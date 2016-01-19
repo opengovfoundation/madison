@@ -364,4 +364,19 @@
 
 @media only screen and (max-width: $screen-sm-min) {
     .previous-features { display: none; }
+
+    .doc-list-item {
+        .doc-info, .doc-meta {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    .doc-info {
+        .subheading {
+            font-size: 1.5rem;
+            line-height: 2rem;
+            margin-top: .5rem;
+        }
+    }
 }
