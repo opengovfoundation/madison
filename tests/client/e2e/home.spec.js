@@ -33,7 +33,7 @@ describe('madison home doc list', function() {
 
   it('has a usable "read" button in recent legislation list', function() {
     homePage.mostRecentDoc().readButton.click();
-    expect(docPage.info.title.getText()).toBe('Second Example Document');
+    expect(docPage.info.title.getText()).toBe('Example Document');
   });
 
   describe('searching recent documents', function() {
