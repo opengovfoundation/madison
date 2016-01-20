@@ -386,6 +386,7 @@
 
   "errors.general.load": "There was an error loading your data.  Please try again later.",
   "errors.general.save": "There was an error saving your data.  Please try again later.",
+  "errors.general.unauthorized": "You are not authorized to perform this action.",
   "errors.document.new.notitle": "You must enter a document title to create a new document.",
   "errors.document.new.general": "There was an error submitting the document. Please try again later.",
   "errors.document.new.permissions": "You are not authorized to create documents.  Go to the <a href=\"{{ userLink }}\">Account Settings</a> page to request Independent Sponsor status or the <a href=\"{{ groupLink }}\">Group Management</a> page to create a group.",
