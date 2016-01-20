@@ -36,12 +36,12 @@ class DocAccessEdit
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::check()) return response('Unauthorized.', 401);
+        if (!Auth::check()) return response('Unauthorized.', 403);
 
         $user = Auth::user();
         $doc = Doc::find($request->doc);
 
-        if (!$doc->canUserEdit($user)) return response('Unauthorized.', 401);
+        if (!$doc->canUserEdit($user)) return response('Unauthorized.', 403);
 
         return $next($request);
     }
