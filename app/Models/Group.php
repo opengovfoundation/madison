@@ -204,7 +204,7 @@ class Group extends Model
     {
         $groupMember = GroupMember::where('group_id', '=', $this->id)->where('user_id', '=', $user->id)->first();
 
-        return $groupMember->role === $role;
+        return $groupMember && $groupMember->role === $role;
     }
 
     public static function getRoles($forHtml = false)

@@ -200,30 +200,32 @@ Route::get('api/docs/categories', 'DocumentApiController@getCategories');
 Route::get('api/docs/statuses', 'DocumentApiController@getAllStatuses');
 Route::get('api/docs/sponsors', 'DocumentApiController@getAllSponsors');
 Route::get('api/docs/{doc}/categories', 'DocumentApiController@getCategories');
-Route::post('api/docs/{doc}/categories', 'DocumentApiController@postCategories');
 Route::get('api/docs/{doc}/introtext', 'DocumentApiController@getIntroText');
-Route::post('api/docs/{doc}/introtext', 'DocumentApiController@postIntroText');
 Route::get('api/docs/{doc}/sponsor/{sponsor}', 'DocumentApiController@hasSponsor');
 Route::get('api/docs/{doc}/sponsor', 'DocumentApiController@getSponsor');
-Route::post('api/docs/{doc}/sponsor', 'DocumentApiController@postSponsor');
 Route::get('api/docs/{doc}/status', 'DocumentApiController@getStatus');
-Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus');
 Route::get('api/docs/{doc}/dates', 'DocumentApiController@getDates');
-Route::post('api/docs/{doc}/dates', 'DocumentApiController@postDate');
-Route::put('api/dates/{date}', 'DocumentApiController@putDate');
-Route::delete('api/docs/{doc}/dates/{date}', 'DocumentApiController@deleteDate');
 Route::get('api/docs/{doc}', 'DocumentApiController@getDoc');
-Route::post('api/docs/{doc}/title', 'DocumentApiController@postTitle');
-Route::post('api/docs/{doc}/private', 'DocumentApiController@postPrivate');
-Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug');
-Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent');
-Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage');
-Route::delete('api/docs/{doc}/featured-image', 'DocumentsController@deleteImage');
 Route::get('api/docs/featured', 'DocumentsController@getFeatured');
-Route::post('api/docs/featured', 'DocumentsController@postFeatured');
 Route::get('api/docs/count', 'DocumentApiController@getDocCount');
 Route::get('api/docs/', 'DocumentApiController@getDocs');
 Route::post('api/docs/', 'DocumentApiController@postDocs');
+Route::put('api/dates/{date}', 'DocumentApiController@putDate');
+
+Route::post('api/docs/{doc}/introtext', 'DocumentApiController@postIntroText')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/title', 'DocumentApiController@postTitle')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/sponsor', 'DocumentApiController@postSponsor')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/private', 'DocumentApiController@postPrivate')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent')->middleware(['doc.access.edit']);
+Route::post('api/docs/featured', 'DocumentsController@postFeatured')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus')->middleware(['doc.access.edit']);
+Route::delete('api/docs/{doc}/featured-image', 'DocumentsController@deleteImage')->middleware(['doc.access.edit']);
+Route::delete('api/docs/{doc}/dates/{date}', 'DocumentApiController@deleteDate')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/dates', 'DocumentApiController@postDate')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/categories', 'DocumentApiController@postCategories')->middleware(['doc.access.edit']);
+
 
 //User Routes
 Route::get('api/user/{user}', 'UserApiController@getUser');
