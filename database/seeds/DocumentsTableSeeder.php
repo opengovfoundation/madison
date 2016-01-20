@@ -28,10 +28,11 @@ class DocumentsTableSeeder extends Seeder
             $content = "New Document Content";
         }
         $docOptions = array(
-            'title'       => 'Example Document',
-            'content'     => $content,
-            'sponsor'     => $group->id,
-            'sponsorType' => Doc::SPONSOR_TYPE_GROUP,
+            'title'         => 'Example Document',
+            'content'       => $content,
+            'sponsor'       => $group->id,
+            'publish_state' => 'published',
+            'sponsorType'   => Doc::SPONSOR_TYPE_GROUP,
         );
         $document = Doc::createEmptyDocument($docOptions);
 
@@ -54,9 +55,10 @@ class DocumentsTableSeeder extends Seeder
         }
 
         $docOptions = array(
-            'title'       => 'Second Example Document',
-            'sponsor'     => $group->id,
-            'sponsorType' => Doc::SPONSOR_TYPE_GROUP,
+            'title'         => 'Second Example Document',
+            'sponsor'       => $group->id,
+            'publish_state' => 'published',
+            'sponsorType'   => Doc::SPONSOR_TYPE_GROUP,
         );
         $document = Doc::createEmptyDocument($docOptions);
 

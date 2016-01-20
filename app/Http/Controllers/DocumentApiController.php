@@ -30,7 +30,7 @@ class DocumentApiController extends ApiController
     {
         $doc_id = $doc;
 
-        $doc = Doc::with('content')->with('categories')->with('introtext')->with('publishState')->where('is_template', '!=', '1')->find($doc);
+        $doc = Doc::with('content')->with('categories')->with('introtext')->where('is_template', '!=', '1')->find($doc);
 
         // We have to manually json_encode this instead of using Response::json
         // because the encoding is inconsistent for integers between PHP
@@ -139,7 +139,7 @@ class DocumentApiController extends ApiController
     public function postPublishState($id)
     {
         $doc = Doc::find($id);
-        $doc->publish_state_id = Input::get('publish_state')['id'];
+        $doc->publish_state = Input::get('publish_state');
         $doc->save();
 
         $response['messages'][0] = array('text' => 'Document publish state saved', 'severity' => 'info');
@@ -208,9 +208,7 @@ class DocumentApiController extends ApiController
             $docs = Doc::getActive($limit, $offset);
         } else {
             $doc = Doc::getEager()->orderBy($order_field, $order_dir)
-                ->whereHas('publishState', function($q) {
-                    $q->where('value', '=', 'published');
-                })
+                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
                 ->where('is_template', '!=', '1');
 
             if (Input::has('category')) {
@@ -254,9 +252,7 @@ class DocumentApiController extends ApiController
     }
 
     public function getDocCount() {
-        $doc = Doc::whereHas('publishState', function($q) {
-                $q->where('value', '=', 'published');
-            })
+        $doc = Doc::where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
             ->where('is_template', '!=', '1');
 
         if (Input::has('category')) {

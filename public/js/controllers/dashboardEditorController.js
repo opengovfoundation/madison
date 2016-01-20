@@ -21,9 +21,13 @@ angular.module('madisonApp.controllers')
       $scope.categories = [];
       $scope.introtext = "";
       $scope.suggestedCategories = [];
+      $scope.publishStates = [
+        'unpublished',
+        'published',
+        'private'
+      ];
       $scope.suggestedStatuses = [];
       $scope.dates = [];
-      $scope.publishStates = [];
       $scope.featuredImage = null;
       $scope.featuredDoc = false;
 
@@ -71,13 +75,6 @@ angular.module('madisonApp.controllers')
           .error(function (data) {
             console.error("Unable to get document categories: %o", data);
           });
-      };
-
-      $scope.getPublishStates = function() {
-        $http.get('/api/publishstates')
-        .success(function(data) {
-          $scope.publishStates = data;
-        });
       };
 
       $scope.getVerifiedUsers = function () {
@@ -213,7 +210,6 @@ angular.module('madisonApp.controllers')
       $scope.getAllCategories();
       $scope.getVerifiedUsers();
       $scope.setSelectOptions();
-      $scope.getPublishStates();
 
       var initCategories = true;
       var initSponsor = true;

@@ -71,8 +71,10 @@
         </div>
         <div class="form-group">
           <label for="publish_state" translate="form.document.publishstate.label"></label>
-          <select name="publish_state" ng-model="doc.publish_state"
-            ng-options="state.value for state in publishStates track by state.id">
+          <select name="publish_state" ng-model="doc.publish_state">
+              <option ng-repeat="state in publishStates" value="{{ state }}">
+                  {{ state }}
+              </option>
           </select>
           <small class="help-block" translate="form.document.publishstate.help"></small>
         </div>
