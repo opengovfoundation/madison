@@ -236,7 +236,9 @@ angular.element(document).ready(function () {
       collapseNavMenu);
 
     function collapseNavMenu() {
-      $('.navbar-collapse').collapse('hide');
+      if ($('.navbar-collapse').attr('aria-expanded') === 'true') {
+        $('.navbar-collapse').collapse('hide');
+      }
     }
 });
 

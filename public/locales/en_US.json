@@ -30,6 +30,7 @@
   "footer.tagline": "<ul class=\"for-roles\"><li>for <span class=\"for-role\">Citizens</span></li><li>for <span class=\"for-role\">Authors</span></li><li>for <span class=\"for-role\">Developers</span></li></ul>",
 
   "info.message.outdatedbrowser": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/\" target=\"_blank\">upgrade your browser</a> to improve your experience.",
+  "info.message.mobilebrowser.annotate": "We're currently working on the ability to annotate on mobile browsers. Until then please use a desktop or laptop computer to annotate.",
 
   "form.general.submit": "Submit",
   "form.general.show": "Show",
@@ -385,6 +386,7 @@
 
   "errors.general.load": "There was an error loading your data.  Please try again later.",
   "errors.general.save": "There was an error saving your data.  Please try again later.",
+  "errors.general.unauthorized": "You are not authorized to perform this action.",
   "errors.document.new.notitle": "You must enter a document title to create a new document.",
   "errors.document.new.general": "There was an error submitting the document. Please try again later.",
   "errors.document.new.permissions": "You are not authorized to create documents.  Go to the <a href=\"{{ userLink }}\">Account Settings</a> page to request Independent Sponsor status or the <a href=\"{{ groupLink }}\">Group Management</a> page to create a group.",

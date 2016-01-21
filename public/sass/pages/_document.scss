@@ -112,19 +112,6 @@
     }
 }
 
-@media only screen and (max-width: $screen-sm-min) {
-    // Hide all annotations for now.
-    .annotation-container {
-        display: none;
-    }
-    .annotator-hl {
-        background: transparent !important;
-    }
-    .annotator-outer {
-        display: none;
-    }
-}
-
 .stats {
     text-align: center;
 
@@ -505,12 +492,39 @@ $fallback-height: 350px;
 }
 
 @media only screen and (max-width: $screen-sm-min) {
+    .doc-info .heading {
+        font-size: 2.0625rem;
+        line-height: 2 * $line-height-computed;
+    }
+
     .single-doc {
         .support-oppose-buttons {
             float: none;
         }
         .stats {
             padding-top: $padding-base-vertical;
+        }
+    }
+
+    .doc-content {
+        max-width: 100%;
+
+        blockquote {
+            margin-left: 5px;
+            padding-left: 5px;
+        }
+    }
+
+    .doc-secondary-content {
+        .stats-number {
+            width: 100%;
+            margin-bottom: 0;
+        }
+        .stat-value,
+        .stat-label {
+            font-size: $font-size-base;
+            text-transform: inherit;
+            display: inline-block;
         }
     }
 }
