@@ -136,13 +136,13 @@ class DocumentApiController extends ApiController
         return Response::json($response);
     }
 
-    public function postPrivate($id)
+    public function postPublishState($id)
     {
         $doc = Doc::find($id);
-        $doc->private = Input::get('private');
+        $doc->publish_state = Input::get('publish_state');
         $doc->save();
 
-        $response['messages'][0] = array('text' => 'Document private saved', 'severity' => 'info');
+        $response['messages'][0] = array('text' => 'Document publish state saved', 'severity' => 'info');
 
         return Response::json($response);
     }
@@ -208,16 +208,14 @@ class DocumentApiController extends ApiController
             $docs = Doc::getActive($limit, $offset);
         } else {
             $doc = Doc::getEager()->orderBy($order_field, $order_dir)
-                ->where('private', '!=', '1')
+                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
                 ->where('is_template', '!=', '1');
 
             if (Input::has('category')) {
-                $doc = Doc::getEager()->whereHas('categories', function ($q) {
+                $doc->whereHas('categories', function ($q) {
                     $category = Input::get('category');
                     $q->where('categories.name', 'LIKE', "%$category%");
-                })
-                    ->where('private', '!=', '1')
-                    ->where('is_template', '!=', '1');
+                });
             }
 
             if (isset($limit)) {
@@ -231,8 +229,6 @@ class DocumentApiController extends ApiController
                 $title = Input::get('title');
                 $doc->where('title', 'LIKE', "%$title%");
             }
-
-
 
             $docs = $doc->get();
         }
@@ -256,7 +252,7 @@ class DocumentApiController extends ApiController
     }
 
     public function getDocCount() {
-        $doc = Doc::where('private', '!=', '1')
+        $doc = Doc::where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
             ->where('is_template', '!=', '1');
 
         if (Input::has('category')) {

@@ -21,6 +21,11 @@ angular.module('madisonApp.controllers')
       $scope.categories = [];
       $scope.introtext = "";
       $scope.suggestedCategories = [];
+      $scope.publishStates = [
+        'unpublished',
+        'published',
+        'private'
+      ];
       $scope.suggestedStatuses = [];
       $scope.dates = [];
       $scope.featuredImage = null;
@@ -313,13 +318,13 @@ angular.module('madisonApp.controllers')
           }
         });
 
-        $scope.$watch('doc.private', function () {
+        $scope.$watch('doc.publish_state', function () {
           if (initPrivate) {
             $timeout(function () {
               initPrivate = false;
             });
           } else {
-            $scope.savePrivate();
+            $scope.savePublishState();
           }
         });
 
@@ -406,14 +411,14 @@ angular.module('madisonApp.controllers')
           });
       };
 
-      $scope.savePrivate = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/private',
-            {'private': $scope.doc.private})
+      $scope.savePublishState = function () {
+        return $http.post('/api/docs/' + $scope.doc.id + '/publishstate',
+            {'publish_state': $scope.doc.publish_state})
           .success(function (data) {
-            console.log("Private saved successfully: %o", data);
-          }).error(function (data, status) {
+            console.log("Publish state saved successfully: %o", data);
+          }).error(function (data) {
             if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
-            console.error("Error saving private for document:", data);
+            console.error("Error saving publish state for document:", data);
           });
       };
 
