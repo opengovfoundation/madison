@@ -58,3 +58,18 @@ label {
         }
     }
 }
+
+.delete-button {
+    @extend .fa;
+    @extend .fa-close;
+}
+
+.move-up-button {
+    @extend .fa;
+    @extend .fa-sort-up;
+}
+
+.move-down-button {
+    @extend .fa;
+    @extend .fa-sort-down;
+}

@@ -49,10 +49,15 @@
             placeholder="{{ 'form.document.title.placeholder' | translate }}"/>
         </div>
         <div class="form-group" ng-if="user.admin">
-          <button class="button" ng-class="{'action-button': !doc.featured}"
-            ng-click="tryFeaturedDoc()" ng-disabled="doc.featured">
-            {{ doc.featured ? 'form.document.featured.already' :
-              'form.document.featured.set' | translate }}
+          <button class="button" ng-class="action-button"
+            ng-click="tryFeaturedDoc()" ng-if="!doc.featured"
+            translate="form.document.featured.set">
+          </button>
+          <span ng-if="doc.featured"
+            translate="form.document.featured.already"></span>
+          <button class="button" ng-class="reject-button"
+            ng-click="removeFeaturedDoc()" ng-if="doc.featured"
+            translate="form.general.remove">
           </button>
         </div>
         <div class="form-group">

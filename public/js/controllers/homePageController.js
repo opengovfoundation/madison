@@ -60,7 +60,7 @@ angular.module('madisonApp.controllers')
         $scope.featured = data;
 
         //Parse introtext if it exists
-        for(i in data) {
+        for(var i in data) {
           if(!!data[i].introtext) {
             var converter = new Markdown.Converter();
             $scope.featured[i].introtext = $sce.trustAsHtml(converter.makeHtml(data[i].introtext));

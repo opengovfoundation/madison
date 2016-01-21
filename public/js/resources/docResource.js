@@ -16,6 +16,11 @@ angular.module('madisonApp.resources')
         url: '/api/docs/featured',
         isArray:true
       },
+      removeFeatured: {
+        method: 'DELETE',
+        url: '/api/docs/featured/:id',
+        params: {id: '@id'}
+      },
       getDocCount: {
         method: 'GET',
         url: '/api/docs/count'

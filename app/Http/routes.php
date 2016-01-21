@@ -221,6 +221,8 @@ Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage');
 Route::delete('api/docs/{doc}/featured-image', 'DocumentsController@deleteImage');
 Route::get('api/docs/featured', 'DocumentsController@getFeatured');
 Route::post('api/docs/featured', 'DocumentsController@postFeatured');
+Route::put('api/docs/featured', 'DocumentsController@putFeatured');
+Route::delete('api/docs/featured/{doc}', 'DocumentsController@deleteFeatured');
 Route::get('api/docs/count', 'DocumentApiController@getDocCount');
 Route::get('api/docs/', 'DocumentApiController@getDocs');
 Route::post('api/docs/', 'DocumentApiController@postDocs');

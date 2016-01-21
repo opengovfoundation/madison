@@ -272,6 +272,25 @@ class DocumentsController extends Controller
                 ->where('private', '!=', '1')
                 ->where('is_template', '!=', '1')
                 ->get();
+
+            if($docs) {
+                // Reorder based on our previous list.
+                $tempDocs = array();
+                $orderList = array_flip($featuredIds);
+                foreach($docs as $key=>$doc) {
+                    $tempDocs[(int) $orderList[$doc->id]] = $doc;
+                }
+
+                // If you set the key of an array value as we do above,
+                // PHP will internally store the object as an associative
+                // array (hash), not as a list, and will return the elements
+                // in the order assigned, not by the key order.
+                // This means our attempt to re-order the object will fail.
+                // The line below will restore the order. Ugh.
+                ksort($tempDocs);
+                $docs = $tempDocs;
+
+            }
         }
 
         // If we don't have a document, just find anything recent.
@@ -320,12 +339,61 @@ class DocumentsController extends Controller
 
         try {
             $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
-            $featuredSetting->meta_value = $docId;
+
+            $docs = explode(',', $featuredSetting->meta_value);
+
+            if(!in_array($docId, $docs)) {
+                array_unshift($docs, $docId);
+            }
+            $featuredSetting->meta_value = join(',', $docs);
             $featuredSetting->save();
         } catch (Exception $e) {
             return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
         }
 
         return Response::json($this->growlMessage('Featured Document saved successfully.', 'success'));
+    }
+
+    public function putFeatured()
+    {
+        if (!Auth::user()->hasRole('Admin')) {
+            return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
+        }
+
+        $docs = Input::get('docs');
+
+        try {
+            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+            $featuredSetting->meta_value = $docs;
+            $featuredSetting->save();
+        } catch (Exception $e) {
+            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        }
+
+        return Response::json($this->growlMessage('Featured document order saved successfully.', 'success'));
+    }
+
+    public function deleteFeatured($docId)
+    {
+        if (!Auth::user()->hasRole('Admin')) {
+            return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
+        }
+
+        try {
+            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+            $docs = explode(',', $featuredSetting->meta_value);
+
+            if(in_array($docId, $docs)) {
+                $docs = array_diff($docs, array($docId));
+            }
+            $featuredSetting->meta_value = join(',', $docs);
+            $featuredSetting->save();
+        } catch (Exception $e) {
+            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        }
+
+        return $this->getFeatured();
     }
 }
