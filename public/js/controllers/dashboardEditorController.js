@@ -21,6 +21,11 @@ angular.module('madisonApp.controllers')
       $scope.categories = [];
       $scope.introtext = "";
       $scope.suggestedCategories = [];
+      $scope.publishStates = [
+        'unpublished',
+        'published',
+        'private'
+      ];
       $scope.suggestedStatuses = [];
       $scope.dates = [];
       $scope.featuredImage = null;
@@ -313,13 +318,13 @@ angular.module('madisonApp.controllers')
           }
         });
 
-        $scope.$watch('doc.private', function () {
+        $scope.$watch('doc.publish_state', function () {
           if (initPrivate) {
             $timeout(function () {
               initPrivate = false;
             });
           } else {
-            $scope.savePrivate();
+            $scope.savePublishState();
           }
         });
 
@@ -400,18 +405,20 @@ angular.module('madisonApp.controllers')
             {'title': $scope.doc.title})
           .success(function (data) {
             console.log("Title saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving title for document:", data);
           });
       };
 
-      $scope.savePrivate = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/private',
-            {'private': $scope.doc.private})
+      $scope.savePublishState = function () {
+        return $http.post('/api/docs/' + $scope.doc.id + '/publishstate',
+            {'publish_state': $scope.doc.publish_state})
           .success(function (data) {
-            console.log("Private saved successfully: %o", data);
+            console.log("Publish state saved successfully: %o", data);
           }).error(function (data) {
-            console.error("Error saving private for document:", data);
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
+            console.error("Error saving publish state for document:", data);
           });
       };
 
@@ -420,7 +427,8 @@ angular.module('madisonApp.controllers')
             {'slug': $scope.doc.slug})
           .success(function (data) {
             console.log("Slug sent: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving slug for document:", data);
           });
       };
@@ -430,7 +438,8 @@ angular.module('madisonApp.controllers')
             {'content': $scope.doc.content.content})
           .success(function (data) {
             console.log("Content saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving content for document:", data);
           });
       };
@@ -451,7 +460,8 @@ angular.module('madisonApp.controllers')
                 label: '',
                 date: new Date()
               };
-            }).error(function (data) {
+            }).error(function (data, status) {
+              if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
               console.error("Unable to save date: %o", data);
             });
         }
@@ -477,7 +487,8 @@ angular.module('madisonApp.controllers')
           .success(function (data) {
             date.$changed = false;
             console.log("Date saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Unable to save date: %o (%o)", date, data);
           });
       };
@@ -587,7 +598,8 @@ angular.module('madisonApp.controllers')
         })
           .success(function (data) {
             console.log("Status saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving status: %o", data);
           });
       };
@@ -598,7 +610,8 @@ angular.module('madisonApp.controllers')
         })
           .success(function (data) {
             console.log("Sponsor saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving sponsor: %o", data);
           });
       };
@@ -609,7 +622,8 @@ angular.module('madisonApp.controllers')
         })
           .success(function (data) {
             console.log("Categories saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving categories for document %o: %o \n %o",
               $scope.doc, $scope.categories, data);
           });
@@ -622,7 +636,8 @@ angular.module('madisonApp.controllers')
         })
           .success(function (data) {
             console.log("Intro Text saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving intro text for document %o: %o",
               $scope.doc, $scope.introtext);
           });
@@ -682,6 +697,8 @@ angular.module('madisonApp.controllers')
             .success(function () {
               $scope.featuredImage = null;
               $scope.doc.thumbnail = null;
+            }).error(function(data, status) {
+              if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             });
         }
       };

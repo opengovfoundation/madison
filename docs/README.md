@@ -71,6 +71,10 @@ Administering Madison is pretty simple at this stage of the project.  Any Madiso
 * `Edit Documents`
   * Administrators have access to all documents in Madison.  This option will display all documents with links to the document editor for each.
   * The option to create new documents is found at the bottom of this page.
+  * When choosing the "publish state" of a document, the following rules apply:
+    * *Published*: Publicly viewable and listed in the front page index
+    * *Unpublished*: Only accessible by the sponsor of the document
+    * *Private*: Not listed on the front page, but accessible by anyone who has the direct link
 * `Verify Accounts`
   * Verified users are presented as such on the public facing side of the application.  This is a way to separate notable accounts from the average registrant.
   * Users request verified status from their `Account Settings` page and must be approved by a site admin.
