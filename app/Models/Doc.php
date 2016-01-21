@@ -98,6 +98,33 @@ class Doc extends Model
         return false;
     }
 
+    public function canUserView($user)
+    {
+        $sponsor = $this->sponsor->first();
+
+        if (in_array(
+            $this->publish_state,
+            [Doc::PUBLISH_STATE_PUBLISHED, Doc::PUBLISH_STATE_PRIVATE]
+        )) {
+            return true;
+        }
+
+        if ($user) {
+            if ($user->hasRole('Admin')) {
+                return true;
+            }
+
+            if (
+                $this->publish_state == Doc::PUBLISH_STATE_UNPUBLISHED
+                && $this->canUserEdit($user)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function sponsor()
     {
         $sponsor = $this->belongsToMany('App\Models\Group')->first();
