@@ -754,11 +754,27 @@ angular.module('madisonApp.controllers')
       };
 
       $scope._setFeaturedDoc = function () {
-        return $http.post('/api/docs/featured', {id: $scope.doc.id});
+        $http.post('/api/docs/featured', {id: $scope.doc.id}).then(function(data) {
+          checkFeatured(data.data);
+        });
       };
 
       $scope.removeFeaturedDoc = function() {
-        return $http.delete('/api/docs/featured/' + $scope.doc.id);
+        $http.delete('/api/docs/featured/' + $scope.doc.id).then(function(data) {
+          checkFeatured(data.data);
+        });
       };
+
+      function checkFeatured(data) {
+        console.log(data);
+        for(var i in data) {
+          if($scope.doc.id == data[i].id) {
+            $scope.doc.featured = true;
+            return;
+          }
+        }
+
+        $scope.doc.featured = false;
+      }
     }
     ]);

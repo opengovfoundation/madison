@@ -351,7 +351,7 @@ class DocumentsController extends Controller
             return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
         }
 
-        return Response::json($this->growlMessage('Featured Document saved successfully.', 'success'));
+        return $this->getFeatured();
     }
 
     public function putFeatured()
@@ -371,7 +371,7 @@ class DocumentsController extends Controller
             return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
         }
 
-        return Response::json($this->growlMessage('Featured document order saved successfully.', 'success'));
+        return $this->getFeatured();
     }
 
     public function deleteFeatured($docId)

@@ -160,7 +160,7 @@
   "form.featureddoc.order": "Order",
   "form.featureddoc.title": "Title",
   "form.featureddoc.delete": "Delete",
-  "form.featureddoc.nodocs": "There are no featured documents at this time.  Please feature new documents from the document edit page.",
+  "form.featureddoc.nodocs": "There are no featured documents at this time. The most recent document will show up in the featured area instead. Please feature new documents from the document edit page.",
 
   "form.group.memberslink": "If you would like to manage the members of your group, <a href=\"/groups/{{ groupid }}/members\">click here</a>",
   "form.group.name.label": "Group Name",
