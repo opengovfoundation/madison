@@ -766,7 +766,6 @@ angular.module('madisonApp.controllers')
       };
 
       function checkFeatured(data) {
-        console.log(data);
         for(var i in data) {
           if($scope.doc.id == data[i].id) {
             $scope.doc.featured = true;
