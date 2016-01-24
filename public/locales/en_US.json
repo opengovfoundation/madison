@@ -237,6 +237,14 @@
   "document.label.text": "Document Text",
   "document.label.comments": "Comments",
 
+  "document.pagination.page": "Page",
+  "document.pagination.current": "Page {{currentPage}} of {{pages}}",
+  "document.pagination.previous": "Previous page",
+  "document.pagination.next": "Next page",
+  "document.pagination.goto": "Go to page {{page}}",
+  "document.pagination.add": "Add new page",
+  "document.pagination.delete": "Delete current page",
+
   "annotations.label.none": "No annotations yet. Add your own!",
   "annotations.label.count": "{{count}}",
   "annotations.label.collaborators": "{count} {count, plural, one{collaborator} other{collaborators}}",

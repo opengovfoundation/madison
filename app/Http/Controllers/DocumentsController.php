@@ -33,7 +33,10 @@ class DocumentsController extends Controller
     public function getDocumentContent($id)
     {
         $page = Input::get('page', 1);
-        $format = Input::get('format', 'html');
+        $format = Input::get('format');
+        if(!$format) {
+            $format = 'html';
+        }
 
         $docContent = DocContent::where('doc_id', $id)->
             limit(1)->offset($page - 1)->first();
