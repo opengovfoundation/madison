@@ -14,10 +14,14 @@ class PaginateDocuments extends Migration
     {
         Schema::table('doc_contents', function(Blueprint $table)
         {
-          $table->mediumtext('content')->change();
-          $table->integer('page')->default(1);
-          $table->index('page');
+            // This next line isn't working, it's being ignored.
+            // $table->mediumtext('content')->change();
+            $table->integer('page')->default(1);
+            $table->index('page');
         });
+
+        // Run a raw query since the change command above won't work.
+        DB::statement('ALTER TABLE doc_contents CHANGE content content MEDIUMTEXT COLLATE utf8_unicode_ci NOT NULL;');
 
         Schema::table('annotations', function(Blueprint $table)
         {
@@ -37,8 +41,12 @@ class PaginateDocuments extends Migration
         {
             $table->dropIndex('doc_contents_page_index');
             $table->dropColumn('page');
-            $table->text('content')->change();
+            // This next line isn't working, it's being ignored.
+            // $table->text('content')->change();
         });
+
+        // Run a raw query since the change command above won't work.
+        DB::statement('ALTER TABLE doc_contents CHANGE content content TEXT COLLATE utf8_unicode_ci NOT NULL;');
 
         Schema::table('annotations', function(Blueprint $table)
         {
