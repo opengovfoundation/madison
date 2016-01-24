@@ -284,7 +284,7 @@ class Doc extends Model
 
     public function content()
     {
-        return $this->hasOne('App\Models\DocContent');
+        return $this->hasMany('App\Models\DocContent');
     }
 
     public function doc_meta()
