@@ -3,9 +3,9 @@
 angular.module('madisonApp.controllers')
   .controller('DashboardEditorController', ['$scope', '$http', '$timeout',
       '$location', '$filter', 'growl', '$upload', 'modalService', 'Doc',
-      '$translate', 'pageService', 'SITE',
+      '$translate', 'pageService', '$state', 'SITE',
     function ($scope, $http, $timeout, $location, $filter, growl, $upload,
-      modalService, Doc, $translate, pageService, SITE) {
+      modalService, Doc, $translate, pageService, $state, SITE) {
 
       pageService.setTitle($translate.instant('content.editdocument.title',
         {title: SITE.name}));
@@ -752,6 +752,30 @@ angular.module('madisonApp.controllers')
 
       $scope._setFeaturedDoc = function () {
         return $http.post('/api/docs/featured', {id: $scope.doc.id});
+      };
+
+      $scope.deleteDocument = function() {
+        var modalOptions = {
+          closeButtonText:
+            $translate.instant('form.general.cancel'),
+          actionButtonText:
+            $translate.instant('form.document.delete'),
+          headerText:
+            $translate.instant('form.document.delete.confirm'),
+          bodyText:
+            $translate.instant('form.document.delete.confirm.body')
+        };
+
+        modalService.showModal({}, modalOptions)
+        .then(function() {
+          $http.delete('/api/docs/' + $scope.doc.id)
+          .success(function() {
+            growl.success($translate.instant('document.delete.success'));
+            $state.go('my-documents');
+          }).error(function() {
+            growl.error($translate.instant('errors.document.delete'));
+          });
+        });
       };
     }
     ]);

@@ -117,3 +117,9 @@
         margin-top: 0;
     }
 }
+
+.delete-document-button {
+    @extend .button;
+    @extend .danger-button;
+    @extend .action-button;
+}

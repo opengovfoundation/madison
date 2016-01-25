@@ -155,6 +155,10 @@
   "form.document.datelabel.placeholder": "Date Label",
   "form.document.createas.label": "Sponsor as",
   "form.document.createas.independentsponsor": "Myself",
+  "form.document.delete": "Delete Document",
+  "form.document.delete.confirm": "Really delete the document?",
+  "form.document.delete.confirm.body": "This will also remove any annotations and comments associated with the document. You will be able to restore it if you choose.",
+  "form.document.delete.success": "Document successfully deleted",
 
   "form.group.memberslink": "If you would like to manage the members of your group, <a href=\"/groups/{{ groupid }}/members\">click here</a>",
   "form.group.name.label": "Group Name",
@@ -396,6 +400,7 @@
   "errors.document.edit.imagerequired": "You cannot delete the image of a Featured Document",
   "errors.document.edit.unfeatured": "Are you sure you want to unset this as the Featured Document?",
   "errors.document.edit.multiplefeatured": "A Featured Document is already set.  Are you sure you want to change the Featured Document?",
+  "errors.document.delete": "There was an error deleting this document.",
   "errors.resetpassword.passwordmatch": "The passwords do not match.",
   "errors.resetpassword.general": "There was an error resetting your password.  Please try again later."
 }
