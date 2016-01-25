@@ -27,6 +27,8 @@ class Doc extends Model
     const PUBLISH_STATE_PUBLISHED = 'published';
     const PUBLISH_STATE_UNPUBLISHED = 'unpublished';
     const PUBLISH_STATE_PRIVATE = 'private';
+    const PUBLISH_STATE_DELETED_ADMIN = 'deleted-admin';
+    const PUBLISH_STATE_DELETED_USER = 'deleted-user';
 
     public function __construct()
     {

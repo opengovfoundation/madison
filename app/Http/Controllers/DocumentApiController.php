@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\Doc;
 use App\Models\DocMeta;
 use App\Models\DocContent;
+use App\Models\Annotation;
+use App\Models\Comment;
 use App\Models\Category;
 use App\Models\MadisonEvent;
 
@@ -182,7 +184,54 @@ class DocumentApiController extends ApiController
         return Response::json($response);
     }
 
-    public function getDocs()
+    public function deleteDoc($docId)
+    {
+        $delete_as_admin = Input::get('admin', false);
+
+        $doc = Doc::find($docId);
+        if (!$doc) return response('Not found.', 404);
+
+        if ($delete_as_admin) {
+            $doc->publish_state = Doc::PUBLISH_STATE_DELETED_ADMIN;
+        } else {
+            $doc->publish_state = Doc::PUBLISH_STATE_DELETED_USER;
+        }
+
+        $doc->save();
+
+        $doc->comments()->delete();
+        $doc->annotations()->delete();
+        $doc->doc_meta()->delete();
+        $doc->content()->delete();
+
+        $result = $doc->delete();
+
+        return Response::json($result);
+    }
+
+    public function restoreDoc($docId)
+    {
+        $doc = Doc::withTrashed()->find($docId);
+
+        if ($doc->publish_state == Doc::PUBLISH_STATE_DELETED_ADMIN) {
+            if (!Auth::user()->isAdmin()) {
+                return Response('Unauthorized.', 403);
+            }
+        }
+
+        DocMeta::withTrashed()->where('doc_id', $docId)->restore();
+        DocContent::withTrashed()->where('doc_id', $docId)->restore();
+        Annotation::withTrashed()->where('doc_id', $docId)->restore();
+        Comment::withTrashed()->where('doc_id', $docId)->restore();
+
+        $doc->restore();
+        $doc->publish_state = Doc::PUBLISH_STATE_UNPUBLISHED;
+        $doc->save();
+
+        return Response::json($doc);
+    }
+
+    public function getDocs($state = null)
     {
         // Handle order by.
         $order_field = Input::get('order', 'updated_at');
@@ -208,8 +257,15 @@ class DocumentApiController extends ApiController
             $docs = Doc::getActive($limit, $offset);
         } else {
             $doc = Doc::getEager()->orderBy($order_field, $order_dir)
-                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
                 ->where('is_template', '!=', '1');
+
+            if (isset($state) && $state == 'all') {
+                if (!Auth::check() || !Auth::user()->hasRole('Admin')) {
+                    return response('Unauthorized.', 403);
+                }
+            } else {
+                $doc->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED);
+            }
 
             if (Input::has('category')) {
                 $doc->whereHas('categories', function ($q) {
