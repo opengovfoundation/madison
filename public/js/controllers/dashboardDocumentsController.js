@@ -29,7 +29,7 @@ angular.module('madisonApp.controllers')
       };
 
       //Retrieve all docs
-      $http.get('/api/docs')
+      $http.get('/api/docs/all')
         .success(function (data) {
           $scope.parseDocs(data);
         })
