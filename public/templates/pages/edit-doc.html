@@ -22,11 +22,36 @@
     <!-- Start document content tab -->
     <section id="tab-content" class="tab-pane document-edit-tab active">
 
+      <nav class="pagination">
+        <span translate="document.pagination.page"></span>
+        <ol>
+          <li ng-repeat="i in range(1, doc.pages)" role="button"
+            aria-label="'document.pagination.goto' | translate:'{page: i}'"
+            ng-class="{active: i == currentPage}"
+            ng-click="loadPage(i)">{{i}}</li>
+        </ol>
+        <span class="add-button" role="button" ng-click="addPage()"
+          aria-label="'document.pagination.add' | translate"></span>
+      </nav>
+
       <small translate="content.editdocument.savemessage"></small>
       <div class="doc-content-editor">
+
         <div id="wmd-button-bar"></div>
+        <div class="character-count"
+          ng-class="{'has-error': docContent.length > contentMax, 'has-warning': docContent.length >= contentWarning}">
+          <span class="help-block"
+            translate="form.document.content.charactercount"
+            translate-values="{count: docContent.length, max: contentMax}"
+            >
+          </span>
+          <span class="warning-icon" ng-if="docContent.length >= contentWarning"
+            title="{{'errors.document.content.lengthwarning' | translate}}"></span>
+          <span class="error-icon" ng-if="docContent.length >= contentMax"
+            title="{{'errors.document.content.lengtherror' | translate}}"></span>
+        </div>
         <textarea class="wmd-input" id="wmd-input" name="content"
-          ng-model="doc.content.content"></textarea>
+          ng-model="docContent"></textarea>
         <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
       </div>
       <div class="doc-content-helpers">
@@ -35,6 +60,8 @@
           ></a></small></p>
         <button class="save-document-button" ng-click="saveContent()"
           translate="form.general.savenow"></button>
+        <button class="delete-page-button" ng-click=""
+          translate="document.pagination.delete"></button>
       </div>
     </section>
     <!-- End document content tab -->
@@ -49,10 +76,15 @@
             placeholder="{{ 'form.document.title.placeholder' | translate }}"/>
         </div>
         <div class="form-group" ng-if="user.admin">
-          <button class="button" ng-class="{'action-button': !doc.featured}"
-            ng-click="tryFeaturedDoc()" ng-disabled="doc.featured">
-            {{ doc.featured ? 'form.document.featured.already' :
-              'form.document.featured.set' | translate }}
+          <button class="button" ng-class="action-button"
+            ng-click="tryFeaturedDoc()" ng-if="!doc.featured"
+            translate="form.document.featured.set">
+          </button>
+          <span ng-if="doc.featured"
+            translate="form.document.featured.already"></span>
+          <button class="button" ng-class="reject-button"
+            ng-click="removeFeaturedDoc()" ng-if="doc.featured"
+            translate="form.general.remove">
           </button>
         </div>
         <div class="form-group">
@@ -70,12 +102,13 @@
             data-placeholder="">
         </div>
         <div class="form-group">
-          <label for="private" translate="form.document.private.label"></label>
-          <input type="checkbox" name="private" id="private"
-            value="{{ doc.private }}" ng-model="doc.private"
-            class="checkbox" ng-true-value="1" ng-false-value="0"
-            ng-checked="doc.private == 1"/>
-          <small class="help-block" translate="form.document.private.help"></small>
+          <label for="publish_state" translate="form.document.publishstate.label"></label>
+          <select name="publish_state" ng-model="doc.publish_state">
+              <option ng-repeat="state in publishStates" value="{{ state }}">
+                  {{ state }}
+              </option>
+          </select>
+          <small class="help-block" translate="form.document.publishstate.help"></small>
         </div>
         <div class="form-group">
           <label for="sponsor" translate="form.document.sponsor.label"></label>

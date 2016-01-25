@@ -30,7 +30,9 @@ class DocumentApiController extends ApiController
     {
         $doc_id = $doc;
 
-        $doc = Doc::with('content')->with('categories')->with('introtext')->where('is_template', '!=', '1')->find($doc);
+        $doc = Doc::with('categories')->find($doc);
+        $doc->introtext = $doc->introtext()->first()['meta_value'];
+        $doc->enableCounts();
 
         // We have to manually json_encode this instead of using Response::json
         // because the encoding is inconsistent for integers between PHP
@@ -136,13 +138,13 @@ class DocumentApiController extends ApiController
         return Response::json($response);
     }
 
-    public function postPrivate($id)
+    public function postPublishState($id)
     {
         $doc = Doc::find($id);
-        $doc->private = Input::get('private');
+        $doc->publish_state = Input::get('publish_state');
         $doc->save();
 
-        $response['messages'][0] = array('text' => 'Document private saved', 'severity' => 'info');
+        $response['messages'][0] = array('text' => 'Document publish state saved', 'severity' => 'info');
 
         return Response::json($response);
     }
@@ -166,20 +168,59 @@ class DocumentApiController extends ApiController
         return Response::json($response);
     }
 
-    public function postContent($id)
+    public function postContent($docId)
     {
-        $doc = Doc::find($id);
-        $doc_content = DocContent::firstOrCreate(array('doc_id' => $doc->id));
-        $doc_content->content = Input::get('content');
-        $doc_content->save();
-        $doc->content(array($doc_content));
-        $doc->save();
+        $doc = Doc::find($docId);
 
-        Event::fire(MadisonEvent::DOC_EDITED, $doc);
+        if($doc) {
+            $last_page = DocContent::where('doc_id', $docId)->max('page');
+            if(!$last_page) {
+                $last_page = 0;
+            }
 
-        $response['messages'][0] = array('text' => 'Document content saved', 'severity' => 'info');
+            $doc_content = new DocContent();
+            $doc_content->content = Input::get('content', '');
+            $doc_content->page = $last_page + 1;
+            $doc->content()->save($doc_content);
 
-        return Response::json($response);
+            Event::fire(MadisonEvent::DOC_EDITED, $doc);
+
+            return Response::json($doc_content->toArray());
+        }
+    }
+
+
+    public function putContent($docId, $page)
+    {
+        $doc_content = DocContent::where('doc_id', $docId)
+            ->where('page', $page)->first();
+
+        if($doc_content) {
+            $doc_content->content = Input::get('content', '');
+            $doc_content->save();
+
+            Event::fire(MadisonEvent::DOC_EDITED, Doc::find($docId));
+
+            return Response::json($doc_content->toArray());
+        }
+    }
+
+    public function deleteContent($docId, $page)
+    {
+        $doc_content = DocContent::where('doc_id', $docId)
+            ->where('page', $page)->first();
+        if($doc_content) {
+            $doc_content->delete();
+
+            DocContent::where('doc_id', $docId)
+                ->where('page', '>', $page)
+                ->decrement('page');
+
+            $doc = Doc::find($docId)->enableCounts();
+            Event::fire(MadisonEvent::DOC_EDITED, $doc);
+
+            return Response::json($doc->toArray());
+        }
     }
 
     public function getDocs()
@@ -208,16 +249,14 @@ class DocumentApiController extends ApiController
             $docs = Doc::getActive($limit, $offset);
         } else {
             $doc = Doc::getEager()->orderBy($order_field, $order_dir)
-                ->where('private', '!=', '1')
+                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
                 ->where('is_template', '!=', '1');
 
             if (Input::has('category')) {
-                $doc = Doc::getEager()->whereHas('categories', function ($q) {
+                $doc->whereHas('categories', function ($q) {
                     $category = Input::get('category');
                     $q->where('categories.name', 'LIKE', "%$category%");
-                })
-                    ->where('private', '!=', '1')
-                    ->where('is_template', '!=', '1');
+                });
             }
 
             if (isset($limit)) {
@@ -231,8 +270,6 @@ class DocumentApiController extends ApiController
                 $title = Input::get('title');
                 $doc->where('title', 'LIKE', "%$title%");
             }
-
-
 
             $docs = $doc->get();
         }
@@ -256,7 +293,7 @@ class DocumentApiController extends ApiController
     }
 
     public function getDocCount() {
-        $doc = Doc::where('private', '!=', '1')
+        $doc = Doc::where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
             ->where('is_template', '!=', '1');
 
         if (Input::has('category')) {

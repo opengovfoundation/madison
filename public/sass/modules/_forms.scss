@@ -58,3 +58,30 @@ label {
         }
     }
 }
+
+.delete-button {
+    @extend .fa;
+    @extend .fa-close;
+}
+
+.move-up-button {
+    @extend .fa;
+    @extend .fa-sort-up;
+}
+
+.move-down-button {
+    @extend .fa;
+    @extend .fa-sort-down;
+}
+
+.warning-icon {
+    @extend .fa;
+    @extend .fa-exclamation-triangle;
+    color: $yellow;
+}
+
+.error-icon {
+    @extend .fa;
+    @extend .fa-exclamation-circle;
+    color: $red;
+}

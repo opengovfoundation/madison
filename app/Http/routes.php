@@ -122,9 +122,9 @@ Route::put('api/groups/{groupId}/members/{memberId}', 'GroupsController@putMembe
 
 //Document Routes
 Route::get('docs', 'DocController@index');
-Route::get('docs/{slug}', 'DocController@index');
-Route::get('docs/embed/{slug}', 'DocController@getEmbedded');
-Route::get('api/docs/{slug}/feed', 'DocController@getFeed');
+Route::get('docs/{slug}', 'DocController@index')->middleware(['doc.access.read']);
+Route::get('docs/embed/{slug}', 'DocController@getEmbedded')->middleware(['doc.access.read']);
+Route::get('api/docs/{slug}/feed', 'DocController@getFeed')->middleware(['doc.access.read']);
 Route::get('documents/search', 'DocumentsController@getSearch');
 Route::get('documents', 'DocumentsController@listDocuments');
 Route::get('documents/view/{documentId}', 'DocumentsController@viewDocument');
@@ -132,7 +132,7 @@ Route::get('documents/edit/{documentId}', 'DocumentsController@editDocument');
 Route::put('documents/edit/{documentId}', 'DocumentsController@saveDocumentEdits');
 Route::post('documents/create', 'DocumentsController@createDocument');
 Route::post('documents/save', 'DocumentsController@saveDocument');
-Route::delete('/documents/delete/{slug}', 'DocumentsController@deleteDocument');
+Route::delete('/documents/delete/{slug}', 'DocumentsController@deleteDocument')->middleware(['doc.access.edit']);
 
 //User Routes
 Route::get('user/{user}', 'UserController@getIndex');
@@ -171,27 +171,27 @@ Route::get('api/docs/{doc}/annotations/{annotation}/comments/{comment}', 'Annota
 
 //Annotation Routes
 Route::get('api/annotations/search', 'AnnotationApiController@getSearch');
-Route::get('api/docs/{doc}/annotations/{annotation?}', 'AnnotationApiController@getIndex');
+Route::get('api/docs/{doc}/annotations/{annotation?}', 'AnnotationApiController@getIndex')->middleware(['doc.access.read']);
 Route::post('api/docs/{doc}/annotations', 'AnnotationApiController@postIndex');
 Route::put('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@putIndex');
 Route::delete('api/docs/{doc}/annotations/{annotation}', 'AnnotationApiController@deleteIndex');
 
 //Document Routes
-Route::get('api/docs/slug/{slug}', 'DocumentsController@getDocument');
-Route::get('api/docs/{doc}/content', 'DocumentsController@getDocumentContent');
+Route::get('api/docs/slug/{slug}', 'DocumentsController@getDocument')->middleware(['doc.access.read']);
+Route::get('api/docs/{doc}/content', 'DocumentsController@getDocumentContent')->middleware(['doc.access.read']);
 
 //Document Comment Routes
-Route::post('api/docs/{doc}/comments', 'CommentApiController@postIndex');
-Route::get('api/docs/{doc}/comments', 'CommentApiController@getIndex');
-Route::get('api/docs/{doc}/comments/{comment?}', 'CommentApiController@getComment');
-Route::post('api/docs/{doc}/comments/{comment}/likes', 'CommentApiController@postLikes');
-Route::post('api/docs/{doc}/comments/{comment}/flags', 'CommentApiController@postFlags');
-Route::post('api/docs/{doc}/comments/{comment}/comments', 'CommentApiController@postComments');
-Route::post('api/docs/{doc}/comments/{comment}/seen', 'CommentApiController@postSeen');
+Route::post('api/docs/{doc}/comments', 'CommentApiController@postIndex')->middleware(['doc.access.read']);
+Route::get('api/docs/{doc}/comments', 'CommentApiController@getIndex')->middleware(['doc.access.read']);;
+Route::get('api/docs/{doc}/comments/{comment?}', 'CommentApiController@getComment')->middleware(['doc.access.read']);
+Route::post('api/docs/{doc}/comments/{comment}/likes', 'CommentApiController@postLikes')->middleware(['doc.access.read']);
+Route::post('api/docs/{doc}/comments/{comment}/flags', 'CommentApiController@postFlags')->middleware(['doc.access.read']);
+Route::post('api/docs/{doc}/comments/{comment}/comments', 'CommentApiController@postComments')->middleware(['doc.access.read']);
+Route::post('api/docs/{doc}/comments/{comment}/seen', 'CommentApiController@postSeen')->middleware(['doc.access.read']);
 
 //Document Support / Oppose routes
-Route::post('api/docs/{doc}/support/', 'DocController@postSupport');
-Route::get('api/users/{user}/support/{doc}', 'UserApiController@getSupport');
+Route::post('api/docs/{doc}/support/', 'DocController@postSupport')->middleware(['doc.access.read']);
+Route::get('api/users/{user}/support/{doc}', 'UserApiController@getSupport')->middleware(['doc.access.read']);
 
 //Document Api Routes
 Route::get('api/docs/recent/{query?}', 'DocumentApiController@getRecent')->where('query', '[0-9]+');
@@ -199,31 +199,41 @@ Route::get('api/docs/active/{query?}', 'DocumentsController@getActive')->where('
 Route::get('api/docs/categories', 'DocumentApiController@getCategories');
 Route::get('api/docs/statuses', 'DocumentApiController@getAllStatuses');
 Route::get('api/docs/sponsors', 'DocumentApiController@getAllSponsors');
-Route::get('api/docs/{doc}/categories', 'DocumentApiController@getCategories');
-Route::post('api/docs/{doc}/categories', 'DocumentApiController@postCategories');
-Route::get('api/docs/{doc}/introtext', 'DocumentApiController@getIntroText');
-Route::post('api/docs/{doc}/introtext', 'DocumentApiController@postIntroText');
-Route::get('api/docs/{doc}/sponsor/{sponsor}', 'DocumentApiController@hasSponsor');
-Route::get('api/docs/{doc}/sponsor', 'DocumentApiController@getSponsor');
-Route::post('api/docs/{doc}/sponsor', 'DocumentApiController@postSponsor');
-Route::get('api/docs/{doc}/status', 'DocumentApiController@getStatus');
-Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus');
-Route::get('api/docs/{doc}/dates', 'DocumentApiController@getDates');
-Route::post('api/docs/{doc}/dates', 'DocumentApiController@postDate');
-Route::put('api/dates/{date}', 'DocumentApiController@putDate');
-Route::delete('api/docs/{doc}/dates/{date}', 'DocumentApiController@deleteDate');
-Route::get('api/docs/{doc}', 'DocumentApiController@getDoc');
-Route::post('api/docs/{doc}/title', 'DocumentApiController@postTitle');
-Route::post('api/docs/{doc}/private', 'DocumentApiController@postPrivate');
-Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug');
-Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent');
-Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage');
-Route::delete('api/docs/{doc}/featured-image', 'DocumentsController@deleteImage');
 Route::get('api/docs/featured', 'DocumentsController@getFeatured');
-Route::post('api/docs/featured', 'DocumentsController@postFeatured');
+
 Route::get('api/docs/count', 'DocumentApiController@getDocCount');
 Route::get('api/docs/', 'DocumentApiController@getDocs');
+Route::put('api/dates/{date}', 'DocumentApiController@putDate');
+
+Route::post('api/docs/featured', 'DocumentsController@postFeatured');
+Route::put('api/docs/featured', 'DocumentsController@putFeatured');
+Route::delete('api/docs/featured/{doc}', 'DocumentsController@deleteFeatured');
+
+Route::get('api/docs/{doc}/categories', 'DocumentApiController@getCategories')->middleware(['doc.access.read']);
+Route::get('api/docs/{doc}/introtext', 'DocumentApiController@getIntroText')->middleware(['doc.access.read']);
+Route::get('api/docs/{doc}/sponsor/{sponsor}', 'DocumentApiController@hasSponsor')->middleware(['doc.access.read']);
+Route::get('api/docs/{doc}/sponsor', 'DocumentApiController@getSponsor')->middleware(['doc.access.read']);
+Route::get('api/docs/{doc}/status', 'DocumentApiController@getStatus')->middleware(['doc.access.read']);
+Route::get('api/docs/{doc}/dates', 'DocumentApiController@getDates')->middleware(['doc.access.read']);
+Route::get('api/docs/{doc}', 'DocumentApiController@getDoc')->middleware(['doc.access.read']);
+
 Route::post('api/docs/', 'DocumentApiController@postDocs');
+Route::post('api/docs/{doc}/introtext', 'DocumentApiController@postIntroText')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/title', 'DocumentApiController@postTitle')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/sponsor', 'DocumentApiController@postSponsor')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/publishstate', 'DocumentApiController@postPublishState')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent')->middleware(['doc.access.edit']);
+Route::put('api/docs/{doc}/content/{page}', 'DocumentApiController@putContent')->middleware(['doc.access.edit']);
+Route::delete('api/docs/{doc}/content/{page}', 'DocumentApiController@deleteContent')->middleware(['doc.access.edit']);
+
+Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus')->middleware(['doc.access.edit']);
+Route::delete('api/docs/{doc}/featured-image', 'DocumentsController@deleteImage')->middleware(['doc.access.edit']);
+Route::delete('api/docs/{doc}/dates/{date}', 'DocumentApiController@deleteDate')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/dates', 'DocumentApiController@postDate')->middleware(['doc.access.edit']);
+Route::post('api/docs/{doc}/categories', 'DocumentApiController@postCategories')->middleware(['doc.access.edit']);
+
 
 //User Routes
 Route::get('api/user/{user}', 'UserApiController@getUser');

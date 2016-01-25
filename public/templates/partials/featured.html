@@ -1,60 +1,64 @@
 <div class="home-feature">
-    <article class="main-feature hentry doc doc-full" ng-if="featured"
-        ng-class="{'has-image' : featured.thumbnail}"
-        style="background-image: url({{ featured.thumbnail }})">
+    <div class="home-feature-list" ng-if="featured.length">
+        <article class="main-feature hentry doc doc-full"
+            ng-repeat="(i, doc) in featured"
+            ng-class="{'has-image' : doc.thumbnail}"
+            style="background-image: url({{ doc.thumbnail }})">
 
-        <header class="doc-info">
-            <h2 class="heading entry-title">
-                <a class="" href="{{ featured.url }}" rel="bookmark"
-                    title="{{ 'document.interface.readmoretitle' | translate:{title:featured.title} }}"
-                    >{{ featured.title }}</a>
-            </h2>
+            <header class="doc-info">
+                <h2 class="heading entry-title">
+                    <a class="" href="{{ doc.url }}" rel="bookmark"
+                        title="{{ 'document.interface.readmoretitle' | translate:{title:doc.title} }}"
+                        >{{ doc.title }}</a>
+                </h2>
 
-            <div class="doc-sponsor" ng-if="featured.sponsor">
-                <span translate="document.label.sponsoredby"></span>
-                <ul>
-                  <li ng-repeat="sponsor in featured.sponsor" class="author"
-                    translate="{{ sponsor.display_name }}">
-                  </li>
-                </ul>
+                <div class="doc-sponsor" ng-if="doc.sponsor">
+                    <span translate="document.label.sponsoredby"></span>
+                    <ul>
+                      <li ng-repeat="sponsor in doc.sponsor" class="author"
+                        translate="{{ sponsor.display_name }}">
+                      </li>
+                    </ul>
+                </div>
+
+                <div class="doc-stats">
+                    <ul>
+                        <li translate="document.label.commentcount"
+                            translate-values="{count: doc.comment_count}"
+                            translate-interpolation="messageformat"></li>
+                        <li translate="document.label.annotationcount"
+                            translate-values="{count: doc.annotation_count}"
+                            translate-interpolation="messageformat"></li>
+                        <li>
+                            <span ng-hide="doc.updated_at" class="date"
+                                translate="document.label.created"
+                                translate-values="{datetime: doc.created_at}"></span>
+                            <span ng-show="doc.updated_at" class="date"
+                                translate="document.label.updated"
+                                translate-values="{datetime: doc.updated_at}"></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div ng-if="!doc.introtext || doc.introtext === ''">
+                    <a class="read-button" href="{{ doc.url }}" rel="bookmark"
+                        role="button"
+                        title="{{ 'document.interface.readmoretitle' | translate:{title:doc.title} }}"
+                        translate="{{ 'document.interface.readmore' }}"></a>
+                </div>
+            </header>
+
+
+            <div class="doc-content" ng-if="doc.introtext">
+                <div class="doc-summary entry-summary markdown"
+                    data-ng-bind-html="doc.introtext"></div>
+                    <a class="read-button" href="{{ doc.url }}" rel="bookmark"
+                        role="button"
+                        title="{{ 'document.interface.readmoretitle' | translate:{title:doc.title} }}"
+                        translate="{{ 'document.interface.readmore' }}"></a>
             </div>
-
-            <div class="doc-stats">
-                <ul>
-                    <li translate="document.label.commentcount"
-                        translate-values="{count: featured.comment_count}"
-                        translate-interpolation="messageformat"></li>
-                    <li translate="document.label.annotationcount"
-                        translate-values="{count: featured.annotation_count}"
-                        translate-interpolation="messageformat"></li>
-                    <li>
-                        <span ng-hide="featured.updated_at" class="date"
-                            translate="document.label.created"
-                            translate-values="{datetime: featured.created_at}"></span>
-                        <span ng-show="featured.updated_at" class="date"
-                            translate="document.label.updated"
-                            translate-values="{datetime: featured.updated_at}"></span>
-                    </li>
-                </ul>
-            </div>
-
-            <div ng-if="!featured.introtext || featured.introtext === ''">
-                <a class="read-button" href="{{ featured.url }}" rel="bookmark"
-                    role="button"
-                    title="{{ 'document.interface.readmoretitle' | translate:{title:featured.title} }}"
-                    translate="{{ 'document.interface.readmore' }}"></a>
-            </div>
-        </header>
-
-        <div class="doc-content" ng-if="featured.introtext">
-            <div class="doc-summary entry-summary markdown"
-                data-ng-bind-html="featured.introtext"></div>
-                <a class="read-button" href="{{ featured.url }}" rel="bookmark"
-                    role="button"
-                    title="{{ 'document.interface.readmoretitle' | translate:{title:featured.title} }}"
-                    translate="{{ 'document.interface.readmore' }}"></a>
-        </div>
-    </article>
+        </article>
+    </div>
 
     <section class="previous-features">
         <h2 class="heading"

@@ -24,6 +24,10 @@ class Doc extends Model
     const SPONSOR_TYPE_INDIVIDUAL = "individual";
     const SPONSOR_TYPE_GROUP = "group";
 
+    const PUBLISH_STATE_PUBLISHED = 'published';
+    const PUBLISH_STATE_UNPUBLISHED = 'unpublished';
+    const PUBLISH_STATE_PRIVATE = 'private';
+
     public function __construct()
     {
         parent::__construct();
@@ -66,7 +70,8 @@ class Doc extends Model
         $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
 
         if ($featuredSetting) {
-            return $featuredSetting->meta_value == $this->id;
+            $docIds = explode(',', $featuredSetting->meta_value);
+            return in_array($this->id, $docIds);
         }
 
         return false;
@@ -89,6 +94,33 @@ class Doc extends Model
                 break;
             default:
                 throw new \Exception("Unknown Sponsor Type");
+        }
+
+        return false;
+    }
+
+    public function canUserView($user)
+    {
+        $sponsor = $this->sponsor->first();
+
+        if (in_array(
+            $this->publish_state,
+            [Doc::PUBLISH_STATE_PUBLISHED, Doc::PUBLISH_STATE_PRIVATE]
+        )) {
+            return true;
+        }
+
+        if ($user) {
+            if ($user->hasRole('Admin')) {
+                return true;
+            }
+
+            if (
+                $this->publish_state == Doc::PUBLISH_STATE_UNPUBLISHED
+                && $this->canUserEdit($user)
+            ) {
+                return true;
+            }
         }
 
         return false;
@@ -128,6 +160,16 @@ class Doc extends Model
     public function comments()
     {
         return $this->hasMany('App\Models\Comment');
+    }
+
+    public function getPages()
+    {
+        return $this->content()->count();
+    }
+
+    public function getPagesAttribute()
+    {
+        return $this->getPages();
     }
 
     public function getCommentCount()
@@ -213,6 +255,7 @@ class Doc extends Model
      */
     public function enableCounts()
     {
+        $this->appends[] = 'pages';
         $this->appends[] = 'comment_count';
         $this->appends[] = 'annotation_count';
         $this->appends[] = 'annotation_comment_count';
@@ -252,7 +295,7 @@ class Doc extends Model
 
     public function content()
     {
-        return $this->hasOne('App\Models\DocContent');
+        return $this->hasMany('App\Models\DocContent');
     }
 
     public function doc_meta()
@@ -266,6 +309,7 @@ class Doc extends Model
             'content' => "New Document Content",
             'sponsor' => null,
             'sponsorType' => null,
+            'publish_state' => 'unpublished'
         );
 
         $params = array_replace_recursive($defaults, $params);
@@ -278,6 +322,7 @@ class Doc extends Model
 
         \DB::transaction(function () use ($document, $params) {
             $document->title = $params['title'];
+            $document->publish_state = $params['publish_state'];
             $document->save();
 
             switch ($params['sponsorType']) {
@@ -368,7 +413,7 @@ class Doc extends Model
 
                 ) total_count
                 LEFT JOIN docs on doc_id = docs.id
-                WHERE docs.private != 1
+                WHERE publish_state = 'published'
                 AND docs.is_template != 1
                 GROUP BY doc_id
                 ORDER BY total DESC
