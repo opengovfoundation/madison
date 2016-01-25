@@ -36,9 +36,6 @@ class DocumentsTableSeeder extends Seeder
         );
         $document = Doc::createEmptyDocument($docOptions);
 
-        Input::replace($input = ['content' => $content]);
-        App::make('App\Http\Controllers\DocumentsController')->saveDocumentEdits($document->id);
-
         //Set first doc as featured doc
         $featuredSetting = new Setting();
         $featuredSetting->meta_key = 'featured-doc';
@@ -61,10 +58,5 @@ class DocumentsTableSeeder extends Seeder
             'sponsorType'   => Doc::SPONSOR_TYPE_GROUP,
         );
         $document = Doc::createEmptyDocument($docOptions);
-
-        DB::table('doc_contents')->insert(array(
-            'doc_id'      => $document->id,
-            'content'     => $content,
-        ));
     }
 }
