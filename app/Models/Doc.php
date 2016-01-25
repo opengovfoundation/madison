@@ -72,7 +72,8 @@ class Doc extends Model
         $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
 
         if ($featuredSetting) {
-            return $featuredSetting->meta_value == $this->id;
+            $docIds = explode(',', $featuredSetting->meta_value);
+            return in_array($this->id, $docIds);
         }
 
         return false;

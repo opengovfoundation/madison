@@ -27,3 +27,31 @@
     @extend .go-button;
     @extend .action-button;
 }
+
+.featured-document-list {
+    @extend .table;
+    @extend .table-striped;
+    width: auto;
+
+    td.order-column,
+    td.delete-column {
+        text-align: center;
+    }
+
+    td.order-column span {
+        font-size: 1.25rem;
+        padding: 0 4px;
+    }
+
+    tr:first-child {
+        .move-up-button {
+            color: $light-grey;
+        }
+    }
+
+    tr:last-child {
+        .move-down-button {
+            color: $light-grey;
+        }
+    }
+}

@@ -38,6 +38,7 @@
   "form.general.savenow": "Save Now",
   "form.general.update": "Update",
   "form.general.cancel": "Cancel",
+  "form.general.remove": "Remove",
   "form.general.clearfilters": "Clear",
   "form.general.required": "Required",
 
@@ -132,7 +133,7 @@
   "form.document.sponsor.placeholder": "Select Document Sponsor",
   "form.document.sponsor.groupflag": "(Group) {{name}}",
   "form.document.publicview": "<i class=\"fa fa-eye\"></i> Public View",
-  "form.document.featured": "Featured Document",
+  "form.document.featured": "Featured Documents",
   "form.document.featured.already": "Already featured",
   "form.document.featured.set": "Set as featured document",
   "form.document.featured.change": "Change Featured Document",
@@ -159,6 +160,11 @@
   "form.document.delete.confirm": "Really delete the document?",
   "form.document.delete.confirm.body": "This will also remove any annotations and comments associated with the document. You will be able to restore it if you choose.",
   "form.document.delete.success": "Document successfully deleted",
+
+  "form.featureddoc.order": "Order",
+  "form.featureddoc.title": "Title",
+  "form.featureddoc.delete": "Delete",
+  "form.featureddoc.nodocs": "There are no featured documents at this time. The most recent document will show up in the featured area instead. Please feature new documents from the document edit page.",
 
   "form.group.memberslink": "If you would like to manage the members of your group, <a href=\"/groups/{{ groupid }}/members\">click here</a>",
   "form.group.name.label": "Group Name",
@@ -402,5 +408,7 @@
   "errors.document.edit.multiplefeatured": "A Featured Document is already set.  Are you sure you want to change the Featured Document?",
   "errors.document.delete": "There was an error deleting this document.",
   "errors.resetpassword.passwordmatch": "The passwords do not match.",
-  "errors.resetpassword.general": "There was an error resetting your password.  Please try again later."
+  "errors.resetpassword.general": "There was an error resetting your password.  Please try again later.",
+
+  "success.general.save": "Saved."
 }

@@ -704,13 +704,15 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.tryFeaturedDoc = function () {
+        $scope._setFeaturedDoc();
+        /*
         //Check if any other documents are featured
         var featuredDoc = Doc.getFeaturedDoc();
 
         //Wait for the response
         featuredDoc.$promise.then(function () {
           //If so, display confirmation
-          if (featuredDoc.id !== undefined) {
+          if (featuredDoc.length) {
             var bodyText;
 
             if (featuredDoc.id === $scope.doc.id) {
@@ -748,10 +750,19 @@ angular.module('madisonApp.controllers')
             $scope._setFeaturedDoc();
           }
         });
+        */
       };
 
       $scope._setFeaturedDoc = function () {
-        return $http.post('/api/docs/featured', {id: $scope.doc.id});
+        $http.post('/api/docs/featured', {id: $scope.doc.id}).then(function(data) {
+          checkFeatured(data.data);
+        });
+      };
+
+      $scope.removeFeaturedDoc = function() {
+        $http.delete('/api/docs/featured/' + $scope.doc.id).then(function(data) {
+          checkFeatured(data.data);
+        });
       };
 
       $scope.deleteDocument = function() {
@@ -777,5 +788,16 @@ angular.module('madisonApp.controllers')
           });
         });
       };
+
+      function checkFeatured(data) {
+        for(var i in data) {
+          if($scope.doc.id == data[i].id) {
+            $scope.doc.featured = true;
+            return;
+          }
+        }
+
+        $scope.doc.featured = false;
+      }
     }
     ]);
