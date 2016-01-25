@@ -36,7 +36,20 @@
 
       <small translate="content.editdocument.savemessage"></small>
       <div class="doc-content-editor">
+
         <div id="wmd-button-bar"></div>
+        <div class="character-count"
+          ng-class="{'has-error': docContent.length > contentMax, 'has-warning': docContent.length >= contentWarning}">
+          <span class="help-block"
+            translate="form.document.content.charactercount"
+            translate-values="{count: docContent.length, max: contentMax}"
+            >
+          </span>
+          <span class="warning-icon" ng-if="docContent.length >= contentWarning"
+            title="{{'errors.document.content.lengthwarning' | translate}}"></span>
+          <span class="error-icon" ng-if="docContent.length >= contentMax"
+            title="{{'errors.document.content.lengtherror' | translate}}"></span>
+        </div>
         <textarea class="wmd-input" id="wmd-input" name="content"
           ng-model="docContent"></textarea>
         <div id="wmd-preview" class="wmd-panel wmd-preview"></div>

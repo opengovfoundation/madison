@@ -34,6 +34,10 @@ angular.module('madisonApp.controllers')
       $scope.currentPage = 1;
       $scope.contentLoaded = false;
       $scope.markdownEditor = null;
+      // Size of MEDIUMTEXT field in MySQL
+      $scope.contentMax = 16777215;
+      // Good, safe size.
+      $scope.contentWarning = 100000;
 
       var abs = $location.absUrl();
       var id = abs.match(/.*\/(\d+)$/)[1];
