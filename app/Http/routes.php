@@ -205,14 +205,18 @@ Route::get('api/docs/featured', 'DocumentsController@getFeatured');
 
 Route::get('api/docs/count', 'DocumentApiController@getDocCount');
 Route::get('api/docs/', 'DocumentApiController@getDocs');
-// TODO: this should only check for valid states!
-Route::get('api/docs/{state?}', 'DocumentApiController@getDocs')->where('state', 'in', [
-    Doc::PUBLISH_STATE_PUBLISHED,
-    Doc::PUBLISH_STATE_UNPUBLISHED,
-    Doc::PUBLISH_STATE_PRIVATE,
-    Doc::PUBLISH_STATE_DELETED_ADMIN,
-    Doc::PUBLISH_STATE_DELETED_USER
-]);
+Route::get('api/docs/{state?}', 'DocumentApiController@getDocs', function($state) {
+    $valid_states = [
+        'all',
+        Doc::PUBLISH_STATE_PUBLISHED,
+        Doc::PUBLISH_STATE_UNPUBLISHED,
+        Doc::PUBLISH_STATE_PRIVATE,
+        Doc::PUBLISH_STATE_DELETED_ADMIN,
+        Doc::PUBLISH_STATE_DELETED_USER
+    ];
+
+    return in_array($state, $valid_states);
+});
 Route::put('api/dates/{date}', 'DocumentApiController@putDate');
 
 Route::post('api/docs/featured', 'DocumentsController@postFeatured');
