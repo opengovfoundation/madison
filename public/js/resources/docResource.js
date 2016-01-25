@@ -8,8 +8,12 @@ angular.module('madisonApp.resources')
       },
       getDocContent: {
         method: 'GET',
-        url: '/api/docs/:id/content',
-        params: {id: '@id'}
+        url: '/api/docs/:id/content?format=:format&page=:page',
+        params: {
+          id: '@id',
+          page: '@page',
+          format: '@format'
+        }
       },
       getFeaturedDocs: {
         method: 'GET',

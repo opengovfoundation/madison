@@ -32,13 +32,24 @@ class DocumentsController extends Controller
 
     public function getDocumentContent($id)
     {
-        $docContent = DocContent::where('doc_id', $id)->first();
+        $page = Input::get('page', 1);
+        $format = Input::get('format');
+        if(!$format) {
+            $format = 'html';
+        }
+
+        $docContent = DocContent::where('doc_id', $id)->
+            limit(1)->offset($page - 1)->first();
 
         $returned = array();
 
         if ($docContent) {
-            $returned['raw'] = $docContent->content;
-            $returned['html'] = $docContent->html();
+            if($format === 'raw' || $format === 'all') {
+                $returned['raw'] = $docContent->content;
+            }
+            if($format === 'html' || $format === 'all') {
+                $returned['html'] = $docContent->html();
+            }
         }
 
         return Response::json($returned);

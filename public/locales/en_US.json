@@ -156,6 +156,7 @@
   "form.document.datelabel.placeholder": "Date Label",
   "form.document.createas.label": "Sponsor as",
   "form.document.createas.independentsponsor": "Myself",
+  "form.document.content.charactercount": "Characters: {{ count | number }} / {{ max | number }}",
 
   "form.featureddoc.order": "Order",
   "form.featureddoc.title": "Title",
@@ -236,6 +237,14 @@
   "document.tabs.discussion": "Discussion ({{count}})",
   "document.label.text": "Document Text",
   "document.label.comments": "Comments",
+
+  "document.pagination.page": "Page",
+  "document.pagination.current": "Page {{currentPage}} of {{pages}}",
+  "document.pagination.previous": "Previous page",
+  "document.pagination.next": "Next page",
+  "document.pagination.goto": "Go to page {{page}}",
+  "document.pagination.add": "Add new page",
+  "document.pagination.delete": "Delete current page",
 
   "annotations.label.none": "No annotations yet. Add your own!",
   "annotations.label.count": "{{count}}",
@@ -402,6 +411,8 @@
   "errors.document.edit.imagerequired": "You cannot delete the image of a Featured Document",
   "errors.document.edit.unfeatured": "Are you sure you want to unset this as the Featured Document?",
   "errors.document.edit.multiplefeatured": "A Featured Document is already set.  Are you sure you want to change the Featured Document?",
+  "errors.document.content.lengthwarning": "The text is too long to easily be shown to users, though it will still be saved.  Please consider splitting it into separate pages.",
+  "errors.document.content.lengtherror": "The text is too long to be saved.  Please split it into separate pages to prevent data loss!",
   "errors.resetpassword.passwordmatch": "The passwords do not match.",
   "errors.resetpassword.general": "There was an error resetting your password.  Please try again later.",
 

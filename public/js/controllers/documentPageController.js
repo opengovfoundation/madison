@@ -12,6 +12,7 @@ angular.module('madisonApp.controllers')
       $scope.annotations = [];
       $scope.activeTab = 'content';
       $scope.doc = {};
+      $scope.currentPage = 1;
 
       $scope.setSponsor = function () {
         try {
