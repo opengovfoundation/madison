@@ -184,14 +184,12 @@ class DocumentApiController extends ApiController
         return Response::json($response);
     }
 
-    public function deleteDoc($docId)
+    public function deleteDoc($docId, $admin = false)
     {
-        $delete_as_admin = Input::get('admin', false);
-
         $doc = Doc::find($docId);
         if (!$doc) return response('Not found.', 404);
 
-        if ($delete_as_admin) {
+        if ($admin) {
             $doc->publish_state = Doc::PUBLISH_STATE_DELETED_ADMIN;
         } else {
             $doc->publish_state = Doc::PUBLISH_STATE_DELETED_USER;
@@ -214,7 +212,7 @@ class DocumentApiController extends ApiController
         $doc = Doc::withTrashed()->find($docId);
 
         if ($doc->publish_state == Doc::PUBLISH_STATE_DELETED_ADMIN) {
-            if (!Auth::user()->isAdmin()) {
+            if (!Auth::user()->hasRole('admin')) {
                 return Response('Unauthorized.', 403);
             }
         }
@@ -303,7 +301,7 @@ class DocumentApiController extends ApiController
 
         // If admin flag is passed, check auth and then add
         if ($admin) {
-            if (!Auth::user()->isAdmin()) {
+            if (!Auth::user()->hasRole('admin')) {
                 return Response('Unauthorized.', 403);
             }
             $publish_states[] = Doc::PUBLISH_STATE_DELETED_ADMIN;

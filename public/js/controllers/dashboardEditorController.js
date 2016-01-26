@@ -765,7 +765,17 @@ angular.module('madisonApp.controllers')
         });
       };
 
-      $scope.deleteDocument = function() {
+      $scope.deleteDocument = function(asAdmin) {
+        var modalBody;
+        var deleteUrl = '/api/docs/' + $scope.doc.id;
+
+        if (asAdmin) {
+          modalBody = 'form.document.delete.admin.confirm.body';
+          deleteUrl += '/admin';
+        } else {
+          modalBody = 'form.document.delete.confirm.body';
+        }
+
         var modalOptions = {
           closeButtonText:
             $translate.instant('form.general.cancel'),
@@ -774,15 +784,19 @@ angular.module('madisonApp.controllers')
           headerText:
             $translate.instant('form.document.delete.confirm'),
           bodyText:
-            $translate.instant('form.document.delete.confirm.body')
+            $translate.instant(modalBody)
         };
 
         modalService.showModal({}, modalOptions)
         .then(function() {
-          $http.delete('/api/docs/' + $scope.doc.id)
+          $http.delete(deleteUrl)
           .success(function() {
-            growl.success($translate.instant('document.delete.success'));
-            $state.go('my-documents');
+            growl.success($translate.instant('form.document.delete.success'));
+            if (asAdmin) {
+              $state.go('dashboard-docs-list');
+            } else {
+              $state.go('my-documents');
+            }
           }).error(function() {
             growl.error($translate.instant('errors.document.delete'));
           });

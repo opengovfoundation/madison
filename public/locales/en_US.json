@@ -159,7 +159,12 @@
   "form.document.delete": "Delete Document",
   "form.document.delete.confirm": "Really delete the document?",
   "form.document.delete.confirm.body": "This will also remove any annotations and comments associated with the document. You will be able to restore it if you choose.",
+  "form.document.delete.confirm.body": "This will also remove any annotations and comments associated with the document. You will be able to restore it if you choose.",
+  "form.document.delete.admin": "Delete As Admin",
+  "form.document.delete.admin.confirm.body": "This will also remove any annotations and comments associated with the document. You will be able to restore it if you choose. Deleting as an admin means only an admin can restore it.",
   "form.document.delete.success": "Document successfully deleted",
+  "form.document.restore.confirm.body": "Restoring this document will make it available in your list again, unpublished.",
+  "form.document.restore.success": "Document successfully restored",
 
   "form.featureddoc.order": "Order",
   "form.featureddoc.title": "Title",
@@ -219,6 +224,8 @@
   "document.label.sponsors": "Sponsored by: ",
   "document.label.status": "Status: ",
   "document.label.introduction": "Introduction: ",
+  "document.label.deletedby": "Deleted by",
+  "document.label.deletedon": "Deleted on",
 
   "document.label.updated": "Updated <time class=\"published doc-updated-date\" datetime=\"{{ datetime }}\">{{datetime | parseDate | date:'mediumDate'}}</time>",
   "document.label.updated.timeago": "Updated <time class=\"published doc-updated-date\" datetime=\"{{ datetime }}\">{{ datetime | parseDate | timeAgo }}</time>",
@@ -263,6 +270,8 @@
   "document.action.mustlogin": "Login to comment",
   "document.action.create": "Create document",
   "document.action.permalink": "Copy link to this comment",
+
+  "document.action.restore": "Restore",
 
   "user.label.verified": "Verified",
   "user.label.membersince": "Member since <time datetime=\"{{ datetime }}\">{{ datetime | parseDate | date:'mediumDate' }}</time>",
@@ -314,6 +323,9 @@
   "content.editdocument.savemessage": "Document content saves automatically after 3 seconds.",
   "content.editdocument.wordmessage": "Need help converting a Microsoft Word document?  <a href=\"http://word-to-markdown.herokuapp.com/\" target=\"_blank\">There's a tool for that.</a>",
   "content.editdocument.markdownmessage": "New to Markdown? Check out our <a href=\"/pdf/MarkdownCheatSheet.pdf\" target=\"_blank\">Markdown Cheat Sheet.",
+
+  "content.deleteddocs.title": "{{ title }} - Deleted Documents",
+  "content.deleteddocs.header": "Deleted Documents",
 
   "content.404.title": "{{ title }} - Page not found.",
   "content.404.header": "Page not found.",
@@ -407,6 +419,7 @@
   "errors.document.edit.unfeatured": "Are you sure you want to unset this as the Featured Document?",
   "errors.document.edit.multiplefeatured": "A Featured Document is already set.  Are you sure you want to change the Featured Document?",
   "errors.document.delete": "There was an error deleting this document.",
+  "errors.document.restore": "There was an error restoring this document.",
   "errors.resetpassword.passwordmatch": "The passwords do not match.",
   "errors.resetpassword.general": "There was an error resetting your password.  Please try again later.",
 

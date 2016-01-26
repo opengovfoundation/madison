@@ -139,5 +139,9 @@ angular.module('madisonApp.controllers')
 
         return show;
       };
+
+      $scope.goToDeletedDocs = function() {
+        $state.go('admin-deleted-docs');
+      };
     }
     ]);
