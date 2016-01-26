@@ -123,3 +123,47 @@
     @extend .danger-button;
     @extend .action-button;
 }
+
+.pagination {
+    display: block;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+
+    ol {
+        display: inline-block;
+        padding: 0;
+        margin-left: 0.5rem;
+    }
+    li {
+        display: inline-block;
+        text-align: center;
+        list-style: none;
+        height: 1.5rem;
+        font-size: 0.85rem;
+        line-height: 1.25rem;
+        width: 1.5rem;
+        color: $white;
+        background-color: $medium-grey;
+        margin-right: 3px;
+    }
+    .active {
+        background-color: $blue;
+    }
+    .add-button {
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+        height: 1.5rem;
+        font-size: 0.85rem;
+        line-height: 1.5rem;
+        width: 1.5rem;
+        color: $white;
+        background-color: $blue;
+        border-radius: 15px;
+
+        @extend .fa;
+        @extend .fa-plus;
+    }
+
+}

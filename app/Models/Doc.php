@@ -164,6 +164,16 @@ class Doc extends Model
         return $this->hasMany('App\Models\Comment');
     }
 
+    public function getPages()
+    {
+        return $this->content()->count();
+    }
+
+    public function getPagesAttribute()
+    {
+        return $this->getPages();
+    }
+
     public function getCommentCount()
     {
         return $this->comments()->count();
@@ -247,6 +257,7 @@ class Doc extends Model
      */
     public function enableCounts()
     {
+        $this->appends[] = 'pages';
         $this->appends[] = 'comment_count';
         $this->appends[] = 'annotation_count';
         $this->appends[] = 'annotation_comment_count';
@@ -286,7 +297,7 @@ class Doc extends Model
 
     public function content()
     {
-        return $this->hasOne('App\Models\DocContent');
+        return $this->hasMany('App\Models\DocContent');
     }
 
     public function doc_meta()

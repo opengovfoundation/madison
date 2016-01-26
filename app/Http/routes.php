@@ -230,6 +230,8 @@ Route::post('api/docs/{doc}/sponsor', 'DocumentApiController@postSponsor')->midd
 Route::post('api/docs/{doc}/publishstate', 'DocumentApiController@postPublishState')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/slug', 'DocumentApiController@postSlug')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/content', 'DocumentApiController@postContent')->middleware(['doc.access.edit']);
+Route::put('api/docs/{doc}/content/{page}', 'DocumentApiController@putContent')->middleware(['doc.access.edit']);
+Route::delete('api/docs/{doc}/content/{page}', 'DocumentApiController@deleteContent')->middleware(['doc.access.edit']);
 
 Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus')->middleware(['doc.access.edit']);

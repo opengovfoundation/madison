@@ -1,16 +1,17 @@
 /*global Markdown*/
 /*global alert*/
 angular.module('madisonApp.controllers')
-  .controller('DashboardEditorController', ['$scope', '$http', '$timeout',
+  .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$q',
       '$location', '$filter', 'growl', '$upload', 'modalService', 'Doc',
       '$translate', 'pageService', '$state', 'SITE',
-    function ($scope, $http, $timeout, $location, $filter, growl, $upload,
+    function ($scope, $http, $timeout, $q, $location, $filter, growl, $upload,
       modalService, Doc, $translate, pageService, $state, SITE) {
 
       pageService.setTitle($translate.instant('content.editdocument.title',
         {title: SITE.name}));
 
       $scope.doc = {};
+      $scope.docContent = '';
       $scope.sponsor = {};
       $scope.status = {};
       $scope.newdate = {
@@ -30,6 +31,13 @@ angular.module('madisonApp.controllers')
       $scope.dates = [];
       $scope.featuredImage = null;
       $scope.featuredDoc = false;
+      $scope.currentPage = 1;
+      $scope.contentLoaded = false;
+      $scope.markdownEditor = null;
+      // Size of MEDIUMTEXT field in MySQL
+      $scope.contentMax = 16777215;
+      // Good, safe size.
+      $scope.contentWarning = 100000;
 
       var abs = $location.absUrl();
       var id = abs.match(/.*\/(\d+)$/)[1];
@@ -46,22 +54,76 @@ angular.module('madisonApp.controllers')
       }
 
       $scope.getDoc = function (id) {
-        return $http.get('/api/docs/' + id)
-          .success(function (data) {
-            $scope.doc = data;
+        return $q(function(resolve, reject) {
+          $http.get('/api/docs/' + id)
+            .success(function (data) {
+              console.log('Got document');
+              $scope.doc = data;
+              getContent(1, function() {
+                $scope.contentLoaded = true;
+                resolve();
+              });
 
-            angular.forEach(data.categories, function (category) {
-              $scope.categories.push(angular.copy(category.name));
+              angular.forEach(data.categories, function (category) {
+                $scope.categories.push(angular.copy(category.name));
+              });
+
+              if ($scope.doc.thumbnail !== null) {
+                $scope.featuredImage = {path: $scope.doc.thumbnail + '?' +
+                  new Date().getTime()};
+              }
+
+              pageService.setTitle($translate.instant(
+                'content.editdocument.title.loaded',
+                {title: SITE.name, docTitle: data.title}));
             });
+          });
+      };
 
-            if ($scope.doc.thumbnail !== null) {
-              $scope.featuredImage = {path: $scope.doc.thumbnail + '?' +
-                new Date().getTime()};
-            }
+      getContent = function(page, callback) {
+        return Doc.getDocContent({
+          id: $scope.doc.id, format: 'raw', page: page
+        }).$promise.then(function(data) {
+          $scope.docContent = data.raw;
+          $scope.currentPage = page;
+          if(callback) {
+            callback();
+          }
+        });
+      };
 
-            pageService.setTitle($translate.instant(
-              'content.editdocument.title.loaded',
-              {title: SITE.name, docTitle: data.title}));
+      $scope.loadPage = function(page) {
+        // First, save our current work.
+        $scope.saveContent( function() {
+          // Next, set us in loading mode.
+          $scope.contentLoaded = false;
+          // Then get the content.
+          getContent(page, function() {
+            // It takes just a moment for the content to load and be ready.
+            // We don't have an event for when that's done, so just wait a
+            // really short time.
+            setTimeout(function() {
+              // Done loading.
+              $scope.contentLoaded = true;
+              $scope.markdownEditor.refreshPreview();
+            }, 100);
+          });
+        });
+      };
+
+      $scope.addPage = function() {
+        $scope.contentLoaded = false;
+        return $http.post('/api/docs/' + $scope.doc.id + '/content', {})
+          .success(function (data) {
+            // Re-set our max page count.
+            $scope.doc.pages = data.page;
+            // Load our new page.
+            $scope.loadPage(data.page);
+
+            console.log("Content saved successfully: %o", data);
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
+            console.error("Error saving content for document:", data);
           });
       };
 
@@ -220,8 +282,11 @@ angular.module('madisonApp.controllers')
       var initSlug = true;
       var initContent = true;
 
+
       docDone.then(function () {
-        new Markdown.Editor(Markdown.getSanitizingConverter()).run();
+        $scope.markdownEditor = new Markdown.Editor(
+          Markdown.getSanitizingConverter());
+        $scope.markdownEditor.run();
 
         // We don't control the pagedown CSS, and this DIV needs to be
         // scrollable
@@ -330,7 +395,7 @@ angular.module('madisonApp.controllers')
 
         // Save the content every 5 seconds
         var timeout = null;
-        $scope.$watch('doc.content.content', function () {
+        $scope.$watch('docContent', function () {
           if (initContent) {
             $timeout(function () {
               initContent = false;
@@ -433,15 +498,23 @@ angular.module('madisonApp.controllers')
           });
       };
 
-      $scope.saveContent = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/content',
-            {'content': $scope.doc.content.content})
-          .success(function (data) {
-            console.log("Content saved successfully: %o", data);
-          }).error(function (data, status) {
-            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
-            console.error("Error saving content for document:", data);
-          });
+      $scope.saveContent = function (callback) {
+        if($scope.contentLoaded) {
+          return $http.put('/api/docs/' + $scope.doc.id + '/content/' + $scope.currentPage,
+              {'content': $scope.docContent})
+            .success(function (data) {
+              console.log("Content saved successfully: %o", data);
+              if(callback) { callback(); }
+            }).error(function (data, status) {
+              if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
+              console.error("Error saving content for document:", data);
+              if(callback) { callback(); }
+            });
+        }
+        else {
+          console.log('Not saving until content is loaded.');
+          if(callback) { callback(); }
+        }
       };
 
       $scope.createDate = function (newDate) {
@@ -813,5 +886,40 @@ angular.module('madisonApp.controllers')
 
         $scope.doc.featured = false;
       }
+
+      $scope.range = (function() {
+        var cache = {};
+        return function(min, max, step) {
+          var isCacheUseful = (max - min) > 70;
+          var cacheKey;
+
+          if(!min) {
+            min = 0;
+          }
+          if(!step) {
+            step = 1;
+          }
+
+          if (isCacheUseful) {
+            cacheKey = max + ',' + min + ',' + step;
+
+            if (cache[cacheKey]) {
+              return cache[cacheKey];
+            }
+          }
+
+          var _range = [];
+          step = step || 1;
+          for (var i = min; i <= max; i += step) {
+            _range.push(i);
+          }
+
+          if (isCacheUseful) {
+            cache[cacheKey] = _range;
+          }
+
+          return _range;
+        };
+      })();
     }
     ]);
