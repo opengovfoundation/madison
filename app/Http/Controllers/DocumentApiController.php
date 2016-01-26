@@ -209,7 +209,7 @@ class DocumentApiController extends ApiController
         return Response::json($result);
     }
 
-    public function restoreDoc($docId)
+    public function getRestoreDoc($docId)
     {
         $doc = Doc::withTrashed()->find($docId);
 
@@ -217,6 +217,10 @@ class DocumentApiController extends ApiController
             if (!Auth::user()->isAdmin()) {
                 return Response('Unauthorized.', 403);
             }
+        }
+
+        if (!$doc->canUserEdit(Auth::user())) {
+            return Response('Unauthorized.', 403);
         }
 
         DocMeta::withTrashed()->where('doc_id', $docId)->restore();
@@ -293,7 +297,7 @@ class DocumentApiController extends ApiController
     }
 
     public function getDeletedDocs($admin = false) {
-        $query = Doc::onlyTrashed()->where('is_template', '!=', '1');
+        $query = Doc::onlyTrashed()->with('sponsor')->where('is_template', '!=', '1');
 
         $publish_states = [Doc::PUBLISH_STATE_DELETED_USER];
 
@@ -308,8 +312,6 @@ class DocumentApiController extends ApiController
         }
 
         $query->whereIn('publish_state', $publish_states);
-
-        file_put_contents('/tmp/madison_debug', $query->toSql()."\n\n", FILE_APPEND);
 
         $docs = $query->get();
 
