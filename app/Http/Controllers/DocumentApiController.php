@@ -289,22 +289,31 @@ class DocumentApiController extends ApiController
             $docs = $doc->get();
         }
 
-        $return_docs = array();
+        return Response::json(Doc::prepareCountsAndDates($docs));
+    }
 
-        if ($docs) {
-            foreach ($docs as $doc) {
-                $doc->enableCounts();
+    public function getDeletedDocs($admin = false) {
+        $query = Doc::onlyTrashed()->where('is_template', '!=', '1');
 
-                $return_doc = $doc->toArray();
+        $publish_states = [Doc::PUBLISH_STATE_DELETED_USER];
 
-                $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
-                $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
-
-                $return_docs[] = $return_doc;
+        // If admin flag is passed, check auth and then add
+        if ($admin) {
+            if (!Auth::user()->isAdmin()) {
+                return Response('Unauthorized.', 403);
             }
+            $publish_states[] = Doc::PUBLISH_STATE_DELETED_ADMIN;
+        } else {
+            $query->belongsToUser(Auth::user()->id);
         }
 
-        return Response::json($return_docs);
+        $query->whereIn('publish_state', $publish_states);
+
+        file_put_contents('/tmp/madison_debug', $query->toSql()."\n\n", FILE_APPEND);
+
+        $docs = $query->get();
+
+        return Response::json(Doc::prepareCountsAndDates($docs));
     }
 
     public function getDocCount() {

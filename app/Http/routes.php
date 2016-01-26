@@ -76,6 +76,7 @@ Route::pattern('doc', '[0-9]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('date', '[0-9]+');
 Route::pattern('group', '[0-9]+');
+Route::pattern('state', Doc::validStatesPattern());
 
 /*
 *   Route - Model bindings
@@ -202,21 +203,11 @@ Route::get('api/docs/categories', 'DocumentApiController@getCategories');
 Route::get('api/docs/statuses', 'DocumentApiController@getAllStatuses');
 Route::get('api/docs/sponsors', 'DocumentApiController@getAllSponsors');
 Route::get('api/docs/featured', 'DocumentsController@getFeatured');
+Route::get('api/docs/deleted/{admin?}', 'DocumentApiController@getDeletedDocs')->middleware(['auth']);
 
 Route::get('api/docs/count', 'DocumentApiController@getDocCount');
 Route::get('api/docs/', 'DocumentApiController@getDocs');
-Route::get('api/docs/{state?}', 'DocumentApiController@getDocs', function($state) {
-    $valid_states = [
-        'all',
-        Doc::PUBLISH_STATE_PUBLISHED,
-        Doc::PUBLISH_STATE_UNPUBLISHED,
-        Doc::PUBLISH_STATE_PRIVATE,
-        Doc::PUBLISH_STATE_DELETED_ADMIN,
-        Doc::PUBLISH_STATE_DELETED_USER
-    ];
-
-    return in_array($state, $valid_states);
-});
+Route::get('api/docs/{state}', 'DocumentApiController@getDocs');
 Route::put('api/dates/{date}', 'DocumentApiController@putDate');
 
 Route::post('api/docs/featured', 'DocumentsController@postFeatured');
