@@ -353,6 +353,7 @@ class Doc extends Model
 
                 $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
                 $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
+                $return_doc['deleted_at'] = date('c', strtotime($return_doc['deleted_at']));
 
                 $return_docs[] = $return_doc;
             }
@@ -653,7 +654,7 @@ class Doc extends Model
             $valid_states[$idx] = str_replace('-', '\-', $state);
         }
 
-        return '[' . implode('|', $valid_states) . ']';
+        return '(' . implode('|', $valid_states) . ')';
     }
 
     /**
