@@ -52,7 +52,7 @@ angular.module('madisonApp.controllers')
 
         modalService.showModal({}, modalOptions)
         .then(function() {
-          $http.get('/api/docs/' + doc.id + '/restore')
+          $http.put('/api/docs/' + doc.id + '/restore')
           .success(function(data) {
             growl.success($translate.instant('form.document.restore.success'));
             $state.go('edit-doc', { id: doc.id });
