@@ -844,7 +844,7 @@ angular.module('madisonApp.controllers')
 
         if (asAdmin) {
           modalBody = 'form.document.delete.admin.confirm.body';
-          deleteUrl += '/admin';
+          deleteUrl += '?admin=true';
         } else {
           modalBody = 'form.document.delete.confirm.body';
         }

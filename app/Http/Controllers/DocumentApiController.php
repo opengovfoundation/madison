@@ -225,12 +225,13 @@ class DocumentApiController extends ApiController
         }
     }
 
-    public function deleteDoc($docId, $admin = false)
+    public function deleteDoc($docId)
     {
+        $admin_flag = Input::get('admin');
         $doc = Doc::find($docId);
         if (!$doc) return response('Not found.', 404);
 
-        if ($admin) {
+        if ($admin_flag) {
             $doc->publish_state = Doc::PUBLISH_STATE_DELETED_ADMIN;
         } else {
             $doc->publish_state = Doc::PUBLISH_STATE_DELETED_USER;
@@ -335,13 +336,14 @@ class DocumentApiController extends ApiController
         return Response::json(Doc::prepareCountsAndDates($docs));
     }
 
-    public function getDeletedDocs($admin = false) {
+    public function getDeletedDocs() {
+        $admin_flag = Input::get('admin');
         $query = Doc::onlyTrashed()->with('sponsor')->where('is_template', '!=', '1');
 
         $publish_states = [Doc::PUBLISH_STATE_DELETED_USER];
 
         // If admin flag is passed, check auth and then add
-        if ($admin) {
+        if ($admin_flag) {
             if (!Auth::user()->hasRole('admin')) {
                 return Response('Unauthorized.', 403);
             }

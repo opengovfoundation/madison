@@ -64,7 +64,7 @@ angular.module('madisonApp.controllers')
 
       function getDeletedDocs() {
         if (IS_ADMIN) {
-          return $http.get('/api/docs/deleted/admin');
+          return $http.get('/api/docs/deleted?admin=true');
         } else {
           return $http.get('/api/docs/deleted');
         }
