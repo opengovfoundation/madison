@@ -29,7 +29,7 @@ angular.module('madisonApp.controllers')
       };
 
       //Retrieve all docs
-      $http.get('/api/docs')
+      $http.get('/api/docs/all')
         .success(function (data) {
           $scope.parseDocs(data);
         })
@@ -138,6 +138,10 @@ angular.module('madisonApp.controllers')
         }
 
         return show;
+      };
+
+      $scope.goToDeletedDocs = function() {
+        $state.go('admin-deleted-docs');
       };
     }
     ]);

@@ -118,6 +118,12 @@
     }
 }
 
+.delete-document-button {
+    @extend .button;
+    @extend .danger-button;
+    @extend .action-button;
+}
+
 .pagination {
     display: block;
     width: 100%;
