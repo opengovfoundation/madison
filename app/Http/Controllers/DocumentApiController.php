@@ -30,9 +30,10 @@ class DocumentApiController extends ApiController
     {
         $doc_id = $doc;
 
-        $doc = Doc::with('categories')->find($doc);
+        $doc = Doc::with('categories')->with('userSponsors')->with('groupSponsors')->find($doc);
         $doc->introtext = $doc->introtext()->first()['meta_value'];
         $doc->enableCounts();
+        $doc->enableSponsors();
 
         // We have to manually json_encode this instead of using Response::json
         // because the encoding is inconsistent for integers between PHP
@@ -100,9 +101,9 @@ class DocumentApiController extends ApiController
             $doc->save();
 
             if (Input::get('group_id')) {
-                $doc->groupSponsor()->sync(array(Input::get('group_id')));
+                $doc->groupSponsors()->sync(array(Input::get('group_id')));
             } else {
-                $doc->sponsor()->sync(array($user->id));
+                $doc->userSponsors()->sync(array($user->id));
             }
 
             $starter = new DocContent();
@@ -279,6 +280,7 @@ class DocumentApiController extends ApiController
         if ($docs) {
             foreach ($docs as $doc) {
                 $doc->enableCounts();
+                $doc->enableSponsors();
 
                 $return_doc = $doc->toArray();
 
@@ -412,14 +414,14 @@ class DocumentApiController extends ApiController
             switch ($sponsor['type']) {
                 case 'user':
                     $user = User::find($sponsor['id']);
-                    $doc->userSponsor()->sync(array($user->id));
-                    $doc->groupSponsor()->sync(array());
+                    $doc->userSponsors()->sync(array($user->id));
+                    $doc->groupSponsors()->sync(array());
                     $response = $user;
                     break;
                 case 'group':
                     $group = Group::find($sponsor['id']);
-                    $doc->groupSponsor()->sync(array($group->id));
-                    $doc->userSponsor()->sync(array());
+                    $doc->groupSponsors()->sync(array($group->id));
+                    $doc->userSponsors()->sync(array());
                     $response = $group;
                     break;
                 default:

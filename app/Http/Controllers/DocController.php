@@ -87,7 +87,7 @@ class DocController extends Controller
      */
     public function getFeed($slug)
     {
-        $doc = Doc::where('slug', $slug)->with('comments', 'annotations', 'userSponsor', 'groupSponsor')->first();
+        $doc = Doc::where('slug', $slug)->with('comments', 'annotations', 'userSponsors', 'groupSponsors')->first();
 
         $feed = Feed::make();
 
