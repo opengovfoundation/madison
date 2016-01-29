@@ -39,7 +39,7 @@ class DocAccessEdit
         if (!Auth::check()) return response('Unauthorized.', 403);
 
         $user = Auth::user();
-        $doc = Doc::find($request->doc);
+        $doc = Doc::withTrashed()->find($request->doc);
 
         if (!$doc->canUserEdit($user)) return response('Unauthorized.', 403);
 

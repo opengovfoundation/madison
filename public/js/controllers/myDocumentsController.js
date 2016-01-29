@@ -66,6 +66,10 @@ angular.module('madisonApp.controllers')
               });
           }
         };
+
+        $scope.goToDeletedDocs = function() {
+          $state.go('deleted-docs');
+        };
       });
 
     }]);

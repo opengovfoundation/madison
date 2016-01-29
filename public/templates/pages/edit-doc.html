@@ -145,6 +145,12 @@
               alt="{{ 'form.document.image.title' | translate }}">
           </article>
         </div>
+        <div class="form-group delete-document">
+            <button class="delete-document-button" ng-click="deleteDocument()"
+              translate="form.document.delete"></button>
+            <button ng-if="user.admin" class="delete-document-button"
+              ng-click="deleteDocument(true)" translate="form.document.delete.admin"></button>
+        </div>
       </form>
       <div class="document-dates">
         <label>Event Dates</label>

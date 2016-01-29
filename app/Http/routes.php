@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Doc;
+
 /**
  * Partial Routing File.
  *
@@ -74,6 +76,7 @@ Route::pattern('doc', '[0-9]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('date', '[0-9]+');
 Route::pattern('group', '[0-9]+');
+Route::pattern('state', Doc::validStatesPattern());
 
 /*
 *   Route - Model bindings
@@ -200,9 +203,11 @@ Route::get('api/docs/categories', 'DocumentApiController@getCategories');
 Route::get('api/docs/statuses', 'DocumentApiController@getAllStatuses');
 Route::get('api/docs/sponsors', 'DocumentApiController@getAllSponsors');
 Route::get('api/docs/featured', 'DocumentsController@getFeatured');
+Route::get('api/docs/deleted', 'DocumentApiController@getDeletedDocs')->middleware(['auth']);
 
 Route::get('api/docs/count', 'DocumentApiController@getDocCount');
 Route::get('api/docs/', 'DocumentApiController@getDocs');
+Route::get('api/docs/{state}', 'DocumentApiController@getDocs');
 Route::put('api/dates/{date}', 'DocumentApiController@putDate');
 
 Route::post('api/docs/featured', 'DocumentsController@postFeatured');
@@ -229,6 +234,8 @@ Route::delete('api/docs/{doc}/content/{page}', 'DocumentApiController@deleteCont
 
 Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus')->middleware(['doc.access.edit']);
+Route::delete('api/docs/{doc}', 'DocumentApiController@deleteDoc')->middleware(['doc.access.edit']);
+Route::put('api/docs/{doc}/restore', 'DocumentApiController@getRestoreDoc')->middleware(['doc.access.edit']);
 Route::delete('api/docs/{doc}/featured-image', 'DocumentsController@deleteImage')->middleware(['doc.access.edit']);
 Route::delete('api/docs/{doc}/dates/{date}', 'DocumentApiController@deleteDate')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/dates', 'DocumentApiController@postDate')->middleware(['doc.access.edit']);

@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\Doc;
 use App\Models\DocMeta;
 use App\Models\DocContent;
+use App\Models\Annotation;
+use App\Models\Comment;
 use App\Models\Category;
 use App\Models\MadisonEvent;
 
@@ -224,7 +226,57 @@ class DocumentApiController extends ApiController
         }
     }
 
-    public function getDocs()
+    public function deleteDoc($docId)
+    {
+        $admin_flag = Input::get('admin');
+        $doc = Doc::find($docId);
+        if (!$doc) return response('Not found.', 404);
+
+        if ($admin_flag) {
+            $doc->publish_state = Doc::PUBLISH_STATE_DELETED_ADMIN;
+        } else {
+            $doc->publish_state = Doc::PUBLISH_STATE_DELETED_USER;
+        }
+
+        $doc->save();
+
+        $doc->comments()->delete();
+        $doc->annotations()->delete();
+        $doc->doc_meta()->delete();
+        $doc->content()->delete();
+
+        $result = $doc->delete();
+
+        return Response::json($result);
+    }
+
+    public function getRestoreDoc($docId)
+    {
+        $doc = Doc::withTrashed()->find($docId);
+
+        if ($doc->publish_state == Doc::PUBLISH_STATE_DELETED_ADMIN) {
+            if (!Auth::user()->hasRole('admin')) {
+                return Response('Unauthorized.', 403);
+            }
+        }
+
+        if (!$doc->canUserEdit(Auth::user())) {
+            return Response('Unauthorized.', 403);
+        }
+
+        DocMeta::withTrashed()->where('doc_id', $docId)->restore();
+        DocContent::withTrashed()->where('doc_id', $docId)->restore();
+        Annotation::withTrashed()->where('doc_id', $docId)->restore();
+        Comment::withTrashed()->where('doc_id', $docId)->restore();
+
+        $doc->restore();
+        $doc->publish_state = Doc::PUBLISH_STATE_UNPUBLISHED;
+        $doc->save();
+
+        return Response::json($doc);
+    }
+
+    public function getDocs($state = null)
     {
         // Handle order by.
         $order_field = Input::get('order', 'updated_at');
@@ -250,8 +302,15 @@ class DocumentApiController extends ApiController
             $docs = Doc::getActive($limit, $offset);
         } else {
             $doc = Doc::getEager()->orderBy($order_field, $order_dir)
-                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
                 ->where('is_template', '!=', '1');
+
+            if (isset($state) && $state == 'all') {
+                if (!Auth::check() || !Auth::user()->hasRole('Admin')) {
+                    return response('Unauthorized.', 403);
+                }
+            } else {
+                $doc->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED);
+            }
 
             if (Input::has('category')) {
                 $doc->whereHas('categories', function ($q) {
@@ -275,23 +334,30 @@ class DocumentApiController extends ApiController
             $docs = $doc->get();
         }
 
-        $return_docs = array();
+        return Response::json(Doc::prepareCountsAndDates($docs));
+    }
 
-        if ($docs) {
-            foreach ($docs as $doc) {
-                $doc->enableCounts();
-                $doc->enableSponsors();
+    public function getDeletedDocs() {
+        $admin_flag = Input::get('admin');
+        $query = Doc::onlyTrashed()->with('sponsor')->where('is_template', '!=', '1');
 
-                $return_doc = $doc->toArray();
+        $publish_states = [Doc::PUBLISH_STATE_DELETED_USER];
 
-                $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
-                $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
-
-                $return_docs[] = $return_doc;
+        // If admin flag is passed, check auth and then add
+        if ($admin_flag) {
+            if (!Auth::user()->hasRole('admin')) {
+                return Response('Unauthorized.', 403);
             }
+            $publish_states[] = Doc::PUBLISH_STATE_DELETED_ADMIN;
+        } else {
+            $query->belongsToUser(Auth::user()->id);
         }
 
-        return Response::json($return_docs);
+        $query->whereIn('publish_state', $publish_states);
+
+        $docs = $query->get();
+
+        return Response::json(Doc::prepareCountsAndDates($docs));
     }
 
     public function getDocCount() {
