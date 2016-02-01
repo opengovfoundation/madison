@@ -1,10 +1,11 @@
 var pages = require('./pages');
 
 describe('Document view', function() {
-  var docPage;
+  var docPage, pageLayout;
 
   beforeEach(function() {
     docPage = new pages.Document();
+    pageLayout = new pages.Layout();
     docPage.get();
   });
 
@@ -70,6 +71,18 @@ describe('Document view', function() {
       expect(reply.time.getText()).toMatch(/(about )?(\d+|a) (.+) ago/i);
     });
 
+  });
+
+  describe('Support / Oppose', function() {
+    it('shows login or signup prompt when trying to support', function() {
+      docPage.buttons.support.click();
+      expect(pageLayout.loginModal().isPresent()).toBe(true);
+    });
+
+    it('shows login or signup prompt when trying to oppose', function() {
+      docPage.buttons.oppose.click();
+      expect(pageLayout.loginModal().isPresent()).toBe(true);
+    });
   });
 
 });
