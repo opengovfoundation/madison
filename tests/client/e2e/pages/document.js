@@ -3,6 +3,10 @@ var DocumentPage = function() {
   var discussionTabBtn = element(
     by.cssContainingText('.doc-content .nav-tabs a', 'Discussion')
   );
+  var billTextTabBtn = element(
+    by.cssContainingText('.doc-content .nav-tabs a', 'Bill Text')
+  );
+  var tableOfContents = element(by.css('.toc'));
 
   this.get = function() {
     browser.get('/docs/example-document');
@@ -35,6 +39,20 @@ var DocumentPage = function() {
     discussionTabBtn.click();
   };
 
+  this.showBillText = function() {
+    billTextTabBtn.click();
+  };
+
+  this.showTableOfContents = function() {
+    element(by.css('.toc-title-side')).click();
+    browser.driver.sleep(1000);
+  };
+
+  this.hideTableOfContents = function() {
+    element(by.css('.toc-close')).click();
+    browser.driver.sleep(1000);
+  };
+
   this.getComment = function(row) {
     var comment = element(by.repeater('comment in doc.comments').row(row));
 
@@ -59,6 +77,16 @@ var DocumentPage = function() {
 
   this.showCommentReplies = function(comment) {
     comment.element.element(by.css('.doc-replies-count')).click();
+  };
+
+  this.loginToCommentLink = function() {
+    return element(
+      by.cssContainingText('.comment-field:nth-child(2) a', 'Login to comment')
+    );
+  };
+
+  this.pageWithTableOfContents = function() {
+    return element(by.css('.single-doc.toc-open'));
   };
 
 };
