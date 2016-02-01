@@ -175,7 +175,7 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.parseDocMeta = function (collection, name) {
-        if (collection.length === 0) {
+        if (collection && collection.length === 0) {
           return;
         }
 

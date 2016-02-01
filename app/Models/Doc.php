@@ -388,6 +388,7 @@ class Doc extends Model
         if ($docs) {
             foreach ($docs as $doc) {
                 $doc->enableCounts();
+                $doc->enableSponsors();
 
                 $return_doc = $doc->toArray();
 
