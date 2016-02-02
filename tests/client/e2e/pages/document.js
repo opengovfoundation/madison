@@ -8,6 +8,13 @@ var DocumentPage = function() {
   );
   var tableOfContents = element(by.css('.toc'));
 
+  var commentBox = element(by.css('#doc-comment-field'));;
+  var commentBtn = element(by.cssContainingText('.btn', 'Add Comment'));
+
+  function findTopLevelComment(text) {
+    return element(by.cssContainingText('article.comment', text));
+  }
+
   this.get = function() {
     browser.get('/docs/example-document');
   };
@@ -28,6 +35,34 @@ var DocumentPage = function() {
     supportChart: element(by.css('.support-chart .chart .support rect')),
     opposeCount: element(by.binding('doc.oppose')),
     opposeChart: element(by.css('.support-chart .chart .oppose rect'))
+  };
+
+  this.writeComment = function(text) {
+    commentBox.sendKeys(text);
+    commentBtn.click();
+  };
+
+  this.writeCommentReply = function(commentText, text) {
+    findTopLevelComment(commentText)
+      .element(by.css('textarea')).sendKeys(text);
+    findTopLevelComment(commentText)
+      .element(by.cssContainingText('.btn', 'Reply')).click();
+  };
+
+  this.findCommentThatMatches = function(text) {
+    return element(by.cssContainingText('article.comment', text));
+  };
+
+  this.showCommentReplies = function(commentText, replyText) {
+    findTopLevelComment(commentText).element(
+      by.cssContainingText('.doc-replies-count', replyText)
+    ).click();
+  };
+
+  this.findCommentReplyThatMatches = function(commentText, replyText) {
+    return findTopLevelComment(commentText).element(
+      by.cssContainingText('.replies .comment-reply', replyText)
+    );
   };
 
   this.buttons = {

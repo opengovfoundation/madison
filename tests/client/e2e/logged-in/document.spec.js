@@ -45,13 +45,32 @@ describe('Logged In - Document view', function() {
     });
   });
 
-  //describe('Document comments', function() {
-  //  xit('handles adding a comment to a document');
-  //  xit('handles replying to a comment on a document');
-  //  xit('handles liking a comment');
-  //  xit('handles liking a comment reply');
-  //  xit('handles flagging a comment');
-  //  xit('handles flagging a comment reply');
-  //});
+  fdescribe('Document comments', function() {
+    beforeEach(function() {
+      docPage.showDiscussion()
+    });
+
+    it('handles adding a comment to a document', function() {
+      var commentText = 'This is a brand new comment';
+      docPage.writeComment(commentText);
+      expect(
+        docPage.findCommentThatMatches(commentText).isPresent()
+      ).toBe(true);
+    });
+
+    it('handles replying to a comment on a document', function() {
+      var commentText = 'Yet another comment';
+      var replyText = 'I am replyyyyying';
+      docPage.writeCommentReply(commentText, replyText);
+      expect(
+        docPage.findCommentReplyThatMatches(commentText, replyText).isPresent()
+      ).toBe(true);
+    });
+
+    //xit('handles liking a comment');
+    //xit('handles liking a comment reply');
+    //xit('handles flagging a comment');
+    //xit('handles flagging a comment reply');
+  });
 
 });
