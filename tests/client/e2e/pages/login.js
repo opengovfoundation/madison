@@ -32,6 +32,13 @@ var LoginPage = function() {
     loginButton.click();
   };
 
+  this.loginInvalid = function() {
+    browser.get('/user/login');
+    emailField.sendKeys('doesnotexist@example.com');
+    passwordField.sendKeys('password');
+    loginButton.click();
+  };
+
   this.logout = function() {
     element(by.css('.account-dropdown')).isPresent()
     .then(function(presence) {
