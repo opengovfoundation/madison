@@ -8,8 +8,9 @@ var DocumentPage = function() {
   );
   var tableOfContents = element(by.css('.toc'));
 
-  var commentBox = element(by.css('#doc-comment-field'));;
-  var commentBtn = element(by.cssContainingText('.btn', 'Add Comment'));
+  var mainCommentForm = element(by.css('.comment-field:not(.ng-hide) > form'));
+  var commentBox = mainCommentForm.element(by.css('#doc-comment-field'));;
+  var commentBtn = mainCommentForm.element(by.cssContainingText('.btn', 'Add Comment'));
 
   function findTopLevelComment(text) {
     return element(by.cssContainingText('article.comment', text));
@@ -37,6 +38,10 @@ var DocumentPage = function() {
     opposeChart: element(by.css('.support-chart .chart .oppose rect'))
   };
 
+  /**
+   * Creating comments & replies
+   */
+
   this.writeComment = function(text) {
     commentBox.sendKeys(text);
     commentBtn.click();
@@ -47,10 +52,39 @@ var DocumentPage = function() {
       .element(by.css('textarea')).sendKeys(text);
     findTopLevelComment(commentText)
       .element(by.cssContainingText('.btn', 'Reply')).click();
+    browser.sleep(600);
   };
 
   this.findCommentThatMatches = function(text) {
-    return element(by.cssContainingText('article.comment', text));
+    return findTopLevelComment(text);
+  };
+
+  /**
+   * Liking comments
+   */
+
+  this.likeComment = function(text) {
+    findTopLevelComment(text)
+      .element(by.css('.activity-actions .thumbs-up')).click();
+  };
+
+  this.getCommentLikes = function(text) {
+    return findTopLevelComment(text)
+      .element(by.css('.activity-actions .thumbs-up'));
+  };
+
+  /**
+   * Flagging comments
+   */
+
+  this.flagComment = function(text) {
+    findTopLevelComment(text)
+      .element(by.css('.activity-actions .flag')).click();
+  };
+
+  this.getCommentFlags = function(text) {
+    return findTopLevelComment(text)
+      .element(by.css('.activity-actions .flag'));
   };
 
   this.showCommentReplies = function(commentText, replyText) {

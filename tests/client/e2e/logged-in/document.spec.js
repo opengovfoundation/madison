@@ -67,9 +67,19 @@ describe('Logged In - Document view', function() {
       ).toBe(true);
     });
 
-    //xit('handles liking a comment');
+    it('handles liking a comment', function() {
+      var commentText = 'Yet another comment';
+      docPage.likeComment(commentText);
+      expect(docPage.getCommentLikes(commentText).getText()).toMatch(/1/);
+    });
+
+    it('handles flagging a comment', function() {
+      var commentText = 'Yet another comment';
+      docPage.flagComment(commentText);
+      expect(docPage.getCommentFlags(commentText).getText()).toMatch(/1/);
+    });
+
     //xit('handles liking a comment reply');
-    //xit('handles flagging a comment');
     //xit('handles flagging a comment reply');
   });
 
