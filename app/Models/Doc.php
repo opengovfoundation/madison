@@ -272,7 +272,7 @@ class Doc extends Model
 
         foreach($this->userSponsors()->get() as $user) {
             $sponsors[] = [
-                'display_name' => "{$user->fname} {$user->lname}"
+                'display_name' => $user->display_name
             ];
         }
 
