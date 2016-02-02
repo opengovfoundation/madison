@@ -52,7 +52,7 @@ var DocumentPage = function() {
       .element(by.css('textarea')).sendKeys(text);
     findTopLevelComment(commentText)
       .element(by.cssContainingText('.btn', 'Reply')).click();
-    browser.sleep(600);
+    browser.sleep(1000);
   };
 
   this.findCommentThatMatches = function(text) {
@@ -73,6 +73,18 @@ var DocumentPage = function() {
       .element(by.css('.activity-actions .thumbs-up'));
   };
 
+  this.likeCommentReply = function(commentText, replyText) {
+    findTopLevelComment(commentText).element(
+      by.cssContainingText('.replies .comment-reply', replyText)
+    ).element(by.css('.activity-actions .thumbs-up')).click();
+  };
+
+  this.getCommentReplyLikes = function(commentText, replyText) {
+    return findTopLevelComment(commentText).element(
+      by.cssContainingText('.replies .comment-reply', replyText)
+    ).element(by.css('.activity-actions .thumbs-up'));
+  };
+
   /**
    * Flagging comments
    */
@@ -87,10 +99,26 @@ var DocumentPage = function() {
       .element(by.css('.activity-actions .flag'));
   };
 
-  this.showCommentReplies = function(commentText, replyText) {
+  this.flagCommentReply = function(commentText, replyText) {
     findTopLevelComment(commentText).element(
-      by.cssContainingText('.doc-replies-count', replyText)
+      by.cssContainingText('.replies .comment-reply', replyText)
+    ).element(by.css('.activity-actions .flag')).click();
+  };
+
+  this.getCommentReplyFlags = function(commentText, replyText) {
+    return findTopLevelComment(commentText).element(
+      by.cssContainingText('.replies .comment-reply', replyText)
+    ).element(by.css('.activity-actions .flag'));
+  };
+
+  this.showCommentRepliesByText = function(commentText) {
+    findTopLevelComment(commentText).element(
+      by.css('.doc-replies-count')
     ).click();
+  };
+
+  this.showCommentRepliesByComment = function(comment) {
+    comment.element.element(by.css('.doc-replies-count')).click();
   };
 
   this.findCommentReplyThatMatches = function(commentText, replyText) {
@@ -142,10 +170,6 @@ var DocumentPage = function() {
       body: reply.element(by.css('.content')),
       time: reply.element(by.css('.date'))
     };
-  };
-
-  this.showCommentReplies = function(comment) {
-    comment.element.element(by.css('.doc-replies-count')).click();
   };
 
   this.loginToCommentLink = function() {

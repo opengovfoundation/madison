@@ -63,7 +63,7 @@ describe('Document view', function() {
 
     it('can show comment replies', function() {
       var parentComment = docPage.getComment(1);
-      docPage.showCommentReplies(parentComment);
+      docPage.showCommentRepliesByComment(parentComment);
       var reply = docPage.getCommentReply(0);
 
       expect(reply.name.getText()).toBe('John Appleseed');

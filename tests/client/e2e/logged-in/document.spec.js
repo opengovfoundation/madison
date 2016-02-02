@@ -45,7 +45,7 @@ describe('Logged In - Document view', function() {
     });
   });
 
-  fdescribe('Document comments', function() {
+  describe('Document comments', function() {
     beforeEach(function() {
       docPage.showDiscussion()
     });
@@ -79,8 +79,23 @@ describe('Logged In - Document view', function() {
       expect(docPage.getCommentFlags(commentText).getText()).toMatch(/1/);
     });
 
-    //xit('handles liking a comment reply');
-    //xit('handles flagging a comment reply');
+    it('handles liking a comment reply', function() {
+      var commentText = 'This is a comment';
+      var replyText = 'Comment reply';
+
+      docPage.showCommentRepliesByText(commentText);
+      docPage.likeCommentReply(commentText, replyText);
+      expect(docPage.getCommentReplyLikes(commentText, replyText).getText()).toMatch(/1/);
+    });
+
+    it('handles flagging a comment reply', function() {
+      var commentText = 'This is a comment';
+      var replyText = 'Comment reply';
+
+      docPage.showCommentRepliesByText(commentText);
+      docPage.flagCommentReply(commentText, replyText);
+      expect(docPage.getCommentReplyFlags(commentText, replyText).getText()).toMatch(/1/);
+    });
   });
 
 });
