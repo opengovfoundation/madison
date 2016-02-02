@@ -277,7 +277,10 @@ class DocumentsController extends Controller
         if ($featuredSetting) {
             // Make sure our featured document can be viewed by the public.
             $featuredIds = explode(',', $featuredSetting->meta_value);
-            $docs = Doc::with('categories')->with('sponsor')->with('statuses')
+            $docs = Doc::with('categories')
+                ->with('userSponsors')
+                ->with('groupSponsors')
+                ->with('statuses')
                 ->with('dates')
                 ->whereIn('id', $featuredIds)
                 ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
@@ -307,7 +310,10 @@ class DocumentsController extends Controller
         // If we don't have a document, just find anything recent.
         if (empty($docs)) {
             $docs = array(
-                Doc::with('categories')->with('sponsor')->with('statuses')
+                Doc::with('categories')
+                ->with('userSponsors')
+                ->with('groupSponsors')
+                ->with('statuses')
                 ->with('dates')
                 ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
                 ->where('is_template', '!=', '1')
@@ -324,6 +330,7 @@ class DocumentsController extends Controller
         $return_docs = array();
         foreach($docs as $key => $doc) {
             $doc->enableCounts();
+            $doc->enableSponsors();
             $return_doc = $doc->toArray();
 
             $return_doc['introtext'] = $doc->introtext()->first()['meta_value'];

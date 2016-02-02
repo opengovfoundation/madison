@@ -165,7 +165,7 @@ angular.module('madisonApp.controllers')
           $scope.docs.push(doc);
 
           $scope.parseDocMeta(doc.categories, 'categories');
-          $scope.parseDocMeta(doc.sponsor, 'sponsors');
+          $scope.parseDocMeta(doc.sponsors, 'sponsors');
           $scope.parseDocMeta(doc.statuses, 'statuses');
 
           angular.forEach(doc.dates, function (date) {
@@ -175,7 +175,7 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.parseDocMeta = function (collection, name) {
-        if (collection.length === 0) {
+        if (collection && collection.length === 0) {
           return;
         }
 
@@ -221,7 +221,7 @@ angular.module('madisonApp.controllers')
             });
             break;
           case 'sponsor':
-            angular.forEach(doc.sponsor, function (sponsor) {
+            angular.forEach(doc.sponsors, function (sponsor) {
               if (+sponsor.id === value && cont) {
                 show = true;
                 cont = false;

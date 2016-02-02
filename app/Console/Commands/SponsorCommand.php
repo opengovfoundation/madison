@@ -98,11 +98,11 @@ class SponsorCommand extends Command
 
             switch ($sponsors[$selected]['sponsor_type']) {
                 case 'individual':
-                    $doc->userSponsor()->sync(array($sponsors[$selected]['id']));
+                    $doc->userSponsors()->sync(array($sponsors[$selected]['id']));
                     $this->info("Assigned Document to Independent Sponsor");
                     break;
                 case 'group':
-                    $doc->groupSponsor()->sync(array($sponsors[$selected]['id']));
+                    $doc->groupSponsors()->sync(array($sponsors[$selected]['id']));
                     $this->info("Assigned Document to Group Sponsor");
                     break;
             }
