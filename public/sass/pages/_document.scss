@@ -314,6 +314,16 @@
     }
 }
 
+/*
+ * Deleted Docs Page
+ */
+
+.deleted-docs-list {
+    table {
+        @extend .table;
+    }
+}
+
 /* Table of Contents */
 
 // Variables.

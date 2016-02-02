@@ -157,6 +157,11 @@ button {
     text-transform: uppercase;
 }
 
+.danger-button {
+    @extend .btn-danger;
+    text-transform: uppercase;
+}
+
 // Add arrows.
 .go-button {
     &:after {

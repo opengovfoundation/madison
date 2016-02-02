@@ -32,5 +32,7 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'doc.access.edit' => \App\Http\Middleware\DocAccessEdit::class,
+        'doc.access.read' => \App\Http\Middleware\DocAccessRead::class
     ];
 }

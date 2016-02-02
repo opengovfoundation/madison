@@ -32,13 +32,24 @@ class DocumentsController extends Controller
 
     public function getDocumentContent($id)
     {
-        $docContent = DocContent::where('doc_id', $id)->first();
+        $page = Input::get('page', 1);
+        $format = Input::get('format');
+        if(!$format) {
+            $format = 'html';
+        }
+
+        $docContent = DocContent::where('doc_id', $id)->
+            limit(1)->offset($page - 1)->first();
 
         $returned = array();
 
         if ($docContent) {
-            $returned['raw'] = $docContent->content;
-            $returned['html'] = $docContent->html();
+            if($format === 'raw' || $format === 'all') {
+                $returned['raw'] = $docContent->content;
+            }
+            if($format === 'html' || $format === 'all') {
+                $returned['html'] = $docContent->html();
+            }
         }
 
         return Response::json($returned);
@@ -265,43 +276,68 @@ class DocumentsController extends Controller
 
         if ($featuredSetting) {
             // Make sure our featured document can be viewed by the public.
-            $featuredId = (int) $featuredSetting->meta_value;
-            $doc = Doc::with('categories')->with('sponsor')->with('statuses')
+            $featuredIds = explode(',', $featuredSetting->meta_value);
+            $docs = Doc::with('categories')->with('sponsor')->with('statuses')
                 ->with('dates')
-                ->where('id', $featuredId)
-                ->where('private', '!=', '1')
+                ->whereIn('id', $featuredIds)
+                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
                 ->where('is_template', '!=', '1')
-                ->first();
-        }
+                ->get();
 
-        // If we don't have a document, just find anything recent.
-        if (empty($doc)) {
-            $doc = Doc::with('categories')->with('sponsor')->with('statuses')
-                ->with('dates')
-                ->where('private', '!=', '1')
-                ->where('is_template', '!=', '1')
-                ->orderBy('created_at', 'desc')
-                ->first();
-            if (!empty($doc)) {
-                $doc->thumbnail = '/img/default/default.jpg';
+            if($docs) {
+                // Reorder based on our previous list.
+                $tempDocs = array();
+                $orderList = array_flip($featuredIds);
+                foreach($docs as $key=>$doc) {
+                    $tempDocs[(int) $orderList[$doc->id]] = $doc;
+                }
+
+                // If you set the key of an array value as we do above,
+                // PHP will internally store the object as an associative
+                // array (hash), not as a list, and will return the elements
+                // in the order assigned, not by the key order.
+                // This means our attempt to re-order the object will fail.
+                // The line below will restore the order. Ugh.
+                ksort($tempDocs);
+                $docs = $tempDocs;
+
             }
         }
 
+        // If we don't have a document, just find anything recent.
+        if (empty($docs)) {
+            $docs = array(
+                Doc::with('categories')->with('sponsor')->with('statuses')
+                ->with('dates')
+                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
+                ->where('is_template', '!=', '1')
+                ->orderBy('created_at', 'desc')
+                ->first()
+            );
+        }
+
         // If we still don't have a document, give up.
-        if (empty($doc)) {
+        if (empty($docs)) {
             return Response::make(null, 404);
         }
 
-        $doc->enableCounts();
+        $return_docs = array();
+        foreach($docs as $key => $doc) {
+            $doc->enableCounts();
+            $return_doc = $doc->toArray();
 
-        $return_doc = $doc->toArray();
+            $return_doc['introtext'] = $doc->introtext()->first()['meta_value'];
+            $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
+            $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
 
-        $return_doc['introtext'] = $doc->introtext()->first()['meta_value'];
+            if(!$return_doc['thumbnail']) {
+                $return_doc['thumbnail'] = '/img/default/default.jpg';
+            }
 
-        $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
-        $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
+            $return_docs[] = $return_doc;
+        }
 
-        return Response::json($return_doc);
+        return Response::json($return_docs);
     }
 
     public function postFeatured()
@@ -314,12 +350,61 @@ class DocumentsController extends Controller
 
         try {
             $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
-            $featuredSetting->meta_value = $docId;
+
+            $docs = explode(',', $featuredSetting->meta_value);
+
+            if(!in_array($docId, $docs)) {
+                array_unshift($docs, $docId);
+            }
+            $featuredSetting->meta_value = join(',', $docs);
             $featuredSetting->save();
         } catch (Exception $e) {
             return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
         }
 
-        return Response::json($this->growlMessage('Featured Document saved successfully.', 'success'));
+        return $this->getFeatured();
+    }
+
+    public function putFeatured()
+    {
+        if (!Auth::user()->hasRole('Admin')) {
+            return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
+        }
+
+        $docs = Input::get('docs');
+
+        try {
+            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+            $featuredSetting->meta_value = $docs;
+            $featuredSetting->save();
+        } catch (Exception $e) {
+            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        }
+
+        return $this->getFeatured();
+    }
+
+    public function deleteFeatured($docId)
+    {
+        if (!Auth::user()->hasRole('Admin')) {
+            return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
+        }
+
+        try {
+            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+            $docs = explode(',', $featuredSetting->meta_value);
+
+            if(in_array($docId, $docs)) {
+                $docs = array_diff($docs, array($docId));
+            }
+            $featuredSetting->meta_value = join(',', $docs);
+            $featuredSetting->save();
+        } catch (Exception $e) {
+            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        }
+
+        return $this->getFeatured();
     }
 }

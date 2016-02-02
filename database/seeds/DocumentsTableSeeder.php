@@ -28,15 +28,13 @@ class DocumentsTableSeeder extends Seeder
             $content = "New Document Content";
         }
         $docOptions = array(
-            'title'       => 'Example Document',
-            'content'     => $content,
-            'sponsor'     => $group->id,
-            'sponsorType' => Doc::SPONSOR_TYPE_GROUP,
+            'title'         => 'Example Document',
+            'content'       => $content,
+            'sponsor'       => $group->id,
+            'publish_state' => 'published',
+            'sponsorType'   => Doc::SPONSOR_TYPE_GROUP,
         );
         $document = Doc::createEmptyDocument($docOptions);
-
-        Input::replace($input = ['content' => $content]);
-        App::make('App\Http\Controllers\DocumentsController')->saveDocumentEdits($document->id);
 
         //Set first doc as featured doc
         $featuredSetting = new Setting();
@@ -54,15 +52,11 @@ class DocumentsTableSeeder extends Seeder
         }
 
         $docOptions = array(
-            'title'       => 'Second Example Document',
-            'sponsor'     => $group->id,
-            'sponsorType' => Doc::SPONSOR_TYPE_GROUP,
+            'title'         => 'Second Example Document',
+            'sponsor'       => $group->id,
+            'publish_state' => 'published',
+            'sponsorType'   => Doc::SPONSOR_TYPE_GROUP,
         );
         $document = Doc::createEmptyDocument($docOptions);
-
-        DB::table('doc_contents')->insert(array(
-            'doc_id'      => $document->id,
-            'content'     => $content,
-        ));
     }
 }

@@ -1,16 +1,17 @@
 /*global Markdown*/
 /*global alert*/
 angular.module('madisonApp.controllers')
-  .controller('DashboardEditorController', ['$scope', '$http', '$timeout',
+  .controller('DashboardEditorController', ['$scope', '$http', '$timeout', '$q',
       '$location', '$filter', 'growl', '$upload', 'modalService', 'Doc',
-      '$translate', 'pageService', 'SITE',
-    function ($scope, $http, $timeout, $location, $filter, growl, $upload,
-      modalService, Doc, $translate, pageService, SITE) {
+      '$translate', 'pageService', '$state', 'SITE',
+    function ($scope, $http, $timeout, $q, $location, $filter, growl, $upload,
+      modalService, Doc, $translate, pageService, $state, SITE) {
 
       pageService.setTitle($translate.instant('content.editdocument.title',
         {title: SITE.name}));
 
       $scope.doc = {};
+      $scope.docContent = '';
       $scope.sponsor = {};
       $scope.status = {};
       $scope.newdate = {
@@ -21,10 +22,22 @@ angular.module('madisonApp.controllers')
       $scope.categories = [];
       $scope.introtext = "";
       $scope.suggestedCategories = [];
+      $scope.publishStates = [
+        'unpublished',
+        'published',
+        'private'
+      ];
       $scope.suggestedStatuses = [];
       $scope.dates = [];
       $scope.featuredImage = null;
       $scope.featuredDoc = false;
+      $scope.currentPage = 1;
+      $scope.contentLoaded = false;
+      $scope.markdownEditor = null;
+      // Size of MEDIUMTEXT field in MySQL
+      $scope.contentMax = 16777215;
+      // Good, safe size.
+      $scope.contentWarning = 100000;
 
       var abs = $location.absUrl();
       var id = abs.match(/.*\/(\d+)$/)[1];
@@ -41,22 +54,76 @@ angular.module('madisonApp.controllers')
       }
 
       $scope.getDoc = function (id) {
-        return $http.get('/api/docs/' + id)
-          .success(function (data) {
-            $scope.doc = data;
+        return $q(function(resolve, reject) {
+          $http.get('/api/docs/' + id)
+            .success(function (data) {
+              console.log('Got document');
+              $scope.doc = data;
+              getContent(1, function() {
+                $scope.contentLoaded = true;
+                resolve();
+              });
 
-            angular.forEach(data.categories, function (category) {
-              $scope.categories.push(angular.copy(category.name));
+              angular.forEach(data.categories, function (category) {
+                $scope.categories.push(angular.copy(category.name));
+              });
+
+              if ($scope.doc.thumbnail !== null) {
+                $scope.featuredImage = {path: $scope.doc.thumbnail + '?' +
+                  new Date().getTime()};
+              }
+
+              pageService.setTitle($translate.instant(
+                'content.editdocument.title.loaded',
+                {title: SITE.name, docTitle: data.title}));
             });
+          });
+      };
 
-            if ($scope.doc.thumbnail !== null) {
-              $scope.featuredImage = {path: $scope.doc.thumbnail + '?' +
-                new Date().getTime()};
-            }
+      getContent = function(page, callback) {
+        return Doc.getDocContent({
+          id: $scope.doc.id, format: 'raw', page: page
+        }).$promise.then(function(data) {
+          $scope.docContent = data.raw;
+          $scope.currentPage = page;
+          if(callback) {
+            callback();
+          }
+        });
+      };
 
-            pageService.setTitle($translate.instant(
-              'content.editdocument.title.loaded',
-              {title: SITE.name, docTitle: data.title}));
+      $scope.loadPage = function(page) {
+        // First, save our current work.
+        $scope.saveContent( function() {
+          // Next, set us in loading mode.
+          $scope.contentLoaded = false;
+          // Then get the content.
+          getContent(page, function() {
+            // It takes just a moment for the content to load and be ready.
+            // We don't have an event for when that's done, so just wait a
+            // really short time.
+            setTimeout(function() {
+              // Done loading.
+              $scope.contentLoaded = true;
+              $scope.markdownEditor.refreshPreview();
+            }, 100);
+          });
+        });
+      };
+
+      $scope.addPage = function() {
+        $scope.contentLoaded = false;
+        return $http.post('/api/docs/' + $scope.doc.id + '/content', {})
+          .success(function (data) {
+            // Re-set our max page count.
+            $scope.doc.pages = data.page;
+            // Load our new page.
+            $scope.loadPage(data.page);
+
+            console.log("Content saved successfully: %o", data);
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
+            console.error("Error saving content for document:", data);
           });
       };
 
@@ -215,8 +282,11 @@ angular.module('madisonApp.controllers')
       var initSlug = true;
       var initContent = true;
 
+
       docDone.then(function () {
-        new Markdown.Editor(Markdown.getSanitizingConverter()).run();
+        $scope.markdownEditor = new Markdown.Editor(
+          Markdown.getSanitizingConverter());
+        $scope.markdownEditor.run();
 
         // We don't control the pagedown CSS, and this DIV needs to be
         // scrollable
@@ -313,19 +383,19 @@ angular.module('madisonApp.controllers')
           }
         });
 
-        $scope.$watch('doc.private', function () {
+        $scope.$watch('doc.publish_state', function () {
           if (initPrivate) {
             $timeout(function () {
               initPrivate = false;
             });
           } else {
-            $scope.savePrivate();
+            $scope.savePublishState();
           }
         });
 
         // Save the content every 5 seconds
         var timeout = null;
-        $scope.$watch('doc.content.content', function () {
+        $scope.$watch('docContent', function () {
           if (initContent) {
             $timeout(function () {
               initContent = false;
@@ -400,18 +470,20 @@ angular.module('madisonApp.controllers')
             {'title': $scope.doc.title})
           .success(function (data) {
             console.log("Title saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving title for document:", data);
           });
       };
 
-      $scope.savePrivate = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/private',
-            {'private': $scope.doc.private})
+      $scope.savePublishState = function () {
+        return $http.post('/api/docs/' + $scope.doc.id + '/publishstate',
+            {'publish_state': $scope.doc.publish_state})
           .success(function (data) {
-            console.log("Private saved successfully: %o", data);
+            console.log("Publish state saved successfully: %o", data);
           }).error(function (data) {
-            console.error("Error saving private for document:", data);
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
+            console.error("Error saving publish state for document:", data);
           });
       };
 
@@ -420,19 +492,29 @@ angular.module('madisonApp.controllers')
             {'slug': $scope.doc.slug})
           .success(function (data) {
             console.log("Slug sent: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving slug for document:", data);
           });
       };
 
-      $scope.saveContent = function () {
-        return $http.post('/api/docs/' + $scope.doc.id + '/content',
-            {'content': $scope.doc.content.content})
-          .success(function (data) {
-            console.log("Content saved successfully: %o", data);
-          }).error(function (data) {
-            console.error("Error saving content for document:", data);
-          });
+      $scope.saveContent = function (callback) {
+        if($scope.contentLoaded) {
+          return $http.put('/api/docs/' + $scope.doc.id + '/content/' + $scope.currentPage,
+              {'content': $scope.docContent})
+            .success(function (data) {
+              console.log("Content saved successfully: %o", data);
+              if(callback) { callback(); }
+            }).error(function (data, status) {
+              if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
+              console.error("Error saving content for document:", data);
+              if(callback) { callback(); }
+            });
+        }
+        else {
+          console.log('Not saving until content is loaded.');
+          if(callback) { callback(); }
+        }
       };
 
       $scope.createDate = function (newDate) {
@@ -451,7 +533,8 @@ angular.module('madisonApp.controllers')
                 label: '',
                 date: new Date()
               };
-            }).error(function (data) {
+            }).error(function (data, status) {
+              if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
               console.error("Unable to save date: %o", data);
             });
         }
@@ -477,7 +560,8 @@ angular.module('madisonApp.controllers')
           .success(function (data) {
             date.$changed = false;
             console.log("Date saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Unable to save date: %o (%o)", date, data);
           });
       };
@@ -587,7 +671,8 @@ angular.module('madisonApp.controllers')
         })
           .success(function (data) {
             console.log("Status saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving status: %o", data);
           });
       };
@@ -598,7 +683,8 @@ angular.module('madisonApp.controllers')
         })
           .success(function (data) {
             console.log("Sponsor saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving sponsor: %o", data);
           });
       };
@@ -609,7 +695,8 @@ angular.module('madisonApp.controllers')
         })
           .success(function (data) {
             console.log("Categories saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving categories for document %o: %o \n %o",
               $scope.doc, $scope.categories, data);
           });
@@ -622,7 +709,8 @@ angular.module('madisonApp.controllers')
         })
           .success(function (data) {
             console.log("Intro Text saved successfully: %o", data);
-          }).error(function (data) {
+          }).error(function (data, status) {
+            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             console.error("Error saving intro text for document %o: %o",
               $scope.doc, $scope.introtext);
           });
@@ -682,18 +770,22 @@ angular.module('madisonApp.controllers')
             .success(function () {
               $scope.featuredImage = null;
               $scope.doc.thumbnail = null;
+            }).error(function(data, status) {
+              if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
             });
         }
       };
 
       $scope.tryFeaturedDoc = function () {
+        $scope._setFeaturedDoc();
+        /*
         //Check if any other documents are featured
         var featuredDoc = Doc.getFeaturedDoc();
 
         //Wait for the response
         featuredDoc.$promise.then(function () {
           //If so, display confirmation
-          if (featuredDoc.id !== undefined) {
+          if (featuredDoc.length) {
             var bodyText;
 
             if (featuredDoc.id === $scope.doc.id) {
@@ -731,10 +823,103 @@ angular.module('madisonApp.controllers')
             $scope._setFeaturedDoc();
           }
         });
+        */
       };
 
       $scope._setFeaturedDoc = function () {
-        return $http.post('/api/docs/featured', {id: $scope.doc.id});
+        $http.post('/api/docs/featured', {id: $scope.doc.id}).then(function(data) {
+          checkFeatured(data.data);
+        });
       };
+
+      $scope.removeFeaturedDoc = function() {
+        $http.delete('/api/docs/featured/' + $scope.doc.id).then(function(data) {
+          checkFeatured(data.data);
+        });
+      };
+
+      $scope.deleteDocument = function(asAdmin) {
+        var modalBody;
+        var deleteUrl = '/api/docs/' + $scope.doc.id;
+
+        if (asAdmin) {
+          modalBody = 'form.document.delete.admin.confirm.body';
+          deleteUrl += '?admin=true';
+        } else {
+          modalBody = 'form.document.delete.confirm.body';
+        }
+
+        var modalOptions = {
+          closeButtonText:
+            $translate.instant('form.general.cancel'),
+          actionButtonText:
+            $translate.instant('form.document.delete'),
+          headerText:
+            $translate.instant('form.document.delete.confirm'),
+          bodyText:
+            $translate.instant(modalBody)
+        };
+
+        modalService.showModal({}, modalOptions)
+        .then(function() {
+          $http.delete(deleteUrl)
+          .success(function() {
+            growl.success($translate.instant('form.document.delete.success'));
+            if (asAdmin) {
+              $state.go('dashboard-docs-list');
+            } else {
+              $state.go('my-documents');
+            }
+          }).error(function() {
+            growl.error($translate.instant('errors.document.delete'));
+          });
+        });
+      };
+
+      function checkFeatured(data) {
+        for(var i in data) {
+          if($scope.doc.id == data[i].id) {
+            $scope.doc.featured = true;
+            return;
+          }
+        }
+
+        $scope.doc.featured = false;
+      }
+
+      $scope.range = (function() {
+        var cache = {};
+        return function(min, max, step) {
+          var isCacheUseful = (max - min) > 70;
+          var cacheKey;
+
+          if(!min) {
+            min = 0;
+          }
+          if(!step) {
+            step = 1;
+          }
+
+          if (isCacheUseful) {
+            cacheKey = max + ',' + min + ',' + step;
+
+            if (cache[cacheKey]) {
+              return cache[cacheKey];
+            }
+          }
+
+          var _range = [];
+          step = step || 1;
+          for (var i = min; i <= max; i += step) {
+            _range.push(i);
+          }
+
+          if (isCacheUseful) {
+            cache[cacheKey] = _range;
+          }
+
+          return _range;
+        };
+      })();
     }
     ]);

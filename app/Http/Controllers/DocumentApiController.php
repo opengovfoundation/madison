@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\Doc;
 use App\Models\DocMeta;
 use App\Models\DocContent;
+use App\Models\Annotation;
+use App\Models\Comment;
 use App\Models\Category;
 use App\Models\MadisonEvent;
 
@@ -30,7 +32,9 @@ class DocumentApiController extends ApiController
     {
         $doc_id = $doc;
 
-        $doc = Doc::with('content')->with('categories')->with('introtext')->where('is_template', '!=', '1')->find($doc);
+        $doc = Doc::with('categories')->find($doc);
+        $doc->introtext = $doc->introtext()->first()['meta_value'];
+        $doc->enableCounts();
 
         // We have to manually json_encode this instead of using Response::json
         // because the encoding is inconsistent for integers between PHP
@@ -136,13 +140,13 @@ class DocumentApiController extends ApiController
         return Response::json($response);
     }
 
-    public function postPrivate($id)
+    public function postPublishState($id)
     {
         $doc = Doc::find($id);
-        $doc->private = Input::get('private');
+        $doc->publish_state = Input::get('publish_state');
         $doc->save();
 
-        $response['messages'][0] = array('text' => 'Document private saved', 'severity' => 'info');
+        $response['messages'][0] = array('text' => 'Document publish state saved', 'severity' => 'info');
 
         return Response::json($response);
     }
@@ -166,23 +170,112 @@ class DocumentApiController extends ApiController
         return Response::json($response);
     }
 
-    public function postContent($id)
+    public function postContent($docId)
     {
-        $doc = Doc::find($id);
-        $doc_content = DocContent::firstOrCreate(array('doc_id' => $doc->id));
-        $doc_content->content = Input::get('content');
-        $doc_content->save();
-        $doc->content(array($doc_content));
-        $doc->save();
+        $doc = Doc::find($docId);
 
-        Event::fire(MadisonEvent::DOC_EDITED, $doc);
+        if($doc) {
+            $last_page = DocContent::where('doc_id', $docId)->max('page');
+            if(!$last_page) {
+                $last_page = 0;
+            }
 
-        $response['messages'][0] = array('text' => 'Document content saved', 'severity' => 'info');
+            $doc_content = new DocContent();
+            $doc_content->content = Input::get('content', '');
+            $doc_content->page = $last_page + 1;
+            $doc->content()->save($doc_content);
 
-        return Response::json($response);
+            Event::fire(MadisonEvent::DOC_EDITED, $doc);
+
+            return Response::json($doc_content->toArray());
+        }
     }
 
-    public function getDocs()
+
+    public function putContent($docId, $page)
+    {
+        $doc_content = DocContent::where('doc_id', $docId)
+            ->where('page', $page)->first();
+
+        if($doc_content) {
+            $doc_content->content = Input::get('content', '');
+            $doc_content->save();
+
+            Event::fire(MadisonEvent::DOC_EDITED, Doc::find($docId));
+
+            return Response::json($doc_content->toArray());
+        }
+    }
+
+    public function deleteContent($docId, $page)
+    {
+        $doc_content = DocContent::where('doc_id', $docId)
+            ->where('page', $page)->first();
+        if($doc_content) {
+            $doc_content->delete();
+
+            DocContent::where('doc_id', $docId)
+                ->where('page', '>', $page)
+                ->decrement('page');
+
+            $doc = Doc::find($docId)->enableCounts();
+            Event::fire(MadisonEvent::DOC_EDITED, $doc);
+
+            return Response::json($doc->toArray());
+        }
+    }
+
+    public function deleteDoc($docId)
+    {
+        $admin_flag = Input::get('admin');
+        $doc = Doc::find($docId);
+        if (!$doc) return response('Not found.', 404);
+
+        if ($admin_flag) {
+            $doc->publish_state = Doc::PUBLISH_STATE_DELETED_ADMIN;
+        } else {
+            $doc->publish_state = Doc::PUBLISH_STATE_DELETED_USER;
+        }
+
+        $doc->save();
+
+        $doc->comments()->delete();
+        $doc->annotations()->delete();
+        $doc->doc_meta()->delete();
+        $doc->content()->delete();
+
+        $result = $doc->delete();
+
+        return Response::json($result);
+    }
+
+    public function getRestoreDoc($docId)
+    {
+        $doc = Doc::withTrashed()->find($docId);
+
+        if ($doc->publish_state == Doc::PUBLISH_STATE_DELETED_ADMIN) {
+            if (!Auth::user()->hasRole('admin')) {
+                return Response('Unauthorized.', 403);
+            }
+        }
+
+        if (!$doc->canUserEdit(Auth::user())) {
+            return Response('Unauthorized.', 403);
+        }
+
+        DocMeta::withTrashed()->where('doc_id', $docId)->restore();
+        DocContent::withTrashed()->where('doc_id', $docId)->restore();
+        Annotation::withTrashed()->where('doc_id', $docId)->restore();
+        Comment::withTrashed()->where('doc_id', $docId)->restore();
+
+        $doc->restore();
+        $doc->publish_state = Doc::PUBLISH_STATE_UNPUBLISHED;
+        $doc->save();
+
+        return Response::json($doc);
+    }
+
+    public function getDocs($state = null)
     {
         // Handle order by.
         $order_field = Input::get('order', 'updated_at');
@@ -208,16 +301,21 @@ class DocumentApiController extends ApiController
             $docs = Doc::getActive($limit, $offset);
         } else {
             $doc = Doc::getEager()->orderBy($order_field, $order_dir)
-                ->where('private', '!=', '1')
                 ->where('is_template', '!=', '1');
 
+            if (isset($state) && $state == 'all') {
+                if (!Auth::check() || !Auth::user()->hasRole('Admin')) {
+                    return response('Unauthorized.', 403);
+                }
+            } else {
+                $doc->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED);
+            }
+
             if (Input::has('category')) {
-                $doc = Doc::getEager()->whereHas('categories', function ($q) {
+                $doc->whereHas('categories', function ($q) {
                     $category = Input::get('category');
                     $q->where('categories.name', 'LIKE', "%$category%");
-                })
-                    ->where('private', '!=', '1')
-                    ->where('is_template', '!=', '1');
+                });
             }
 
             if (isset($limit)) {
@@ -232,31 +330,37 @@ class DocumentApiController extends ApiController
                 $doc->where('title', 'LIKE', "%$title%");
             }
 
-
-
             $docs = $doc->get();
         }
 
-        $return_docs = array();
+        return Response::json(Doc::prepareCountsAndDates($docs));
+    }
 
-        if ($docs) {
-            foreach ($docs as $doc) {
-                $doc->enableCounts();
+    public function getDeletedDocs() {
+        $admin_flag = Input::get('admin');
+        $query = Doc::onlyTrashed()->with('sponsor')->where('is_template', '!=', '1');
 
-                $return_doc = $doc->toArray();
+        $publish_states = [Doc::PUBLISH_STATE_DELETED_USER];
 
-                $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
-                $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
-
-                $return_docs[] = $return_doc;
+        // If admin flag is passed, check auth and then add
+        if ($admin_flag) {
+            if (!Auth::user()->hasRole('admin')) {
+                return Response('Unauthorized.', 403);
             }
+            $publish_states[] = Doc::PUBLISH_STATE_DELETED_ADMIN;
+        } else {
+            $query->belongsToUser(Auth::user()->id);
         }
 
-        return Response::json($return_docs);
+        $query->whereIn('publish_state', $publish_states);
+
+        $docs = $query->get();
+
+        return Response::json(Doc::prepareCountsAndDates($docs));
     }
 
     public function getDocCount() {
-        $doc = Doc::where('private', '!=', '1')
+        $doc = Doc::where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
             ->where('is_template', '!=', '1');
 
         if (Input::has('category')) {

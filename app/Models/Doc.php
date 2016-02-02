@@ -24,6 +24,12 @@ class Doc extends Model
     const SPONSOR_TYPE_INDIVIDUAL = "individual";
     const SPONSOR_TYPE_GROUP = "group";
 
+    const PUBLISH_STATE_PUBLISHED = 'published';
+    const PUBLISH_STATE_UNPUBLISHED = 'unpublished';
+    const PUBLISH_STATE_PRIVATE = 'private';
+    const PUBLISH_STATE_DELETED_ADMIN = 'deleted-admin';
+    const PUBLISH_STATE_DELETED_USER = 'deleted-user';
+
     public function __construct()
     {
         parent::__construct();
@@ -66,7 +72,8 @@ class Doc extends Model
         $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
 
         if ($featuredSetting) {
-            return $featuredSetting->meta_value == $this->id;
+            $docIds = explode(',', $featuredSetting->meta_value);
+            return in_array($this->id, $docIds);
         }
 
         return false;
@@ -89,6 +96,33 @@ class Doc extends Model
                 break;
             default:
                 throw new \Exception("Unknown Sponsor Type");
+        }
+
+        return false;
+    }
+
+    public function canUserView($user)
+    {
+        $sponsor = $this->sponsor->first();
+
+        if (in_array(
+            $this->publish_state,
+            [Doc::PUBLISH_STATE_PUBLISHED, Doc::PUBLISH_STATE_PRIVATE]
+        )) {
+            return true;
+        }
+
+        if ($user) {
+            if ($user->hasRole('Admin')) {
+                return true;
+            }
+
+            if (
+                $this->publish_state == Doc::PUBLISH_STATE_UNPUBLISHED
+                && $this->canUserEdit($user)
+            ) {
+                return true;
+            }
         }
 
         return false;
@@ -128,6 +162,16 @@ class Doc extends Model
     public function comments()
     {
         return $this->hasMany('App\Models\Comment');
+    }
+
+    public function getPages()
+    {
+        return $this->content()->count();
+    }
+
+    public function getPagesAttribute()
+    {
+        return $this->getPages();
     }
 
     public function getCommentCount()
@@ -213,6 +257,7 @@ class Doc extends Model
      */
     public function enableCounts()
     {
+        $this->appends[] = 'pages';
         $this->appends[] = 'comment_count';
         $this->appends[] = 'annotation_count';
         $this->appends[] = 'annotation_comment_count';
@@ -252,7 +297,7 @@ class Doc extends Model
 
     public function content()
     {
-        return $this->hasOne('App\Models\DocContent');
+        return $this->hasMany('App\Models\DocContent');
     }
 
     public function doc_meta()
@@ -266,6 +311,7 @@ class Doc extends Model
             'content' => "New Document Content",
             'sponsor' => null,
             'sponsorType' => null,
+            'publish_state' => 'unpublished'
         );
 
         $params = array_replace_recursive($defaults, $params);
@@ -278,6 +324,7 @@ class Doc extends Model
 
         \DB::transaction(function () use ($document, $params) {
             $document->title = $params['title'];
+            $document->publish_state = $params['publish_state'];
             $document->save();
 
             switch ($params['sponsorType']) {
@@ -303,6 +350,27 @@ class Doc extends Model
         Event::fire(MadisonEvent::NEW_DOCUMENT, $document);
 
         return $document;
+    }
+
+    public static function prepareCountsAndDates($docs = array())
+    {
+        $return_docs = array();
+
+        if ($docs) {
+            foreach ($docs as $doc) {
+                $doc->enableCounts();
+
+                $return_doc = $doc->toArray();
+
+                $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
+                $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
+                $return_doc['deleted_at'] = date('c', strtotime($return_doc['deleted_at']));
+
+                $return_docs[] = $return_doc;
+            }
+        }
+
+        return $return_docs;
     }
 
     public function save(array $options = array())
@@ -368,7 +436,7 @@ class Doc extends Model
 
                 ) total_count
                 LEFT JOIN docs on doc_id = docs.id
-                WHERE docs.private != 1
+                WHERE publish_state = 'published'
                 AND docs.is_template != 1
                 GROUP BY doc_id
                 ORDER BY total DESC
@@ -581,4 +649,52 @@ class Doc extends Model
 
         return $doc;
     }
+
+    public static function validStatesPattern()
+    {
+        $valid_states = [
+            'all',
+            self::PUBLISH_STATE_PUBLISHED,
+            self::PUBLISH_STATE_UNPUBLISHED,
+            self::PUBLISH_STATE_PRIVATE,
+            self::PUBLISH_STATE_DELETED_ADMIN,
+            self::PUBLISH_STATE_DELETED_USER
+        ];
+
+        foreach ($valid_states as $idx => $state) {
+            $valid_states[$idx] = str_replace('-', '\-', $state);
+        }
+
+        return '(' . implode('|', $valid_states) . ')';
+    }
+
+    /**
+     * Scopes!
+     * -----------------------------------------------
+     */
+
+    /**
+     * Scope to return documents that the user has edit access to
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeBelongsToUser($query, $userId)
+    {
+        return $query->where(function($q) use ($userId) {
+            // doc has independent sponsor
+            $q->whereHas('userSponsor', function($q) use ($userId) {
+                // independent sponsor is current user
+                $q->where('id', '=', $userId);
+            });
+            // doc has group sponsor
+            $q->orWhereHas('groupSponsor', function($q) use ($userId) {
+                // user belongs to group as EDITOR or OWNER
+                $q->whereHas('members', function($q) use ($userId) {
+                    $q->where('user_id', '=', $userId);
+                    $q->whereIn('role', [Group::ROLE_EDITOR, Group::ROLE_OWNER]);
+                });
+            });
+        });
+    }
+
 }

@@ -37,6 +37,22 @@ angular.module( 'madisonApp' )
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
+      .state( 'deleted-docs', {
+        url: '/documents/deleted',
+        controller: 'DeletedDocsController',
+        templateUrl: '/templates/pages/deleted-docs.html',
+        data: {
+          authorizedRoles: [ USER_ROLES.all ]
+        }
+      } )
+      .state( 'admin-deleted-docs', {
+        url: '/administrative-dashboard/docs/deleted',
+        controller: 'DeletedDocsController',
+        templateUrl: '/templates/pages/deleted-docs.html',
+        data: {
+          authorizedRoles: [ USER_ROLES.admin ]
+        }
+      } )
       .state( 'edit-doc', {
         url: '/dashboard/docs/:id',
         controller: 'DashboardEditorController',
