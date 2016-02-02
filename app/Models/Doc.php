@@ -139,12 +139,12 @@ class Doc extends Model
         return $this->belongsToMany('App\Models\Group');
     }
 
-    public function userSponsor()
+    public function userSponsors()
     {
         return $this->belongsToMany('App\Models\User');
     }
 
-    public function groupSponsor()
+    public function groupSponsors()
     {
         return $this->belongsToMany('App\Models\Group');
     }
@@ -266,6 +266,35 @@ class Doc extends Model
         $this->appends[] = 'oppose';
     }
 
+    public function getSponsors()
+    {
+        $sponsors = [];
+
+        foreach($this->userSponsors()->get() as $user) {
+            $sponsors[] = [
+                'display_name' => $user->display_name
+            ];
+        }
+
+        foreach($this->groupSponsors()->get() as $group) {
+            $sponsors[] = [
+                'display_name' => $group->display_name
+            ];
+        }
+
+        return $sponsors;
+    }
+
+    public function getSponsorsAttribute()
+    {
+        return $this->getSponsors();
+    }
+
+    public function enableSponsors()
+    {
+        $this->appends[] = 'sponsors';
+    }
+
     public function annotations()
     {
         return $this->hasMany('App\Models\Annotation');
@@ -329,10 +358,10 @@ class Doc extends Model
 
             switch ($params['sponsorType']) {
                 case static::SPONSOR_TYPE_INDIVIDUAL:
-                    $document->userSponsor()->sync(array($params['sponsor']));
+                    $document->userSponsors()->sync(array($params['sponsor']));
                     break;
                 case static::SPONSOR_TYPE_GROUP:
-                    $document->groupSponsor()->sync(array($params['sponsor']));
+                    $document->groupSponsors()->sync(array($params['sponsor']));
                     break;
                 default:
                     throw new \Exception("Invalid Sponsor Type");
@@ -359,6 +388,7 @@ class Doc extends Model
         if ($docs) {
             foreach ($docs as $doc) {
                 $doc->enableCounts();
+                $doc->enableSponsors();
 
                 $return_doc = $doc->toArray();
 
@@ -399,7 +429,11 @@ class Doc extends Model
      */
     public static function getEager()
     {
-        return Doc::with('categories')->with('sponsor')->with('statuses')->with('dates');
+        return Doc::with('categories')
+            ->with('userSponsors')
+            ->with('groupSponsors')
+            ->with('statuses')
+            ->with('dates');
     }
 
     /*
@@ -637,8 +671,8 @@ class Doc extends Model
         //Retrieve requested document
         $doc = static::where('slug', $slug)
                      ->with('statuses')
-                     ->with('userSponsor')
-                     ->with('groupSponsor')
+                     ->with('userSponsors')
+                     ->with('groupSponsors')
                      ->with('categories')
                      ->with('dates')
                      ->first();
