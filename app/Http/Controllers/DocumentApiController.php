@@ -219,7 +219,9 @@ class DocumentApiController extends ApiController
                 ->where('page', '>', $page)
                 ->decrement('page');
 
-            $doc = Doc::find($docId)->enableCounts();
+            $doc = Doc::find($docId);
+            $doc->enableCounts();
+
             Event::fire(MadisonEvent::DOC_EDITED, $doc);
 
             return Response::json($doc->toArray());

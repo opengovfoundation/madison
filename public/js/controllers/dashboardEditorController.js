@@ -127,6 +127,26 @@ angular.module('madisonApp.controllers')
           });
       };
 
+      $scope.deletePage = function(pageNum) {
+        $scope.contentLoaded = false;
+        if(!pageNum) {
+          pageNum = $scope.currentPage;
+        }
+        return $http.delete('/api/docs/' + $scope.doc.id + '/content/' + pageNum)
+          .success(function (data) {
+            $scope.doc.pages = data.pages;
+
+            var nextPage = pageNum - 1;
+            if(nextPage < 1) {
+              nextPage = 1;
+            }
+            $scope.loadPage(nextPage);
+          })
+          .error(function (data) {
+            console.error("Unable to delete page: %o", data);
+          });
+      };
+
       $scope.getAllCategories = function () {
         return $http.get('/api/docs/categories')
           .success(function (data) {

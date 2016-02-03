@@ -72,8 +72,6 @@
     @extend .action-button;
 
     //This really shouldn't be necessary.  Not sure why it isn't lining up.
-    top:-3px;
-    position:relative;
 }
 
 
@@ -118,7 +116,8 @@
     }
 }
 
-.delete-document-button {
+.delete-document-button,
+.delete-page-button {
     @extend .button;
     @extend .danger-button;
     @extend .action-button;
