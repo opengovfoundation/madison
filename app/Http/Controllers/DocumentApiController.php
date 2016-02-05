@@ -612,14 +612,14 @@ class DocumentApiController extends ApiController
 
         foreach ($sponsors as $sponsor) {
             switch (true) {
-                case ($sponsor instanceof User):
+                case ($sponsor instanceof \App\Models\User):
                     $userSponsor = $sponsor->toArray();
                     $userSponsor['sponsorType'] = 'user';
 
                     $retval['sponsors'][] = $userSponsor;
 
                     break;
-                case ($sponsor instanceof Group):
+                case ($sponsor instanceof \App\Models\Group):
 
                     $groupSponsor = $sponsor->toArray();
                     $groupSponsor['sponsorType'] = 'group';
