@@ -212,54 +212,41 @@ angular.module('madisonApp.controllers')
           allowClear: true
         };
 
-        $scope.sponsorOptions = {
-          placeholder: $translate.instant('form.document.sponsor.placeholder'),
-          allowClear: true,
-          ajax: {
-            url: "/api/user/sponsors/all",
-            dataType: 'json',
-            data: function () {
-              return;
-            },
-            results: function (data) {
-              var returned = [];
+        $http.get('/api/user/sponsors/all')
+        .success(function (data) {
+          $scope.sponsorPlaceholder = $translate.instant('form.document.sponsor.placeholder');
+          var returned = [];
 
-              if (!data.success) {
-                alert(data.message);
-                return;
-              }
-
-              angular.forEach(data.sponsors, function (sponsor) {
-                var text = "";
-
-                switch (sponsor.sponsorType) {
-                case 'group':
-                  text = $translate.instant('form.document.sponsor.groupflag',
-                    {name: sponsor.name});
-                  break;
-                case 'user':
-                  text = sponsor.fname + " " + sponsor.lname + " - " +
-                    sponsor.email;
-                  break;
-                }
-
-                returned.push({
-                  id : sponsor.id,
-                  type :  sponsor.sponsorType,
-                  text : text
-                });
-
-              });
-
-              return {
-                results: returned
-              };
-            }
-          },
-          initSelection: function (element, callback) {
-            callback($scope.sponsor);
+          if (!data.success) {
+            alert(data.message);
+            return;
           }
-        };
+
+          angular.forEach(data.sponsors, function (sponsor) {
+            var text = "";
+
+            switch (sponsor.sponsorType) {
+            case 'group':
+              text = $translate.instant('form.document.sponsor.groupflag',
+                {name: sponsor.name});
+              break;
+            case 'user':
+              text = sponsor.fname + " " + sponsor.lname + " - " +
+                sponsor.email;
+              break;
+            }
+
+            returned.push({
+              id : sponsor.id,
+              type :  sponsor.sponsorType,
+              text : text
+            });
+
+          });
+
+          $scope.sponsorOptions = returned;
+        });
+
         /*jslint unparam: false*/
       };
 
