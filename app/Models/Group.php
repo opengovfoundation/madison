@@ -406,13 +406,14 @@ class Group extends Model
         return true;
     }
 
-    public static function findUsersByRole($role)
+    public function findUsersByRole($role)
     {
         if (!static::isValidRole($role)) {
             return;
         }
 
-        $members = GroupMember::where('role', '=', $role)->get();
+        $members = GroupMember::where('role', '=', $role)
+            ->where('group_id', '=', $this->id)->get();
 
         $retval = new Collection();
         foreach ($members as $member) {

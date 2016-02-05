@@ -52,14 +52,14 @@ class GroupsApiController extends ApiController
         DB::transaction(function () use ($group) {
             $group->save();
 
-            // switch ($group->status) {
-            //     case Group::STATUS_ACTIVE:
-            //         $group->createRbacRules();
-            //         break;
-            //     case Group::STATUS_PENDING:
-            //         $group->destroyRbacRules();
-            //         break;
-            // }
+            switch ($group->status) {
+                case Group::STATUS_ACTIVE:
+                    $group->createRbacRules();
+                    break;
+                case Group::STATUS_PENDING:
+                    $group->destroyRbacRules();
+                    break;
+            }
         });
 
         return Response::json($group);
