@@ -27,6 +27,8 @@ class Doc extends Model
     const PUBLISH_STATE_PUBLISHED = 'published';
     const PUBLISH_STATE_UNPUBLISHED = 'unpublished';
     const PUBLISH_STATE_PRIVATE = 'private';
+    const PUBLISH_STATE_DELETED_ADMIN = 'deleted-admin';
+    const PUBLISH_STATE_DELETED_USER = 'deleted-user';
 
     public function __construct()
     {
@@ -137,12 +139,12 @@ class Doc extends Model
         return $this->belongsToMany('App\Models\Group');
     }
 
-    public function userSponsor()
+    public function userSponsors()
     {
         return $this->belongsToMany('App\Models\User');
     }
 
-    public function groupSponsor()
+    public function groupSponsors()
     {
         return $this->belongsToMany('App\Models\Group');
     }
@@ -264,6 +266,35 @@ class Doc extends Model
         $this->appends[] = 'oppose';
     }
 
+    public function getSponsors()
+    {
+        $sponsors = [];
+
+        foreach($this->userSponsors()->get() as $user) {
+            $sponsors[] = [
+                'display_name' => $user->display_name
+            ];
+        }
+
+        foreach($this->groupSponsors()->get() as $group) {
+            $sponsors[] = [
+                'display_name' => $group->display_name
+            ];
+        }
+
+        return $sponsors;
+    }
+
+    public function getSponsorsAttribute()
+    {
+        return $this->getSponsors();
+    }
+
+    public function enableSponsors()
+    {
+        $this->appends[] = 'sponsors';
+    }
+
     public function annotations()
     {
         return $this->hasMany('App\Models\Annotation');
@@ -327,10 +358,10 @@ class Doc extends Model
 
             switch ($params['sponsorType']) {
                 case static::SPONSOR_TYPE_INDIVIDUAL:
-                    $document->userSponsor()->sync(array($params['sponsor']));
+                    $document->userSponsors()->sync(array($params['sponsor']));
                     break;
                 case static::SPONSOR_TYPE_GROUP:
-                    $document->groupSponsor()->sync(array($params['sponsor']));
+                    $document->groupSponsors()->sync(array($params['sponsor']));
                     break;
                 default:
                     throw new \Exception("Invalid Sponsor Type");
@@ -348,6 +379,28 @@ class Doc extends Model
         Event::fire(MadisonEvent::NEW_DOCUMENT, $document);
 
         return $document;
+    }
+
+    public static function prepareCountsAndDates($docs = array())
+    {
+        $return_docs = array();
+
+        if ($docs) {
+            foreach ($docs as $doc) {
+                $doc->enableCounts();
+                $doc->enableSponsors();
+
+                $return_doc = $doc->toArray();
+
+                $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
+                $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
+                $return_doc['deleted_at'] = date('c', strtotime($return_doc['deleted_at']));
+
+                $return_docs[] = $return_doc;
+            }
+        }
+
+        return $return_docs;
     }
 
     public function save(array $options = array())
@@ -376,7 +429,11 @@ class Doc extends Model
      */
     public static function getEager()
     {
-        return Doc::with('categories')->with('sponsor')->with('statuses')->with('dates');
+        return Doc::with('categories')
+            ->with('userSponsors')
+            ->with('groupSponsors')
+            ->with('statuses')
+            ->with('dates');
     }
 
     /*
@@ -614,8 +671,8 @@ class Doc extends Model
         //Retrieve requested document
         $doc = static::where('slug', $slug)
                      ->with('statuses')
-                     ->with('userSponsor')
-                     ->with('groupSponsor')
+                     ->with('userSponsors')
+                     ->with('groupSponsors')
                      ->with('categories')
                      ->with('dates')
                      ->first();
@@ -625,5 +682,68 @@ class Doc extends Model
         }
 
         return $doc;
+    }
+
+    public static function validStatesPattern()
+    {
+        $valid_states = [
+            'all',
+            self::PUBLISH_STATE_PUBLISHED,
+            self::PUBLISH_STATE_UNPUBLISHED,
+            self::PUBLISH_STATE_PRIVATE,
+            self::PUBLISH_STATE_DELETED_ADMIN,
+            self::PUBLISH_STATE_DELETED_USER
+        ];
+
+        foreach ($valid_states as $idx => $state) {
+            $valid_states[$idx] = str_replace('-', '\-', $state);
+        }
+
+        return '(' . implode('|', $valid_states) . ')';
+    }
+
+    /**
+     * Scopes!
+     * -----------------------------------------------
+     */
+
+    /**
+     * Scope to return documents that the user has edit access to
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeBelongsToUser($query, $userId)
+    {
+        return $query->where(function($q) use ($userId) {
+            // doc has independent sponsor
+            $q->whereHas('userSponsor', function($q) use ($userId) {
+                // independent sponsor is current user
+                $q->where('id', '=', $userId);
+            });
+            // doc has group sponsor
+            $q->orWhereHas('groupSponsor', function($q) use ($userId) {
+                // user belongs to group as EDITOR or OWNER
+                $q->whereHas('members', function($q) use ($userId) {
+                    $q->where('user_id', '=', $userId);
+                    $q->whereIn('role', [Group::ROLE_EDITOR, Group::ROLE_OWNER]);
+                });
+            });
+        });
+    }
+
+    public function getImagePath($image = '')
+    {
+        return 'doc-' . $this->id . '/' . $image;
+    }
+
+    public function getImageUrl($image = '')
+    {
+        return '/api/docs/' . $this->id . '/images/' . $image;
+    }
+
+    public function getImagePathFromUrl($image)
+    {
+        return str_replace('/api/docs/' . $this->id . '/images/',
+            'doc-' . $this->id . '/', $image);
     }
 }
