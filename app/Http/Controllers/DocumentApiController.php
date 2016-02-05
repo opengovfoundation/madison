@@ -8,6 +8,7 @@ use Input;
 use Response;
 use Event;
 use App\Models\User;
+use App\Models\Group;
 use App\Models\Doc;
 use App\Models\DocMeta;
 use App\Models\DocContent;
@@ -459,7 +460,7 @@ class DocumentApiController extends ApiController
         $sponsor = $doc->sponsor()->first();
 
         if ($sponsor) {
-            $sponsor->sponsorType = get_class($sponsor);
+            $sponsor->sponsorType = str_replace('App\Models\\', '', get_class($sponsor));
 
             return Response::json($sponsor);
         }
@@ -482,13 +483,13 @@ class DocumentApiController extends ApiController
                     $user = User::find($sponsor['id']);
                     $doc->userSponsors()->sync(array($user->id));
                     $doc->groupSponsors()->sync(array());
-                    $response = $user;
+                    $response = $user->toArray();
                     break;
                 case 'group':
                     $group = Group::find($sponsor['id']);
                     $doc->groupSponsors()->sync(array($group->id));
                     $doc->userSponsors()->sync(array());
-                    $response = $group;
+                    $response = $group->toArray();
                     break;
                 default:
                     throw new Exception('Unknown sponsor type '.$sponsor['type']);
