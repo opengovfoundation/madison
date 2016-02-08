@@ -1,10 +1,11 @@
 var pages = require('./pages');
 
 describe('Document view', function() {
-  var docPage;
+  var docPage, pageLayout;
 
   beforeEach(function() {
     docPage = new pages.Document();
+    pageLayout = new pages.Layout();
     docPage.get();
   });
 
@@ -13,7 +14,7 @@ describe('Document view', function() {
   });
 
   it('shows the bill text', function() {
-    expect(docPage.info.content.getText()).toMatch(/New Document Content/);
+    expect(docPage.info.content.getText()).toMatch(/Document 1/);
   });
 
   describe('Document stats', function() {
@@ -62,7 +63,7 @@ describe('Document view', function() {
 
     it('can show comment replies', function() {
       var parentComment = docPage.getComment(1);
-      docPage.showCommentReplies(parentComment);
+      docPage.showCommentRepliesByComment(parentComment);
       var reply = docPage.getCommentReply(0);
 
       expect(reply.name.getText()).toBe('John Appleseed');
@@ -70,6 +71,44 @@ describe('Document view', function() {
       expect(reply.time.getText()).toMatch(/(about )?(\d+|a) (.+) ago/i);
     });
 
+    it('shows login modal when clicking "login to comment"', function() {
+      docPage.loginToCommentLink().click();
+      expect(pageLayout.loginModal().isDisplayed()).toBe(true);
+    });
+
+    describe('clicking bill text tab', function() {
+      it('hides discussion tab, shows bill text', function() {
+        docPage.showBillText();
+        expect(docPage.info.content.getText()).toMatch(/Document 1/);
+        expect(docPage.info.content.isDisplayed()).toBe(true);
+      });
+    });
+
+  });
+
+  describe('Support / Oppose', function() {
+    it('shows login or signup prompt when trying to support', function() {
+      docPage.buttons.support.click();
+      expect(pageLayout.loginModal().isDisplayed()).toBe(true);
+    });
+
+    it('shows login or signup prompt when trying to oppose', function() {
+      docPage.buttons.oppose.click();
+      expect(pageLayout.loginModal().isDisplayed()).toBe(true);
+    });
+  });
+
+  describe('Table of Contents', function() {
+    it('shows table of contents when clicking the toggle', function() {
+      docPage.showTableOfContents();
+      expect(docPage.pageWithTableOfContents().isPresent()).toBe(true);
+    });
+
+    it('closes table of contents when clicking hide', function() {
+      docPage.showTableOfContents();
+      docPage.hideTableOfContents();
+      expect(docPage.pageWithTableOfContents().isPresent()).toBe(false);
+    });
   });
 
 });

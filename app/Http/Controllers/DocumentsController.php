@@ -7,6 +7,7 @@ use Response;
 use Auth;
 use Input;
 use Redirect;
+use Storage;
 use App\Models\Setting;
 use App\Models\DocContent;
 use App\Models\Doc;
@@ -218,32 +219,43 @@ class DocumentsController extends Controller
         }
     }
 
+    public function getImage($docId, $image)
+    {
+        $doc = Doc::where('id', $docId)->first();
+        if($doc) {
+            $path = $doc->getImagePath($image);
+            if(Storage::has($path)) {
+                return response(Storage::get($path), 200)
+                    ->header('Content-Type', Storage::mimeType($path));
+            }
+            else {
+                return Response::make(null, 404);
+            }
+        }
+        else {
+            return Response::make(null, 404);
+        }
+    }
+
     public function uploadImage($docId)
     {
         if (Input::hasFile('file')) {
             $file = Input::file('file');
 
-            $extension = $file->guessExtension();
-
-            $filename = "default.$extension";
-            $public_directory = "/img/doc-".$docId."/";
-            $web_path = $public_directory.$filename;
-
-            $path = public_path().$public_directory;
-
             $doc = Doc::where('id', $docId)->first();
-            $doc->thumbnail = $web_path;
+            $doc->thumbnail = $doc->getImageUrl($file->getClientOriginalName());
 
             try {
                 $doc->save();
 
-                $file->move($path, $filename);
+                $path = Storage::getDriver()->getAdapter()->getPathPrefix() . $doc->getImagePath();
+                $result = $file->move($path, $file->getClientOriginalName());
             } catch (Exception $e) {
                 return Response::json($this->growlMessage('There was an error with the image upload', 'error'), 500);
             }
 
             $params = [
-                'imagePath' => $web_path,
+                'imagePath' => $doc->thumbnail,
             ];
 
             return Response::json($this->growlMessage("Upload successful", 'success', $params));
@@ -256,17 +268,18 @@ class DocumentsController extends Controller
     {
         $doc = Doc::where('id', $docId)->first();
 
-        $image_path = public_path().$doc->thumbnail;
+        $image_path = $doc->getImagePathFromUrl($doc->thumbnail);
 
-        try {
-            File::delete($image_path);
-            $doc->thumbnail = null;
-            $doc->save();
-        } catch (Exception $e) {
-            Log::error("Error deleting document featured image for document id $docId");
-            Log::error($e);
+        if(Storage::has($image_path)) {
+            try {
+                Storage::delete($image_path);
+            } catch (Exception $e) {
+                Log::error("Error deleting document featured image for document id $docId");
+                Log::error($e);
+            }
         }
-
+        $doc->thumbnail = null;
+        $doc->save();
         return Response::json($this->growlMessage('Image deleted successfully', 'success'));
     }
 

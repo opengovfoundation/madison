@@ -369,7 +369,7 @@ class Doc extends Model
 
             $template = new DocContent();
             $template->doc_id = $document->id;
-            $template->content = "New Document Content";
+            $template->content = $params['content'];
             $template->save();
 
             $document->init_section = $template->id;
@@ -731,4 +731,19 @@ class Doc extends Model
         });
     }
 
+    public function getImagePath($image = '')
+    {
+        return 'doc-' . $this->id . '/' . $image;
+    }
+
+    public function getImageUrl($image = '')
+    {
+        return '/api/docs/' . $this->id . '/images/' . $image;
+    }
+
+    public function getImagePathFromUrl($image)
+    {
+        return str_replace('/api/docs/' . $this->id . '/images/',
+            'doc-' . $this->id . '/', $image);
+    }
 }

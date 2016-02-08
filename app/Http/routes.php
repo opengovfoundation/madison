@@ -76,6 +76,7 @@ Route::pattern('doc', '[0-9]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('date', '[0-9]+');
 Route::pattern('group', '[0-9]+');
+Route::pattern('image', '[a-zA-Z0-9-_]+\.[a-zA-Z0-9]{2,4}');
 Route::pattern('state', Doc::validStatesPattern());
 
 /*
@@ -220,6 +221,7 @@ Route::get('api/docs/{doc}/sponsor/{sponsor}', 'DocumentApiController@hasSponsor
 Route::get('api/docs/{doc}/sponsor', 'DocumentApiController@getSponsor')->middleware(['doc.access.read']);
 Route::get('api/docs/{doc}/status', 'DocumentApiController@getStatus')->middleware(['doc.access.read']);
 Route::get('api/docs/{doc}/dates', 'DocumentApiController@getDates')->middleware(['doc.access.read']);
+Route::get('api/docs/{doc}/images/{image}','DocumentsController@getImage')->middleware(['doc.access.read']);
 Route::get('api/docs/{doc}', 'DocumentApiController@getDoc')->middleware(['doc.access.read']);
 
 Route::post('api/docs/', 'DocumentApiController@postDocs');

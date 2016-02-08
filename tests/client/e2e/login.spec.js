@@ -39,6 +39,14 @@ describe('Auth test', function() {
     .toMatch(/Please click the link sent to your email to verify your account/i);
   });
 
+  // Check invalid email
+  it('should inform the user if the email is not registered', function() {
+    loginPage.loginInvalid();
+
+    expect(pageLayout.growlError().getText())
+    .toMatch(/Email does not exist/i);
+  });
+
   // TODO: Forgot password tests?
   // TODO: Confirmation email tests (and resend)?
 
