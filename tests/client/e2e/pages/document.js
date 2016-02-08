@@ -3,6 +3,18 @@ var DocumentPage = function() {
   var discussionTabBtn = element(
     by.cssContainingText('.doc-content .nav-tabs a', 'Discussion')
   );
+  var billTextTabBtn = element(
+    by.cssContainingText('.doc-content .nav-tabs a', 'Bill Text')
+  );
+  var tableOfContents = element(by.css('.toc'));
+
+  var mainCommentForm = element(by.css('.comment-field:not(.ng-hide) > form'));
+  var commentBox = mainCommentForm.element(by.css('#doc-comment-field'));;
+  var commentBtn = mainCommentForm.element(by.cssContainingText('.btn', 'Add Comment'));
+
+  function findTopLevelComment(text) {
+    return element(by.cssContainingText('article.comment', text));
+  }
 
   this.get = function() {
     browser.get('/docs/example-document');
@@ -26,6 +38,95 @@ var DocumentPage = function() {
     opposeChart: element(by.css('.support-chart .chart .oppose rect'))
   };
 
+  /**
+   * Creating comments & replies
+   */
+
+  this.writeComment = function(text) {
+    commentBox.sendKeys(text);
+    commentBtn.click();
+  };
+
+  this.writeCommentReply = function(commentText, text) {
+    findTopLevelComment(commentText)
+      .element(by.css('textarea')).sendKeys(text);
+    findTopLevelComment(commentText)
+      .element(by.cssContainingText('.btn', 'Reply')).click();
+    browser.sleep(1000);
+  };
+
+  this.findCommentThatMatches = function(text) {
+    return findTopLevelComment(text);
+  };
+
+  /**
+   * Liking comments
+   */
+
+  this.likeComment = function(text) {
+    findTopLevelComment(text)
+      .element(by.css('.activity-actions .thumbs-up')).click();
+  };
+
+  this.getCommentLikes = function(text) {
+    return findTopLevelComment(text)
+      .element(by.css('.activity-actions .thumbs-up'));
+  };
+
+  this.likeCommentReply = function(commentText, replyText) {
+    findTopLevelComment(commentText).element(
+      by.cssContainingText('.replies .comment-reply', replyText)
+    ).element(by.css('.activity-actions .thumbs-up')).click();
+  };
+
+  this.getCommentReplyLikes = function(commentText, replyText) {
+    return findTopLevelComment(commentText).element(
+      by.cssContainingText('.replies .comment-reply', replyText)
+    ).element(by.css('.activity-actions .thumbs-up'));
+  };
+
+  /**
+   * Flagging comments
+   */
+
+  this.flagComment = function(text) {
+    findTopLevelComment(text)
+      .element(by.css('.activity-actions .flag')).click();
+  };
+
+  this.getCommentFlags = function(text) {
+    return findTopLevelComment(text)
+      .element(by.css('.activity-actions .flag'));
+  };
+
+  this.flagCommentReply = function(commentText, replyText) {
+    findTopLevelComment(commentText).element(
+      by.cssContainingText('.replies .comment-reply', replyText)
+    ).element(by.css('.activity-actions .flag')).click();
+  };
+
+  this.getCommentReplyFlags = function(commentText, replyText) {
+    return findTopLevelComment(commentText).element(
+      by.cssContainingText('.replies .comment-reply', replyText)
+    ).element(by.css('.activity-actions .flag'));
+  };
+
+  this.showCommentRepliesByText = function(commentText) {
+    findTopLevelComment(commentText).element(
+      by.css('.doc-replies-count')
+    ).click();
+  };
+
+  this.showCommentRepliesByComment = function(comment) {
+    comment.element.element(by.css('.doc-replies-count')).click();
+  };
+
+  this.findCommentReplyThatMatches = function(commentText, replyText) {
+    return findTopLevelComment(commentText).element(
+      by.cssContainingText('.replies .comment-reply', replyText)
+    );
+  };
+
   this.buttons = {
     support: element(by.css('#doc-support')),
     oppose: element(by.css('#doc-oppose'))
@@ -33,6 +134,20 @@ var DocumentPage = function() {
 
   this.showDiscussion = function() {
     discussionTabBtn.click();
+  };
+
+  this.showBillText = function() {
+    billTextTabBtn.click();
+  };
+
+  this.showTableOfContents = function() {
+    element(by.css('.toc-title-side')).click();
+    browser.driver.sleep(1000);
+  };
+
+  this.hideTableOfContents = function() {
+    element(by.css('.toc-close')).click();
+    browser.driver.sleep(1000);
   };
 
   this.getComment = function(row) {
@@ -57,8 +172,14 @@ var DocumentPage = function() {
     };
   };
 
-  this.showCommentReplies = function(comment) {
-    comment.element.element(by.css('.doc-replies-count')).click();
+  this.loginToCommentLink = function() {
+    return element(
+      by.cssContainingText('.comment-field:nth-child(2) a', 'Login to comment')
+    );
+  };
+
+  this.pageWithTableOfContents = function() {
+    return element(by.css('.single-doc.toc-open'));
   };
 
 };

@@ -45,13 +45,57 @@ describe('Logged In - Document view', function() {
     });
   });
 
-  //describe('Document comments', function() {
-  //  xit('handles adding a comment to a document');
-  //  xit('handles replying to a comment on a document');
-  //  xit('handles liking a comment');
-  //  xit('handles liking a comment reply');
-  //  xit('handles flagging a comment');
-  //  xit('handles flagging a comment reply');
-  //});
+  describe('Document comments', function() {
+    beforeEach(function() {
+      docPage.showDiscussion()
+    });
+
+    it('handles adding a comment to a document', function() {
+      var commentText = 'This is a brand new comment';
+      docPage.writeComment(commentText);
+      expect(
+        docPage.findCommentThatMatches(commentText).isPresent()
+      ).toBe(true);
+    });
+
+    it('handles replying to a comment on a document', function() {
+      var commentText = 'Yet another comment';
+      var replyText = 'I am replyyyyying';
+      docPage.writeCommentReply(commentText, replyText);
+      expect(
+        docPage.findCommentReplyThatMatches(commentText, replyText).isPresent()
+      ).toBe(true);
+    });
+
+    it('handles liking a comment', function() {
+      var commentText = 'Yet another comment';
+      docPage.likeComment(commentText);
+      expect(docPage.getCommentLikes(commentText).getText()).toMatch(/1/);
+    });
+
+    it('handles flagging a comment', function() {
+      var commentText = 'Yet another comment';
+      docPage.flagComment(commentText);
+      expect(docPage.getCommentFlags(commentText).getText()).toMatch(/1/);
+    });
+
+    it('handles liking a comment reply', function() {
+      var commentText = 'This is a comment';
+      var replyText = 'Comment reply';
+
+      docPage.showCommentRepliesByText(commentText);
+      docPage.likeCommentReply(commentText, replyText);
+      expect(docPage.getCommentReplyLikes(commentText, replyText).getText()).toMatch(/1/);
+    });
+
+    it('handles flagging a comment reply', function() {
+      var commentText = 'This is a comment';
+      var replyText = 'Comment reply';
+
+      docPage.showCommentRepliesByText(commentText);
+      docPage.flagCommentReply(commentText, replyText);
+      expect(docPage.getCommentReplyFlags(commentText, replyText).getText()).toMatch(/1/);
+    });
+  });
 
 });

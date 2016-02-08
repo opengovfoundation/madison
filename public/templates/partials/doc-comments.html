@@ -7,8 +7,7 @@
     </form>
 </div>
 <div class="comment-field" ng-hide="user">
-    <a href="/user/login"
-        ng-click="showLoginForm($event)"
+    <a ng-click="showLoginForm($event)"
         translate="document.action.mustlogin"></a>
 </div>
 <div class="comment-thread" ng-show="doc.comments.length">
@@ -71,7 +70,7 @@
                     translate="annotations.label.replies.none"></span>
             </div>
         </section>
-        <a href="/user/login" ng-show="!user" class="login-message"
+        <a ng-show="!user" class="login-message"
             ng-click="showLoginForm($event)"
             translate="document.action.mustlogin"></a>
         <section class="reply" ng-show="user">
@@ -96,7 +95,7 @@
     </form>
 </div>
 <div class="comment-field" ng-show="!user && doc.comments.length > 10">
-    <a href="/user/login" ng-click="showLoginForm($event)"
+    <a ng-click="showLoginForm($event)"
         translate="document.action.mustlogin"></a>
 </div>
 

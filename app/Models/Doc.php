@@ -369,7 +369,7 @@ class Doc extends Model
 
             $template = new DocContent();
             $template->doc_id = $document->id;
-            $template->content = "New Document Content";
+            $template->content = $params['content'];
             $template->save();
 
             $document->init_section = $template->id;
