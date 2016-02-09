@@ -25,6 +25,9 @@ exports.config = {
 
   rootElement: 'html',
 
+  // This was added to prevent sync timeouts that were happening on travis
+  allScriptsTimeout: 20000,
+
   onPrepare: function() {
     browser.driver.manage().window().setSize(1024, 768);
   }

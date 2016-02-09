@@ -13,7 +13,7 @@ var LoginPage = function() {
     passwordField.sendKeys('password');
     loginButton.click();
     browser.driver.wait(
-      protractor.until.elementLocated(by.css('.account-dropdown')),
+      protractor.until.elementLocated(by.css('.account-dropdown > .dropdown-trigger')),
       5000
     );
   };
