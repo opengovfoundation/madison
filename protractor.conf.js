@@ -23,6 +23,8 @@ exports.config = {
 
   baseUrl: 'http://0.0.0.0:8100',
 
+  rootElement: 'html',
+
   onPrepare: function() {
     browser.driver.manage().window().setSize(1024, 768);
   }
