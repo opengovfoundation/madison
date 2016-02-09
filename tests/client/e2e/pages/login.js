@@ -40,10 +40,11 @@ var LoginPage = function() {
   };
 
   this.logout = function() {
-    element(by.css('.account-dropdown')).isPresent()
+    element(by.css('.account-dropdown > .dropdown-trigger')).isPresent()
     .then(function(presence) {
       if (!presence) return;
-      element(by.css('.account-dropdown')).click();
+      //browser.sleep(100);
+      element(by.css('.account-dropdown > .dropdown-trigger')).click();
       element(by.css('li.link-logout a')).click();
     });
   };
