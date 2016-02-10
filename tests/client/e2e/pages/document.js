@@ -52,7 +52,7 @@ var DocumentPage = function() {
       .element(by.css('textarea')).sendKeys(text);
     findTopLevelComment(commentText)
       .element(by.cssContainingText('.btn', 'Reply')).click();
-    browser.sleep(1000);
+    browser.sleep(1500);
   };
 
   this.findCommentThatMatches = function(text) {
