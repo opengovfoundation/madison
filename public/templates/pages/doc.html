@@ -79,6 +79,7 @@
             <h2 class="screen-hidden" translate="document.label.text"></h2>
             <article class="doc-article" id="doc_content" ng-bind-html="doc.html"
               ng-mouseup=""></article>
+            <span ng-if="loading" translate="info.loading"></span>
           </div>
         </section>
         <aside id="tab-discussion" ng-class="{'active': secondtab == true}"
