@@ -31,6 +31,7 @@
 
   "info.message.outdatedbrowser": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/\" target=\"_blank\">upgrade your browser</a> to improve your experience.",
   "info.message.mobilebrowser.annotate": "We're currently working on the ability to annotate on mobile browsers. Until then please use a desktop or laptop computer to annotate.",
+  "info.loading": "Loading, please wait.",
 
   "form.general.submit": "Submit",
   "form.general.show": "Show",
