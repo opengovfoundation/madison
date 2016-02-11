@@ -23,6 +23,12 @@ exports.config = {
 
   baseUrl: 'http://0.0.0.0:8100',
 
+  rootElement: 'html',
+
+  // This was added to prevent sync timeouts that were happening on travis
+  allScriptsTimeout: 60000,
+  getPageTimeout: 60000,
+
   onPrepare: function() {
     browser.driver.manage().window().setSize(1024, 768);
   }

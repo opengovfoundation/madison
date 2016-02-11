@@ -13,7 +13,7 @@ var LoginPage = function() {
     passwordField.sendKeys('password');
     loginButton.click();
     browser.driver.wait(
-      protractor.until.elementLocated(by.css('.account-dropdown')),
+      protractor.until.elementLocated(by.css('.account-dropdown > .dropdown-trigger')),
       5000
     );
   };
@@ -32,11 +32,19 @@ var LoginPage = function() {
     loginButton.click();
   };
 
+  this.loginInvalid = function() {
+    browser.get('/user/login');
+    emailField.sendKeys('doesnotexist@example.com');
+    passwordField.sendKeys('password');
+    loginButton.click();
+  };
+
   this.logout = function() {
-    element(by.css('.account-dropdown')).isPresent()
+    element(by.css('.account-dropdown > .dropdown-trigger')).isPresent()
     .then(function(presence) {
       if (!presence) return;
-      element(by.css('.account-dropdown')).click();
+      //browser.sleep(100);
+      element(by.css('.account-dropdown > .dropdown-trigger')).click();
       element(by.css('li.link-logout a')).click();
     });
   };

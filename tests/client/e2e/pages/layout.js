@@ -1,6 +1,7 @@
 var PageLayout = function() {
 
   var signupBanner = element(by.cssContainingText('.prompt.prompt-info', 'Want to help'));
+  var loginModal = element(by.cssContainingText('.popup', 'Please log in.'));
 
   var links = {
     logo: element(by.css('.logo-madison')),
@@ -35,6 +36,10 @@ var PageLayout = function() {
   // This is a function because it may not be available immediately
   this.growlError = function() {
     return element(by.css('.growl-item.alert-error .growl-message'));
+  };
+
+  this.loginModal = function() {
+    return loginModal;
   };
 };
 
