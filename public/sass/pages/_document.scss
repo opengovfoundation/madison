@@ -82,6 +82,12 @@
     @extend .col-md-16;
 }
 
+.doc-content {
+    img {
+        max-width: 100%;
+    }
+}
+
 .tab-content {
     margin-top: $line-height-computed;
 }
