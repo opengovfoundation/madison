@@ -13,6 +13,7 @@ angular.module('madisonApp.controllers')
       $scope.activeTab = 'content';
       $scope.doc = {};
       $scope.currentPage = 1;
+      $scope.loading = true;
 
       $scope.setSponsor = function () {
         try {
@@ -78,6 +79,12 @@ angular.module('madisonApp.controllers')
         return $scope.doc.content.$promise;
       };
 
+      $scope.$on('docContentUpdated', function() {
+        $scope.loading = false;
+        // Wait for next tick so angular has digested content into page
+        $timeout($anchorScroll);
+      });
+
       //Load the introtext if we have one
       $scope.loadIntrotext = function (doc) {
         //Set the document introtext
@@ -93,15 +100,13 @@ angular.module('madisonApp.controllers')
         // Otherwise, the hash is #subcomment/#comment and the discussion tab should be active
         var subCommentHash = $location.hash().match(/^annsubcomment_([0-9]+)$/);
         var annotationHash = $location.hash().match(/^annotation_([0-9]+)$/);
+        var commentHash = $location.hash().match(/^comment_([0-9]+)$/);
 
         $scope.secondtab = false;
 
         // TODO: Once the hash for comments is decided, we can test for just
         // that and go to the comment tab, otherwise stay on content.
-        if (subCommentHash || annotationHash || !$location.hash()) {
-          $scope.changeTab('content');
-        }
-        else {
+        if (commentHash) {
           $scope.secondtab = true;
           $scope.changeTab('comment');
         }
