@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Event;
 use Response;
 use Auth;
+use Cache;
 use Input;
 use Redirect;
 use Storage;
@@ -34,9 +35,19 @@ class DocumentsController extends Controller
     public function getDocumentContent($id)
     {
         $page = Input::get('page', 1);
+        if (!$page) {
+            $page = 1;
+        }
+
         $format = Input::get('format');
-        if(!$format) {
+        if (!$format) {
             $format = 'html';
+        }
+
+        $cacheKey = 'doc-'.$id.'-'.$page.'-'.$format;
+
+        if ($format === 'html' && Cache::has($cacheKey)) {
+            return Response::json(Cache::get($cacheKey));
         }
 
         $docContent = DocContent::where('doc_id', $id)->
@@ -51,6 +62,11 @@ class DocumentsController extends Controller
             if($format === 'html' || $format === 'all') {
                 $returned['html'] = $docContent->html();
             }
+        }
+
+        if ($format === 'html') {
+            Cache::forever($cacheKey, $returned);
+            $returned['cached'] = false;
         }
 
         return Response::json($returned);

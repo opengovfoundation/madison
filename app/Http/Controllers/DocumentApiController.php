@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Validator;
+use Cache;
 use Input;
 use Response;
 use Event;
@@ -200,8 +201,14 @@ class DocumentApiController extends ApiController
             ->where('page', $page)->first();
 
         if($doc_content) {
+
             $doc_content->content = Input::get('content', '');
             $doc_content->save();
+
+            // Invalidate the cache
+            $format = 'html';
+            $cacheKey = 'doc-'.$docId.'-'.$page.'-'.$format;
+            Cache::forget($cacheKey);
 
             Event::fire(MadisonEvent::DOC_EDITED, Doc::find($docId));
 
