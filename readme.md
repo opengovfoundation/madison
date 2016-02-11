@@ -3,6 +3,8 @@
 [![Build Status](https://api.travis-ci.org/opengovfoundation/madison.svg?branch=master)](https://travis-ci.org/opengovfoundation/madison)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/opengovfoundation/madison.svg)](https://scrutinizer-ci.com/g/opengovfoundation/madison?branch=master)
 
+**This is the branch for Madison 3.0**
+
 Madison is an open-source, collaborative document editing platform.  While Madison can be used to collaborate on many different kinds of documents, the official version is being built with legislative and policy documents in mind.
 
 If you have questions about Madison, please open an issue and we will try to respond as soon as possible.
@@ -16,6 +18,10 @@ We have created a new, public mailing list for Madison development in Google Gro
 We have also created a very short survey to find out more about the developers using Madison. Please take a few minutes to fill out this survey so we can better understand what your needs are and who is using Madison:
 
 [Madison Developers Survey](http://goo.gl/forms/BV4Flc0zx7)
+
+## Architecture
+
+As of 3.0, Madison has been broken into several separate pieces: a standalone API in Laravel (PHP) (this repository), a public frontend for viewing documents and adding comments & annotations written in Angular (Javascript), and an administrative backend for creating documents, users, etc written in Angular (Javascript).  Several modules are shared across repositories, such as our [internationalization locale files](https://github.com/opengovfoundation/madison-locales).
 
 ## Installation
 
