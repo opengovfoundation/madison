@@ -12,7 +12,7 @@
                         >{{ doc.title }}</a>
                 </h2>
 
-                <div class="doc-sponsor" ng-if="doc.sponsors">
+                <div class="doc-sponsor" ng-if="doc.sponsors.length">
                     <span translate="document.label.sponsoredby"></span>
                     <ul>
                       <li ng-repeat="sponsor in doc.sponsors" class="author"
