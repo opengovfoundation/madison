@@ -2,7 +2,7 @@
 	<h3 class="subheading">
 		<a href="{{ doc.url }}">{{ doc.title }}</a>
 	</h3>
-  <div class="doc-sponsor">
+  <div class="doc-sponsor" ng-if="doc.sponsors.length">
     <span translate="document.label.sponsoredby"></span>
     <ul>
       <li ng-repeat="sponsor in doc.sponsors">
