@@ -28,6 +28,7 @@
   "menu.admin.nav.settings": "Site Settings",
 
   "footer.tagline": "<ul class=\"for-roles\"><li>for <span class=\"for-role\">Citizens</span></li><li>for <span class=\"for-role\">Authors</span></li><li>for <span class=\"for-role\">Developers</span></li></ul>",
+  "footer.poweredby": "Powered by <a href=\"http://www.opengovfoundation.org/projects/madison-project/\">Madison</a>, a project by <a href=\"http://www.opengovfoundation.org/\">The OpenGov Foundation</a>",
 
   "info.message.outdatedbrowser": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/\" target=\"_blank\">upgrade your browser</a> to improve your experience.",
   "info.message.mobilebrowser.annotate": "We're currently working on the ability to annotate on mobile browsers. Until then please use a desktop or laptop computer to annotate.",

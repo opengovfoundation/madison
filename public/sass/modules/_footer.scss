@@ -41,9 +41,20 @@
     }
 
     a {
-        display: inline-block;
         color: $white;
+    }
+
+    .footer-links a, .footer-tagline {
+        display: inline-block;
         padding: 1rem 10px;
+    }
+
+    .powered-by a {
+        text-decoration: underline;
+    }
+
+    .powered-by {
+        font-size: 0.85rem;
     }
 
     // Smartphone
