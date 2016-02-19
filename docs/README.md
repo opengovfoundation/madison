@@ -66,31 +66,27 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
 
 **That's it!**
 
-**Instructions for setting up Madison on Ubuntu **
+**Instructions for setting up Madison on Ubuntu: **
 
-1.  Install LAMP stack:
-1.1.    Run `sudo apt-get install apache2` to install Apache server
-1.1.    Run `sudo apt-get install mysql-server` to install MySQL Database
-1.1.    Run `sudo apt-get install php5 libapache2-mod-php5` to install PHP5 and the associated modules
-1.1.    Run `sudo /etc/init.d/apache2 restart` to restart the server
+* `Install LAMP stack`
+1.	Run `sudo apt-get install apache2` to install Apache server
+1.	Run `sudo apt-get install mysql-server` to install MySQL Database
+1.	Run `sudo apt-get install php5 libapache2-mod-php5` to install PHP5 and the associated modules
+1.	Run `sudo /etc/init.d/apache2 restart` to restart the server
 
-Open a web browser and navigate to http://localhost/. You should see a message saying It works!
+* `Verify if the installation was all good`
+1.	Open a web browser and navigate to http://localhost/. You should see a message saying It works!
+1.	Check if PHP is working fine: Run `php -r 'echo "\n\nYour PHP installation is working fine.\n\n\n";'`
 
-Check if PHP is working fine: php -r 'echo "\n\nYour PHP installation is working fine.\n\n\n";'
+* `Install & Enable MCrypt extension for PHP`
+1.	Run `sudo apt-get install php5-mcrypt` to install PHP5-Mcrypt
+1.	Run `sudo php5enmod mcrypt` to enable the Mcrypt module for PHP
 
-Install MCrypt extension for PHP:
-sudo apt-get install php5-mcrypt
-
-Enable the Mcrypt module for PHP:
-sudo php5enmod mcrypt
-
-Install PHP-Curl
-sudo apt-get install php5-curl
-
-
-
-Restart the server:
-sudo service apache2 restart
+* `Install PHP-Curl`
+1.	Run `sudo apt-get install php5-curl`
+1.	Run `sudo service apache2 restart` to restart the server.
+	
+After this, follow steps 1 through 7 above to download and setup Madison
 
 ## Administration
 
