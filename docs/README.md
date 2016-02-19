@@ -70,7 +70,8 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
 
 * `Install LAMP stack`
     1.	Run `sudo apt-get install apache2` to install Apache server
-    1.	Run `sudo apt-get install mysql-server` to install MySQL Database
+    1.	Run `sudo apt-get install mysql-server libapache2-mod-auth-mysql php5-mysql` to install MySQL Database and PHP - MySQL module
+    1.  Edit the `php.ini` file, add this `extension=mysqli.so` towards the end and save the file.
     1.	Run `sudo apt-get install php5 libapache2-mod-php5` to install PHP5 and the associated modules
     1.	Run `sudo /etc/init.d/apache2 restart` to restart the server
 
