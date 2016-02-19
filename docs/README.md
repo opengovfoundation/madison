@@ -80,7 +80,7 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
 
 * `Install & Enable MCrypt extension for PHP`
     1.	Run `sudo apt-get install php5-mcrypt` to install PHP5-Mcrypt
-    1.	Run `sudo php5enmod mcrypt` to enable the Mcrypt module for PHP
+    1.	Run `sudo php5enmod mcrypt` to enable the Mcrypt module for PHP. If you run into issues, take a look at [this] (http://askubuntu.com/a/460862/496364)
 
 * `Install PHP-Curl`
     1.	Run `sudo apt-get install php5-curl`
