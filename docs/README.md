@@ -74,7 +74,7 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
     1.	Run `sudo apt-get install php5 libapache2-mod-php5` to install PHP5 and the associated modules
     1.	Run `sudo /etc/init.d/apache2 restart` to restart the server
 
-* `Verify if the installation was all good`
+* `Verify if the installation was all okay`
     1.	Open a web browser and navigate to http://localhost/. You should see a message saying It works!
     1.	Check if PHP is working fine: Run `php -r 'echo "\n\nYour PHP installation is working fine.\n\n\n";'`
 
@@ -85,7 +85,7 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
 * `Install PHP-Curl`
     1.	Run `sudo apt-get install php5-curl`
     1.	Run `sudo service apache2 restart` to restart the server.
-	
+
 After this, follow steps 1 through 7 above to download and setup Madison
 
 ## Administration
