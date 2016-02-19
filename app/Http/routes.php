@@ -236,7 +236,7 @@ Route::delete('api/docs/{doc}/content/{page}', 'DocumentApiController@deleteCont
 
 Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus')->middleware(['doc.access.edit']);
-Route::patch('api/docs/{doc}', 'DocumentApiController@update')->middleware(['doc.access.edit']);
+Route::put('api/docs/{doc}', 'DocumentApiController@update')->middleware(['doc.access.edit']);
 Route::delete('api/docs/{doc}', 'DocumentApiController@deleteDoc')->middleware(['doc.access.edit']);
 Route::put('api/docs/{doc}/restore', 'DocumentApiController@getRestoreDoc')->middleware(['doc.access.edit']);
 Route::delete('api/docs/{doc}/featured-image', 'DocumentsController@deleteImage')->middleware(['doc.access.edit']);

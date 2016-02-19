@@ -144,6 +144,8 @@
   "form.document.slug.instructions": "Only a through z (lowercase), 0 through 9, and hyphens (-) may be used.  For example: <em>my-document</em>",
   "form.document.slug.placeholder": "my-document",
   "form.document.status.label": "Status",
+  "form.document.discussionstate.label": "Discussion State",
+  "form.document.discussionstate.help": "If discussion is set to 'open', users will be able to comment and annotate normally. If it is 'closed', then existing discussion will be viewable, but new discussion can not happen. If it is set to 'hidden', no new discussion can happen, and existing discussion will not be viewable.",
   "form.document.publishstate.label": "Publish State",
   "form.document.publishstate.help": "If a document is set to 'unpublished', only you can view it. If it is set to private, anyone with the link can view it. Otherwise it is publicly viewable.",
   "form.document.introtext.label": "Intro Text",
