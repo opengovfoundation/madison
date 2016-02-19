@@ -57,13 +57,40 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
 
 1.  Clone the repo `git clone git@github.com:opengovfoundation/madison.git`
 1.  Create database and user
-1.  Set ENV variables in [Laravel's `.env` file](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration).
+1.  Set ENV variables in [Laravel's `.env` file](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration). You can copy the contents from the .env.example file included in this repository
 1.  Run `composer install` to get all the dependencies
 1.  Run `php artisan migrate` to run all migrations
 1.  Make sure `ADMIN_EMAIL` and `ADMIN_PASSWORD` are set in the environment config and then run `php artisan db:seed` to run all database seeds.
 1.  Make sure the web server has write access to all folders within `app/storage`
+1.  Run `php artisan key:generate` to set the app key
 
 **That's it!**
+
+**Instructions for setting up Madison on Ubuntu **
+
+1.  Install LAMP stack:
+1.1.    Run `sudo apt-get install apache2` to install Apache server
+1.1.    Run `sudo apt-get install mysql-server` to install MySQL Database
+1.1.    Run `sudo apt-get install php5 libapache2-mod-php5` to install PHP5 and the associated modules
+1.1.    Run `sudo /etc/init.d/apache2 restart` to restart the server
+
+Open a web browser and navigate to http://localhost/. You should see a message saying It works!
+
+Check if PHP is working fine: php -r 'echo "\n\nYour PHP installation is working fine.\n\n\n";'
+
+Install MCrypt extension for PHP:
+sudo apt-get install php5-mcrypt
+
+Enable the Mcrypt module for PHP:
+sudo php5enmod mcrypt
+
+Install PHP-Curl
+sudo apt-get install php5-curl
+
+
+
+Restart the server:
+sudo service apache2 restart
 
 ## Administration
 
