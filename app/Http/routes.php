@@ -77,7 +77,7 @@ Route::pattern('user', '[0-9]+');
 Route::pattern('date', '[0-9]+');
 Route::pattern('group', '[0-9]+');
 Route::pattern('image', '[a-zA-Z0-9-_]+\.[a-zA-Z0-9]{2,4}');
-Route::pattern('state', Doc::validStatesPattern());
+Route::pattern('state', Doc::validPublishStatesRoutePattern());
 
 /*
 *   Route - Model bindings
@@ -236,6 +236,7 @@ Route::delete('api/docs/{doc}/content/{page}', 'DocumentApiController@deleteCont
 
 Route::post('api/docs/{doc}/featured-image', 'DocumentsController@uploadImage')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/status', 'DocumentApiController@postStatus')->middleware(['doc.access.edit']);
+Route::patch('api/docs/{doc}', 'DocumentApiController@update')->middleware(['doc.access.edit']);
 Route::delete('api/docs/{doc}', 'DocumentApiController@deleteDoc')->middleware(['doc.access.edit']);
 Route::put('api/docs/{doc}/restore', 'DocumentApiController@getRestoreDoc')->middleware(['doc.access.edit']);
 Route::delete('api/docs/{doc}/featured-image', 'DocumentsController@deleteImage')->middleware(['doc.access.edit']);

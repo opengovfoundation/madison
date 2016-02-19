@@ -19,6 +19,8 @@ class Doc extends Model
     protected $dates = ['deleted_at'];
     protected $appends = ['featured', 'url'];
 
+    protected $fillable = ['discussion_state', 'publish_state'];
+
     const TYPE = 'doc';
 
     const SPONSOR_TYPE_INDIVIDUAL = "individual";
@@ -29,6 +31,10 @@ class Doc extends Model
     const PUBLISH_STATE_PRIVATE = 'private';
     const PUBLISH_STATE_DELETED_ADMIN = 'deleted-admin';
     const PUBLISH_STATE_DELETED_USER = 'deleted-user';
+
+    const DISCUSSION_STATE_OPEN = 'open';
+    const DISCUSSION_STATE_CLOSED = 'closed';
+    const DISCUSSION_STATE_HIDDEN = 'hidden';
 
     public function __construct()
     {
@@ -684,9 +690,9 @@ class Doc extends Model
         return $doc;
     }
 
-    public static function validStatesPattern()
+    public static function validPublishStates()
     {
-        $valid_states = [
+         return [
             'all',
             self::PUBLISH_STATE_PUBLISHED,
             self::PUBLISH_STATE_UNPUBLISHED,
@@ -694,12 +700,26 @@ class Doc extends Model
             self::PUBLISH_STATE_DELETED_ADMIN,
             self::PUBLISH_STATE_DELETED_USER
         ];
+    }
+
+    public static function validPublishStatesRoutePattern()
+    {
+        $valid_states = self::validPublishStates();
 
         foreach ($valid_states as $idx => $state) {
             $valid_states[$idx] = str_replace('-', '\-', $state);
         }
 
         return '(' . implode('|', $valid_states) . ')';
+    }
+
+    public static function validDiscussionStates()
+    {
+        return [
+            self::DISCUSSION_STATE_OPEN,
+            self::DISCUSSION_STATE_CLOSED,
+            self::DISCUSSION_STATE_HIDDEN
+        ];
     }
 
     /**

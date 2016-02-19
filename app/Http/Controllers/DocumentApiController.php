@@ -8,6 +8,7 @@ use Cache;
 use Input;
 use Response;
 use Event;
+use App\Http\Requests\UpdateDocumentRequest;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Doc;
@@ -124,6 +125,15 @@ class DocumentApiController extends ApiController
         } catch (Exception $e) {
             return Response::json($this->growlMessage($e->getMessage(), 'error'));
         }
+    }
+
+    public function update($id, UpdateDocumentRequest $request)
+    {
+        file_put_contents('/var/log/madison_debug', '?'."\n\n", FILE_APPEND);
+        $doc = Doc::find($id);
+        if (!$doc) return response('Not found.', 404);
+        $doc->update($request->all());
+        return Response::json($doc);
     }
 
     public function postTitle($id)
