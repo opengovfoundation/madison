@@ -57,13 +57,37 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
 
 1.  Clone the repo `git clone git@github.com:opengovfoundation/madison.git`
 1.  Create database and user
-1.  Set ENV variables in [Laravel's `.env` file](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration).
+1.  Set ENV variables in [Laravel's `.env` file](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration). You can copy the contents from the .env.example file included in this repository
 1.  Run `composer install` to get all the dependencies
 1.  Run `php artisan migrate` to run all migrations
 1.  Make sure `ADMIN_EMAIL` and `ADMIN_PASSWORD` are set in the environment config and then run `php artisan db:seed` to run all database seeds.
 1.  Make sure the web server has write access to all folders within `app/storage`
+1.  Run `php artisan key:generate` to set the app key
 
 **That's it!**
+
+**Instructions for setting up Madison on Ubuntu: **
+
+* `Install LAMP stack`
+    1.	Run `sudo apt-get install apache2` to install Apache server
+    1.	Run `sudo apt-get install mysql-server libapache2-mod-auth-mysql php5-mysql` to install MySQL Database and PHP - MySQL module
+    1.  Edit the `php.ini` file, add this `extension=mysqli.so` towards the end and save the file.
+    1.	Run `sudo apt-get install php5 libapache2-mod-php5` to install PHP5 and the associated modules
+    1.	Run `sudo /etc/init.d/apache2 restart` to restart the server
+
+* `Verify if the installation was all okay`
+    1.	Open a web browser and navigate to http://localhost/. You should see a message saying It works!
+    1.	Check if PHP is working fine: Run `php -r 'echo "\n\nYour PHP installation is working fine.\n\n\n";'`
+
+* `Install & Enable MCrypt extension for PHP`
+    1.	Run `sudo apt-get install php5-mcrypt` to install PHP5-Mcrypt
+    1.	Run `sudo php5enmod mcrypt` to enable the Mcrypt module for PHP. If you run into issues, take a look at [this] (http://askubuntu.com/a/460862/496364)
+
+* `Install PHP-Curl`
+    1.	Run `sudo apt-get install php5-curl`
+    1.	Run `sudo service apache2 restart` to restart the server.
+
+After this, follow steps 1 through 7 above to download and setup Madison
 
 ## Administration
 
