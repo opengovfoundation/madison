@@ -405,7 +405,15 @@ angular.module('madisonApp.controllers')
           }
         });
 
-        $scope.$watch('doc.discussion_state', $scope.saveDocument);
+        $scope.$watch('doc.discussion_state', function() {
+          if (initPrivate) {
+            $timeout(function() {
+              initPrivate = false;
+            });
+          } else {
+            $scope.saveDocument();
+          }
+        });
 
         // Save the content every 5 seconds
         var timeout = null;
@@ -505,10 +513,14 @@ angular.module('madisonApp.controllers')
         return $http.put('/api/docs/' + $scope.doc.id, $scope.doc)
           .success(function(data) {
             angular.merge($scope.doc, data);
+            growl.success($translate.instant('success.general.save'));
             console.log('Successfully save document');
           }).error(function(data) {
-            if (status === 403) growl.error($translate.instant('errors.general.unauthorized'));
-            if (status === 400) growl.error($translate.instant('errors.general.save'));
+            if (status === 403) {
+              growl.error($translate.instant('errors.general.unauthorized'));
+            } else {
+              growl.error($translate.instant('errors.general.save'));
+            }
             console.error("Error saving publish state for document:", data);
           });
       };

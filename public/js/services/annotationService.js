@@ -81,10 +81,16 @@ angular.module('madisonApp.services')
       var path = $location.path();
       var origin = $location.host();
       var userId = user === null ? null : user.id;
+      var readOnly;
 
-      this.annotator = element.annotator({
-        readOnly: !AuthService.isAuthenticated()
-      });
+      if (!AuthService.isAuthenticated()) readOnly = true;
+      if (doc.discussion_state === 'closed') {
+        readOnly = true;
+        userId = null;
+        user = null;
+      }
+
+      this.annotator = element.annotator({ readOnly: readOnly });
 
       this.annotator.annotator('addPlugin', 'Unsupported');
       this.annotator.annotator('addPlugin', 'Tags');

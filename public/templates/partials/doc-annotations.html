@@ -65,14 +65,16 @@
         </section>
       </div>
 
-      <comment-actions object="annotation"></comment-actions>
+      <div ng-hide="doc.discussion_state === 'closed'">
+          <comment-actions object="annotation"></comment-actions>
 
-      <footer>
-        <div class="reply-action">
-          <a ng-click="showCommentForm($event)"
-            translate="document.action.addreply"></a>
-        </div>
-      </footer>
+          <footer>
+            <div class="reply-action">
+              <a ng-click="showCommentForm($event)"
+                translate="document.action.addreply"></a>
+            </div>
+          </footer>
+      </div>
       <section class="comments">
         <article ng-repeat="comment in annotation.comments"
           class="comment"
@@ -89,19 +91,23 @@
           <section class="content">
             {{ comment.text }}
           </section>
-          <comment-actions object="comment"></comment-actions>
+          <div ng-hide="doc.discussion_state === 'closed'">
+              <comment-actions object="comment"></comment-actions>
+          </div>
         </article>
       </section>
       <section class="subcomment-form">
-        <form name="add-subcomment-form"
-          ng-submit="subcommentSubmit(annotation, subcomment)" ng-if="user">
-          <h4 translate="document.action.replyannotation"></h4>
-          <input id="comment-form-field" ng-model="subcomment.text" type="text"
-            class="form-control centered" required
-            placeholder="{{ document.action.commentplaceholder | translate }}" />
-          <button class="comment-button" type="submit"
-            translate="document.action.postcomment"></button>
-        </form>
+        <div ng-hide="doc.discussion_state === 'closed'">
+          <form name="add-subcomment-form"
+            ng-submit="subcommentSubmit(annotation, subcomment)" ng-if="user">
+            <h4 translate="document.action.replyannotation"></h4>
+            <input id="comment-form-field" ng-model="subcomment.text" type="text"
+              class="form-control centered" required
+              placeholder="{{ document.action.commentplaceholder | translate }}" />
+            <button class="comment-button" type="submit"
+              translate="document.action.postcomment"></button>
+          </form>
+        </div>
       </section>
     </article>
   </section>

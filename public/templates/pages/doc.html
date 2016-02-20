@@ -50,7 +50,7 @@
     <section class="doc-content">
       <div class="mobile-annotation-message"
         translate="info.message.mobilebrowser.annotate"></div>
-      <ul class="nav nav-tabs" role="tablist">
+      <ul class="nav nav-tabs" role="tablist" ng-hide="doc.discussion_state === 'hidden'">
         <li ng-class="{'active':secondtab == false}"
           ng-click="changeTab('content')">
           <a href="#tab-activity" target="_self" role="tab" data-toggle="tab"
@@ -92,7 +92,7 @@
         </aside>
       </div>
     </section>
-    <aside class="annotation-container doc-secondary-content">
+    <aside class="annotation-container doc-secondary-content" ng-show="doc.discussion_state !== 'hidden'">
       <div ng-hide="activeTab != 'content'">
         <section ng-controller="AnnotationController"
           class="participate annotation-content"
