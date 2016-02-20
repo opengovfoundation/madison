@@ -115,15 +115,33 @@ class UserManageApiController extends ApiController
             $user->lname = $lname;
             $user->token = $token;
             $user->save();
+            $user_id = $user->id;
 
-            //Send email to user for email account verification
-            Mail::queue('email.signup', array('token' => $token), function ($message) use ($email, $fname) {
-                $message->subject('Welcome to the Madison Community');
-                $message->from('sayhello@opengovfoundation.org', 'Madison');
-                $message->to($email); // Recipient address
-            });
+            try {
 
-            return Response::json(array( 'status' => 'ok', 'errors' => array(), 'message' => 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.'));
+                //Send email to user for email account verification
+                Mail::queue('email.signup', array('token' => $token), function ($message) use ($email, $fname) {
+                    $message->subject('Welcome to the Madison Community');
+                    $message->from('sayhello@opengovfoundation.org', 'Madison');
+                    $message->to($email); // Recipient address
+                });
+
+                return Response::json(array( 'status' => 'ok', 'errors' => array(), 'message' => 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.'));
+
+            } catch (\Exception $e) {
+
+                //auto verify the user and log them in
+                //in case sending the email fails
+                $user = User::where('id', $user_id)->first();
+                $user->token = '';
+                $user->save();
+                Auth::login($user);
+
+                return Response::json(array( 'status' => 'ok', 'errors' => array(), 'message' => ''));
+
+            }
+
+
         }
     }
 }
