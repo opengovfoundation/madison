@@ -40,6 +40,10 @@ header {
     font-size: 2em;
 }
 
+.navbar .brand:hover {
+    color: $white;
+}
+
 .dot-io {
     color: $medium-grey;
 }
