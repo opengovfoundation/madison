@@ -17,6 +17,19 @@ header {
     a:hover, a:active a.current {
         text-decoration: underline;
         background-color: transparent;
+        color: $dark-grey;
+    }
+}
+
+.nav {
+    > li {
+        > a {
+            position: relative;
+            &:hover,
+            &:focus {
+                color: $dark-grey;
+            }
+        }
     }
 }
 
