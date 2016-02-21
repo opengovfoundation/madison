@@ -240,7 +240,7 @@ class Annotation extends Model implements ActivityInterface
             $item['comments'][] = array(
                 'id' => $comment->id,
                 'text' => $comment->text,
-                'created_at' => $comment->created_at->toRFC2822String(),
+                'created_at' => $comment->created_at,
                 'updated_at' => $comment->updated_at->toRFC2822String(),
                 'user' => array(
                     'id' => $user->id,
