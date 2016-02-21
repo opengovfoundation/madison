@@ -313,6 +313,10 @@ class Annotation extends Model implements ActivityInterface
         $item['flags'] = $this->flags();
         $item['seen'] = $this->seen;
 
+        //fix for #804: Time stamps for annotations are off by several hours
+        //convert date to RFC2822 string
+        $item['created_at'] = date_format(date_create($item['created_at']), "r");
+
         $item = array_intersect_key($item, array_flip(array(
             'id', 'annotator_schema_version', 'created_at', 'updated_at',
             'text', 'quote', 'uri', 'ranges', 'user', 'consumer', 'tags',
