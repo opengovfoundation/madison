@@ -25,7 +25,7 @@ class CommentsTableSeeder extends Seeder
         ];
 
         Input::replace($comment1);
-        App::make('App\Http\Controllers\CommentApiController')->postIndex($comment1['comment']['doc']['id']);
+        App::make('App\Http\Controllers\CommentController')->postIndex($comment1['comment']['doc']['id']);
 
         // This comment is a reply to the first comment
         // Comment model gets user ID making comment from the payload, so this
@@ -40,7 +40,7 @@ class CommentsTableSeeder extends Seeder
         ];
 
         Input::replace($comment1_reply);
-        App::make('App\Http\Controllers\CommentApiController')->postComments($comment1_reply['comment']['doc']['id'], $comment1_reply['comment']['parent_id']);
+        App::make('App\Http\Controllers\CommentController')->postComments($comment1_reply['comment']['doc']['id'], $comment1_reply['comment']['parent_id']);
 
         $comment2 = [
             'comment' => [
@@ -51,6 +51,6 @@ class CommentsTableSeeder extends Seeder
         ];
 
         Input::replace($comment2);
-        App::make('App\Http\Controllers\CommentApiController')->postIndex($comment2['comment']['doc']['id']);
+        App::make('App\Http\Controllers\CommentController')->postIndex($comment2['comment']['doc']['id']);
     }
 }
