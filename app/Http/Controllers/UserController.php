@@ -7,6 +7,7 @@ use Event;
 use Input;
 use Log;
 use Response;
+use Validator;
 use App\Models\User;
 use App\Models\UserMeta;
 use App\Models\Notification;
