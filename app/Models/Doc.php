@@ -737,12 +737,12 @@ class Doc extends Model
     {
         return $query->where(function($q) use ($userId) {
             // doc has independent sponsor
-            $q->whereHas('userSponsor', function($q) use ($userId) {
+            $q->whereHas('userSponsors', function($q) use ($userId) {
                 // independent sponsor is current user
                 $q->where('id', '=', $userId);
             });
             // doc has group sponsor
-            $q->orWhereHas('groupSponsor', function($q) use ($userId) {
+            $q->orWhereHas('groupSponsors', function($q) use ($userId) {
                 // user belongs to group as EDITOR or OWNER
                 $q->whereHas('members', function($q) use ($userId) {
                     $q->where('user_id', '=', $userId);

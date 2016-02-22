@@ -35,7 +35,7 @@ class AnnotationsTableSeeder extends Seeder
         ];
 
         Input::replace($annotation1);
-        App::make('App\Http\Controllers\AnnotationApiController')->postIndex($annotation1['doc_id']);
+        App::make('App\Http\Controllers\AnnotationController')->postIndex($annotation1['doc_id']);
 
         $annotation2 = [
             'user_id' => 1,
@@ -56,6 +56,6 @@ class AnnotationsTableSeeder extends Seeder
         ];
 
         Input::replace($annotation2);
-        App::make('App\Http\Controllers\AnnotationApiController')->postIndex($annotation2['doc_id']);
+        App::make('App\Http\Controllers\AnnotationController')->postIndex($annotation2['doc_id']);
     }
 }

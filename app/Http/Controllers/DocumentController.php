@@ -9,6 +9,9 @@ use Input;
 use Response;
 use Event;
 use App\Http\Requests\UpdateDocumentRequest;
+use Storage;
+use Redirect;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Doc;
@@ -22,7 +25,7 @@ use App\Models\MadisonEvent;
 /**
  * 	Controller for Document actions.
  */
-class DocumentApiController extends ApiController
+class DocumentController extends Controller
 {
     public function __construct()
     {
@@ -45,6 +48,30 @@ class DocumentApiController extends ApiController
         // versions.  We use the JSON_NUMERIC_CHECK flag to normalize this.
         return Response::make(
             json_encode($doc->toArray(), JSON_NUMERIC_CHECK), 200);
+    }
+
+    public function getDocBySlug($slug)
+    {
+        $doc = Doc::findDocBySlug($slug);
+        $introtext = $doc->introtext()->first()['meta_value'];
+        $doc->introtext = $introtext;
+
+        $doc->enableCounts();
+
+        return Response::json($doc);
+    }
+
+    public function getEmbedded($slug = null)
+    {
+        $doc = Doc::findDocBySlug($slug);
+
+        if (is_null($doc)) {
+            App::abort('404');
+        }
+
+        $view = View::make('doc.reader.embed', compact('doc'));
+
+        return $view;
     }
 
     /**
@@ -182,6 +209,47 @@ class DocumentApiController extends ApiController
 
         return Response::json($response);
     }
+
+    public function getContent($id)
+    {
+        $page = Input::get('page', 1);
+        if (!$page) {
+            $page = 1;
+        }
+
+        $format = Input::get('format');
+        if (!$format) {
+            $format = 'html';
+        }
+
+        $cacheKey = 'doc-'.$id.'-'.$page.'-'.$format;
+
+        if ($format === 'html' && Cache::has($cacheKey)) {
+            return Response::json(Cache::get($cacheKey));
+        }
+
+        $docContent = DocContent::where('doc_id', $id)->
+            limit(1)->offset($page - 1)->first();
+
+        $returned = array();
+
+        if ($docContent) {
+            if($format === 'raw' || $format === 'all') {
+                $returned['raw'] = $docContent->content;
+            }
+            if($format === 'html' || $format === 'all') {
+                $returned['html'] = $docContent->html();
+            }
+        }
+
+        if ($format === 'html') {
+            Cache::forever($cacheKey, $returned);
+            $returned['cached'] = false;
+        }
+
+        return Response::json($returned);
+    }
+
 
     public function postContent($docId)
     {
@@ -677,4 +745,313 @@ class DocumentApiController extends ApiController
 
         return Response::json($statuses);
     }
+
+    /**
+     *	Method to handle document RSS feeds.
+     *
+     *	@param string $slug
+     *
+     * @return view $feed->render()
+     */
+    public function getFeed($slug)
+    {
+        $doc = Doc::where('slug', $slug)->with('comments', 'annotations', 'userSponsors', 'groupSponsors')->first();
+
+        $feed = Feed::make();
+
+        $feed->title = $doc->title;
+        $feed->description = "Activity feed for '".$doc->title."'";
+        $feed->link = URL::to('docs/'.$slug);
+        $feed->pubdate = $doc->updated_at;
+        $feed->lang = 'en';
+
+        $activities = $doc->comments->merge($doc->annotations);
+
+        $activities = $activities->sort(function ($a, $b) {
+            return (strtotime($a['updated_at']) > strtotime($b['updated_at'])) ? -1 : 1;
+        });
+
+        foreach ($activities as $activity) {
+            $item = $activity->getFeedItem();
+
+            array_push($feed->items, $item);
+        }
+
+        return $feed->render('atom');
+    }
+
+    /**
+     *	Method to handle posting support/oppose clicks on a document.
+     *
+     * @param int $doc
+     *
+     * @return json array
+     */
+    public function postSupport($doc)
+    {
+        $input = Input::get();
+
+        $supported = (bool) $input['support'];
+
+        $docMeta = DocMeta::withTrashed()->where('user_id', Auth::user()->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
+
+        if (!isset($docMeta)) {
+            $docMeta = new DocMeta();
+            $docMeta->doc_id = $doc;
+            $docMeta->user_id = Auth::user()->id;
+            $docMeta->meta_key = 'support';
+            $docMeta->meta_value = (string) $supported;
+            $docMeta->save();
+        } elseif ($docMeta->meta_value == (string) $supported && !$docMeta->trashed()) {
+            $docMeta->delete();
+            $supported = null;
+        } else {
+            if ($docMeta->trashed()) {
+                $docMeta->restore();
+            }
+            $docMeta->doc_id = $doc;
+            $docMeta->user_id = Auth::user()->id;
+            $docMeta->meta_key = 'support';
+            $docMeta->meta_value = (string) (bool) $input['support'];
+            $docMeta->save();
+        }
+
+        $supports = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $doc)->count();
+        $opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $doc)->count();
+
+        return Response::json(array('support' => $supported, 'supports' => $supports, 'opposes' => $opposes));
+    }
+
+    public function getFeatured()
+    {
+        $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+        if ($featuredSetting) {
+            // Make sure our featured document can be viewed by the public.
+            $featuredIds = explode(',', $featuredSetting->meta_value);
+            $docs = Doc::with('categories')
+                ->with('userSponsors')
+                ->with('groupSponsors')
+                ->with('statuses')
+                ->with('dates')
+                ->whereIn('id', $featuredIds)
+                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
+                ->where('is_template', '!=', '1')
+                ->get();
+
+            if($docs) {
+                // Reorder based on our previous list.
+                $tempDocs = array();
+                $orderList = array_flip($featuredIds);
+                foreach($docs as $key=>$doc) {
+                    $tempDocs[(int) $orderList[$doc->id]] = $doc;
+                }
+
+                // If you set the key of an array value as we do above,
+                // PHP will internally store the object as an associative
+                // array (hash), not as a list, and will return the elements
+                // in the order assigned, not by the key order.
+                // This means our attempt to re-order the object will fail.
+                // The line below will restore the order. Ugh.
+                ksort($tempDocs);
+                $docs = $tempDocs;
+
+            }
+        }
+
+        // If we don't have a document, just find anything recent.
+        if (empty($docs)) {
+            $docs = array(
+                Doc::with('categories')
+                ->with('userSponsors')
+                ->with('groupSponsors')
+                ->with('statuses')
+                ->with('dates')
+                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
+                ->where('is_template', '!=', '1')
+                ->orderBy('created_at', 'desc')
+                ->first()
+            );
+        }
+
+        // If we still don't have a document, give up.
+        if (empty($docs)) {
+            return Response::make(null, 404);
+        }
+
+        $return_docs = array();
+        foreach($docs as $key => $doc) {
+            $doc->enableCounts();
+            $doc->enableSponsors();
+            $return_doc = $doc->toArray();
+
+            $return_doc['introtext'] = $doc->introtext()->first()['meta_value'];
+            $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
+            $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
+
+            if(!$return_doc['thumbnail']) {
+                $return_doc['thumbnail'] = '/img/default/default.jpg';
+            }
+
+            $return_docs[] = $return_doc;
+        }
+
+        return Response::json($return_docs);
+    }
+
+    public function postFeatured()
+    {
+        if (!Auth::user()->hasRole('Admin')) {
+            return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
+        }
+
+        $docId = Input::get('id');
+
+        try {
+            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+            $docs = explode(',', $featuredSetting->meta_value);
+
+            if(!in_array($docId, $docs)) {
+                array_unshift($docs, $docId);
+            }
+            $featuredSetting->meta_value = join(',', $docs);
+            $featuredSetting->save();
+        } catch (Exception $e) {
+            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        }
+
+        return $this->getFeatured();
+    }
+
+    public function putFeatured()
+    {
+        if (!Auth::user()->hasRole('Admin')) {
+            return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
+        }
+
+        $docs = Input::get('docs');
+
+        try {
+            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+            $featuredSetting->meta_value = $docs;
+            $featuredSetting->save();
+        } catch (Exception $e) {
+            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        }
+
+        return $this->getFeatured();
+    }
+
+    public function deleteFeatured($docId)
+    {
+        if (!Auth::user()->hasRole('Admin')) {
+            return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
+        }
+
+        try {
+            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+            $docs = explode(',', $featuredSetting->meta_value);
+
+            if(in_array($docId, $docs)) {
+                $docs = array_diff($docs, array($docId));
+            }
+            $featuredSetting->meta_value = join(',', $docs);
+            $featuredSetting->save();
+        } catch (Exception $e) {
+            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        }
+
+        return $this->getFeatured();
+    }
+
+    public function getImage($docId, $image)
+    {
+        $doc = Doc::where('id', $docId)->first();
+        if($doc) {
+            $path = $doc->getImagePath($image);
+            if(Storage::has($path)) {
+                return response(Storage::get($path), 200)
+                    ->header('Content-Type', Storage::mimeType($path));
+            }
+            else {
+                return Response::make(null, 404);
+            }
+        }
+        else {
+            return Response::make(null, 404);
+        }
+    }
+
+    public function uploadImage($docId)
+    {
+        if (Input::hasFile('file')) {
+            $file = Input::file('file');
+
+            $doc = Doc::where('id', $docId)->first();
+            $doc->thumbnail = $doc->getImageUrl($file->getClientOriginalName());
+
+            try {
+                $doc->save();
+
+                $path = Storage::getDriver()->getAdapter()->getPathPrefix() . $doc->getImagePath();
+                $result = $file->move($path, $file->getClientOriginalName());
+            } catch (Exception $e) {
+                return Response::json($this->growlMessage('There was an error with the image upload', 'error'), 500);
+            }
+
+            $params = [
+                'imagePath' => $doc->thumbnail,
+            ];
+
+            return Response::json($this->growlMessage("Upload successful", 'success', $params));
+        } else {
+            return Response::json($this->growlMessage("There was an error uploading your image.", 'error'));
+        }
+    }
+
+    public function deleteImage($docId)
+    {
+        $doc = Doc::where('id', $docId)->first();
+
+        $image_path = $doc->getImagePathFromUrl($doc->thumbnail);
+
+        if(Storage::has($image_path)) {
+            try {
+                Storage::delete($image_path);
+            } catch (Exception $e) {
+                Log::error("Error deleting document featured image for document id $docId");
+                Log::error($e);
+            }
+        }
+        $doc->thumbnail = null;
+        $doc->save();
+        return Response::json($this->growlMessage('Image deleted successfully', 'success'));
+    }
+
+    public function getUserDocuments()
+    {
+        $user = Auth::user();
+        $docs = $user->docs->toArray();
+
+        $groups = Auth::user()->groups;
+        $groupDocs = [];
+
+        foreach ($groups as $group) {
+            $tempDocs = $group->docs()->get()->toArray();
+            array_push($groupDocs, ['name' => $group->name, 'docs' => $tempDocs]);
+        }
+
+        $returned = [
+            'independent'   => $docs,
+            'group'         => $groupDocs,
+        ];
+
+        return Response::json($returned);
+    }
+
+
+
 }
