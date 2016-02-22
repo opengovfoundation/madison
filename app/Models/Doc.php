@@ -477,6 +477,7 @@ class Doc extends Model
                 ) total_count
                 LEFT JOIN docs on doc_id = docs.id
                 WHERE publish_state = 'published'
+                AND discussion_state = 'open'
                 AND docs.is_template != 1
                 GROUP BY doc_id
                 ORDER BY total DESC

@@ -301,6 +301,7 @@ class DocumentApiController extends ApiController
         // Handle order by.
         $order_field = Input::get('order', 'updated_at');
         $order_dir = Input::get('order_dir', 'DESC');
+        $discussion_state = Input::get('discussion_state', null);
 
         // Handle pagination.
         $limit = null;
@@ -323,6 +324,10 @@ class DocumentApiController extends ApiController
         } else {
             $doc = Doc::getEager()->orderBy($order_field, $order_dir)
                 ->where('is_template', '!=', '1');
+
+            if ($discussion_state) {
+                $doc->where('discussion_state', '=', $discussion_state);
+            }
 
             if (isset($state) && $state == 'all') {
                 if (!Auth::check() || !Auth::user()->hasRole('Admin')) {
