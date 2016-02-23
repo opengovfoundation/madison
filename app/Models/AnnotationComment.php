@@ -51,4 +51,17 @@ class AnnotationComment extends Model
     {
         return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('r');
     }
+
+    /**
+    * getUpdatedAtAttribute
+    *   reformat the date structure for the datastore #804.
+    *
+    * @param string $date
+    *
+    * @return Carbon date
+    */
+    public function getUpdatedAtAttribute($date)
+    {
+        return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('r');
+    }
 }

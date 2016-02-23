@@ -241,7 +241,7 @@ class Annotation extends Model implements ActivityInterface
                 'id' => $comment->id,
                 'text' => $comment->text,
                 'created_at' => $comment->created_at,
-                'updated_at' => $comment->updated_at->toRFC2822String(),
+                'updated_at' => $comment->updated_at,
                 'user' => array(
                     'id' => $user->id,
                     'email' => $user->email,
@@ -316,6 +316,7 @@ class Annotation extends Model implements ActivityInterface
         //fix for #804: Time stamps for annotations are off by several hours
         //convert date to RFC2822 string
         $item['created_at'] = date_format(date_create($item['created_at']), "r");
+        $item['updated_at'] = date_format(date_create($item['updated_at']), "r");
 
         $item = array_intersect_key($item, array_flip(array(
             'id', 'annotator_schema_version', 'created_at', 'updated_at',
