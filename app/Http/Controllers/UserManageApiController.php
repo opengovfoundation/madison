@@ -115,7 +115,6 @@ class UserManageApiController extends ApiController
             $user->lname = $lname;
             $user->token = $token;
             $user->save();
-            $user_id = $user->id;
 
             try {
 
@@ -132,7 +131,6 @@ class UserManageApiController extends ApiController
 
                 //auto verify the user and log them in
                 //in case sending the email fails
-                $user = User::where('id', $user_id)->first();
                 $user->token = '';
                 $user->save();
                 Auth::login($user);
