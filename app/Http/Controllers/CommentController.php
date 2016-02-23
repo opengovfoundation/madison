@@ -12,7 +12,7 @@ use App\Models\Comment;
 /**
  * 	Controller for Document actions.
  */
-class CommentApiController extends ApiController
+class CommentController extends Controller
 {
     public function __construct()
     {

@@ -135,7 +135,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
     // We want document events even on readOnly, which isn't the default
     // behavior.
-    if (this.annotator.options.readOnly) {
+    if (this.annotator.options.readOnly && !this.annotator.options.discussionClosed) {
       this.annotator._setupDocumentEvents();
     }
 

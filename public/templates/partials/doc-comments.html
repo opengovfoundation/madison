@@ -1,14 +1,16 @@
-<div class="comment-field" ng-show="user">
-    <form name="add-comment-form" ng-submit="commentSubmit(comment)">
-        <textarea ng-model="comment.text" id="doc-comment-field" type="text"
-            class="form-control centered" required></textarea>
-        <button class="btn btn-primary"
-            translate="document.action.addcomment"></button>
-    </form>
-</div>
-<div class="comment-field" ng-hide="user">
-    <a ng-click="showLoginForm($event)"
-        translate="document.action.mustlogin"></a>
+<div ng-show="doc.discussion_state === 'open'">
+    <div class="comment-field" ng-show="user">
+        <form name="add-comment-form" ng-submit="commentSubmit(comment)">
+            <textarea ng-model="comment.text" id="doc-comment-field" type="text"
+                class="form-control centered" required></textarea>
+            <button class="btn btn-primary"
+                translate="document.action.addcomment"></button>
+        </form>
+    </div>
+    <div class="comment-field" ng-hide="user">
+        <a ng-click="showLoginForm($event)"
+            translate="document.action.mustlogin"></a>
+    </div>
 </div>
 <div class="comment-thread" ng-show="doc.comments.length">
     <article id="comment_{{comment.id}}"
@@ -73,7 +75,7 @@
         <a ng-show="!user" class="login-message"
             ng-click="showLoginForm($event)"
             translate="document.action.mustlogin"></a>
-        <section class="reply" ng-show="user">
+        <section class="reply" ng-show="user && doc.discussion_state === 'open'">
             <form name="add-comment-form"
                 ng-submit="subcommentSubmit(comment, commentReply)">
                 <input type="hidden" ng-model="commentReply.parent_id"
