@@ -111,6 +111,15 @@
           <small class="help-block" translate="form.document.publishstate.help"></small>
         </div>
         <div class="form-group">
+          <label for="discussion_state" translate="form.document.discussionstate.label"></label>
+          <select name="discussion_state" ng-model="doc.discussion_state">
+              <option ng-repeat="state in discussionStates" value="{{ state }}">
+                  {{ state }}
+              </option>
+          </select>
+          <small class="help-block" translate="form.document.discussionstate.help"></small>
+        </div>
+        <div class="form-group">
           <label for="sponsor" translate="form.document.sponsor.label"></label>
           <select ng-model="sponsor" ng-change="sponsorChange(sponsor)" id="sponsor"
             ng-options="sponsorOpt as sponsorOpt.text for sponsorOpt in sponsorOptions track by sponsorOpt.id">

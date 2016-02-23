@@ -116,6 +116,7 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.attachAnnotator = function (doc, user) {
+        if (doc.discussion_state === 'hidden') return;
 
         //Grab the doc_content element that we want to attach Annotator to
         var element = $('#doc_content');

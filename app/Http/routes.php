@@ -77,7 +77,7 @@ Route::pattern('user', '[0-9]+');
 Route::pattern('date', '[0-9]+');
 Route::pattern('group', '[0-9]+');
 Route::pattern('image', '[a-zA-Z0-9-_]+\.[a-zA-Z0-9]{2,4}');
-Route::pattern('state', Doc::validStatesPattern());
+Route::pattern('state', Doc::validPublishStatesRoutePattern());
 
 /**
  * Route - Model bindings
@@ -135,6 +135,7 @@ Route::get('api/docs/{doc}/status', 'DocumentController@getStatus')->middleware(
 Route::get('api/docs/{doc}/dates', 'DocumentController@getDates')->middleware(['doc.access.read']);
 Route::get('api/docs/{doc}/images/{image}','DocumentController@getImage')->middleware(['doc.access.read']);
 Route::get('api/docs/{doc}', 'DocumentController@getDoc')->middleware(['doc.access.read']);
+Route::put('api/docs/{doc}', 'DocumentController@update')->middleware(['doc.access.edit']);
 Route::get('api/docs/slug/{slug}', 'DocumentController@getDocBySlug')->middleware(['doc.access.read']);
 Route::post('api/docs/{doc}/introtext', 'DocumentController@postIntroText')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/title', 'DocumentController@postTitle')->middleware(['doc.access.edit']);

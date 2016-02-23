@@ -80,7 +80,8 @@ angular.module('madisonApp.controllers')
         {
           'order': 'updated_at',
           'order_dir': 'DESC',
-          'limit': 6
+          'limit': 6,
+          'discussion_state': 'open'
         },
         function (data) {
           $scope.mostRecent = data;

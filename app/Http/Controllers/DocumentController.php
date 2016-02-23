@@ -8,6 +8,7 @@ use Cache;
 use Input;
 use Response;
 use Event;
+use App\Http\Requests\UpdateDocumentRequest;
 use Storage;
 use Redirect;
 use App\Models\Setting;
@@ -151,6 +152,15 @@ class DocumentController extends Controller
         } catch (Exception $e) {
             return Response::json($this->growlMessage($e->getMessage(), 'error'));
         }
+    }
+
+    public function update($id, UpdateDocumentRequest $request)
+    {
+        file_put_contents('/var/log/madison_debug', '?'."\n\n", FILE_APPEND);
+        $doc = Doc::find($id);
+        if (!$doc) return response('Not found.', 404);
+        $doc->update($request->all());
+        return Response::json($doc);
     }
 
     public function postTitle($id)
@@ -359,6 +369,7 @@ class DocumentController extends Controller
         // Handle order by.
         $order_field = Input::get('order', 'updated_at');
         $order_dir = Input::get('order_dir', 'DESC');
+        $discussion_state = Input::get('discussion_state', null);
 
         // Handle pagination.
         $limit = null;
@@ -381,6 +392,10 @@ class DocumentController extends Controller
         } else {
             $doc = Doc::getEager()->orderBy($order_field, $order_dir)
                 ->where('is_template', '!=', '1');
+
+            if ($discussion_state) {
+                $doc->where('discussion_state', '=', $discussion_state);
+            }
 
             if (isset($state) && $state == 'all') {
                 if (!Auth::check() || !Auth::user()->hasRole('Admin')) {
