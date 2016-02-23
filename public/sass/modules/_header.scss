@@ -17,6 +17,19 @@ header {
     a:hover, a:active a.current {
         text-decoration: underline;
         background-color: transparent;
+        color: $dark-grey;
+    }
+}
+
+.nav {
+    > li {
+        > a {
+            position: relative;
+            &:hover,
+            &:focus {
+                color: $dark-grey;
+            }
+        }
     }
 }
 
@@ -25,6 +38,10 @@ header {
     @extend .accent-title;
     line-height: $header-height;
     font-size: 2em;
+}
+
+.navbar .brand:hover {
+    color: $white;
 }
 
 .dot-io {
