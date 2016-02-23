@@ -245,6 +245,7 @@
   "document.label.supported": "{{count}} Support",
   "document.label.oppose": "Oppose This Document",
   "document.label.opposed": "{{count}} Oppose",
+  "document.discussionstate.closed.tooltip": "Discussion is closed on this document.",
   "document.label.rss": "RSS",
   "document.label.rss.title": "Subscribe to RSS Feed",
   "document.label.annotationdiscussion": "Annotation &amp; Discussion",
@@ -262,6 +263,7 @@
   "document.pagination.delete": "Delete current page",
 
   "annotations.label.none": "No annotations yet. Add your own!",
+  "annotations.label.help": "Highlight some text to add your own annotations.",
   "annotations.label.count": "{{count}}",
   "annotations.label.collaborators": "{count} {count, plural, one{collaborator} other{collaborators}}",
   "annotations.label.comments": "{count} {count, plural, one{comment} other{comments}}",
