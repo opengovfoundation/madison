@@ -10,7 +10,7 @@ use Auth;
 use Input;
 
 
-class SponsorApiController extends ApiController
+class SponsorController extends Controller
 {
     public function __construct()
     {

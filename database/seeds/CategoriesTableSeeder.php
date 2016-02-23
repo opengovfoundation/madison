@@ -21,9 +21,9 @@ class CategoriesTableSeeder extends Seeder
         $category2 = ['text' => 'second category'];
 
         Input::replace($input = ['categories' => [$category1]]);
-        App::make('App\Http\Controllers\DocumentApiController')->postCategories(1);
+        App::make('App\Http\Controllers\DocumentController')->postCategories(1);
 
         Input::replace($input = ['categories' => [$category1, $category2]]);
-        App::make('App\Http\Controllers\DocumentApiController')->postCategories(1);
+        App::make('App\Http\Controllers\DocumentController')->postCategories(1);
     }
 }

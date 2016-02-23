@@ -66,9 +66,9 @@ Route::get('sitemap', function () {
 |
 */
 
-/*
-*   Global Route Patterns
-*/
+/**
+ * Global Route Patterns
+ */
 
 Route::pattern('annotation', '[0-9a-zA-Z_-]+');
 Route::pattern('comment', '[0-9a-zA-Z_-]+');
@@ -77,19 +77,13 @@ Route::pattern('user', '[0-9]+');
 Route::pattern('date', '[0-9]+');
 Route::pattern('group', '[0-9]+');
 Route::pattern('image', '[a-zA-Z0-9-_]+\.[a-zA-Z0-9]{2,4}');
-Route::pattern('state', Doc::validStatesPattern());
+Route::pattern('state', Doc::validPublishStatesRoutePattern());
 
-/*
-*   Route - Model bindings
-*/
+/**
+ * Route - Model bindings
+ */
 Route::model('user', 'App\Models\User');
 Route::model('user/edit', 'App\Models\User');
-
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-*/
 
 // Modal Routes
 Route::get('modals/annotation_thanks', array(
@@ -113,167 +107,126 @@ Route::get('settings/vendors', function () {
     return ['uservoice' => $uservoice, 'ga' => $ga];
 });
 
-Route::post('groups/member/{memberId}/role', 'GroupsController@changeMemberRole');
-Route::post('groups/active/{groupId}', 'GroupsController@setActiveGroup');
+// Document Routes
+Route::get('docs/', 'DocumentController@getDocs');
+Route::post('docs/', 'DocumentController@postDocs');
+Route::get('docs/count', 'DocumentController@getDocCount');
+Route::get('docs/{state}', 'DocumentController@getDocs');
+Route::post('docs/featured', 'DocumentController@postFeatured');
+Route::put('docs/featured', 'DocumentController@putFeatured');
+Route::delete('docs/featured/{doc}', 'DocumentController@deleteFeatured');
+Route::get('docs/recent/{query?}', 'DocumentController@getRecent')->where('query', '[0-9]+');
+Route::get('docs/categories', 'DocumentController@getCategories');
+Route::get('docs/statuses', 'DocumentController@getAllStatuses');
+Route::get('docs/sponsors', 'DocumentController@getAllSponsors');
+Route::get('docs/featured', 'DocumentController@getFeatured');
+Route::get('docs/deleted', 'DocumentController@getDeletedDocs')->middleware(['auth']);
+Route::put('dates/{date}', 'DocumentController@putDate');
 
-Route::get('groups/roles', 'GroupsController@getRoles');
-Route::get('groups/{group?}', 'GroupsController@getGroup');
-Route::post('groups/{group?}', 'GroupsController@postGroup');
-Route::delete('groups/{groupId}/members/{memberId}', 'GroupsController@removeMember');
-Route::put('groups/{groupId}/invite', 'GroupsController@processMemberInvite');
-Route::get('groups/{groupId}/members', 'GroupsController@getMembers');
-Route::put('groups/{groupId}/members/{memberId}', 'GroupsController@putMember');
+// Single Doc Routes
+Route::post('docs/{doc}/support/', 'DocumentController@postSupport')->middleware(['doc.access.read']);
+Route::get('users/{user}/support/{doc}', 'UserController@getSupport')->middleware(['doc.access.read']);
+Route::get('docs/{doc}/categories', 'DocumentController@getCategories')->middleware(['doc.access.read']);
+Route::get('docs/{doc}/introtext', 'DocumentController@getIntroText')->middleware(['doc.access.read']);
+Route::get('docs/{doc}/content', 'DocumentController@getContent')->middleware(['doc.access.read']);
+Route::get('docs/{doc}/sponsor/{sponsor}', 'DocumentController@hasSponsor')->middleware(['doc.access.read']);
+Route::get('docs/{doc}/sponsor', 'DocumentController@getSponsor')->middleware(['doc.access.read']);
+Route::get('docs/{doc}/status', 'DocumentController@getStatus')->middleware(['doc.access.read']);
+Route::get('docs/{doc}/dates', 'DocumentController@getDates')->middleware(['doc.access.read']);
+Route::get('docs/{doc}/images/{image}','DocumentController@getImage')->middleware(['doc.access.read']);
+Route::get('docs/{doc}', 'DocumentController@getDoc')->middleware(['doc.access.read']);
+Route::put('docs/{doc}', 'DocumentController@update')->middleware(['doc.access.edit']);
+Route::get('docs/slug/{slug}', 'DocumentController@getDocBySlug')->middleware(['doc.access.read']);
+Route::post('docs/{doc}/introtext', 'DocumentController@postIntroText')->middleware(['doc.access.edit']);
+Route::post('docs/{doc}/title', 'DocumentController@postTitle')->middleware(['doc.access.edit']);
+Route::post('docs/{doc}/sponsor', 'DocumentController@postSponsor')->middleware(['doc.access.edit']);
+Route::post('docs/{doc}/publishstate', 'DocumentController@postPublishState')->middleware(['doc.access.edit']);
+Route::post('docs/{doc}/slug', 'DocumentController@postSlug')->middleware(['doc.access.edit']);
+Route::post('docs/{doc}/content', 'DocumentController@postContent')->middleware(['doc.access.edit']);
+Route::put('docs/{doc}/content/{page}', 'DocumentController@putContent')->middleware(['doc.access.edit']);
+Route::delete('docs/{doc}/content/{page}', 'DocumentController@deleteContent')->middleware(['doc.access.edit']);
+Route::get('docs/embed/{slug}', 'DocumentController@getEmbedded')->middleware(['doc.access.read']);
+Route::get('docs/{slug}/feed', 'DocumentController@getFeed')->middleware(['doc.access.read']);
+Route::post('docs/{doc}/featured-image', 'DocumentController@uploadImage')->middleware(['doc.access.edit']);
+Route::post('docs/{doc}/status', 'DocumentController@postStatus')->middleware(['doc.access.edit']);
+Route::delete('docs/{doc}', 'DocumentController@deleteDoc')->middleware(['doc.access.edit']);
+Route::put('docs/{doc}/restore', 'DocumentController@getRestoreDoc')->middleware(['doc.access.edit']);
+Route::delete('docs/{doc}/featured-image', 'DocumentController@deleteImage')->middleware(['doc.access.edit']);
+Route::delete('docs/{doc}/dates/{date}', 'DocumentController@deleteDate')->middleware(['doc.access.edit']);
+Route::post('docs/{doc}/dates', 'DocumentController@postDate')->middleware(['doc.access.edit']);
+Route::post('docs/{doc}/categories', 'DocumentController@postCategories')->middleware(['doc.access.edit']);
 
-//Document Routes
-//Route::get('docs', 'DocController@index');
-//Route::get('docs/{slug}', 'DocController@index')->middleware(['doc.access.read']);
-//Route::get('docs/embed/{slug}', 'DocController@getEmbedded')->middleware(['doc.access.read']);
-Route::get('docs/{slug}/feed', 'DocController@getFeed')->middleware(['doc.access.read']);
-//Route::get('documents/search', 'DocumentsController@getSearch');
-//Route::get('documents', 'DocumentsController@listDocuments');
-//Route::get('documents/view/{documentId}', 'DocumentsController@viewDocument');
-//Route::get('documents/edit/{documentId}', 'DocumentsController@editDocument');
-//Route::put('documents/edit/{documentId}', 'DocumentsController@saveDocumentEdits');
-//Route::post('documents/create', 'DocumentsController@createDocument');
-//Route::post('documents/save', 'DocumentsController@saveDocument');
-//Route::delete('/documents/delete/{slug}', 'DocumentsController@deleteDocument')->middleware(['doc.access.edit']);
+// Annotation Action Routes
+Route::post('docs/{doc}/annotations/{annotation}/likes', 'AnnotationController@postLikes');
+Route::post('docs/{doc}/annotations/{annotation}/flags', 'AnnotationController@postFlags');
+Route::post('docs/{doc}/annotations/{annotation}/seen', 'AnnotationController@postSeen');
+Route::get('docs/{doc}/annotations/{annotation}/likes', 'AnnotationController@getLikes');
+Route::get('docs/{doc}/annotations/{annotation}/flags', 'AnnotationController@getFlags');
 
-//User Routes
-//Route::get('user/{user}', 'UserController@getIndex');
-//Route::get('user/edit/{user}', 'UserController@getEdit');
-Route::put('user/edit/{user}', 'UserController@putEdit');
-Route::post('user/verify-email', 'UserController@postVerify');
+// Annotation Comment Routes
+Route::get('docs/{doc}/annotations/{annotation}/comments', 'AnnotationController@getComments');
+Route::post('docs/{doc}/annotations/{annotation}/comments', 'AnnotationController@postComments');
+Route::get('docs/{doc}/annotations/{annotation}/comments/{comment}', 'AnnotationController@getComments');
 
-Route::post('password/remind', 'RemindersController@postRemind');
-Route::post('password/reset',  'RemindersController@postReset');
+// Annotation Routes
+Route::get('annotations/search', 'AnnotationController@getSearch');
+Route::get('docs/{doc}/annotations/{annotation?}', 'AnnotationController@getIndex')->middleware(['doc.access.read']);
+Route::post('docs/{doc}/annotations', 'AnnotationController@postIndex');
+Route::put('docs/{doc}/annotations/{annotation}', 'AnnotationController@putIndex');
+Route::delete('docs/{doc}/annotations/{annotation}', 'AnnotationController@deleteIndex');
 
-// Confirmation email resend
-Route::post('verification/resend',  'RemindersController@postConfirmation');
+// Document Comment Routes
+Route::post('docs/{doc}/comments', 'CommentController@postIndex')->middleware(['doc.access.read']);
+Route::get('docs/{doc}/comments', 'CommentController@getIndex')->middleware(['doc.access.read']);;
+Route::get('docs/{doc}/comments/{comment?}', 'CommentController@getComment')->middleware(['doc.access.read']);
+Route::post('docs/{doc}/comments/{comment}/likes', 'CommentController@postLikes')->middleware(['doc.access.read']);
+Route::post('docs/{doc}/comments/{comment}/flags', 'CommentController@postFlags')->middleware(['doc.access.read']);
+Route::post('docs/{doc}/comments/{comment}/comments', 'CommentController@postComments')->middleware(['doc.access.read']);
+Route::post('docs/{doc}/comments/{comment}/seen', 'CommentController@postSeen')->middleware(['doc.access.read']);
 
-//Annotation Routes
-//Route::get('annotation/{annotation}', 'AnnotationController@getIndex');
-
-//Dashboard Routes
-//Route::controller('dashboard', 'DashboardController');
-
-//Api Routes
-// Document API Routes
-Route::get('user/sponsors/all', 'DocumentApiController@getAllSponsorsForUser');
-Route::get('sponsors/all', 'SponsorApiController@getAllSponsors');
-
-//Annotation Action Routes
-Route::post('docs/{doc}/annotations/{annotation}/likes', 'AnnotationApiController@postLikes');
-Route::post('docs/{doc}/annotations/{annotation}/flags', 'AnnotationApiController@postFlags');
-Route::post('docs/{doc}/annotations/{annotation}/seen', 'AnnotationApiController@postSeen');
-Route::get('docs/{doc}/annotations/{annotation}/likes', 'AnnotationApiController@getLikes');
-Route::get('docs/{doc}/annotations/{annotation}/flags', 'AnnotationApiController@getFlags');
-
-//Annotation Comment Routes
-Route::get('docs/{doc}/annotations/{annotation}/comments', 'AnnotationApiController@getComments');
-Route::post('docs/{doc}/annotations/{annotation}/comments', 'AnnotationApiController@postComments');
-Route::get('docs/{doc}/annotations/{annotation}/comments/{comment}', 'AnnotationApiController@getComments');
-
-//Annotation Routes
-Route::get('annotations/search', 'AnnotationApiController@getSearch');
-Route::get('docs/{doc}/annotations/{annotation?}', 'AnnotationApiController@getIndex')->middleware(['doc.access.read']);
-Route::post('docs/{doc}/annotations', 'AnnotationApiController@postIndex');
-Route::put('docs/{doc}/annotations/{annotation}', 'AnnotationApiController@putIndex');
-Route::delete('docs/{doc}/annotations/{annotation}', 'AnnotationApiController@deleteIndex');
-
-//Document Routes
-Route::get('docs/slug/{slug}', 'DocumentsController@getDocument')->middleware(['doc.access.read']);
-Route::get('docs/{doc}/content', 'DocumentsController@getDocumentContent')->middleware(['doc.access.read']);
-
-//Document Comment Routes
-Route::post('docs/{doc}/comments', 'CommentApiController@postIndex')->middleware(['doc.access.read']);
-Route::get('docs/{doc}/comments', 'CommentApiController@getIndex')->middleware(['doc.access.read']);;
-Route::get('docs/{doc}/comments/{comment?}', 'CommentApiController@getComment')->middleware(['doc.access.read']);
-Route::post('docs/{doc}/comments/{comment}/likes', 'CommentApiController@postLikes')->middleware(['doc.access.read']);
-Route::post('docs/{doc}/comments/{comment}/flags', 'CommentApiController@postFlags')->middleware(['doc.access.read']);
-Route::post('docs/{doc}/comments/{comment}/comments', 'CommentApiController@postComments')->middleware(['doc.access.read']);
-Route::post('docs/{doc}/comments/{comment}/seen', 'CommentApiController@postSeen')->middleware(['doc.access.read']);
-
-//Document Support / Oppose routes
-Route::post('docs/{doc}/support/', 'DocController@postSupport')->middleware(['doc.access.read']);
-Route::get('users/{user}/support/{doc}', 'UserApiController@getSupport')->middleware(['doc.access.read']);
-
-//Document Api Routes
-Route::get('docs/recent/{query?}', 'DocumentApiController@getRecent')->where('query', '[0-9]+');
-Route::get('docs/active/{query?}', 'DocumentsController@getActive')->where('query', '[0-9]+');
-Route::get('docs/categories', 'DocumentApiController@getCategories');
-Route::get('docs/statuses', 'DocumentApiController@getAllStatuses');
-Route::get('docs/sponsors', 'DocumentApiController@getAllSponsors');
-Route::get('docs/featured', 'DocumentsController@getFeatured');
-Route::get('docs/deleted', 'DocumentApiController@getDeletedDocs')->middleware(['auth']);
-
-Route::get('docs/count', 'DocumentApiController@getDocCount');
-Route::get('docs/', 'DocumentApiController@getDocs');
-Route::get('docs/{state}', 'DocumentApiController@getDocs');
-Route::put('dates/{date}', 'DocumentApiController@putDate');
-
-Route::post('docs/featured', 'DocumentsController@postFeatured');
-Route::put('docs/featured', 'DocumentsController@putFeatured');
-Route::delete('docs/featured/{doc}', 'DocumentsController@deleteFeatured');
-
-Route::get('docs/{doc}/categories', 'DocumentApiController@getCategories')->middleware(['doc.access.read']);
-Route::get('docs/{doc}/introtext', 'DocumentApiController@getIntroText')->middleware(['doc.access.read']);
-Route::get('docs/{doc}/sponsor/{sponsor}', 'DocumentApiController@hasSponsor')->middleware(['doc.access.read']);
-Route::get('docs/{doc}/sponsor', 'DocumentApiController@getSponsor')->middleware(['doc.access.read']);
-Route::get('docs/{doc}/status', 'DocumentApiController@getStatus')->middleware(['doc.access.read']);
-Route::get('docs/{doc}/dates', 'DocumentApiController@getDates')->middleware(['doc.access.read']);
-Route::get('docs/{doc}/images/{image}','DocumentsController@getImage')->middleware(['doc.access.read']);
-Route::get('docs/{doc}', 'DocumentApiController@getDoc')->middleware(['doc.access.read']);
-
-Route::post('docs/', 'DocumentApiController@postDocs');
-Route::post('docs/{doc}/introtext', 'DocumentApiController@postIntroText')->middleware(['doc.access.edit']);
-Route::post('docs/{doc}/title', 'DocumentApiController@postTitle')->middleware(['doc.access.edit']);
-Route::post('docs/{doc}/sponsor', 'DocumentApiController@postSponsor')->middleware(['doc.access.edit']);
-Route::post('docs/{doc}/publishstate', 'DocumentApiController@postPublishState')->middleware(['doc.access.edit']);
-Route::post('docs/{doc}/slug', 'DocumentApiController@postSlug')->middleware(['doc.access.edit']);
-Route::post('docs/{doc}/content', 'DocumentApiController@postContent')->middleware(['doc.access.edit']);
-Route::put('docs/{doc}/content/{page}', 'DocumentApiController@putContent')->middleware(['doc.access.edit']);
-Route::delete('docs/{doc}/content/{page}', 'DocumentApiController@deleteContent')->middleware(['doc.access.edit']);
-
-Route::post('docs/{doc}/featured-image', 'DocumentsController@uploadImage')->middleware(['doc.access.edit']);
-Route::post('docs/{doc}/status', 'DocumentApiController@postStatus')->middleware(['doc.access.edit']);
-Route::delete('docs/{doc}', 'DocumentApiController@deleteDoc')->middleware(['doc.access.edit']);
-Route::put('docs/{doc}/restore', 'DocumentApiController@getRestoreDoc')->middleware(['doc.access.edit']);
-Route::delete('docs/{doc}/featured-image', 'DocumentsController@deleteImage')->middleware(['doc.access.edit']);
-Route::delete('docs/{doc}/dates/{date}', 'DocumentApiController@deleteDate')->middleware(['doc.access.edit']);
-Route::post('docs/{doc}/dates', 'DocumentApiController@postDate')->middleware(['doc.access.edit']);
-Route::post('docs/{doc}/categories', 'DocumentApiController@postCategories')->middleware(['doc.access.edit']);
-
-
-//User Routes
-Route::get('user/{user}', 'UserApiController@getUser');
-Route::get('user/verify/', 'UserApiController@getVerify');
-Route::post('user/verify/', 'UserApiController@postVerify');
-Route::put('user/sponsor', 'SponsorApiController@putRequest');
-Route::get('user/admin/', 'UserApiController@getAdmins');
-Route::post('user/admin/', 'UserApiController@postAdmin');
-Route::get('user/independent/verify/', 'UserApiController@getIndependentVerify');
-Route::post('user/independent/verify/', 'UserApiController@postIndependentVerify');
+// User Routes
+Route::get('user/{user}', 'UserController@getUser')->middleware(['auth']);
+Route::get('user/verify/', 'UserController@getVerify')->middleware(['auth']);
+Route::post('user/verify/', 'UserController@postVerify')->middleware(['auth']);
+Route::put('user/sponsor', 'SponsorController@putRequest');
+Route::get('user/admin/', 'UserController@getAdmins')->middleware(['auth']);
+Route::post('user/admin/', 'UserController@postAdmin')->middleware(['auth']);
+Route::get('user/independent/verify/', 'UserController@getIndependentVerify')->middleware(['auth']);
+Route::post('user/independent/verify/', 'UserController@postIndependentVerify')->middleware(['auth']);
 Route::get('user/current', 'UserController@getCurrent');
 Route::put('user/{user}/edit/email', 'UserController@editEmail');
-Route::get('user/{user}/docs', 'DocumentsController@listDocuments');
+Route::get('user/{user}/docs', 'DocumentController@getUserDocuments');
 Route::get('user/{user}/notifications', 'UserController@getNotifications');
 Route::put('user/{user}/notifications', 'UserController@putNotifications');
 Route::get('user/{user}/groups', 'UserController@getGroups');
 Route::get('user/facebook-login', 'UserController@getFacebookLogin');
 Route::get('user/twitter-login', 'UserController@getTwitterLogin');
 Route::get('user/linkedin-login', 'UserController@getLinkedinLogin');
+Route::put('user/edit/{user}', 'UserController@putEdit');
+Route::post('user/verify-email', 'UserController@postVerifyEmail');
+Route::post('password/remind', 'RemindersController@postRemind');
+Route::post('password/reset',  'RemindersController@postReset');
+Route::get('user/sponsors/all', 'DocumentController@getAllSponsorsForUser');
+Route::get('sponsors/all', 'SponsorController@getAllSponsors');
+Route::post('verification/resend',  'RemindersController@postConfirmation');
 
 // Group Routes
-Route::get('groups/verify/', 'GroupsApiController@getVerify');
-Route::put('groups/verify/{groupId}', 'GroupsApiController@putVerify');
+Route::get('groups/verify/', 'GroupController@getVerify')->middleware(['auth']);
+Route::put('groups/verify/{groupId}', 'GroupController@putVerify')->middleware(['auth']);
+Route::post('groups/active/{groupId}', 'GroupController@setActiveGroup');
+Route::get('groups/roles', 'GroupController@getRoles');
+Route::get('groups/{group?}', 'GroupController@getGroup');
+Route::post('groups/{group?}', 'GroupController@postGroup');
+Route::delete('groups/{groupId}/members/{memberId}', 'GroupController@removeMember');
+Route::put('groups/{groupId}/invite', 'GroupController@processMemberInvite');
+Route::get('groups/{groupId}/members', 'GroupController@getMembers');
+Route::put('groups/{groupId}/members/{memberId}', 'GroupController@putMember');
 
 // User Login / Signup AJAX requests
-Route::get('user/login', 'UserManageApiController@getLogin');
-Route::post('user/login', 'UserManageApiController@postLogin');
-Route::get('user/signup', 'UserManageApiController@getSignup');
-Route::post('user/signup', 'UserManageApiController@postSignup');
+Route::post('user/login', 'UserController@postLogin');
+Route::post('user/signup', 'UserController@postSignup');
 
-//Auth Token Route
+// Auth Token Route
 //Route::get('/auth/token', 'AuthController@token');
 Route::get('/user/login', 'AuthController@login');
 Route::get('/user/logout', 'AuthController@logout');

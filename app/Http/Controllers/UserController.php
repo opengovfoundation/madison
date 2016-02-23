@@ -7,10 +7,13 @@ use Event;
 use Input;
 use Log;
 use Response;
+use Validator;
 use App\Models\User;
 use App\Models\UserMeta;
 use App\Models\Notification;
 use App\Models\MadisonEvent;
+use App\Models\DocMeta;
+use App\Models\Role;
 
 /**
  * 	Controller for user actions.
@@ -336,114 +339,13 @@ class UserController extends Controller
     }
 
     /**
-     *	postLogin.
-     *
-     *	Handles POST requests for users logging in
-     *
-     *	@param void
-     *
-     *	@return Illuminate\Http\RedirectResponse
-     *
-     *  @todo Does not appear to be used?
-     */
-    public function postLogin()
-    {
-        //Retrieve POST values
-        $email = Input::get('email');
-        $password = Input::get('password');
-        $previous_page = Input::get('previous_page');
-        $remember = Input::get('remember');
-        $user_details = Input::all();
-
-        //Rules for login form submission
-        $rules = array('email' => 'required', 'password' => 'required');
-        $validation = Validator::make($user_details, $rules);
-
-        //Validate input against rules
-        if ($validation->fails()) {
-            return Redirect::to('user/login')->withInput()->withErrors($validation);
-        }
-
-        //Check that the user account exists
-        $user = User::where('email', $email)->first();
-
-        if (!isset($user)) {
-            return Redirect::to('user/login')->with('error', 'That email does not exist.');
-        }
-
-        //If the user's token field isn't blank, he/she hasn't confirmed their account via email
-        if ($user->token != '') {
-            return Redirect::to('user/login')->with('error', 'Please click the link sent to your email to verify your account.');
-        }
-
-        //Attempt to log user in
-        $credentials = array('email' => $email, 'password' => $password);
-
-        if (Auth::attempt($credentials, ($remember == 'true') ? true : false)) {
-            Auth::user()->last_login = new DateTime();
-            Auth::user()->save();
-            if (isset($previous_page)) {
-                return Redirect::to($previous_page)->with('message', 'You have been successfully logged in.');
-            } else {
-                return Redirect::to('/docs/')->with('message', 'You have been successfully logged in.');
-            }
-        } else {
-            return Redirect::to('user/login')->with('error', 'Incorrect login credentials')->withInput(array('previous_page' => $previous_page));
-        }
-    }
-
-    /**
-     * 	postSignup.
-     *
-     *	Handles POST requests for users signing up natively through Madison
-     *		Fires MadisonEvent::NEW_USER_SIGNUP Event
-     *
-     *	@param void
-     *
-     *	@return Illuminate\Http\RedirectResponse
-     */
-    public function postSignup()
-    {
-        //Retrieve POST values
-        $email = Input::get('email');
-        $password = Input::get('password');
-        $fname = Input::get('fname');
-        $lname = Input::get('lname');
-
-        //Create user token for email verification
-        $token = str_random();
-
-        //Create new user
-        $user = new User();
-        $user->email = $email;
-        $user->password = $password;
-        $user->fname = $fname;
-        $user->lname = $lname;
-        $user->token = $token;
-        if (! $user->save()) {
-            return Redirect::to('user/signup')->withInput()->withErrors($user->getErrors());
-        }
-
-        Event::fire(MadisonEvent::NEW_USER_SIGNUP, $user);
-
-        //Send email to user for email account verification
-        Mail::queue('email.signup', array('token' => $token), function ($message) use ($email, $fname) {
-            $message->subject('Welcome to the Madison Community');
-            $message->from('sayhello@opengovfoundation.org', 'Madison');
-            $message->to($email); // Recipient address
-        });
-
-        return Redirect::to('user/login')->with('message', 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.');
-    }
-
-    /**
-     * 	postVerify.
+     * 	postVerifyEmail.
      *
      *	Handles POST requests for email verifications
      *
      *	@param string $token
      */
-    public function postVerify()
+    public function postVerifyEmail()
     {
         $token = Input::get('token');
 
@@ -700,4 +602,270 @@ class UserController extends Controller
             return Response::json($this->growlMessage($message, 'success'));
         }
     }
+
+    public function getSupport($user, $doc)
+    {
+        $docMeta = DocMeta::where('user_id', $user->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
+
+        //Translate meta value
+        if (isset($docMeta) && $docMeta->meta_value == '1') {
+            $docMeta->meta_value = true;
+        }
+
+        $supports = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $doc)->count();
+        $opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $doc)->count();
+
+        if (isset($docMeta)) {
+            return Response::json(array('support' => $docMeta->meta_value, 'supports' => $supports, 'opposes' => $opposes));
+        } else {
+            return Response::json(array('support' => null, 'supports' => $supports, 'opposes' => $opposes));
+        }
+    }
+
+    public function getUser($user)
+    {
+        $user->load('docs', 'user_meta', 'comments', 'comments.doc', 'annotations', 'annotations.doc');
+
+        return Response::json($user);
+    }
+
+    public function getIndependentVerify()
+    {
+        $this->beforeFilter('admin');
+
+        $requests = UserMeta::where('meta_key', UserMeta::TYPE_INDEPENDENT_SPONSOR)
+                            ->with('user')->get();
+
+        return Response::json($requests);
+    }
+
+    public function postIndependentVerify()
+    {
+        $this->beforeFilter('admin');
+
+        $request = Input::get('request');
+        $status = Input::get('status');
+
+        $user = User::find($request['user_id']);
+
+        if (!isset($user)) {
+            throw new Exception('User ('.$user->id.') not found.');
+        }
+
+        $accepted = array('verified', 'denied', 'pending');
+
+        if (!in_array($status, $accepted)) {
+            throw new Exception("Invalid value for verify request.");
+        }
+
+        $meta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
+                        ->where('user_id', '=', $user->id)
+                        ->first();
+
+        if (!$meta) {
+            throw new Exception("Invalid ID {$user->id}");
+        }
+
+        switch ($status) {
+            case 'verified':
+
+                $role = Role::where('name', 'Independent Sponsor')->first();
+                if (!isset($role)) {
+                    throw new Exception("Role 'Independent Sponsor' doesn't exist.");
+                }
+
+                $user->attachRole($role);
+
+                $meta->meta_value = 1;
+                $retval = $meta->save();
+                break;
+            case 'pending':
+                $role = Role::where('name', 'Independent Sponsor')->first();
+                if (!isset($role)) {
+                    throw new Exception("Role 'Independent Sponsor' doesn't exist.");
+                }
+
+                $user->detachRole($role);
+
+                $meta->meta_value = 0;
+                $retval = $meta->save();
+                break;
+            case 'denied':
+                $retval = $meta->delete();
+                break;
+        }
+
+        return Response::json($retval);
+    }
+
+    public function getVerify()
+    {
+        $this->beforeFilter('admin');
+
+        $userQuery = UserMeta::where('meta_key', 'verify');
+        if (Input::get('status')) {
+            $userQuery->where('meta_value', Input::get('status'));
+        }
+        $requests = $userQuery->with('user')->get();
+
+        return Response::json($requests);
+    }
+
+    public function postVerify()
+    {
+        $this->beforeFilter('admin');
+
+        $request = Input::get('request');
+        $status = Input::get('status');
+
+        $accepted = array('pending', 'verified', 'denied');
+
+        if (!in_array($status, $accepted)) {
+            throw new Exception('Invalid value for verify request: '.$status);
+        }
+
+        $meta = UserMeta::find($request['id']);
+
+        $meta->meta_value = $status;
+
+        $ret = $meta->save();
+
+        return Response::json($ret);
+    }
+
+    public function getAdmins()
+    {
+        $this->beforeFilter('admin');
+
+        $adminRole = Role::where('name', 'Admin')->first();
+        $admins = $adminRole->users()->get();
+
+        foreach ($admins as $admin) {
+            $admin->admin_contact();
+        }
+
+        return Response::json($admins);
+    }
+
+    public function postAdmin()
+    {
+        $admin = Input::get('admin');
+
+        $user = User::find($admin['id']);
+
+        if (!isset($user)) {
+            throw new Exception('User with id '.$admin['id'].' could not be found.');
+        }
+
+        $user->admin_contact($admin['admin_contact']);
+
+        return Response::json(array('saved' => true));
+    }
+
+    public function postLogin()
+    {
+        //Retrieve POST values
+        $email = Input::get('email');
+        $password = Input::get('password');
+        $remember = Input::get('remember');
+        $previous_page = Input::get('previous_page');
+        $user_details = Input::all();
+
+        //Rules for login form submission
+        $rules = array('email' => 'required', 'password' => 'required');
+        $validation = Validator::make($user_details, $rules);
+
+        //Validate input against rules
+        if ($validation->fails()) {
+            $errors = $validation->messages()->getMessages();
+            $messages = array();
+
+            foreach ($errors as $error) {
+                array_push($messages, $error[0]);
+            }
+
+            return Response::json($this->growlMessage($messages, 'error'), 401);
+        }
+
+        //Check that the user account exists
+        $user = User::where('email', $email)->first();
+
+        if (!isset($user)) {
+            return Response::json($this->growlMessage('Email does not exist!', 'error'), 401);
+        }
+
+        //If the user's token field isn't blank, he/she hasn't confirmed their account via email
+        if ($user->token != '') {
+            return Response::json($this->growlMessage('Please click the link sent to your email to verify your account.', 'error'), 401);
+        }
+
+        //Attempt to log user in
+        $credentials = array('email' => $email, 'password' => $password);
+
+        if (Auth::attempt($credentials, ($remember === 'true') ? true : false)) {
+            return Response::json(array( 'status' => 'ok', 'errors' => array() ));
+        } else {
+            return Response::json($this->growlMessage('The email address or password is incorrect.', 'error'), 401);
+        }
+    }
+
+    /**
+     * 	POST to create user account.
+     */
+    public function postSignup()
+    {
+        //Retrieve POST values
+        $email = Input::get('email');
+        $password = Input::get('password');
+        $fname = Input::get('fname');
+        $lname = Input::get('lname');
+        $user_details = Input::all();
+
+        //Rules for signup form submission
+        $rules = array('email'        =>    'required|unique:users',
+                        'password'    =>    'required',
+                        'fname'        =>    'required',
+                        'lname'        =>    'required',
+                        );
+        $validation = Validator::make($user_details, $rules);
+        if ($validation->fails()) {
+            $errors = $validation->messages()->getMessages();
+            $messages = array();
+
+            $replacements = array(
+                'fname' => 'first name',
+                'lname' => 'last name'
+            );
+
+            foreach ($errors as $error) {
+                $error_message = str_replace(array_keys($replacements), array_values($replacements), $error[0]);
+
+                array_push($messages, $error_message);
+            }
+
+            return Response::json($this->growlMessage($messages, 'error'), 500);
+        } else {
+            //Create user token for email verification
+            $token = str_random();
+
+            //Create new user
+            $user = new User();
+            $user->email = $email;
+            $user->password = $password;
+            $user->fname = $fname;
+            $user->lname = $lname;
+            $user->token = $token;
+            $user->save();
+
+            //Send email to user for email account verification
+            Mail::queue('email.signup', array('token' => $token), function ($message) use ($email, $fname) {
+                $message->subject('Welcome to the Madison Community');
+                $message->from('sayhello@opengovfoundation.org', 'Madison');
+                $message->to($email); // Recipient address
+            });
+
+            return Response::json(array( 'status' => 'ok', 'errors' => array(), 'message' => 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.'));
+        }
+    }
+
 }
