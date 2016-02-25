@@ -10,8 +10,8 @@ trim_trailing_whitespace = true
 
 [*.php]
 indent_style=space
-indent_size=2
+indent_size=4
 
-[*.{js,json}]
+[*.apib]
 indent_style = space
-indent_size = 2
+indent_size = 4
