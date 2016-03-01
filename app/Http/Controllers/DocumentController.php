@@ -47,7 +47,8 @@ class DocumentController extends Controller
         // because the encoding is inconsistent for integers between PHP
         // versions.  We use the JSON_NUMERIC_CHECK flag to normalize this.
         return Response::make(
-            json_encode($doc->toArray(), JSON_NUMERIC_CHECK), 200);
+            json_encode($doc->toArray(), JSON_NUMERIC_CHECK), 200
+        )->header('content-type', 'application/json');
     }
 
     public function getDocBySlug($slug)
