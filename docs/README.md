@@ -28,24 +28,36 @@ Check out the rest of the documentation and read through the [Contributing Guide
 
 Madison is build on top of [Laravel v.4.2](http://laravel.com/docs/4.2) and uses many of configuration tools that Laravel provides ( specifically its [`.env` files](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration) )
 
-### Via Laravel Forge
+### Via Laravel Forge & Envoyer
 
-We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, and manage Madison instances.  We use it ourselves at the OpenGov Foundation.  Forge is a [PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service) product that is tailored specifically to Laravel environments.
+We recommend using [Laravel Forge](https://forge.laravel.com/) (server management tool) and [Envoyer](https://envoyer.io/) (optional deployment management tool) to set up, run, and manage Madison instances.  We use it ourselves at the OpenGov Foundation.  Forge is a [PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service) product that is tailored specifically to Laravel environments.
 
-1.  Create account and log in
-1.  Link cloud server account (Linode, Digital Ocean, etc.)
+1.  Create an account and log in.
+1.  Link to a cloud server account (Linode, Digital Ocean, etc.).
 1.  Click `Create Server`.  Forge will then create a server on your linked account with the necessary setup.
 1.  Create new site setting your `Root Domain` and keep `public` as the `web directory` setting.
 1.  Click `Manage` on your new site in the list of Active Sites below the New Site creation.
-1.  Enter your Github repository
-1.  Add necessary ENV variables in the `Environment` tab.
-  * DB_NAME
-  * DB_USER
-  * DB_PASS
+1. (Optional) Setup the SSL Certificate to deliver the site over HTTPS.  After the certificate is installed, click the lock to Activate it.
+1. (Optional) Add any custom domain aliases, etc to the Nginx config.  Click Edit Files at the bottom of the screen and choose Edit Nginx Config.
 
-  *If environment has trouble pulling the credentials, deploy once and update Laravel's `.env` file with the necessary credentials*
-1.  Deploy
+
+From here, you can use Forge to deploy directly to the server which will just push the latest code to the server.  Alternatively, you can signup for [Envoyer](https://envoyer.io/) which will allow you to rollback failed deployments and do other useful things.
+
+#### Deploy Via Forge
+
+1.  Enter your Github repository.
+1.  Add necessary ENV variables in the Environment tab.  (`DB_NAME`, `DB_USER`, `DB_PASS`, etc.)  If environment has trouble pulling the credentials, deploy once and update Laravel's `.env` file with the necessary credentials.
+1.  Click Deploy
 1.  (Optional) Set up `Quick Deploy`, which will deploy on any pushes to your Github repo.
+
+#### Deploy Via Envoyer
+
+1.  Create an account and log in.
+1. Make sure it's a Laravel 5 project (under Settings).
+1. Set the server.  You'll need to add the new authorized key to the `forge` user on the server manually.
+1. Add a deployment hook for migrations.  Add a hook for the After phase of Activate New Release to migrate the database, the command will look like (with the path updated for your server & instance): `php /home/forge/drafts.wichita.gov/envoyer/current/artisan migrate --force`
+1. Setup an .env file for the deployment.  Under the Servers tab, click Manage Environment. Make sure to store the password somewhere safe (such as in Passpack)!
+
 
 ### Manually
 
