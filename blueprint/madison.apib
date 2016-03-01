@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://mymadison.io/api/
+HOST: http://localhost:8999
 
 # madison
 
@@ -9,214 +9,89 @@ community.
 
 # Group Documents
 
+## Single Document [/docs/{doc_id}]
+
++ Parameters
+    + doc_id: `1` (required, number)
+
+### Get Single Document [GET]
+
++ Response 200 (application/json)
+
+    + Attributes (Document)
+
 ## Documents Collection [/docs]
+
 Due to the length of the documents involved, the documents collection
 endpoints do not return the content of the documents.  Please use the
 Document Object if you need to retrieve the content.
 
-### List All Documents [GET]
+### List Documents [GET]
 
 + Response 200 (application/json)
 
-        [
-            {
-                "id": 1,
-                "title": "Constitution of the United States",
-                "slug": "constitution",
-                "shortname": null,
-                "thumbnail": "/img/doc-70/default.jpeg",
-                "init_section": 1,
-                "created_at": "2014-06-10T13:02:26+00:00",
-                "updated_at": "2015-09-17T14:38:47+00:00",
-                "deleted_at": null,
-                "private": 0,
-                "is_template": 0,
-                "featured": true,
-                "url": "https://mymadison.io/docs/constitution",
-                "comment_count": 0,
-                "annotation_count": 20,
-                "annotation_comment_count": 3,
-                "user_count": 12,
-                "support": 11,
-                "oppose": 1,
-                "categories": [
-                    {
-                        "id": 55,
-                        "name": "constitution",
-                        "created_at": "2014-06-10 13:02:51",
-                        "updated_at": "2014-06-10 13:02:51",
-                        "pivot": {
-                            "doc_id": 70,
-                            "category_id": 55
-                        }
-                    },
-                    {
-                        "id": 56,
-                        "name": "founding documents",
-                        "created_at": "2014-06-10 13:02:55",
-                        "updated_at": "2014-06-10 13:02:55",
-                        "pivot": {
-                            "doc_id": 70,
-                            "category_id": 56
-                        }
-                    },
-                    {
-                        "id": 57,
-                        "name": "united states",
-                        "created_at": "2014-06-10 13:03:00",
-                        "updated_at": "2014-06-10 13:03:00",
-                        "pivot": {
-                            "doc_id": 70,
-                            "category_id": 57
-                        }
-                    }
-                ],
-                "sponsor": [],
-                "statuses": [{
-                    "id": 9,
-                    "label": "Law",
-                    "created_at": "2014-06-10 13:02:36",
-                    "updated_at": "2014-06-10 13:02:36",
-                    "pivot": {
-                        "doc_id": 70,
-                        "status_id": 9
-                    }
-                }],
-                "dates": []
-            },
-            {
-                "id": 2,
-                "title": "Wells Capitol Hill Business Improvement District Amendment Act of 2013",
-                "slug": "wells-capitol-hill-business-improvement-district-amendment-act-of-2013",
-                "shortname": null,
-                "thumbnail": null,
-                "init_section": 2,
-                "created_at": "2014-01-30T18:59:56+00:00",
-                "updated_at": "2015-09-17T10:43:03+00:00",
-                "deleted_at": null,
-                "private": 0,
-                "is_template": 0,
-                "featured": false,
-                "url": "https://mymadison.io/docs/wells-capitol-hill-business-improvement-district-amendment-act-of-2013",
-                "comment_count": 0,
-                "annotation_count": 5,
-                "annotation_comment_count": 3,
-                "user_count": 4,
-                "support": 1,
-                "oppose": 0,
-                "categories": [
-                    {
-                        "id": 2,
-                        "name": "District of Columbia",
-                        "created_at": "2014-02-20 03:53:20",
-                        "updated_at": "2014-02-20 03:53:20",
-                        "pivot": {
-                            "doc_id": 2,
-                            "category_id": 2
-                        }
-                    }
-                ],
-                "sponsor": [],
-                "statuses": [],
-                "dates": []
-            }
-        ]
+    + Attributes (array[Document])
 
 ### Create A Document [POST]
 
-+ Request (applicaiton/json)
++ Request (application/json)
 
-        {
-            "title": "Fancy New Legislation",
-            "group_id": 1
-        }
+    + Attributes (New Document)
 
 + Response 200 (application/json)
 
-        {
-            "doc": {
-                "created_at": "2016-02-25 19:19:35",
-                "featured": false,
-                "id": 7,
-                "init_section": 10,
-                "slug": "fancy-new-legislation",
-                "title": "Fancy New Legislation",
-                "updated_at": "2016-02-25 19:19:35",
-                "url": "http://mymadison.io/api/docs/fancy-new-legislation"
-            },
-            "messages": [
-                {
-                    "severity": "success",
-                    "text": "Document created successfully"
-                }
-            ]
-        }
+    + Attributes
+        + doc (Document, required)
 
-## Document Object [/docs/{doc_id}]
+# Data Structures
 
-+ Parameters
-    * doc_id (required, number, `1`) ... ID of the Question in form of an integer
+## Document
 
-### Get A Single Document [GET]
++ id: `1` (number, required)
++ title: `Constitution of the United States` (string, required)
++ slug: `constitution` (string, required) - URL slug
++ thumbnail: `/img/doc-70/default.jpeg` (string, nullable)
++ created_at: `2014-06-10T13:02:26+00:00`(string)
++ updated_at: `2015-09-17T14:38:47+00:00` (string)
++ deleted_at: `2015-09-17T14:38:47+00:00` (string, nullable)
++ private: `false` (boolean)
++ is_template: `0` (number)
++ featured: `true` (boolean)
++ url: `https://mymadison.io/docs/constitution` (string)
++ comment_count: `0` (number)
++ annotation_count: `20` (number)
++ annotation_comment_count: `3` (number)
++ user_count: `12` (number)
++ support: `11` (number)
++ oppose: `1` (number)
++ categories (array[Category])
++ sponsor (array[Sponsor])
++ statuses (array[Status])
++ dates (array[Date])
++ introtext (string, optional, nullable)
 
+## Document Content
 
-+ Response 200 (application/json)
++ doc_id: `1` (number, required)
++ content (string, required)
++ page (number, required)
 
-        {
-            "id": 1,
-            "title": "Constitution of the United States",
-            "slug": "constitution",
-            "shortname": null,
-            "thumbnail": "/img/doc-70/default.jpeg",
-            "init_section": 1,
-            "created_at": "2014-06-10 13:02:26",
-            "updated_at": "2015-09-17 14:38:47",
-            "deleted_at": null,
-            "private": 0,
-            "is_template": 0,
-            "featured": true,
-            "url": "https://mymadison.io/docs/constitution",
-            "content": {
-                "id": 70,
-                "doc_id": 70,
-                "parent_id": null,
-                "child_priority": 0,
-                "content": "### Preamble We the People of the United States, in Order to form a more perfect Union, establish Justice, insure domestic Tranquility, provide for the common defense, promote the general Welfare, and secure the Blessings of Liberty to ourselves and our Posterity, do ordain and establish this Constitution for the United States of America.",
-                "created_at": "2014-06-10 13:02:26",
-                "updated_at": "2015-09-11 16:11:16",
-                "deleted_at": null
-            },
-            "categories": [
-                {
-                    "id": 56,
-                    "name": "founding documents",
-                    "created_at": "2014-06-10 13:02:55",
-                    "updated_at": "2014-06-10 13:02:55",
-                    "pivot": {
-                        "doc_id": 70,
-                        "category_id": 56
-                    }
-                },
-                {
-                    "id": 57,
-                    "name": "united states",
-                    "created_at": "2014-06-10 13:03:00",
-                    "updated_at": "2014-06-10 13:03:00",
-                    "pivot": {
-                        "doc_id": 70,
-                        "category_id": 57
-                    }
-                },
-                {
-                    "id": 55,
-                    "name": "constitution",
-                    "created_at": "2014-06-10 13:02:51",
-                    "updated_at": "2014-06-10 13:02:51",
-                    "pivot": {
-                        "doc_id": 70,
-                        "category_id": 55
-                    }
-                }
-            ],
-            "introtext": []
-        }
+## New Document
+
++ title: `Fancy New Legislation` (string, required)
++ group_id: `1` (number, optional)
++ user_id: `1` (number, optional)
+
+## Category
+
++ id: `1` (number, required)
++ name: `congressional` (string, required)
+
+## Date
+
+## Sponsor
+
++ display_name: `Person or Group Name` (string, required)
+
+## Status
+
