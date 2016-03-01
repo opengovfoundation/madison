@@ -57,12 +57,12 @@ We recommend using [Laravel Forge](https://forge.laravel.com/) to set up, run, a
 
 1.  Clone the repo `git clone git@github.com:opengovfoundation/madison.git`
 1.  Create database and user
-1.  Set ENV variables in [Laravel's `.env` file](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration). You can copy the contents from the .env.example file included in this repository
+1.  Set ENV variables in [Laravel's `.env` file](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration). You can copy the contents from the .env.example file included in this repository. Take a note of the COOKIE_DOMAIN setting.
 1.  Run `composer install` to get all the dependencies
 1.  Run `php artisan migrate` to run all migrations
 1.  Make sure `ADMIN_EMAIL` and `ADMIN_PASSWORD` are set in the environment config and then run `php artisan db:seed` to run all database seeds.
 1.  Make sure the web server has write access to all folders within `app/storage`
-1.  Run `php artisan key:generate` to set the app key
+1.  Run `php artisan key:generate` to set the app key in your .env file.
 
 **That's it!**
 
