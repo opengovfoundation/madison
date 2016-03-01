@@ -270,5 +270,3 @@ Route::get('docs/feed', function () {
     return $feed->render('atom');
 
 });
-
-

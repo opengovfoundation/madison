@@ -199,13 +199,22 @@ class DocumentController extends Controller
         $old_slug = $doc->slug;
         // If the new slug is different, save it
         if ($old_slug != Input::get('slug')) {
-            $doc->slug = Input::get('slug');
-            $doc->save();
-            $response['messages'][0] = array('text' => 'Document slug saved', 'severity' => 'info');
+
+            if (Doc::where('slug', Input::get('slug'))->count()) {
+                $response['messages'][0] = array('text' => 'That slug is already taken, please choose another.', 'severity' => 'error');
+            }
+            else {
+                $doc->slug = Input::get('slug');
+                $doc->save();
+                $response['messages'][0] = array('text' => 'Document slug saved', 'severity' => 'info');
+            }
         } else {
             // If the slugs are identical, the only way this could have happened is if the sanitize
             // function took out an invalid character and tried to submit an identical slug
-            $response['messages'][0] = array('text' => 'Invalid slug character', 'severity' => 'error');
+
+            // 20160229: This isn't behaving as expected, since it also happens
+            // after fixing any other error. Commenting out for now. -BH
+            // $response['messages'][0] = array('text' => 'Invalid slug character', 'severity' => 'error');
         }
 
         return Response::json($response);
