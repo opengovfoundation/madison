@@ -157,7 +157,6 @@ class DocumentController extends Controller
 
     public function update($id, UpdateDocumentRequest $request)
     {
-        file_put_contents('/var/log/madison_debug', '?'."\n\n", FILE_APPEND);
         $doc = Doc::find($id);
         if (!$doc) return response('Not found.', 404);
         $doc->update($request->all());
