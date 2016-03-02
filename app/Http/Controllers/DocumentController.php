@@ -1060,6 +1060,18 @@ class DocumentController extends Controller
         return Response::json($returned);
     }
 
+    public function getSocialDoc($slug)
+    {
+        $doc = Doc::findDocBySlug($slug);
+        if($doc) {
+            $content = array(
+                'title' => $doc->title,
+                'description' => $doc->introtext()->first()['meta_value'],
+                'image' => $doc->thumbnail
+            );
 
+            return view('layouts.social', $content);
+        }
+    }
 
 }
