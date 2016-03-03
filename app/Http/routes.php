@@ -155,6 +155,7 @@ Route::delete('api/docs/{doc}/featured-image', 'DocumentController@deleteImage')
 Route::delete('api/docs/{doc}/dates/{date}', 'DocumentController@deleteDate')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/dates', 'DocumentController@postDate')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/categories', 'DocumentController@postCategories')->middleware(['doc.access.edit']);
+Route::get('api/docs/{doc}/activity', 'DocumentController@getActivity')->middleware(['doc.access.edit']);
 
 // Annotation Action Routes
 Route::post('api/docs/{doc}/annotations/{annotation}/likes', 'AnnotationController@postLikes');

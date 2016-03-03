@@ -16,6 +16,11 @@
         translate="content.editdocument.tab.information"
         aria-controls="{{ 'content.editdocument.tab.information' | translate }}"
         data-toggle="tab"></a></li>
+    <li >
+      <a href="#tab-stats" target="_self" role="tab" data-toggle="tab"
+        translate="content.editdocument.tab.statistics"
+        aria-controls="{{ 'content.editdocument.tab.statistics' | translate }}"
+        data-toggle="tab"></a></li>
   </ul>
   <div class="tab-content doc-tabs">
 
@@ -210,5 +215,42 @@
       </div>
     </section>
     <!-- End document information tab -->
+
+    <!-- Start document statistics tab -->
+    <section id="tab-stats" class="tab-pane">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th translate="document.stats.today"></th>
+            <th translate="document.stats.thisweek"></th>
+            <th translate="document.stats.thismonth"></th>
+            <th translate="document.stats.alltime"></th>
+          <tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td translate="document.stats.comments"></td>
+            <td>{{ document.stats.comments.day }}</td>
+            <td>{{ document.stats.comments.week }}</td>
+            <td>{{ document.stats.comments.month }}</td>
+            <td>{{ document.stats.comments.total }}</td>
+          </tr>
+          <tr>
+            <td translate="document.stats.annotations"></td>
+            <td>{{ document.stats.annotations.day }}</td>
+            <td>{{ document.stats.annotations.week }}</td>
+            <td>{{ document.stats.annotations.month }}</td>
+            <td>{{ document.stats.annotations.total }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <a class="download download-csv"
+          href="/api/docs/{{ doc.id }}/activity?download=true"
+          translate="document.stats.download.csv"></a>
+      </div>
+    </section>
+    <!-- End document statistics tab -->
   </div>
 </section>

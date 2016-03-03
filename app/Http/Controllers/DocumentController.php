@@ -1060,6 +1060,65 @@ class DocumentController extends Controller
         return Response::json($returned);
     }
 
+    public function getActivity($docId)
+    {
+        $doc = Doc::where('id', $docId)->first();
+        // We want to get the comments and annotations but not from our sponsor
+        // or group.
 
+        if(Input::get('summary') === 'general')
+        {
+            $statistics = array(
+                'comments' => array(),
+                'annotations' => array()
+            );
+            $statistics['comments']['total'] = $doc->comments()->count();
+            $statistics['comments']['month'] = $doc->comments()->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
+                count();
+            $statistics['comments']['week'] = $doc->comments()->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
+                count();
+            $statistics['comments']['day'] = $doc->comments()->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
+                count();
+
+            $statistics['annotations']['total'] = $doc->annotations()->count();
+            $statistics['annotations']['month'] = $doc->annotations()->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['week'] = $doc->annotations()->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['day'] = $doc->annotations()->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
+                count();
+
+            // $statistics['annotations']['total'] = $doc->annotations()->comments()->get();
+
+            // $statistics['annotation-comments'] = $doc->with(['annotations' => function($query){
+
+            //     }, 'annotations.comments' => function ($query) use (&$annotations) {
+
+            //         // notice $municipalities is passed by reference to the closure
+            //         // and the $query is executed using ->get()
+            //         $annotations = $query->where('created_at', '>=',
+            //                         \Carbon\Carbon::now()->subDays(99999)->toDateTimeString() )->get();
+            //     }]);
+
+
+            return Response::json($statistics);
+        }
+        else
+        {
+
+        }
+    }
 
 }
