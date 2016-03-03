@@ -239,56 +239,6 @@ class DashboardController extends Controller
     }
 
     /**
-     * 	Post route for creating / updating documents.
-     *  Note: probably not used?  DocumentsApiController::postDocs seems to be the in-use route.
-     */
-    public function postDocs($id = '')
-    {
-        $user = Auth::user();
-
-        if (!$user->can('admin_manage_documents')) {
-            return Redirect::to('/dashboard')->with('message', "You do not have permission");
-        }
-
-        //Creating new document
-        if ($id == '') {
-            $title = Input::get('title');
-            $slug = str_replace(array(' ', '.'), array('-', ''), strtolower($title));
-            $doc_details = Input::all();
-
-            $rules = array('title' => 'required');
-            $validation = Validator::make($doc_details, $rules);
-            if ($validation->fails()) {
-                die($validation);
-
-                return Redirect::to('dashboard/docs')->withInput()->withErrors($validation);
-            }
-
-            try {
-                $doc = new Doc();
-                $doc->title = $title;
-                $doc->slug = $slug;
-                $doc->save();
-                $doc->sponsor()->sync(array($user->id));
-
-                $starter = new DocContent();
-                $starter->doc_id = $doc->id;
-                $starter->content = "New Doc Content";
-                $starter->save();
-
-                $doc->init_section = $starter->id;
-                $doc->save();
-
-                return Redirect::to('dashboard/docs/'.$doc->id)->with('success_message', 'Document created successfully');
-            } catch (Exception $e) {
-                return Redirect::to('dashboard/docs')->withInput()->with('error', $e->getMessage());
-            }
-        } else {
-            return Response::error('404');
-        }
-    }
-
-    /**
      * 	PUT route for saving documents.
      */
     public function putDocs($id = '')
