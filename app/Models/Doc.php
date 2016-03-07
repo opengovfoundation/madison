@@ -218,9 +218,16 @@ class Doc extends Model
         foreach($categoriesArray as $category) {
             // check if category has an id property
             if (!isset($category['id'])) {
-                $category = new Category(['name' => $category['name']]);
-                $category->save();
-                $categoriesToSync[] = $category->id;
+                // Make sure category with same name doesn't already exist
+                $existingCategory = Category::where('name', $category['name'])->first();
+
+                if ($existingCategory) {
+                    $categoriesToSync[] = $existingCategory->id;
+                } else {
+                    $category = new Category(['name' => $category['name']]);
+                    $category->save();
+                    $categoriesToSync[] = $category->id;
+                }
             } else {
                 $categoriesToSync[] = $category['id'];
             }
