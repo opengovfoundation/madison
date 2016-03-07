@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Category extends Model
 {
+    protected $fillable = ['name'];
+
     //Document this meta is describing
     public function docs()
     {

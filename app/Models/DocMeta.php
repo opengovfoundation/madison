@@ -16,6 +16,7 @@ class DocMeta extends Model
 
     public static $timestamp = true;
     protected $dates = ['deleted_at'];
+    protected $fillable = ['meta_value'];
 
     //Document this meta is describing
     public function doc()

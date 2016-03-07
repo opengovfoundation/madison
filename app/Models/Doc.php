@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Collection;
+use App\Models\Category;
 use Event;
 use URL;
 
@@ -19,7 +20,7 @@ class Doc extends Model
     protected $dates = ['deleted_at'];
     protected $appends = ['featured', 'url'];
 
-    protected $fillable = ['discussion_state', 'publish_state'];
+    protected $fillable = ['discussion_state', 'publish_state', 'title', 'slug'];
 
     const TYPE = 'doc';
 
@@ -68,6 +69,23 @@ class Doc extends Model
         return $this->hasMany('App\Models\DocMeta')->where('meta_key', '=', 'intro-text');
     }
 
+    public function setIntroText($value)
+    {
+        $introtext = DocMeta::where('meta_key', '=', 'intro-text')
+            ->where('doc_id', $this->id)->first();
+
+        if ($introtext) {
+            $introtext->meta_value = $value;
+        } else {
+            $introtext = new DocMeta();
+            $introtext->doc_id = $this->id;
+            $introtext->meta_key = 'intro-text';
+            $introtext->meta_value = $value;
+        }
+
+        $introtext->save();
+    }
+
     public function dates()
     {
         return $this->hasMany('App\Models\Date');
@@ -87,7 +105,8 @@ class Doc extends Model
 
     public function canUserEdit($user)
     {
-        $sponsor = $this->sponsor()->first();
+        // TODO: This method should eventually handle multiple sponsors on a document
+        $sponsor = $this->sponsors()->first();
 
         if ($user->hasRole('Admin')) {
             return true;
@@ -109,7 +128,8 @@ class Doc extends Model
 
     public function canUserView($user)
     {
-        $sponsor = $this->sponsor->first();
+        // TODO: This method should eventually handle multiple sponsors on a document
+        $sponsor = $this->sponsors()->first();
 
         if (in_array(
             $this->publish_state,
@@ -134,8 +154,34 @@ class Doc extends Model
         return false;
     }
 
-    public function sponsor()
+    public function setSponsor($sponsor)
     {
+        // TODO: This method should eventually handle multiple sponsors
+        if (!isset($sponsor)) {
+            $this->sponsors()->sync(array());
+        } else {
+            switch ($sponsor['type']) {
+                case 'user':
+                    $user = User::find($sponsor['id']);
+                    $this->userSponsors()->sync(array($user->id));
+                    $this->groupSponsors()->sync(array());
+                    $response = $user->toArray();
+                    break;
+                case 'group':
+                    $group = Group::find($sponsor['id']);
+                    $this->groupSponsors()->sync(array($group->id));
+                    $this->userSponsors()->sync(array());
+                    $response = $group->toArray();
+                    break;
+                default:
+                    throw new Exception('Unknown sponsor type '.$sponsor['type']);
+            }
+        }
+    }
+
+    public function sponsors()
+    {
+        // TODO: This should eventually handle multiple sponsors
         $sponsor = $this->belongsToMany('App\Models\Group')->first();
 
         if (!$sponsor) {
@@ -163,6 +209,24 @@ class Doc extends Model
     public function categories()
     {
         return $this->belongsToMany('App\Models\Category');
+    }
+
+    public function syncCategories($categoriesArray)
+    {
+        $categoriesToSync = [];
+
+        foreach($categoriesArray as $category) {
+            // check if category has an id property
+            if (!isset($category['id'])) {
+                $category = new Category(['name' => $category['name']]);
+                $category->save();
+                $categoriesToSync[] = $category->id;
+            } else {
+                $categoriesToSync[] = $category['id'];
+            }
+        }
+
+        $this->categories()->sync($categoriesToSync);
     }
 
     public function comments()
@@ -301,6 +365,20 @@ class Doc extends Model
         $this->appends[] = 'sponsors';
     }
 
+    public function enableIntrotext()
+    {
+        $this->appends[] = 'introtext';
+    }
+
+    public function getIntrotextAttribute()
+    {
+        if ($this->introtext()->count()) {
+            return $this->introtext()->first()->meta_value;
+        } else {
+            return null;
+        }
+    }
+
     public function annotations()
     {
         return $this->hasMany('App\Models\Annotation');
@@ -340,6 +418,10 @@ class Doc extends Model
         return $this->hasMany('App\Models\DocMeta');
     }
 
+    /**
+     * TODO: Sponsor handling here is off. Is this method needed even?
+     * -- Only used in database seeding currently.
+     */
     public static function createEmptyDocument(array $params)
     {
         $defaults = array(

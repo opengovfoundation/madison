@@ -38,8 +38,14 @@ class DocumentController extends Controller
     {
         $doc_id = $doc;
 
-        $doc = Doc::with('categories')->with('userSponsors')->with('groupSponsors')->find($doc);
-        $doc->introtext = $doc->introtext()->first()['meta_value'];
+        $doc = Doc::with('categories')
+            ->with('sponsors')
+            ->with('statuses')
+            ->with('categories')
+            ->with('dates')
+            ->find($doc);
+
+        $doc->enableIntrotext();
         $doc->enableCounts();
         $doc->enableSponsors();
 
@@ -160,6 +166,8 @@ class DocumentController extends Controller
         $doc = Doc::find($id);
         if (!$doc) return response('Not found.', 404);
         $doc->update($request->all());
+        $doc->setIntroText($request->input('introtext'));
+        $doc->syncCategories($request->input('categories'));
         return Response::json($doc);
     }
 
@@ -550,7 +558,7 @@ class DocumentController extends Controller
 
     public function hasSponsor($doc, $sponsor)
     {
-        $result = Doc::find($doc)->sponsor()->find($sponsor);
+        $result = Doc::find($doc)->sponsors()->find($sponsor);
 
         return Response::json($result);
     }
@@ -558,7 +566,7 @@ class DocumentController extends Controller
     public function getSponsor($doc)
     {
         $doc = Doc::find($doc);
-        $sponsor = $doc->sponsor()->first();
+        $sponsor = $doc->sponsors()->first();
 
         if ($sponsor) {
             $sponsor->sponsorType = str_replace('App\Models\\', '', get_class($sponsor));
@@ -741,7 +749,7 @@ class DocumentController extends Controller
     public function getAllSponsors()
     {
         $doc = Doc::with('sponsor')->first();
-        $sponsors = $doc->sponsor;
+        $sponsors = $doc->sponsors;
 
         return Response::json($sponsors);
     }
