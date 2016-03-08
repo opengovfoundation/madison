@@ -7,8 +7,8 @@
 
             <header class="doc-info">
                 <h2 class="heading entry-title">
-                    <a class="" href="{{ doc.url }}" rel="bookmark"
-                        title="{{ 'document.interface.readmoretitle' | translate:{title:doc.title} }}"
+                    <a class="" href="/docs/{{ doc.slug }}" rel="bookmark"
+                        title="{{ 'document.inthreferface.readmoretitle' | translate:{title:doc.title} }}"
                         >{{ doc.title }}</a>
                 </h2>
 
@@ -41,7 +41,7 @@
                 </div>
 
                 <div ng-if="!doc.introtext || doc.introtext === ''">
-                    <a class="read-button" href="{{ doc.url }}" rel="bookmark"
+                    <a class="read-button" href="/docs/{{ doc.slug }}" rel="bookmark"
                         role="button"
                         title="{{ 'document.interface.readmoretitle' | translate:{title:doc.title} }}"
                         translate="{{ 'document.interface.readmore' }}"></a>
@@ -52,7 +52,7 @@
             <div class="doc-content" ng-if="doc.introtext">
                 <div class="doc-summary entry-summary markdown"
                     data-ng-bind-html="doc.introtext"></div>
-                    <a class="read-button" href="{{ doc.url }}" rel="bookmark"
+                    <a class="read-button" href="/docs/{{ doc.slug }}" rel="bookmark"
                         role="button"
                         title="{{ 'document.interface.readmoretitle' | translate:{title:doc.title} }}"
                         translate="{{ 'document.interface.readmore' }}"></a>
