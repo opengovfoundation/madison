@@ -35,12 +35,12 @@ try {
   console.log('Caught Error: ' + err);
 }
 
-if (!history.pushState) {
-  if (window.location.hash) {
+if (!(window.history && history.pushState)) {
+  if (!window.location.hash) {
     if (window.location.pathname !== '/') {
-      window.location.replace('/#' + window.location.hash.substr(1));
+      window.location.href = '/#' + window.location.hash.substr(1);
     } else {
-      window.location.replace('/#' + window.location.pathname);
+      window.location.href = '/#' + window.location.pathname;
     }
   }
 }
