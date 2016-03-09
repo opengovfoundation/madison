@@ -86,9 +86,9 @@ app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $wind
 
           if(!hash && path !== '/'){
               loc.href = '/#' + loc.pathname + (loc.search || '');
-          };
+          }
       });
-  };
+  }
 
   AuthService.setUser(user);
 
