@@ -19,6 +19,13 @@ module.exports = function (grunt) {
           src: ['fonts/*'],
           dest: 'public/build/',
           filter: 'isFile'
+        },
+        {
+          expand: true,
+          cwd: 'public/bower_components/fileapi/dist/',
+          src: ['FileAPI.min.js', 'FileAPI.flash.swf'],
+          dest: 'public/polyfills/',
+          filter: 'isFile'
         }
       ]
     }
