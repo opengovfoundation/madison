@@ -27,3 +27,20 @@ window.getAuthService = function () {
 
   return AuthService;
 };
+
+/**
+ * Needed for IE9 support
+ */
+window.getBasePath = function() {
+  var basePath = window.location.href;
+  var firstHashIndex = basePath.indexOf('#');
+  if (firstHashIndex !== -1) {
+    var secondHashIndex = basePath.indexOf('#', firstHashIndex + 1);
+    if (secondHashIndex !== -1) {
+      basePath = basePath.substring(0, secondHashIndex);
+    } else {
+      basePath = basePath.substring(0, firstHashIndex);
+    }
+  }
+  return basePath;
+};
