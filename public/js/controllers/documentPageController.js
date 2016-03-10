@@ -99,7 +99,7 @@ angular.module('madisonApp.controllers')
         // Otherwise, the hash is #subcomment/#comment and the discussion tab should be active
         var subCommentHash = $location.hash().match(/^annsubcomment_([0-9]+)$/);
         var annotationHash = $location.hash().match(/^annotation_([0-9]+)$/);
-        var commentHash = $location.hash().match(/^comment_([0-9]+)$/);
+        var commentHash = $location.hash().match(/^comment_([0-9\-]+)$/);
 
         $scope.secondtab = false;
 
