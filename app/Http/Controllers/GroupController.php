@@ -8,6 +8,7 @@ use Event;
 use Auth;
 use Session;
 use Mail;
+use DB;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\GroupMember;
