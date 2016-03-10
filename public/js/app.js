@@ -79,13 +79,13 @@ app.config(['$locationProvider',
 
 app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl, SessionService) {
   if(!(window.history && history.pushState)){
-      $rootScope.$on("$locationChangeStart", function(event) {
+      $rootScope.$on('$locationChangeStart', function(event) {
           var loc = window.location;
           var hash = loc.hash;
           var path = loc.pathname || '/';
 
-          if(!hash && path !== '/'){
-              loc.href = '/#' + loc.pathname + (loc.search || '');
+          if(!hash){
+              loc.href = '/#' + path + (loc.search || '');
           }
       });
   }
