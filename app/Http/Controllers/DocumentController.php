@@ -1005,6 +1005,9 @@ class DocumentController extends Controller
             try {
                 $doc = Doc::where('id', $docId)->first();
 
+                // Keep a record of our previous thumbnail.
+                $previousThumbnail = $doc->thumbnail;
+
                 $result = Storage::put($doc->getImagePath($file->getClientOriginalName()),
                     File::get($file));
 
@@ -1029,15 +1032,38 @@ class DocumentController extends Controller
                     $result2 = $img->save();
                 }
 
+                // We want the featured image size to be the default.
+                // Otherwise, we use the fullsize.
                 $sizeName = null;
                 if($sizes['featured'])
                 {
                     $sizeName = 'featured';
                 }
+
                 $doc->thumbnail = $doc->getImageUrl($file->getClientOriginalName(),
                     $sizes[$sizeName]);
                 $doc->save();
 
+                // Our thumbnail was saved, so let's remove the old one.
+
+                // Only do this if the name has changed, or we'll remove the
+                // image we just uploaded.
+                if($previousThumbnail !== $doc->thumbnail)
+                {
+                  // We just want the base name, not the resized one.
+                  $imagePath = $doc->getImagePathFromUrl($previousThumbnail, true);
+
+                  if(Storage::has($imagePath)) {
+                    Storage::delete($imagePath);
+                  }
+                  foreach($sizes as $name => $size)
+                  {
+                    $imagePath = $doc->addSizeToImage($imagePath, $size);
+                    if(Storage::has($imagePath)) {
+                      Storage::delete($imagePath);
+                    }
+                  }
+                }
             } catch (Exception $e) {
                 return Response::json($this->growlMessage('There was an error with the image upload', 'error'), 500);
             }
