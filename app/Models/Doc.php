@@ -752,19 +752,40 @@ class Doc extends Model
         });
     }
 
-    public function getImagePath($image = '')
+    public function getImagePath($image = '', $size = null)
     {
-        return 'doc-' . $this->id . '/' . $image;
+        return 'doc-' . $this->id . '/' . $this->addSizeToImage($image, $size);
     }
 
-    public function getImageUrl($image = '')
+    public function getImageUrl($image = '', $size = null)
     {
-        return '/api/docs/' . $this->id . '/images/' . $image;
+        return '/api/docs/' . $this->id . '/images/' . $this->addSizeToImage($image, $size);
     }
 
     public function getImagePathFromUrl($image)
     {
         return str_replace('/api/docs/' . $this->id . '/images/',
             'doc-' . $this->id . '/', $image);
+    }
+
+    public function addSizeToImage($image, $size = null) {
+        $size = $this->parseSizeName($size);
+
+        if($size && preg_match('/^[0-9]{1,4}x[0-9]{1,4}$/', $size)) {
+            // Insert the size string before the extension.
+            $imageParts = explode('.', $image, 2);
+            $image = $imageParts[0] . '-' . $size . '.' . $imageParts[1];
+        }
+        return $image;
+    }
+
+    // We allow a size array to be passed instead of a string, so we build that here.
+    private function parseSizeName($size)
+    {
+        if(is_array($size) && isset($size['width'], $size['height']))
+        {
+            $size = $size['width'] . 'x' . $size['height'];
+        }
+        return $size;
     }
 }
