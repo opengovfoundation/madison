@@ -35,16 +35,6 @@ try {
   console.log('Caught Error: ' + err);
 }
 
-if (!(window.history && history.pushState)) {
-  if (!window.location.hash) {
-    if (window.location.pathname !== '/') {
-      window.location.href = '/#' + window.location.hash.substr(1);
-    } else {
-      window.location.href = '/#' + window.location.pathname;
-    }
-  }
-}
-
 try {
   //Set up Growl notifications and interceptor
   app.config(['growlProvider', '$httpProvider',
