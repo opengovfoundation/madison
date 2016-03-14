@@ -491,6 +491,10 @@ $fallback-height: 350px;
 
 }
 
+.doc-thumbnail {
+    margin: 0 (-1*$grid-gutter-width/2) $line-height-computed;
+}
+
 .toc-title {
     @include single-box-shadow( 0px, 6px, 5px, -3px, #CCC );
     margin: 0 -10px;
