@@ -4682,16 +4682,6 @@ label .required {
   float: right;
 }
 
-.main-feature.has-image {
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: 0 0;
-}
-
-.has-image .doc-info {
-  margin-top: 19.5rem;
-}
-
 .search-list .normal-title,
 .search-list .recent-activity h3,
 .recent-activity .search-list h3,
@@ -5667,6 +5657,15 @@ label .required {
 
 .toc-content .toc-h6 {
   margin-left: 50px;
+}
+
+.doc-thumbnail-container {
+  margin: 0 -15px 1.625rem;
+  text-align: center;
+}
+
+.doc-thumbnail {
+  max-width: 100%;
 }
 
 .toc-title {

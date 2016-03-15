@@ -1,11 +1,12 @@
 <div class="home-feature">
     <div class="home-feature-list" ng-if="featured.length">
         <article class="main-feature hentry doc doc-full"
-            ng-repeat="(i, doc) in featured"
-            ng-class="{'has-image' : doc.thumbnail}"
-            style="background-image: url({{ doc.thumbnail }})">
+            ng-repeat="(i, doc) in featured">
 
             <header class="doc-info">
+                <div class="doc-thumbnail-container" ng-if="doc.thumbnail">
+                    <img src="{{ doc.thumbnail }}" alt="" class="doc-thumbnail" />
+                </div>
                 <h2 class="heading entry-title">
                     <a class="" href="/docs/{{ doc.slug }}" rel="bookmark"
                         title="{{ 'document.inthreferface.readmoretitle' | translate:{title:doc.title} }}"
