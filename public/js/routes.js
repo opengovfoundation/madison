@@ -13,6 +13,15 @@ angular.module( 'madisonApp' )
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
+      // This is for older IE, which can't handle the '/#' route.
+      .state( 'index-alias', {
+        url: "",
+        controller: "HomePageController",
+        templateUrl: "/templates/pages/home.html",
+        data: {
+          authorizedRoles: [ USER_ROLES.all ]
+        }
+      } )
       .state( 'intro', {
         url: '/intro',
         controller: "IntroPageController",

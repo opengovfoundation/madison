@@ -9,7 +9,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta http-equiv="cleartype" content="on" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <!--[if lt IE 9]>
+    <!--[if lte IE 9]>
     <script>
           document.createElement('ng-include');
           document.createElement('ng-pluralize');
@@ -23,7 +23,7 @@
     <![endif]-->
 
     <!-- Polyfills -->
-    <!--[if lt IE 9]>
+    <!--[if lte IE 9]>
     <script src="/polyfills/es5.js?e84c8924"></script>
     <script src="/polyfills/eventListener.js?8c3f69b2"></script>
     <script src="/polyfills/html5shiv.js?2994af3a"></script>
@@ -31,15 +31,23 @@
 
 
 
-    <link rel="stylesheet" href="/build/app.css?57c6b951">
+    <link rel="stylesheet" href="/build/app.css?f31b1129">
 
     <script src="/build/components.js?f2eb7fee"></script>
 
+    <!-- Needed for Angular File Upload IE9 shim -->
+    <script>
+      FileAPI = {
+        jsUrl: '/polyfills/FileAPI.min.js',
+        flashUrl: '/polyfills/FileAPI.flash.swf'
+      };
+    </script>
+
     <script src="/build/angular.js?3a3b30dc"></script>
 
-    <script src="/build/annotator.js?192ea33d"></script>
+    <script src="/build/annotator.js?19583b8a"></script>
 
-    <script src="/build/app.js?f7934a4b"></script>
+    <script src="/build/app.js?59e5e480"></script>
   </head>
   <body class="madison">
     <!--[if lt IE 8]>

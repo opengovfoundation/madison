@@ -3,7 +3,8 @@
   "dependencies": {
     "ng-file-upload": "~3.2.4",
     "moment": "~2.10.2",
-    "angular-bootstrap": "~0.14.3"
+    "angular-bootstrap": "~0.14.3",
+    "fileapi": "^2.0.20"
   },
   "devDependencies": {
     "jquery": "~2.1.3",

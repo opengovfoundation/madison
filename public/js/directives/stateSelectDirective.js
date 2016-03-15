@@ -2,9 +2,11 @@ angular.module('madisonApp.directives')
   .directive('stateSelect', [
     function () {
       return {
-        restrict: 'A',
+        restrict: 'E',
         templateUrl: '/templates/partials/state-select.html',
-        scope: true,
+        scope: {
+          selection: '='
+        },
         link: function ($scope, element, attributes) {
           $scope.emptyName = 'Select State';
         },
