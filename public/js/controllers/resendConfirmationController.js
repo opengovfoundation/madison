@@ -12,7 +12,6 @@ angular.module('madisonApp.controllers')
       $timeout(function() {
         //If we're following a link from the verification email
         if ($stateParams.token) {
-          console.log('posting token');
           $http.post('/api/user/verify-email', {
             token: $stateParams.token
           }).success(function (response) {
