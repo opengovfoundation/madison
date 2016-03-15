@@ -9,6 +9,8 @@ use Input;
 use Response;
 use Event;
 use App\Http\Requests\UpdateDocumentRequest;
+use File;
+use Image;
 use Storage;
 use Redirect;
 use App\Models\Setting;
@@ -977,9 +979,11 @@ class DocumentController extends Controller
 
     public function getImage($docId, $image)
     {
+        $size = Input::get('size');
+
         $doc = Doc::where('id', $docId)->first();
         if($doc) {
-            $path = $doc->getImagePath($image);
+            $path = $doc->getImagePath($image, $size);
             if(Storage::has($path)) {
                 return response(Storage::get($path), 200)
                     ->header('Content-Type', Storage::mimeType($path));
@@ -998,14 +1002,68 @@ class DocumentController extends Controller
         if (Input::hasFile('file')) {
             $file = Input::file('file');
 
-            $doc = Doc::where('id', $docId)->first();
-            $doc->thumbnail = $doc->getImageUrl($file->getClientOriginalName());
-
             try {
+                $doc = Doc::where('id', $docId)->first();
+
+                // Keep a record of our previous thumbnail.
+                $previousThumbnail = $doc->thumbnail;
+
+                $result = Storage::put($doc->getImagePath($file->getClientOriginalName()),
+                    File::get($file));
+
+                // Save the multiple sizes of this image.
+                $sizes = config('madison.image_sizes');
+
+                foreach($sizes as $name => $size)
+                {
+                    $img = Image::make($file);
+                    if($size['crop'])
+                    {
+                        $img->fit($size['width'], $size['height']);
+                    }
+                    else {
+                        $img->resize($size['width'], $size['height']);
+                    }
+
+                    Storage::put(
+                        $doc->getImagePath($file->getClientOriginalName(), $size),
+                        $img->stream()->__toString());
+
+                    $result2 = $img->save();
+                }
+
+                // We want the featured image size to be the default.
+                // Otherwise, we use the fullsize.
+                $sizeName = null;
+                if($sizes['featured'])
+                {
+                    $sizeName = 'featured';
+                }
+
+                $doc->thumbnail = $doc->getImageUrl($file->getClientOriginalName(),
+                    $sizes[$sizeName]);
                 $doc->save();
 
-                $path = Storage::getDriver()->getAdapter()->getPathPrefix() . $doc->getImagePath();
-                $result = $file->move($path, $file->getClientOriginalName());
+                // Our thumbnail was saved, so let's remove the old one.
+
+                // Only do this if the name has changed, or we'll remove the
+                // image we just uploaded.
+                if($previousThumbnail !== $doc->thumbnail)
+                {
+                  // We just want the base name, not the resized one.
+                  $imagePath = $doc->getImagePathFromUrl($previousThumbnail, true);
+
+                  if(Storage::has($imagePath)) {
+                    Storage::delete($imagePath);
+                  }
+                  foreach($sizes as $name => $size)
+                  {
+                    $imagePath = $doc->addSizeToImage($imagePath, $size);
+                    if(Storage::has($imagePath)) {
+                      Storage::delete($imagePath);
+                    }
+                  }
+                }
             } catch (Exception $e) {
                 return Response::json($this->growlMessage('There was an error with the image upload', 'error'), 500);
             }

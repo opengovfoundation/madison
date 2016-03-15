@@ -20,7 +20,8 @@
         "elasticsearch/elasticsearch": "~0.4",
         "roumen/sitemap": "2.4.*",
         "roumen/feed": "2.8.*",
-        "zizaco/entrust": "dev-laravel-5"
+        "zizaco/entrust": "dev-laravel-5",
+        "intervention/image": "2.3.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

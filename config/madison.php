@@ -17,4 +17,11 @@ return array(
         'unconfirmed_lname' => 'Doe',
         'unconfirmed_password' => 'password'
     ),
+    'image_sizes' => env('IMAGE_SIZES') ? json_decode(env('IMAGE_SIZES'), true) : array(
+        'featured' => array(
+            'height' => 300,
+            'width' => 633,
+            'crop' => true
+        )
+    )
 );

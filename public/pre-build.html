@@ -9,7 +9,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta http-equiv="cleartype" content="on" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <!--[if lt IE 9]>
+    <!--[if lte IE 9]>
     <script>
           document.createElement('ng-include');
           document.createElement('ng-pluralize');
@@ -23,7 +23,7 @@
     <![endif]-->
 
     <!-- Polyfills -->
-    <!--[if lt IE 9]>
+    <!--[if lte IE 9]>
     <script src="/polyfills/es5.js"></script>
     <script src="/polyfills/eventListener.js"></script>
     <script src="/polyfills/html5shiv.js"></script>
@@ -56,6 +56,14 @@
     <script src="/bower_components/crypto-js/index.js"></script>
     <script src="/bower_components/moment/min/moment.min.js"></script>
     <!-- endbuild -->
+
+    <!-- Needed for Angular File Upload IE9 shim -->
+    <script>
+      FileAPI = {
+        jsUrl: '/polyfills/FileAPI.min.js',
+        flashUrl: '/polyfills/FileAPI.flash.swf'
+      };
+    </script>
 
     <!-- build:js /build/angular.js -->
     <script src="/bower_components/angular/angular.min.js"></script>
