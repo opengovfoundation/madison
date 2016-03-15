@@ -4678,16 +4678,6 @@ label .required {
   float: right;
 }
 
-.main-feature.has-image {
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: 0 0;
-}
-
-.has-image .doc-info {
-  margin-top: 19.5rem;
-}
-
 .doc-content .most-active .search-list h1,
 .doc-content .most-active .search-list h2,
 .doc-content .previous-features .most-active .search-list .heading,
@@ -5654,6 +5644,15 @@ label .required {
 
 .toc-content .toc-h6 {
   margin-left: 50px;
+}
+
+.doc-thumbnail-container {
+  margin: 0 -15px 1.625rem;
+  text-align: center;
+}
+
+.doc-thumbnail {
+  max-width: 100%;
 }
 
 .toc-title {
