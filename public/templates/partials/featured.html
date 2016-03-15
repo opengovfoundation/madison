@@ -4,7 +4,9 @@
             ng-repeat="(i, doc) in featured">
 
             <header class="doc-info">
-                <img ng-if="doc.thumbnail" src="{{ doc.thumbnail }}" alt="" class="doc-thumbnail" />
+                <div class="doc-thumbnail-container" ng-if="doc.thumbnail">
+                    <img src="{{ doc.thumbnail }}" alt="" class="doc-thumbnail" />
+                </div>
                 <h2 class="heading entry-title">
                     <a class="" href="/docs/{{ doc.slug }}" rel="bookmark"
                         title="{{ 'document.inthreferface.readmoretitle' | translate:{title:doc.title} }}"

@@ -491,8 +491,13 @@ $fallback-height: 350px;
 
 }
 
-.doc-thumbnail {
+.doc-thumbnail-container {
     margin: 0 (-1*$grid-gutter-width/2) $line-height-computed;
+    text-align: center;
+}
+
+.doc-thumbnail {
+    max-width: 100%;
 }
 
 .toc-title {
