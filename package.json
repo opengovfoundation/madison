@@ -16,6 +16,7 @@
     "url": "https://github.com/opengovfoundation/madison/issues"
   },
   "homepage": "http://mymadison.io",
+  "engine": "node 0.12.7",
   "devDependencies": {
     "chai": "^1.9.1",
     "grunt": "~0.4.4",
