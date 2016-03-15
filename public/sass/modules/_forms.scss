@@ -3,9 +3,11 @@
 }
 
 .form-control {
-    height:$line-height-computed;
-    padding-top: calc( ($line-height-computed * 0.5) - 1px );
-    padding-bottom: calc( ($line-height-computed * 0.5) - 1px );
+    line-height: $font-size-base;
+    font-size: $font-size-base;
+    padding-top: calc( #{$line-height-computed * 0.25} - 1px );
+    padding-bottom: calc( #{$line-height-computed * 0.25} - 1px );
+    color: black;
 }
 
 .form-group {

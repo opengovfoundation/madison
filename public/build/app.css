@@ -4249,9 +4249,11 @@ header small {
 }
 
 .form-control {
-  height: 1.625rem;
-  padding-top: calc(($line-height-computed * .5) - 1px);
-  padding-bottom: calc(($line-height-computed * .5) - 1px);
+  line-height: 1rem;
+  font-size: 1rem;
+  padding-top: calc(.40625rem - 1px);
+  padding-bottom: calc(.40625rem - 1px);
+  color: #000;
 }
 
 .form-group {
