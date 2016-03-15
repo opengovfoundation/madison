@@ -8,6 +8,7 @@ use Input;
 use Log;
 use Response;
 use Validator;
+use Mail;
 use App\Models\User;
 use App\Models\UserMeta;
 use App\Models\Notification;
