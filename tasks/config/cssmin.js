@@ -1,8 +1,8 @@
 module.exports = function (grunt) {
   grunt.config.set('cssmin', {
     options: {
-      processImport: false,
-      // processImportFrom: ['!fonts.googleapis.com'],
+      processImport: true,
+      processImportFrom: ['!fonts.googleapis.com'],
       keepSpecialComments: false,
       advanced: false
     },
