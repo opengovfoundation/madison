@@ -17,8 +17,11 @@ angular.module('madisonApp.resources')
       },
       getFeaturedDocs: {
         method: 'GET',
-        url: '/api/docs/featured',
-        isArray:true
+        url: '/api/docs/featured?featured_only=:featured_only',
+        isArray:true,
+        params: {
+          featured_only: '@featured_only'
+        }
       },
       removeFeatured: {
         method: 'DELETE',
