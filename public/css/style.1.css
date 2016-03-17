@@ -3425,6 +3425,7 @@ pre code {
 .col-sm-8,
 .col-md-8,
 .annotation-pane,
+.annotation-pane .title-header,
 .doc-secondary-content,
 .col-lg-8,
 .col-xs-9,
@@ -4377,6 +4378,7 @@ pre code {
   .document-dates,
   .col-md-8,
   .annotation-pane,
+  .annotation-pane .title-header,
   .doc-secondary-content,
   .col-md-9,
   .col-md-10,
@@ -4441,6 +4443,7 @@ pre code {
 
   .col-md-8,
   .annotation-pane,
+  .annotation-pane .title-header,
   .doc-secondary-content {
     width: 33.33333%;
   }

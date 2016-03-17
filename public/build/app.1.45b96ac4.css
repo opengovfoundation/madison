@@ -3370,6 +3370,7 @@ pre code {
 .admin-document-list .doc-filter,
 .admin-document-list .doc-search,
 .annotation-pane,
+.annotation-pane .title-header,
 .back-link,
 .chart-stat,
 .col-lg-1,
@@ -4346,6 +4347,7 @@ pre code {
   .admin-document-list .doc-filter,
   .admin-document-list .doc-search,
   .annotation-pane,
+  .annotation-pane .title-header,
   .back-link,
   .col-md-1,
   .col-md-10,
@@ -4418,6 +4420,7 @@ pre code {
   }
 
   .annotation-pane,
+  .annotation-pane .title-header,
   .col-md-8,
   .doc-secondary-content {
     width: 33.33333%;
