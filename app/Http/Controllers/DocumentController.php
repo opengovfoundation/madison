@@ -1066,52 +1066,85 @@ class DocumentController extends Controller
         // We want to get the comments and annotations but not from our sponsor
         // or group.
 
+        $skip_ids = array();
+        foreach($doc->sponsor as $sponsor)
+        {
+            if($sponsor instanceof User)
+            {
+                $skip_ids[] = $sponsor->id;
+            }
+            elseif($sponsor instanceof Group)
+            {
+                foreach($sponsor->members as $member)
+                {
+                    $skip_ids[] = $member->user_id;
+                }
+            }
+        }
+
         if(Input::get('summary') === 'general')
         {
             $statistics = array(
                 'comments' => array(),
                 'annotations' => array()
             );
-            $statistics['comments']['total'] = $doc->comments()->count();
+            $statistics['comments']['total'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
+                count();
             $statistics['comments']['month'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
                 where('created_at', '>=',
                     \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
                 count();
             $statistics['comments']['week'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
                 where('created_at', '>=',
                     \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
                 count();
             $statistics['comments']['day'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
                 where('created_at', '>=',
                     \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
                 count();
 
-            $statistics['annotations']['total'] = $doc->annotations()->count();
+            $statistics['annotations']['total'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
+                count();
             $statistics['annotations']['month'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
                 where('created_at', '>=',
                     \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
                 count();
             $statistics['annotations']['week'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
                 where('created_at', '>=',
                     \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
                 count();
             $statistics['annotations']['day'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
                 where('created_at', '>=',
                     \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
                 count();
 
-            // $statistics['annotations']['total'] = $doc->annotations()->comments()->get();
+            $statistics['annotations']['total'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                count();
 
-            // $statistics['annotation-comments'] = $doc->with(['annotations' => function($query){
-
-            //     }, 'annotations.comments' => function ($query) use (&$annotations) {
-
-            //         // notice $municipalities is passed by reference to the closure
-            //         // and the $query is executed using ->get()
-            //         $annotations = $query->where('created_at', '>=',
-            //                         \Carbon\Carbon::now()->subDays(99999)->toDateTimeString() )->get();
-            //     }]);
-
+            $statistics['annotations']['month'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                where('annotation_comments.created_at', '>=',
+                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['week'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                where('annotation_comments.created_at', '>=',
+                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['day'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                where('annotation_comments.created_at', '>=',
+                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
+                count();
 
             return Response::json($statistics);
         }

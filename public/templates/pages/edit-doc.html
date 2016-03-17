@@ -13,8 +13,8 @@
         data-toggle="tab"></a></li>
     <li >
       <a href="#tab-info" target="_self" role="tab" data-toggle="tab"
-        translate="content.editdocument.tab.information"
-        aria-controls="{{ 'content.editdocument.tab.information' | translate }}"
+        translate="content.editdocument.tab.settings"
+        aria-controls="{{ 'content.editdocument.tab.settings' | translate }}"
         data-toggle="tab"></a></li>
     <li >
       <a href="#tab-stats" target="_self" role="tab" data-toggle="tab"
@@ -231,24 +231,24 @@
         <tbody>
           <tr>
             <td translate="document.stats.comments"></td>
-            <td>{{ document.stats.comments.day }}</td>
-            <td>{{ document.stats.comments.week }}</td>
-            <td>{{ document.stats.comments.month }}</td>
-            <td>{{ document.stats.comments.total }}</td>
+            <td>{{ stats.comments.day }}</td>
+            <td>{{ stats.comments.week }}</td>
+            <td>{{ stats.comments.month }}</td>
+            <td>{{ stats.comments.total }}</td>
           </tr>
           <tr>
             <td translate="document.stats.annotations"></td>
-            <td>{{ document.stats.annotations.day }}</td>
-            <td>{{ document.stats.annotations.week }}</td>
-            <td>{{ document.stats.annotations.month }}</td>
-            <td>{{ document.stats.annotations.total }}</td>
+            <td>{{ stats.annotations.day }}</td>
+            <td>{{ stats.annotations.week }}</td>
+            <td>{{ stats.annotations.month }}</td>
+            <td>{{ stats.annotations.total }}</td>
           </tr>
         </tbody>
       </table>
       <div>
-        <a class="download download-csv"
+        <!--a class="download download-csv"
           href="/api/docs/{{ doc.id }}/activity?download=true"
-          translate="document.stats.download.csv"></a>
+          translate="document.stats.download.csv"></a-->
       </div>
     </section>
     <!-- End document statistics tab -->

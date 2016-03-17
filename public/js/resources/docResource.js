@@ -15,6 +15,13 @@ angular.module('madisonApp.resources')
           format: '@format'
         }
       },
+      getActivity: {
+        method: 'GET',
+        url: '/api/docs/:id/activity',
+        params: {
+          id: '@id'
+        }
+      },
       getFeaturedDocs: {
         method: 'GET',
         url: '/api/docs/featured',

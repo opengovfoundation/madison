@@ -12,6 +12,7 @@ angular.module('madisonApp.controllers')
 
       $scope.doc = {};
       $scope.docContent = '';
+      $scope.stats = {};
       $scope.sponsor = {};
       $scope.status = {};
       $scope.newdate = {
@@ -96,6 +97,12 @@ angular.module('madisonApp.controllers')
           }
         });
       };
+
+      Doc.getActivity({
+        id: id, summary: 'general'
+      }).$promise.then(function(data) {
+        $scope.stats = data;
+      });
 
       $scope.loadPage = function(page) {
         // First, save our current work.

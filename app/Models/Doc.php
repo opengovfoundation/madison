@@ -202,7 +202,7 @@ class Doc extends Model
 
     public function getAnnotationCommentCount()
     {
-        return count($this->getAnnotationComments());
+        return $this->annotationComments()->count();
     }
 
     public function getAnnotationCommentCountAttribute()
@@ -306,15 +306,9 @@ class Doc extends Model
         return $this->hasMany('App\Models\Annotation');
     }
 
-    public function getAnnotationComments()
+    public function annotationComments()
     {
-        $annotationComments = \DB::table('annotation_comments')
-            ->join('annotations', function ($join) {
-                $join->on('annotation_comments.annotation_id', '=', 'annotations.id')
-                    ->where('annotations.doc_id', '=', $this->id);
-            })->get();
-
-        return $annotationComments;
+        return $this->hasManyThrough(AnnotationComment::class, Annotation::class);
     }
 
     public function getLink()
