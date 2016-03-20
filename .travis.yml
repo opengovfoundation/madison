@@ -6,7 +6,7 @@ php:
 
 # Set environment variables
 node_js:
-  - "0.10"
+  - "0.12"
 services:
   - mysql
 env:
@@ -22,6 +22,7 @@ addons:
 before_install:
   - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B -n 1 $TRAVIS_COMMIT)\""
 before_script:
+  - nvm install 0.12.7
   - npm install -g grunt-cli
   - npm install -g bower
   - npm install

@@ -12,7 +12,7 @@
     <div ng-hide="annotations.length"
       translate="annotations.label.none"></div>
 
-    <div class="annotation-group" style="top: {{ annotationGroup.top }}"
+    <div class="annotation-group" ng-style="{top: annotationGroup.top}"
       ng-repeat="annotationGroup in annotationGroups"
       ng-click="showAnnotations(annotationGroup)">
         <span class="annotation-group-count"

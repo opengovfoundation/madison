@@ -27,3 +27,31 @@ window.getAuthService = function () {
 
   return AuthService;
 };
+
+/**
+ * Needed for IE9 support
+ */
+window.getBasePath = function() {
+  var basePath = window.location.href;
+  var nonHtml5Urls = (basePath.indexOf('/#/') !== -1);
+  var firstHashIndex = basePath.indexOf('#');
+  var secondHashIndex;
+
+  if (nonHtml5Urls) {
+    secondHashIndex = basePath.indexOf('#', firstHashIndex + 1);
+    if (secondHashIndex !== -1) {
+      basePath = basePath.substring(0, secondHashIndex);
+    }
+  } else {
+    if (firstHashIndex !== -1) {
+      secondHashIndex = basePath.indexOf('#', firstHashIndex + 1);
+      if (secondHashIndex !== -1) {
+        basePath = basePath.substring(0, secondHashIndex);
+      } else {
+        basePath = basePath.substring(0, firstHashIndex);
+      }
+    }
+  }
+
+  return basePath;
+};

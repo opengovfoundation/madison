@@ -16,8 +16,7 @@ use App\Models\Doc;
 //  } else {
 //      return File::get(public_path().'/pre-build.html');
 //  }
-
-//})->where('slug', '^(?!api/)(.*)$');
+//})->where('slug', '^(?!(api|social)/)(.*)$');
 
 /**
  * Sitemap Route
@@ -230,6 +229,12 @@ Route::post('user/signup', 'UserController@postSignup');
 //Route::get('/auth/token', 'AuthController@token');
 Route::get('/user/login', 'AuthController@login');
 Route::get('/user/logout', 'AuthController@logout');
+
+// Social Bot Routes
+// These deliver partial HTML pages to bots that are pre-rendering links in
+// apps. E.g., when the user pastes a link to Madison into a Facebook post.
+Route::get('social/docs/{slug}', 'DocumentController@getSocialDoc')->middleware(['doc.access.read']);
+Route::get('social/api/docs/{doc}/images/{image}','DocumentController@getImage')->middleware(['doc.access.read']);
 
 /**
  *   RSS Feed Route.

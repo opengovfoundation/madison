@@ -1,6 +1,17 @@
 <?php
-
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Name
+    |--------------------------------------------------------------------------
+    |
+    | By default, the application is named Madison.  You might want to change
+    | this in your .env file.
+    |
+    */
+
+    'name' => env('APP_NAME', 'Madison'),
 
     /*
     |--------------------------------------------------------------------------
@@ -151,7 +162,8 @@ return [
          * Vendor Providers...
          */
         Zizaco\Entrust\EntrustServiceProvider::class,
-        GrahamCampbell\Markdown\MarkdownServiceProvider::class
+        GrahamCampbell\Markdown\MarkdownServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
 
     ],
 
@@ -183,6 +195,7 @@ return [
         'File'      => Illuminate\Support\Facades\File::class,
         'Gate'      => Illuminate\Support\Facades\Gate::class,
         'Hash'      => Illuminate\Support\Facades\Hash::class,
+        'Image'     => Intervention\Image\Facades\Image::class,
         'Input'     => Illuminate\Support\Facades\Input::class,
         'Inspiring' => Illuminate\Foundation\Inspiring::class,
         'Lang'      => Illuminate\Support\Facades\Lang::class,

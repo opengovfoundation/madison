@@ -1,0 +1,8692 @@
+input[type=text].form-control {
+  padding: 0 12px;
+}
+
+@font-face {
+  font-family: FontAwesome;
+  src: url(/build/fonts/fontawesome-webfont.eot?v=4.2.0);
+  src: url(/build/fonts/fontawesome-webfont.eot?#iefix&v=4.2.0) format("embedded-opentype"),url(/build/fonts/fontawesome-webfont.woff?v=4.2.0) format("woff"),url(/build/fonts/fontawesome-webfont.ttf?v=4.2.0) format("truetype"),url(/build/fonts/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular) format("svg");
+  font-weight: 400;
+  font-style: normal;
+}
+
+.activity-actions .flag,
+.activity-actions .link,
+.activity-actions .thumbs-down,
+.activity-actions .thumbs-up,
+.annotation-group .annotation-group-statistics,
+.delete-button,
+.error-icon,
+.fa,
+.loading,
+.move-down-button,
+.move-up-button,
+.pagination .add-button,
+.popup-close,
+.rss-link,
+.warning-icon {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-lg {
+  font-size: 1.33333em;
+  line-height: .75em;
+  vertical-align: -15%;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-fw {
+  width: 1.28571em;
+  text-align: center;
+}
+
+.fa-ul {
+  padding-left: 0;
+  margin-left: 2.14286em;
+  list-style-type: none;
+}
+
+.fa-ul>li {
+  position: relative;
+}
+
+.fa-li {
+  position: absolute;
+  left: -2.14286em;
+  width: 2.14286em;
+  top: .14286em;
+  text-align: center;
+}
+
+.fa-li.fa-lg {
+  left: -1.85714em;
+}
+
+.fa-border {
+  padding: .2em .25em .15em;
+  border: solid .08em #eee;
+  border-radius: .1em;
+}
+
+.footer .footer-links,
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.activity-actions .pull-left.flag,
+.activity-actions .pull-left.link,
+.activity-actions .pull-left.thumbs-down,
+.activity-actions .pull-left.thumbs-up,
+.annotation-group .pull-left.annotation-group-statistics,
+.fa.pull-left,
+.pagination .pull-left.add-button,
+.pull-left.delete-button,
+.pull-left.error-icon,
+.pull-left.loading,
+.pull-left.move-down-button,
+.pull-left.move-up-button,
+.pull-left.popup-close,
+.pull-left.rss-link,
+.pull-left.warning-icon {
+  margin-right: .3em;
+}
+
+.activity-actions .footer .footer-links.flag,
+.activity-actions .footer .footer-links.link,
+.activity-actions .footer .footer-links.thumbs-down,
+.activity-actions .footer .footer-links.thumbs-up,
+.activity-actions .pull-right.flag,
+.activity-actions .pull-right.link,
+.activity-actions .pull-right.thumbs-down,
+.activity-actions .pull-right.thumbs-up,
+.annotation-group .footer .footer-links.annotation-group-statistics,
+.annotation-group .pull-right.annotation-group-statistics,
+.fa.pull-right,
+.footer .activity-actions .footer-links.flag,
+.footer .activity-actions .footer-links.link,
+.footer .activity-actions .footer-links.thumbs-down,
+.footer .activity-actions .footer-links.thumbs-up,
+.footer .annotation-group .footer-links.annotation-group-statistics,
+.footer .fa.footer-links,
+.footer .footer-links.delete-button,
+.footer .footer-links.error-icon,
+.footer .footer-links.move-down-button,
+.footer .footer-links.move-up-button,
+.footer .footer-links.popup-close,
+.footer .footer-links.rss-link,
+.footer .footer-links.warning-icon,
+.footer .loading.footer-links,
+.footer .pagination .footer-links.add-button,
+.pagination .footer .footer-links.add-button,
+.pagination .pull-right.add-button,
+.pull-right.delete-button,
+.pull-right.error-icon,
+.pull-right.loading,
+.pull-right.move-down-button,
+.pull-right.move-up-button,
+.pull-right.popup-close,
+.pull-right.rss-link,
+.pull-right.warning-icon {
+  margin-left: .3em;
+}
+
+.fa-spin,
+.loading {
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+.fa-rotate-90 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+  -webkit-transform: scale(-1,1);
+  -ms-transform: scale(-1,1);
+  transform: scale(-1,1);
+}
+
+.fa-flip-vertical {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: scale(1,-1);
+  -ms-transform: scale(1,-1);
+  transform: scale(1,-1);
+}
+
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-rotate-90 {
+  filter: none;
+}
+
+.fa-stack {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.fa-stack-1x {
+  line-height: inherit;
+}
+
+.fa-stack-2x {
+  font-size: 2em;
+}
+
+.fa-inverse,
+.rss-link:before {
+  color: #fff;
+}
+
+.fa-glass:before {
+  content: "";
+}
+
+.fa-music:before {
+  content: "";
+}
+
+.fa-search:before {
+  content: "";
+}
+
+.fa-envelope-o:before {
+  content: "";
+}
+
+.fa-heart:before {
+  content: "";
+}
+
+.fa-star:before {
+  content: "";
+}
+
+.fa-star-o:before {
+  content: "";
+}
+
+.fa-user:before {
+  content: "";
+}
+
+.fa-film:before {
+  content: "";
+}
+
+.fa-th-large:before {
+  content: "";
+}
+
+.fa-th:before {
+  content: "";
+}
+
+.fa-th-list:before {
+  content: "";
+}
+
+.fa-check:before {
+  content: "";
+}
+
+.delete-button:before,
+.fa-close:before,
+.fa-remove:before,
+.fa-times:before,
+.popup-close:before {
+  content: "";
+}
+
+.fa-search-plus:before {
+  content: "";
+}
+
+.fa-search-minus:before {
+  content: "";
+}
+
+.fa-power-off:before {
+  content: "";
+}
+
+.fa-signal:before {
+  content: "";
+}
+
+.fa-cog:before,
+.fa-gear:before {
+  content: "";
+}
+
+.fa-trash-o:before {
+  content: "";
+}
+
+.fa-home:before {
+  content: "";
+}
+
+.fa-file-o:before {
+  content: "";
+}
+
+.fa-clock-o:before {
+  content: "";
+}
+
+.fa-road:before {
+  content: "";
+}
+
+.fa-download:before {
+  content: "";
+}
+
+.fa-arrow-circle-o-down:before {
+  content: "";
+}
+
+.fa-arrow-circle-o-up:before {
+  content: "";
+}
+
+.fa-inbox:before {
+  content: "";
+}
+
+.fa-play-circle-o:before {
+  content: "";
+}
+
+.fa-repeat:before,
+.fa-rotate-right:before {
+  content: "";
+}
+
+.fa-refresh:before {
+  content: "";
+}
+
+.fa-list-alt:before {
+  content: "";
+}
+
+.fa-lock:before {
+  content: "";
+}
+
+.activity-actions .flag:before,
+.fa-flag:before {
+  content: "";
+}
+
+.fa-headphones:before {
+  content: "";
+}
+
+.fa-volume-off:before {
+  content: "";
+}
+
+.fa-volume-down:before {
+  content: "";
+}
+
+.fa-volume-up:before {
+  content: "";
+}
+
+.fa-qrcode:before {
+  content: "";
+}
+
+.fa-barcode:before {
+  content: "";
+}
+
+.fa-tag:before {
+  content: "";
+}
+
+.fa-tags:before {
+  content: "";
+}
+
+.fa-book:before {
+  content: "";
+}
+
+.fa-bookmark:before {
+  content: "";
+}
+
+.fa-print:before {
+  content: "";
+}
+
+.fa-camera:before {
+  content: "";
+}
+
+.fa-font:before {
+  content: "";
+}
+
+.fa-bold:before {
+  content: "";
+}
+
+.fa-italic:before {
+  content: "";
+}
+
+.fa-text-height:before {
+  content: "";
+}
+
+.fa-text-width:before {
+  content: "";
+}
+
+.fa-align-left:before {
+  content: "";
+}
+
+.fa-align-center:before {
+  content: "";
+}
+
+.fa-align-right:before {
+  content: "";
+}
+
+.fa-align-justify:before {
+  content: "";
+}
+
+.fa-list:before {
+  content: "";
+}
+
+.fa-dedent:before,
+.fa-outdent:before {
+  content: "";
+}
+
+.fa-indent:before {
+  content: "";
+}
+
+.fa-video-camera:before {
+  content: "";
+}
+
+.fa-image:before,
+.fa-photo:before,
+.fa-picture-o:before {
+  content: "";
+}
+
+.fa-pencil:before {
+  content: "";
+}
+
+.fa-map-marker:before {
+  content: "";
+}
+
+.fa-adjust:before {
+  content: "";
+}
+
+.fa-tint:before {
+  content: "";
+}
+
+.fa-edit:before,
+.fa-pencil-square-o:before {
+  content: "";
+}
+
+.fa-share-square-o:before {
+  content: "";
+}
+
+.fa-check-square-o:before {
+  content: "";
+}
+
+.fa-arrows:before {
+  content: "";
+}
+
+.fa-step-backward:before {
+  content: "";
+}
+
+.fa-fast-backward:before {
+  content: "";
+}
+
+.fa-backward:before {
+  content: "";
+}
+
+.fa-play:before {
+  content: "";
+}
+
+.fa-pause:before {
+  content: "";
+}
+
+.fa-stop:before {
+  content: "";
+}
+
+.fa-forward:before {
+  content: "";
+}
+
+.fa-fast-forward:before {
+  content: "";
+}
+
+.fa-step-forward:before {
+  content: "";
+}
+
+.fa-eject:before {
+  content: "";
+}
+
+.fa-chevron-left:before {
+  content: "";
+}
+
+.fa-chevron-right:before {
+  content: "";
+}
+
+.fa-plus-circle:before {
+  content: "";
+}
+
+.fa-minus-circle:before {
+  content: "";
+}
+
+.fa-times-circle:before {
+  content: "";
+}
+
+.fa-check-circle:before {
+  content: "";
+}
+
+.fa-question-circle:before {
+  content: "";
+}
+
+.fa-info-circle:before {
+  content: "";
+}
+
+.fa-crosshairs:before {
+  content: "";
+}
+
+.fa-times-circle-o:before {
+  content: "";
+}
+
+.fa-check-circle-o:before {
+  content: "";
+}
+
+.fa-ban:before {
+  content: "";
+}
+
+.fa-arrow-left:before {
+  content: "";
+}
+
+.fa-arrow-right:before {
+  content: "";
+}
+
+.fa-arrow-up:before {
+  content: "";
+}
+
+.fa-arrow-down:before {
+  content: "";
+}
+
+.fa-mail-forward:before,
+.fa-share:before {
+  content: "";
+}
+
+.fa-expand:before {
+  content: "";
+}
+
+.fa-compress:before {
+  content: "";
+}
+
+.fa-plus:before,
+.pagination .add-button:before {
+  content: "";
+}
+
+.fa-minus:before {
+  content: "";
+}
+
+.fa-asterisk:before {
+  content: "";
+}
+
+.error-icon:before,
+.fa-exclamation-circle:before {
+  content: "";
+}
+
+.fa-gift:before {
+  content: "";
+}
+
+.fa-leaf:before {
+  content: "";
+}
+
+.fa-fire:before {
+  content: "";
+}
+
+.fa-eye:before {
+  content: "";
+}
+
+.fa-eye-slash:before {
+  content: "";
+}
+
+.fa-exclamation-triangle:before,
+.fa-warning:before,
+.warning-icon:before {
+  content: "";
+}
+
+.fa-plane:before {
+  content: "";
+}
+
+.fa-calendar:before {
+  content: "";
+}
+
+.fa-random:before {
+  content: "";
+}
+
+.annotation-group .annotation-group-statistics:before,
+.fa-comment:before {
+  content: "";
+}
+
+.fa-magnet:before {
+  content: "";
+}
+
+.fa-chevron-up:before {
+  content: "";
+}
+
+.fa-chevron-down:before {
+  content: "";
+}
+
+.fa-retweet:before {
+  content: "";
+}
+
+.fa-shopping-cart:before {
+  content: "";
+}
+
+.fa-folder:before {
+  content: "";
+}
+
+.fa-folder-open:before {
+  content: "";
+}
+
+.fa-arrows-v:before {
+  content: "";
+}
+
+.fa-arrows-h:before {
+  content: "";
+}
+
+.fa-bar-chart-o:before,
+.fa-bar-chart:before {
+  content: "";
+}
+
+.fa-twitter-square:before {
+  content: "";
+}
+
+.fa-facebook-square:before {
+  content: "";
+}
+
+.fa-camera-retro:before {
+  content: "";
+}
+
+.fa-key:before {
+  content: "";
+}
+
+.fa-cogs:before,
+.fa-gears:before {
+  content: "";
+}
+
+.fa-comments:before {
+  content: "";
+}
+
+.activity-actions .thumbs-up:before,
+.fa-thumbs-o-up:before {
+  content: "";
+}
+
+.activity-actions .thumbs-down:before,
+.fa-thumbs-o-down:before {
+  content: "";
+}
+
+.fa-star-half:before {
+  content: "";
+}
+
+.fa-heart-o:before {
+  content: "";
+}
+
+.fa-sign-out:before {
+  content: "";
+}
+
+.fa-linkedin-square:before {
+  content: "";
+}
+
+.fa-thumb-tack:before {
+  content: "";
+}
+
+.fa-external-link:before {
+  content: "";
+}
+
+.fa-sign-in:before {
+  content: "";
+}
+
+.fa-trophy:before {
+  content: "";
+}
+
+.fa-github-square:before {
+  content: "";
+}
+
+.fa-upload:before {
+  content: "";
+}
+
+.fa-lemon-o:before {
+  content: "";
+}
+
+.fa-phone:before {
+  content: "";
+}
+
+.fa-square-o:before {
+  content: "";
+}
+
+.fa-bookmark-o:before {
+  content: "";
+}
+
+.fa-phone-square:before {
+  content: "";
+}
+
+.fa-twitter:before {
+  content: "";
+}
+
+.fa-facebook:before {
+  content: "";
+}
+
+.fa-github:before {
+  content: "";
+}
+
+.fa-unlock:before {
+  content: "";
+}
+
+.fa-credit-card:before {
+  content: "";
+}
+
+.fa-rss:before,
+.rss-link:before {
+  content: "";
+}
+
+.fa-hdd-o:before {
+  content: "";
+}
+
+.fa-bullhorn:before {
+  content: "";
+}
+
+.fa-bell:before {
+  content: "";
+}
+
+.fa-certificate:before {
+  content: "";
+}
+
+.fa-hand-o-right:before {
+  content: "";
+}
+
+.fa-hand-o-left:before {
+  content: "";
+}
+
+.fa-hand-o-up:before {
+  content: "";
+}
+
+.fa-hand-o-down:before {
+  content: "";
+}
+
+.fa-arrow-circle-left:before {
+  content: "";
+}
+
+.fa-arrow-circle-right:before {
+  content: "";
+}
+
+.fa-arrow-circle-up:before {
+  content: "";
+}
+
+.fa-arrow-circle-down:before {
+  content: "";
+}
+
+.fa-globe:before {
+  content: "";
+}
+
+.fa-wrench:before {
+  content: "";
+}
+
+.fa-tasks:before {
+  content: "";
+}
+
+.fa-filter:before {
+  content: "";
+}
+
+.fa-briefcase:before {
+  content: "";
+}
+
+.fa-arrows-alt:before {
+  content: "";
+}
+
+.fa-group:before,
+.fa-users:before {
+  content: "";
+}
+
+.activity-actions .link:before,
+.fa-chain:before,
+.fa-link:before {
+  content: "";
+}
+
+.fa-cloud:before {
+  content: "";
+}
+
+.fa-flask:before {
+  content: "";
+}
+
+.fa-cut:before,
+.fa-scissors:before {
+  content: "";
+}
+
+.fa-copy:before,
+.fa-files-o:before {
+  content: "";
+}
+
+.fa-paperclip:before {
+  content: "";
+}
+
+.fa-floppy-o:before,
+.fa-save:before {
+  content: "";
+}
+
+.fa-square:before {
+  content: "";
+}
+
+.fa-bars:before,
+.fa-navicon:before,
+.fa-reorder:before {
+  content: "";
+}
+
+.fa-list-ul:before {
+  content: "";
+}
+
+.fa-list-ol:before {
+  content: "";
+}
+
+.fa-strikethrough:before {
+  content: "";
+}
+
+.fa-underline:before {
+  content: "";
+}
+
+.fa-table:before {
+  content: "";
+}
+
+.fa-magic:before {
+  content: "";
+}
+
+.fa-truck:before {
+  content: "";
+}
+
+.fa-pinterest:before {
+  content: "";
+}
+
+.fa-pinterest-square:before {
+  content: "";
+}
+
+.fa-google-plus-square:before {
+  content: "";
+}
+
+.fa-google-plus:before {
+  content: "";
+}
+
+.fa-money:before {
+  content: "";
+}
+
+.fa-caret-down:before {
+  content: "";
+}
+
+.fa-caret-up:before {
+  content: "";
+}
+
+.fa-caret-left:before {
+  content: "";
+}
+
+.fa-caret-right:before {
+  content: "";
+}
+
+.fa-columns:before {
+  content: "";
+}
+
+.fa-sort:before,
+.fa-unsorted:before {
+  content: "";
+}
+
+.fa-sort-desc:before,
+.fa-sort-down:before,
+.move-down-button:before {
+  content: "";
+}
+
+.fa-sort-asc:before,
+.fa-sort-up:before,
+.move-up-button:before {
+  content: "";
+}
+
+.fa-envelope:before {
+  content: "";
+}
+
+.fa-linkedin:before {
+  content: "";
+}
+
+.fa-rotate-left:before,
+.fa-undo:before {
+  content: "";
+}
+
+.fa-gavel:before,
+.fa-legal:before {
+  content: "";
+}
+
+.fa-dashboard:before,
+.fa-tachometer:before {
+  content: "";
+}
+
+.fa-comment-o:before {
+  content: "";
+}
+
+.fa-comments-o:before {
+  content: "";
+}
+
+.fa-bolt:before,
+.fa-flash:before {
+  content: "";
+}
+
+.fa-sitemap:before {
+  content: "";
+}
+
+.fa-umbrella:before {
+  content: "";
+}
+
+.fa-clipboard:before,
+.fa-paste:before {
+  content: "";
+}
+
+.fa-lightbulb-o:before {
+  content: "";
+}
+
+.fa-exchange:before {
+  content: "";
+}
+
+.fa-cloud-download:before {
+  content: "";
+}
+
+.fa-cloud-upload:before {
+  content: "";
+}
+
+.fa-user-md:before {
+  content: "";
+}
+
+.fa-stethoscope:before {
+  content: "";
+}
+
+.fa-suitcase:before {
+  content: "";
+}
+
+.fa-bell-o:before {
+  content: "";
+}
+
+.fa-coffee:before {
+  content: "";
+}
+
+.fa-cutlery:before {
+  content: "";
+}
+
+.fa-file-text-o:before {
+  content: "";
+}
+
+.fa-building-o:before {
+  content: "";
+}
+
+.fa-hospital-o:before {
+  content: "";
+}
+
+.fa-ambulance:before {
+  content: "";
+}
+
+.fa-medkit:before {
+  content: "";
+}
+
+.fa-fighter-jet:before {
+  content: "";
+}
+
+.fa-beer:before {
+  content: "";
+}
+
+.fa-h-square:before {
+  content: "";
+}
+
+.fa-plus-square:before {
+  content: "";
+}
+
+.fa-angle-double-left:before {
+  content: "";
+}
+
+.fa-angle-double-right:before {
+  content: "";
+}
+
+.fa-angle-double-up:before {
+  content: "";
+}
+
+.fa-angle-double-down:before {
+  content: "";
+}
+
+.fa-angle-left:before {
+  content: "";
+}
+
+.fa-angle-right:before {
+  content: "";
+}
+
+.fa-angle-up:before {
+  content: "";
+}
+
+.fa-angle-down:before {
+  content: "";
+}
+
+.fa-desktop:before {
+  content: "";
+}
+
+.fa-laptop:before {
+  content: "";
+}
+
+.fa-tablet:before {
+  content: "";
+}
+
+.fa-mobile-phone:before,
+.fa-mobile:before {
+  content: "";
+}
+
+.fa-circle-o:before {
+  content: "";
+}
+
+.fa-quote-left:before {
+  content: "";
+}
+
+.fa-quote-right:before {
+  content: "";
+}
+
+.fa-spinner:before,
+.loading:before {
+  content: "";
+}
+
+.fa-circle:before {
+  content: "";
+}
+
+.fa-mail-reply:before,
+.fa-reply:before {
+  content: "";
+}
+
+.fa-github-alt:before {
+  content: "";
+}
+
+.fa-folder-o:before {
+  content: "";
+}
+
+.fa-folder-open-o:before {
+  content: "";
+}
+
+.fa-smile-o:before {
+  content: "";
+}
+
+.fa-frown-o:before {
+  content: "";
+}
+
+.fa-meh-o:before {
+  content: "";
+}
+
+.fa-gamepad:before {
+  content: "";
+}
+
+.fa-keyboard-o:before {
+  content: "";
+}
+
+.fa-flag-o:before {
+  content: "";
+}
+
+.fa-flag-checkered:before {
+  content: "";
+}
+
+.fa-terminal:before {
+  content: "";
+}
+
+.fa-code:before {
+  content: "";
+}
+
+.fa-mail-reply-all:before,
+.fa-reply-all:before {
+  content: "";
+}
+
+.fa-star-half-empty:before,
+.fa-star-half-full:before,
+.fa-star-half-o:before {
+  content: "";
+}
+
+.fa-location-arrow:before {
+  content: "";
+}
+
+.fa-crop:before {
+  content: "";
+}
+
+.fa-code-fork:before {
+  content: "";
+}
+
+.fa-chain-broken:before,
+.fa-unlink:before {
+  content: "";
+}
+
+.fa-question:before {
+  content: "";
+}
+
+.fa-info:before {
+  content: "";
+}
+
+.fa-exclamation:before {
+  content: "";
+}
+
+.fa-superscript:before {
+  content: "";
+}
+
+.fa-subscript:before {
+  content: "";
+}
+
+.fa-eraser:before {
+  content: "";
+}
+
+.fa-puzzle-piece:before {
+  content: "";
+}
+
+.fa-microphone:before {
+  content: "";
+}
+
+.fa-microphone-slash:before {
+  content: "";
+}
+
+.fa-shield:before {
+  content: "";
+}
+
+.fa-calendar-o:before {
+  content: "";
+}
+
+.fa-fire-extinguisher:before {
+  content: "";
+}
+
+.fa-rocket:before {
+  content: "";
+}
+
+.fa-maxcdn:before {
+  content: "";
+}
+
+.fa-chevron-circle-left:before {
+  content: "";
+}
+
+.fa-chevron-circle-right:before {
+  content: "";
+}
+
+.fa-chevron-circle-up:before {
+  content: "";
+}
+
+.fa-chevron-circle-down:before {
+  content: "";
+}
+
+.fa-html5:before {
+  content: "";
+}
+
+.fa-css3:before {
+  content: "";
+}
+
+.fa-anchor:before {
+  content: "";
+}
+
+.fa-unlock-alt:before {
+  content: "";
+}
+
+.fa-bullseye:before {
+  content: "";
+}
+
+.fa-ellipsis-h:before {
+  content: "";
+}
+
+.fa-ellipsis-v:before {
+  content: "";
+}
+
+.fa-rss-square:before {
+  content: "";
+}
+
+.fa-play-circle:before {
+  content: "";
+}
+
+.fa-ticket:before {
+  content: "";
+}
+
+.fa-minus-square:before {
+  content: "";
+}
+
+.fa-minus-square-o:before {
+  content: "";
+}
+
+.fa-level-up:before {
+  content: "";
+}
+
+.fa-level-down:before {
+  content: "";
+}
+
+.fa-check-square:before {
+  content: "";
+}
+
+.fa-pencil-square:before {
+  content: "";
+}
+
+.fa-external-link-square:before {
+  content: "";
+}
+
+.fa-share-square:before {
+  content: "";
+}
+
+.fa-compass:before {
+  content: "";
+}
+
+.fa-caret-square-o-down:before,
+.fa-toggle-down:before {
+  content: "";
+}
+
+.fa-caret-square-o-up:before,
+.fa-toggle-up:before {
+  content: "";
+}
+
+.fa-caret-square-o-right:before,
+.fa-toggle-right:before {
+  content: "";
+}
+
+.fa-eur:before,
+.fa-euro:before {
+  content: "";
+}
+
+.fa-gbp:before {
+  content: "";
+}
+
+.fa-dollar:before,
+.fa-usd:before {
+  content: "";
+}
+
+.fa-inr:before,
+.fa-rupee:before {
+  content: "";
+}
+
+.fa-cny:before,
+.fa-jpy:before,
+.fa-rmb:before,
+.fa-yen:before {
+  content: "";
+}
+
+.fa-rouble:before,
+.fa-rub:before,
+.fa-ruble:before {
+  content: "";
+}
+
+.fa-krw:before,
+.fa-won:before {
+  content: "";
+}
+
+.fa-bitcoin:before,
+.fa-btc:before {
+  content: "";
+}
+
+.fa-file:before {
+  content: "";
+}
+
+.fa-file-text:before {
+  content: "";
+}
+
+.fa-sort-alpha-asc:before {
+  content: "";
+}
+
+.fa-sort-alpha-desc:before {
+  content: "";
+}
+
+.fa-sort-amount-asc:before {
+  content: "";
+}
+
+.fa-sort-amount-desc:before {
+  content: "";
+}
+
+.fa-sort-numeric-asc:before {
+  content: "";
+}
+
+.fa-sort-numeric-desc:before {
+  content: "";
+}
+
+.fa-thumbs-up:before {
+  content: "";
+}
+
+.fa-thumbs-down:before {
+  content: "";
+}
+
+.fa-youtube-square:before {
+  content: "";
+}
+
+.fa-youtube:before {
+  content: "";
+}
+
+.fa-xing:before {
+  content: "";
+}
+
+.fa-xing-square:before {
+  content: "";
+}
+
+.fa-youtube-play:before {
+  content: "";
+}
+
+.fa-dropbox:before {
+  content: "";
+}
+
+.fa-stack-overflow:before {
+  content: "";
+}
+
+.fa-instagram:before {
+  content: "";
+}
+
+.fa-flickr:before {
+  content: "";
+}
+
+.fa-adn:before {
+  content: "";
+}
+
+.fa-bitbucket:before {
+  content: "";
+}
+
+.fa-bitbucket-square:before {
+  content: "";
+}
+
+.fa-tumblr:before {
+  content: "";
+}
+
+.fa-tumblr-square:before {
+  content: "";
+}
+
+.fa-long-arrow-down:before {
+  content: "";
+}
+
+.fa-long-arrow-up:before {
+  content: "";
+}
+
+.fa-long-arrow-left:before {
+  content: "";
+}
+
+.fa-long-arrow-right:before {
+  content: "";
+}
+
+.fa-apple:before {
+  content: "";
+}
+
+.fa-windows:before {
+  content: "";
+}
+
+.fa-android:before {
+  content: "";
+}
+
+.fa-linux:before {
+  content: "";
+}
+
+.fa-dribbble:before {
+  content: "";
+}
+
+.fa-skype:before {
+  content: "";
+}
+
+.fa-foursquare:before {
+  content: "";
+}
+
+.fa-trello:before {
+  content: "";
+}
+
+.fa-female:before {
+  content: "";
+}
+
+.fa-male:before {
+  content: "";
+}
+
+.fa-gittip:before {
+  content: "";
+}
+
+.fa-sun-o:before {
+  content: "";
+}
+
+.fa-moon-o:before {
+  content: "";
+}
+
+.fa-archive:before {
+  content: "";
+}
+
+.fa-bug:before {
+  content: "";
+}
+
+.fa-vk:before {
+  content: "";
+}
+
+.fa-weibo:before {
+  content: "";
+}
+
+.fa-renren:before {
+  content: "";
+}
+
+.fa-pagelines:before {
+  content: "";
+}
+
+.fa-stack-exchange:before {
+  content: "";
+}
+
+.fa-arrow-circle-o-right:before {
+  content: "";
+}
+
+.fa-arrow-circle-o-left:before {
+  content: "";
+}
+
+.fa-caret-square-o-left:before,
+.fa-toggle-left:before {
+  content: "";
+}
+
+.fa-dot-circle-o:before {
+  content: "";
+}
+
+.fa-wheelchair:before {
+  content: "";
+}
+
+.fa-vimeo-square:before {
+  content: "";
+}
+
+.fa-try:before,
+.fa-turkish-lira:before {
+  content: "";
+}
+
+.fa-plus-square-o:before {
+  content: "";
+}
+
+.fa-space-shuttle:before {
+  content: "";
+}
+
+.fa-slack:before {
+  content: "";
+}
+
+.fa-envelope-square:before {
+  content: "";
+}
+
+.fa-wordpress:before {
+  content: "";
+}
+
+.fa-openid:before {
+  content: "";
+}
+
+.fa-bank:before,
+.fa-institution:before,
+.fa-university:before {
+  content: "";
+}
+
+.fa-graduation-cap:before,
+.fa-mortar-board:before {
+  content: "";
+}
+
+.fa-yahoo:before {
+  content: "";
+}
+
+.fa-google:before {
+  content: "";
+}
+
+.fa-reddit:before {
+  content: "";
+}
+
+.fa-reddit-square:before {
+  content: "";
+}
+
+.fa-stumbleupon-circle:before {
+  content: "";
+}
+
+.fa-stumbleupon:before {
+  content: "";
+}
+
+.fa-delicious:before {
+  content: "";
+}
+
+.fa-digg:before {
+  content: "";
+}
+
+.fa-pied-piper:before {
+  content: "";
+}
+
+.fa-pied-piper-alt:before {
+  content: "";
+}
+
+.fa-drupal:before {
+  content: "";
+}
+
+.fa-joomla:before {
+  content: "";
+}
+
+.fa-language:before {
+  content: "";
+}
+
+.fa-fax:before {
+  content: "";
+}
+
+.fa-building:before {
+  content: "";
+}
+
+.fa-child:before {
+  content: "";
+}
+
+.fa-paw:before {
+  content: "";
+}
+
+.fa-spoon:before {
+  content: "";
+}
+
+.fa-cube:before {
+  content: "";
+}
+
+.fa-cubes:before {
+  content: "";
+}
+
+.fa-behance:before {
+  content: "";
+}
+
+.fa-behance-square:before {
+  content: "";
+}
+
+.fa-steam:before {
+  content: "";
+}
+
+.fa-steam-square:before {
+  content: "";
+}
+
+.fa-recycle:before {
+  content: "";
+}
+
+.fa-automobile:before,
+.fa-car:before {
+  content: "";
+}
+
+.fa-cab:before,
+.fa-taxi:before {
+  content: "";
+}
+
+.fa-tree:before {
+  content: "";
+}
+
+.fa-spotify:before {
+  content: "";
+}
+
+.fa-deviantart:before {
+  content: "";
+}
+
+.fa-soundcloud:before {
+  content: "";
+}
+
+.fa-database:before {
+  content: "";
+}
+
+.fa-file-pdf-o:before {
+  content: "";
+}
+
+.fa-file-word-o:before {
+  content: "";
+}
+
+.fa-file-excel-o:before {
+  content: "";
+}
+
+.fa-file-powerpoint-o:before {
+  content: "";
+}
+
+.fa-file-image-o:before,
+.fa-file-photo-o:before,
+.fa-file-picture-o:before {
+  content: "";
+}
+
+.fa-file-archive-o:before,
+.fa-file-zip-o:before {
+  content: "";
+}
+
+.fa-file-audio-o:before,
+.fa-file-sound-o:before {
+  content: "";
+}
+
+.fa-file-movie-o:before,
+.fa-file-video-o:before {
+  content: "";
+}
+
+.fa-file-code-o:before {
+  content: "";
+}
+
+.fa-vine:before {
+  content: "";
+}
+
+.fa-codepen:before {
+  content: "";
+}
+
+.fa-jsfiddle:before {
+  content: "";
+}
+
+.fa-life-bouy:before,
+.fa-life-buoy:before,
+.fa-life-ring:before,
+.fa-life-saver:before,
+.fa-support:before {
+  content: "";
+}
+
+.fa-circle-o-notch:before {
+  content: "";
+}
+
+.fa-ra:before,
+.fa-rebel:before {
+  content: "";
+}
+
+.fa-empire:before,
+.fa-ge:before {
+  content: "";
+}
+
+.fa-git-square:before {
+  content: "";
+}
+
+.fa-git:before {
+  content: "";
+}
+
+.fa-hacker-news:before {
+  content: "";
+}
+
+.fa-tencent-weibo:before {
+  content: "";
+}
+
+.fa-qq:before {
+  content: "";
+}
+
+.fa-wechat:before,
+.fa-weixin:before {
+  content: "";
+}
+
+.fa-paper-plane:before,
+.fa-send:before {
+  content: "";
+}
+
+.fa-paper-plane-o:before,
+.fa-send-o:before {
+  content: "";
+}
+
+.fa-history:before {
+  content: "";
+}
+
+.fa-circle-thin:before {
+  content: "";
+}
+
+.fa-header:before {
+  content: "";
+}
+
+.fa-paragraph:before {
+  content: "";
+}
+
+.fa-sliders:before {
+  content: "";
+}
+
+.fa-share-alt:before {
+  content: "";
+}
+
+.fa-share-alt-square:before {
+  content: "";
+}
+
+.fa-bomb:before {
+  content: "";
+}
+
+.fa-futbol-o:before,
+.fa-soccer-ball-o:before {
+  content: "";
+}
+
+.fa-tty:before {
+  content: "";
+}
+
+.fa-binoculars:before {
+  content: "";
+}
+
+.fa-plug:before {
+  content: "";
+}
+
+.fa-slideshare:before {
+  content: "";
+}
+
+.fa-twitch:before {
+  content: "";
+}
+
+.fa-yelp:before {
+  content: "";
+}
+
+.fa-newspaper-o:before {
+  content: "";
+}
+
+.fa-wifi:before {
+  content: "";
+}
+
+.fa-calculator:before {
+  content: "";
+}
+
+.fa-paypal:before {
+  content: "";
+}
+
+.fa-google-wallet:before {
+  content: "";
+}
+
+.fa-cc-visa:before {
+  content: "";
+}
+
+.fa-cc-mastercard:before {
+  content: "";
+}
+
+.fa-cc-discover:before {
+  content: "";
+}
+
+.fa-cc-amex:before {
+  content: "";
+}
+
+.fa-cc-paypal:before {
+  content: "";
+}
+
+.fa-cc-stripe:before {
+  content: "";
+}
+
+.fa-bell-slash:before {
+  content: "";
+}
+
+.fa-bell-slash-o:before {
+  content: "";
+}
+
+.fa-trash:before {
+  content: "";
+}
+
+.fa-copyright:before {
+  content: "";
+}
+
+.fa-at:before {
+  content: "";
+}
+
+.fa-eyedropper:before {
+  content: "";
+}
+
+.fa-paint-brush:before {
+  content: "";
+}
+
+.fa-birthday-cake:before {
+  content: "";
+}
+
+.fa-area-chart:before {
+  content: "";
+}
+
+.fa-pie-chart:before {
+  content: "";
+}
+
+.fa-line-chart:before {
+  content: "";
+}
+
+.fa-lastfm:before {
+  content: "";
+}
+
+.fa-lastfm-square:before {
+  content: "";
+}
+
+.fa-toggle-off:before {
+  content: "";
+}
+
+.fa-toggle-on:before {
+  content: "";
+}
+
+.fa-bicycle:before {
+  content: "";
+}
+
+.fa-bus:before {
+  content: "";
+}
+
+.fa-ioxhost:before {
+  content: "";
+}
+
+.fa-angellist:before {
+  content: "";
+}
+
+.fa-cc:before {
+  content: "";
+}
+
+.fa-ils:before,
+.fa-shekel:before,
+.fa-sheqel:before {
+  content: "";
+}
+
+.fa-meanpath:before {
+  content: "";
+}
+
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+[hidden],
+template {
+  display: none;
+}
+
+a {
+  background-color: transparent;
+}
+
+a:active,
+a:hover {
+  outline: 0;
+}
+
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+b,
+strong {
+  font-weight: 700;
+}
+
+dfn {
+  font-style: italic;
+}
+
+h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+small {
+  font-size: 80%;
+}
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -.5em;
+}
+
+sub {
+  bottom: -.25em;
+}
+
+img {
+  border: 0;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+figure {
+  margin: 1em 40px;
+}
+
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+pre {
+  overflow: auto;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+button {
+  overflow: visible;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+button,
+html input[type=button],
+input[type=reset],
+input[type=submit] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+input {
+  line-height: normal;
+}
+
+input[type=checkbox],
+input[type=radio] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+input[type=search] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+fieldset {
+  border: 1px solid silver;
+  margin: 0 2px;
+  padding: .35em .625em .75em;
+}
+
+legend {
+  border: 0;
+  padding: 0;
+}
+
+textarea {
+  overflow: auto;
+}
+
+optgroup {
+  font-weight: 700;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+@media print {
+  *,
+  :after,
+  :before {
+    background: 0 0!important;
+    color: #000!important;
+    box-shadow: none!important;
+    text-shadow: none!important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after {
+    content: "";
+  }
+
+  blockquote,
+  pre {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  img,
+  tr {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100%!important;
+  }
+
+  .doc-content .previous-features .heading,
+  .doc-content h1,
+  .doc-content h2,
+  .previous-features .doc-content .heading,
+  .previous-features .heading,
+  h2,
+  h3,
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .doc-content .previous-features .heading,
+  .doc-content h1,
+  .doc-content h2,
+  .previous-features .doc-content .heading,
+  .previous-features .heading,
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+  select {
+    background: #fff!important;
+  }
+
+  .navbar {
+    display: none;
+  }
+
+  .btn>.caret,
+  .button>.caret,
+  .create-document-button>.caret,
+  .delete-document-button>.caret,
+  .delete-page-button>.caret,
+  .dropup>.btn>.caret,
+  .dropup>.button>.caret,
+  .dropup>.create-document-button>.caret,
+  .dropup>.delete-document-button>.caret,
+  .dropup>.delete-page-button>.caret,
+  .dropup>.login-button>.caret,
+  .dropup>.save-document-button>.caret,
+  .home-feature .dropup>.read-button>.caret,
+  .home-feature .read-button>.caret,
+  .login-button>.caret,
+  .save-document-button>.caret,
+  .search-form .dropup>.search-button>.caret,
+  .search-form .search-button>.caret {
+    border-top-color: #000!important;
+  }
+
+  .label {
+    border: 1px solid #000;
+  }
+
+  .deleted-docs-list table,
+  .featured-document-list,
+  .table {
+    border-collapse: collapse!important;
+  }
+
+  .deleted-docs-list table td,
+  .deleted-docs-list table th,
+  .featured-document-list td,
+  .featured-document-list th,
+  .table td,
+  .table th {
+    background-color: #fff!important;
+  }
+
+  .table-bordered td,
+  .table-bordered th {
+    border: 1px solid #ddd!important;
+  }
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:after,
+:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 1rem;
+  line-height: 1.625;
+  color: #000;
+  background-color: #fff;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  color: #00cae5;
+  text-decoration: none;
+}
+
+a:focus,
+a:hover {
+  color: #00cae5;
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+figure {
+  margin: 0;
+}
+
+img {
+  vertical-align: middle;
+}
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.img-rounded {
+  border-radius: 6px;
+}
+
+.img-thumbnail {
+  padding: 4px;
+  line-height: 1.625;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  -webkit-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+}
+
+.img-circle {
+  border-radius: 50%;
+}
+
+hr {
+  margin-top: 1.625rem;
+  margin-bottom: 1.625rem;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+}
+
+.doc-content .previous-features .heading,
+.doc-content h1,
+.doc-content h2,
+.doc-content h3,
+.doc-content h4,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.previous-features .doc-content .heading,
+.previous-features .heading,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+
+.doc-content .previous-features .heading .small,
+.doc-content .previous-features .heading small,
+.doc-content h1 .small,
+.doc-content h1 small,
+.doc-content h2 .small,
+.doc-content h2 small,
+.doc-content h3 .small,
+.doc-content h3 small,
+.doc-content h4 small,
+.h1 .small,
+.h1 small,
+.h2 .small,
+.h2 small,
+.h3 .small,
+.h3 small,
+.h4 .small,
+.h4 small,
+.h5 .small,
+.h5 small,
+.h6 .small,
+.h6 small,
+.previous-features .doc-content .heading .small,
+.previous-features .doc-content .heading small,
+.previous-features .heading .small,
+.previous-features .heading small,
+h1 .small,
+h1 small,
+h2 .small,
+h2 small,
+h3 .small,
+h3 small,
+h4 .small,
+h4 small,
+h5 .small,
+h5 small,
+h6 .small,
+h6 small {
+  font-weight: 400;
+  line-height: 1;
+  color: #777;
+}
+
+.doc-content .previous-features .heading,
+.doc-content h1,
+.doc-content h2,
+.h1,
+.h2,
+.h3,
+.previous-features .doc-content .heading,
+.previous-features .heading,
+h1,
+h2,
+h3 {
+  margin-top: 1.625rem;
+  margin-bottom: .8125rem;
+}
+
+.doc-content .previous-features .heading .small,
+.doc-content .previous-features .heading small,
+.doc-content h1 .small,
+.doc-content h1 small,
+.doc-content h2 .small,
+.doc-content h2 small,
+.h1 .small,
+.h1 small,
+.h2 .small,
+.h2 small,
+.h3 .small,
+.h3 small,
+.previous-features .doc-content .heading .small,
+.previous-features .doc-content .heading small,
+.previous-features .heading .small,
+.previous-features .heading small,
+h1 .small,
+h1 small,
+h2 .small,
+h2 small,
+h3 .small,
+h3 small {
+  font-size: 65%;
+}
+
+.doc-content .previous-features .heading,
+.doc-content h1,
+.doc-content h2,
+.doc-content h3,
+.doc-content h4,
+.h4,
+.h5,
+.h6,
+.previous-features .doc-content .heading,
+h4,
+h5,
+h6 {
+  margin-top: .8125rem;
+  margin-bottom: .8125rem;
+}
+
+.doc-content .previous-features .heading .small,
+.doc-content .previous-features .heading small,
+.doc-content h1 .small,
+.doc-content h1 small,
+.doc-content h2 .small,
+.doc-content h2 small,
+.doc-content h3 .small,
+.doc-content h3 small,
+.doc-content h4 small,
+.h4 .small,
+.h4 small,
+.h5 .small,
+.h5 small,
+.h6 .small,
+.h6 small,
+.previous-features .doc-content .heading .small,
+.previous-features .doc-content .heading small,
+h4 .small,
+h4 small,
+h5 .small,
+h5 small,
+h6 .small,
+h6 small {
+  font-size: 75%;
+}
+
+.h1,
+h1 {
+  font-size: 2.6rem;
+}
+
+.h2,
+.previous-features .heading,
+h2 {
+  font-size: 2.15rem;
+}
+
+.doc-content .previous-features .heading,
+.doc-content h1,
+.doc-content h2,
+.h3,
+.previous-features .doc-content .heading,
+h3 {
+  font-size: 1.7rem;
+}
+
+.doc-content .previous-features .heading,
+.doc-content h1,
+.doc-content h2,
+.doc-content h3,
+.doc-content h4,
+.h4,
+.previous-features .doc-content .heading,
+h4 {
+  font-size: 1.25rem;
+}
+
+.h5,
+h5 {
+  font-size: 1rem;
+}
+
+.h6,
+h6 {
+  font-size: .85rem;
+}
+
+p {
+  margin: 0 0 .8125rem;
+}
+
+.lead {
+  margin-bottom: 1.625rem;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+@media (min-width:768px) {
+  .lead {
+    font-size: 1.5rem;
+  }
+}
+
+.small,
+small {
+  font-size: 85%;
+}
+
+.mark,
+mark {
+  background-color: #fcf8e3;
+  padding: .2em;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.text-lowercase {
+  text-transform: lowercase;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.text-muted {
+  color: #777;
+}
+
+.text-primary {
+  color: #337ab7;
+}
+
+a.text-primary:hover {
+  color: #286090;
+}
+
+.text-success {
+  color: #3c763d;
+}
+
+a.text-success:hover {
+  color: #2b542c;
+}
+
+.text-info {
+  color: #31708f;
+}
+
+a.text-info:hover {
+  color: #245269;
+}
+
+.text-warning {
+  color: #8a6d3b;
+}
+
+a.text-warning:hover {
+  color: #66512c;
+}
+
+.text-danger {
+  color: #a94442;
+}
+
+a.text-danger:hover {
+  color: #843534;
+}
+
+.bg-primary {
+  color: #fff;
+}
+
+.bg-primary {
+  background-color: #337ab7;
+}
+
+a.bg-primary:hover {
+  background-color: #286090;
+}
+
+.bg-success {
+  background-color: #dff0d8;
+}
+
+a.bg-success:hover {
+  background-color: #c1e2b3;
+}
+
+.bg-info {
+  background-color: #d9edf7;
+}
+
+a.bg-info:hover {
+  background-color: #afd9ee;
+}
+
+.bg-warning {
+  background-color: #fcf8e3;
+}
+
+a.bg-warning:hover {
+  background-color: #f7ecb5;
+}
+
+.bg-danger {
+  background-color: #f2dede;
+}
+
+a.bg-danger:hover {
+  background-color: #e4b9b9;
+}
+
+.page-header {
+  margin: 3.25rem 0 1.625rem;
+  border-bottom: 1px solid #eee;
+}
+
+ol,
+ul {
+  margin-top: 0;
+  margin-bottom: .8125rem;
+}
+
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+  margin-bottom: 0;
+}
+
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.list-inline {
+  padding-left: 0;
+  list-style: none;
+  margin-left: -5px;
+}
+
+.list-inline>li {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+dl {
+  margin-top: 0;
+  margin-bottom: 1.625rem;
+}
+
+dd,
+dt {
+  line-height: 1.625;
+}
+
+dt {
+  font-weight: 700;
+}
+
+dd {
+  margin-left: 0;
+}
+
+.dl-horizontal dd:after,
+.dl-horizontal dd:before {
+  content: " ";
+  display: table;
+}
+
+.dl-horizontal dd:after {
+  clear: both;
+}
+
+@media (min-width:768px) {
+  .dl-horizontal dt {
+    float: left;
+    width: 160px;
+    clear: left;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dl-horizontal dd {
+    margin-left: 180px;
+  }
+}
+
+abbr[data-original-title],
+abbr[title] {
+  cursor: help;
+  border-bottom: 1px dotted #777;
+}
+
+.initialism {
+  font-size: 90%;
+  text-transform: uppercase;
+}
+
+blockquote {
+  padding: .8125rem 1.625rem;
+  margin: 0 0 1.625rem;
+  font-size: 1.25rem;
+  border-left: 5px solid #eee;
+}
+
+blockquote ol:last-child,
+blockquote p:last-child,
+blockquote ul:last-child {
+  margin-bottom: 0;
+}
+
+blockquote .small,
+blockquote footer,
+blockquote small {
+  display: block;
+  font-size: 80%;
+  line-height: 1.625;
+  color: #777;
+}
+
+blockquote .small:before,
+blockquote footer:before,
+blockquote small:before {
+  content: '\2014 \00A0';
+}
+
+.blockquote-reverse,
+.footer blockquote.footer-links,
+blockquote.pull-right {
+  padding-right: 15px;
+  padding-left: 0;
+  border-right: 5px solid #eee;
+  border-left: 0;
+  text-align: right;
+}
+
+.blockquote-reverse .small:before,
+.blockquote-reverse footer:before,
+.blockquote-reverse small:before,
+.footer blockquote.footer-links .small:before,
+.footer blockquote.footer-links footer:before,
+.footer blockquote.footer-links small:before,
+blockquote.pull-right .small:before,
+blockquote.pull-right footer:before,
+blockquote.pull-right small:before {
+  content: '';
+}
+
+.blockquote-reverse .small:after,
+.blockquote-reverse footer:after,
+.blockquote-reverse small:after,
+.footer blockquote.footer-links .small:after,
+.footer blockquote.footer-links footer:after,
+.footer blockquote.footer-links small:after,
+blockquote.pull-right .small:after,
+blockquote.pull-right footer:after,
+blockquote.pull-right small:after {
+  content: '\00A0 \2014';
+}
+
+address {
+  margin-bottom: 1.625rem;
+  font-style: normal;
+  line-height: 1.625;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 7px;
+}
+
+kbd {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #fff;
+  background-color: #333;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.25);
+}
+
+kbd kbd {
+  padding: 0;
+  font-size: 100%;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+pre {
+  display: block;
+  padding: .3125rem;
+  margin: 0 0 .8125rem;
+  font-size: 0;
+  line-height: 1.625;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: #333;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+}
+
+pre code {
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.pre-scrollable {
+  max-height: 340px;
+  overflow-y: scroll;
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.container:after,
+.container:before {
+  content: " ";
+  display: table;
+}
+
+.container:after {
+  clear: both;
+}
+
+@media (min-width:768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width:992px) {
+  .container {
+    width: 970px;
+  }
+}
+
+@media (min-width:1200px) {
+  .container {
+    width: 1266px;
+  }
+}
+
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.container-fluid:after,
+.container-fluid:before {
+  content: " ";
+  display: table;
+}
+
+.container-fluid:after {
+  clear: both;
+}
+
+.admin-document-list,
+.document-dates .dates,
+.document-dates .dates-header,
+.document-edit-tabs .nav-tabs,
+.existing-date,
+.previous-features,
+.row,
+.social-login {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.admin-document-list:after,
+.admin-document-list:before,
+.document-dates .dates-header:after,
+.document-dates .dates-header:before,
+.document-dates .dates:after,
+.document-dates .dates:before,
+.document-edit-tabs .nav-tabs:after,
+.document-edit-tabs .nav-tabs:before,
+.existing-date:after,
+.existing-date:before,
+.previous-features:after,
+.previous-features:before,
+.row:after,
+.row:before,
+.social-login:after,
+.social-login:before {
+  content: " ";
+  display: table;
+}
+
+.admin-document-list:after,
+.document-dates .dates-header:after,
+.document-dates .dates:after,
+.document-edit-tabs .nav-tabs:after,
+.existing-date:after,
+.previous-features:after,
+.row:after,
+.social-login:after {
+  clear: both;
+}
+
+.admin-document-list .doc-date-sort,
+.admin-document-list .doc-filter,
+.admin-document-list .doc-search,
+.annotation-pane,
+.annotation-pane .title-header,
+.back-link,
+.chart-stat,
+.col-lg-1,
+.col-lg-10,
+.col-lg-11,
+.col-lg-12,
+.col-lg-13,
+.col-lg-14,
+.col-lg-15,
+.col-lg-16,
+.col-lg-17,
+.col-lg-18,
+.col-lg-19,
+.col-lg-2,
+.col-lg-20,
+.col-lg-21,
+.col-lg-22,
+.col-lg-23,
+.col-lg-24,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-8,
+.col-lg-9,
+.col-md-1,
+.col-md-10,
+.col-md-11,
+.col-md-12,
+.col-md-13,
+.col-md-14,
+.col-md-15,
+.col-md-16,
+.col-md-17,
+.col-md-18,
+.col-md-19,
+.col-md-2,
+.col-md-20,
+.col-md-21,
+.col-md-22,
+.col-md-23,
+.col-md-24,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-sm-1,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12,
+.col-sm-13,
+.col-sm-14,
+.col-sm-15,
+.col-sm-16,
+.col-sm-17,
+.col-sm-18,
+.col-sm-19,
+.col-sm-2,
+.col-sm-20,
+.col-sm-21,
+.col-sm-22,
+.col-sm-23,
+.col-sm-24,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9,
+.col-xs-1,
+.col-xs-10,
+.col-xs-11,
+.col-xs-12,
+.col-xs-13,
+.col-xs-14,
+.col-xs-15,
+.col-xs-16,
+.col-xs-17,
+.col-xs-18,
+.col-xs-19,
+.col-xs-2,
+.col-xs-20,
+.col-xs-21,
+.col-xs-22,
+.col-xs-23,
+.col-xs-24,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9,
+.doc-content,
+.doc-info,
+.doc-info-container,
+.doc-secondary-content,
+.doc-secondary-content .stats-number,
+.document-dates,
+.document-information,
+.home-feature,
+.main-feature .doc-content,
+.most-active,
+.recent-activity,
+.search-list,
+.social-login .oauth-login {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.chart-stat,
+.col-xs-1,
+.col-xs-10,
+.col-xs-11,
+.col-xs-12,
+.col-xs-13,
+.col-xs-14,
+.col-xs-15,
+.col-xs-16,
+.col-xs-17,
+.col-xs-18,
+.col-xs-19,
+.col-xs-2,
+.col-xs-20,
+.col-xs-21,
+.col-xs-22,
+.col-xs-23,
+.col-xs-24,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9,
+.doc-secondary-content .stats-number {
+  float: left;
+}
+
+.col-xs-1 {
+  width: 4.16667%;
+}
+
+.col-xs-2 {
+  width: 8.33333%;
+}
+
+.col-xs-3 {
+  width: 12.5%;
+}
+
+.col-xs-4 {
+  width: 16.66667%;
+}
+
+.col-xs-5 {
+  width: 20.83333%;
+}
+
+.col-xs-6 {
+  width: 25%;
+}
+
+.col-xs-7 {
+  width: 29.16667%;
+}
+
+.col-xs-8,
+.doc-secondary-content .stats-number {
+  width: 33.33333%;
+}
+
+.col-xs-9 {
+  width: 37.5%;
+}
+
+.col-xs-10 {
+  width: 41.66667%;
+}
+
+.col-xs-11 {
+  width: 45.83333%;
+}
+
+.chart-stat,
+.col-xs-12 {
+  width: 50%;
+}
+
+.col-xs-13 {
+  width: 54.16667%;
+}
+
+.col-xs-14 {
+  width: 58.33333%;
+}
+
+.col-xs-15 {
+  width: 62.5%;
+}
+
+.col-xs-16 {
+  width: 66.66667%;
+}
+
+.col-xs-17 {
+  width: 70.83333%;
+}
+
+.col-xs-18 {
+  width: 75%;
+}
+
+.col-xs-19 {
+  width: 79.16667%;
+}
+
+.col-xs-20 {
+  width: 83.33333%;
+}
+
+.col-xs-21 {
+  width: 87.5%;
+}
+
+.col-xs-22 {
+  width: 91.66667%;
+}
+
+.col-xs-23 {
+  width: 95.83333%;
+}
+
+.col-xs-24 {
+  width: 100%;
+}
+
+.col-xs-pull-0 {
+  right: auto;
+}
+
+.col-xs-pull-1 {
+  right: 4.16667%;
+}
+
+.col-xs-pull-2 {
+  right: 8.33333%;
+}
+
+.col-xs-pull-3 {
+  right: 12.5%;
+}
+
+.col-xs-pull-4 {
+  right: 16.66667%;
+}
+
+.col-xs-pull-5 {
+  right: 20.83333%;
+}
+
+.col-xs-pull-6 {
+  right: 25%;
+}
+
+.col-xs-pull-7 {
+  right: 29.16667%;
+}
+
+.col-xs-pull-8 {
+  right: 33.33333%;
+}
+
+.col-xs-pull-9 {
+  right: 37.5%;
+}
+
+.col-xs-pull-10 {
+  right: 41.66667%;
+}
+
+.col-xs-pull-11 {
+  right: 45.83333%;
+}
+
+.col-xs-pull-12 {
+  right: 50%;
+}
+
+.col-xs-pull-13 {
+  right: 54.16667%;
+}
+
+.col-xs-pull-14 {
+  right: 58.33333%;
+}
+
+.col-xs-pull-15 {
+  right: 62.5%;
+}
+
+.col-xs-pull-16 {
+  right: 66.66667%;
+}
+
+.col-xs-pull-17 {
+  right: 70.83333%;
+}
+
+.col-xs-pull-18 {
+  right: 75%;
+}
+
+.col-xs-pull-19 {
+  right: 79.16667%;
+}
+
+.col-xs-pull-20 {
+  right: 83.33333%;
+}
+
+.col-xs-pull-21 {
+  right: 87.5%;
+}
+
+.col-xs-pull-22 {
+  right: 91.66667%;
+}
+
+.col-xs-pull-23 {
+  right: 95.83333%;
+}
+
+.col-xs-pull-24 {
+  right: 100%;
+}
+
+.col-xs-push-0 {
+  left: auto;
+}
+
+.col-xs-push-1 {
+  left: 4.16667%;
+}
+
+.col-xs-push-2 {
+  left: 8.33333%;
+}
+
+.col-xs-push-3 {
+  left: 12.5%;
+}
+
+.col-xs-push-4 {
+  left: 16.66667%;
+}
+
+.col-xs-push-5 {
+  left: 20.83333%;
+}
+
+.col-xs-push-6 {
+  left: 25%;
+}
+
+.col-xs-push-7 {
+  left: 29.16667%;
+}
+
+.col-xs-push-8 {
+  left: 33.33333%;
+}
+
+.col-xs-push-9 {
+  left: 37.5%;
+}
+
+.col-xs-push-10 {
+  left: 41.66667%;
+}
+
+.col-xs-push-11 {
+  left: 45.83333%;
+}
+
+.col-xs-push-12 {
+  left: 50%;
+}
+
+.col-xs-push-13 {
+  left: 54.16667%;
+}
+
+.col-xs-push-14 {
+  left: 58.33333%;
+}
+
+.col-xs-push-15 {
+  left: 62.5%;
+}
+
+.col-xs-push-16 {
+  left: 66.66667%;
+}
+
+.col-xs-push-17 {
+  left: 70.83333%;
+}
+
+.col-xs-push-18 {
+  left: 75%;
+}
+
+.col-xs-push-19 {
+  left: 79.16667%;
+}
+
+.col-xs-push-20 {
+  left: 83.33333%;
+}
+
+.col-xs-push-21 {
+  left: 87.5%;
+}
+
+.col-xs-push-22 {
+  left: 91.66667%;
+}
+
+.col-xs-push-23 {
+  left: 95.83333%;
+}
+
+.col-xs-push-24 {
+  left: 100%;
+}
+
+.col-xs-offset-0 {
+  margin-left: 0;
+}
+
+.col-xs-offset-1 {
+  margin-left: 4.16667%;
+}
+
+.col-xs-offset-2 {
+  margin-left: 8.33333%;
+}
+
+.col-xs-offset-3 {
+  margin-left: 12.5%;
+}
+
+.col-xs-offset-4 {
+  margin-left: 16.66667%;
+}
+
+.col-xs-offset-5 {
+  margin-left: 20.83333%;
+}
+
+.col-xs-offset-6 {
+  margin-left: 25%;
+}
+
+.col-xs-offset-7 {
+  margin-left: 29.16667%;
+}
+
+.col-xs-offset-8 {
+  margin-left: 33.33333%;
+}
+
+.col-xs-offset-9 {
+  margin-left: 37.5%;
+}
+
+.col-xs-offset-10 {
+  margin-left: 41.66667%;
+}
+
+.col-xs-offset-11 {
+  margin-left: 45.83333%;
+}
+
+.col-xs-offset-12 {
+  margin-left: 50%;
+}
+
+.col-xs-offset-13 {
+  margin-left: 54.16667%;
+}
+
+.col-xs-offset-14 {
+  margin-left: 58.33333%;
+}
+
+.col-xs-offset-15 {
+  margin-left: 62.5%;
+}
+
+.col-xs-offset-16 {
+  margin-left: 66.66667%;
+}
+
+.col-xs-offset-17 {
+  margin-left: 70.83333%;
+}
+
+.col-xs-offset-18 {
+  margin-left: 75%;
+}
+
+.col-xs-offset-19 {
+  margin-left: 79.16667%;
+}
+
+.col-xs-offset-20 {
+  margin-left: 83.33333%;
+}
+
+.col-xs-offset-21 {
+  margin-left: 87.5%;
+}
+
+.col-xs-offset-22 {
+  margin-left: 91.66667%;
+}
+
+.col-xs-offset-23 {
+  margin-left: 95.83333%;
+}
+
+.col-xs-offset-24 {
+  margin-left: 100%;
+}
+
+@media (min-width:768px) {
+  .col-sm-1,
+  .col-sm-10,
+  .col-sm-11,
+  .col-sm-12,
+  .col-sm-13,
+  .col-sm-14,
+  .col-sm-15,
+  .col-sm-16,
+  .col-sm-17,
+  .col-sm-18,
+  .col-sm-19,
+  .col-sm-2,
+  .col-sm-20,
+  .col-sm-21,
+  .col-sm-22,
+  .col-sm-23,
+  .col-sm-24,
+  .col-sm-3,
+  .col-sm-4,
+  .col-sm-5,
+  .col-sm-6,
+  .col-sm-7,
+  .col-sm-8,
+  .col-sm-9,
+  .doc-info {
+    float: left;
+  }
+
+  .col-sm-1 {
+    width: 4.16667%;
+  }
+
+  .col-sm-2 {
+    width: 8.33333%;
+  }
+
+  .col-sm-3 {
+    width: 12.5%;
+  }
+
+  .col-sm-4 {
+    width: 16.66667%;
+  }
+
+  .col-sm-5 {
+    width: 20.83333%;
+  }
+
+  .col-sm-6 {
+    width: 25%;
+  }
+
+  .col-sm-7 {
+    width: 29.16667%;
+  }
+
+  .col-sm-8 {
+    width: 33.33333%;
+  }
+
+  .col-sm-9 {
+    width: 37.5%;
+  }
+
+  .col-sm-10 {
+    width: 41.66667%;
+  }
+
+  .col-sm-11 {
+    width: 45.83333%;
+  }
+
+  .col-sm-12 {
+    width: 50%;
+  }
+
+  .col-sm-13 {
+    width: 54.16667%;
+  }
+
+  .col-sm-14 {
+    width: 58.33333%;
+  }
+
+  .col-sm-15 {
+    width: 62.5%;
+  }
+
+  .col-sm-16 {
+    width: 66.66667%;
+  }
+
+  .col-sm-17 {
+    width: 70.83333%;
+  }
+
+  .col-sm-18 {
+    width: 75%;
+  }
+
+  .col-sm-19 {
+    width: 79.16667%;
+  }
+
+  .col-sm-20 {
+    width: 83.33333%;
+  }
+
+  .col-sm-21 {
+    width: 87.5%;
+  }
+
+  .col-sm-22 {
+    width: 91.66667%;
+  }
+
+  .col-sm-23 {
+    width: 95.83333%;
+  }
+
+  .col-sm-24,
+  .doc-info {
+    width: 100%;
+  }
+
+  .col-sm-pull-0 {
+    right: auto;
+  }
+
+  .col-sm-pull-1 {
+    right: 4.16667%;
+  }
+
+  .col-sm-pull-2 {
+    right: 8.33333%;
+  }
+
+  .col-sm-pull-3 {
+    right: 12.5%;
+  }
+
+  .col-sm-pull-4 {
+    right: 16.66667%;
+  }
+
+  .col-sm-pull-5 {
+    right: 20.83333%;
+  }
+
+  .col-sm-pull-6 {
+    right: 25%;
+  }
+
+  .col-sm-pull-7 {
+    right: 29.16667%;
+  }
+
+  .col-sm-pull-8 {
+    right: 33.33333%;
+  }
+
+  .col-sm-pull-9 {
+    right: 37.5%;
+  }
+
+  .col-sm-pull-10 {
+    right: 41.66667%;
+  }
+
+  .col-sm-pull-11 {
+    right: 45.83333%;
+  }
+
+  .col-sm-pull-12 {
+    right: 50%;
+  }
+
+  .col-sm-pull-13 {
+    right: 54.16667%;
+  }
+
+  .col-sm-pull-14 {
+    right: 58.33333%;
+  }
+
+  .col-sm-pull-15 {
+    right: 62.5%;
+  }
+
+  .col-sm-pull-16 {
+    right: 66.66667%;
+  }
+
+  .col-sm-pull-17 {
+    right: 70.83333%;
+  }
+
+  .col-sm-pull-18 {
+    right: 75%;
+  }
+
+  .col-sm-pull-19 {
+    right: 79.16667%;
+  }
+
+  .col-sm-pull-20 {
+    right: 83.33333%;
+  }
+
+  .col-sm-pull-21 {
+    right: 87.5%;
+  }
+
+  .col-sm-pull-22 {
+    right: 91.66667%;
+  }
+
+  .col-sm-pull-23 {
+    right: 95.83333%;
+  }
+
+  .col-sm-pull-24 {
+    right: 100%;
+  }
+
+  .col-sm-push-0 {
+    left: auto;
+  }
+
+  .col-sm-push-1 {
+    left: 4.16667%;
+  }
+
+  .col-sm-push-2 {
+    left: 8.33333%;
+  }
+
+  .col-sm-push-3 {
+    left: 12.5%;
+  }
+
+  .col-sm-push-4 {
+    left: 16.66667%;
+  }
+
+  .col-sm-push-5 {
+    left: 20.83333%;
+  }
+
+  .col-sm-push-6 {
+    left: 25%;
+  }
+
+  .col-sm-push-7 {
+    left: 29.16667%;
+  }
+
+  .col-sm-push-8 {
+    left: 33.33333%;
+  }
+
+  .col-sm-push-9 {
+    left: 37.5%;
+  }
+
+  .col-sm-push-10 {
+    left: 41.66667%;
+  }
+
+  .col-sm-push-11 {
+    left: 45.83333%;
+  }
+
+  .col-sm-push-12 {
+    left: 50%;
+  }
+
+  .col-sm-push-13 {
+    left: 54.16667%;
+  }
+
+  .col-sm-push-14 {
+    left: 58.33333%;
+  }
+
+  .col-sm-push-15 {
+    left: 62.5%;
+  }
+
+  .col-sm-push-16 {
+    left: 66.66667%;
+  }
+
+  .col-sm-push-17 {
+    left: 70.83333%;
+  }
+
+  .col-sm-push-18 {
+    left: 75%;
+  }
+
+  .col-sm-push-19 {
+    left: 79.16667%;
+  }
+
+  .col-sm-push-20 {
+    left: 83.33333%;
+  }
+
+  .col-sm-push-21 {
+    left: 87.5%;
+  }
+
+  .col-sm-push-22 {
+    left: 91.66667%;
+  }
+
+  .col-sm-push-23 {
+    left: 95.83333%;
+  }
+
+  .col-sm-push-24 {
+    left: 100%;
+  }
+
+  .col-sm-offset-0 {
+    margin-left: 0;
+  }
+
+  .col-sm-offset-1 {
+    margin-left: 4.16667%;
+  }
+
+  .col-sm-offset-2 {
+    margin-left: 8.33333%;
+  }
+
+  .col-sm-offset-3 {
+    margin-left: 12.5%;
+  }
+
+  .col-sm-offset-4 {
+    margin-left: 16.66667%;
+  }
+
+  .col-sm-offset-5 {
+    margin-left: 20.83333%;
+  }
+
+  .col-sm-offset-6 {
+    margin-left: 25%;
+  }
+
+  .col-sm-offset-7 {
+    margin-left: 29.16667%;
+  }
+
+  .col-sm-offset-8 {
+    margin-left: 33.33333%;
+  }
+
+  .col-sm-offset-9 {
+    margin-left: 37.5%;
+  }
+
+  .col-sm-offset-10 {
+    margin-left: 41.66667%;
+  }
+
+  .col-sm-offset-11 {
+    margin-left: 45.83333%;
+  }
+
+  .col-sm-offset-12 {
+    margin-left: 50%;
+  }
+
+  .col-sm-offset-13 {
+    margin-left: 54.16667%;
+  }
+
+  .col-sm-offset-14 {
+    margin-left: 58.33333%;
+  }
+
+  .col-sm-offset-15 {
+    margin-left: 62.5%;
+  }
+
+  .col-sm-offset-16 {
+    margin-left: 66.66667%;
+  }
+
+  .col-sm-offset-17 {
+    margin-left: 70.83333%;
+  }
+
+  .col-sm-offset-18 {
+    margin-left: 75%;
+  }
+
+  .col-sm-offset-19 {
+    margin-left: 79.16667%;
+  }
+
+  .col-sm-offset-20 {
+    margin-left: 83.33333%;
+  }
+
+  .col-sm-offset-21 {
+    margin-left: 87.5%;
+  }
+
+  .col-sm-offset-22 {
+    margin-left: 91.66667%;
+  }
+
+  .col-sm-offset-23 {
+    margin-left: 95.83333%;
+  }
+
+  .col-sm-offset-24 {
+    margin-left: 100%;
+  }
+}
+
+@media (min-width:992px) {
+  .admin-document-list .doc-date-sort,
+  .admin-document-list .doc-filter,
+  .admin-document-list .doc-search,
+  .annotation-pane,
+  .annotation-pane .title-header,
+  .back-link,
+  .col-md-1,
+  .col-md-10,
+  .col-md-11,
+  .col-md-12,
+  .col-md-13,
+  .col-md-14,
+  .col-md-15,
+  .col-md-16,
+  .col-md-17,
+  .col-md-18,
+  .col-md-19,
+  .col-md-2,
+  .col-md-20,
+  .col-md-21,
+  .col-md-22,
+  .col-md-23,
+  .col-md-24,
+  .col-md-3,
+  .col-md-4,
+  .col-md-5,
+  .col-md-6,
+  .col-md-7,
+  .col-md-8,
+  .col-md-9,
+  .doc-content,
+  .doc-info-container,
+  .doc-secondary-content,
+  .document-dates,
+  .document-information,
+  .home-feature,
+  .main-feature .doc-content,
+  .most-active,
+  .recent-activity,
+  .search-list,
+  .social-login .oauth-login {
+    float: left;
+  }
+
+  .col-md-1 {
+    width: 4.16667%;
+  }
+
+  .col-md-2 {
+    width: 8.33333%;
+  }
+
+  .col-md-3 {
+    width: 12.5%;
+  }
+
+  .col-md-4 {
+    width: 16.66667%;
+  }
+
+  .col-md-5 {
+    width: 20.83333%;
+  }
+
+  .admin-document-list .doc-date-sort,
+  .admin-document-list .doc-filter,
+  .col-md-6,
+  .social-login .oauth-login {
+    width: 25%;
+  }
+
+  .col-md-7,
+  .document-dates {
+    width: 29.16667%;
+  }
+
+  .annotation-pane,
+  .annotation-pane .title-header,
+  .col-md-8,
+  .doc-secondary-content {
+    width: 33.33333%;
+  }
+
+  .col-md-9 {
+    width: 37.5%;
+  }
+
+  .col-md-10 {
+    width: 41.66667%;
+  }
+
+  .col-md-11 {
+    width: 45.83333%;
+  }
+
+  .admin-document-list .doc-search,
+  .col-md-12,
+  .home-feature,
+  .most-active,
+  .recent-activity,
+  .search-list {
+    width: 50%;
+  }
+
+  .col-md-13 {
+    width: 54.16667%;
+  }
+
+  .col-md-14,
+  .document-information {
+    width: 58.33333%;
+  }
+
+  .col-md-15 {
+    width: 62.5%;
+  }
+
+  .col-md-16,
+  .doc-content,
+  .doc-info-container {
+    width: 66.66667%;
+  }
+
+  .col-md-17 {
+    width: 70.83333%;
+  }
+
+  .col-md-18 {
+    width: 75%;
+  }
+
+  .col-md-19 {
+    width: 79.16667%;
+  }
+
+  .col-md-20 {
+    width: 83.33333%;
+  }
+
+  .col-md-21 {
+    width: 87.5%;
+  }
+
+  .col-md-22 {
+    width: 91.66667%;
+  }
+
+  .col-md-23 {
+    width: 95.83333%;
+  }
+
+  .back-link,
+  .col-md-24,
+  .main-feature .doc-content {
+    width: 100%;
+  }
+
+  .col-md-pull-0 {
+    right: auto;
+  }
+
+  .col-md-pull-1 {
+    right: 4.16667%;
+  }
+
+  .col-md-pull-2 {
+    right: 8.33333%;
+  }
+
+  .col-md-pull-3 {
+    right: 12.5%;
+  }
+
+  .col-md-pull-4 {
+    right: 16.66667%;
+  }
+
+  .col-md-pull-5 {
+    right: 20.83333%;
+  }
+
+  .col-md-pull-6 {
+    right: 25%;
+  }
+
+  .col-md-pull-7 {
+    right: 29.16667%;
+  }
+
+  .col-md-pull-8 {
+    right: 33.33333%;
+  }
+
+  .col-md-pull-9 {
+    right: 37.5%;
+  }
+
+  .col-md-pull-10 {
+    right: 41.66667%;
+  }
+
+  .col-md-pull-11 {
+    right: 45.83333%;
+  }
+
+  .col-md-pull-12 {
+    right: 50%;
+  }
+
+  .col-md-pull-13 {
+    right: 54.16667%;
+  }
+
+  .col-md-pull-14 {
+    right: 58.33333%;
+  }
+
+  .col-md-pull-15 {
+    right: 62.5%;
+  }
+
+  .col-md-pull-16 {
+    right: 66.66667%;
+  }
+
+  .col-md-pull-17 {
+    right: 70.83333%;
+  }
+
+  .col-md-pull-18 {
+    right: 75%;
+  }
+
+  .col-md-pull-19 {
+    right: 79.16667%;
+  }
+
+  .col-md-pull-20 {
+    right: 83.33333%;
+  }
+
+  .col-md-pull-21 {
+    right: 87.5%;
+  }
+
+  .col-md-pull-22 {
+    right: 91.66667%;
+  }
+
+  .col-md-pull-23 {
+    right: 95.83333%;
+  }
+
+  .col-md-pull-24 {
+    right: 100%;
+  }
+
+  .col-md-push-0 {
+    left: auto;
+  }
+
+  .col-md-push-1 {
+    left: 4.16667%;
+  }
+
+  .col-md-push-2 {
+    left: 8.33333%;
+  }
+
+  .col-md-push-3 {
+    left: 12.5%;
+  }
+
+  .col-md-push-4 {
+    left: 16.66667%;
+  }
+
+  .col-md-push-5 {
+    left: 20.83333%;
+  }
+
+  .col-md-push-6 {
+    left: 25%;
+  }
+
+  .col-md-push-7 {
+    left: 29.16667%;
+  }
+
+  .col-md-push-8 {
+    left: 33.33333%;
+  }
+
+  .col-md-push-9 {
+    left: 37.5%;
+  }
+
+  .col-md-push-10 {
+    left: 41.66667%;
+  }
+
+  .col-md-push-11 {
+    left: 45.83333%;
+  }
+
+  .col-md-push-12 {
+    left: 50%;
+  }
+
+  .col-md-push-13 {
+    left: 54.16667%;
+  }
+
+  .col-md-push-14 {
+    left: 58.33333%;
+  }
+
+  .col-md-push-15 {
+    left: 62.5%;
+  }
+
+  .col-md-push-16 {
+    left: 66.66667%;
+  }
+
+  .col-md-push-17 {
+    left: 70.83333%;
+  }
+
+  .col-md-push-18 {
+    left: 75%;
+  }
+
+  .col-md-push-19 {
+    left: 79.16667%;
+  }
+
+  .col-md-push-20 {
+    left: 83.33333%;
+  }
+
+  .col-md-push-21 {
+    left: 87.5%;
+  }
+
+  .col-md-push-22 {
+    left: 91.66667%;
+  }
+
+  .col-md-push-23 {
+    left: 95.83333%;
+  }
+
+  .col-md-push-24 {
+    left: 100%;
+  }
+
+  .col-md-offset-0 {
+    margin-left: 0;
+  }
+
+  .col-md-offset-1,
+  .document-dates {
+    margin-left: 4.16667%;
+  }
+
+  .col-md-offset-2 {
+    margin-left: 8.33333%;
+  }
+
+  .col-md-offset-3 {
+    margin-left: 12.5%;
+  }
+
+  .col-md-offset-4 {
+    margin-left: 16.66667%;
+  }
+
+  .col-md-offset-5 {
+    margin-left: 20.83333%;
+  }
+
+  .col-md-offset-6 {
+    margin-left: 25%;
+  }
+
+  .col-md-offset-7 {
+    margin-left: 29.16667%;
+  }
+
+  .col-md-offset-8 {
+    margin-left: 33.33333%;
+  }
+
+  .col-md-offset-9 {
+    margin-left: 37.5%;
+  }
+
+  .col-md-offset-10 {
+    margin-left: 41.66667%;
+  }
+
+  .col-md-offset-11 {
+    margin-left: 45.83333%;
+  }
+
+  .col-md-offset-12 {
+    margin-left: 50%;
+  }
+
+  .col-md-offset-13 {
+    margin-left: 54.16667%;
+  }
+
+  .col-md-offset-14 {
+    margin-left: 58.33333%;
+  }
+
+  .col-md-offset-15 {
+    margin-left: 62.5%;
+  }
+
+  .col-md-offset-16 {
+    margin-left: 66.66667%;
+  }
+
+  .col-md-offset-17 {
+    margin-left: 70.83333%;
+  }
+
+  .col-md-offset-18 {
+    margin-left: 75%;
+  }
+
+  .col-md-offset-19 {
+    margin-left: 79.16667%;
+  }
+
+  .col-md-offset-20 {
+    margin-left: 83.33333%;
+  }
+
+  .col-md-offset-21 {
+    margin-left: 87.5%;
+  }
+
+  .col-md-offset-22 {
+    margin-left: 91.66667%;
+  }
+
+  .col-md-offset-23 {
+    margin-left: 95.83333%;
+  }
+
+  .col-md-offset-24 {
+    margin-left: 100%;
+  }
+}
+
+@media (min-width:1200px) {
+  .col-lg-1,
+  .col-lg-10,
+  .col-lg-11,
+  .col-lg-12,
+  .col-lg-13,
+  .col-lg-14,
+  .col-lg-15,
+  .col-lg-16,
+  .col-lg-17,
+  .col-lg-18,
+  .col-lg-19,
+  .col-lg-2,
+  .col-lg-20,
+  .col-lg-21,
+  .col-lg-22,
+  .col-lg-23,
+  .col-lg-24,
+  .col-lg-3,
+  .col-lg-4,
+  .col-lg-5,
+  .col-lg-6,
+  .col-lg-7,
+  .col-lg-8,
+  .col-lg-9 {
+    float: left;
+  }
+
+  .col-lg-1 {
+    width: 4.16667%;
+  }
+
+  .col-lg-2 {
+    width: 8.33333%;
+  }
+
+  .col-lg-3 {
+    width: 12.5%;
+  }
+
+  .col-lg-4 {
+    width: 16.66667%;
+  }
+
+  .col-lg-5 {
+    width: 20.83333%;
+  }
+
+  .col-lg-6 {
+    width: 25%;
+  }
+
+  .col-lg-7 {
+    width: 29.16667%;
+  }
+
+  .col-lg-8 {
+    width: 33.33333%;
+  }
+
+  .col-lg-9 {
+    width: 37.5%;
+  }
+
+  .col-lg-10 {
+    width: 41.66667%;
+  }
+
+  .col-lg-11 {
+    width: 45.83333%;
+  }
+
+  .col-lg-12 {
+    width: 50%;
+  }
+
+  .col-lg-13 {
+    width: 54.16667%;
+  }
+
+  .col-lg-14 {
+    width: 58.33333%;
+  }
+
+  .col-lg-15 {
+    width: 62.5%;
+  }
+
+  .col-lg-16 {
+    width: 66.66667%;
+  }
+
+  .col-lg-17 {
+    width: 70.83333%;
+  }
+
+  .col-lg-18 {
+    width: 75%;
+  }
+
+  .col-lg-19 {
+    width: 79.16667%;
+  }
+
+  .col-lg-20 {
+    width: 83.33333%;
+  }
+
+  .col-lg-21 {
+    width: 87.5%;
+  }
+
+  .col-lg-22 {
+    width: 91.66667%;
+  }
+
+  .col-lg-23 {
+    width: 95.83333%;
+  }
+
+  .col-lg-24 {
+    width: 100%;
+  }
+
+  .col-lg-pull-0 {
+    right: auto;
+  }
+
+  .col-lg-pull-1 {
+    right: 4.16667%;
+  }
+
+  .col-lg-pull-2 {
+    right: 8.33333%;
+  }
+
+  .col-lg-pull-3 {
+    right: 12.5%;
+  }
+
+  .col-lg-pull-4 {
+    right: 16.66667%;
+  }
+
+  .col-lg-pull-5 {
+    right: 20.83333%;
+  }
+
+  .col-lg-pull-6 {
+    right: 25%;
+  }
+
+  .col-lg-pull-7 {
+    right: 29.16667%;
+  }
+
+  .col-lg-pull-8 {
+    right: 33.33333%;
+  }
+
+  .col-lg-pull-9 {
+    right: 37.5%;
+  }
+
+  .col-lg-pull-10 {
+    right: 41.66667%;
+  }
+
+  .col-lg-pull-11 {
+    right: 45.83333%;
+  }
+
+  .col-lg-pull-12 {
+    right: 50%;
+  }
+
+  .col-lg-pull-13 {
+    right: 54.16667%;
+  }
+
+  .col-lg-pull-14 {
+    right: 58.33333%;
+  }
+
+  .col-lg-pull-15 {
+    right: 62.5%;
+  }
+
+  .col-lg-pull-16 {
+    right: 66.66667%;
+  }
+
+  .col-lg-pull-17 {
+    right: 70.83333%;
+  }
+
+  .col-lg-pull-18 {
+    right: 75%;
+  }
+
+  .col-lg-pull-19 {
+    right: 79.16667%;
+  }
+
+  .col-lg-pull-20 {
+    right: 83.33333%;
+  }
+
+  .col-lg-pull-21 {
+    right: 87.5%;
+  }
+
+  .col-lg-pull-22 {
+    right: 91.66667%;
+  }
+
+  .col-lg-pull-23 {
+    right: 95.83333%;
+  }
+
+  .col-lg-pull-24 {
+    right: 100%;
+  }
+
+  .col-lg-push-0 {
+    left: auto;
+  }
+
+  .col-lg-push-1 {
+    left: 4.16667%;
+  }
+
+  .col-lg-push-2 {
+    left: 8.33333%;
+  }
+
+  .col-lg-push-3 {
+    left: 12.5%;
+  }
+
+  .col-lg-push-4 {
+    left: 16.66667%;
+  }
+
+  .col-lg-push-5 {
+    left: 20.83333%;
+  }
+
+  .col-lg-push-6 {
+    left: 25%;
+  }
+
+  .col-lg-push-7 {
+    left: 29.16667%;
+  }
+
+  .col-lg-push-8 {
+    left: 33.33333%;
+  }
+
+  .col-lg-push-9 {
+    left: 37.5%;
+  }
+
+  .col-lg-push-10 {
+    left: 41.66667%;
+  }
+
+  .col-lg-push-11 {
+    left: 45.83333%;
+  }
+
+  .col-lg-push-12 {
+    left: 50%;
+  }
+
+  .col-lg-push-13 {
+    left: 54.16667%;
+  }
+
+  .col-lg-push-14 {
+    left: 58.33333%;
+  }
+
+  .col-lg-push-15 {
+    left: 62.5%;
+  }
+
+  .col-lg-push-16 {
+    left: 66.66667%;
+  }
+
+  .col-lg-push-17 {
+    left: 70.83333%;
+  }
+
+  .col-lg-push-18 {
+    left: 75%;
+  }
+
+  .col-lg-push-19 {
+    left: 79.16667%;
+  }
+
+  .col-lg-push-20 {
+    left: 83.33333%;
+  }
+
+  .col-lg-push-21 {
+    left: 87.5%;
+  }
+
+  .col-lg-push-22 {
+    left: 91.66667%;
+  }
+
+  .col-lg-push-23 {
+    left: 95.83333%;
+  }
+
+  .col-lg-push-24 {
+    left: 100%;
+  }
+
+  .col-lg-offset-0 {
+    margin-left: 0;
+  }
+
+  .col-lg-offset-1 {
+    margin-left: 4.16667%;
+  }
+
+  .col-lg-offset-2 {
+    margin-left: 8.33333%;
+  }
+
+  .col-lg-offset-3 {
+    margin-left: 12.5%;
+  }
+
+  .col-lg-offset-4 {
+    margin-left: 16.66667%;
+  }
+
+  .col-lg-offset-5 {
+    margin-left: 20.83333%;
+  }
+
+  .col-lg-offset-6 {
+    margin-left: 25%;
+  }
+
+  .col-lg-offset-7 {
+    margin-left: 29.16667%;
+  }
+
+  .col-lg-offset-8 {
+    margin-left: 33.33333%;
+  }
+
+  .col-lg-offset-9 {
+    margin-left: 37.5%;
+  }
+
+  .col-lg-offset-10 {
+    margin-left: 41.66667%;
+  }
+
+  .col-lg-offset-11 {
+    margin-left: 45.83333%;
+  }
+
+  .col-lg-offset-12 {
+    margin-left: 50%;
+  }
+
+  .col-lg-offset-13 {
+    margin-left: 54.16667%;
+  }
+
+  .col-lg-offset-14 {
+    margin-left: 58.33333%;
+  }
+
+  .col-lg-offset-15 {
+    margin-left: 62.5%;
+  }
+
+  .col-lg-offset-16 {
+    margin-left: 66.66667%;
+  }
+
+  .col-lg-offset-17 {
+    margin-left: 70.83333%;
+  }
+
+  .col-lg-offset-18 {
+    margin-left: 75%;
+  }
+
+  .col-lg-offset-19 {
+    margin-left: 79.16667%;
+  }
+
+  .col-lg-offset-20 {
+    margin-left: 83.33333%;
+  }
+
+  .col-lg-offset-21 {
+    margin-left: 87.5%;
+  }
+
+  .col-lg-offset-22 {
+    margin-left: 91.66667%;
+  }
+
+  .col-lg-offset-23 {
+    margin-left: 95.83333%;
+  }
+
+  .col-lg-offset-24 {
+    margin-left: 100%;
+  }
+}
+
+table {
+  background-color: transparent;
+}
+
+caption {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  color: #777;
+  text-align: left;
+}
+
+th {
+  text-align: left;
+}
+
+.deleted-docs-list table,
+.featured-document-list,
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1.625rem;
+}
+
+.deleted-docs-list table>tbody>tr>td,
+.deleted-docs-list table>tbody>tr>th,
+.deleted-docs-list table>tfoot>tr>td,
+.deleted-docs-list table>tfoot>tr>th,
+.deleted-docs-list table>thead>tr>td,
+.deleted-docs-list table>thead>tr>th,
+.featured-document-list>tbody>tr>td,
+.featured-document-list>tbody>tr>th,
+.featured-document-list>tfoot>tr>td,
+.featured-document-list>tfoot>tr>th,
+.featured-document-list>thead>tr>td,
+.featured-document-list>thead>tr>th,
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+  padding: 1rem;
+  line-height: 1.625;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+
+.deleted-docs-list table>thead>tr>th,
+.featured-document-list>thead>tr>th,
+.table>thead>tr>th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #ddd;
+}
+
+.deleted-docs-list table>caption+thead>tr:first-child>td,
+.deleted-docs-list table>caption+thead>tr:first-child>th,
+.deleted-docs-list table>colgroup+thead>tr:first-child>td,
+.deleted-docs-list table>colgroup+thead>tr:first-child>th,
+.deleted-docs-list table>thead:first-child>tr:first-child>td,
+.deleted-docs-list table>thead:first-child>tr:first-child>th,
+.featured-document-list>caption+thead>tr:first-child>td,
+.featured-document-list>caption+thead>tr:first-child>th,
+.featured-document-list>colgroup+thead>tr:first-child>td,
+.featured-document-list>colgroup+thead>tr:first-child>th,
+.featured-document-list>thead:first-child>tr:first-child>td,
+.featured-document-list>thead:first-child>tr:first-child>th,
+.table>caption+thead>tr:first-child>td,
+.table>caption+thead>tr:first-child>th,
+.table>colgroup+thead>tr:first-child>td,
+.table>colgroup+thead>tr:first-child>th,
+.table>thead:first-child>tr:first-child>td,
+.table>thead:first-child>tr:first-child>th {
+  border-top: 0;
+}
+
+.deleted-docs-list table>tbody+tbody,
+.featured-document-list>tbody+tbody,
+.table>tbody+tbody {
+  border-top: 2px solid #ddd;
+}
+
+.deleted-docs-list .featured-document-list table,
+.deleted-docs-list .table table,
+.deleted-docs-list table .featured-document-list,
+.deleted-docs-list table .table,
+.deleted-docs-list table table,
+.featured-document-list .deleted-docs-list table,
+.featured-document-list .featured-document-list,
+.featured-document-list .table,
+.table .deleted-docs-list table,
+.table .featured-document-list,
+.table .table {
+  background-color: #fff;
+}
+
+.table-condensed>tbody>tr>td,
+.table-condensed>tbody>tr>th,
+.table-condensed>tfoot>tr>td,
+.table-condensed>tfoot>tr>th,
+.table-condensed>thead>tr>td,
+.table-condensed>thead>tr>th {
+  padding: .5rem;
+}
+
+.table-bordered {
+  border: 1px solid #ddd;
+}
+
+.table-bordered>tbody>tr>td,
+.table-bordered>tbody>tr>th,
+.table-bordered>tfoot>tr>td,
+.table-bordered>tfoot>tr>th,
+.table-bordered>thead>tr>td,
+.table-bordered>thead>tr>th {
+  border: 1px solid #ddd;
+}
+
+.table-bordered>thead>tr>td,
+.table-bordered>thead>tr>th {
+  border-bottom-width: 2px;
+}
+
+.featured-document-list>tbody>tr:nth-of-type(odd),
+.table-striped>tbody>tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
+.table-hover>tbody>tr:hover {
+  background-color: #f5f5f5;
+}
+
+table col[class*=col-] {
+  position: static;
+  float: none;
+  display: table-column;
+}
+
+table td[class*=col-],
+table th[class*=col-] {
+  position: static;
+  float: none;
+  display: table-cell;
+}
+
+.deleted-docs-list table>tbody>tr.active>td,
+.deleted-docs-list table>tbody>tr.active>th,
+.deleted-docs-list table>tbody>tr>td.active,
+.deleted-docs-list table>tbody>tr>th.active,
+.deleted-docs-list table>tfoot>tr.active>td,
+.deleted-docs-list table>tfoot>tr.active>th,
+.deleted-docs-list table>tfoot>tr>td.active,
+.deleted-docs-list table>tfoot>tr>th.active,
+.deleted-docs-list table>thead>tr.active>td,
+.deleted-docs-list table>thead>tr.active>th,
+.deleted-docs-list table>thead>tr>td.active,
+.deleted-docs-list table>thead>tr>th.active,
+.featured-document-list>tbody>tr.active>td,
+.featured-document-list>tbody>tr.active>th,
+.featured-document-list>tbody>tr>td.active,
+.featured-document-list>tbody>tr>th.active,
+.featured-document-list>tfoot>tr.active>td,
+.featured-document-list>tfoot>tr.active>th,
+.featured-document-list>tfoot>tr>td.active,
+.featured-document-list>tfoot>tr>th.active,
+.featured-document-list>thead>tr.active>td,
+.featured-document-list>thead>tr.active>th,
+.featured-document-list>thead>tr>td.active,
+.featured-document-list>thead>tr>th.active,
+.table>tbody>tr.active>td,
+.table>tbody>tr.active>th,
+.table>tbody>tr>td.active,
+.table>tbody>tr>th.active,
+.table>tfoot>tr.active>td,
+.table>tfoot>tr.active>th,
+.table>tfoot>tr>td.active,
+.table>tfoot>tr>th.active,
+.table>thead>tr.active>td,
+.table>thead>tr.active>th,
+.table>thead>tr>td.active,
+.table>thead>tr>th.active {
+  background-color: #f5f5f5;
+}
+
+.table-hover>tbody>tr.active:hover>td,
+.table-hover>tbody>tr.active:hover>th,
+.table-hover>tbody>tr:hover>.active,
+.table-hover>tbody>tr>td.active:hover,
+.table-hover>tbody>tr>th.active:hover {
+  background-color: #e8e8e8;
+}
+
+.deleted-docs-list table>tbody>tr.success>td,
+.deleted-docs-list table>tbody>tr.success>th,
+.deleted-docs-list table>tbody>tr>td.success,
+.deleted-docs-list table>tbody>tr>th.success,
+.deleted-docs-list table>tfoot>tr.success>td,
+.deleted-docs-list table>tfoot>tr.success>th,
+.deleted-docs-list table>tfoot>tr>td.success,
+.deleted-docs-list table>tfoot>tr>th.success,
+.deleted-docs-list table>thead>tr.success>td,
+.deleted-docs-list table>thead>tr.success>th,
+.deleted-docs-list table>thead>tr>td.success,
+.deleted-docs-list table>thead>tr>th.success,
+.featured-document-list>tbody>tr.success>td,
+.featured-document-list>tbody>tr.success>th,
+.featured-document-list>tbody>tr>td.success,
+.featured-document-list>tbody>tr>th.success,
+.featured-document-list>tfoot>tr.success>td,
+.featured-document-list>tfoot>tr.success>th,
+.featured-document-list>tfoot>tr>td.success,
+.featured-document-list>tfoot>tr>th.success,
+.featured-document-list>thead>tr.success>td,
+.featured-document-list>thead>tr.success>th,
+.featured-document-list>thead>tr>td.success,
+.featured-document-list>thead>tr>th.success,
+.table>tbody>tr.success>td,
+.table>tbody>tr.success>th,
+.table>tbody>tr>td.success,
+.table>tbody>tr>th.success,
+.table>tfoot>tr.success>td,
+.table>tfoot>tr.success>th,
+.table>tfoot>tr>td.success,
+.table>tfoot>tr>th.success,
+.table>thead>tr.success>td,
+.table>thead>tr.success>th,
+.table>thead>tr>td.success,
+.table>thead>tr>th.success {
+  background-color: #dff0d8;
+}
+
+.table-hover>tbody>tr.success:hover>td,
+.table-hover>tbody>tr.success:hover>th,
+.table-hover>tbody>tr:hover>.success,
+.table-hover>tbody>tr>td.success:hover,
+.table-hover>tbody>tr>th.success:hover {
+  background-color: #d0e9c6;
+}
+
+.deleted-docs-list table>tbody>tr.info>td,
+.deleted-docs-list table>tbody>tr.info>th,
+.deleted-docs-list table>tbody>tr>td.info,
+.deleted-docs-list table>tbody>tr>th.info,
+.deleted-docs-list table>tfoot>tr.info>td,
+.deleted-docs-list table>tfoot>tr.info>th,
+.deleted-docs-list table>tfoot>tr>td.info,
+.deleted-docs-list table>tfoot>tr>th.info,
+.deleted-docs-list table>thead>tr.info>td,
+.deleted-docs-list table>thead>tr.info>th,
+.deleted-docs-list table>thead>tr>td.info,
+.deleted-docs-list table>thead>tr>th.info,
+.featured-document-list>tbody>tr.info>td,
+.featured-document-list>tbody>tr.info>th,
+.featured-document-list>tbody>tr>td.info,
+.featured-document-list>tbody>tr>th.info,
+.featured-document-list>tfoot>tr.info>td,
+.featured-document-list>tfoot>tr.info>th,
+.featured-document-list>tfoot>tr>td.info,
+.featured-document-list>tfoot>tr>th.info,
+.featured-document-list>thead>tr.info>td,
+.featured-document-list>thead>tr.info>th,
+.featured-document-list>thead>tr>td.info,
+.featured-document-list>thead>tr>th.info,
+.table>tbody>tr.info>td,
+.table>tbody>tr.info>th,
+.table>tbody>tr>td.info,
+.table>tbody>tr>th.info,
+.table>tfoot>tr.info>td,
+.table>tfoot>tr.info>th,
+.table>tfoot>tr>td.info,
+.table>tfoot>tr>th.info,
+.table>thead>tr.info>td,
+.table>thead>tr.info>th,
+.table>thead>tr>td.info,
+.table>thead>tr>th.info {
+  background-color: #d9edf7;
+}
+
+.table-hover>tbody>tr.info:hover>td,
+.table-hover>tbody>tr.info:hover>th,
+.table-hover>tbody>tr:hover>.info,
+.table-hover>tbody>tr>td.info:hover,
+.table-hover>tbody>tr>th.info:hover {
+  background-color: #c4e3f3;
+}
+
+.deleted-docs-list table>tbody>tr.warning>td,
+.deleted-docs-list table>tbody>tr.warning>th,
+.deleted-docs-list table>tbody>tr>td.warning,
+.deleted-docs-list table>tbody>tr>th.warning,
+.deleted-docs-list table>tfoot>tr.warning>td,
+.deleted-docs-list table>tfoot>tr.warning>th,
+.deleted-docs-list table>tfoot>tr>td.warning,
+.deleted-docs-list table>tfoot>tr>th.warning,
+.deleted-docs-list table>thead>tr.warning>td,
+.deleted-docs-list table>thead>tr.warning>th,
+.deleted-docs-list table>thead>tr>td.warning,
+.deleted-docs-list table>thead>tr>th.warning,
+.featured-document-list>tbody>tr.warning>td,
+.featured-document-list>tbody>tr.warning>th,
+.featured-document-list>tbody>tr>td.warning,
+.featured-document-list>tbody>tr>th.warning,
+.featured-document-list>tfoot>tr.warning>td,
+.featured-document-list>tfoot>tr.warning>th,
+.featured-document-list>tfoot>tr>td.warning,
+.featured-document-list>tfoot>tr>th.warning,
+.featured-document-list>thead>tr.warning>td,
+.featured-document-list>thead>tr.warning>th,
+.featured-document-list>thead>tr>td.warning,
+.featured-document-list>thead>tr>th.warning,
+.table>tbody>tr.warning>td,
+.table>tbody>tr.warning>th,
+.table>tbody>tr>td.warning,
+.table>tbody>tr>th.warning,
+.table>tfoot>tr.warning>td,
+.table>tfoot>tr.warning>th,
+.table>tfoot>tr>td.warning,
+.table>tfoot>tr>th.warning,
+.table>thead>tr.warning>td,
+.table>thead>tr.warning>th,
+.table>thead>tr>td.warning,
+.table>thead>tr>th.warning {
+  background-color: #fcf8e3;
+}
+
+.table-hover>tbody>tr.warning:hover>td,
+.table-hover>tbody>tr.warning:hover>th,
+.table-hover>tbody>tr:hover>.warning,
+.table-hover>tbody>tr>td.warning:hover,
+.table-hover>tbody>tr>th.warning:hover {
+  background-color: #faf2cc;
+}
+
+.deleted-docs-list table>tbody>tr.danger>td,
+.deleted-docs-list table>tbody>tr.danger>th,
+.deleted-docs-list table>tbody>tr>td.danger,
+.deleted-docs-list table>tbody>tr>th.danger,
+.deleted-docs-list table>tfoot>tr.danger>td,
+.deleted-docs-list table>tfoot>tr.danger>th,
+.deleted-docs-list table>tfoot>tr>td.danger,
+.deleted-docs-list table>tfoot>tr>th.danger,
+.deleted-docs-list table>thead>tr.danger>td,
+.deleted-docs-list table>thead>tr.danger>th,
+.deleted-docs-list table>thead>tr>td.danger,
+.deleted-docs-list table>thead>tr>th.danger,
+.featured-document-list>tbody>tr.danger>td,
+.featured-document-list>tbody>tr.danger>th,
+.featured-document-list>tbody>tr>td.danger,
+.featured-document-list>tbody>tr>th.danger,
+.featured-document-list>tfoot>tr.danger>td,
+.featured-document-list>tfoot>tr.danger>th,
+.featured-document-list>tfoot>tr>td.danger,
+.featured-document-list>tfoot>tr>th.danger,
+.featured-document-list>thead>tr.danger>td,
+.featured-document-list>thead>tr.danger>th,
+.featured-document-list>thead>tr>td.danger,
+.featured-document-list>thead>tr>th.danger,
+.table>tbody>tr.danger>td,
+.table>tbody>tr.danger>th,
+.table>tbody>tr>td.danger,
+.table>tbody>tr>th.danger,
+.table>tfoot>tr.danger>td,
+.table>tfoot>tr.danger>th,
+.table>tfoot>tr>td.danger,
+.table>tfoot>tr>th.danger,
+.table>thead>tr.danger>td,
+.table>thead>tr.danger>th,
+.table>thead>tr>td.danger,
+.table>thead>tr>th.danger {
+  background-color: #f2dede;
+}
+
+.table-hover>tbody>tr.danger:hover>td,
+.table-hover>tbody>tr.danger:hover>th,
+.table-hover>tbody>tr:hover>.danger,
+.table-hover>tbody>tr>td.danger:hover,
+.table-hover>tbody>tr>th.danger:hover {
+  background-color: #ebcccc;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  min-height: .01%;
+}
+
+@media screen and (max-width:767px) {
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 1.21875rem;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+  }
+
+  .deleted-docs-list .table-responsive>table,
+  .table-responsive>.featured-document-list,
+  .table-responsive>.table {
+    margin-bottom: 0;
+  }
+
+  .deleted-docs-list .table-responsive>table>tbody>tr>td,
+  .deleted-docs-list .table-responsive>table>tbody>tr>th,
+  .deleted-docs-list .table-responsive>table>tfoot>tr>td,
+  .deleted-docs-list .table-responsive>table>tfoot>tr>th,
+  .deleted-docs-list .table-responsive>table>thead>tr>td,
+  .deleted-docs-list .table-responsive>table>thead>tr>th,
+  .table-responsive>.featured-document-list>tbody>tr>td,
+  .table-responsive>.featured-document-list>tbody>tr>th,
+  .table-responsive>.featured-document-list>tfoot>tr>td,
+  .table-responsive>.featured-document-list>tfoot>tr>th,
+  .table-responsive>.featured-document-list>thead>tr>td,
+  .table-responsive>.featured-document-list>thead>tr>th,
+  .table-responsive>.table>tbody>tr>td,
+  .table-responsive>.table>tbody>tr>th,
+  .table-responsive>.table>tfoot>tr>td,
+  .table-responsive>.table>tfoot>tr>th,
+  .table-responsive>.table>thead>tr>td,
+  .table-responsive>.table>thead>tr>th {
+    white-space: nowrap;
+  }
+
+  .table-responsive>.table-bordered {
+    border: 0;
+  }
+
+  .table-responsive>.table-bordered>tbody>tr>td:first-child,
+  .table-responsive>.table-bordered>tbody>tr>th:first-child,
+  .table-responsive>.table-bordered>tfoot>tr>td:first-child,
+  .table-responsive>.table-bordered>tfoot>tr>th:first-child,
+  .table-responsive>.table-bordered>thead>tr>td:first-child,
+  .table-responsive>.table-bordered>thead>tr>th:first-child {
+    border-left: 0;
+  }
+
+  .table-responsive>.table-bordered>tbody>tr>td:last-child,
+  .table-responsive>.table-bordered>tbody>tr>th:last-child,
+  .table-responsive>.table-bordered>tfoot>tr>td:last-child,
+  .table-responsive>.table-bordered>tfoot>tr>th:last-child,
+  .table-responsive>.table-bordered>thead>tr>td:last-child,
+  .table-responsive>.table-bordered>thead>tr>th:last-child {
+    border-right: 0;
+  }
+
+  .table-responsive>.table-bordered>tbody>tr:last-child>td,
+  .table-responsive>.table-bordered>tbody>tr:last-child>th,
+  .table-responsive>.table-bordered>tfoot>tr:last-child>td,
+  .table-responsive>.table-bordered>tfoot>tr:last-child>th {
+    border-bottom: 0;
+  }
+}
+
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  min-width: 0;
+}
+
+legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 1.625rem;
+  font-size: 1.5rem;
+  line-height: inherit;
+  color: #333;
+  border: 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+input[type=search] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+input[type=checkbox],
+input[type=radio] {
+  margin: 4px 0 0;
+  margin-top: 1px\9;
+  line-height: normal;
+}
+
+input[type=file] {
+  display: block;
+}
+
+input[type=range] {
+  display: block;
+  width: 100%;
+}
+
+select[multiple],
+select[size] {
+  height: auto;
+}
+
+input[type=checkbox]:focus,
+input[type=radio]:focus,
+input[type=file]:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+output {
+  display: block;
+  padding-top: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.625;
+  color: #555;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: 2.625rem;
+  padding: .5rem 12px;
+  font-size: 1rem;
+  line-height: 1.625;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
+
+.form-control::-moz-placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.form-control:-ms-input-placeholder {
+  color: #999;
+}
+
+.form-control::-webkit-input-placeholder {
+  color: #999;
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  cursor: not-allowed;
+  background-color: #eee;
+  opacity: 1;
+}
+
+textarea.form-control {
+  height: auto;
+}
+
+input[type=search] {
+  -webkit-appearance: none;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  input[type=date],
+  input[type=time],
+  input[type=datetime-local],
+  input[type=month] {
+    line-height: 2.625rem;
+  }
+
+  .home-feature .input-group-sm>.input-group-btn>input[type=date].read-button,
+  .home-feature .input-group-sm>.input-group-btn>input[type=time].read-button,
+  .home-feature .input-group-sm>.input-group-btn>input[type=datetime-local].read-button,
+  .home-feature .input-group-sm>.input-group-btn>input[type=month].read-button,
+  .input-group-sm input[type=date],
+  .input-group-sm input[type=time],
+  .input-group-sm input[type=datetime-local],
+  .input-group-sm input[type=month],
+  .input-group-sm>.input-group-btn>input[type=date].btn,
+  .input-group-sm>.input-group-btn>input[type=date].button,
+  .input-group-sm>.input-group-btn>input[type=date].create-document-button,
+  .input-group-sm>.input-group-btn>input[type=date].delete-document-button,
+  .input-group-sm>.input-group-btn>input[type=date].delete-page-button,
+  .input-group-sm>.input-group-btn>input[type=date].login-button,
+  .input-group-sm>.input-group-btn>input[type=date].save-document-button,
+  .input-group-sm>.input-group-btn>input[type=time].btn,
+  .input-group-sm>.input-group-btn>input[type=time].button,
+  .input-group-sm>.input-group-btn>input[type=time].create-document-button,
+  .input-group-sm>.input-group-btn>input[type=time].delete-document-button,
+  .input-group-sm>.input-group-btn>input[type=time].delete-page-button,
+  .input-group-sm>.input-group-btn>input[type=time].login-button,
+  .input-group-sm>.input-group-btn>input[type=time].save-document-button,
+  .input-group-sm>.input-group-btn>input[type=datetime-local].btn,
+  .input-group-sm>.input-group-btn>input[type=datetime-local].button,
+  .input-group-sm>.input-group-btn>input[type=datetime-local].create-document-button,
+  .input-group-sm>.input-group-btn>input[type=datetime-local].delete-document-button,
+  .input-group-sm>.input-group-btn>input[type=datetime-local].delete-page-button,
+  .input-group-sm>.input-group-btn>input[type=datetime-local].login-button,
+  .input-group-sm>.input-group-btn>input[type=datetime-local].save-document-button,
+  .input-group-sm>.input-group-btn>input[type=month].btn,
+  .input-group-sm>.input-group-btn>input[type=month].button,
+  .input-group-sm>.input-group-btn>input[type=month].create-document-button,
+  .input-group-sm>.input-group-btn>input[type=month].delete-document-button,
+  .input-group-sm>.input-group-btn>input[type=month].delete-page-button,
+  .input-group-sm>.input-group-btn>input[type=month].login-button,
+  .input-group-sm>.input-group-btn>input[type=month].save-document-button,
+  .input-group-sm>input[type=date].form-control,
+  .input-group-sm>input[type=date].input-group-addon,
+  .input-group-sm>input[type=time].form-control,
+  .input-group-sm>input[type=time].input-group-addon,
+  .input-group-sm>input[type=datetime-local].form-control,
+  .input-group-sm>input[type=datetime-local].input-group-addon,
+  .input-group-sm>input[type=month].form-control,
+  .input-group-sm>input[type=month].input-group-addon,
+  .search-form .input-group-sm>.input-group-btn>input[type=date].search-button,
+  .search-form .input-group-sm>.input-group-btn>input[type=time].search-button,
+  .search-form .input-group-sm>.input-group-btn>input[type=datetime-local].search-button,
+  .search-form .input-group-sm>.input-group-btn>input[type=month].search-button,
+  input[type=date].input-sm,
+  input[type=time].input-sm,
+  input[type=datetime-local].input-sm,
+  input[type=month].input-sm {
+    line-height: 2rem;
+  }
+
+  .home-feature .input-group-lg>.input-group-btn>input[type=date].read-button,
+  .home-feature .input-group-lg>.input-group-btn>input[type=time].read-button,
+  .home-feature .input-group-lg>.input-group-btn>input[type=datetime-local].read-button,
+  .home-feature .input-group-lg>.input-group-btn>input[type=month].read-button,
+  .input-group-lg input[type=date],
+  .input-group-lg input[type=time],
+  .input-group-lg input[type=datetime-local],
+  .input-group-lg input[type=month],
+  .input-group-lg>.input-group-btn>input[type=date].btn,
+  .input-group-lg>.input-group-btn>input[type=date].button,
+  .input-group-lg>.input-group-btn>input[type=date].create-document-button,
+  .input-group-lg>.input-group-btn>input[type=date].delete-document-button,
+  .input-group-lg>.input-group-btn>input[type=date].delete-page-button,
+  .input-group-lg>.input-group-btn>input[type=date].login-button,
+  .input-group-lg>.input-group-btn>input[type=date].save-document-button,
+  .input-group-lg>.input-group-btn>input[type=time].btn,
+  .input-group-lg>.input-group-btn>input[type=time].button,
+  .input-group-lg>.input-group-btn>input[type=time].create-document-button,
+  .input-group-lg>.input-group-btn>input[type=time].delete-document-button,
+  .input-group-lg>.input-group-btn>input[type=time].delete-page-button,
+  .input-group-lg>.input-group-btn>input[type=time].login-button,
+  .input-group-lg>.input-group-btn>input[type=time].save-document-button,
+  .input-group-lg>.input-group-btn>input[type=datetime-local].btn,
+  .input-group-lg>.input-group-btn>input[type=datetime-local].button,
+  .input-group-lg>.input-group-btn>input[type=datetime-local].create-document-button,
+  .input-group-lg>.input-group-btn>input[type=datetime-local].delete-document-button,
+  .input-group-lg>.input-group-btn>input[type=datetime-local].delete-page-button,
+  .input-group-lg>.input-group-btn>input[type=datetime-local].login-button,
+  .input-group-lg>.input-group-btn>input[type=datetime-local].save-document-button,
+  .input-group-lg>.input-group-btn>input[type=month].btn,
+  .input-group-lg>.input-group-btn>input[type=month].button,
+  .input-group-lg>.input-group-btn>input[type=month].create-document-button,
+  .input-group-lg>.input-group-btn>input[type=month].delete-document-button,
+  .input-group-lg>.input-group-btn>input[type=month].delete-page-button,
+  .input-group-lg>.input-group-btn>input[type=month].login-button,
+  .input-group-lg>.input-group-btn>input[type=month].save-document-button,
+  .input-group-lg>input[type=date].form-control,
+  .input-group-lg>input[type=date].input-group-addon,
+  .input-group-lg>input[type=time].form-control,
+  .input-group-lg>input[type=time].input-group-addon,
+  .input-group-lg>input[type=datetime-local].form-control,
+  .input-group-lg>input[type=datetime-local].input-group-addon,
+  .input-group-lg>input[type=month].form-control,
+  .input-group-lg>input[type=month].input-group-addon,
+  .search-form .input-group-lg>.input-group-btn>input[type=date].search-button,
+  .search-form .input-group-lg>.input-group-btn>input[type=time].search-button,
+  .search-form .input-group-lg>.input-group-btn>input[type=datetime-local].search-button,
+  .search-form .input-group-lg>.input-group-btn>input[type=month].search-button,
+  input[type=date].input-lg,
+  input[type=time].input-lg,
+  input[type=datetime-local].input-lg,
+  input[type=month].input-lg {
+    line-height: 5rem;
+  }
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.checkbox,
+.radio {
+  position: relative;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.checkbox label,
+.radio label {
+  min-height: 1.625rem;
+  padding-left: 20px;
+  margin-bottom: 0;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.checkbox input[type=checkbox],
+.checkbox-inline input[type=checkbox],
+.radio input[type=radio],
+.radio-inline input[type=radio] {
+  position: absolute;
+  margin-left: -20px;
+  margin-top: 4px\9;
+}
+
+.checkbox+.checkbox,
+.radio+.radio {
+  margin-top: -5px;
+}
+
+.checkbox-inline,
+.radio-inline {
+  display: inline-block;
+  padding-left: 20px;
+  margin-bottom: 0;
+  vertical-align: middle;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.checkbox-inline+.checkbox-inline,
+.radio-inline+.radio-inline {
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+fieldset[disabled] input[type=checkbox],
+fieldset[disabled] input[type=radio],
+input[type=checkbox].disabled,
+input[type=checkbox][disabled],
+input[type=radio].disabled,
+input[type=radio][disabled] {
+  cursor: not-allowed;
+}
+
+.checkbox-inline.disabled,
+.radio-inline.disabled,
+fieldset[disabled] .checkbox-inline,
+fieldset[disabled] .radio-inline {
+  cursor: not-allowed;
+}
+
+.checkbox.disabled label,
+.radio.disabled label,
+fieldset[disabled] .checkbox label,
+fieldset[disabled] .radio label {
+  cursor: not-allowed;
+}
+
+.form-control-static {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 0;
+}
+
+.form-control-static.input-lg,
+.form-control-static.input-sm,
+.home-feature .input-group-lg>.input-group-btn>.form-control-static.read-button,
+.home-feature .input-group-sm>.input-group-btn>.form-control-static.read-button,
+.input-group-lg>.form-control-static.form-control,
+.input-group-lg>.form-control-static.input-group-addon,
+.input-group-lg>.input-group-btn>.form-control-static.btn,
+.input-group-lg>.input-group-btn>.form-control-static.button,
+.input-group-lg>.input-group-btn>.form-control-static.create-document-button,
+.input-group-lg>.input-group-btn>.form-control-static.delete-document-button,
+.input-group-lg>.input-group-btn>.form-control-static.delete-page-button,
+.input-group-lg>.input-group-btn>.form-control-static.login-button,
+.input-group-lg>.input-group-btn>.form-control-static.save-document-button,
+.input-group-sm>.form-control-static.form-control,
+.input-group-sm>.form-control-static.input-group-addon,
+.input-group-sm>.input-group-btn>.form-control-static.btn,
+.input-group-sm>.input-group-btn>.form-control-static.button,
+.input-group-sm>.input-group-btn>.form-control-static.create-document-button,
+.input-group-sm>.input-group-btn>.form-control-static.delete-document-button,
+.input-group-sm>.input-group-btn>.form-control-static.delete-page-button,
+.input-group-sm>.input-group-btn>.form-control-static.login-button,
+.input-group-sm>.input-group-btn>.form-control-static.save-document-button,
+.search-form .input-group-lg>.input-group-btn>.form-control-static.search-button,
+.search-form .input-group-sm>.input-group-btn>.form-control-static.search-button {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.home-feature .input-group-sm>.input-group-btn>.read-button,
+.input-group-sm>.form-control,
+.input-group-sm>.input-group-addon,
+.input-group-sm>.input-group-btn>.btn,
+.input-group-sm>.input-group-btn>.button,
+.input-group-sm>.input-group-btn>.create-document-button,
+.input-group-sm>.input-group-btn>.delete-document-button,
+.input-group-sm>.input-group-btn>.delete-page-button,
+.input-group-sm>.input-group-btn>.login-button,
+.input-group-sm>.input-group-btn>.save-document-button,
+.input-sm,
+.search-form .input-group-sm>.input-group-btn>.search-button {
+  height: 2rem;
+  padding: .5rem 10px;
+  font-size: .85rem;
+  line-height: 2;
+  border-radius: 3px;
+}
+
+.home-feature .input-group-sm>.input-group-btn>select.read-button,
+.input-group-sm>.input-group-btn>select.btn,
+.input-group-sm>.input-group-btn>select.button,
+.input-group-sm>.input-group-btn>select.create-document-button,
+.input-group-sm>.input-group-btn>select.delete-document-button,
+.input-group-sm>.input-group-btn>select.delete-page-button,
+.input-group-sm>.input-group-btn>select.login-button,
+.input-group-sm>.input-group-btn>select.save-document-button,
+.input-group-sm>select.form-control,
+.input-group-sm>select.input-group-addon,
+.search-form .input-group-sm>.input-group-btn>select.search-button,
+select.input-sm {
+  height: 2rem;
+  line-height: 2rem;
+}
+
+.home-feature .input-group-sm>.input-group-btn>select[multiple].read-button,
+.home-feature .input-group-sm>.input-group-btn>textarea.read-button,
+.input-group-sm>.input-group-btn>select[multiple].btn,
+.input-group-sm>.input-group-btn>select[multiple].button,
+.input-group-sm>.input-group-btn>select[multiple].create-document-button,
+.input-group-sm>.input-group-btn>select[multiple].delete-document-button,
+.input-group-sm>.input-group-btn>select[multiple].delete-page-button,
+.input-group-sm>.input-group-btn>select[multiple].login-button,
+.input-group-sm>.input-group-btn>select[multiple].save-document-button,
+.input-group-sm>.input-group-btn>textarea.btn,
+.input-group-sm>.input-group-btn>textarea.button,
+.input-group-sm>.input-group-btn>textarea.create-document-button,
+.input-group-sm>.input-group-btn>textarea.delete-document-button,
+.input-group-sm>.input-group-btn>textarea.delete-page-button,
+.input-group-sm>.input-group-btn>textarea.login-button,
+.input-group-sm>.input-group-btn>textarea.save-document-button,
+.input-group-sm>select[multiple].form-control,
+.input-group-sm>select[multiple].input-group-addon,
+.input-group-sm>textarea.form-control,
+.input-group-sm>textarea.input-group-addon,
+.search-form .input-group-sm>.input-group-btn>select[multiple].search-button,
+.search-form .input-group-sm>.input-group-btn>textarea.search-button,
+select[multiple].input-sm,
+textarea.input-sm {
+  height: auto;
+}
+
+.form-group-sm .form-control {
+  height: 2rem;
+  padding: .5rem 10px;
+  font-size: .85rem;
+  line-height: 2;
+  border-radius: 3px;
+}
+
+.form-group-sm select.form-control {
+  height: 2rem;
+  line-height: 2rem;
+}
+
+.form-group-sm select[multiple].form-control,
+.form-group-sm textarea.form-control {
+  height: auto;
+}
+
+.form-group-sm .form-control-static {
+  height: 2rem;
+  padding: .5rem 10px;
+  font-size: .85rem;
+  line-height: 2;
+}
+
+.home-feature .input-group-lg>.input-group-btn>.read-button,
+.input-group-lg>.form-control,
+.input-group-lg>.input-group-addon,
+.input-group-lg>.input-group-btn>.btn,
+.input-group-lg>.input-group-btn>.button,
+.input-group-lg>.input-group-btn>.create-document-button,
+.input-group-lg>.input-group-btn>.delete-document-button,
+.input-group-lg>.input-group-btn>.delete-page-button,
+.input-group-lg>.input-group-btn>.login-button,
+.input-group-lg>.input-group-btn>.save-document-button,
+.input-lg,
+.search-form .input-group-lg>.input-group-btn>.search-button {
+  height: 5rem;
+  padding: 1rem 16px;
+  font-size: 1.25rem;
+  line-height: 2;
+  border-radius: 6px;
+}
+
+.home-feature .input-group-lg>.input-group-btn>select.read-button,
+.input-group-lg>.input-group-btn>select.btn,
+.input-group-lg>.input-group-btn>select.button,
+.input-group-lg>.input-group-btn>select.create-document-button,
+.input-group-lg>.input-group-btn>select.delete-document-button,
+.input-group-lg>.input-group-btn>select.delete-page-button,
+.input-group-lg>.input-group-btn>select.login-button,
+.input-group-lg>.input-group-btn>select.save-document-button,
+.input-group-lg>select.form-control,
+.input-group-lg>select.input-group-addon,
+.search-form .input-group-lg>.input-group-btn>select.search-button,
+select.input-lg {
+  height: 5rem;
+  line-height: 5rem;
+}
+
+.home-feature .input-group-lg>.input-group-btn>select[multiple].read-button,
+.home-feature .input-group-lg>.input-group-btn>textarea.read-button,
+.input-group-lg>.input-group-btn>select[multiple].btn,
+.input-group-lg>.input-group-btn>select[multiple].button,
+.input-group-lg>.input-group-btn>select[multiple].create-document-button,
+.input-group-lg>.input-group-btn>select[multiple].delete-document-button,
+.input-group-lg>.input-group-btn>select[multiple].delete-page-button,
+.input-group-lg>.input-group-btn>select[multiple].login-button,
+.input-group-lg>.input-group-btn>select[multiple].save-document-button,
+.input-group-lg>.input-group-btn>textarea.btn,
+.input-group-lg>.input-group-btn>textarea.button,
+.input-group-lg>.input-group-btn>textarea.create-document-button,
+.input-group-lg>.input-group-btn>textarea.delete-document-button,
+.input-group-lg>.input-group-btn>textarea.delete-page-button,
+.input-group-lg>.input-group-btn>textarea.login-button,
+.input-group-lg>.input-group-btn>textarea.save-document-button,
+.input-group-lg>select[multiple].form-control,
+.input-group-lg>select[multiple].input-group-addon,
+.input-group-lg>textarea.form-control,
+.input-group-lg>textarea.input-group-addon,
+.search-form .input-group-lg>.input-group-btn>select[multiple].search-button,
+.search-form .input-group-lg>.input-group-btn>textarea.search-button,
+select[multiple].input-lg,
+textarea.input-lg {
+  height: auto;
+}
+
+.form-group-lg .form-control {
+  height: 5rem;
+  padding: 1rem 16px;
+  font-size: 1.25rem;
+  line-height: 2;
+  border-radius: 6px;
+}
+
+.form-group-lg select.form-control {
+  height: 5rem;
+  line-height: 5rem;
+}
+
+.form-group-lg select[multiple].form-control,
+.form-group-lg textarea.form-control {
+  height: auto;
+}
+
+.form-group-lg .form-control-static {
+  height: 5rem;
+  padding: 1rem 16px;
+  font-size: 1.25rem;
+  line-height: 2;
+}
+
+.has-feedback {
+  position: relative;
+}
+
+.has-feedback .form-control {
+  padding-right: 3.28125rem;
+}
+
+.form-control-feedback {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: block;
+  width: 2.625rem;
+  height: 2.625rem;
+  line-height: 2.625rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.home-feature .input-group-lg>.input-group-btn>.read-button+.form-control-feedback,
+.input-group-lg>.form-control+.form-control-feedback,
+.input-group-lg>.input-group-addon+.form-control-feedback,
+.input-group-lg>.input-group-btn>.btn+.form-control-feedback,
+.input-group-lg>.input-group-btn>.button+.form-control-feedback,
+.input-group-lg>.input-group-btn>.create-document-button+.form-control-feedback,
+.input-group-lg>.input-group-btn>.delete-document-button+.form-control-feedback,
+.input-group-lg>.input-group-btn>.delete-page-button+.form-control-feedback,
+.input-group-lg>.input-group-btn>.login-button+.form-control-feedback,
+.input-group-lg>.input-group-btn>.save-document-button+.form-control-feedback,
+.input-lg+.form-control-feedback,
+.search-form .input-group-lg>.input-group-btn>.search-button+.form-control-feedback {
+  width: 5rem;
+  height: 5rem;
+  line-height: 5rem;
+}
+
+.home-feature .input-group-sm>.input-group-btn>.read-button+.form-control-feedback,
+.input-group-sm>.form-control+.form-control-feedback,
+.input-group-sm>.input-group-addon+.form-control-feedback,
+.input-group-sm>.input-group-btn>.btn+.form-control-feedback,
+.input-group-sm>.input-group-btn>.button+.form-control-feedback,
+.input-group-sm>.input-group-btn>.create-document-button+.form-control-feedback,
+.input-group-sm>.input-group-btn>.delete-document-button+.form-control-feedback,
+.input-group-sm>.input-group-btn>.delete-page-button+.form-control-feedback,
+.input-group-sm>.input-group-btn>.login-button+.form-control-feedback,
+.input-group-sm>.input-group-btn>.save-document-button+.form-control-feedback,
+.input-sm+.form-control-feedback,
+.search-form .input-group-sm>.input-group-btn>.search-button+.form-control-feedback {
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+}
+
+.has-success .checkbox,
+.has-success .checkbox-inline,
+.has-success .control-label,
+.has-success .help-block,
+.has-success .radio,
+.has-success .radio-inline,
+.has-success.checkbox label,
+.has-success.checkbox-inline label,
+.has-success.radio label,
+.has-success.radio-inline label {
+  color: #3c763d;
+}
+
+.has-success .form-control {
+  border-color: #3c763d;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.has-success .form-control:focus {
+  border-color: #2b542c;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #67b168;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #67b168;
+}
+
+.has-success .input-group-addon {
+  color: #3c763d;
+  border-color: #3c763d;
+  background-color: #dff0d8;
+}
+
+.has-success .form-control-feedback {
+  color: #3c763d;
+}
+
+.has-warning .checkbox,
+.has-warning .checkbox-inline,
+.has-warning .control-label,
+.has-warning .help-block,
+.has-warning .radio,
+.has-warning .radio-inline,
+.has-warning.checkbox label,
+.has-warning.checkbox-inline label,
+.has-warning.radio label,
+.has-warning.radio-inline label {
+  color: #8a6d3b;
+}
+
+.has-warning .form-control {
+  border-color: #8a6d3b;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.has-warning .form-control:focus {
+  border-color: #66512c;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #c0a16b;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #c0a16b;
+}
+
+.has-warning .input-group-addon {
+  color: #8a6d3b;
+  border-color: #8a6d3b;
+  background-color: #fcf8e3;
+}
+
+.has-warning .form-control-feedback {
+  color: #8a6d3b;
+}
+
+.has-error .checkbox,
+.has-error .checkbox-inline,
+.has-error .control-label,
+.has-error .help-block,
+.has-error .radio,
+.has-error .radio-inline,
+.has-error.checkbox label,
+.has-error.checkbox-inline label,
+.has-error.radio label,
+.has-error.radio-inline label {
+  color: #a94442;
+}
+
+.has-error .form-control {
+  border-color: #a94442;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.has-error .form-control:focus {
+  border-color: #843534;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #ce8483;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #ce8483;
+}
+
+.has-error .input-group-addon {
+  color: #a94442;
+  border-color: #a94442;
+  background-color: #f2dede;
+}
+
+.has-error .form-control-feedback {
+  color: #a94442;
+}
+
+.has-feedback label~.form-control-feedback {
+  top: 6.625rem;
+}
+
+.has-feedback label.sr-only~.form-control-feedback {
+  top: 0;
+}
+
+.help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #404040;
+}
+
+@media (min-width:768px) {
+  .form-inline .form-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+
+  .form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+  }
+
+  .form-inline .form-control-static {
+    display: inline-block;
+  }
+
+  .form-inline .input-group {
+    display: inline-table;
+    vertical-align: middle;
+  }
+
+  .form-inline .input-group .form-control,
+  .form-inline .input-group .input-group-addon,
+  .form-inline .input-group .input-group-btn {
+    width: auto;
+  }
+
+  .form-inline .input-group>.form-control {
+    width: 100%;
+  }
+
+  .form-inline .control-label {
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+
+  .form-inline .checkbox,
+  .form-inline .radio {
+    display: inline-block;
+    margin-top: 0;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+
+  .form-inline .checkbox label,
+  .form-inline .radio label {
+    padding-left: 0;
+  }
+
+  .form-inline .checkbox input[type=checkbox],
+  .form-inline .radio input[type=radio] {
+    position: relative;
+    margin-left: 0;
+  }
+
+  .form-inline .has-feedback .form-control-feedback {
+    top: 0;
+  }
+}
+
+.form-horizontal .checkbox,
+.form-horizontal .checkbox-inline,
+.form-horizontal .radio,
+.form-horizontal .radio-inline {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 1.5rem;
+}
+
+.form-horizontal .checkbox,
+.form-horizontal .radio {
+  min-height: 3.125rem;
+}
+
+.form-horizontal .form-group {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.form-horizontal .form-group:after,
+.form-horizontal .form-group:before {
+  content: " ";
+  display: table;
+}
+
+.form-horizontal .form-group:after {
+  clear: both;
+}
+
+@media (min-width:768px) {
+  .form-horizontal .control-label {
+    text-align: right;
+    margin-bottom: 0;
+    padding-top: 1.5rem;
+  }
+}
+
+.form-horizontal .has-feedback .form-control-feedback {
+  right: 15px;
+}
+
+@media (min-width:768px) {
+  .form-horizontal .form-group-lg .control-label {
+    padding-top: 3rem;
+  }
+}
+
+@media (min-width:768px) {
+  .form-horizontal .form-group-sm .control-label {
+    padding-top: 1.5rem;
+  }
+}
+
+.btn,
+.button,
+.create-document-button,
+.delete-document-button,
+.delete-page-button,
+.home-feature .read-button,
+.login-button,
+.save-document-button,
+.search-form .search-button {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: .5rem 12px;
+  font-size: 1rem;
+  line-height: 1.625;
+  border-radius: 7px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.active.button:focus,
+.active.create-document-button:focus,
+.active.delete-document-button:focus,
+.active.delete-page-button:focus,
+.active.focus.button,
+.active.focus.create-document-button,
+.active.focus.delete-document-button,
+.active.focus.delete-page-button,
+.active.focus.login-button,
+.active.focus.save-document-button,
+.active.login-button:focus,
+.active.save-document-button:focus,
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn:active:focus,
+.btn:focus,
+.button:active.focus,
+.button:active:focus,
+.button:focus,
+.create-document-button:active.focus,
+.create-document-button:active:focus,
+.create-document-button:focus,
+.delete-document-button:active.focus,
+.delete-document-button:active:focus,
+.delete-document-button:focus,
+.delete-page-button:active.focus,
+.delete-page-button:active:focus,
+.delete-page-button:focus,
+.focus.button,
+.focus.create-document-button,
+.focus.delete-document-button,
+.focus.delete-page-button,
+.focus.login-button,
+.focus.save-document-button,
+.home-feature .active.focus.read-button,
+.home-feature .active.read-button:focus,
+.home-feature .focus.read-button,
+.home-feature .read-button:active.focus,
+.home-feature .read-button:active:focus,
+.home-feature .read-button:focus,
+.login-button:active.focus,
+.login-button:active:focus,
+.login-button:focus,
+.save-document-button:active.focus,
+.save-document-button:active:focus,
+.save-document-button:focus,
+.search-form .active.focus.search-button,
+.search-form .active.search-button:focus,
+.search-form .focus.search-button,
+.search-form .search-button:active.focus,
+.search-form .search-button:active:focus,
+.search-form .search-button:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.btn.focus,
+.btn:focus,
+.btn:hover,
+.button:focus,
+.button:hover,
+.create-document-button:focus,
+.create-document-button:hover,
+.delete-document-button:focus,
+.delete-document-button:hover,
+.delete-page-button:focus,
+.delete-page-button:hover,
+.focus.button,
+.focus.create-document-button,
+.focus.delete-document-button,
+.focus.delete-page-button,
+.focus.login-button,
+.focus.save-document-button,
+.home-feature .focus.read-button,
+.home-feature .read-button:focus,
+.home-feature .read-button:hover,
+.login-button:focus,
+.login-button:hover,
+.save-document-button:focus,
+.save-document-button:hover,
+.search-form .focus.search-button,
+.search-form .search-button:focus,
+.search-form .search-button:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.active.button,
+.active.create-document-button,
+.active.delete-document-button,
+.active.delete-page-button,
+.active.login-button,
+.active.save-document-button,
+.btn.active,
+.btn:active,
+.button:active,
+.create-document-button:active,
+.delete-document-button:active,
+.delete-page-button:active,
+.home-feature .active.read-button,
+.home-feature .read-button:active,
+.login-button:active,
+.save-document-button:active,
+.search-form .active.search-button,
+.search-form .search-button:active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+}
+
+.btn.disabled,
+.btn[disabled],
+.disabled.button,
+.disabled.create-document-button,
+.disabled.delete-document-button,
+.disabled.delete-page-button,
+.disabled.login-button,
+.disabled.save-document-button,
+.home-feature .disabled.read-button,
+.home-feature [disabled].read-button,
+.home-feature fieldset[disabled] .read-button,
+.search-form .disabled.search-button,
+.search-form [disabled].search-button,
+.search-form fieldset[disabled] .search-button,
+[disabled].button,
+[disabled].create-document-button,
+[disabled].delete-document-button,
+[disabled].delete-page-button,
+[disabled].login-button,
+[disabled].save-document-button,
+fieldset[disabled] .btn,
+fieldset[disabled] .button,
+fieldset[disabled] .create-document-button,
+fieldset[disabled] .delete-document-button,
+fieldset[disabled] .delete-page-button,
+fieldset[disabled] .home-feature .read-button,
+fieldset[disabled] .login-button,
+fieldset[disabled] .save-document-button,
+fieldset[disabled] .search-form .search-button {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: .65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.btn-default {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.btn-default.active,
+.btn-default.focus,
+.btn-default:active,
+.btn-default:focus,
+.btn-default:hover,
+.open>.btn-default.dropdown-toggle {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+
+.btn-default.active,
+.btn-default:active,
+.open>.btn-default.dropdown-toggle {
+  background-image: none;
+}
+
+.btn-default.disabled,
+.btn-default.disabled.active,
+.btn-default.disabled.focus,
+.btn-default.disabled:active,
+.btn-default.disabled:focus,
+.btn-default.disabled:hover,
+.btn-default[disabled],
+.btn-default[disabled].active,
+.btn-default[disabled].focus,
+.btn-default[disabled]:active,
+.btn-default[disabled]:focus,
+.btn-default[disabled]:hover,
+fieldset[disabled] .btn-default,
+fieldset[disabled] .btn-default.active,
+fieldset[disabled] .btn-default.focus,
+fieldset[disabled] .btn-default:active,
+fieldset[disabled] .btn-default:focus,
+fieldset[disabled] .btn-default:hover {
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.btn-default .badge {
+  color: #fff;
+  background-color: #333;
+}
+
+.action-button,
+.btn-primary,
+.create-document-button,
+.delete-document-button,
+.delete-page-button,
+.home-feature .read-button,
+.login-button,
+.oauth-login:hover,
+.save-document-button,
+.search-form .search-button {
+  color: #fff;
+  background-color: #00cae5;
+  border-color: transparent;
+}
+
+.action-button:active,
+.action-button:focus,
+.action-button:hover,
+.active.action-button,
+.active.create-document-button,
+.active.delete-document-button,
+.active.delete-page-button,
+.active.login-button,
+.active.oauth-login:hover,
+.active.save-document-button,
+.btn-primary.active,
+.btn-primary.focus,
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:hover,
+.create-document-button:active,
+.create-document-button:focus,
+.create-document-button:hover,
+.delete-document-button:active,
+.delete-document-button:focus,
+.delete-document-button:hover,
+.delete-page-button:active,
+.delete-page-button:focus,
+.delete-page-button:hover,
+.focus.action-button,
+.focus.create-document-button,
+.focus.delete-document-button,
+.focus.delete-page-button,
+.focus.login-button,
+.focus.oauth-login:hover,
+.focus.save-document-button,
+.home-feature .active.read-button,
+.home-feature .focus.read-button,
+.home-feature .open>.dropdown-toggle.read-button,
+.home-feature .read-button:active,
+.home-feature .read-button:focus,
+.home-feature .read-button:hover,
+.login-button:active,
+.login-button:focus,
+.login-button:hover,
+.oauth-login:active:hover,
+.oauth-login:focus:hover,
+.oauth-login:hover,
+.open>.btn-primary.dropdown-toggle,
+.open>.dropdown-toggle.action-button,
+.open>.dropdown-toggle.create-document-button,
+.open>.dropdown-toggle.delete-document-button,
+.open>.dropdown-toggle.delete-page-button,
+.open>.dropdown-toggle.login-button,
+.open>.dropdown-toggle.oauth-login:hover,
+.open>.dropdown-toggle.save-document-button,
+.save-document-button:active,
+.save-document-button:focus,
+.save-document-button:hover,
+.search-form .active.search-button,
+.search-form .focus.search-button,
+.search-form .open>.dropdown-toggle.search-button,
+.search-form .search-button:active,
+.search-form .search-button:focus,
+.search-form .search-button:hover {
+  color: #fff;
+  background-color: #009db2;
+  border-color: transparent;
+}
+
+.action-button:active,
+.active.action-button,
+.active.create-document-button,
+.active.delete-document-button,
+.active.delete-page-button,
+.active.login-button,
+.active.oauth-login:hover,
+.active.save-document-button,
+.btn-primary.active,
+.btn-primary:active,
+.create-document-button:active,
+.delete-document-button:active,
+.delete-page-button:active,
+.home-feature .active.read-button,
+.home-feature .open>.dropdown-toggle.read-button,
+.home-feature .read-button:active,
+.login-button:active,
+.oauth-login:active:hover,
+.open>.btn-primary.dropdown-toggle,
+.open>.dropdown-toggle.action-button,
+.open>.dropdown-toggle.create-document-button,
+.open>.dropdown-toggle.delete-document-button,
+.open>.dropdown-toggle.delete-page-button,
+.open>.dropdown-toggle.login-button,
+.open>.dropdown-toggle.oauth-login:hover,
+.open>.dropdown-toggle.save-document-button,
+.save-document-button:active,
+.search-form .active.search-button,
+.search-form .open>.dropdown-toggle.search-button,
+.search-form .search-button:active {
+  background-image: none;
+}
+
+.btn-primary.disabled,
+.btn-primary.disabled.active,
+.btn-primary.disabled.focus,
+.btn-primary.disabled:active,
+.btn-primary.disabled:focus,
+.btn-primary.disabled:hover,
+.btn-primary[disabled],
+.btn-primary[disabled].active,
+.btn-primary[disabled].focus,
+.btn-primary[disabled]:active,
+.btn-primary[disabled]:focus,
+.btn-primary[disabled]:hover,
+.disabled.action-button,
+.disabled.action-button:active,
+.disabled.action-button:focus,
+.disabled.action-button:hover,
+.disabled.active.action-button,
+.disabled.active.create-document-button,
+.disabled.active.delete-document-button,
+.disabled.active.delete-page-button,
+.disabled.active.login-button,
+.disabled.active.oauth-login:hover,
+.disabled.active.save-document-button,
+.disabled.create-document-button,
+.disabled.create-document-button:active,
+.disabled.create-document-button:focus,
+.disabled.create-document-button:hover,
+.disabled.delete-document-button,
+.disabled.delete-document-button:active,
+.disabled.delete-document-button:focus,
+.disabled.delete-document-button:hover,
+.disabled.delete-page-button,
+.disabled.delete-page-button:active,
+.disabled.delete-page-button:focus,
+.disabled.delete-page-button:hover,
+.disabled.focus.action-button,
+.disabled.focus.create-document-button,
+.disabled.focus.delete-document-button,
+.disabled.focus.delete-page-button,
+.disabled.focus.login-button,
+.disabled.focus.oauth-login:hover,
+.disabled.focus.save-document-button,
+.disabled.login-button,
+.disabled.login-button:active,
+.disabled.login-button:focus,
+.disabled.login-button:hover,
+.disabled.oauth-login:active:hover,
+.disabled.oauth-login:focus:hover,
+.disabled.oauth-login:hover,
+.disabled.save-document-button,
+.disabled.save-document-button:active,
+.disabled.save-document-button:focus,
+.disabled.save-document-button:hover,
+.home-feature .disabled.active.read-button,
+.home-feature .disabled.focus.read-button,
+.home-feature .disabled.read-button,
+.home-feature .disabled.read-button:active,
+.home-feature .disabled.read-button:focus,
+.home-feature .disabled.read-button:hover,
+.home-feature [disabled].active.read-button,
+.home-feature [disabled].focus.read-button,
+.home-feature [disabled].read-button,
+.home-feature [disabled].read-button:active,
+.home-feature [disabled].read-button:focus,
+.home-feature [disabled].read-button:hover,
+.home-feature fieldset[disabled] .active.read-button,
+.home-feature fieldset[disabled] .focus.read-button,
+.home-feature fieldset[disabled] .read-button,
+.home-feature fieldset[disabled] .read-button:active,
+.home-feature fieldset[disabled] .read-button:focus,
+.home-feature fieldset[disabled] .read-button:hover,
+.search-form .disabled.active.search-button,
+.search-form .disabled.focus.search-button,
+.search-form .disabled.search-button,
+.search-form .disabled.search-button:active,
+.search-form .disabled.search-button:focus,
+.search-form .disabled.search-button:hover,
+.search-form [disabled].active.search-button,
+.search-form [disabled].focus.search-button,
+.search-form [disabled].search-button,
+.search-form [disabled].search-button:active,
+.search-form [disabled].search-button:focus,
+.search-form [disabled].search-button:hover,
+.search-form fieldset[disabled] .active.search-button,
+.search-form fieldset[disabled] .focus.search-button,
+.search-form fieldset[disabled] .search-button,
+.search-form fieldset[disabled] .search-button:active,
+.search-form fieldset[disabled] .search-button:focus,
+.search-form fieldset[disabled] .search-button:hover,
+[disabled].action-button,
+[disabled].action-button:active,
+[disabled].action-button:focus,
+[disabled].action-button:hover,
+[disabled].active.action-button,
+[disabled].active.create-document-button,
+[disabled].active.delete-document-button,
+[disabled].active.delete-page-button,
+[disabled].active.login-button,
+[disabled].active.oauth-login:hover,
+[disabled].active.save-document-button,
+[disabled].create-document-button,
+[disabled].create-document-button:active,
+[disabled].create-document-button:focus,
+[disabled].create-document-button:hover,
+[disabled].delete-document-button,
+[disabled].delete-document-button:active,
+[disabled].delete-document-button:focus,
+[disabled].delete-document-button:hover,
+[disabled].delete-page-button,
+[disabled].delete-page-button:active,
+[disabled].delete-page-button:focus,
+[disabled].delete-page-button:hover,
+[disabled].focus.action-button,
+[disabled].focus.create-document-button,
+[disabled].focus.delete-document-button,
+[disabled].focus.delete-page-button,
+[disabled].focus.login-button,
+[disabled].focus.oauth-login:hover,
+[disabled].focus.save-document-button,
+[disabled].login-button,
+[disabled].login-button:active,
+[disabled].login-button:focus,
+[disabled].login-button:hover,
+[disabled].oauth-login:active:hover,
+[disabled].oauth-login:focus:hover,
+[disabled].oauth-login:hover,
+[disabled].save-document-button,
+[disabled].save-document-button:active,
+[disabled].save-document-button:focus,
+[disabled].save-document-button:hover,
+fieldset[disabled] .action-button,
+fieldset[disabled] .action-button:active,
+fieldset[disabled] .action-button:focus,
+fieldset[disabled] .action-button:hover,
+fieldset[disabled] .active.action-button,
+fieldset[disabled] .active.create-document-button,
+fieldset[disabled] .active.delete-document-button,
+fieldset[disabled] .active.delete-page-button,
+fieldset[disabled] .active.login-button,
+fieldset[disabled] .active.oauth-login:hover,
+fieldset[disabled] .active.save-document-button,
+fieldset[disabled] .btn-primary,
+fieldset[disabled] .btn-primary.active,
+fieldset[disabled] .btn-primary.focus,
+fieldset[disabled] .btn-primary:active,
+fieldset[disabled] .btn-primary:focus,
+fieldset[disabled] .btn-primary:hover,
+fieldset[disabled] .create-document-button,
+fieldset[disabled] .create-document-button:active,
+fieldset[disabled] .create-document-button:focus,
+fieldset[disabled] .create-document-button:hover,
+fieldset[disabled] .delete-document-button,
+fieldset[disabled] .delete-document-button:active,
+fieldset[disabled] .delete-document-button:focus,
+fieldset[disabled] .delete-document-button:hover,
+fieldset[disabled] .delete-page-button,
+fieldset[disabled] .delete-page-button:active,
+fieldset[disabled] .delete-page-button:focus,
+fieldset[disabled] .delete-page-button:hover,
+fieldset[disabled] .focus.action-button,
+fieldset[disabled] .focus.create-document-button,
+fieldset[disabled] .focus.delete-document-button,
+fieldset[disabled] .focus.delete-page-button,
+fieldset[disabled] .focus.login-button,
+fieldset[disabled] .focus.oauth-login:hover,
+fieldset[disabled] .focus.save-document-button,
+fieldset[disabled] .home-feature .active.read-button,
+fieldset[disabled] .home-feature .focus.read-button,
+fieldset[disabled] .home-feature .read-button,
+fieldset[disabled] .home-feature .read-button:active,
+fieldset[disabled] .home-feature .read-button:focus,
+fieldset[disabled] .home-feature .read-button:hover,
+fieldset[disabled] .login-button,
+fieldset[disabled] .login-button:active,
+fieldset[disabled] .login-button:focus,
+fieldset[disabled] .login-button:hover,
+fieldset[disabled] .oauth-login:active:hover,
+fieldset[disabled] .oauth-login:focus:hover,
+fieldset[disabled] .oauth-login:hover,
+fieldset[disabled] .save-document-button,
+fieldset[disabled] .save-document-button:active,
+fieldset[disabled] .save-document-button:focus,
+fieldset[disabled] .save-document-button:hover,
+fieldset[disabled] .search-form .active.search-button,
+fieldset[disabled] .search-form .focus.search-button,
+fieldset[disabled] .search-form .search-button,
+fieldset[disabled] .search-form .search-button:active,
+fieldset[disabled] .search-form .search-button:focus,
+fieldset[disabled] .search-form .search-button:hover {
+  background-color: #00cae5;
+  border-color: transparent;
+}
+
+.action-button .badge,
+.btn-primary .badge,
+.create-document-button .badge,
+.delete-document-button .badge,
+.delete-page-button .badge,
+.home-feature .read-button .badge,
+.login-button .badge,
+.oauth-login:hover .badge,
+.save-document-button .badge,
+.search-form .search-button .badge {
+  color: #00cae5;
+  background-color: #fff;
+}
+
+.btn-success,
+.doc-support-button {
+  color: #fff;
+  background-color: #8ce500;
+  border-color: transparent;
+}
+
+.active.doc-support-button,
+.btn-success.active,
+.btn-success.focus,
+.btn-success:active,
+.btn-success:focus,
+.btn-success:hover,
+.doc-support-button:active,
+.doc-support-button:focus,
+.doc-support-button:hover,
+.focus.doc-support-button,
+.open>.btn-success.dropdown-toggle,
+.open>.dropdown-toggle.doc-support-button {
+  color: #fff;
+  background-color: #6db200;
+  border-color: transparent;
+}
+
+.active.doc-support-button,
+.btn-success.active,
+.btn-success:active,
+.doc-support-button:active,
+.open>.btn-success.dropdown-toggle,
+.open>.dropdown-toggle.doc-support-button {
+  background-image: none;
+}
+
+.btn-success.disabled,
+.btn-success.disabled.active,
+.btn-success.disabled.focus,
+.btn-success.disabled:active,
+.btn-success.disabled:focus,
+.btn-success.disabled:hover,
+.btn-success[disabled],
+.btn-success[disabled].active,
+.btn-success[disabled].focus,
+.btn-success[disabled]:active,
+.btn-success[disabled]:focus,
+.btn-success[disabled]:hover,
+.disabled.active.doc-support-button,
+.disabled.doc-support-button,
+.disabled.doc-support-button:active,
+.disabled.doc-support-button:focus,
+.disabled.doc-support-button:hover,
+.disabled.focus.doc-support-button,
+[disabled].active.doc-support-button,
+[disabled].doc-support-button,
+[disabled].doc-support-button:active,
+[disabled].doc-support-button:focus,
+[disabled].doc-support-button:hover,
+[disabled].focus.doc-support-button,
+fieldset[disabled] .active.doc-support-button,
+fieldset[disabled] .btn-success,
+fieldset[disabled] .btn-success.active,
+fieldset[disabled] .btn-success.focus,
+fieldset[disabled] .btn-success:active,
+fieldset[disabled] .btn-success:focus,
+fieldset[disabled] .btn-success:hover,
+fieldset[disabled] .doc-support-button,
+fieldset[disabled] .doc-support-button:active,
+fieldset[disabled] .doc-support-button:focus,
+fieldset[disabled] .doc-support-button:hover,
+fieldset[disabled] .focus.doc-support-button {
+  background-color: #8ce500;
+  border-color: transparent;
+}
+
+.btn-success .badge,
+.doc-support-button .badge {
+  color: #8ce500;
+  background-color: #fff;
+}
+
+.btn-info {
+  color: #fff;
+  background-color: #f2da00;
+  border-color: transparent;
+}
+
+.btn-info.active,
+.btn-info.focus,
+.btn-info:active,
+.btn-info:focus,
+.btn-info:hover,
+.open>.btn-info.dropdown-toggle {
+  color: #fff;
+  background-color: #bfac00;
+  border-color: transparent;
+}
+
+.btn-info.active,
+.btn-info:active,
+.open>.btn-info.dropdown-toggle {
+  background-image: none;
+}
+
+.btn-info.disabled,
+.btn-info.disabled.active,
+.btn-info.disabled.focus,
+.btn-info.disabled:active,
+.btn-info.disabled:focus,
+.btn-info.disabled:hover,
+.btn-info[disabled],
+.btn-info[disabled].active,
+.btn-info[disabled].focus,
+.btn-info[disabled]:active,
+.btn-info[disabled]:focus,
+.btn-info[disabled]:hover,
+fieldset[disabled] .btn-info,
+fieldset[disabled] .btn-info.active,
+fieldset[disabled] .btn-info.focus,
+fieldset[disabled] .btn-info:active,
+fieldset[disabled] .btn-info:focus,
+fieldset[disabled] .btn-info:hover {
+  background-color: #f2da00;
+  border-color: transparent;
+}
+
+.btn-info .badge {
+  color: #f2da00;
+  background-color: #fff;
+}
+
+.btn-warning,
+.doc-oppose-button,
+.reject-button {
+  color: #fff;
+  background-color: #ff9d00;
+  border-color: transparent;
+}
+
+.active.doc-oppose-button,
+.active.reject-button,
+.btn-warning.active,
+.btn-warning.focus,
+.btn-warning:active,
+.btn-warning:focus,
+.btn-warning:hover,
+.doc-oppose-button:active,
+.doc-oppose-button:focus,
+.doc-oppose-button:hover,
+.focus.doc-oppose-button,
+.focus.reject-button,
+.open>.btn-warning.dropdown-toggle,
+.open>.dropdown-toggle.doc-oppose-button,
+.open>.dropdown-toggle.reject-button,
+.reject-button:active,
+.reject-button:focus,
+.reject-button:hover {
+  color: #fff;
+  background-color: #cc7e00;
+  border-color: transparent;
+}
+
+.active.doc-oppose-button,
+.active.reject-button,
+.btn-warning.active,
+.btn-warning:active,
+.doc-oppose-button:active,
+.open>.btn-warning.dropdown-toggle,
+.open>.dropdown-toggle.doc-oppose-button,
+.open>.dropdown-toggle.reject-button,
+.reject-button:active {
+  background-image: none;
+}
+
+.btn-warning.disabled,
+.btn-warning.disabled.active,
+.btn-warning.disabled.focus,
+.btn-warning.disabled:active,
+.btn-warning.disabled:focus,
+.btn-warning.disabled:hover,
+.btn-warning[disabled],
+.btn-warning[disabled].active,
+.btn-warning[disabled].focus,
+.btn-warning[disabled]:active,
+.btn-warning[disabled]:focus,
+.btn-warning[disabled]:hover,
+.disabled.active.doc-oppose-button,
+.disabled.active.reject-button,
+.disabled.doc-oppose-button,
+.disabled.doc-oppose-button:active,
+.disabled.doc-oppose-button:focus,
+.disabled.doc-oppose-button:hover,
+.disabled.focus.doc-oppose-button,
+.disabled.focus.reject-button,
+.disabled.reject-button,
+.disabled.reject-button:active,
+.disabled.reject-button:focus,
+.disabled.reject-button:hover,
+[disabled].active.doc-oppose-button,
+[disabled].active.reject-button,
+[disabled].doc-oppose-button,
+[disabled].doc-oppose-button:active,
+[disabled].doc-oppose-button:focus,
+[disabled].doc-oppose-button:hover,
+[disabled].focus.doc-oppose-button,
+[disabled].focus.reject-button,
+[disabled].reject-button,
+[disabled].reject-button:active,
+[disabled].reject-button:focus,
+[disabled].reject-button:hover,
+fieldset[disabled] .active.doc-oppose-button,
+fieldset[disabled] .active.reject-button,
+fieldset[disabled] .btn-warning,
+fieldset[disabled] .btn-warning.active,
+fieldset[disabled] .btn-warning.focus,
+fieldset[disabled] .btn-warning:active,
+fieldset[disabled] .btn-warning:focus,
+fieldset[disabled] .btn-warning:hover,
+fieldset[disabled] .doc-oppose-button,
+fieldset[disabled] .doc-oppose-button:active,
+fieldset[disabled] .doc-oppose-button:focus,
+fieldset[disabled] .doc-oppose-button:hover,
+fieldset[disabled] .focus.doc-oppose-button,
+fieldset[disabled] .focus.reject-button,
+fieldset[disabled] .reject-button,
+fieldset[disabled] .reject-button:active,
+fieldset[disabled] .reject-button:focus,
+fieldset[disabled] .reject-button:hover {
+  background-color: #ff9d00;
+  border-color: transparent;
+}
+
+.btn-warning .badge,
+.doc-oppose-button .badge,
+.reject-button .badge {
+  color: #ff9d00;
+  background-color: #fff;
+}
+
+.btn-danger,
+.danger-button,
+.delete-document-button,
+.delete-page-button {
+  color: #fff;
+  background-color: #e50b18;
+  border-color: transparent;
+}
+
+.active.danger-button,
+.active.delete-document-button,
+.active.delete-page-button,
+.btn-danger.active,
+.btn-danger.focus,
+.btn-danger:active,
+.btn-danger:focus,
+.btn-danger:hover,
+.danger-button:active,
+.danger-button:focus,
+.danger-button:hover,
+.delete-document-button:active,
+.delete-document-button:focus,
+.delete-document-button:hover,
+.delete-page-button:active,
+.delete-page-button:focus,
+.delete-page-button:hover,
+.focus.danger-button,
+.focus.delete-document-button,
+.focus.delete-page-button,
+.open>.btn-danger.dropdown-toggle,
+.open>.dropdown-toggle.danger-button,
+.open>.dropdown-toggle.delete-document-button,
+.open>.dropdown-toggle.delete-page-button {
+  color: #fff;
+  background-color: #b40913;
+  border-color: transparent;
+}
+
+.active.danger-button,
+.active.delete-document-button,
+.active.delete-page-button,
+.btn-danger.active,
+.btn-danger:active,
+.danger-button:active,
+.delete-document-button:active,
+.delete-page-button:active,
+.open>.btn-danger.dropdown-toggle,
+.open>.dropdown-toggle.danger-button,
+.open>.dropdown-toggle.delete-document-button,
+.open>.dropdown-toggle.delete-page-button {
+  background-image: none;
+}
+
+.btn-danger.disabled,
+.btn-danger.disabled.active,
+.btn-danger.disabled.focus,
+.btn-danger.disabled:active,
+.btn-danger.disabled:focus,
+.btn-danger.disabled:hover,
+.btn-danger[disabled],
+.btn-danger[disabled].active,
+.btn-danger[disabled].focus,
+.btn-danger[disabled]:active,
+.btn-danger[disabled]:focus,
+.btn-danger[disabled]:hover,
+.disabled.active.danger-button,
+.disabled.active.delete-document-button,
+.disabled.active.delete-page-button,
+.disabled.danger-button,
+.disabled.danger-button:active,
+.disabled.danger-button:focus,
+.disabled.danger-button:hover,
+.disabled.delete-document-button,
+.disabled.delete-document-button:active,
+.disabled.delete-document-button:focus,
+.disabled.delete-document-button:hover,
+.disabled.delete-page-button,
+.disabled.delete-page-button:active,
+.disabled.delete-page-button:focus,
+.disabled.delete-page-button:hover,
+.disabled.focus.danger-button,
+.disabled.focus.delete-document-button,
+.disabled.focus.delete-page-button,
+[disabled].active.danger-button,
+[disabled].active.delete-document-button,
+[disabled].active.delete-page-button,
+[disabled].danger-button,
+[disabled].danger-button:active,
+[disabled].danger-button:focus,
+[disabled].danger-button:hover,
+[disabled].delete-document-button,
+[disabled].delete-document-button:active,
+[disabled].delete-document-button:focus,
+[disabled].delete-document-button:hover,
+[disabled].delete-page-button,
+[disabled].delete-page-button:active,
+[disabled].delete-page-button:focus,
+[disabled].delete-page-button:hover,
+[disabled].focus.danger-button,
+[disabled].focus.delete-document-button,
+[disabled].focus.delete-page-button,
+fieldset[disabled] .active.danger-button,
+fieldset[disabled] .active.delete-document-button,
+fieldset[disabled] .active.delete-page-button,
+fieldset[disabled] .btn-danger,
+fieldset[disabled] .btn-danger.active,
+fieldset[disabled] .btn-danger.focus,
+fieldset[disabled] .btn-danger:active,
+fieldset[disabled] .btn-danger:focus,
+fieldset[disabled] .btn-danger:hover,
+fieldset[disabled] .danger-button,
+fieldset[disabled] .danger-button:active,
+fieldset[disabled] .danger-button:focus,
+fieldset[disabled] .danger-button:hover,
+fieldset[disabled] .delete-document-button,
+fieldset[disabled] .delete-document-button:active,
+fieldset[disabled] .delete-document-button:focus,
+fieldset[disabled] .delete-document-button:hover,
+fieldset[disabled] .delete-page-button,
+fieldset[disabled] .delete-page-button:active,
+fieldset[disabled] .delete-page-button:focus,
+fieldset[disabled] .delete-page-button:hover,
+fieldset[disabled] .focus.danger-button,
+fieldset[disabled] .focus.delete-document-button,
+fieldset[disabled] .focus.delete-page-button {
+  background-color: #e50b18;
+  border-color: transparent;
+}
+
+.btn-danger .badge,
+.danger-button .badge,
+.delete-document-button .badge,
+.delete-page-button .badge {
+  color: #e50b18;
+  background-color: #fff;
+}
+
+.btn-link {
+  color: #00cae5;
+  font-weight: 400;
+  border-radius: 0;
+}
+
+.btn-link,
+.btn-link.active,
+.btn-link:active,
+.btn-link[disabled],
+fieldset[disabled] .btn-link {
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.btn-link,
+.btn-link:active,
+.btn-link:focus,
+.btn-link:hover {
+  border-color: transparent;
+}
+
+.btn-link:focus,
+.btn-link:hover {
+  color: #00cae5;
+  text-decoration: underline;
+  background-color: transparent;
+}
+
+.btn-link[disabled]:focus,
+.btn-link[disabled]:hover,
+fieldset[disabled] .btn-link:focus,
+fieldset[disabled] .btn-link:hover {
+  color: #777;
+  text-decoration: none;
+}
+
+.btn-group-lg>.btn,
+.btn-group-lg>.button,
+.btn-group-lg>.create-document-button,
+.btn-group-lg>.delete-document-button,
+.btn-group-lg>.delete-page-button,
+.btn-group-lg>.login-button,
+.btn-group-lg>.save-document-button,
+.btn-lg,
+.home-feature .btn-group-lg>.read-button,
+.search-form .btn-group-lg>.search-button {
+  padding: 1rem 16px;
+  font-size: 1.25rem;
+  line-height: 2;
+  border-radius: 6px;
+}
+
+.btn-group-sm>.btn,
+.btn-group-sm>.button,
+.btn-group-sm>.create-document-button,
+.btn-group-sm>.delete-document-button,
+.btn-group-sm>.delete-page-button,
+.btn-group-sm>.login-button,
+.btn-group-sm>.save-document-button,
+.btn-sm,
+.home-feature .btn-group-sm>.read-button,
+.search-form .btn-group-sm>.search-button {
+  padding: .5rem 10px;
+  font-size: .85rem;
+  line-height: 2;
+  border-radius: 3px;
+}
+
+.btn-group-xs>.btn,
+.btn-group-xs>.button,
+.btn-group-xs>.create-document-button,
+.btn-group-xs>.delete-document-button,
+.btn-group-xs>.delete-page-button,
+.btn-group-xs>.login-button,
+.btn-group-xs>.save-document-button,
+.btn-xs,
+.home-feature .btn-group-xs>.read-button,
+.search-form .btn-group-xs>.search-button {
+  padding: 0 5px;
+  font-size: .85rem;
+  line-height: 2;
+  border-radius: 3px;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-block+.btn-block {
+  margin-top: 5px;
+}
+
+input[type=button].btn-block,
+input[type=reset].btn-block,
+input[type=submit].btn-block {
+  width: 100%;
+}
+
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity .15s linear;
+  -o-transition: opacity .15s linear;
+  transition: opacity .15s linear;
+}
+
+.fade.in {
+  opacity: 1;
+}
+
+.collapse {
+  display: none;
+  visibility: hidden;
+}
+
+.collapse.in {
+  display: block;
+  visibility: visible;
+}
+
+tr.collapse.in {
+  display: table-row;
+}
+
+tbody.collapse.in {
+  display: table-row-group;
+}
+
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition-property: height,visibility;
+  transition-property: height,visibility;
+  -webkit-transition-duration: .35s;
+  transition-duration: .35s;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+}
+
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 4px solid;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.dropdown,
+.dropup {
+  position: relative;
+}
+
+.dropdown-toggle:focus {
+  outline: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  list-style: none;
+  font-size: 1rem;
+  text-align: left;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 7px;
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  background-clip: padding-box;
+}
+
+.dropdown-menu.pull-right,
+.footer .dropdown-menu.footer-links {
+  right: 0;
+  left: auto;
+}
+
+.dropdown-menu .divider {
+  height: 1px;
+  margin: -.1875rem 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+
+.dropdown-menu>li>a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.625;
+  color: #333;
+  white-space: nowrap;
+}
+
+.dropdown-menu>li>a:focus,
+.dropdown-menu>li>a:hover {
+  text-decoration: none;
+  color: #262626;
+  background-color: #f5f5f5;
+}
+
+.dropdown-menu>.active>a,
+.dropdown-menu>.active>a:focus,
+.dropdown-menu>.active>a:hover {
+  color: #fff;
+  text-decoration: none;
+  outline: 0;
+  background-color: #337ab7;
+}
+
+.dropdown-menu>.disabled>a,
+.dropdown-menu>.disabled>a:focus,
+.dropdown-menu>.disabled>a:hover {
+  color: #777;
+}
+
+.dropdown-menu>.disabled>a:focus,
+.dropdown-menu>.disabled>a:hover {
+  text-decoration: none;
+  background-color: transparent;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  cursor: not-allowed;
+}
+
+.open>.dropdown-menu {
+  display: block;
+}
+
+.open>a {
+  outline: 0;
+}
+
+.dropdown-menu-right {
+  left: auto;
+  right: 0;
+}
+
+.dropdown-menu-left {
+  left: 0;
+  right: auto;
+}
+
+.dropdown-header {
+  display: block;
+  padding: 3px 20px;
+  font-size: .85rem;
+  line-height: 1.625;
+  color: #777;
+  white-space: nowrap;
+}
+
+.dropdown-backdrop {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 990;
+}
+
+.footer .footer-links>.dropdown-menu,
+.pull-right>.dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+.dropup .caret,
+.navbar-fixed-bottom .dropdown .caret {
+  border-top: 0;
+  border-bottom: 4px solid;
+  content: "";
+}
+
+.dropup .dropdown-menu,
+.navbar-fixed-bottom .dropdown .dropdown-menu {
+  top: auto;
+  bottom: 100%;
+  margin-bottom: 2px;
+}
+
+@media (min-width:768px) {
+  .navbar-right .dropdown-menu {
+    right: 0;
+    left: auto;
+  }
+
+  .navbar-right .dropdown-menu-left {
+    left: 0;
+    right: auto;
+  }
+}
+
+.btn-group,
+.btn-group-vertical {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.btn-group-vertical>.btn,
+.btn-group-vertical>.button,
+.btn-group-vertical>.create-document-button,
+.btn-group-vertical>.delete-document-button,
+.btn-group-vertical>.delete-page-button,
+.btn-group-vertical>.login-button,
+.btn-group-vertical>.save-document-button,
+.btn-group>.btn,
+.btn-group>.button,
+.btn-group>.create-document-button,
+.btn-group>.delete-document-button,
+.btn-group>.delete-page-button,
+.btn-group>.login-button,
+.btn-group>.save-document-button,
+.home-feature .btn-group-vertical>.read-button,
+.home-feature .btn-group>.read-button,
+.search-form .btn-group-vertical>.search-button,
+.search-form .btn-group>.search-button {
+  position: relative;
+  float: left;
+}
+
+.btn-group-vertical>.active.button,
+.btn-group-vertical>.active.create-document-button,
+.btn-group-vertical>.active.delete-document-button,
+.btn-group-vertical>.active.delete-page-button,
+.btn-group-vertical>.active.login-button,
+.btn-group-vertical>.active.save-document-button,
+.btn-group-vertical>.btn.active,
+.btn-group-vertical>.btn:active,
+.btn-group-vertical>.btn:focus,
+.btn-group-vertical>.btn:hover,
+.btn-group-vertical>.button:active,
+.btn-group-vertical>.button:focus,
+.btn-group-vertical>.button:hover,
+.btn-group-vertical>.create-document-button:active,
+.btn-group-vertical>.create-document-button:focus,
+.btn-group-vertical>.create-document-button:hover,
+.btn-group-vertical>.delete-document-button:active,
+.btn-group-vertical>.delete-document-button:focus,
+.btn-group-vertical>.delete-document-button:hover,
+.btn-group-vertical>.delete-page-button:active,
+.btn-group-vertical>.delete-page-button:focus,
+.btn-group-vertical>.delete-page-button:hover,
+.btn-group-vertical>.login-button:active,
+.btn-group-vertical>.login-button:focus,
+.btn-group-vertical>.login-button:hover,
+.btn-group-vertical>.save-document-button:active,
+.btn-group-vertical>.save-document-button:focus,
+.btn-group-vertical>.save-document-button:hover,
+.btn-group>.active.button,
+.btn-group>.active.create-document-button,
+.btn-group>.active.delete-document-button,
+.btn-group>.active.delete-page-button,
+.btn-group>.active.login-button,
+.btn-group>.active.save-document-button,
+.btn-group>.btn.active,
+.btn-group>.btn:active,
+.btn-group>.btn:focus,
+.btn-group>.btn:hover,
+.btn-group>.button:active,
+.btn-group>.button:focus,
+.btn-group>.button:hover,
+.btn-group>.create-document-button:active,
+.btn-group>.create-document-button:focus,
+.btn-group>.create-document-button:hover,
+.btn-group>.delete-document-button:active,
+.btn-group>.delete-document-button:focus,
+.btn-group>.delete-document-button:hover,
+.btn-group>.delete-page-button:active,
+.btn-group>.delete-page-button:focus,
+.btn-group>.delete-page-button:hover,
+.btn-group>.login-button:active,
+.btn-group>.login-button:focus,
+.btn-group>.login-button:hover,
+.btn-group>.save-document-button:active,
+.btn-group>.save-document-button:focus,
+.btn-group>.save-document-button:hover,
+.home-feature .btn-group-vertical>.active.read-button,
+.home-feature .btn-group-vertical>.read-button:active,
+.home-feature .btn-group-vertical>.read-button:focus,
+.home-feature .btn-group-vertical>.read-button:hover,
+.home-feature .btn-group>.active.read-button,
+.home-feature .btn-group>.read-button:active,
+.home-feature .btn-group>.read-button:focus,
+.home-feature .btn-group>.read-button:hover,
+.search-form .btn-group-vertical>.active.search-button,
+.search-form .btn-group-vertical>.search-button:active,
+.search-form .btn-group-vertical>.search-button:focus,
+.search-form .btn-group-vertical>.search-button:hover,
+.search-form .btn-group>.active.search-button,
+.search-form .btn-group>.search-button:active,
+.search-form .btn-group>.search-button:focus,
+.search-form .btn-group>.search-button:hover {
+  z-index: 2;
+}
+
+.btn-group .btn+.btn,
+.btn-group .btn+.btn-group,
+.btn-group .btn+.button,
+.btn-group .btn+.create-document-button,
+.btn-group .btn+.delete-document-button,
+.btn-group .btn+.delete-page-button,
+.btn-group .btn+.login-button,
+.btn-group .btn+.save-document-button,
+.btn-group .btn-group+.btn,
+.btn-group .btn-group+.btn-group,
+.btn-group .btn-group+.button,
+.btn-group .btn-group+.create-document-button,
+.btn-group .btn-group+.delete-document-button,
+.btn-group .btn-group+.delete-page-button,
+.btn-group .btn-group+.login-button,
+.btn-group .btn-group+.save-document-button,
+.btn-group .button+.btn,
+.btn-group .button+.btn-group,
+.btn-group .button+.button,
+.btn-group .button+.create-document-button,
+.btn-group .button+.delete-document-button,
+.btn-group .button+.delete-page-button,
+.btn-group .button+.login-button,
+.btn-group .button+.save-document-button,
+.btn-group .create-document-button+.btn,
+.btn-group .create-document-button+.btn-group,
+.btn-group .create-document-button+.button,
+.btn-group .create-document-button+.create-document-button,
+.btn-group .create-document-button+.delete-document-button,
+.btn-group .create-document-button+.delete-page-button,
+.btn-group .create-document-button+.login-button,
+.btn-group .create-document-button+.save-document-button,
+.btn-group .delete-document-button+.btn,
+.btn-group .delete-document-button+.btn-group,
+.btn-group .delete-document-button+.button,
+.btn-group .delete-document-button+.create-document-button,
+.btn-group .delete-document-button+.delete-document-button,
+.btn-group .delete-document-button+.delete-page-button,
+.btn-group .delete-document-button+.login-button,
+.btn-group .delete-document-button+.save-document-button,
+.btn-group .delete-page-button+.btn,
+.btn-group .delete-page-button+.btn-group,
+.btn-group .delete-page-button+.button,
+.btn-group .delete-page-button+.create-document-button,
+.btn-group .delete-page-button+.delete-document-button,
+.btn-group .delete-page-button+.delete-page-button,
+.btn-group .delete-page-button+.login-button,
+.btn-group .delete-page-button+.save-document-button,
+.btn-group .home-feature .btn+.read-button,
+.btn-group .home-feature .btn-group+.read-button,
+.btn-group .home-feature .button+.read-button,
+.btn-group .home-feature .create-document-button+.read-button,
+.btn-group .home-feature .delete-document-button+.read-button,
+.btn-group .home-feature .delete-page-button+.read-button,
+.btn-group .home-feature .login-button+.read-button,
+.btn-group .home-feature .read-button+.btn,
+.btn-group .home-feature .read-button+.btn-group,
+.btn-group .home-feature .read-button+.button,
+.btn-group .home-feature .read-button+.create-document-button,
+.btn-group .home-feature .read-button+.delete-document-button,
+.btn-group .home-feature .read-button+.delete-page-button,
+.btn-group .home-feature .read-button+.login-button,
+.btn-group .home-feature .read-button+.read-button,
+.btn-group .home-feature .read-button+.save-document-button,
+.btn-group .home-feature .save-document-button+.read-button,
+.btn-group .home-feature .search-form .read-button+.search-button,
+.btn-group .login-button+.btn,
+.btn-group .login-button+.btn-group,
+.btn-group .login-button+.button,
+.btn-group .login-button+.create-document-button,
+.btn-group .login-button+.delete-document-button,
+.btn-group .login-button+.delete-page-button,
+.btn-group .login-button+.login-button,
+.btn-group .login-button+.save-document-button,
+.btn-group .save-document-button+.btn,
+.btn-group .save-document-button+.btn-group,
+.btn-group .save-document-button+.button,
+.btn-group .save-document-button+.create-document-button,
+.btn-group .save-document-button+.delete-document-button,
+.btn-group .save-document-button+.delete-page-button,
+.btn-group .save-document-button+.login-button,
+.btn-group .save-document-button+.save-document-button,
+.btn-group .search-form .btn+.search-button,
+.btn-group .search-form .btn-group+.search-button,
+.btn-group .search-form .button+.search-button,
+.btn-group .search-form .create-document-button+.search-button,
+.btn-group .search-form .delete-document-button+.search-button,
+.btn-group .search-form .delete-page-button+.search-button,
+.btn-group .search-form .home-feature .search-button+.read-button,
+.btn-group .search-form .login-button+.search-button,
+.btn-group .search-form .save-document-button+.search-button,
+.btn-group .search-form .search-button+.btn,
+.btn-group .search-form .search-button+.btn-group,
+.btn-group .search-form .search-button+.button,
+.btn-group .search-form .search-button+.create-document-button,
+.btn-group .search-form .search-button+.delete-document-button,
+.btn-group .search-form .search-button+.delete-page-button,
+.btn-group .search-form .search-button+.login-button,
+.btn-group .search-form .search-button+.save-document-button,
+.btn-group .search-form .search-button+.search-button,
+.home-feature .btn-group .btn+.read-button,
+.home-feature .btn-group .btn-group+.read-button,
+.home-feature .btn-group .button+.read-button,
+.home-feature .btn-group .create-document-button+.read-button,
+.home-feature .btn-group .delete-document-button+.read-button,
+.home-feature .btn-group .delete-page-button+.read-button,
+.home-feature .btn-group .login-button+.read-button,
+.home-feature .btn-group .read-button+.btn,
+.home-feature .btn-group .read-button+.btn-group,
+.home-feature .btn-group .read-button+.button,
+.home-feature .btn-group .read-button+.create-document-button,
+.home-feature .btn-group .read-button+.delete-document-button,
+.home-feature .btn-group .read-button+.delete-page-button,
+.home-feature .btn-group .read-button+.login-button,
+.home-feature .btn-group .read-button+.read-button,
+.home-feature .btn-group .read-button+.save-document-button,
+.home-feature .btn-group .save-document-button+.read-button,
+.home-feature .btn-group .search-form .read-button+.search-button,
+.home-feature .btn-group .search-form .search-button+.read-button,
+.home-feature .search-form .btn-group .search-button+.read-button,
+.search-form .btn-group .btn+.search-button,
+.search-form .btn-group .btn-group+.search-button,
+.search-form .btn-group .button+.search-button,
+.search-form .btn-group .create-document-button+.search-button,
+.search-form .btn-group .delete-document-button+.search-button,
+.search-form .btn-group .delete-page-button+.search-button,
+.search-form .btn-group .home-feature .read-button+.search-button,
+.search-form .btn-group .home-feature .search-button+.read-button,
+.search-form .btn-group .login-button+.search-button,
+.search-form .btn-group .save-document-button+.search-button,
+.search-form .btn-group .search-button+.btn,
+.search-form .btn-group .search-button+.btn-group,
+.search-form .btn-group .search-button+.button,
+.search-form .btn-group .search-button+.create-document-button,
+.search-form .btn-group .search-button+.delete-document-button,
+.search-form .btn-group .search-button+.delete-page-button,
+.search-form .btn-group .search-button+.login-button,
+.search-form .btn-group .search-button+.save-document-button,
+.search-form .btn-group .search-button+.search-button,
+.search-form .home-feature .btn-group .read-button+.search-button {
+  margin-left: -1px;
+}
+
+.btn-toolbar {
+  margin-left: -5px;
+}
+
+.btn-toolbar:after,
+.btn-toolbar:before {
+  content: " ";
+  display: table;
+}
+
+.btn-toolbar:after {
+  clear: both;
+}
+
+.btn-toolbar .btn-group,
+.btn-toolbar .input-group {
+  float: left;
+}
+
+.btn-toolbar>.btn,
+.btn-toolbar>.btn-group,
+.btn-toolbar>.button,
+.btn-toolbar>.create-document-button,
+.btn-toolbar>.delete-document-button,
+.btn-toolbar>.delete-page-button,
+.btn-toolbar>.input-group,
+.btn-toolbar>.login-button,
+.btn-toolbar>.save-document-button,
+.home-feature .btn-toolbar>.read-button,
+.search-form .btn-toolbar>.search-button {
+  margin-left: 5px;
+}
+
+.btn-group>.btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
+.btn-group>.button:not(:first-child):not(:last-child):not(.dropdown-toggle),
+.btn-group>.create-document-button:not(:first-child):not(:last-child):not(.dropdown-toggle),
+.btn-group>.delete-document-button:not(:first-child):not(:last-child):not(.dropdown-toggle),
+.btn-group>.delete-page-button:not(:first-child):not(:last-child):not(.dropdown-toggle),
+.btn-group>.login-button:not(:first-child):not(:last-child):not(.dropdown-toggle),
+.btn-group>.save-document-button:not(:first-child):not(:last-child):not(.dropdown-toggle),
+.home-feature .btn-group>.read-button:not(:first-child):not(:last-child):not(.dropdown-toggle),
+.search-form .btn-group>.search-button:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+  border-radius: 0;
+}
+
+.btn-group>.btn:first-child,
+.btn-group>.button:first-child,
+.btn-group>.create-document-button:first-child,
+.btn-group>.delete-document-button:first-child,
+.btn-group>.delete-page-button:first-child,
+.btn-group>.login-button:first-child,
+.btn-group>.save-document-button:first-child,
+.home-feature .btn-group>.read-button:first-child,
+.search-form .btn-group>.search-button:first-child {
+  margin-left: 0;
+}
+
+.btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle),
+.btn-group>.button:first-child:not(:last-child):not(.dropdown-toggle),
+.btn-group>.create-document-button:first-child:not(:last-child):not(.dropdown-toggle),
+.btn-group>.delete-document-button:first-child:not(:last-child):not(.dropdown-toggle),
+.btn-group>.delete-page-button:first-child:not(:last-child):not(.dropdown-toggle),
+.btn-group>.login-button:first-child:not(:last-child):not(.dropdown-toggle),
+.btn-group>.save-document-button:first-child:not(:last-child):not(.dropdown-toggle),
+.home-feature .btn-group>.read-button:first-child:not(:last-child):not(.dropdown-toggle),
+.search-form .btn-group>.search-button:first-child:not(:last-child):not(.dropdown-toggle) {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.btn-group>.btn:last-child:not(:first-child),
+.btn-group>.button:last-child:not(:first-child),
+.btn-group>.create-document-button:last-child:not(:first-child),
+.btn-group>.delete-document-button:last-child:not(:first-child),
+.btn-group>.delete-page-button:last-child:not(:first-child),
+.btn-group>.dropdown-toggle:not(:first-child),
+.btn-group>.login-button:last-child:not(:first-child),
+.btn-group>.save-document-button:last-child:not(:first-child),
+.home-feature .btn-group>.read-button:last-child:not(:first-child),
+.search-form .btn-group>.search-button:last-child:not(:first-child) {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.btn-group>.btn-group {
+  float: left;
+}
+
+.btn-group>.btn-group:not(:first-child):not(:last-child)>.btn,
+.btn-group>.btn-group:not(:first-child):not(:last-child)>.button,
+.btn-group>.btn-group:not(:first-child):not(:last-child)>.create-document-button,
+.btn-group>.btn-group:not(:first-child):not(:last-child)>.delete-document-button,
+.btn-group>.btn-group:not(:first-child):not(:last-child)>.delete-page-button,
+.btn-group>.btn-group:not(:first-child):not(:last-child)>.login-button,
+.btn-group>.btn-group:not(:first-child):not(:last-child)>.save-document-button,
+.home-feature .btn-group>.btn-group:not(:first-child):not(:last-child)>.read-button,
+.search-form .btn-group>.btn-group:not(:first-child):not(:last-child)>.search-button {
+  border-radius: 0;
+}
+
+.btn-group>.btn-group:first-child:not(:last-child)>.btn:last-child,
+.btn-group>.btn-group:first-child:not(:last-child)>.button:last-child,
+.btn-group>.btn-group:first-child:not(:last-child)>.create-document-button:last-child,
+.btn-group>.btn-group:first-child:not(:last-child)>.delete-document-button:last-child,
+.btn-group>.btn-group:first-child:not(:last-child)>.delete-page-button:last-child,
+.btn-group>.btn-group:first-child:not(:last-child)>.dropdown-toggle,
+.btn-group>.btn-group:first-child:not(:last-child)>.login-button:last-child,
+.btn-group>.btn-group:first-child:not(:last-child)>.save-document-button:last-child,
+.home-feature .btn-group>.btn-group:first-child:not(:last-child)>.read-button:last-child,
+.search-form .btn-group>.btn-group:first-child:not(:last-child)>.search-button:last-child {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.btn-group>.btn-group:last-child:not(:first-child)>.btn:first-child,
+.btn-group>.btn-group:last-child:not(:first-child)>.button:first-child,
+.btn-group>.btn-group:last-child:not(:first-child)>.create-document-button:first-child,
+.btn-group>.btn-group:last-child:not(:first-child)>.delete-document-button:first-child,
+.btn-group>.btn-group:last-child:not(:first-child)>.delete-page-button:first-child,
+.btn-group>.btn-group:last-child:not(:first-child)>.login-button:first-child,
+.btn-group>.btn-group:last-child:not(:first-child)>.save-document-button:first-child,
+.home-feature .btn-group>.btn-group:last-child:not(:first-child)>.read-button:first-child,
+.search-form .btn-group>.btn-group:last-child:not(:first-child)>.search-button:first-child {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.btn-group .dropdown-toggle:active,
+.btn-group.open .dropdown-toggle {
+  outline: 0;
+}
+
+.btn-group>.btn+.dropdown-toggle,
+.btn-group>.button+.dropdown-toggle,
+.btn-group>.create-document-button+.dropdown-toggle,
+.btn-group>.delete-document-button+.dropdown-toggle,
+.btn-group>.delete-page-button+.dropdown-toggle,
+.btn-group>.login-button+.dropdown-toggle,
+.btn-group>.save-document-button+.dropdown-toggle,
+.home-feature .btn-group>.read-button+.dropdown-toggle,
+.search-form .btn-group>.search-button+.dropdown-toggle {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.btn-group-lg.btn-group>.btn+.dropdown-toggle,
+.btn-group-lg.btn-group>.button+.dropdown-toggle,
+.btn-group-lg.btn-group>.create-document-button+.dropdown-toggle,
+.btn-group-lg.btn-group>.delete-document-button+.dropdown-toggle,
+.btn-group-lg.btn-group>.delete-page-button+.dropdown-toggle,
+.btn-group-lg.btn-group>.login-button+.dropdown-toggle,
+.btn-group-lg.btn-group>.save-document-button+.dropdown-toggle,
+.btn-group>.btn-lg+.dropdown-toggle,
+.home-feature .btn-group-lg.btn-group>.read-button+.dropdown-toggle,
+.search-form .btn-group-lg.btn-group>.search-button+.dropdown-toggle {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.btn-group.open .dropdown-toggle {
+  -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+}
+
+.btn-group.open .dropdown-toggle.btn-link {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.btn .caret,
+.button .caret,
+.create-document-button .caret,
+.delete-document-button .caret,
+.delete-page-button .caret,
+.home-feature .read-button .caret,
+.login-button .caret,
+.save-document-button .caret,
+.search-form .search-button .caret {
+  margin-left: 0;
+}
+
+.btn-group-lg>.btn .caret,
+.btn-group-lg>.button .caret,
+.btn-group-lg>.create-document-button .caret,
+.btn-group-lg>.delete-document-button .caret,
+.btn-group-lg>.delete-page-button .caret,
+.btn-group-lg>.login-button .caret,
+.btn-group-lg>.save-document-button .caret,
+.btn-lg .caret,
+.home-feature .btn-group-lg>.read-button .caret,
+.search-form .btn-group-lg>.search-button .caret {
+  border-width: 5px 5px 0;
+  border-bottom-width: 0;
+}
+
+.dropup .btn-group-lg>.btn .caret,
+.dropup .btn-group-lg>.button .caret,
+.dropup .btn-group-lg>.create-document-button .caret,
+.dropup .btn-group-lg>.delete-document-button .caret,
+.dropup .btn-group-lg>.delete-page-button .caret,
+.dropup .btn-group-lg>.login-button .caret,
+.dropup .btn-group-lg>.save-document-button .caret,
+.dropup .btn-lg .caret,
+.dropup .home-feature .btn-group-lg>.read-button .caret,
+.dropup .search-form .btn-group-lg>.search-button .caret,
+.home-feature .dropup .btn-group-lg>.read-button .caret,
+.search-form .dropup .btn-group-lg>.search-button .caret {
+  border-width: 0 5px 5px;
+}
+
+.btn-group-vertical>.btn,
+.btn-group-vertical>.btn-group,
+.btn-group-vertical>.btn-group>.btn,
+.btn-group-vertical>.btn-group>.button,
+.btn-group-vertical>.btn-group>.create-document-button,
+.btn-group-vertical>.btn-group>.delete-document-button,
+.btn-group-vertical>.btn-group>.delete-page-button,
+.btn-group-vertical>.btn-group>.login-button,
+.btn-group-vertical>.btn-group>.save-document-button,
+.btn-group-vertical>.button,
+.btn-group-vertical>.create-document-button,
+.btn-group-vertical>.delete-document-button,
+.btn-group-vertical>.delete-page-button,
+.btn-group-vertical>.login-button,
+.btn-group-vertical>.save-document-button,
+.home-feature .btn-group-vertical>.btn-group>.read-button,
+.home-feature .btn-group-vertical>.read-button,
+.search-form .btn-group-vertical>.btn-group>.search-button,
+.search-form .btn-group-vertical>.search-button {
+  display: block;
+  float: none;
+  width: 100%;
+  max-width: 100%;
+}
+
+.btn-group-vertical>.btn-group:after,
+.btn-group-vertical>.btn-group:before {
+  content: " ";
+  display: table;
+}
+
+.btn-group-vertical>.btn-group:after {
+  clear: both;
+}
+
+.btn-group-vertical>.btn-group>.btn,
+.btn-group-vertical>.btn-group>.button,
+.btn-group-vertical>.btn-group>.create-document-button,
+.btn-group-vertical>.btn-group>.delete-document-button,
+.btn-group-vertical>.btn-group>.delete-page-button,
+.btn-group-vertical>.btn-group>.login-button,
+.btn-group-vertical>.btn-group>.save-document-button,
+.home-feature .btn-group-vertical>.btn-group>.read-button,
+.search-form .btn-group-vertical>.btn-group>.search-button {
+  float: none;
+}
+
+.btn-group-vertical>.btn+.btn,
+.btn-group-vertical>.btn+.btn-group,
+.btn-group-vertical>.btn+.button,
+.btn-group-vertical>.btn+.create-document-button,
+.btn-group-vertical>.btn+.delete-document-button,
+.btn-group-vertical>.btn+.delete-page-button,
+.btn-group-vertical>.btn+.login-button,
+.btn-group-vertical>.btn+.save-document-button,
+.btn-group-vertical>.btn-group+.btn,
+.btn-group-vertical>.btn-group+.btn-group,
+.btn-group-vertical>.btn-group+.button,
+.btn-group-vertical>.btn-group+.create-document-button,
+.btn-group-vertical>.btn-group+.delete-document-button,
+.btn-group-vertical>.btn-group+.delete-page-button,
+.btn-group-vertical>.btn-group+.login-button,
+.btn-group-vertical>.btn-group+.save-document-button,
+.btn-group-vertical>.button+.btn,
+.btn-group-vertical>.button+.btn-group,
+.btn-group-vertical>.button+.button,
+.btn-group-vertical>.button+.create-document-button,
+.btn-group-vertical>.button+.delete-document-button,
+.btn-group-vertical>.button+.delete-page-button,
+.btn-group-vertical>.button+.login-button,
+.btn-group-vertical>.button+.save-document-button,
+.btn-group-vertical>.create-document-button+.btn,
+.btn-group-vertical>.create-document-button+.btn-group,
+.btn-group-vertical>.create-document-button+.button,
+.btn-group-vertical>.create-document-button+.create-document-button,
+.btn-group-vertical>.create-document-button+.delete-document-button,
+.btn-group-vertical>.create-document-button+.delete-page-button,
+.btn-group-vertical>.create-document-button+.login-button,
+.btn-group-vertical>.create-document-button+.save-document-button,
+.btn-group-vertical>.delete-document-button+.btn,
+.btn-group-vertical>.delete-document-button+.btn-group,
+.btn-group-vertical>.delete-document-button+.button,
+.btn-group-vertical>.delete-document-button+.create-document-button,
+.btn-group-vertical>.delete-document-button+.delete-document-button,
+.btn-group-vertical>.delete-document-button+.delete-page-button,
+.btn-group-vertical>.delete-document-button+.login-button,
+.btn-group-vertical>.delete-document-button+.save-document-button,
+.btn-group-vertical>.delete-page-button+.btn,
+.btn-group-vertical>.delete-page-button+.btn-group,
+.btn-group-vertical>.delete-page-button+.button,
+.btn-group-vertical>.delete-page-button+.create-document-button,
+.btn-group-vertical>.delete-page-button+.delete-document-button,
+.btn-group-vertical>.delete-page-button+.delete-page-button,
+.btn-group-vertical>.delete-page-button+.login-button,
+.btn-group-vertical>.delete-page-button+.save-document-button,
+.btn-group-vertical>.login-button+.btn,
+.btn-group-vertical>.login-button+.btn-group,
+.btn-group-vertical>.login-button+.button,
+.btn-group-vertical>.login-button+.create-document-button,
+.btn-group-vertical>.login-button+.delete-document-button,
+.btn-group-vertical>.login-button+.delete-page-button,
+.btn-group-vertical>.login-button+.login-button,
+.btn-group-vertical>.login-button+.save-document-button,
+.btn-group-vertical>.save-document-button+.btn,
+.btn-group-vertical>.save-document-button+.btn-group,
+.btn-group-vertical>.save-document-button+.button,
+.btn-group-vertical>.save-document-button+.create-document-button,
+.btn-group-vertical>.save-document-button+.delete-document-button,
+.btn-group-vertical>.save-document-button+.delete-page-button,
+.btn-group-vertical>.save-document-button+.login-button,
+.btn-group-vertical>.save-document-button+.save-document-button,
+.home-feature .btn-group-vertical>.btn+.read-button,
+.home-feature .btn-group-vertical>.btn-group+.read-button,
+.home-feature .btn-group-vertical>.button+.read-button,
+.home-feature .btn-group-vertical>.create-document-button+.read-button,
+.home-feature .btn-group-vertical>.delete-document-button+.read-button,
+.home-feature .btn-group-vertical>.delete-page-button+.read-button,
+.home-feature .btn-group-vertical>.login-button+.read-button,
+.home-feature .btn-group-vertical>.read-button+.btn,
+.home-feature .btn-group-vertical>.read-button+.btn-group,
+.home-feature .btn-group-vertical>.read-button+.button,
+.home-feature .btn-group-vertical>.read-button+.create-document-button,
+.home-feature .btn-group-vertical>.read-button+.delete-document-button,
+.home-feature .btn-group-vertical>.read-button+.delete-page-button,
+.home-feature .btn-group-vertical>.read-button+.login-button,
+.home-feature .btn-group-vertical>.read-button+.read-button,
+.home-feature .btn-group-vertical>.read-button+.save-document-button,
+.home-feature .btn-group-vertical>.save-document-button+.read-button,
+.home-feature .search-form .btn-group-vertical>.read-button+.search-button,
+.home-feature .search-form .btn-group-vertical>.search-button+.read-button,
+.search-form .btn-group-vertical>.btn+.search-button,
+.search-form .btn-group-vertical>.btn-group+.search-button,
+.search-form .btn-group-vertical>.button+.search-button,
+.search-form .btn-group-vertical>.create-document-button+.search-button,
+.search-form .btn-group-vertical>.delete-document-button+.search-button,
+.search-form .btn-group-vertical>.delete-page-button+.search-button,
+.search-form .btn-group-vertical>.login-button+.search-button,
+.search-form .btn-group-vertical>.save-document-button+.search-button,
+.search-form .btn-group-vertical>.search-button+.btn,
+.search-form .btn-group-vertical>.search-button+.btn-group,
+.search-form .btn-group-vertical>.search-button+.button,
+.search-form .btn-group-vertical>.search-button+.create-document-button,
+.search-form .btn-group-vertical>.search-button+.delete-document-button,
+.search-form .btn-group-vertical>.search-button+.delete-page-button,
+.search-form .btn-group-vertical>.search-button+.login-button,
+.search-form .btn-group-vertical>.search-button+.save-document-button,
+.search-form .btn-group-vertical>.search-button+.search-button,
+.search-form .home-feature .btn-group-vertical>.read-button+.search-button,
+.search-form .home-feature .btn-group-vertical>.search-button+.read-button {
+  margin-top: -1px;
+  margin-left: 0;
+}
+
+.btn-group-vertical>.btn:not(:first-child):not(:last-child),
+.btn-group-vertical>.button:not(:first-child):not(:last-child),
+.btn-group-vertical>.create-document-button:not(:first-child):not(:last-child),
+.btn-group-vertical>.delete-document-button:not(:first-child):not(:last-child),
+.btn-group-vertical>.delete-page-button:not(:first-child):not(:last-child),
+.btn-group-vertical>.login-button:not(:first-child):not(:last-child),
+.btn-group-vertical>.save-document-button:not(:first-child):not(:last-child),
+.home-feature .btn-group-vertical>.read-button:not(:first-child):not(:last-child),
+.search-form .btn-group-vertical>.search-button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.btn-group-vertical>.btn:first-child:not(:last-child),
+.btn-group-vertical>.button:first-child:not(:last-child),
+.btn-group-vertical>.create-document-button:first-child:not(:last-child),
+.btn-group-vertical>.delete-document-button:first-child:not(:last-child),
+.btn-group-vertical>.delete-page-button:first-child:not(:last-child),
+.btn-group-vertical>.login-button:first-child:not(:last-child),
+.btn-group-vertical>.save-document-button:first-child:not(:last-child),
+.home-feature .btn-group-vertical>.read-button:first-child:not(:last-child),
+.search-form .btn-group-vertical>.search-button:first-child:not(:last-child) {
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn-group-vertical>.btn:last-child:not(:first-child),
+.btn-group-vertical>.button:last-child:not(:first-child),
+.btn-group-vertical>.create-document-button:last-child:not(:first-child),
+.btn-group-vertical>.delete-document-button:last-child:not(:first-child),
+.btn-group-vertical>.delete-page-button:last-child:not(:first-child),
+.btn-group-vertical>.login-button:last-child:not(:first-child),
+.btn-group-vertical>.save-document-button:last-child:not(:first-child),
+.home-feature .btn-group-vertical>.read-button:last-child:not(:first-child),
+.search-form .btn-group-vertical>.search-button:last-child:not(:first-child) {
+  border-bottom-left-radius: 7px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.btn-group-vertical>.btn-group:not(:first-child):not(:last-child)>.btn,
+.btn-group-vertical>.btn-group:not(:first-child):not(:last-child)>.button,
+.btn-group-vertical>.btn-group:not(:first-child):not(:last-child)>.create-document-button,
+.btn-group-vertical>.btn-group:not(:first-child):not(:last-child)>.delete-document-button,
+.btn-group-vertical>.btn-group:not(:first-child):not(:last-child)>.delete-page-button,
+.btn-group-vertical>.btn-group:not(:first-child):not(:last-child)>.login-button,
+.btn-group-vertical>.btn-group:not(:first-child):not(:last-child)>.save-document-button,
+.home-feature .btn-group-vertical>.btn-group:not(:first-child):not(:last-child)>.read-button,
+.search-form .btn-group-vertical>.btn-group:not(:first-child):not(:last-child)>.search-button {
+  border-radius: 0;
+}
+
+.btn-group-vertical>.btn-group:first-child:not(:last-child)>.btn:last-child,
+.btn-group-vertical>.btn-group:first-child:not(:last-child)>.button:last-child,
+.btn-group-vertical>.btn-group:first-child:not(:last-child)>.create-document-button:last-child,
+.btn-group-vertical>.btn-group:first-child:not(:last-child)>.delete-document-button:last-child,
+.btn-group-vertical>.btn-group:first-child:not(:last-child)>.delete-page-button:last-child,
+.btn-group-vertical>.btn-group:first-child:not(:last-child)>.dropdown-toggle,
+.btn-group-vertical>.btn-group:first-child:not(:last-child)>.login-button:last-child,
+.btn-group-vertical>.btn-group:first-child:not(:last-child)>.save-document-button:last-child,
+.home-feature .btn-group-vertical>.btn-group:first-child:not(:last-child)>.read-button:last-child,
+.search-form .btn-group-vertical>.btn-group:first-child:not(:last-child)>.search-button:last-child {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn-group-vertical>.btn-group:last-child:not(:first-child)>.btn:first-child,
+.btn-group-vertical>.btn-group:last-child:not(:first-child)>.button:first-child,
+.btn-group-vertical>.btn-group:last-child:not(:first-child)>.create-document-button:first-child,
+.btn-group-vertical>.btn-group:last-child:not(:first-child)>.delete-document-button:first-child,
+.btn-group-vertical>.btn-group:last-child:not(:first-child)>.delete-page-button:first-child,
+.btn-group-vertical>.btn-group:last-child:not(:first-child)>.login-button:first-child,
+.btn-group-vertical>.btn-group:last-child:not(:first-child)>.save-document-button:first-child,
+.home-feature .btn-group-vertical>.btn-group:last-child:not(:first-child)>.read-button:first-child,
+.search-form .btn-group-vertical>.btn-group:last-child:not(:first-child)>.search-button:first-child {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.btn-group-justified {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+}
+
+.btn-group-justified>.btn,
+.btn-group-justified>.btn-group,
+.btn-group-justified>.button,
+.btn-group-justified>.create-document-button,
+.btn-group-justified>.delete-document-button,
+.btn-group-justified>.delete-page-button,
+.btn-group-justified>.login-button,
+.btn-group-justified>.save-document-button,
+.home-feature .btn-group-justified>.read-button,
+.search-form .btn-group-justified>.search-button {
+  float: none;
+  display: table-cell;
+  width: 1%;
+}
+
+.btn-group-justified>.btn-group .btn,
+.btn-group-justified>.btn-group .button,
+.btn-group-justified>.btn-group .create-document-button,
+.btn-group-justified>.btn-group .delete-document-button,
+.btn-group-justified>.btn-group .delete-page-button,
+.btn-group-justified>.btn-group .home-feature .read-button,
+.btn-group-justified>.btn-group .login-button,
+.btn-group-justified>.btn-group .save-document-button,
+.btn-group-justified>.btn-group .search-form .search-button,
+.home-feature .btn-group-justified>.btn-group .read-button,
+.search-form .btn-group-justified>.btn-group .search-button {
+  width: 100%;
+}
+
+.btn-group-justified>.btn-group .dropdown-menu {
+  left: auto;
+}
+
+.home-feature [data-toggle=buttons]>.btn-group>.read-button input[type=checkbox],
+.home-feature [data-toggle=buttons]>.btn-group>.read-button input[type=radio],
+.home-feature [data-toggle=buttons]>.read-button input[type=checkbox],
+.home-feature [data-toggle=buttons]>.read-button input[type=radio],
+.search-form [data-toggle=buttons]>.btn-group>.search-button input[type=checkbox],
+.search-form [data-toggle=buttons]>.btn-group>.search-button input[type=radio],
+.search-form [data-toggle=buttons]>.search-button input[type=checkbox],
+.search-form [data-toggle=buttons]>.search-button input[type=radio],
+[data-toggle=buttons]>.btn input[type=checkbox],
+[data-toggle=buttons]>.btn input[type=radio],
+[data-toggle=buttons]>.btn-group>.btn input[type=checkbox],
+[data-toggle=buttons]>.btn-group>.btn input[type=radio],
+[data-toggle=buttons]>.btn-group>.button input[type=checkbox],
+[data-toggle=buttons]>.btn-group>.button input[type=radio],
+[data-toggle=buttons]>.btn-group>.create-document-button input[type=checkbox],
+[data-toggle=buttons]>.btn-group>.create-document-button input[type=radio],
+[data-toggle=buttons]>.btn-group>.delete-document-button input[type=checkbox],
+[data-toggle=buttons]>.btn-group>.delete-document-button input[type=radio],
+[data-toggle=buttons]>.btn-group>.delete-page-button input[type=checkbox],
+[data-toggle=buttons]>.btn-group>.delete-page-button input[type=radio],
+[data-toggle=buttons]>.btn-group>.login-button input[type=checkbox],
+[data-toggle=buttons]>.btn-group>.login-button input[type=radio],
+[data-toggle=buttons]>.btn-group>.save-document-button input[type=checkbox],
+[data-toggle=buttons]>.btn-group>.save-document-button input[type=radio],
+[data-toggle=buttons]>.button input[type=checkbox],
+[data-toggle=buttons]>.button input[type=radio],
+[data-toggle=buttons]>.create-document-button input[type=checkbox],
+[data-toggle=buttons]>.create-document-button input[type=radio],
+[data-toggle=buttons]>.delete-document-button input[type=checkbox],
+[data-toggle=buttons]>.delete-document-button input[type=radio],
+[data-toggle=buttons]>.delete-page-button input[type=checkbox],
+[data-toggle=buttons]>.delete-page-button input[type=radio],
+[data-toggle=buttons]>.login-button input[type=checkbox],
+[data-toggle=buttons]>.login-button input[type=radio],
+[data-toggle=buttons]>.save-document-button input[type=checkbox],
+[data-toggle=buttons]>.save-document-button input[type=radio] {
+  position: absolute;
+  clip: rect(0,0,0,0);
+  pointer-events: none;
+}
+
+.input-group {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+}
+
+.input-group[class*=col-] {
+  float: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.input-group .form-control {
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.input-group .form-control,
+.input-group-addon,
+.input-group-btn {
+  display: table-cell;
+}
+
+.input-group .form-control:not(:first-child):not(:last-child),
+.input-group-addon:not(:first-child):not(:last-child),
+.input-group-btn:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.input-group-addon,
+.input-group-btn {
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.input-group-addon {
+  padding: .5rem 12px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #555;
+  text-align: center;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+}
+
+.home-feature .input-group-sm>.input-group-btn>.input-group-addon.read-button,
+.input-group-addon.input-sm,
+.input-group-sm>.input-group-addon,
+.input-group-sm>.input-group-btn>.input-group-addon.btn,
+.input-group-sm>.input-group-btn>.input-group-addon.button,
+.input-group-sm>.input-group-btn>.input-group-addon.create-document-button,
+.input-group-sm>.input-group-btn>.input-group-addon.delete-document-button,
+.input-group-sm>.input-group-btn>.input-group-addon.delete-page-button,
+.input-group-sm>.input-group-btn>.input-group-addon.login-button,
+.input-group-sm>.input-group-btn>.input-group-addon.save-document-button,
+.search-form .input-group-sm>.input-group-btn>.input-group-addon.search-button {
+  padding: .5rem 10px;
+  font-size: .85rem;
+  border-radius: 3px;
+}
+
+.home-feature .input-group-lg>.input-group-btn>.input-group-addon.read-button,
+.input-group-addon.input-lg,
+.input-group-lg>.input-group-addon,
+.input-group-lg>.input-group-btn>.input-group-addon.btn,
+.input-group-lg>.input-group-btn>.input-group-addon.button,
+.input-group-lg>.input-group-btn>.input-group-addon.create-document-button,
+.input-group-lg>.input-group-btn>.input-group-addon.delete-document-button,
+.input-group-lg>.input-group-btn>.input-group-addon.delete-page-button,
+.input-group-lg>.input-group-btn>.input-group-addon.login-button,
+.input-group-lg>.input-group-btn>.input-group-addon.save-document-button,
+.search-form .input-group-lg>.input-group-btn>.input-group-addon.search-button {
+  padding: 1rem 16px;
+  font-size: 1.25rem;
+  border-radius: 6px;
+}
+
+.input-group-addon input[type=checkbox],
+.input-group-addon input[type=radio] {
+  margin-top: 0;
+}
+
+.home-feature .input-group-btn:first-child>.btn-group>.read-button,
+.home-feature .input-group-btn:first-child>.read-button,
+.home-feature .input-group-btn:last-child>.btn-group:not(:last-child)>.read-button,
+.home-feature .input-group-btn:last-child>.read-button:not(:last-child):not(.dropdown-toggle),
+.input-group .form-control:first-child,
+.input-group-addon:first-child,
+.input-group-btn:first-child>.btn,
+.input-group-btn:first-child>.btn-group>.btn,
+.input-group-btn:first-child>.btn-group>.button,
+.input-group-btn:first-child>.btn-group>.create-document-button,
+.input-group-btn:first-child>.btn-group>.delete-document-button,
+.input-group-btn:first-child>.btn-group>.delete-page-button,
+.input-group-btn:first-child>.btn-group>.login-button,
+.input-group-btn:first-child>.btn-group>.save-document-button,
+.input-group-btn:first-child>.button,
+.input-group-btn:first-child>.create-document-button,
+.input-group-btn:first-child>.delete-document-button,
+.input-group-btn:first-child>.delete-page-button,
+.input-group-btn:first-child>.dropdown-toggle,
+.input-group-btn:first-child>.login-button,
+.input-group-btn:first-child>.save-document-button,
+.input-group-btn:last-child>.btn-group:not(:last-child)>.btn,
+.input-group-btn:last-child>.btn-group:not(:last-child)>.button,
+.input-group-btn:last-child>.btn-group:not(:last-child)>.create-document-button,
+.input-group-btn:last-child>.btn-group:not(:last-child)>.delete-document-button,
+.input-group-btn:last-child>.btn-group:not(:last-child)>.delete-page-button,
+.input-group-btn:last-child>.btn-group:not(:last-child)>.login-button,
+.input-group-btn:last-child>.btn-group:not(:last-child)>.save-document-button,
+.input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle),
+.input-group-btn:last-child>.button:not(:last-child):not(.dropdown-toggle),
+.input-group-btn:last-child>.create-document-button:not(:last-child):not(.dropdown-toggle),
+.input-group-btn:last-child>.delete-document-button:not(:last-child):not(.dropdown-toggle),
+.input-group-btn:last-child>.delete-page-button:not(:last-child):not(.dropdown-toggle),
+.input-group-btn:last-child>.login-button:not(:last-child):not(.dropdown-toggle),
+.input-group-btn:last-child>.save-document-button:not(:last-child):not(.dropdown-toggle),
+.search-form .input-group-btn:first-child>.btn-group>.search-button,
+.search-form .input-group-btn:first-child>.search-button,
+.search-form .input-group-btn:last-child>.btn-group:not(:last-child)>.search-button,
+.search-form .input-group-btn:last-child>.search-button:not(:last-child):not(.dropdown-toggle) {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.input-group-addon:first-child {
+  border-right: 0;
+}
+
+.home-feature .input-group-btn:first-child>.btn-group:not(:first-child)>.read-button,
+.home-feature .input-group-btn:first-child>.read-button:not(:first-child),
+.home-feature .input-group-btn:last-child>.btn-group>.read-button,
+.home-feature .input-group-btn:last-child>.read-button,
+.input-group .form-control:last-child,
+.input-group-addon:last-child,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.btn,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.button,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.create-document-button,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.delete-document-button,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.delete-page-button,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.login-button,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.save-document-button,
+.input-group-btn:first-child>.btn:not(:first-child),
+.input-group-btn:first-child>.button:not(:first-child),
+.input-group-btn:first-child>.create-document-button:not(:first-child),
+.input-group-btn:first-child>.delete-document-button:not(:first-child),
+.input-group-btn:first-child>.delete-page-button:not(:first-child),
+.input-group-btn:first-child>.login-button:not(:first-child),
+.input-group-btn:first-child>.save-document-button:not(:first-child),
+.input-group-btn:last-child>.btn,
+.input-group-btn:last-child>.btn-group>.btn,
+.input-group-btn:last-child>.btn-group>.button,
+.input-group-btn:last-child>.btn-group>.create-document-button,
+.input-group-btn:last-child>.btn-group>.delete-document-button,
+.input-group-btn:last-child>.btn-group>.delete-page-button,
+.input-group-btn:last-child>.btn-group>.login-button,
+.input-group-btn:last-child>.btn-group>.save-document-button,
+.input-group-btn:last-child>.button,
+.input-group-btn:last-child>.create-document-button,
+.input-group-btn:last-child>.delete-document-button,
+.input-group-btn:last-child>.delete-page-button,
+.input-group-btn:last-child>.dropdown-toggle,
+.input-group-btn:last-child>.login-button,
+.input-group-btn:last-child>.save-document-button,
+.search-form .input-group-btn:first-child>.btn-group:not(:first-child)>.search-button,
+.search-form .input-group-btn:first-child>.search-button:not(:first-child),
+.search-form .input-group-btn:last-child>.btn-group>.search-button,
+.search-form .input-group-btn:last-child>.search-button {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.input-group-addon:last-child {
+  border-left: 0;
+}
+
+.input-group-btn {
+  position: relative;
+  font-size: 0;
+  white-space: nowrap;
+}
+
+.home-feature .input-group-btn>.read-button,
+.input-group-btn>.btn,
+.input-group-btn>.button,
+.input-group-btn>.create-document-button,
+.input-group-btn>.delete-document-button,
+.input-group-btn>.delete-page-button,
+.input-group-btn>.login-button,
+.input-group-btn>.save-document-button,
+.search-form .input-group-btn>.search-button {
+  position: relative;
+}
