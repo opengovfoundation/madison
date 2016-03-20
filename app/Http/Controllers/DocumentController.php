@@ -856,7 +856,7 @@ class DocumentController extends Controller
                 ->whereIn('id', $featuredIds)
                 ->where('is_template', '!=', '1');
 
-            if(Input::get('published') || !Auth::user()->hasRole('admin'))
+            if(Input::get('published') || (Auth::user() && !Auth::user()->hasRole('admin')))
             {
                 $docQuery->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED);
             }
