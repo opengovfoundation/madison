@@ -30,6 +30,7 @@ class UserController extends Controller
     public function update($id, UpdateUserRequest $request)
     {
         $user = $request->user;
+        $user->oauth_update = false;
         if (!$user) return response('Not found.', 404);
         $user->update($request->all());
         return Response::json($user);
