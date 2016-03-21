@@ -185,6 +185,7 @@ Route::post('docs/{doc}/comments/{comment}/seen', 'CommentController@postSeen')-
 
 // User Routes
 Route::get('user/{user}', 'UserController@getUser')->middleware(['auth']);
+Route::put('user/{user}', 'UserController@update')->middleware(['auth']);
 Route::get('user/verify/', 'UserController@getVerify')->middleware(['auth']);
 Route::post('user/verify/', 'UserController@postVerify')->middleware(['auth']);
 Route::put('user/sponsor', 'SponsorController@putRequest');

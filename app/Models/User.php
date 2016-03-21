@@ -36,8 +36,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     use EntrustUserTrait;
 
-    protected $hidden = array('password', 'token', 'last_login', 'deleted_at', 'oauth_vendor', 'oauth_id', 'oauth_update', 'roles');
-    protected $appends = array('display_name');
+    protected $hidden = ['password', 'token', 'last_login', 'deleted_at', 'oauth_vendor', 'oauth_id', 'oauth_update', 'roles'];
+    protected $fillable = ['fname', 'lname', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone', 'url'];
+    protected $appends = ['display_name'];
 
     /**
      *	Validation rules.

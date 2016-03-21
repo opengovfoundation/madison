@@ -15,6 +15,7 @@ use App\Models\Notification;
 use App\Models\MadisonEvent;
 use App\Models\DocMeta;
 use App\Models\Role;
+use App\Http\Requests\UpdateUserRequest;
 
 /**
  * 	Controller for user actions.
@@ -24,6 +25,14 @@ class UserController extends Controller
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function update($id, UpdateUserRequest $request)
+    {
+        $user = $request->user;
+        if (!$user) return response('Not found.', 404);
+        $user->update($request->all());
+        return Response::json($user);
     }
 
     /**
