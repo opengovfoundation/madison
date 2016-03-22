@@ -311,6 +311,11 @@ class Doc extends Model
         return $this->hasManyThrough(AnnotationComment::class, Annotation::class);
     }
 
+    public function actions()
+    {
+        return $this->hasMany('App\Models\DocAction');
+    }
+
     public function getLink()
     {
         return URL::to('docs/'.$this->slug);

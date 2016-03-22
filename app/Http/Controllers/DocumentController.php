@@ -15,12 +15,14 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Doc;
+use App\Models\DocAction;
 use App\Models\DocMeta;
 use App\Models\DocContent;
 use App\Models\Annotation;
 use App\Models\Comment;
 use App\Models\Category;
 use App\Models\MadisonEvent;
+use \League\Csv\Writer;
 
 /**
  * 	Controller for Document actions.
@@ -1154,4 +1156,53 @@ class DocumentController extends Controller
         }
     }
 
+    public function getActions($docId)
+    {
+        $actions = DocAction::where('doc_id', $docId)->with('user')->orderBy('created_at')->get();
+
+        if($actions)
+        {
+            if(Input::get('download') === 'csv')
+            {
+                $csv = Writer::createFromFileObject(new \SplTempFileObject());
+
+                $fields = array(
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'quote',
+                    'text',
+                    'type',
+                    'created_at'
+                );
+                // Headings.
+                $csv->insertOne($fields);
+
+                foreach($actions as $action)
+                {
+                    $actionRow = $action->toArray();
+                    $actionRow['first_name'] = $actionRow['user']['fname'];
+                    $actionRow['last_name'] = $actionRow['user']['lname'];
+                    $actionRow['email'] = $actionRow['user']['email'];
+
+                    // Rearrange our columns
+                    $saveRow = array();
+                    foreach($fields as $field)
+                    {
+                        $saveRow[$field] = $actionRow[$field];
+                    }
+                    $csv->insertOne($saveRow);
+                }
+                $csv->output('actions.csv');
+            }
+            else
+            {
+                return Response::json($actions->toArray());
+            }
+        }
+        else
+        {
+            return Response::notFound();
+        }
+    }
 }

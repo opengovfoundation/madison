@@ -17,6 +17,11 @@
         aria-controls="{{ 'content.editdocument.tab.settings' | translate }}"
         data-toggle="tab"></a></li>
     <li >
+      <a href="#tab-comments" target="_self" role="tab" data-toggle="tab"
+        translate="content.editdocument.tab.comments"
+        aria-controls="{{ 'content.editdocument.tab.comments' | translate }}"
+        data-toggle="tab"></a></li>
+    <li >
       <a href="#tab-stats" target="_self" role="tab" data-toggle="tab"
         translate="content.editdocument.tab.statistics"
         aria-controls="{{ 'content.editdocument.tab.statistics' | translate }}"
@@ -216,6 +221,16 @@
     </section>
     <!-- End document information tab -->
 
+    <!-- Start comments tab -->
+    <section id="tab-comments" class="tab-pane">
+      <div>
+        <a class="download download-csv" target="_blank"
+          href="/api/docs/{{ doc.id }}/actions?download=csv"
+          translate="document.comments.download.csv"></a>
+      </div>
+    </section>
+    <!-- End comments tab -->
+
     <!-- Start document statistics tab -->
     <section id="tab-stats" class="tab-pane">
       <table class="table table-striped">
@@ -245,11 +260,6 @@
           </tr>
         </tbody>
       </table>
-      <div>
-        <!--a class="download download-csv"
-          href="/api/docs/{{ doc.id }}/activity?download=true"
-          translate="document.stats.download.csv"></a-->
-      </div>
     </section>
     <!-- End document statistics tab -->
   </div>

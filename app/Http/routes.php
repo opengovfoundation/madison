@@ -185,6 +185,9 @@ Route::post('api/docs/{doc}/comments/{comment}/flags', 'CommentController@postFl
 Route::post('api/docs/{doc}/comments/{comment}/comments', 'CommentController@postComments')->middleware(['doc.access.read']);
 Route::post('api/docs/{doc}/comments/{comment}/seen', 'CommentController@postSeen')->middleware(['doc.access.read']);
 
+// Document Activity Routes (combined Annotations / Comments)
+Route::get('api/docs/{doc}/actions/', 'DocumentController@getActions')->middleware(['doc.access.read']);
+
 // User Routes
 Route::get('api/user/{user}', 'UserController@getUser')->middleware(['auth']);
 Route::get('api/user/verify/', 'UserController@getVerify')->middleware(['auth']);
