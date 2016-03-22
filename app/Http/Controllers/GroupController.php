@@ -82,7 +82,7 @@ class GroupController extends Controller
             $message = "Your group has been created! It must be approved before you can invite others to join or create documents.";
         }
 
-        $postData = array('name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone_number');
+        $postData = array('name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone');
 
         foreach ($postData as $field) {
             $group->$field = Input::get($field);
@@ -394,7 +394,7 @@ class GroupController extends Controller
         $group->city = $group_details['city'];
         $group->state = $group_details['state'];
         $group->postal_code = $group_details['postal'];
-        $group->phone_number = $group_details['phone'];
+        $group->phone = $group_details['phone'];
 
         $group->save();
         $group->addMember(Auth::user()->id, Group::ROLE_OWNER);

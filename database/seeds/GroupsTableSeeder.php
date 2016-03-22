@@ -16,7 +16,7 @@ class GroupsTableSeeder extends Seeder
         $group->city = 'City';
         $group->state = 'DC';
         $group->postal_code = '12345';
-        $group->phone_number = '555-555-5555';
+        $group->phone = '555-555-5555';
         $group->save();
 
         $adminEmail = Config::get('madison.seeder.admin_email');

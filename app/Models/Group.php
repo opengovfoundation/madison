@@ -23,7 +23,7 @@ class Group extends Model
 
     public static $timestamp = true;
     protected $hidden = ['pivot', 'deleted_at', 'updated_at', 'created_at'];
-    protected $fillable = ['name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone_number'];
+    protected $fillable = ['name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone', 'individual'];
 
     const STATUS_ACTIVE = 'active';
     const STATUS_PENDING = 'pending';
@@ -41,7 +41,7 @@ class Group extends Model
       'city'                    => 'required',
       'state'                    => 'required',
       'postal_code'    => 'required',
-      'phone_number'    => 'required',
+      'phone'    => 'required',
       'display_name'    => 'required',
     );
 
@@ -51,7 +51,7 @@ class Group extends Model
       'city.required'                    => 'The group city is required',
       'state.required'                => 'The group state is required',
       'postal_code.required'    => 'The group postal code is required',
-      'phone_number.required'    => 'The group phone number is required',
+      'phone.required'    => 'The group phone number is required',
       'display_name.required'    => 'The group display name is required',
     );
 
@@ -375,7 +375,7 @@ class Group extends Model
         return $groupMember->get(array(
             'groups.id', 'groups.name', 'groups.address1',
             'groups.address2', 'groups.city', 'groups.state',
-            'groups.postal_code', 'groups.phone_number', 'groups.display_name',
+            'groups.postal_code', 'groups.phone', 'groups.display_name',
             'groups.status', 'groups.created_at', 'groups.updated_at',
             'groups.deleted_at', ));
     }
