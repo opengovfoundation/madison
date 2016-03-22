@@ -23,6 +23,7 @@ class Group extends Model
 
     public static $timestamp = true;
     protected $hidden = ['pivot', 'deleted_at', 'updated_at', 'created_at'];
+    protected $fillable = ['name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone_number'];
 
     const STATUS_ACTIVE = 'active';
     const STATUS_PENDING = 'pending';
@@ -34,7 +35,7 @@ class Group extends Model
     /**
      *	Validation Rules.
      */
-    protected static $rules = array(
+    public static $rules = array(
       'name'                    => 'required',
       'address1'            => 'required',
       'city'                    => 'required',

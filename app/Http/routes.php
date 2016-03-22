@@ -211,12 +211,14 @@ Route::get('sponsors/all', 'SponsorController@getAllSponsors');
 Route::post('verification/resend',  'RemindersController@postConfirmation');
 
 // Group Routes
+Route::post('groups', 'GroupController@store');
+Route::get('groups/{group?}', 'GroupController@getGroup');
+Route::put('groups/{group}', 'GroupController@update');
+//Route::post('groups/{group?}', 'GroupController@postGroup');
 Route::get('groups/verify/', 'GroupController@getVerify')->middleware(['auth']);
 Route::put('groups/verify/{groupId}', 'GroupController@putVerify')->middleware(['auth']);
 Route::post('groups/active/{groupId}', 'GroupController@setActiveGroup');
 Route::get('groups/roles', 'GroupController@getRoles');
-Route::get('groups/{group?}', 'GroupController@getGroup');
-Route::post('groups/{group?}', 'GroupController@postGroup');
 Route::delete('groups/{groupId}/members/{memberId}', 'GroupController@removeMember');
 Route::put('groups/{groupId}/invite', 'GroupController@processMemberInvite');
 Route::get('groups/{groupId}/members', 'GroupController@getMembers');
