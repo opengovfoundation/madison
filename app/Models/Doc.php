@@ -301,6 +301,27 @@ class Doc extends Model
         $this->appends[] = 'sponsors';
     }
 
+    public function getSponsorIdsAttribute()
+    {
+        $ids = array();
+        foreach($this->sponsor as $sponsor)
+        {
+            if($sponsor instanceof User)
+            {
+                $ids[] = $sponsor->id;
+            }
+            elseif($sponsor instanceof Group)
+            {
+                foreach($sponsor->members as $member)
+                {
+                    $ids[] = $member->user_id;
+                }
+            }
+        }
+
+        return $ids;
+    }
+
     public function annotations()
     {
         return $this->hasMany('App\Models\Annotation');

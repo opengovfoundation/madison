@@ -1193,21 +1193,7 @@ class DocumentController extends Controller
         // We want to get the comments and annotations but not from our sponsor
         // or group.
 
-        $skip_ids = array();
-        foreach($doc->sponsor as $sponsor)
-        {
-            if($sponsor instanceof User)
-            {
-                $skip_ids[] = $sponsor->id;
-            }
-            elseif($sponsor instanceof Group)
-            {
-                foreach($sponsor->members as $member)
-                {
-                    $skip_ids[] = $member->user_id;
-                }
-            }
-        }
+        $skip_ids = $doc->sponsorIds;
 
         if(Input::get('summary') === 'general')
         {
@@ -1297,51 +1283,59 @@ class DocumentController extends Controller
 
     public function getActions($docId)
     {
-        $actions = DocAction::where('doc_id', $docId)->with('user')->orderBy('created_at')->get();
+        $doc = Doc::where('id', $docId)->first();
 
-        if($actions)
+        if($doc)
         {
-            if(Input::get('download') === 'csv')
+            $skip_ids = $doc->sponsorIds;
+
+            $actions = DocAction::where('doc_id', $docId)->
+                whereNotIn('user_id', $skip_ids)->
+                with('user')->orderBy('created_at')->get();
+
+            if($actions)
             {
-                $csv = Writer::createFromFileObject(new \SplTempFileObject());
-
-                $fields = array(
-                    'first_name',
-                    'last_name',
-                    'email',
-                    'quote',
-                    'text',
-                    'type',
-                    'created_at'
-                );
-                // Headings.
-                $csv->insertOne($fields);
-
-                foreach($actions as $action)
+                if(Input::get('download') === 'csv')
                 {
-                    $actionRow = $action->toArray();
-                    $actionRow['first_name'] = $actionRow['user']['fname'];
-                    $actionRow['last_name'] = $actionRow['user']['lname'];
-                    $actionRow['email'] = $actionRow['user']['email'];
+                    $csv = Writer::createFromFileObject(new \SplTempFileObject());
 
-                    // Rearrange our columns
-                    $saveRow = array();
-                    foreach($fields as $field)
+                    $fields = array(
+                        'first_name',
+                        'last_name',
+                        'email',
+                        'quote',
+                        'text',
+                        'type',
+                        'created_at'
+                    );
+                    // Headings.
+                    $csv->insertOne($fields);
+
+                    foreach($actions as $action)
                     {
-                        $saveRow[$field] = $actionRow[$field];
+                        $actionRow = $action->toArray();
+                        $actionRow['first_name'] = $actionRow['user']['fname'];
+                        $actionRow['last_name'] = $actionRow['user']['lname'];
+                        $actionRow['email'] = $actionRow['user']['email'];
+
+                        // Rearrange our columns
+                        $saveRow = array();
+                        foreach($fields as $field)
+                        {
+                            $saveRow[$field] = $actionRow[$field];
+                        }
+                        $csv->insertOne($saveRow);
                     }
-                    $csv->insertOne($saveRow);
+                    $csv->output('actions.csv');
+                    return;
                 }
-                $csv->output('actions.csv');
-            }
-            else
-            {
-                return Response::json($actions->toArray());
+                else
+                {
+                    return Response::json($actions->toArray());
+                }
             }
         }
-        else
-        {
-            return Response::notFound();
-        }
+
+        return Response::notFound();
     }
 }
