@@ -4,7 +4,7 @@ angular.module('madisonApp.controllers')
     pageService.setTitle($translate.instant('content.sitesettings.title',
       {title: SITE.name}));
 
-    var featuredDocs = Doc.getFeaturedDocs();
+    var featuredDocs = Doc.getFeaturedDocs({'featured_only': true});
     $scope.resetting = false;
     $scope.featuredDocs = [];
 

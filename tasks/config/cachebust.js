@@ -3,14 +3,13 @@ module.exports = function (grunt) {
     options: {
       encoding: 'utf8',
       algorithm: 'md5',
-      baseDir: 'public/',
+      baseDir: 'public/build/',
       length: 8,
-      rename: false
+      rename: false,
+      assets: ['*.js', '*.css']
     },
     assets: {
-      files: {
-        src: ['public/index.html'],
-      }
+      src: ['public/index.html', 'public/build/*.css']
     }
   });
 

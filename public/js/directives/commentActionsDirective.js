@@ -36,7 +36,7 @@ angular.module('madisonApp.directives')
             hash += comment.id;
           }
 
-          return window.location.origin + window.location.pathname + hash;
+          return window.getBasePath() + hash;
         }
       },
       compile: function() {

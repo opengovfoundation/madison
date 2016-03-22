@@ -7,7 +7,7 @@ angular.module('madisonApp.directives')
         return {
           post: function (scope, element, attrs) {
             var commentLink = element;
-            var linkPath = window.location.origin + window.location.pathname + '#subcomment_' + attrs.subCommentId;
+            var linkPath = window.getBasePath() + '#subcomment_' + attrs.subCommentId;
 
             $(commentLink).attr('data-clipboard-text', linkPath);
 

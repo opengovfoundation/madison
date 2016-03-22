@@ -26,7 +26,57 @@ Check out the rest of the documentation and read through the [Contributing Guide
 
 ## Installation
 
-Madison is build on top of [Laravel v.4.2](http://laravel.com/docs/4.2) and uses many of configuration tools that Laravel provides ( specifically its [`.env` files](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration) )
+Madison is build on top of [Laravel v.4.2](http://laravel.com/docs/4.2) and uses many of configuration tools that Laravel provides ( specifically its [`.env` files](https://laravel.com/docs/5.1#environment-configuration) )
+
+### .env file
+
+Regardless of your configuration method, you'll need to setup a `.env` file for the application in the document root directory.  We have included a sample file, `.env.example`.  You can find more details about [configuring Laravel in the Laravel documentation](https://laravel.com/docs/5.1#environment-configuration), but here are the values you will need to set:
+
+#### General Settings
+
+* `APP_ENV`: For your live site, you probably want to set this to `production`, which will prevent migrations, etc from happening and making the site go offline temporarily.
+* `APP_DEBUG`: This should be `false` on your live site, hiding any system errors and debugging info from your users.
+* `APP_KEY`: This is used to encrypt private info, such as sessions.  Set it to a random string.
+* `APP_NAME`: This is the name that the server will show for pages when they're shared on social media.
+* `COOKIE_DOMAIN`: The domain that cookies will be shared for.  [More info on cookie domains.](http://erik.io/blog/2014/03/04/definitive-guide-to-cookie-domains/)
+* `ADMIN_EMAIL`: The email address of the site administrator.
+* `ADMIN_PASSWORD`: The default password of the site administrator.
+
+#### Storage settings
+
+* `DB_DRIVE`: The database engine to use, probably `MySQL` or `Postgres`.  You can use `SQLite` but we don't recommend it or support it.
+* `DB_HOST`: The hostname of your database.
+* `DB_DATABASE`: The database name.
+* `DB_USERNAME`: The database username.
+* `DB_PASSWORD`: The database password.
+* `CACHE_DRIVER`: The driver for the site cache. We recommend `file`.
+* `SESSION_DRIVER`: The driver for the session storage.  Right now, we recommend `file`.
+* `QUEUE_DRIVER`: We don't use this currently.
+
+#### Mail settings
+
+We strongly recommend you signup for a mailer service such as Sendgrid, Mailgun, Mandrill, Amazon SES, etc.  [More info about mailers and settings.](https://laravel.com/docs/5.2/mail)
+
+* `MAIL_DRIVER`: The driver to use (per the available Laravel options).
+* `MAIL_HOST`: The host of the mail service.
+* `MAIL_PORT`: The port to send mail to.
+* `MAIL_USERNAME`: The username of your mailer account.
+* `MAIL_PASSWORD`: The password of your mailer account.
+* `MAIL_FROM_ADDRESS`: The email address to show as the sender.
+* `MAIL_FROM_NAME`: The name to show as the sender.
+
+#### Social Authentication
+
+We allow several services for OAuth for users to login to the system. You will need to signup for accounts on each service you which to provide, and fill in the API info as follows:
+
+* `FB_CLIENT_ID`, `FB_CLIENT_SECRET`: Facebook credentials.
+* `TW_CLIENT_ID`, `TW_CLIENT_SECRET`: Twitter credentials.
+* `LI_CLIENT_ID`, `LI_CLIENT_SECRET`: LinkedIn credentials.
+
+#### Plugin Features
+
+* `USERVOICE`: We use the Uservoice app for feedback, you can drop in your user account with
+* `GA`: Your tracking code (`UA-00000000-01`) for a Google Analytics account for tracking page views.
 
 ### Via Laravel Forge & Envoyer
 
@@ -233,7 +283,8 @@ By default, Madison loads the `public/index.html` file in a production environme
 Madison's milestone is organized through its [Github Milestones](https://github.com/opengovfoundation/madison/milestones).  Please see milestone descriptions / issues for an up-to-date roadmap.
 
 ## Changelog
-
+* `2.0`
+  * We have upgraded to Laravel 5.1.  Installation is the same, but links have been updated to the proper documentation versions.
 * `1.8`
   * All configuration options have been moved to [Laravel's `.env` files](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration).  All previous `.yml` configuration files have been removed.
   * All templates are now found in the `public/templates` directory.  The only blade views left in `app/views` are for emails.

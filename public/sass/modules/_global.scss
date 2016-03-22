@@ -3,8 +3,10 @@
 // Import our fonts.
 
 $web-fonts-protocol: 'https';
-@include web-fonts("Patua One", ("Open Sans": ("300", "300 italic", "700")),
-    ("Libre+Baskerville": ("300", "300 italic")));
+
+// Fonts are now in mixins/fonts
+// @include web-fonts("Patua One", ("Open Sans": ("300", "300 italic", "700")),
+//     ("Libre+Baskerville": ("300", "300 italic")));
 
 // Fix our baselines.
 html {

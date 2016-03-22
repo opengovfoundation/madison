@@ -9,6 +9,8 @@ use Input;
 use Response;
 use Event;
 use App\Http\Requests\UpdateDocumentRequest;
+use File;
+use Image;
 use Storage;
 use Redirect;
 use App\Models\Setting;
@@ -839,15 +841,20 @@ class DocumentController extends Controller
         if ($featuredSetting) {
             // Make sure our featured document can be viewed by the public.
             $featuredIds = explode(',', $featuredSetting->meta_value);
-            $docs = Doc::with('categories')
+            $docQuery = Doc::with('categories')
                 ->with('userSponsors')
                 ->with('groupSponsors')
                 ->with('statuses')
                 ->with('dates')
                 ->whereIn('id', $featuredIds)
-                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
-                ->where('is_template', '!=', '1')
-                ->get();
+                ->where('is_template', '!=', '1');
+
+            if(Input::get('published') || (Auth::user() && !Auth::user()->hasRole('admin')))
+            {
+                $docQuery->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED);
+            }
+
+            $docs = $docQuery->get();
 
             if($docs) {
                 // Reorder based on our previous list.
@@ -870,7 +877,7 @@ class DocumentController extends Controller
         }
 
         // If we don't have a document, just find anything recent.
-        if (empty($docs)) {
+        if(empty($docs) && !Input::get('featured_only')) {
             $docs = array(
                 Doc::with('categories')
                 ->with('userSponsors')
@@ -909,6 +916,61 @@ class DocumentController extends Controller
         return Response::json($return_docs);
     }
 
+    // We just need a summary to respond to the post/put/delete methods.
+    public function getFeaturedShort()
+    {
+        $docs = array();
+
+        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
+
+        if ($featuredSetting) {
+            // Make sure our featured document can be viewed by the public.
+            $featuredIds = explode(',', $featuredSetting->meta_value);
+            $docQuery = Doc::with('statuses')
+                ->whereIn('id', $featuredIds)
+                ->where('is_template', '!=', '1');
+            $docs = $docQuery->get();
+
+            if($docs) {
+                // Reorder based on our previous list.
+                $tempDocs = array();
+                $orderList = array_flip($featuredIds);
+                foreach($docs as $key=>$doc) {
+                    $tempDocs[(int) $orderList[$doc->id]] = $doc;
+                }
+
+                // If you set the key of an array value as we do above,
+                // PHP will internally store the object as an associative
+                // array (hash), not as a list, and will return the elements
+                // in the order assigned, not by the key order.
+                // This means our attempt to re-order the object will fail.
+                // The line below will restore the order. Ugh.
+                ksort($tempDocs);
+                $docs = $tempDocs;
+            }
+        }
+        return Response::json($docs);
+    }
+
+    // Remove any docs that no longer exists.
+    private function cleanDocs($docs)
+    {
+        $docs = array_filter($docs);
+        if(is_array($docs) && count($docs)) {
+            $existingDocs = array();
+
+            $docResults = Doc::whereIn('id', $docs)
+                ->where('is_template', '!=', '1')
+                ->get();
+            foreach($docResults as $doc) {
+                $existingDocs[] = $doc->id;
+            }
+
+            $docs = array_values(array_intersect($docs, $existingDocs));
+        }
+        return $docs;
+    }
+
     public function postFeatured()
     {
         if (!Auth::user()->hasRole('Admin')) {
@@ -917,21 +979,23 @@ class DocumentController extends Controller
 
         $docId = Input::get('id');
 
-        try {
-            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
-
-            $docs = explode(',', $featuredSetting->meta_value);
-
-            if(!in_array($docId, $docs)) {
-                array_unshift($docs, $docId);
-            }
-            $featuredSetting->meta_value = join(',', $docs);
-            $featuredSetting->save();
-        } catch (Exception $e) {
-            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        // firstOrNew() is not working for some reason, so we do it manually.
+        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
+        if(!$featuredSetting)
+        {
+            $featuredSetting = new Setting;
+            $featuredSetting->meta_key = 'featured-doc';
         }
 
-        return $this->getFeatured();
+        $docs = explode(',', $featuredSetting->meta_value);
+
+        if(!in_array($docId, $docs)) {
+            array_unshift($docs, $docId);
+        }
+        $featuredSetting->meta_value = join(',', $this->cleanDocs($docs));
+        $featuredSetting->save();
+
+        return $this->getFeaturedShort();
     }
 
     public function putFeatured()
@@ -940,18 +1004,20 @@ class DocumentController extends Controller
             return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
         }
 
-        $docs = Input::get('docs');
+        $docs = explode(',', Input::get('docs'));
 
-        try {
-            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
-
-            $featuredSetting->meta_value = $docs;
-            $featuredSetting->save();
-        } catch (Exception $e) {
-            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        // firstOrNew() is not working for some reason, so we do it manually.
+        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
+        if(!$featuredSetting)
+        {
+            $featuredSetting = new Setting;
+            $featuredSetting->meta_key = 'featured-doc';
         }
 
-        return $this->getFeatured();
+        $featuredSetting->meta_value = join(',', $this->cleanDocs($docs));
+        $featuredSetting->save();
+
+        return $this->getFeaturedShort();
     }
 
     public function deleteFeatured($docId)
@@ -960,28 +1026,32 @@ class DocumentController extends Controller
             return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
         }
 
-        try {
-            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
-
-            $docs = explode(',', $featuredSetting->meta_value);
-
-            if(in_array($docId, $docs)) {
-                $docs = array_diff($docs, array($docId));
-            }
-            $featuredSetting->meta_value = join(',', $docs);
-            $featuredSetting->save();
-        } catch (Exception $e) {
-            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        // firstOrNew() is not working for some reason, so we do it manually.
+        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
+        if(!$featuredSetting)
+        {
+            $featuredSetting = new Setting;
+            $featuredSetting->meta_key = 'featured-doc';
         }
 
-        return $this->getFeatured();
+        $docs = explode(',', $featuredSetting->meta_value);
+
+        if(in_array($docId, $docs)) {
+            $docs = array_diff($docs, array($docId));
+        }
+        $featuredSetting->meta_value = join(',', $this->cleanDocs($docs));
+        $featuredSetting->save();
+
+        return $this->getFeaturedShort();
     }
 
     public function getImage($docId, $image)
     {
+        $size = Input::get('size');
+
         $doc = Doc::where('id', $docId)->first();
         if($doc) {
-            $path = $doc->getImagePath($image);
+            $path = $doc->getImagePath($image, $size);
             if(Storage::has($path)) {
                 return response(Storage::get($path), 200)
                     ->header('Content-Type', Storage::mimeType($path));
@@ -1000,14 +1070,68 @@ class DocumentController extends Controller
         if (Input::hasFile('file')) {
             $file = Input::file('file');
 
-            $doc = Doc::where('id', $docId)->first();
-            $doc->thumbnail = $doc->getImageUrl($file->getClientOriginalName());
-
             try {
+                $doc = Doc::where('id', $docId)->first();
+
+                // Keep a record of our previous thumbnail.
+                $previousThumbnail = $doc->thumbnail;
+
+                $result = Storage::put($doc->getImagePath($file->getClientOriginalName()),
+                    File::get($file));
+
+                // Save the multiple sizes of this image.
+                $sizes = config('madison.image_sizes');
+
+                foreach($sizes as $name => $size)
+                {
+                    $img = Image::make($file);
+                    if($size['crop'])
+                    {
+                        $img->fit($size['width'], $size['height']);
+                    }
+                    else {
+                        $img->resize($size['width'], $size['height']);
+                    }
+
+                    Storage::put(
+                        $doc->getImagePath($file->getClientOriginalName(), $size),
+                        $img->stream()->__toString());
+
+                    $result2 = $img->save();
+                }
+
+                // We want the featured image size to be the default.
+                // Otherwise, we use the fullsize.
+                $sizeName = null;
+                if($sizes['featured'])
+                {
+                    $sizeName = 'featured';
+                }
+
+                $doc->thumbnail = $doc->getImageUrl($file->getClientOriginalName(),
+                    $sizes[$sizeName]);
                 $doc->save();
 
-                $path = Storage::getDriver()->getAdapter()->getPathPrefix() . $doc->getImagePath();
-                $result = $file->move($path, $file->getClientOriginalName());
+                // Our thumbnail was saved, so let's remove the old one.
+
+                // Only do this if the name has changed, or we'll remove the
+                // image we just uploaded.
+                if($previousThumbnail !== $doc->thumbnail)
+                {
+                  // We just want the base name, not the resized one.
+                  $imagePath = $doc->getImagePathFromUrl($previousThumbnail, true);
+
+                  if(Storage::has($imagePath)) {
+                    Storage::delete($imagePath);
+                  }
+                  foreach($sizes as $name => $size)
+                  {
+                    $imagePath = $doc->addSizeToImage($imagePath, $size);
+                    if(Storage::has($imagePath)) {
+                      Storage::delete($imagePath);
+                    }
+                  }
+                }
             } catch (Exception $e) {
                 return Response::json($this->growlMessage('There was an error with the image upload', 'error'), 500);
             }
@@ -1061,6 +1185,7 @@ class DocumentController extends Controller
 
         return Response::json($returned);
     }
+
 
     public function getActivity($docId)
     {
@@ -1153,6 +1278,20 @@ class DocumentController extends Controller
         else
         {
 
+        }
+    }
+
+    public function getSocialDoc($slug)
+    {
+        $doc = Doc::findDocBySlug($slug);
+        if($doc) {
+            $content = array(
+                'title' => $doc->title,
+                'description' => $doc->introtext()->first()['meta_value'],
+                'image' => $doc->thumbnail
+            );
+
+            return view('layouts.social', $content);
         }
     }
 

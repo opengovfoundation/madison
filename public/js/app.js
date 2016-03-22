@@ -35,16 +35,6 @@ try {
   console.log('Caught Error: ' + err);
 }
 
-if (!history.pushState) {
-  if (window.location.hash) {
-    if (window.location.pathname !== '/') {
-      window.location.replace('/#' + window.location.hash.substr(1));
-    } else {
-      window.location.replace('/#' + window.location.pathname);
-    }
-  }
-}
-
 try {
   //Set up Growl notifications and interceptor
   app.config(['growlProvider', '$httpProvider',
@@ -78,6 +68,18 @@ app.config(['$locationProvider',
   }]);
 
 app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl, SessionService) {
+  if(!(window.history && history.pushState)){
+      $rootScope.$on('$locationChangeStart', function(event) {
+          var loc = window.location;
+          var hash = loc.hash;
+          var path = loc.pathname || '/';
+
+          if(!hash){
+              loc.href = '/#' + path + (loc.search || '');
+          }
+      });
+  }
+
   AuthService.setUser(user);
 
   //Check authorization on state change

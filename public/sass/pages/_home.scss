@@ -12,16 +12,6 @@
     }
 }
 
-// If we have a background image.
-.main-feature.has-image {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: 0 0;
-}
-.has-image .doc-info {
-    margin-top: 12 * $line-height-computed;
-}
-
 .search-list {
     @extend .col-md-12;
 
