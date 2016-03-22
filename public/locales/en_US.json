@@ -285,8 +285,16 @@
   "document.action.mustlogin": "Login to comment",
   "document.action.create": "Create document",
   "document.action.permalink": "Copy link to this comment",
-
   "document.action.restore": "Restore",
+
+  "document.stats.today": "Today",
+  "document.stats.thisweek": "Week",
+  "document.stats.thismonth": "Month",
+  "document.stats.alltime": "All Time",
+  "document.stats.comments": "Comments",
+  "document.stats.annotations": "Annotations",
+
+  "document.comments.download.csv": "Download CSV",
 
   "user.label.verified": "Verified",
   "user.label.membersince": "Member since <time datetime=\"{{ datetime }}\">{{ datetime | parseDate | date:'mediumDate' }}</time>",
@@ -333,8 +341,10 @@
   "content.editdocument.title": "{{ title }} - Edit Document",
   "content.editdocument.title.loaded": "{{ title }} - Edit Document - {{ docTitle }}",
   "content.editdocument.header": "Edit Document",
-  "content.editdocument.tab.content": "Document Content",
-  "content.editdocument.tab.information": "Document Information",
+  "content.editdocument.tab.content": "Content",
+  "content.editdocument.tab.settings": "Settings",
+  "content.editdocument.tab.statistics": "Statistics",
+  "content.editdocument.tab.comments": "Comments",
   "content.editdocument.savemessage": "Document content saves automatically after 3 seconds.",
   "content.editdocument.wordmessage": "Need help converting a Microsoft Word document?  <a href=\"http://word-to-markdown.herokuapp.com/\" target=\"_blank\">There's a tool for that.</a>",
   "content.editdocument.markdownmessage": "New to Markdown? Check out our <a href=\"/pdf/MarkdownCheatSheet.pdf\" target=\"_blank\">Markdown Cheat Sheet.",
