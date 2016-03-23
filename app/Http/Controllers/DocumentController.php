@@ -17,12 +17,14 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Doc;
+use App\Models\DocAction;
 use App\Models\DocMeta;
 use App\Models\DocContent;
 use App\Models\Annotation;
 use App\Models\Comment;
 use App\Models\Category;
 use App\Models\MadisonEvent;
+use \League\Csv\Writer;
 
 /**
  * 	Controller for Document actions.
@@ -839,15 +841,20 @@ class DocumentController extends Controller
         if ($featuredSetting) {
             // Make sure our featured document can be viewed by the public.
             $featuredIds = explode(',', $featuredSetting->meta_value);
-            $docs = Doc::with('categories')
+            $docQuery = Doc::with('categories')
                 ->with('userSponsors')
                 ->with('groupSponsors')
                 ->with('statuses')
                 ->with('dates')
                 ->whereIn('id', $featuredIds)
-                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
-                ->where('is_template', '!=', '1')
-                ->get();
+                ->where('is_template', '!=', '1');
+
+            if(Input::get('published') || (Auth::user() && !Auth::user()->hasRole('admin')))
+            {
+                $docQuery->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED);
+            }
+
+            $docs = $docQuery->get();
 
             if($docs) {
                 // Reorder based on our previous list.
@@ -870,7 +877,7 @@ class DocumentController extends Controller
         }
 
         // If we don't have a document, just find anything recent.
-        if (empty($docs)) {
+        if(empty($docs) && !Input::get('featured_only')) {
             $docs = array(
                 Doc::with('categories')
                 ->with('userSponsors')
@@ -909,6 +916,61 @@ class DocumentController extends Controller
         return Response::json($return_docs);
     }
 
+    // We just need a summary to respond to the post/put/delete methods.
+    public function getFeaturedShort()
+    {
+        $docs = array();
+
+        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
+
+        if ($featuredSetting) {
+            // Make sure our featured document can be viewed by the public.
+            $featuredIds = explode(',', $featuredSetting->meta_value);
+            $docQuery = Doc::with('statuses')
+                ->whereIn('id', $featuredIds)
+                ->where('is_template', '!=', '1');
+            $docs = $docQuery->get();
+
+            if($docs) {
+                // Reorder based on our previous list.
+                $tempDocs = array();
+                $orderList = array_flip($featuredIds);
+                foreach($docs as $key=>$doc) {
+                    $tempDocs[(int) $orderList[$doc->id]] = $doc;
+                }
+
+                // If you set the key of an array value as we do above,
+                // PHP will internally store the object as an associative
+                // array (hash), not as a list, and will return the elements
+                // in the order assigned, not by the key order.
+                // This means our attempt to re-order the object will fail.
+                // The line below will restore the order. Ugh.
+                ksort($tempDocs);
+                $docs = $tempDocs;
+            }
+        }
+        return Response::json($docs);
+    }
+
+    // Remove any docs that no longer exists.
+    private function cleanDocs($docs)
+    {
+        $docs = array_filter($docs);
+        if(is_array($docs) && count($docs)) {
+            $existingDocs = array();
+
+            $docResults = Doc::whereIn('id', $docs)
+                ->where('is_template', '!=', '1')
+                ->get();
+            foreach($docResults as $doc) {
+                $existingDocs[] = $doc->id;
+            }
+
+            $docs = array_values(array_intersect($docs, $existingDocs));
+        }
+        return $docs;
+    }
+
     public function postFeatured()
     {
         if (!Auth::user()->hasRole('Admin')) {
@@ -917,21 +979,23 @@ class DocumentController extends Controller
 
         $docId = Input::get('id');
 
-        try {
-            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
-
-            $docs = explode(',', $featuredSetting->meta_value);
-
-            if(!in_array($docId, $docs)) {
-                array_unshift($docs, $docId);
-            }
-            $featuredSetting->meta_value = join(',', $docs);
-            $featuredSetting->save();
-        } catch (Exception $e) {
-            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        // firstOrNew() is not working for some reason, so we do it manually.
+        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
+        if(!$featuredSetting)
+        {
+            $featuredSetting = new Setting;
+            $featuredSetting->meta_key = 'featured-doc';
         }
 
-        return $this->getFeatured();
+        $docs = explode(',', $featuredSetting->meta_value);
+
+        if(!in_array($docId, $docs)) {
+            array_unshift($docs, $docId);
+        }
+        $featuredSetting->meta_value = join(',', $this->cleanDocs($docs));
+        $featuredSetting->save();
+
+        return $this->getFeaturedShort();
     }
 
     public function putFeatured()
@@ -940,18 +1004,20 @@ class DocumentController extends Controller
             return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
         }
 
-        $docs = Input::get('docs');
+        $docs = explode(',', Input::get('docs'));
 
-        try {
-            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
-
-            $featuredSetting->meta_value = $docs;
-            $featuredSetting->save();
-        } catch (Exception $e) {
-            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        // firstOrNew() is not working for some reason, so we do it manually.
+        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
+        if(!$featuredSetting)
+        {
+            $featuredSetting = new Setting;
+            $featuredSetting->meta_key = 'featured-doc';
         }
 
-        return $this->getFeatured();
+        $featuredSetting->meta_value = join(',', $this->cleanDocs($docs));
+        $featuredSetting->save();
+
+        return $this->getFeaturedShort();
     }
 
     public function deleteFeatured($docId)
@@ -960,21 +1026,23 @@ class DocumentController extends Controller
             return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
         }
 
-        try {
-            $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
-
-            $docs = explode(',', $featuredSetting->meta_value);
-
-            if(in_array($docId, $docs)) {
-                $docs = array_diff($docs, array($docId));
-            }
-            $featuredSetting->meta_value = join(',', $docs);
-            $featuredSetting->save();
-        } catch (Exception $e) {
-            return Response::json($this->growlMessage('There was an error updating the Featured Document', 'error'), 500);
+        // firstOrNew() is not working for some reason, so we do it manually.
+        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
+        if(!$featuredSetting)
+        {
+            $featuredSetting = new Setting;
+            $featuredSetting->meta_key = 'featured-doc';
         }
 
-        return $this->getFeatured();
+        $docs = explode(',', $featuredSetting->meta_value);
+
+        if(in_array($docId, $docs)) {
+            $docs = array_diff($docs, array($docId));
+        }
+        $featuredSetting->meta_value = join(',', $this->cleanDocs($docs));
+        $featuredSetting->save();
+
+        return $this->getFeaturedShort();
     }
 
     public function getImage($docId, $image)
@@ -1118,6 +1186,87 @@ class DocumentController extends Controller
         return Response::json($returned);
     }
 
+
+    public function getActivity($docId)
+    {
+        $doc = Doc::where('id', $docId)->first();
+        // We want to get the comments and annotations but not from our sponsor
+        // or group.
+
+        $skip_ids = $doc->sponsorIds;
+
+        if(Input::get('summary') === 'general')
+        {
+            $statistics = array(
+                'comments' => array(),
+                'annotations' => array()
+            );
+            $statistics['comments']['total'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
+                count();
+            $statistics['comments']['month'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
+                count();
+            $statistics['comments']['week'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
+                count();
+            $statistics['comments']['day'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
+                count();
+
+            $statistics['annotations']['total'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
+                count();
+            $statistics['annotations']['month'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['week'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['day'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
+                count();
+
+            $statistics['annotations']['total'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                count();
+
+            $statistics['annotations']['month'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                where('annotation_comments.created_at', '>=',
+                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['week'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                where('annotation_comments.created_at', '>=',
+                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['day'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                where('annotation_comments.created_at', '>=',
+                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
+                count();
+
+            return Response::json($statistics);
+        }
+        else
+        {
+
+        }
+    }
+
     public function getSocialDoc($slug)
     {
         $doc = Doc::findDocBySlug($slug);
@@ -1132,4 +1281,61 @@ class DocumentController extends Controller
         }
     }
 
+    public function getActions($docId)
+    {
+        $doc = Doc::where('id', $docId)->first();
+
+        if($doc)
+        {
+            $skip_ids = $doc->sponsorIds;
+
+            $actions = DocAction::where('doc_id', $docId)->
+                whereNotIn('user_id', $skip_ids)->
+                with('user')->orderBy('created_at')->get();
+
+            if($actions)
+            {
+                if(Input::get('download') === 'csv')
+                {
+                    $csv = Writer::createFromFileObject(new \SplTempFileObject());
+
+                    $fields = array(
+                        'first_name',
+                        'last_name',
+                        'email',
+                        'quote',
+                        'text',
+                        'type',
+                        'created_at'
+                    );
+                    // Headings.
+                    $csv->insertOne($fields);
+
+                    foreach($actions as $action)
+                    {
+                        $actionRow = $action->toArray();
+                        $actionRow['first_name'] = $actionRow['user']['fname'];
+                        $actionRow['last_name'] = $actionRow['user']['lname'];
+                        $actionRow['email'] = $actionRow['user']['email'];
+
+                        // Rearrange our columns
+                        $saveRow = array();
+                        foreach($fields as $field)
+                        {
+                            $saveRow[$field] = $actionRow[$field];
+                        }
+                        $csv->insertOne($saveRow);
+                    }
+                    $csv->output('actions.csv');
+                    return;
+                }
+                else
+                {
+                    return Response::json($actions->toArray());
+                }
+            }
+        }
+
+        return Response::notFound();
+    }
 }

@@ -98,7 +98,6 @@
     margin-top: 0;
 
     // Slide in/out
-    transform: translate3d(0,0,0); // Force hardware rendering
     margin-right: -50%;
     @include single-transition(all, $transition-duration, $transition-easing);
     &.active {
@@ -106,12 +105,12 @@
     }
 
     .title-header {
+        @extend .col-md-8;
         background-color: $dark-grey;
         color: $white;
         padding: 0 20px;
         line-height: (2 * $line-height-computed);
         height: (2 * $line-height-computed);
-        width: 100%;
         position: fixed;
         top: 0;
         z-index: 11;

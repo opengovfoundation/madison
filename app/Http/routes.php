@@ -155,6 +155,7 @@ Route::delete('api/docs/{doc}/featured-image', 'DocumentController@deleteImage')
 Route::delete('api/docs/{doc}/dates/{date}', 'DocumentController@deleteDate')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/dates', 'DocumentController@postDate')->middleware(['doc.access.edit']);
 Route::post('api/docs/{doc}/categories', 'DocumentController@postCategories')->middleware(['doc.access.edit']);
+Route::get('api/docs/{doc}/activity', 'DocumentController@getActivity')->middleware(['doc.access.edit']);
 
 // Annotation Action Routes
 Route::post('api/docs/{doc}/annotations/{annotation}/likes', 'AnnotationController@postLikes');
@@ -183,6 +184,9 @@ Route::post('api/docs/{doc}/comments/{comment}/likes', 'CommentController@postLi
 Route::post('api/docs/{doc}/comments/{comment}/flags', 'CommentController@postFlags')->middleware(['doc.access.read']);
 Route::post('api/docs/{doc}/comments/{comment}/comments', 'CommentController@postComments')->middleware(['doc.access.read']);
 Route::post('api/docs/{doc}/comments/{comment}/seen', 'CommentController@postSeen')->middleware(['doc.access.read']);
+
+// Document Activity Routes (combined Annotations / Comments)
+Route::get('api/docs/{doc}/actions/', 'DocumentController@getActions')->middleware(['doc.access.read']);
 
 // User Routes
 Route::get('api/user/{user}', 'UserController@getUser')->middleware(['auth']);

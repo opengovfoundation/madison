@@ -4499,7 +4499,6 @@ label .required {
   background-color: #f5f5f5;
   padding: 0 0 3.25rem;
   margin-top: 0;
-  transform: translate3d(0, 0, 0);
   margin-right: -50%;
   -webkit-transition: all 0.4s cubic-bezier(0.62, 0.28, 0.23, 0.99);
   -o-transition: all 0.4s cubic-bezier(0.62, 0.28, 0.23, 0.99);
@@ -4516,7 +4515,6 @@ label .required {
   padding: 0 20px;
   line-height: 3.25rem;
   height: 3.25rem;
-  width: 100%;
   position: fixed;
   top: 0;
   z-index: 11;
