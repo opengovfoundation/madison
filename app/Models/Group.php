@@ -36,13 +36,13 @@ class Group extends Model
      *	Validation Rules.
      */
     public static $rules = array(
-      'name'                    => 'required',
-      'address1'            => 'required',
-      'city'                    => 'required',
-      'state'                    => 'required',
-      'postal_code'    => 'required',
-      'phone'    => 'required',
-      'display_name'    => 'required',
+        'name' => 'required',
+        'address1' => 'required',
+        'city' => 'required',
+        'state' => 'required',
+        'postal_code' => 'required',
+        'phone' => 'required',
+        'display_name' => 'required',
     );
 
     protected static $customMessages = array(
