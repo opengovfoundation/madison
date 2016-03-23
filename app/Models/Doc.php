@@ -273,7 +273,7 @@ class Doc extends Model
 
     public function getAnnotationCommentCount()
     {
-        return count($this->getAnnotationComments());
+        return $this->annotationComments()->count();
     }
 
     public function getAnnotationCommentCountAttribute()
@@ -386,20 +386,40 @@ class Doc extends Model
         }
     }
 
+    public function getSponsorIdsAttribute()
+    {
+        $ids = array();
+        foreach($this->sponsor as $sponsor)
+        {
+            if($sponsor instanceof User)
+            {
+                $ids[] = $sponsor->id;
+            }
+            elseif($sponsor instanceof Group)
+            {
+                foreach($sponsor->members as $member)
+                {
+                    $ids[] = $member->user_id;
+                }
+            }
+        }
+
+        return $ids;
+    }
+
     public function annotations()
     {
         return $this->hasMany('App\Models\Annotation');
     }
 
-    public function getAnnotationComments()
+    public function annotationComments()
     {
-        $annotationComments = \DB::table('annotation_comments')
-            ->join('annotations', function ($join) {
-                $join->on('annotation_comments.annotation_id', '=', 'annotations.id')
-                    ->where('annotations.doc_id', '=', $this->id);
-            })->get();
+        return $this->hasManyThrough(AnnotationComment::class, Annotation::class);
+    }
 
-        return $annotationComments;
+    public function actions()
+    {
+        return $this->hasMany('App\Models\DocAction');
     }
 
     public function getLink()

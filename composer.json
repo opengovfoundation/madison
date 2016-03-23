@@ -21,6 +21,7 @@
         "roumen/sitemap": "2.4.*",
         "roumen/feed": "2.8.*",
         "zizaco/entrust": "dev-laravel-5",
+        "league/csv": "8.0.*",
         "intervention/image": "2.3.*"
     },
     "require-dev": {

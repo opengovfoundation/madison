@@ -17,12 +17,14 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Doc;
+use App\Models\DocAction;
 use App\Models\DocMeta;
 use App\Models\DocContent;
 use App\Models\Annotation;
 use App\Models\Comment;
 use App\Models\Category;
 use App\Models\MadisonEvent;
+use \League\Csv\Writer;
 
 /**
  * 	Controller for Document actions.
@@ -1193,6 +1195,87 @@ class DocumentController extends Controller
         return Response::json($returned);
     }
 
+
+    public function getActivity($docId)
+    {
+        $doc = Doc::where('id', $docId)->first();
+        // We want to get the comments and annotations but not from our sponsor
+        // or group.
+
+        $skip_ids = $doc->sponsorIds;
+
+        if(Input::get('summary') === 'general')
+        {
+            $statistics = array(
+                'comments' => array(),
+                'annotations' => array()
+            );
+            $statistics['comments']['total'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
+                count();
+            $statistics['comments']['month'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
+                count();
+            $statistics['comments']['week'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
+                count();
+            $statistics['comments']['day'] = $doc->comments()->
+                whereNotIn('comments.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
+                count();
+
+            $statistics['annotations']['total'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
+                count();
+            $statistics['annotations']['month'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['week'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['day'] = $doc->annotations()->
+                whereNotIn('annotations.user_id', $skip_ids)->
+                where('created_at', '>=',
+                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
+                count();
+
+            $statistics['annotations']['total'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                count();
+
+            $statistics['annotations']['month'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                where('annotation_comments.created_at', '>=',
+                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['week'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                where('annotation_comments.created_at', '>=',
+                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
+                count();
+            $statistics['annotations']['day'] += $doc->annotationComments()->
+                whereNotIn('annotation_comments.user_id', $skip_ids)->
+                where('annotation_comments.created_at', '>=',
+                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
+                count();
+
+            return Response::json($statistics);
+        }
+        else
+        {
+
+        }
+    }
+
     public function getSocialDoc($slug)
     {
         $doc = Doc::findDocBySlug($slug);
@@ -1207,4 +1290,61 @@ class DocumentController extends Controller
         }
     }
 
+    public function getActions($docId)
+    {
+        $doc = Doc::where('id', $docId)->first();
+
+        if($doc)
+        {
+            $skip_ids = $doc->sponsorIds;
+
+            $actions = DocAction::where('doc_id', $docId)->
+                whereNotIn('user_id', $skip_ids)->
+                with('user')->orderBy('created_at')->get();
+
+            if($actions)
+            {
+                if(Input::get('download') === 'csv')
+                {
+                    $csv = Writer::createFromFileObject(new \SplTempFileObject());
+
+                    $fields = array(
+                        'first_name',
+                        'last_name',
+                        'email',
+                        'quote',
+                        'text',
+                        'type',
+                        'created_at'
+                    );
+                    // Headings.
+                    $csv->insertOne($fields);
+
+                    foreach($actions as $action)
+                    {
+                        $actionRow = $action->toArray();
+                        $actionRow['first_name'] = $actionRow['user']['fname'];
+                        $actionRow['last_name'] = $actionRow['user']['lname'];
+                        $actionRow['email'] = $actionRow['user']['email'];
+
+                        // Rearrange our columns
+                        $saveRow = array();
+                        foreach($fields as $field)
+                        {
+                            $saveRow[$field] = $actionRow[$field];
+                        }
+                        $csv->insertOne($saveRow);
+                    }
+                    $csv->output('actions.csv');
+                    return;
+                }
+                else
+                {
+                    return Response::json($actions->toArray());
+                }
+            }
+        }
+
+        return Response::notFound();
+    }
 }

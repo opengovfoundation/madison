@@ -145,15 +145,7 @@ Route::post('docs/{doc}/content', 'DocumentController@postContent')->middleware(
 Route::put('docs/{doc}/content/{page}', 'DocumentController@putContent')->middleware(['doc.access.edit']);
 Route::delete('docs/{doc}/content/{page}', 'DocumentController@deleteContent')->middleware(['doc.access.edit']);
 Route::get('docs/embed/{slug}', 'DocumentController@getEmbedded')->middleware(['doc.access.read']);
-Route::get('docs/{slug}/feed', 'DocumentController@getFeed')->middleware(['doc.access.read']);
-Route::post('docs/{doc}/featured-image', 'DocumentController@uploadImage')->middleware(['doc.access.edit']);
-Route::post('docs/{doc}/status', 'DocumentController@postStatus')->middleware(['doc.access.edit']);
-Route::delete('docs/{doc}', 'DocumentController@deleteDoc')->middleware(['doc.access.edit']);
-Route::put('docs/{doc}/restore', 'DocumentController@getRestoreDoc')->middleware(['doc.access.edit']);
-Route::delete('docs/{doc}/featured-image', 'DocumentController@deleteImage')->middleware(['doc.access.edit']);
-Route::delete('docs/{doc}/dates/{date}', 'DocumentController@deleteDate')->middleware(['doc.access.edit']);
-Route::post('docs/{doc}/dates', 'DocumentController@postDate')->middleware(['doc.access.edit']);
-Route::post('docs/{doc}/categories', 'DocumentController@postCategories')->middleware(['doc.access.edit']);
+Route::get('docs/{doc}/activity', 'DocumentController@getActivity')->middleware(['doc.access.edit']);
 
 // Annotation Action Routes
 Route::post('docs/{doc}/annotations/{annotation}/likes', 'AnnotationController@postLikes');
@@ -182,6 +174,9 @@ Route::post('docs/{doc}/comments/{comment}/likes', 'CommentController@postLikes'
 Route::post('docs/{doc}/comments/{comment}/flags', 'CommentController@postFlags')->middleware(['doc.access.read']);
 Route::post('docs/{doc}/comments/{comment}/comments', 'CommentController@postComments')->middleware(['doc.access.read']);
 Route::post('docs/{doc}/comments/{comment}/seen', 'CommentController@postSeen')->middleware(['doc.access.read']);
+
+// Document Activity Routes (combined Annotations / Comments)
+Route::get('api/docs/{doc}/actions/', 'DocumentController@getActions')->middleware(['doc.access.read']);
 
 // User Routes
 Route::get('user/{user}', 'UserController@getUser')->middleware(['auth']);
