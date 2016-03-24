@@ -15,6 +15,8 @@ use App\Models\GroupMember;
 use App\Models\Role;
 use App\Models\Permission;
 
+use Log;
+
 class Group extends Model
 {
     use SoftDeletes;
@@ -23,7 +25,18 @@ class Group extends Model
 
     public static $timestamp = true;
     protected $hidden = ['pivot', 'deleted_at', 'updated_at', 'created_at'];
-    protected $fillable = ['name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone', 'individual'];
+    protected $fillable = [
+        'name',
+        'display_name',
+        'address1',
+        'address2',
+        'city',
+        'state',
+        'postal_code',
+        'phone',
+        'individual',
+        'user_id'
+    ];
 
     const STATUS_ACTIVE = 'active';
     const STATUS_PENDING = 'pending';
