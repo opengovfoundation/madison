@@ -46,6 +46,7 @@ class PopulateIndividualSponsorsAsGroups extends Migration
             }
 
             $group->save();
+            $group->addMember($individual_sponsor->user_id, Group::ROLE_OWNER);
         }
     }
 
