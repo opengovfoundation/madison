@@ -143,11 +143,7 @@ class DocumentController extends Controller
             $doc->slug = $slug;
             $doc->save();
 
-            if (Input::get('group_id')) {
-                $doc->groupSponsors()->sync(array(Input::get('group_id')));
-            } else {
-                $doc->userSponsors()->sync(array($user->id));
-            }
+            $doc->sponsors()->sync([Input::get('group_id')]);
 
             $starter = new DocContent();
             $starter->doc_id = $doc->id;
@@ -589,24 +585,9 @@ class DocumentController extends Controller
         $response = null;
 
         if (!isset($sponsor)) {
-            $doc->sponsor()->sync(array());
+            $doc->sponsor()->sync([]);
         } else {
-            switch ($sponsor['type']) {
-                case 'user':
-                    $user = User::find($sponsor['id']);
-                    $doc->userSponsors()->sync(array($user->id));
-                    $doc->groupSponsors()->sync(array());
-                    $response = $user->toArray();
-                    break;
-                case 'group':
-                    $group = Group::find($sponsor['id']);
-                    $doc->groupSponsors()->sync(array($group->id));
-                    $doc->userSponsors()->sync(array());
-                    $response = $group->toArray();
-                    break;
-                default:
-                    throw new Exception('Unknown sponsor type '.$sponsor['type']);
-            }
+            $doc->sponspors()->sync([$sponsor['id']]);
         }
 
         $response['messages'][0] = array('text' => 'Sponsor saved', 'severity' => 'info');
@@ -725,24 +706,7 @@ class DocumentController extends Controller
         $sponsors = Auth::user()->getValidSponsors();
 
         foreach ($sponsors as $sponsor) {
-            switch (true) {
-                case ($sponsor instanceof \App\Models\User):
-                    $userSponsor = $sponsor->toArray();
-                    $userSponsor['sponsorType'] = 'user';
-
-                    $retval['sponsors'][] = $userSponsor;
-
-                    break;
-                case ($sponsor instanceof \App\Models\Group):
-
-                    $groupSponsor = $sponsor->toArray();
-                    $groupSponsor['sponsorType'] = 'group';
-
-                    $retval['sponsors'][] = $groupSponsor;
-                    break;
-                default:
-                    break;
-            }
+            $retval['sponsors'][] = $sponsor->toArray();
         }
 
         $retval['success'] = true;
@@ -776,7 +740,7 @@ class DocumentController extends Controller
      */
     public function getFeed($slug)
     {
-        $doc = Doc::where('slug', $slug)->with('comments', 'annotations', 'userSponsors', 'groupSponsors')->first();
+        $doc = Doc::where('slug', $slug)->with('comments', 'annotations', 'sponsors')->first();
 
         $feed = Feed::make();
 
@@ -851,8 +815,7 @@ class DocumentController extends Controller
             // Make sure our featured document can be viewed by the public.
             $featuredIds = explode(',', $featuredSetting->meta_value);
             $docQuery = Doc::with('categories')
-                ->with('userSponsors')
-                ->with('groupSponsors')
+                ->with('sponsors')
                 ->with('statuses')
                 ->with('dates')
                 ->whereIn('id', $featuredIds)
@@ -889,8 +852,7 @@ class DocumentController extends Controller
         if(empty($docs) && !Input::get('featured_only')) {
             $docs = array(
                 Doc::with('categories')
-                ->with('userSponsors')
-                ->with('groupSponsors')
+                ->with('sponsors')
                 ->with('statuses')
                 ->with('dates')
                 ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED)
