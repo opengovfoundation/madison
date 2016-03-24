@@ -470,7 +470,7 @@ class Group extends Model
 
             $groupMember = new GroupMember();
             $groupMember->user_id = $userId;
-            $groupMember->role = Group::ROLE_OWNER;
+            $groupMember->role = $role;
             $groupMember->group_id = $this->id;
         } else {
             if (!is_null($role)) {
