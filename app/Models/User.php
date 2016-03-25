@@ -246,8 +246,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function groups()
     {
-        return $this->belongsToMany('App\Models\Group', 'group_members')
-            ->where('individual', false);
+        return $this->belongsToMany('App\Models\Group', 'group_members');
     }
 
     /**
