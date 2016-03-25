@@ -167,6 +167,7 @@ class DocumentController extends Controller
         if (!$doc) return response('Not found.', 404);
         $doc->update($request->all());
         $doc->setIntroText($request->input('introtext'));
+        $doc->sponsors()->sync([$request->input('sponsors')[0]['id']]);
         $doc->syncCategories($request->input('categories'));
         return Response::json($doc);
     }
