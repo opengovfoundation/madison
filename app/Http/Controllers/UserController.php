@@ -46,7 +46,8 @@ class UserController extends Controller
      */
     public function getGroups(User $user)
     {
-        $groups = $user->groups()->get();
+        $individual = Input::get('individual');
+        $groups = !$individual ? $user->groups()->where('individual', false)->get() : $user->groups()->get();
 
         foreach ($groups as $group) {
             $group->role = $group->findMemberByUserId($user->id)->role;
