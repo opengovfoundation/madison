@@ -586,7 +586,7 @@ class DocumentController extends Controller
         $response = null;
 
         if (!isset($sponsor)) {
-            $doc->sponsor()->sync([]);
+            throw new Exception('Must provide a sponsor');
         } else {
             $doc->sponspors()->sync([$sponsor['id']]);
         }
