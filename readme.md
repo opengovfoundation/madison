@@ -21,6 +21,25 @@ We have also created a very short survey to find out more about the developers u
 
 Please take a look at the [Madison Documentation](https://github.com/opengovfoundation/madison/tree/master/docs) for how to install Madison.
 
+## Customization
+
+There are a few different mechanisms for customizing Madison to your liking.
+
+### Language & i18n
+
+The majority of the language in the system is defined in the `public/locales/`
+folder within relevant JSON files, defined for each supported language. If you
+create a file that matches the necessary language name in
+`public/locales/custom/` this will overwrite what is set as default in the base
+language files.
+
+### Style
+
+Any stylesheets placed within the `public/sass/custom/` folder will be processed
+during the build and can overwrite any existing styles. You can also change sass
+variables here. Reference the sass config files in `public/sass/config/` to see
+what variables can be changed.
+
 ## Testing Suite
 
 To run the automated test suite locally you will first need to use the
