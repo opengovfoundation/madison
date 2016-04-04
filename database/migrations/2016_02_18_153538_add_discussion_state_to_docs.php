@@ -24,6 +24,8 @@ class AddDiscussionStateToDocs extends Migration
      */
     public function down()
     {
-        $table->dropColumn('discussion_state');
+        Schema::table('docs', function($table) {
+            $table->dropColumn('discussion_state');
+        });
     }
 }
