@@ -15,6 +15,7 @@ use App\Models\Notification;
 use App\Models\MadisonEvent;
 use App\Models\DocMeta;
 use App\Models\Role;
+use App\Http\Requests\UpdateUserRequest;
 
 /**
  * 	Controller for user actions.
@@ -24,6 +25,15 @@ class UserController extends Controller
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function update($id, UpdateUserRequest $request)
+    {
+        $user = $request->user;
+        $user->oauth_update = false;
+        if (!$user) return response('Not found.', 404);
+        $user->update($request->all());
+        return Response::json($user);
     }
 
     /**
@@ -36,7 +46,8 @@ class UserController extends Controller
      */
     public function getGroups(User $user)
     {
-        $groups = $user->groups()->get();
+        $individual = Input::get('individual');
+        $groups = !$individual ? $user->groups()->where('individual', false)->get() : $user->groups()->get();
 
         foreach ($groups as $group) {
             $group->role = $group->findMemberByUserId($user->id)->role;

@@ -36,8 +36,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     use EntrustUserTrait;
 
-    protected $hidden = array('password', 'token', 'last_login', 'deleted_at', 'oauth_vendor', 'oauth_id', 'oauth_update', 'roles');
-    protected $appends = array('display_name');
+    protected $hidden = ['password', 'token', 'last_login', 'deleted_at', 'oauth_vendor', 'oauth_id', 'oauth_update', 'roles'];
+    protected $fillable = ['fname', 'lname', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone', 'url'];
+    protected $appends = ['display_name'];
 
     /**
      *	Validation rules.
@@ -489,15 +490,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         foreach ($groups as $groupMember) {
             $collection->add($groupMember->group()->first());
-        }
-
-        $users = UserMeta::where('user_id', '=', $this->id)
-                          ->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
-                          ->where('meta_value', '=', '1')
-                          ->get();
-
-        foreach ($users as $userMeta) {
-            $collection->add($userMeta->user()->first());
         }
 
         return $collection;

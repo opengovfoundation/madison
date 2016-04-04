@@ -24,9 +24,6 @@ class Doc extends Model
 
     const TYPE = 'doc';
 
-    const SPONSOR_TYPE_INDIVIDUAL = "individual";
-    const SPONSOR_TYPE_GROUP = "group";
-
     const PUBLISH_STATE_PUBLISHED = 'published';
     const PUBLISH_STATE_UNPUBLISHED = 'unpublished';
     const PUBLISH_STATE_PRIVATE = 'private';
@@ -160,44 +157,13 @@ class Doc extends Model
         if (!isset($sponsor)) {
             $this->sponsors()->sync(array());
         } else {
-            switch ($sponsor['type']) {
-                case 'user':
-                    $user = User::find($sponsor['id']);
-                    $this->userSponsors()->sync(array($user->id));
-                    $this->groupSponsors()->sync(array());
-                    $response = $user->toArray();
-                    break;
-                case 'group':
-                    $group = Group::find($sponsor['id']);
-                    $this->groupSponsors()->sync(array($group->id));
-                    $this->userSponsors()->sync(array());
-                    $response = $group->toArray();
-                    break;
-                default:
-                    throw new Exception('Unknown sponsor type '.$sponsor['type']);
-            }
+            $this->sponsors()->sync([$sponsor['id']]);
         }
     }
 
     public function sponsors()
     {
         // TODO: This should eventually handle multiple sponsors
-        $sponsor = $this->belongsToMany('App\Models\Group')->first();
-
-        if (!$sponsor) {
-            return $this->belongsToMany('App\Models\User');
-        }
-
-        return $this->belongsToMany('App\Models\Group');
-    }
-
-    public function userSponsors()
-    {
-        return $this->belongsToMany('App\Models\User');
-    }
-
-    public function groupSponsors()
-    {
         return $this->belongsToMany('App\Models\Group');
     }
 
@@ -347,16 +313,8 @@ class Doc extends Model
     {
         $sponsors = [];
 
-        foreach($this->userSponsors()->get() as $user) {
-            $sponsors[] = [
-                'display_name' => $user->display_name
-            ];
-        }
-
-        foreach($this->groupSponsors()->get() as $group) {
-            $sponsors[] = [
-                'display_name' => $group->display_name
-            ];
+        foreach($this->sponsors()->get() as $sponsor) {
+            $sponsors[] = ['display_name' => $sponsor->display_name];
         }
 
         return $sponsors;
@@ -471,16 +429,7 @@ class Doc extends Model
             $document->publish_state = $params['publish_state'];
             $document->save();
 
-            switch ($params['sponsorType']) {
-                case static::SPONSOR_TYPE_INDIVIDUAL:
-                    $document->userSponsors()->sync(array($params['sponsor']));
-                    break;
-                case static::SPONSOR_TYPE_GROUP:
-                    $document->groupSponsors()->sync(array($params['sponsor']));
-                    break;
-                default:
-                    throw new \Exception("Invalid Sponsor Type");
-            }
+            $document->sponsors()->sync([$params['sponsor']]);
 
             $template = new DocContent();
             $template->doc_id = $document->id;
@@ -545,8 +494,7 @@ class Doc extends Model
     public static function getEager()
     {
         return Doc::with('categories')
-            ->with('userSponsors')
-            ->with('groupSponsors')
+            ->with('sponsors')
             ->with('statuses')
             ->with('dates');
     }
@@ -787,8 +735,7 @@ class Doc extends Model
         //Retrieve requested document
         $doc = static::where('slug', $slug)
                      ->with('statuses')
-                     ->with('userSponsors')
-                     ->with('groupSponsors')
+                     ->with('sponsors')
                      ->with('categories')
                      ->with('dates')
                      ->first();
@@ -844,19 +791,11 @@ class Doc extends Model
      */
     public function scopeBelongsToUser($query, $userId)
     {
-        return $query->where(function($q) use ($userId) {
-            // doc has independent sponsor
-            $q->whereHas('userSponsors', function($q) use ($userId) {
-                // independent sponsor is current user
-                $q->where('id', '=', $userId);
-            });
-            // doc has group sponsor
-            $q->orWhereHas('groupSponsors', function($q) use ($userId) {
-                // user belongs to group as EDITOR or OWNER
-                $q->whereHas('members', function($q) use ($userId) {
-                    $q->where('user_id', '=', $userId);
-                    $q->whereIn('role', [Group::ROLE_EDITOR, Group::ROLE_OWNER]);
-                });
+        return $query->whereHas(function($q) use ($userId) {
+            // user belongs to group as EDITOR or OWNER
+            $q->whereHas('members', function($q) use ($userId) {
+                $q->where('user_id', '=', $userId);
+                $q->whereIn('role', [Group::ROLE_EDITOR, Group::ROLE_OWNER]);
             });
         });
     }

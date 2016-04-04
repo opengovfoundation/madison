@@ -13,6 +13,8 @@ use App\Models\User;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\MadisonEvent;
+use App\Http\Requests\StoreGroupRequest;
+use App\Http\Requests\UpdateGroupRequest;
 
 class GroupController extends Controller
 {
@@ -21,6 +23,34 @@ class GroupController extends Controller
         parent::__construct();
 
         $this->beforeFilter('auth', array('on' => array('post', 'put', 'delete')));
+    }
+
+    /**
+     * Store newly created Group.
+     *
+     * @return Response
+     */
+    public function store(StoreGroupRequest $request)
+    {
+        $group = new Group($request->all());
+        $group->status = Group::STATUS_PENDING;
+        $group->save();
+        $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
+        Event::fire(MadisonEvent::VERIFY_REQUEST_GROUP, $group);
+        return response()->json($group);
+    }
+
+    /**
+     * Update a Group.
+     *
+     * @return Response
+     */
+    public function update($id, UpdateGroupRequest $request)
+    {
+        $group = Group::find($request->group);
+        if (!$group) return response('Not found.', 404);
+        $group->update($request->all());
+        return response()->json($group);
     }
 
     public function getGroup($id = null)
@@ -52,7 +82,7 @@ class GroupController extends Controller
             $message = "Your group has been created! It must be approved before you can invite others to join or create documents.";
         }
 
-        $postData = array('name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone_number');
+        $postData = array('name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone');
 
         foreach ($postData as $field) {
             $group->$field = Input::get($field);
@@ -364,7 +394,7 @@ class GroupController extends Controller
         $group->city = $group_details['city'];
         $group->state = $group_details['state'];
         $group->postal_code = $group_details['postal'];
-        $group->phone_number = $group_details['phone'];
+        $group->phone = $group_details['phone'];
 
         $group->save();
         $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
