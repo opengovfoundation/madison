@@ -29,37 +29,11 @@ Please take a look at the [Madison Documentation](https://github.com/opengovfoun
 
 ## Testing Suite
 
-To run the automated test suite locally you will first need to use the
-webdriver manager provided by protractor. This allows you to install and run
-selenium through a simple cli.
+To run the tests, you will need to make sure to have a database created called
+`madison_testing`. Then you will need to run all migrations on that database
+with the command `php artisan migrate --database=mysql_testing`.
 
-```
-$ npm install -g protractor
-$ webdriver-manager update
-```
-
-To start the selenium server:
-
-```
-$ webdriver-manager start
-```
-
-Once that is installed, you should be able to run tests for various browsers
-using `grunt test_{browser name}` like so:
-
-```
-$ grunt test_chrome
-$ grunt test_firefox
-$ grunt test_ie
-```
-
-A database is automatically created in mysql for testing, so no need to create
-one.
-
-You will need to have drivers installed for these browsers to test them locally.
-When a pull request is created, the tests will be run for all browsers using
-[Sauce Labs](https://saucelabs.com/).
-
+The command to run the tests is `./vendor/bin/phpunit`.
 
 ## How to help
 
