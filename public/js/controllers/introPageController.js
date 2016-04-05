@@ -2,8 +2,9 @@ angular.module('madisonApp.controllers')
   .controller('IntroPageController', ['$scope', '$translate', 'pageService',
     'SITE',
     function ($scope, $translate, pageService, SITE) {
-      pageService.setTitle($translate.instant('content.intro.title',
-        {title: SITE.name}));
+      $translate('content.intro.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
       $scope.siteName = SITE.name;
     }
   ]);

@@ -3,8 +3,9 @@ angular.module('madisonApp.controllers')
     'growl', 'growlMessages', '$translate', 'pageService', 'SITE',
     function ($scope, $state, AuthService, growl, growlMessages, $translate,
       pageService, SITE) {
-      pageService.setTitle($translate.instant('content.signup.title',
-        {title: SITE.name}));
+      $translate('content.signup.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.signup = function () {
         var signup = AuthService.signup($scope.credentials);

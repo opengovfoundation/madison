@@ -3,8 +3,9 @@ angular.module('madisonApp.controllers')
     'growl', 'growlMessages', '$state', '$translate', 'pageService', 'SITE',
     function ($scope, $http, $filter, growl, growlMessages, $state, $translate,
       pageService, SITE) {
-      pageService.setTitle($translate.instant('content.admindocument.title',
-        {title: SITE.name}));
+      $translate('content.admindocument.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.docs = [];
       $scope.categories = [];

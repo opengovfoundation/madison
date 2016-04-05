@@ -2,8 +2,9 @@ angular.module('madisonApp.controllers')
   .controller('UserPageController', ['$scope', '$http', '$location',
     '$translate', 'pageService', 'SITE',
     function ($scope, $http, $location, $translate, pageService, SITE) {
-      pageService.setTitle($translate.instant('content.users.title',
-        {title: SITE.name}));
+      $translate('content.users.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.user = {};
       $scope.meta = '';

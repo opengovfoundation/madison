@@ -4,8 +4,9 @@ angular.module('madisonApp.controllers')
     '$http', 'SITE',
     function ($rootScope, $scope, $state, AuthService, growlMessages,
       $translate, pageService, $location, $http, SITE) {
-      pageService.setTitle($translate.instant('content.login.title',
-        {title: SITE.name}));
+      $translate('content.login.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.credentials = {email: "", password: "", remember: false};
 

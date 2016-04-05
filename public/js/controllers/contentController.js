@@ -7,11 +7,14 @@ angular.module('madisonApp.controllers')
     'pageService', 'SITE',
     function ($scope, $stateParams, $translate, pageService, SITE) {
       var page = $stateParams.page.replace(/-/g, '');
-      pageService.setTitle($translate.instant('content.' + page + '.title',
-        {title: SITE.name}));
-      $scope.header = $translate.instant('content.' + page + '.header',
-        {title: SITE.name});
-      $scope.body = $translate.instant('content.' + page + '.body',
-        {title: SITE.name});
+      $translate('content.' + page + '.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
+      $translate('content.' + page + '.header', {title: SITE.name}).then(function(translation) {
+        $scope.header = translation;
+      });
+      $translate('content.' + page + '.body', {title: SITE.name}).then(function(translation) {
+        $scope.body = translation;
+      });
     }
   ]);
