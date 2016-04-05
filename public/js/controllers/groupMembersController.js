@@ -3,8 +3,9 @@ angular.module('madisonApp.controllers')
     '$state', '$translate', 'pageService', 'SITE',
     function ($scope, $stateParams, Group, $state, $translate, pageService,
     SITE) {
-      pageService.setTitle($translate.instant('content.groupmembers.title',
-        {title: SITE.name}));
+      $translate('content.groupmembers.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.group = Group.get({id: $stateParams.id});
 

@@ -3,8 +3,9 @@ angular.module('madisonApp.controllers')
     'AuthService', 'growl', '$translate', 'pageService', 'SITE',
     function ($scope, SessionService, AuthService, growl, $translate,
       pageService, SITE) {
-      pageService.setTitle($translate.instant('content.edituser.title',
-        {title: SITE.name}));
+      $translate('content.edituser.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.verified = SessionService.verified;
 

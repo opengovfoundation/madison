@@ -13,10 +13,9 @@ angular.module('madisonApp.controllers')
       $scope.docs = [];
       $scope.pageTitle = '';
 
-      pageService.setTitle(
-        $translate.instant('content.deleteddocs.title',
-        { title: SITE.name })
-      );
+      $translate('content.deleteddocs.title', { title: SITE.name }).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       if (checkAdminRoute()) {
         IS_ADMIN = true;

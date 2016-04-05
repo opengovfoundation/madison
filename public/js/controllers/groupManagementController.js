@@ -2,8 +2,9 @@ angular.module('madisonApp.controllers')
   .controller('GroupManagementController', ['$scope', '$http', 'SessionService',
   '$translate', 'pageService', 'SITE',
     function ($scope, $http, SessionService, $translate, pageService, SITE) {
-      pageService.setTitle($translate.instant('content.groupmanagement.title',
-        {title: SITE.name}));
+      $translate('content.groupmanagement.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.user = SessionService.getUser();
 
