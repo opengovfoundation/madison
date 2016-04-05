@@ -3,8 +3,9 @@ angular.module('madisonApp.controllers')
     'growl', 'growlMessages', 'pageService', 'SITE',
     function ($scope, $http, $translate, growl, growlMessages, pageService,
       SITE) {
-      pageService.setTitle($translate.instant('content.verifygroups.title',
-        {title: SITE.name}));
+      $translate('content.verifygroups.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.requests = null;
       $scope.formdata = {

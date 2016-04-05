@@ -4,8 +4,9 @@ angular.module('madisonApp.controllers')
     function ($scope, $stateParams, $http, $state, growl, $translate,
       pageService, SITE) {
 
-      pageService.setTitle($translate.instant('content.resetpassword.title',
-        {title: SITE.name}));
+      $translate('content.resetpassword.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.token = $stateParams.token;
 

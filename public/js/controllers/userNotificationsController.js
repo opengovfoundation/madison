@@ -5,8 +5,9 @@ angular.module('madisonApp.controllers')
       SITE) {
     //This may not be necessary.
     $scope.user = SessionService.user;
-    pageService.setTitle($translate.instant('content.notificationsettings.title',
-    {title: SITE.name}));
+    $translate('content.notificationsettings.title', {title: SITE.name}).then(function(translation) {
+      pageService.setTitle(translation);
+    });
 
     $http.get('/api/user/' + $scope.user.id + '/notifications')
       .success(function (data) {

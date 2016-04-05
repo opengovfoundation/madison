@@ -183,8 +183,9 @@ angular.module('madisonApp.controllers')
       //After loading the document
       $scope.doc.$promise.then(function (doc) {
 
-        pageService.setTitle($translate.instant('content.document.title',
-          {title: SITE.name, docTitle: doc.title}));
+        $translate('content.document.title', {title: SITE.name, docTitle: doc.title}).then(function(translation) {
+          pageService.setTitle(translation);
+        });
 
         $scope.setSponsor();
         $scope.getSupported();

@@ -2,8 +2,9 @@ angular.module('madisonApp.controllers')
   .controller('PasswordResetController', ['$scope', '$http', '$state',
     '$translate', 'growl', 'pageService', 'SITE',
     function ($scope, $http, $state, $translate, growl, pageService, SITE) {
-      pageService.setTitle($translate.instant('content.resetpassword.title',
-        {title: SITE.name}));
+      $translate('content.resetpassword.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.reset = function () {
         $http.post('/api/password/remind', {email: $scope.email})

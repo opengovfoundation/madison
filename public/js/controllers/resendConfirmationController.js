@@ -3,8 +3,9 @@ angular.module('madisonApp.controllers')
     '$stateParams', '$translate', 'pageService', 'SITE', '$timeout',
     function ($scope, $http, $state, $stateParams, $translate, pageService,
       SITE, $timeout) {
-      pageService.setTitle($translate.instant('content.confirmationresend.title',
-        {title: SITE.name}));
+      $translate('content.confirmationresend.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       // We do this in a `$timeout` because in IE9, when going
       // from regular URL to non-HTML5 version, the controller loads twice and
