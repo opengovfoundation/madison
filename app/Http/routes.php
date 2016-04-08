@@ -226,6 +226,13 @@ Route::put('api/groups/{groupId}/invite', 'GroupController@processMemberInvite')
 Route::get('api/groups/{groupId}/members', 'GroupController@getMembers');
 Route::put('api/groups/{groupId}/members/{memberId}', 'GroupController@putMember');
 
+// Page Routes
+Route::get('api/pages/', 'PageController@index');
+Route::post('api/pages/', 'PageController@store');
+Route::put('api/pages/{page}', 'PageController@update');
+Route::delete('api/pages/{page}', 'PageController@destroy');
+Route::get('api/pages/{page}/content', 'PageController@getContent');
+
 // User Login / Signup AJAX requests
 Route::post('api/user/login', 'UserController@postLogin');
 Route::post('api/user/signup', 'UserController@postSignup');

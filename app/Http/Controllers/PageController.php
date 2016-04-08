@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
+use App\Models\PageContent;
 
 class PageController extends Controller
 {
@@ -13,41 +15,62 @@ class PageController extends Controller
     }
 
     /**
-     * Home Page.
+     * List all pages.
+     *
+     * @param Request $request
+     * @return Response
      */
-    public function home()
+    public function index(Request $request)
     {
-        return View::make('single');
+        // get all pages
     }
 
     /**
-     * About Page.
+     * Create a new page.
+     *
+     * @param StorePageRequest $request
+     * @return Response
      */
-    public function getAbout()
+    public function store(StorePageRequest $request)
     {
-        return View::make('single');
+        // create new page
     }
 
     /**
-     * FAQ Page.
+     * Update a page.
+     *
+     * @param Page $page
+     * @param UpdatePageRequest $request
+     * @return Response
      */
-    public function faq()
+    public function update(UpdatePageRequest $request, Page $page)
     {
-        return View::make('single');
+        // update existing page
     }
 
-    public function privacyPolicy()
+    /**
+     * Destroy a page.
+     *
+     * @param DestroyPageRequest $request
+     * @param Page $page
+     * @return Response
+     */
+
+    public function destroy(DestroyPageRequest $request, Page $page)
     {
-        return View::make('single');
+        // destroy the page!
     }
 
-    public function terms()
+    /**
+     * Get content for a page.
+     *
+     * @param Request $request
+     * @param Page $page
+     * @return Response
+     */
+    public function getContent(Request $request, Page $page)
     {
-        return View::make('single');
+        // get content for specific page
     }
 
-    public function copyright()
-    {
-        return View::make('single');
-    }
 }
