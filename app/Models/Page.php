@@ -23,6 +23,29 @@ class Page extends Model
     ];
 
     /**
+     * Hook into the `creating` event to set default attribute values
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        Page::creating(function($page) {
+            $page->page_title = $page->nav_title;
+            $page->header = $page->nav_title;
+            $page->header_nav_link = true;
+            $page->footer_nav_link = false;
+            $page->external = false;
+
+            // Lowercase, strip all symbols, then replace space with dash
+            $page->url = strtolower(
+                str_replace(' ', '-',
+                    preg_replace('/[^\p{L}\p{N}\s]/u', '', $page->nav_title)
+                )
+            );
+        });
+    }
+
+    /**
      * Association with PageContent
      */
     public function content()

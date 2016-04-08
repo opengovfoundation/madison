@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -11,11 +10,26 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
+        'fname' => $faker->firstName,
+        'lname' => $faker->lastName,
         'email' => $faker->email,
         'password' => bcrypt(str_random(10)),
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(App\Models\Group::class, function (Fake\Generator $faker) {
+    $name = $faker->company;
+    $display_name = "{$name} {$faker->companySuffix}";
+    return [
+        'name' => $name,
+        'display_name' => $display_name,
+        'address1' => $faker->streetAddress,
+        'city' => $faker->city,
+        'state' => $faker->state,
+        'postal_code' => $faker->postcode,
+        'phone' => $faker->e164PhoneNumber
     ];
 });

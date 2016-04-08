@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use App\Models\PageContent;
+use App\Http\Requests\StorePageRequest;
+use App\Http\Requests\UpdatePageRequest;
+use App\Http\Requests\DestroyPageRequest;
 
 class PageController extends Controller
 {
@@ -33,7 +36,8 @@ class PageController extends Controller
      */
     public function store(StorePageRequest $request)
     {
-        // create new page
+        $page = Page::create($request->all());
+        return response()->json($page);
     }
 
     /**
