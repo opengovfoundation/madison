@@ -23,9 +23,10 @@ class PageController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        // get all pages
+        $pages = Page::all();
+        return response()->json($pages);
     }
 
     /**

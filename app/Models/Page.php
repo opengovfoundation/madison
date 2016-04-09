@@ -23,6 +23,17 @@ class Page extends Model
     ];
 
     /**
+     * Ensures values are proper types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'header_nav_link' => 'boolean',
+        'footer_nav_link' => 'boolean',
+        'external' => 'boolean'
+    ];
+
+    /**
      * Hook into the `creating` event to set default attribute values
      */
     public static function boot()
@@ -52,4 +63,5 @@ class Page extends Model
     {
         return $this->belongsTo(PageContent::class);
     }
+
 }

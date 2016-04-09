@@ -37,7 +37,12 @@ class PageApiTest extends TestCase
      */
     public function testGetListOfPages()
     {
-        // ...
+        $page1 = factory(App\Models\Page::class)->create();
+        $page2 = factory(App\Models\Page::class)->create();
+
+        $this->get('/api/pages')
+            ->seeJson($page1->toArray())
+            ->seeJson($page2->toArray());
     }
 
     /**

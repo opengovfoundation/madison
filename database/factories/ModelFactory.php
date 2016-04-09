@@ -20,7 +20,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\Group::class, function (Fake\Generator $faker) {
+$factory->define(App\Models\Group::class, function (Faker\Generator $faker) {
     $name = $faker->company;
     $display_name = "{$name} {$faker->companySuffix}";
     return [
@@ -31,5 +31,11 @@ $factory->define(App\Models\Group::class, function (Fake\Generator $faker) {
         'state' => $faker->state,
         'postal_code' => $faker->postcode,
         'phone' => $faker->e164PhoneNumber
+    ];
+});
+
+$factory->define(App\Models\Page::class, function (Faker\Generator $faker) {
+    return [
+        'nav_title' => $faker->domainWord
     ];
 });
