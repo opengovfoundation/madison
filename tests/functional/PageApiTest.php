@@ -50,7 +50,10 @@ class PageApiTest extends TestCase
      */
     public function testGetOnePage()
     {
-        // ...
+        $page = factory(App\Models\Page::class)->create();
+
+        $this->get("/api/pages/{$page->id}")
+            ->seeJson($page->toArray());
     }
 
     /**
@@ -58,7 +61,7 @@ class PageApiTest extends TestCase
      */
     public function testOnlyAdminCanCreatePage()
     {
-        // ...
+        $this->markTestIncomplete();
     }
 
     /**
@@ -66,7 +69,7 @@ class PageApiTest extends TestCase
      */
     public function testOnlyAdminCanUpdatePage()
     {
-        // ...
+        $this->markTestIncomplete();
     }
 
     /**
@@ -74,6 +77,6 @@ class PageApiTest extends TestCase
      */
     public function testOnlyAdminCanDestroyPage()
     {
-        // ...
+        $this->markTestIncomplete();
     }
 }

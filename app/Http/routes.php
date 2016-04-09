@@ -228,6 +228,7 @@ Route::put('api/groups/{groupId}/members/{memberId}', 'GroupController@putMember
 
 // Page Routes
 Route::get('api/pages/', 'PageController@index');
+Route::get('api/pages/{page}', 'PageController@index');
 Route::post('api/pages/', 'PageController@store');
 Route::put('api/pages/{page}', 'PageController@update');
 Route::delete('api/pages/{page}', 'PageController@destroy');

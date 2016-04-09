@@ -20,13 +20,24 @@ class PageController extends Controller
     /**
      * List all pages.
      *
-     * @param Request $request
      * @return Response
      */
     public function index()
     {
         $pages = Page::all();
         return response()->json($pages);
+    }
+
+    /**
+     * See an individual page
+     *
+     * @param $page_id
+     * @return Response
+     */
+    public function show($page_id)
+    {
+        $page = Page::find($page_id);
+        return response()->json($page);
     }
 
     /**
