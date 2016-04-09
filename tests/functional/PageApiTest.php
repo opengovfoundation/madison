@@ -61,7 +61,11 @@ class PageApiTest extends TestCase
      */
     public function testOnlyAdminCanCreatePage()
     {
-        $this->markTestIncomplete();
+        $user = factory(App\Models\User::class)->create();
+
+        $this->actingAs($user)
+            ->post('/api/pages', ['nav_title' => 'A New Page'])
+            ->assertResponseStatus(403);
     }
 
     /**
