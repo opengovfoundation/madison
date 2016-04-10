@@ -20,6 +20,10 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->defineAs(App\Models\Role::class, 'admin_role', function (Faker\Generator $faker) {
+    return ['name' => App\Models\Role::ROLE_ADMIN];
+});
+
 $factory->define(App\Models\Group::class, function (Faker\Generator $faker) {
     $name = $faker->company;
     $display_name = "{$name} {$faker->companySuffix}";

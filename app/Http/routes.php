@@ -84,6 +84,7 @@ Route::pattern('state', Doc::validPublishStatesRoutePattern());
  */
 Route::model('user', 'App\Models\User');
 Route::model('user/edit', 'App\Models\User');
+Route::model('page', 'App\Models\Page');
 
 // Modal Routes
 Route::get('modals/annotation_thanks', array(

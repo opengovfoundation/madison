@@ -34,9 +34,8 @@ class PageController extends Controller
      * @param $page_id
      * @return Response
      */
-    public function show($page_id)
+    public function show(Page $page)
     {
-        $page = Page::find($page_id);
         return response()->json($page);
     }
 
@@ -61,7 +60,8 @@ class PageController extends Controller
      */
     public function update(UpdatePageRequest $request, Page $page)
     {
-        // update existing page
+        $page->update($request->all());
+        return response()->json($page);
     }
 
     /**

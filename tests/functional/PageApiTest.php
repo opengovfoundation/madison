@@ -16,11 +16,11 @@ class PageApiTest extends TestCase
     public function testCreatePage()
     {
         $user = factory(App\Models\User::class)->create();
-        $admin_role = Role::create(['name' => Role::ROLE_ADMIN]);
+        $admin_role = factory(App\Models\Role::class, 'admin_role')->create();
         $user->attachRole($admin_role);
 
         $this->actingAs($user)
-            ->post('/api/pages', ['nav_title' => 'A New Page'])
+            ->json('POST', '/api/pages', ['nav_title' => 'A New Page'])
             ->seeJson([
                 'nav_title' => 'A New Page',
                 'page_title' => 'A New Page',
@@ -40,7 +40,7 @@ class PageApiTest extends TestCase
         $page1 = factory(App\Models\Page::class)->create();
         $page2 = factory(App\Models\Page::class)->create();
 
-        $this->get('/api/pages')
+        $this->json('GET', '/api/pages')
             ->seeJson($page1->toArray())
             ->seeJson($page2->toArray());
     }
@@ -52,7 +52,7 @@ class PageApiTest extends TestCase
     {
         $page = factory(App\Models\Page::class)->create();
 
-        $this->get("/api/pages/{$page->id}")
+        $this->json('GET', "/api/pages/{$page->id}")
             ->seeJson($page->toArray());
     }
 
@@ -64,8 +64,27 @@ class PageApiTest extends TestCase
         $user = factory(App\Models\User::class)->create();
 
         $this->actingAs($user)
-            ->post('/api/pages', ['nav_title' => 'A New Page'])
+            ->json('POST', '/api/pages', ['nav_title' => 'A New Page'])
             ->assertResponseStatus(403);
+    }
+
+    public function testUpdatePage()
+    {
+        $admin = factory(App\Models\User::class)->create();
+        $admin_role = factory(App\Models\Role::class, 'admin_role')->create();
+        $admin->attachRole($admin_role);
+
+        $page = factory(App\Models\Page::class)->create();
+
+        $this->actingAs($admin)
+            ->json('PUT', "/api/pages/{$page->id}",
+                array_merge(
+                    $page->toArray(),
+                    ['nav_title' => 'New Title!']
+                )
+            )->seeJson([
+                'nav_title' => 'New Title!'
+            ]);
     }
 
     /**
@@ -73,7 +92,36 @@ class PageApiTest extends TestCase
      */
     public function testOnlyAdminCanUpdatePage()
     {
-        $this->markTestIncomplete();
+        $user = factory(App\Models\User::class)->create();
+        $page = factory(App\Models\Page::class)->create();
+
+        $this->actingAs($user)
+            ->json('PUT', "/api/pages/{$page->id}",
+                array_merge(
+                    ['nav_title' => 'New Title!'],
+                    $page->toArray()
+                )
+            )->assertResponseStatus(403);
+    }
+
+    /**
+     * Test PUT route requires whole object.
+     */
+    public function testWholeObjectRequiredForUpdate()
+    {
+        $user = factory(App\Models\User::class)->create();
+        $admin_role = factory(App\Models\Role::class, 'admin_role')->create();
+        $user->attachRole($admin_role);
+
+        $page = factory(App\Models\Page::class)->create();
+
+        $page_attrs = $page->toArray();
+
+        unset($page_attrs['nav_title']);
+
+        $this->actingAs($user)
+            ->json('PUT', "/api/pages/{$page->id}", $page_attrs)
+            ->assertResponseStatus(422);
     }
 
     /**
