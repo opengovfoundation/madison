@@ -12,6 +12,8 @@ class PageApiTest extends TestCase
 
     /**
      * Test creating a new page.
+     *
+     * POST /pages
      */
     public function testCreatePage()
     {
@@ -34,6 +36,8 @@ class PageApiTest extends TestCase
 
     /**
      * Test return list of pages.
+     *
+     * GET /pages
      */
     public function testGetListOfPages()
     {
@@ -47,6 +51,8 @@ class PageApiTest extends TestCase
 
     /**
      * Test get one specific page.
+     *
+     * GET /pages/:id
      */
     public function testGetOnePage()
     {
@@ -58,6 +64,8 @@ class PageApiTest extends TestCase
 
     /**
      * Test only admins can create new pages.
+     *
+     * POST /pages
      */
     public function testOnlyAdminCanCreatePage()
     {
@@ -68,6 +76,11 @@ class PageApiTest extends TestCase
             ->assertResponseStatus(403);
     }
 
+    /**
+     * Test admin can update page.
+     *
+     * PUT /pages/:id
+     */
     public function testUpdatePage()
     {
         $admin = factory(App\Models\User::class)->create();
@@ -89,6 +102,8 @@ class PageApiTest extends TestCase
 
     /**
      * Test only admins can update pages.
+     *
+     * PUT /pages/:id
      */
     public function testOnlyAdminCanUpdatePage()
     {
@@ -106,6 +121,8 @@ class PageApiTest extends TestCase
 
     /**
      * Test PUT route requires whole object.
+     *
+     * PUT /pages/:id
      */
     public function testWholeObjectRequiredForUpdate()
     {
@@ -126,6 +143,8 @@ class PageApiTest extends TestCase
 
     /**
      * Test that non-admins can NOT destroy pages.
+     *
+     * DELETE /pages/:id
      */
     public function testNonAdminCantDestroyPage()
     {
@@ -139,6 +158,8 @@ class PageApiTest extends TestCase
 
     /**
      * Test that admins can destroy pages.
+     *
+     * DELETE /pages/:id
      */
     public function testAdminCanDestroyPage()
     {
@@ -155,6 +176,8 @@ class PageApiTest extends TestCase
 
     /**
      * Test getting page content.
+     *
+     * GET /pages/:id/content
      */
     public function testGetPageContent()
     {
