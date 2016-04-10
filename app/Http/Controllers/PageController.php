@@ -74,7 +74,8 @@ class PageController extends Controller
 
     public function destroy(DestroyPageRequest $request, Page $page)
     {
-        // destroy the page!
+        $page->delete();
+        return response()->json($page);
     }
 
     /**

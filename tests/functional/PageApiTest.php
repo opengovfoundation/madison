@@ -125,10 +125,31 @@ class PageApiTest extends TestCase
     }
 
     /**
-     * Test only admins can destroy pages.
+     * Test that non-admins can NOT destroy pages.
      */
-    public function testOnlyAdminCanDestroyPage()
+    public function testNonAdminCantDestroyPage()
     {
-        $this->markTestIncomplete();
+        $user = factory(App\Models\User::class)->create();
+        $page = factory(App\Models\Page::class)->create();
+
+        $this->actingAs($user)
+            ->json('DELETE', "/api/pages/{$page->id}")
+            ->assertResponseStatus(403);
+    }
+
+    /**
+     * Test that admins can destroy pages.
+     */
+    public function testAdminCanDestroyPage()
+    {
+        $user = factory(App\Models\User::class)->create();
+        $admin_role = factory(App\Models\Role::class, 'admin_role')->create();
+        $user->attachRole($admin_role);
+
+        $page = factory(App\Models\Page::class)->create();
+
+        $this->actingAs($user)
+            ->json('DELETE', "/api/pages/{$page->id}")
+            ->assertResponseStatus(200);
     }
 }
