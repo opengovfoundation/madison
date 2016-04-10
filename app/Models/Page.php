@@ -61,7 +61,7 @@ class Page extends Model
      */
     public function content()
     {
-        return $this->belongsTo(PageContent::class);
+        return $this->hasOne(PageContent::class)->first();
     }
 
 }

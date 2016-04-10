@@ -39,7 +39,9 @@ $factory->define(App\Models\Group::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\Page::class, function (Faker\Generator $faker) {
-    return [
-        'nav_title' => $faker->domainWord
-    ];
+    return [ 'nav_title' => $faker->domainWord ];
+});
+
+$factory->define(App\Models\PageContent::class, function (Faker\Generator $faker) {
+    return [ 'content' => join(' ', $faker->sentences) ];
 });

@@ -152,4 +152,18 @@ class PageApiTest extends TestCase
             ->json('DELETE', "/api/pages/{$page->id}")
             ->assertResponseStatus(200);
     }
+
+    /**
+     * Test getting page content.
+     */
+    public function testGetPageContent()
+    {
+        $page = factory(App\Models\Page::class)->create();
+        $content = factory(App\Models\PageContent::class)->create([
+            'page_id' => $page->id
+        ]);
+
+        $this->json('GET', "/api/pages/{$page->id}/content")
+            ->seeJson($content->toArray());
+    }
 }

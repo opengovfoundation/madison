@@ -85,9 +85,9 @@ class PageController extends Controller
      * @param Page $page
      * @return Response
      */
-    public function getContent(Request $request, Page $page)
+    public function getContent(Page $page)
     {
-        // get content for specific page
+        return response()->json($page->content());
     }
 
 }
