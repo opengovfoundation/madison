@@ -4,7 +4,10 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use App\Models\User;
 use App\Models\Role;
+use App\Models\Page;
+use App\Models\PageContent;
 
 class PageApiTest extends TestCase
 {
@@ -17,8 +20,8 @@ class PageApiTest extends TestCase
      */
     public function testCreatePage()
     {
-        $user = factory(App\Models\User::class)->create();
-        $admin_role = factory(App\Models\Role::class, 'admin_role')->create();
+        $user = factory(User::class)->create();
+        $admin_role = factory(Role::class, 'admin_role')->create();
         $user->attachRole($admin_role);
 
         $this->actingAs($user)
@@ -41,8 +44,8 @@ class PageApiTest extends TestCase
      */
     public function testGetListOfPages()
     {
-        $page1 = factory(App\Models\Page::class)->create();
-        $page2 = factory(App\Models\Page::class)->create();
+        $page1 = factory(Page::class)->create();
+        $page2 = factory(Page::class)->create();
 
         $this->json('GET', '/api/pages')
             ->seeJson($page1->toArray())
@@ -56,7 +59,7 @@ class PageApiTest extends TestCase
      */
     public function testGetOnePage()
     {
-        $page = factory(App\Models\Page::class)->create();
+        $page = factory(Page::class)->create();
 
         $this->json('GET', "/api/pages/{$page->id}")
             ->seeJson($page->toArray());
@@ -69,7 +72,7 @@ class PageApiTest extends TestCase
      */
     public function testOnlyAdminCanCreatePage()
     {
-        $user = factory(App\Models\User::class)->create();
+        $user = factory(User::class)->create();
 
         $this->actingAs($user)
             ->json('POST', '/api/pages', ['nav_title' => 'A New Page'])
@@ -83,11 +86,11 @@ class PageApiTest extends TestCase
      */
     public function testUpdatePage()
     {
-        $admin = factory(App\Models\User::class)->create();
-        $admin_role = factory(App\Models\Role::class, 'admin_role')->create();
+        $admin = factory(User::class)->create();
+        $admin_role = factory(Role::class, 'admin_role')->create();
         $admin->attachRole($admin_role);
 
-        $page = factory(App\Models\Page::class)->create();
+        $page = factory(Page::class)->create();
 
         $this->actingAs($admin)
             ->json('PUT', "/api/pages/{$page->id}",
@@ -107,8 +110,8 @@ class PageApiTest extends TestCase
      */
     public function testOnlyAdminCanUpdatePage()
     {
-        $user = factory(App\Models\User::class)->create();
-        $page = factory(App\Models\Page::class)->create();
+        $user = factory(User::class)->create();
+        $page = factory(Page::class)->create();
 
         $this->actingAs($user)
             ->json('PUT', "/api/pages/{$page->id}",
@@ -126,11 +129,11 @@ class PageApiTest extends TestCase
      */
     public function testWholeObjectRequiredForUpdate()
     {
-        $user = factory(App\Models\User::class)->create();
-        $admin_role = factory(App\Models\Role::class, 'admin_role')->create();
+        $user = factory(User::class)->create();
+        $admin_role = factory(Role::class, 'admin_role')->create();
         $user->attachRole($admin_role);
 
-        $page = factory(App\Models\Page::class)->create();
+        $page = factory(Page::class)->create();
 
         $page_attrs = $page->toArray();
 
@@ -148,8 +151,8 @@ class PageApiTest extends TestCase
      */
     public function testNonAdminCantDestroyPage()
     {
-        $user = factory(App\Models\User::class)->create();
-        $page = factory(App\Models\Page::class)->create();
+        $user = factory(User::class)->create();
+        $page = factory(Page::class)->create();
 
         $this->actingAs($user)
             ->json('DELETE', "/api/pages/{$page->id}")
@@ -163,11 +166,11 @@ class PageApiTest extends TestCase
      */
     public function testAdminCanDestroyPage()
     {
-        $user = factory(App\Models\User::class)->create();
-        $admin_role = factory(App\Models\Role::class, 'admin_role')->create();
+        $user = factory(User::class)->create();
+        $admin_role = factory(Role::class, 'admin_role')->create();
         $user->attachRole($admin_role);
 
-        $page = factory(App\Models\Page::class)->create();
+        $page = factory(Page::class)->create();
 
         $this->actingAs($user)
             ->json('DELETE', "/api/pages/{$page->id}")
@@ -181,8 +184,8 @@ class PageApiTest extends TestCase
      */
     public function testGetPageContent()
     {
-        $page = factory(App\Models\Page::class)->create();
-        $content = factory(App\Models\PageContent::class)->create([
+        $page = factory(Page::class)->create();
+        $content = factory(PageContent::class)->create([
             'page_id' => $page->id
         ]);
 
