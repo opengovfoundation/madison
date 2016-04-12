@@ -44,28 +44,6 @@ describe('Madison page layout', function() {
       expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8100/faq');
     });
 
-    // Just check href on DONATE and SUBSCRIBE links, since they're external
-
-    it('takes us to the donate page when clicking the DONATE nav link',
-    function() {
-      expect(
-        pageLayout.links.donate.element(by.css('a')).getAttribute('href')
-      ).toMatch(/paypal/);
-      expect(
-        pageLayout.links.donate.element(by.css('a')).getAttribute('target')
-      ).toBe('_blank');
-    });
-
-    it('takes us to the subscribe page when clicking the SUBSCRIBE nav link',
-    function() {
-      expect(
-        pageLayout.links.subscribe.element(by.css('a')).getAttribute('href')
-      ).toMatch(/list-manage/);
-      expect(
-        pageLayout.links.subscribe.element(by.css('a')).getAttribute('target')
-      ).toBe('_blank');
-    });
-
     it('takes us to the login page when clicking the LOGIN nav link',
     function() {
       pageLayout.links.login.click();
