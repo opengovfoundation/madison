@@ -2,8 +2,9 @@ angular.module('madisonApp.controllers')
   .controller('DashboardVerifyUserController', ['$scope', '$http', '$translate',
     'pageService', 'SITE', 'modalService',
     function ($scope, $http, $translate, pageService, SITE, modalService) {
-      pageService.setTitle($translate.instant('content.verifyindependent.title',
-        {title: SITE.name}));
+      $translate('content.verifyindependent.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.requests = [];
       $scope.formdata = {

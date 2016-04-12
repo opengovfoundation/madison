@@ -5,8 +5,9 @@ angular.module('madisonApp.controllers')
 	function ($scope, $http, $location, SessionService, AuthService, growl,
     growlMessages, PROVINCES, $translate, pageService, SITE) {
 
-    pageService.setTitle($translate.instant('content.sponsorrequest.title',
-      {title: SITE.name}));
+    $translate('content.sponsorrequest.title', {title: SITE.name}).then(function(translation) {
+      pageService.setTitle(translation);
+    });
 
     $scope.provinces = [];
     $scope.formData = {};

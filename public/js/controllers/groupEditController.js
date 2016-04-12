@@ -15,8 +15,9 @@ angular.module('madisonApp.controllers')
         title = 'content.creategroup.title';
       }
 
-      pageService.setTitle($translate.instant(title,
-        {title: SITE.name}));
+      $translate(title, {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.saveGroup = function () {
         var request = $scope.group.$save(function (group, headers) {

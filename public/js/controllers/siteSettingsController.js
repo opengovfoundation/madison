@@ -1,8 +1,9 @@
 angular.module('madisonApp.controllers')
   .controller('SiteSettingsController', function ($scope, $http, modalService,
     Doc, $translate, pageService, growl, growlMessages, SITE) {
-    pageService.setTitle($translate.instant('content.sitesettings.title',
-      {title: SITE.name}));
+    $translate('content.sitesettings.title', {title: SITE.name}).then(function(translation) {
+      pageService.setTitle(translation);
+    });
 
     var featuredDocs = Doc.getFeaturedDocs({'featured_only': true});
     $scope.resetting = false;

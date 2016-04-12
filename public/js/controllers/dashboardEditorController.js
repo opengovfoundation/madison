@@ -7,8 +7,9 @@ angular.module('madisonApp.controllers')
     function ($scope, $http, $timeout, $q, $location, $filter, growl, $upload,
       modalService, Doc, $translate, pageService, $state, SITE) {
 
-      pageService.setTitle($translate.instant('content.editdocument.title',
-        {title: SITE.name}));
+      $translate('content.editdocument.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.doc = {};
       $scope.docContent = '';
@@ -79,9 +80,9 @@ angular.module('madisonApp.controllers')
                   new Date().getTime()};
               }
 
-              pageService.setTitle($translate.instant(
-                'content.editdocument.title.loaded',
-                {title: SITE.name, docTitle: data.title}));
+              $translate('content.editdocument.title.loaded', {title: SITE.name, docTitle: data.title}).then(function(translation) {
+                pageService.setTitle(translation);
+              });
             });
           });
       };

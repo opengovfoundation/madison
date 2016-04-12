@@ -6,8 +6,9 @@ angular.module('madisonApp.controllers')
       AuthService, pageService, $state, USER_ROLES, SITE) {
       "use strict";
 
-      pageService.setTitle($translate.instant('content.mydocuments.title',
-        {title: SITE.name}));
+      $translate('content.mydocuments.title', {title: SITE.name}).then(function(translation) {
+        pageService.setTitle(translation);
+      });
 
       $scope.newDoc = {
         'title': '',
