@@ -59,6 +59,7 @@ class DatabaseSeeder extends Seeder
         $this->call('CategoriesTableSeeder');
         $this->call('CommentsTableSeeder');
         $this->call('AnnotationsTableSeeder');
+        $this->call('PagesTableSeeder');
 
         if (App::environment() === 'testing') {
             $this->call('TestSeeder');
