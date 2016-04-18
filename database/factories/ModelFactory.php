@@ -10,7 +10,13 @@
 |
 */
 
-$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Group;
+use App\Models\Page;
+use App\Models\PageContent;
+
+$factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'fname' => $faker->firstName,
         'lname' => $faker->lastName,
@@ -20,11 +26,11 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->defineAs(App\Models\Role::class, 'admin_role', function (Faker\Generator $faker) {
-    return ['name' => App\Models\Role::ROLE_ADMIN];
+$factory->defineAs(Role::class, 'admin_role', function (Faker\Generator $faker) {
+    return ['name' => Role::ROLE_ADMIN];
 });
 
-$factory->define(App\Models\Group::class, function (Faker\Generator $faker) {
+$factory->define(Group::class, function (Faker\Generator $faker) {
     $name = $faker->company;
     $display_name = "{$name} {$faker->companySuffix}";
     return [
@@ -38,10 +44,10 @@ $factory->define(App\Models\Group::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\Page::class, function (Faker\Generator $faker) {
+$factory->define(Page::class, function (Faker\Generator $faker) {
     return [ 'nav_title' => $faker->domainWord ];
 });
 
-$factory->define(App\Models\PageContent::class, function (Faker\Generator $faker) {
+$factory->define(PageContent::class, function (Faker\Generator $faker) {
     return [ 'content' => join(' ', $faker->sentences) ];
 });

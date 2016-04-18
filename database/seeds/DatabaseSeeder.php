@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
         'note_meta',
         'notifications',
         'organizations',
+        'pages',
+        'page_contents',
         'password_reminders',
         'permission_role',
         'permissions',
