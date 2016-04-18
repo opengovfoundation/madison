@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 use App\Models\Page;
 use App\Models\PageContent;
 use App\Http\Requests\StorePageRequest;
@@ -22,9 +24,14 @@ class PageController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pages = Page::all();
+        $pageQuery = Page::query();
+
+        if ($request->has('header_nav_link')) $pageQuery->where('header_nav_link', true);
+        if ($request->has('footer_nav_link')) $pageQuery->where('footer_nav_link', true);
+
+        $pages = $pageQuery->get();
         return response()->json($pages);
     }
 

@@ -52,6 +52,31 @@ class PageApiTest extends TestCase
             ->seeJson($page2->toArray());
     }
 
+    public function testGetOnlyHeaderPages()
+    {
+        $page1 = factory(Page::class)->create([
+            'header_nav_link' => true,
+            'footer_nav_link' => false
+        ]);
+        $page2 = factory(Page::class)->create([
+            'header_nav_link' => true,
+            'footer_nav_link' => false
+        ]);
+        $page3 = factory(Page::class)->create([
+            'header_nav_link' => false,
+            'footer_nav_link' => true
+        ]);
+
+        $this->json('GET', '/api/pages?header_nav_link=true')
+            ->seeJsonEquals([
+                $page1->toArray(),
+                $page2->toArray()
+            ]);
+
+        $this->json('GET', '/api/pages?footer_nav_link=true')
+            ->seeJsonEquals([$page3->toArray()]);
+    }
+
     /**
      * Test get one specific page.
      *
