@@ -67,7 +67,28 @@ app.config(['$locationProvider',
     });
   }]);
 
-app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl, SessionService) {
+app.run(function(AuthService, annotationService, AUTH_EVENTS, $rootScope,
+  $window, $location, $state, growl, SessionService, Page, $translate) {
+
+  /**
+   * Load pages!
+   */
+  Page.query({ header_nav_link: true }, function(pages) {
+    $rootScope.headerLinks = pages;
+  }, function(err) {
+    $translate('errors.general.load').then(function(translation) {
+      growl.error(translation);
+    });
+  });
+
+  Page.query({ footer_nav_link: true }, function(pages) {
+    $rootScope.footerLinks = pages;
+  }, function(err) {
+    $translate('errors.general.load').then(function(translation) {
+      growl.error(translation);
+    });
+  });
+
   if(!(window.history && history.pushState)){
       $rootScope.$on('$locationChangeStart', function(event) {
           var loc = window.location;

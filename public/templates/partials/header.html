@@ -18,11 +18,8 @@
       <li class="link-home">
         <a href="/" translate="{{ 'menu.nav.home' }}"></a>
       </li>
-      <li class="link-about">
-        <a href="/about" translate="{{ 'menu.nav.about' }}"></a>
-      </li>
-      <li class="link-faq">
-        <a href="/faq" translate="{{ 'menu.nav.faq' }}"></a>
+      <li ng-repeat="link in headerLinks">
+        <a href="{{ link.url }}">{{ link.nav_title }}</a>
       </li>
       <li class="account-dropdown" account-dropdown class="dropdown" ng-if="user"></li>
       <li class="link-login" ng-if="!user">
