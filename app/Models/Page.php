@@ -41,18 +41,20 @@ class Page extends Model
         parent::boot();
 
         Page::creating(function($page) {
-            $page->page_title = $page->page_title ?: $page->nav_title;
-            $page->header = $page->header ?: $page->nav_title;
-            $page->header_nav_link = $page->header_nav_link ?: true;
-            $page->footer_nav_link = $page->footer_nav_link ?: false;
-            $page->external = $page->external ?: false;
+            if (!isset($page->page_title)) $page->page_title = $page->nav_title;
+            if (!isset($page->header)) $page->header = $page->nav_title;
+            if (!isset($page->header_nav_link)) $page->header_nav_link = true;
+            if (!isset($page->footer_nav_link)) $page->footer_nav_link = false;
+            if (!isset($page->external)) $page->external = false;
 
             // Lowercase, strip all symbols, then replace space with dash
-            $page->url = $page->url ?: strtolower(
-                str_replace(' ', '-',
-                    preg_replace('/[^\p{L}\p{N}\s]/u', '', $page->nav_title)
-                )
-            );
+            if (!isset($page->url)) {
+                $page->url = strtolower(
+                    str_replace(' ', '-',
+                        preg_replace('/[^\p{L}\p{N}\s]/u', '', $page->nav_title)
+                    )
+                );
+            }
         });
     }
 

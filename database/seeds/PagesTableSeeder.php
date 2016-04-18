@@ -30,7 +30,7 @@ class PagesTableSeeder extends Seeder
          * FAQ Page
          */
         $faq_page = factory(Page::class)->make();
-        $faq_page->url = 'about';
+        $faq_page->url = 'faq';
         $faq_page->nav_title = 'FAQ';
         $faq_page->page_title = 'FAQ';
         $faq_page->header = 'Frequently Asked Questions';
