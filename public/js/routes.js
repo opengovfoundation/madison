@@ -265,13 +265,13 @@ angular.module( 'madisonApp' )
         data: {
           authorizedRoles: [ USER_ROLES.all ]
         }
+      } )
+      .state( '404', {
+        url: '/404',
+        controller: '404Controller',
+        templateUrl: '/templates/pages/404.html',
+        data: {
+          authorizedRoles: [ USER_ROLES.all ]
+        }
       } );
-      //.state( 'content', {
-      //  url: '/{page:faq|about|privacy-policy|copyright|terms-and-conditions|404}',
-      //  controller: 'ContentController',
-      //  templateUrl: '/templates/pages/content.html',
-      //  data: {
-      //    authorizedRoles: [ USER_ROLES.all ]
-      //  }
-      //} );
   } ] );

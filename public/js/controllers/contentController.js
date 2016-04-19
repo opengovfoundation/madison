@@ -9,5 +9,6 @@ angular.module('madisonApp.controllers')
       pageService.setTitle(SITE.name + ' - ' + page.page_title);
       page.content = pageContent.content
       $scope.page = page;
+
     }
   ]);
