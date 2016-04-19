@@ -94,7 +94,9 @@ class PageController extends Controller
      */
     public function getContent(Page $page)
     {
-        return response()->json($page->content());
+        return response()->json([
+            'content' => $page->content()->html()
+        ]);
     }
 
 }
