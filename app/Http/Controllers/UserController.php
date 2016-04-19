@@ -15,6 +15,7 @@ use App\Models\Notification;
 use App\Models\MadisonEvent;
 use App\Models\DocMeta;
 use App\Models\Role;
+use App\Http\Requests\SignupRequest;
 
 /**
  * 	Controller for user actions.
@@ -811,76 +812,70 @@ class UserController extends Controller
     }
 
     /**
-     * 	POST to create user account.
+     * POST to create user account.
      */
-    public function postSignup()
+    public function postSignup(SignupRequest $request)
     {
-        //Retrieve POST values
-        $email = Input::get('email');
-        $password = Input::get('password');
-        $fname = Input::get('fname');
-        $lname = Input::get('lname');
-        $user_details = Input::all();
-
-        //Rules for signup form submission
-        $rules = array('email'        =>    'required|unique:users',
-                        'password'    =>    'required',
-                        'fname'        =>    'required',
-                        'lname'        =>    'required',
-                        );
-        $validation = Validator::make($user_details, $rules);
-        if ($validation->fails()) {
-            $errors = $validation->messages()->getMessages();
-            $messages = array();
-
-            $replacements = array(
-                'fname' => 'first name',
-                'lname' => 'last name'
-            );
-
-            foreach ($errors as $error) {
-                $error_message = str_replace(array_keys($replacements), array_values($replacements), $error[0]);
-
-                array_push($messages, $error_message);
-            }
-
-            return Response::json($this->growlMessage($messages, 'error'), 500);
-        } else {
-            //Create user token for email verification
-            $token = str_random();
-
-            //Create new user
-            $user = new User();
-            $user->email = $email;
-            $user->password = $password;
-            $user->fname = $fname;
-            $user->lname = $lname;
-            $user->token = $token;
-            $user->save();
-
-            try {
-
-                //Send email to user for email account verification
-                Mail::queue('email.signup', array('token' => $token), function ($message) use ($email, $fname) {
-                    $message->subject('Welcome to the Madison Community');
-                    $message->from('sayhello@opengovfoundation.org', 'Madison');
-                    $message->to($email); // Recipient address
-                });
-
-                return Response::json(array( 'status' => 'ok', 'errors' => array(), 'message' => 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.'));
-
-            } catch (\Exception $e) {
-
-                //auto verify the user and log them in
-                //in case sending the email fails
-                $user->token = '';
-                $user->save();
-                Auth::login($user);
-
-                return Response::json(array( 'status' => 'ok', 'errors' => array(), 'message' => ''));
-
+        $existingUser = User::where('email', $request->email)->first();
+        if (!empty($existingUser)) {
+            if (empty($existingUser->token)) {
+                return Response::json($this->growlMessage('The email address provided is already registered. You can <a href="/password/reset/">reset your password</a> if needed.', 'warning'), 400);
+            } else {
+                return $this->sendConfirmEmailWithResponse($existingUser);
             }
         }
+
+        // Create user token for email verification
+        $token = str_random();
+
+        // Create new user
+        $user = new User();
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->fname = $request->fname;
+        $user->lname = $request->lname;
+        $user->token = $token;
+        $user->save();
+
+        return $this->sendConfirmEmailWithResponse($user);
     }
 
+    /**
+     * Queue up an email for the given user to confirm their address and
+     * generate request response
+     *
+     * @param User $user
+     *
+     * @return Response
+     */
+    protected function sendConfirmEmailWithResponse(User $user)
+    {
+        // don't need to send an email if they are already confirmed
+        if (empty($user->token)) {
+            return Response::json(['status' => 'ok', 'errors' => [], 'message' => '']);
+        }
+
+        try {
+            // send email to user for email account verification
+            Mail::queue('email.signup', array('token' => $user->token), function ($message) use ($user) {
+                $message->subject('Welcome to the Madison Community');
+                $message->from('sayhello@opengovfoundation.org', 'Madison');
+                $message->to($user->email); // Recipient address
+            });
+
+            return Response::json([
+                'status' => 'ok',
+                'errors' => [],
+                'message' => 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.'
+            ]);
+        } catch (\Exception $e) {
+            // auto verify the user and log them in
+            // in case sending the email fails
+            $user->token = '';
+            $user->save();
+            Auth::login($user);
+
+            return Response::json(['status' => 'ok', 'errors' => [], 'message' => '']);
+        }
+    }
 }
