@@ -12,6 +12,7 @@ var imports = [
   'pascalprecht.translate',
   'madisonApp.constants',
   'madisonApp.filters',
+  'madisonApp.providers',
   'madisonApp.services',
   'madisonApp.resources',
   'madisonApp.directives',
@@ -67,27 +68,47 @@ app.config(['$locationProvider',
     });
   }]);
 
-app.run(function(AuthService, annotationService, AUTH_EVENTS, $rootScope,
-  $window, $location, $state, growl, SessionService, Page, $translate) {
+app.run(function(AuthService, annotationService, AUTH_EVENTS, $rootScope, USER_ROLES,
+  $window, $location, $state, growl, SessionService, Page, $translate, runtimeStates) {
 
   /**
    * Load pages!
    */
-  Page.query({ header_nav_link: true }, function(pages) {
-    $rootScope.headerLinks = pages;
+  Page.query(function(pages) {
+
+    $rootScope.headerLinks = _.where(pages, { header_nav_link: true });
+    $rootScope.footerLinks = _.where(pages, { header_nav_link: true });
+
+    var localPages = _.where(pages, { external: false });
+
+    /**
+     * Assign a new state to stateProvider for each static page
+     */
+    angular.forEach(localPages, function(page) {
+      runtimeStates.addState(page.url, {
+        url: '/' + page.url,
+        controller: 'ContentController',
+        templateUrl: '/templates/pages/content.html',
+        resolve: {
+          page: function() {
+            return page;
+          },
+          pageContent: function() {
+            return Page.getContent({ id: page.id }).$promise;
+          }
+        },
+        data: {
+          authorizedRoles: [ USER_ROLES.all ]
+        }
+      });
+    });
+
   }, function(err) {
     $translate('errors.general.load').then(function(translation) {
       growl.error(translation);
     });
   });
 
-  Page.query({ footer_nav_link: true }, function(pages) {
-    $rootScope.footerLinks = pages;
-  }, function(err) {
-    $translate('errors.general.load').then(function(translation) {
-      growl.error(translation);
-    });
-  });
 
   if(!(window.history && history.pushState)){
       $rootScope.$on('$locationChangeStart', function(event) {
