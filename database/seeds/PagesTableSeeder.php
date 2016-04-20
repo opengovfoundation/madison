@@ -12,7 +12,7 @@ class PagesTableSeeder extends Seeder
          * About Page
          */
         $about_page = factory(Page::class)->make();
-        $about_page->url = 'about';
+        $about_page->url = '/about';
         $about_page->nav_title = 'About';
         $about_page->page_title = 'About';
         $about_page->header = 'About Madison';
@@ -30,7 +30,7 @@ class PagesTableSeeder extends Seeder
          * FAQ Page
          */
         $faq_page = factory(Page::class)->make();
-        $faq_page->url = 'faq';
+        $faq_page->url = '/faq';
         $faq_page->nav_title = 'FAQ';
         $faq_page->page_title = 'FAQ';
         $faq_page->header = 'Frequently Asked Questions';

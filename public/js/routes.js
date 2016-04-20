@@ -1,6 +1,6 @@
 angular.module( 'madisonApp' )
-  .config( [ '$stateProvider', '$urlRouterProvider', 'USER_ROLES',
-    function( $stateProvider, $urlRouterProvider, USER_ROLES ) {
+  .config( [ '$stateProvider', '$futureStateProvider', '$urlRouterProvider', 'USER_ROLES',
+    function( $stateProvider, $futureStateProvider, $urlRouterProvider, USER_ROLES ) {
 
     $urlRouterProvider.otherwise( '404' );
 
@@ -274,4 +274,40 @@ angular.module( 'madisonApp' )
           authorizedRoles: [ USER_ROLES.all ]
         }
       } );
+
+      $futureStateProvider.stateFactory('customPage', function($q, futureState) {
+        var state = {
+          name: futureState.name,
+          url: futureState.url,
+          controller: 'ContentController',
+          templateUrl: '/templates/pages/content.html',
+          resolve: {
+            page: function() {
+              return futureState.page;
+            }
+          },
+          data: {
+            authorizedRoles: [ USER_ROLES.all ]
+          }
+        };
+
+        return $q.when(state);
+      });
+
+      $futureStateProvider.addResolve(function($http) {
+        return $http.get('/api/pages?external=false').then(function(resp) {
+
+          angular.forEach(resp.data, function(page) {
+            var fstate = {
+              type: 'customPage',
+              name: page.url,
+              url: page.url,
+              page: page
+            };
+
+            $futureStateProvider.futureState(fstate);
+          });
+
+        });
+      });
   } ] );

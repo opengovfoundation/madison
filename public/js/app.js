@@ -12,7 +12,6 @@ var imports = [
   'pascalprecht.translate',
   'madisonApp.constants',
   'madisonApp.filters',
-  'madisonApp.providers',
   'madisonApp.services',
   'madisonApp.resources',
   'madisonApp.directives',
@@ -22,6 +21,7 @@ var imports = [
   'angulartics',
   'angulartics.google.analytics',
   'ui.router',
+  'ct.ui.router.extras.future',
   'ui.bootstrap',
   'ui.bootstrap.datetimepicker',
   'angular-growl',
@@ -68,8 +68,8 @@ app.config(['$locationProvider',
     });
   }]);
 
-app.run(function(AuthService, annotationService, AUTH_EVENTS, $rootScope, USER_ROLES,
-  $window, $location, $state, growl, SessionService, Page, $translate, runtimeStates) {
+app.run(function(AuthService, annotationService, AUTH_EVENTS, $rootScope,
+  $window, $location, $state, growl, SessionService, Page, $translate) {
 
   /**
    * Load pages!
@@ -77,49 +77,29 @@ app.run(function(AuthService, annotationService, AUTH_EVENTS, $rootScope, USER_R
   Page.query(function(pages) {
 
     $rootScope.headerLinks = _.where(pages, { header_nav_link: true });
-    $rootScope.footerLinks = _.where(pages, { header_nav_link: true });
+    $rootScope.footerLinks = _.where(pages, { footer_nav_link: true });
 
     var localPages = _.where(pages, { external: false });
 
-    /**
-     * Assign a new state to stateProvider for each static page
-     */
-    angular.forEach(localPages, function(page) {
-      runtimeStates.addState(page.url, {
-        url: '/' + page.url,
-        controller: 'ContentController',
-        templateUrl: '/templates/pages/content.html',
-        resolve: {
-          page: function() {
-            return page;
-          },
-          pageContent: function() {
-            return Page.getContent({ id: page.id }).$promise;
-          }
-        },
-        data: {
-          authorizedRoles: [ USER_ROLES.all ]
-        }
-      });
-    });
-
   }, function(err) {
+
     $translate('errors.general.load').then(function(translation) {
       growl.error(translation);
     });
+
   });
 
 
   if(!(window.history && history.pushState)){
-      $rootScope.$on('$locationChangeStart', function(event) {
-          var loc = window.location;
-          var hash = loc.hash;
-          var path = loc.pathname || '/';
+    $rootScope.$on('$locationChangeStart', function(event) {
+      var loc = window.location;
+      var hash = loc.hash;
+      var path = loc.pathname || '/';
 
-          if(!hash){
-              loc.href = '/#' + path + (loc.search || '');
-          }
-      });
+      if (!hash) {
+        loc.href = '/#' + path + (loc.search || '');
+      }
+    });
   }
 
   AuthService.setUser(user);

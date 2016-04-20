@@ -30,6 +30,7 @@ class PageController extends Controller
 
         if ($request->has('header_nav_link')) $pageQuery->where('header_nav_link', true);
         if ($request->has('footer_nav_link')) $pageQuery->where('footer_nav_link', true);
+        if ($request->has('external')) $pageQuery->where('external', $request->input('external'));
 
         $pages = $pageQuery->get();
         return response()->json($pages);

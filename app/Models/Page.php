@@ -56,6 +56,12 @@ class Page extends Model
                 );
             }
         });
+
+        Page::saving(function($page) {
+            if (!$page->external && $page->url[0] !== '/') {
+                $page->url = "/{$page->url}";
+            }
+        });
     }
 
     /**
