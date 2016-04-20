@@ -71,16 +71,16 @@ app.config(['$locationProvider',
 app.run(function(AuthService, annotationService, AUTH_EVENTS, $rootScope,
   $window, $location, $state, growl, SessionService, Page, $translate) {
 
+  $rootScope.reloadPages = function(pages) {
+    $rootScope.headerLinks = _.where(pages, { header_nav_link: true });
+    $rootScope.footerLinks = _.where(pages, { footer_nav_link: true });
+  };
+
   /**
    * Load pages!
    */
   Page.query(function(pages) {
-
-    $rootScope.headerLinks = _.where(pages, { header_nav_link: true });
-    $rootScope.footerLinks = _.where(pages, { footer_nav_link: true });
-
-    var localPages = _.where(pages, { external: false });
-
+    $rootScope.reloadPages(pages);
   }, function(err) {
 
     $translate('errors.general.load').then(function(translation) {

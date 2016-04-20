@@ -202,6 +202,22 @@ angular.module( 'madisonApp' )
           authorizedRoles: [ USER_ROLES.admin ]
         }
       } )
+      .state( 'dashboard-pages-list', {
+        url: '/administrative-dashboard/pages',
+        templateUrl: '/templates/pages/pages-list.html',
+        controller: 'PagesListController',
+        data: {
+          authorizedRoles: [ USER_ROLES.admin ]
+        }
+      } )
+      .state( 'dashboard-edit-page', {
+        url: '/administrative-dashboard/pages/:id',
+        templateUrl: '/templates/pages/page-edit.html',
+        controller: 'PageEditController',
+        data: {
+          authorizedRoles: [ USER_ROLES.admin ]
+        }
+      } )
       .state( 'verify-account', {
         url: '/administrative-dashboard/verify-account',
         templateUrl: '/templates/pages/verify-account.html',
