@@ -29,7 +29,7 @@ class PageApiTest extends TestCase
             ->seeJson([
                 'nav_title' => 'A New Page',
                 'page_title' => 'A New Page',
-                'url' => 'a-new-page',
+                'url' => '/a-new-page',
                 'header' => 'A New Page',
                 'header_nav_link' => true,
                 'footer_nav_link' => false,
@@ -215,6 +215,6 @@ class PageApiTest extends TestCase
         ]);
 
         $this->json('GET', "/api/pages/{$page->id}/content")
-            ->seeJson($content->toArray());
+            ->seeJson([ 'content' => $content->html() ]);
     }
 }

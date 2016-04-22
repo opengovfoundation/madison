@@ -49,7 +49,7 @@ class Page extends Model
 
             // Lowercase, strip all symbols, then replace space with dash
             if (!isset($page->url)) {
-                $page->url = strtolower(
+                $page->url = '/' . strtolower(
                     str_replace(' ', '-',
                         preg_replace('/[^\p{L}\p{N}\s]/u', '', $page->nav_title)
                     )
@@ -57,7 +57,7 @@ class Page extends Model
             }
         });
 
-        Page::saving(function($page) {
+        Page::updating(function($page) {
             if (!$page->external && $page->url[0] !== '/') {
                 $page->url = "/{$page->url}";
             }
@@ -69,7 +69,7 @@ class Page extends Model
      */
     public function content()
     {
-        return $this->hasOne(PageContent::class)->first();
+        return $this->hasOne(PageContent::class);
     }
 
 }
