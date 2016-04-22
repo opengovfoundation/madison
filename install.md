@@ -1,6 +1,6 @@
 #Installation
 
-For Mac OSX installation instructions, see INSTALL.OSX.md. 
+For Mac OSX installation instructions, see INSTALL.OSX.md.
 
 **Dependencies:**
 * PHP ( >= 5.5.9 )
@@ -38,3 +38,8 @@ If you want this to run from the web root instead of http://yoursite.com/madison
 1. Edit your httpd.conf file to change the DocumentRoot to Madison's public directory (e.g. ```DocumentRoot "/var/www/html/madison/public"```)
 2. And allow Madison to handle url rewriting (e.g. ```<Directory "/var/www/html/madison"> AllowOverride All </Directory>```)
 3. Restart Apache
+
+
+You'll need to run `php artisan queue:listen` whenever running the app. See
+[the Laravel docs](https://laravel.com/docs/5.1/queues#running-the-queue-listener)
+for more info.

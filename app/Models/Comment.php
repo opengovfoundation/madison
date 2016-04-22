@@ -214,7 +214,6 @@ class Comment extends Model implements ActivityInterface
         return $retval;
     }
 
-
     /**
      *   Include link to annotation when converted to array.
      *

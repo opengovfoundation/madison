@@ -16,6 +16,7 @@ use App\Models\MadisonEvent;
 use App\Models\DocMeta;
 use App\Models\Role;
 use App\Http\Requests\SignupRequest;
+use App\Events\CommentCreated;
 
 /**
  * 	Controller for user actions.

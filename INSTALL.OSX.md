@@ -5,7 +5,7 @@
 2. Install [homebrew](homebrew).
 
 3. Make sure you have a LAMP (Apache, MySQL, PHP) installation running. Madison has not been tested
-with Nginx. MySQL drop-in alternatives like MariaDB may work, but have not been tested. PHP 5.3+ is required.
+with Nginx. MySQL drop-in alternatives like MariaDB may work, but have not been tested. PHP 5.5.9+ is required.
 Additionally, make sure your PHP installation includes the mcrypt and libyaml modules.
   1. With homebrew, you can do `brew install php56 php56-mcrypt`
   2. Make sure in your apache settings that your apache config is loading the
