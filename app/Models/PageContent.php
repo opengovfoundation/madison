@@ -33,4 +33,12 @@ class PageContent extends Model
     {
         return Markdown::convertToHtml($this->content);
     }
+
+    /**
+     * Return Markdown version of page content
+     */
+    public function markdown()
+    {
+        return $this->content;
+    }
 }

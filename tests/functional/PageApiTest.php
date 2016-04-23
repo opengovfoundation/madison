@@ -203,7 +203,23 @@ class PageApiTest extends TestCase
     }
 
     /**
-     * Test getting page content.
+     * Test getting page content in HTML.
+     *
+     * GET /pages/:id/content?format=html
+     */
+    public function testGetPageContentHTML()
+    {
+        $page = factory(Page::class)->create();
+        $content = factory(PageContent::class)->create([
+            'page_id' => $page->id
+        ]);
+
+        $this->json('GET', "/api/pages/{$page->id}/content?format=html")
+            ->seeJson([ 'content' => $content->html() ]);
+    }
+
+    /**
+     * Test getting page content, default of markdown
      *
      * GET /pages/:id/content
      */
@@ -215,6 +231,6 @@ class PageApiTest extends TestCase
         ]);
 
         $this->json('GET', "/api/pages/{$page->id}/content")
-            ->seeJson([ 'content' => $content->html() ]);
+            ->seeJson([ 'content' => $content->markdown() ]);
     }
 }

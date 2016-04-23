@@ -93,11 +93,17 @@ class PageController extends Controller
      * @param Page $page
      * @return Response
      */
-    public function getContent(Page $page)
+    public function getContent(Request $request, Page $page)
     {
-        return response()->json([
-            'content' => $page->content->html()
-        ]);
+        $format = $request->input('format');
+
+        if (!isset($format) || $format === 'markdown') {
+            $content = $page->content->markdown();
+        } else {
+            $content = $page->content->html();
+        }
+
+        return response()->json([ 'content' => $content ]);
     }
 
 }
