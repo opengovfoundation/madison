@@ -57,6 +57,10 @@ class PageController extends Controller
     public function store(StorePageRequest $request)
     {
         $page = Page::create($request->all());
+        $pageContent = PageContent::create([
+            'page_id' => $page->id,
+            'content' => 'New page content'
+        ]);
         return response()->json($page);
     }
 

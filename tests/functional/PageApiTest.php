@@ -35,6 +35,12 @@ class PageApiTest extends TestCase
                 'footer_nav_link' => false,
                 'external' => false
             ]);
+
+        $page = Page::where('nav_title', 'A New Page')->first();
+
+        // Should also create base page content
+        $this->json('GET', "/api/pages/{$page->id}/content?format=markdown")
+            ->seeJson([ 'content' => 'New page content' ]);
     }
 
     /**
