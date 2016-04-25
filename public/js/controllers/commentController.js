@@ -36,6 +36,11 @@ angular.module('madisonApp.controllers')
           url: '/api/docs/' + docId + '/comments'
         })
         .success(function (data) {
+          // Convert links in the comments to html
+          $.each(data, function () {
+              this.text = Autolinker.link(this.text, {newWindow: true});
+          });
+
           // API only returns top level comments initially, the rest are
           // grabbed as needed from the "show replies" link
           angular.forEach(data, function (comment) {
@@ -165,6 +170,11 @@ angular.module('madisonApp.controllers')
             params: {'parent_id' : comment.id}
           })
           .success(function (data) {
+            // Convert links in the replies to html
+            $.each(data, function () {
+              this.text = Autolinker.link(this.text, {newWindow: true});
+            });
+
             comment.comments = data;
             var commentsLength = comment.comments.length;
             for(i = 0; i < commentsLength; i++) {
