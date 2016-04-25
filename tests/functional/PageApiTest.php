@@ -233,4 +233,26 @@ class PageApiTest extends TestCase
         $this->json('GET', "/api/pages/{$page->id}/content")
             ->seeJson([ 'content' => $content->markdown() ]);
     }
+
+    public function testUpdatePageContent()
+    {
+        $user = factory(User::class)->create();
+        $admin_role = factory(Role::class, 'admin_role')->create();
+        $user->attachRole($admin_role);
+
+        $page = factory(Page::class)->create();
+        $content = factory(PageContent::class)->create([
+            'page_id' => $page->id
+        ]);
+
+        $this->actingAs($user)
+            ->json('PUT', "/api/pages/{$page->id}/content", [
+                'content' => 'New page content!'
+            ])->seeJson([
+                'content' => 'New page content!'
+            ]);
+
+        $this->json('GET', "/api/pages/{$page->id}/content")
+            ->seeJson([ 'content' => 'New page content!' ]);
+    }
 }

@@ -9,6 +9,7 @@ use App\Models\PageContent;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
 use App\Http\Requests\DestroyPageRequest;
+use App\Http\Requests\UpdatePageContentRequest;
 
 class PageController extends Controller
 {
@@ -104,6 +105,19 @@ class PageController extends Controller
         }
 
         return response()->json([ 'content' => $content ]);
+    }
+
+    /**
+     * Update content for a page.
+     *
+     * @param Request $request
+     * @param Page $page
+     * @return Response
+     */
+    public function updateContent(UpdatePageContentRequest $request, Page $page)
+    {
+        $page->content->update([ 'content' => $request->input('content') ]);
+        return response()->json([ 'content' => $page->content->markdown() ]);
     }
 
 }

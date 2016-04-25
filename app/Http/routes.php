@@ -234,6 +234,7 @@ Route::post('api/pages/', 'PageController@store');
 Route::put('api/pages/{page}', 'PageController@update');
 Route::delete('api/pages/{page}', 'PageController@destroy');
 Route::get('api/pages/{page}/content', 'PageController@getContent');
+Route::put('api/pages/{page}/content', 'PageController@updateContent');
 
 // User Login / Signup AJAX requests
 Route::post('api/user/login', 'UserController@postLogin');
