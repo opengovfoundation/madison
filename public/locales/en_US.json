@@ -47,6 +47,7 @@
   "form.general.clearfilters": "Clear",
   "form.general.required": "Required",
   "form.general.delete": "Delete",
+  "form.general.options": "Options",
 
   "form.signup.title": "Sign Up",
   "form.signup.firstname": "First Name",
@@ -174,6 +175,12 @@
   "form.document.restore.confirm.body": "Restoring this document will make it available in your list again, unpublished.",
   "form.document.restore.success": "Document successfully restored",
   "form.document.content.charactercount": "Characters: {{ count | number }} / {{ max | number }}",
+
+  "form.page.nav_title.label": "Navigation Title",
+  "form.page.page_title.label": "Page Title",
+  "form.page.url.label": "URL",
+  "form.page.header.label": "Page Header",
+  "form.page.content.label": "Content",
 
   "form.featureddoc.order": "Order",
   "form.featureddoc.title": "Title",

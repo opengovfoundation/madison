@@ -19,13 +19,8 @@ function($scope, Page, growl, $translate, pageService, SITE,
    * Load pages from API
    */
   var loadPages = function() {
-    Page.query(function(pages) {
+    $rootScope.loadPages().then(function(pages) {
       $scope.pages = pages;
-      $rootScope.reloadPages(pages);
-    }, function(err) {
-      $translate('errors.general.load').then(function(translation) {
-        growl.error(translation);
-      });
     });
   }
 

@@ -69,25 +69,29 @@ app.config(['$locationProvider',
   }]);
 
 app.run(function(AuthService, annotationService, AUTH_EVENTS, $rootScope,
-  $window, $location, $state, growl, SessionService, Page, $translate) {
+  $window, $location, $state, growl, SessionService, Page, $translate, $q) {
 
-  $rootScope.reloadPages = function(pages) {
-    $rootScope.headerLinks = _.where(pages, { header_nav_link: true });
-    $rootScope.footerLinks = _.where(pages, { footer_nav_link: true });
+  $rootScope.loadPages = function() {
+    return $q(function(resolve, reject) {
+
+      Page.query(function(pages) {
+        $rootScope.headerLinks = _.where(pages, { header_nav_link: true });
+        $rootScope.footerLinks = _.where(pages, { footer_nav_link: true });
+        resolve(pages);
+      }, function(err) {
+        $translate('errors.general.load').then(function(translation) {
+          growl.error(translation);
+        });
+        reject();
+      });
+
+    });
   };
 
   /**
    * Load pages!
    */
-  Page.query(function(pages) {
-    $rootScope.reloadPages(pages);
-  }, function(err) {
-
-    $translate('errors.general.load').then(function(translation) {
-      growl.error(translation);
-    });
-
-  });
+  $rootScope.loadPages();
 
 
   if(!(window.history && history.pushState)){
