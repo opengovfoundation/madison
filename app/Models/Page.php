@@ -62,6 +62,10 @@ class Page extends Model
                 $page->url = "/{$page->url}";
             }
         });
+
+        Page::deleting(function($page) {
+            $page->content->delete();
+        });
     }
 
     /**
