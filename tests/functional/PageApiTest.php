@@ -41,6 +41,20 @@ class PageApiTest extends TestCase
         // Should also create base page content
         $this->json('GET', "/api/pages/{$page->id}/content?format=markdown")
             ->seeJson([ 'content' => 'New page content' ]);
+
+        $this->seeInDatabase('pages', [
+            'nav_title' => 'A New Page',
+            'page_title' => 'A New Page',
+            'url' => '/a-new-page',
+            'header' => 'A New Page',
+            'header_nav_link' => true,
+            'footer_nav_link' => false,
+            'external' => false
+        ]);
+
+        $this->seeInDatabase('page_contents', [
+            'content' => 'New page content'
+        ]);
     }
 
     /**
@@ -132,6 +146,7 @@ class PageApiTest extends TestCase
             )->seeJson([
                 'nav_title' => 'New Title!'
             ]);
+
     }
 
     /**
@@ -206,6 +221,9 @@ class PageApiTest extends TestCase
         $this->actingAs($user)
             ->json('DELETE', "/api/pages/{$page->id}")
             ->assertResponseStatus(200);
+
+        $this->notSeeInDatabase('pages', [ 'id' => $page->id ]);
+        $this->notSeeInDatabase('page_contents', [ 'page_id' => $page->id ]);
     }
 
     /**

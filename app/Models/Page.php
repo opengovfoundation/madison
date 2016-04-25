@@ -64,7 +64,7 @@ class Page extends Model
         });
 
         Page::deleting(function($page) {
-            $page->content->delete();
+            if ($page->content) $page->content->delete();
         });
     }
 
