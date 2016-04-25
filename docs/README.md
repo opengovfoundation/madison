@@ -26,7 +26,7 @@ Check out the rest of the documentation and read through the [Contributing Guide
 
 ## Installation
 
-Madison is build on top of [Laravel v.4.2](http://laravel.com/docs/4.2) and uses many of configuration tools that Laravel provides ( specifically its [`.env` files](https://laravel.com/docs/5.1#environment-configuration) )
+Madison is build on top of [Laravel v.5.1](http://laravel.com/docs/5.1) and uses many of configuration tools that Laravel provides ( specifically its [`.env` files](https://laravel.com/docs/5.1#environment-configuration) )
 
 ### .env file
 
@@ -115,11 +115,11 @@ From here, you can use Forge to deploy directly to the server which will just pu
 * `PHP >= 5.4`
 * `MCrypt PHP Extension`
 * Madison and Laravel use `Composer` for dependency management.  If you don't have it installed, [install Composer first](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx).
-* See [Laravel Server Requirements](http://laravel.com/docs/4.2/installation#server-requirements) for setting up Laravel applications.
+* See [Laravel Server Requirements](http://laravel.com/docs/5.1/installation#installation) for setting up Laravel applications.
 
 1.  Clone the repo `git clone git@github.com:opengovfoundation/madison.git`
 1.  Create database and user
-1.  Set ENV variables in [Laravel's `.env` file](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration). You can copy the contents from the .env.example file included in this repository. Take a note of the COOKIE_DOMAIN setting.
+1.  Set ENV variables in [Laravel's `.env` file](https://laravel.com/docs/5.1#environment-configuration). You can copy the contents from the .env.example file included in this repository. Take a note of the COOKIE_DOMAIN setting.
 1.  Run `composer install` to get all the dependencies
 1.  Run `php artisan migrate` to run all migrations
 1.  Make sure `ADMIN_EMAIL` and `ADMIN_PASSWORD` are set in the environment config and then run `php artisan db:seed` to run all database seeds.
