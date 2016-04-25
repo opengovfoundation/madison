@@ -6,8 +6,11 @@ angular.module('madisonApp.resources')
 
     getContent: {
       method: 'GET',
-      url: '/api/pages/:id/content',
-      params: { id: '@id' }
+      url: '/api/pages/:id/content?format=:format',
+      params: {
+        id: '@id',
+        format: '@format'
+      }
     },
 
     updateContent: {

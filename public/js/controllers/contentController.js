@@ -11,7 +11,10 @@ angular.module('madisonApp.controllers')
 
       pageService.setTitle(SITE.name + ' - ' + page.page_title);
 
-      Page.getContent({ id: page.id }, function(content) {
+      Page.getContent({
+        id: page.id,
+        format: 'html'
+      }, function(content) {
         $scope.page.content = content.content;
       }, function(err) {
         $translate('errors.general.load').then(function(translation) {

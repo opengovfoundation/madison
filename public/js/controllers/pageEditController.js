@@ -36,7 +36,10 @@ function($scope, Page, growl, $translate, pageService, SITE, modalService,
   /**
    * Load page content from the API
    */
-  Page.getContent({ id: $stateParams.id }, function(resp) {
+  Page.getContent({
+    id: $stateParams.id,
+    format: 'markdown'
+  }, function(resp) {
     $scope.content = resp.content;
     setupMarkdownEditor();
 
