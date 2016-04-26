@@ -26,7 +26,7 @@
                     translate-values="{datetime: comment.created_at}"></span>
             </header>
 
-            <section class="content">
+            <section class="content" ng-bind-html="comment.text">
                 {{ comment.text }}
             </section>
         </div>
@@ -61,7 +61,7 @@
                         <span translate="document.label.date.timeago"
                             translate-values="{datetime: reply.created_at}"></span>
                     </header>
-                    <section class="content">
+                    <section class="content" ng-bind-html="reply.text">
                         {{ reply.text }}
                     </section>
                 </div>
