@@ -9,8 +9,8 @@ indent_size = 2
 trim_trailing_whitespace = true
 
 [*.php]
-indent_style=space
-indent_size=4
+indent_style = space
+indent_size = 4
 
 [*.apib]
 indent_style = space
