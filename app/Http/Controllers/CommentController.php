@@ -6,6 +6,7 @@ use Auth;
 use Input;
 use Response;
 use Event;
+use App\Events\CommentCreated;
 use App\Models\MadisonEvent;
 use App\Models\Comment;
 
@@ -144,7 +145,7 @@ class CommentController extends Controller
         //Returns the new saved Comment with the User relationship loaded
         $result = $parent->addOrUpdateComment($comment);
 
-        Event::fire(MadisonEvent::DOC_SUBCOMMENT, array('comment' => $result, 'parent' => $parent));
+        Event::fire(new CommentCreated($result, $parent));
 
         return Response::json($result);
     }

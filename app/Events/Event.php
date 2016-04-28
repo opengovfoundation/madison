@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-abstract class Event
+abstract class Event implements \App\Contracts\Event
 {
     //
 }

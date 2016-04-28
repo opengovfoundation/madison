@@ -6,13 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\MadisonEvent;
+use App\Events\CommentCreated;
 
 class Notification extends Model
 {
-    use SoftDeletes;
-
-    protected $dates = ['deleted_at'];
-
     const TYPE_EMAIL = "email";
     const TYPE_TEXT = "text";
 
@@ -58,7 +55,9 @@ class Notification extends Model
      */
     public static function getUserNotifications()
     {
-        return MadisonEvent::validUserNotifications();
+        $validNotifications = MadisonEvent::validUserNotifications();
+        $validNotifications[CommentCreated::getName()] = CommentCreated::getDescription();
+        return $validNotifications;
     }
 
     public static function addNotificationForUser($event, $user_id, $type = self::TYPE_EMAIL)

@@ -51,7 +51,7 @@ Regardless of your configuration method, you'll need to setup a `.env` file for 
 * `DB_PASSWORD`: The database password.
 * `CACHE_DRIVER`: The driver for the site cache. We recommend `file`.
 * `SESSION_DRIVER`: The driver for the session storage.  Right now, we recommend `file`.
-* `QUEUE_DRIVER`: We don't use this currently.
+* `QUEUE_DRIVER`: The driver to use for queue workers. We recommend `database`.
 
 #### Mail settings
 
@@ -97,6 +97,7 @@ From here, you can use Forge to deploy directly to the server which will just pu
 
 1.  Enter your Github repository.
 1.  Add necessary ENV variables in the Environment tab.  (`DB_NAME`, `DB_USER`, `DB_PASS`, etc.)  If environment has trouble pulling the credentials, deploy once and update Laravel's `.env` file with the necessary credentials.
+1.  Setup a Queue Worker for the `database` connection
 1.  Click Deploy
 1.  (Optional) Set up `Quick Deploy`, which will deploy on any pushes to your Github repo.
 

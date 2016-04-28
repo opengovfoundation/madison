@@ -10,14 +10,13 @@ class AnnotationComment extends Model
     use SoftDeletes;
 
     protected $table = "annotation_comments";
-    public $incrementing = false;
     protected $fillable = array('id', 'user_id', 'annotation_id', 'text');
 
     protected $dates = ['deleted_at'];
 
     public function annotation()
     {
-        return $this->belongsTo('App\Models\DBAnnotation');
+        return $this->belongsTo('App\Models\Annotation');
     }
 
     public function user()
@@ -29,13 +28,11 @@ class AnnotationComment extends Model
     * getLink
     *   Created direct link for this AnnotationComment.
     *
-    * @param int $doc_id
-    *
     * @return URL::to()
     */
-    public function getLink($doc_id)
+    public function getLink()
     {
-        $slug = \DB::table('docs')->where('id', $doc_id)->pluck('slug');
+        $slug = \DB::table('docs')->where('id', $this->annotation->doc->id)->pluck('slug');
         return \URL::to('docs/'.$slug.'#annsubcomment_'.$this->id);
     }
 

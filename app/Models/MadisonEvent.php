@@ -21,9 +21,6 @@ class MadisonEvent
     const NEW_ACTIVITY_VOTE = "madison.user.new_activity_vote";
     const NEW_ACTIVITY_COMMENT = "madison.user.new_activity_comment";
 
-    //Other Events
-    const DOC_SUBCOMMENT = "madison.doc.subcomment";
-
     /**
      *	Return viable admin notifications.
      *
