@@ -4,15 +4,15 @@
  */
 angular.module('madisonApp.controllers')
   .controller('ContentController', ['$scope', '$stateParams', '$translate',
-    'pageService', 'SITE', 'Page', 'page',
-    function ($scope, $stateParams, $translate, pageService, SITE, Page, page) {
+    'pageService', 'SITE', 'Page', 'thePage',
+    function ($scope, $stateParams, $translate, pageService, SITE, Page, thePage) {
 
-      $scope.page = page;
+      $scope.page = thePage;
 
-      pageService.setTitle(SITE.name + ' - ' + page.page_title);
+      pageService.setTitle(SITE.name + ' - ' + $scope.page.page_title);
 
       Page.getContent({
-        id: page.id,
+        id: $scope.page.id,
         format: 'html'
       }, function(content) {
         $scope.page.content = content.content;

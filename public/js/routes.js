@@ -298,7 +298,7 @@ angular.module( 'madisonApp' )
           controller: 'ContentController',
           templateUrl: '/templates/pages/content.html',
           resolve: {
-            page: function() {
+            thePage: function() {
               return futureState.page;
             }
           },

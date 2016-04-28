@@ -2,12 +2,12 @@
   <h1 translate="content.admin.pages.edit.header"></h1>
 </header>
 
-<div class="row">
+<div class="page-settings">
 
   <div class="col-xs-18">
     <div class="row">
       <!-- nav_title -->
-      <div class="form-group col-xs-12">
+      <div class="nav-title-input">
         <label for="nav_title" translate="form.page.nav_title.label"></label>
         <input type="text" name="nav_title" id="nav_title" value="{{ page.nav_title }}"
           ng-model="page.nav_title" class="form-control"
@@ -15,7 +15,7 @@
       </div>
 
       <!-- url -->
-      <div class="form-group col-xs-12">
+      <div class="url-input">
         <label for="url" translate="form.page.url.label"></label>
         <input type="text" name="url" id="url" value="{{ page.url }}"
           ng-model="page.url" class="form-control"
@@ -25,9 +25,8 @@
     </div>
 
     <div class="row">
-
       <!-- page_title -->
-      <div class="form-group col-xs-12">
+      <div class="page-title-input">
         <label for="page_title" translate="form.page.page_title.label"></label>
         <input type="text" name="page_title" id="page_title"
           value="{{ page.page_title }}" ng-model="page.page_title" class="form-control"
@@ -35,7 +34,7 @@
       </div>
 
       <!-- header -->
-      <div class="form-group col-xs-12">
+      <div class="header-input">
         <label for="header" translate="form.page.header.label"></label>
         <input type="text" name="header" id="header" value="{{ page.header }}"
           ng-model="page.header" class="form-control"
@@ -76,10 +75,9 @@
 
 </div>
 
-
 <!-- Page Content -->
-<div class="row">
-  <div class="col-xs-24">
+<div class="page-content">
+  <div class="page-content-inner">
     <h3 translate="form.page.content.label"></h3>
 
     <small translate="content.editdocument.savemessage"></small>
@@ -95,10 +93,7 @@
       <p><small translate="content.editdocument.wordmessage"></small></p>
       <p><small translate="content.editdocument.markdownmessage"
         ></a></small></p>
-      <!--<button class="save-document-button" ng-click="saveContent()"-->
-      <!--  translate="form.general.savenow"></button>-->
     </div>
 
   </div>
-  <!-- CONTENT -->
 </div>
