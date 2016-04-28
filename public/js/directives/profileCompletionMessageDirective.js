@@ -16,6 +16,15 @@ angular.module('madisonApp.directives')
                 console.error("Error updating user email: %o", data);
               });
           };
+
+          scope.resendEmailVerification = function () {
+            $http.post('/api/user/' + scope.user.id + '/verify-email/resend')
+              .success(function () {
+                //Note: Growl message comes from server response
+              }).error(function (data) {
+                console.error("Error requesting verification email resend: %o", data);
+              });
+          };
         }
       };
     }]);

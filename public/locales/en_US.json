@@ -340,6 +340,10 @@
 
   "content.users.title": "{{ title }} - Users",
   "content.users.header": "Users",
+  "content.users.profile-completion.no-email": "Uh oh, we noticed we don't have an email address or password for you.  Please provide them for us:",
+  "content.users.profile-completion.no-email.info.main": "Madison is a social community - we need a way to keep you updated on new policies posted on Madison and new activities on your posts!",
+  "content.users.profile-completion.no-email.info.small": "Don't worry, we'll let you control what notifications you receive.",
+  "content.users.profile-completion.unverified-email": "Uh oh, we noticed you haven't verified your email address yet. We need you to verify it before we can send messages to it. Please check your inbox or <a href='' ng-click='resendEmailVerification()' >resend the verification email</a>.",
 
   "content.sponsorrequest.title": "{{ title }} - Request Sponsor Status",
   "content.sponsorrequest.header": "Request Sponsor Status",

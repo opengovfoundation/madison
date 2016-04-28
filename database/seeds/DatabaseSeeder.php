@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
         'group_members',
         'groups',
         'note_meta',
-        'notifications',
+        'notification_preferences',
         'organizations',
         'pages',
         'page_contents',

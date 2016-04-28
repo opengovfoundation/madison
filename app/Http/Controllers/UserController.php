@@ -11,7 +11,7 @@ use Validator;
 use Mail;
 use App\Models\User;
 use App\Models\UserMeta;
-use App\Models\Notification;
+use App\Models\NotificationPreference;
 use App\Models\MadisonEvent;
 use App\Models\DocMeta;
 use App\Models\Role;
@@ -66,7 +66,7 @@ class UserController extends Controller
         $notifications = Input::get('notifications');
 
         //Retrieve valid notification events
-        $validNotifications = Notification::getUserNotifications();
+        $validNotifications = NotificationPreference::getUserNotifications();
         $events = array_keys($validNotifications);
 
         //Loop through each notification
@@ -77,7 +77,7 @@ class UserController extends Controller
             }
 
             //Grab this notification from the database
-            $model = Notification::where('user_id', '=', $user->id)->where('event', '=', $notification['event'])->first();
+            $model = NotificationPreference::where('user_id', '=', $user->id)->where('event', '=', $notification['event'])->first();
 
             //If we don't want that notification (and it exists), delete it
             if ($notification['selected'] === false) {
@@ -88,7 +88,7 @@ class UserController extends Controller
                 //If the entry doesn't already exist, create it.
                     //Otherwise, ignore ( there was no change )
                 if (!isset($model)) {
-                    $model = new Notification();
+                    $model = new NotificationPreference();
                     $model->user_id = $user->id;
                     $model->event = $notification['event'];
                     $model->type = "email";
@@ -117,13 +117,13 @@ class UserController extends Controller
         }
 
         //Retrieve all valid user notifications as associative array (event => description)
-        $validNotifications = Notification::getUserNotifications();
+        $validNotifications = NotificationPreference::getUserNotifications();
 
         //Filter out event keys
         $events = array_keys($validNotifications);
 
         //Retreive all User Events for the current user
-        $currentNotifications = Notification::select('event')->where('user_id', '=', $user->id)->whereIn('event', $events)->get();
+        $currentNotifications = NotificationPreference::select('event')->where('user_id', '=', $user->id)->whereIn('event', $events)->get();
 
         //Filter out event names from selected notifications
         $currentNotifications = $currentNotifications->toArray();
@@ -216,6 +216,7 @@ class UserController extends Controller
             $user->independent_sponsor = $user->getSponsorStatus();
         }
         $user->verified = $user->verified();
+        $user->email_verified = empty($user->token);
 
         //Grab all of the user's groups
         $groups = $user->groups()->get();
@@ -364,6 +365,26 @@ class UserController extends Controller
         } else {
             return Response::json($this->growlMessage('The verification link is invalid.', 'error'), 400);
         }
+    }
+
+    /**
+     * postResendVerifyEmail.
+     *
+     * Handles POST requests for resending email verifications
+     *
+     * @param User $user
+     */
+    public function postResendVerifyEmail(User $user)
+    {
+        if (Auth::user()->id !== $user->id) {
+            return Response::json($this->growlMessage("You do not have permission to resend this user's email verification", "error"), 401);
+        }
+
+        if (empty($user->token)) {
+            return Response::json($this->growlMessage("Your email is already verified", "error"), 400);
+        }
+
+        return $this->sendConfirmEmailWithResponse($user);
     }
 
     /**
@@ -797,11 +818,6 @@ class UserController extends Controller
             return Response::json($this->growlMessage('Email does not exist!', 'error'), 401);
         }
 
-        //If the user's token field isn't blank, he/she hasn't confirmed their account via email
-        if ($user->token != '') {
-            return Response::json($this->growlMessage('Please click the link sent to your email to verify your account.', 'error'), 401);
-        }
-
         //Attempt to log user in
         $credentials = array('email' => $email, 'password' => $password);
 
@@ -838,6 +854,8 @@ class UserController extends Controller
         $user->token = $token;
         $user->save();
 
+        Auth::login($user);
+
         return $this->sendConfirmEmailWithResponse($user);
     }
 
@@ -856,27 +874,17 @@ class UserController extends Controller
             return Response::json(['status' => 'ok', 'errors' => [], 'message' => '']);
         }
 
-        try {
-            // send email to user for email account verification
-            Mail::queue('email.signup', array('token' => $user->token), function ($message) use ($user) {
-                $message->subject('Welcome to the Madison Community');
-                $message->from('sayhello@opengovfoundation.org', 'Madison');
-                $message->to($user->email); // Recipient address
-            });
+        // send email to user for email account verification
+        Mail::queue('email.signup', array('token' => $user->token), function ($message) use ($user) {
+            $message->subject('Welcome to the Madison Community');
+            $message->from('sayhello@opengovfoundation.org', 'Madison');
+            $message->to($user->email); // Recipient address
+        });
 
-            return Response::json([
-                'status' => 'ok',
-                'errors' => [],
-                'message' => 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address before logging in.'
-            ]);
-        } catch (\Exception $e) {
-            // auto verify the user and log them in
-            // in case sending the email fails
-            $user->token = '';
-            $user->save();
-            Auth::login($user);
-
-            return Response::json(['status' => 'ok', 'errors' => [], 'message' => '']);
-        }
+        return Response::json([
+            'status' => 'ok',
+            'errors' => [],
+            'message' => 'An email has been sent to your email address.  Please follow the instructions in the email to confirm your email address.'
+        ]);
     }
 }
