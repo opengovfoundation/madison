@@ -6,6 +6,8 @@ angular.module('madisonApp.controllers')
 function($scope, Page, growl, $translate, pageService, SITE, modalService,
   $state, $rootScope, $stateParams, $timeout) {
 
+  $scope.loaded = false;
+
   /**
    * Set the page title
    */
@@ -26,6 +28,8 @@ function($scope, Page, growl, $translate, pageService, SITE, modalService,
     $scope.$watch('page', function(newPage, oldPage) {
       debounceSaveUpdates(newPage, oldPage, $scope.savePage);
     }, true);
+
+    $scope.loaded = true;
 
   }, function(err) {
     $translate('errors.general.load').then(function(translation) {
