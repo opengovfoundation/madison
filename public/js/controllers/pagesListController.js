@@ -43,7 +43,18 @@ function($scope, Page, growl, $translate, pageService, SITE,
   };
 
   $scope.deletePage = function(id) {
-    Page.delete({ id: id }, loadPages);
+    modalService.showModal({}, {
+      closeButtonText:
+        $translate.instant('form.general.cancel'),
+      actionButtonText:
+        $translate.instant('form.general.delete'),
+      headerText:
+        $translate.instant('form.verify.areyousure'),
+      bodyText:
+        $translate.instant('form.page.delete.confirm.body')
+    }).then(function() {
+      Page.delete({ id: id }, loadPages);
+    });
   };
 
   /**

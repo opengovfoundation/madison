@@ -187,6 +187,8 @@
   "form.page.url.placeholder": "URL",
   "form.page.header.placeholder": "Page Header",
 
+  "form.page.delete.confirm.body": "Are you sure you wish to delete this page?  This action can not be reversed.",
+
   "form.featureddoc.order": "Order",
   "form.featureddoc.title": "Title",
   "form.featureddoc.delete": "Delete",
