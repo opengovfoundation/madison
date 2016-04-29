@@ -49,7 +49,7 @@ class Page extends Model
 
             // Lowercase, strip all symbols, then replace space with dash
             if (!isset($page->url)) {
-                $page->url = str_slug($page->url);
+                $page->url = str_slug($page->nav_title);
             }
         });
 
