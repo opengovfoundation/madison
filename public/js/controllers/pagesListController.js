@@ -1,9 +1,9 @@
 angular.module('madisonApp.controllers')
 .controller('PagesListController', ['$scope', 'Page', 'growl', '$translate',
-  'pageService', 'SITE', 'modalService', '$state', '$rootScope',
+  'pageService', 'SITE', 'modalService', '$state', '$rootScope', '$timeout',
 
 function($scope, Page, growl, $translate, pageService, SITE,
-  modalService, $state, $rootScope) {
+  modalService, $state, $rootScope, $timeout) {
 
   /**
    * Set the page title
@@ -14,6 +14,7 @@ function($scope, Page, growl, $translate, pageService, SITE,
   });
 
   $scope.newPage = {};
+  $scope.focusModalTitle = false;
 
   /**
    * Load pages from API
@@ -29,6 +30,11 @@ function($scope, Page, growl, $translate, pageService, SITE,
       templateUrl: '/templates/partials/modals/create-page.html',
       scope: $scope
     }, {});
+
+    // Timeout so the modal show animation can complete
+    $timeout(function() {
+      $scope.focusModalTitle = true;
+    }, 500);
   };
 
   $scope.createPage = function() {
