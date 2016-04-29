@@ -41,3 +41,6 @@ db-migrate:
 	cd server && php artisan migrate
 
 deploy-forge: distclean deps build-client db-migrate
+
+watch:
+	cd client && npm run watch
