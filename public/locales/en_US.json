@@ -182,6 +182,11 @@
   "form.page.header.label": "Page Header",
   "form.page.content.label": "Content",
 
+  "form.page.nav_title.placeholder": "Navigation Title",
+  "form.page.page_title.placeholder": "Page Title",
+  "form.page.url.placeholder": "URL",
+  "form.page.header.placeholder": "Page Header",
+
   "form.featureddoc.order": "Order",
   "form.featureddoc.title": "Title",
   "form.featureddoc.delete": "Delete",
