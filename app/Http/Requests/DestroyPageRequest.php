@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
+use App\Http\Requests\AdminRequest;
 use App\Models\Role;
 use Auth;
 
-class DestroyPageRequest extends Request
+class DestroyPageRequest extends AdminRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,8 +15,7 @@ class DestroyPageRequest extends Request
      */
     public function authorize()
     {
-        $user = Auth::user();
-        return $user && $user->hasRole(Role::ROLE_ADMIN);
+        return parent::authorize();
     }
 
     /**
