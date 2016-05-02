@@ -30,7 +30,7 @@ Madison is build on top of [Laravel v.5.1](http://laravel.com/docs/5.1) and uses
 
 ### .env file
 
-Regardless of your configuration method, you'll need to setup a `.env` file for the application in the document root directory.  We have included a sample file, `.env.example`.  You can find more details about [configuring Laravel in the Laravel documentation](https://laravel.com/docs/5.1#environment-configuration), but here are the values you will need to set:
+Regardless of your configuration method, you'll need to setup a `server/.env` file for the application in the document root directory.  We have included a sample file, `.env.example`.  You can find more details about [configuring Laravel in the Laravel documentation](https://laravel.com/docs/5.1#environment-configuration), but here are the values you will need to set:
 
 #### General Settings
 
@@ -38,6 +38,7 @@ Regardless of your configuration method, you'll need to setup a `.env` file for 
 * `APP_DEBUG`: This should be `false` on your live site, hiding any system errors and debugging info from your users.
 * `APP_KEY`: This is used to encrypt private info, such as sessions.  Set it to a random string.
 * `APP_NAME`: This is the name that the server will show for pages when they're shared on social media.
+* `APP_URL`: This is the domain that your application will be served from.
 * `COOKIE_DOMAIN`: The domain that cookies will be shared for.  [More info on cookie domains.](http://erik.io/blog/2014/03/04/definitive-guide-to-cookie-domains/)
 * `ADMIN_EMAIL`: The email address of the site administrator.
 * `ADMIN_PASSWORD`: The default password of the site administrator.
