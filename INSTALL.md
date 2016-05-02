@@ -22,23 +22,21 @@ For Mac OSX installation instructions, see INSTALL.OSX.md.
     * `yum install libyaml libyaml-devel`
     * `pecl install yaml`
 
-1. Run `composer install` to install all composer packages
+1. Run `make deps` to install all dependencies.
 
 1. Copy `server/config/example_creds.php` to `server/config/creds.php`
 and add your mysql credentials
 
-1. Copy `.env.example.php` to `.env.php` and add your mysql credentials
+1. Copy `server/.env.example` to `server/.env` and add your mysql credentials
 
-1. Run `php artisan migrate` to create database schema
+1. Create a database based on the settings you set in `server/.env`.
 
-1. Run `npm install` and `bower install` to install the web packages
+1. Run `make db-migrate` to create database schema.
 
-If you want this to run from the web root instead of http://yoursite.com/madison/public, you must edit your server configuration. For Apache servers:
+1. Setup an apache vhost, an example configuration can be seen in `docs/apache.conf.example`.
 
-1. Edit your httpd.conf file to change the DocumentRoot to Madison's public directory (e.g. ```DocumentRoot "/var/www/html/madison/public"```)
-1. And allow Madison to handle url rewriting (e.g. ```<Directory "/var/www/html/madison"> AllowOverride All </Directory>```)
-1. Restart Apache
+1. Save the confiration and restart Apache.
 
-You'll need to run `php artisan queue:listen` whenever running the app. See
+You'll need to run `make queue-listen` whenever running the app. See
 [the Laravel docs](https;//laravel.com/docs/5.1/queues#running-the-queue-listener)
 for more info.
