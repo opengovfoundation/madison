@@ -1,6 +1,6 @@
 .PHONY: all deps deps-server deps-client build-client clean distclean db-reset db-migrate test test-server test-client selenium-start queue-listen
 
-all: install build-client
+all: deps build-client
 
 deps: clean deps-server autoload optimize deps-client
 
