@@ -1,4 +1,4 @@
-.PHONY: all deps deps-server deps-client build-client clean distclean db-reset db-migrate test test-server test-client selenium-start
+.PHONY: all deps deps-server deps-client build-client clean distclean db-reset db-migrate test test-server test-client selenium-start queue-listen
 
 all: install build-client
 
@@ -44,6 +44,9 @@ db-migrate:
 	cd server && php artisan migrate
 
 deploy-forge: distclean deps build-client db-migrate
+
+queue-listen:
+	cd server && php artisan queue:listen
 
 watch:
 	cd client && npm run watch

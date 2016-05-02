@@ -22,7 +22,7 @@ Additionally, make sure your PHP installation includes the mcrypt and libyaml mo
   1. `nvm alias default stable && nvm use default`
   1. Update npm version using `npm install -g npm`
 
-1. Run `make install`, this will install both client and server dependencies.
+1. Run `make deps`, this will install both client and server dependencies.
 
 1. Install compass. If you do not have any ruby gems installed, you can get away with
 `sudo gem update --system` and `sudo gem install compass`, installing the compass gem
@@ -31,7 +31,8 @@ on top of Mac OSX's ruby.
   of ruby which does not interfere with OSX. If you use rvm, drop the `sudo` from
   the aforementioned commands.
 
-1. Set up the site as an Apache vhost.
+1. Set up the site as an Apache vhost. An example can be seen in
+   `docs/apache.conf.example`.
 
 1. Create a clean database in MySQL.
 
@@ -53,8 +54,8 @@ functionality (required for registering new users).
 
 ### Note
 
-When editing any .js files, make sure to run `grunt watch` so that it can watch for and
-re-minify (among other things) the main build/app.js and build/app.map files.
+When editing any .scss files, make sure to run `make watch` so that it can watch for and
+re-compile the main css files.
 
 [elasticsearch]: https://gist.github.com/rajraj/1556657
 [homebrew]: http://brew.sh/
