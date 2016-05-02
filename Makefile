@@ -1,4 +1,4 @@
-.PHONY: all deps deps-server deps-client build-client clean distclean db-reset db-migrate test test-server test-client
+.PHONY: all deps deps-server deps-client build-client clean distclean db-reset db-migrate test test-server test-client selenium-start
 
 all: install build-client
 
@@ -26,6 +26,9 @@ test-server:
 
 test-client:
 	cd client && npm run test
+
+selenium-start:
+	cd client && webdriver-manager update && webdriver-manager start
 
 clean:
 	rm -rf client/.sass-cache
