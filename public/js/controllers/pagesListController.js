@@ -1,9 +1,10 @@
 angular.module('madisonApp.controllers')
 .controller('PagesListController', ['$scope', 'Page', 'growl', '$translate',
   'pageService', 'SITE', 'modalService', '$state', '$rootScope', '$timeout',
+  'futureStateService',
 
 function($scope, Page, growl, $translate, pageService, SITE,
-  modalService, $state, $rootScope, $timeout) {
+  modalService, $state, $rootScope, $timeout, futureStateService) {
 
   /**
    * Set the page title
@@ -40,6 +41,7 @@ function($scope, Page, growl, $translate, pageService, SITE,
   $scope.createPage = function() {
     Page.save({ nav_title: $scope.newPage.title }, function(resp) {
       loadPages();
+      futureStateService.addFutureState(resp);
       $state.go('dashboard-edit-page', { id: resp.id });
     }, function(err) {
       $translate('errors.general.save').then(function(translation) {
