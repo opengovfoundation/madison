@@ -31,7 +31,7 @@ before_script:
 
 # Commands you want to run that will verify your build.
 script:
-  #- phpunit
+  - ./vendor/bin/phpunit
   #- grunt karma
   - grunt test_firefox
   - grunt test_chrome

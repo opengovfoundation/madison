@@ -85,6 +85,8 @@
     <script src="/bower_components/angular-timeago/src/timeAgo.js"></script>
 
     <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/ui-router-extras/release/modular/ct-ui-router-extras.core.js"></script>
+    <script src="/bower_components/ui-router-extras/release/modular/ct-ui-router-extras.future.js"></script>
     <script src="/bower_components/angular-translate/angular-translate.min.js"></script>
     <script src="/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
     <script src="/bower_components/messageformat/messageformat.js"></script>
@@ -101,6 +103,7 @@
     <!-- build:js /build/app.js -->
     <script src="/js/constants.js"></script>
     <script src="/js/controllers.js"></script>
+      <script src="/js/controllers/404Controller.js"></script>
       <script src="/js/controllers/annotationController.js"></script>
       <script src="/js/controllers/appController.js"></script>
       <script src="/js/controllers/commentController.js"></script>
@@ -123,6 +126,8 @@
       <script src="/js/controllers/loginPageController.js"></script>
       <script src="/js/controllers/myDocumentsController.js"></script>
       <script src="/js/controllers/oauthLoginController.js"></script>
+      <script src="/js/controllers/pagesListController.js"></script>
+      <script src="/js/controllers/pageEditController.js"></script>
       <script src="/js/controllers/passwordResetController.js"></script>
       <script src="/js/controllers/passwordResetLandingController.js"></script>
       <script src="/js/controllers/resendConfirmationController.js"></script>
@@ -146,6 +151,7 @@
       <script src="/js/directives/loginForm.js"></script>
       <script src="/js/directives/ngBlurDirective.js"></script>
       <script src="/js/directives/profileCompletionMessageDirective.js"></script>
+      <script src="/js/directives/showFocus.js"></script>
       <script src="/js/directives/socialLoginDirective.js"></script>
       <script src="/js/directives/stateSelectDirective.js"></script>
       <script src="/js/directives/subcommentLinkDirective.js"></script>
@@ -160,6 +166,7 @@
     <script src="/js/resources.js"></script>
       <script src="/js/resources/docResource.js"></script>
       <script src="/js/resources/groupResource.js"></script>
+      <script src="/js/resources/pageResource.js"></script>
     <script src="/js/services.js"></script>
       <script src="/js/services/annotationService.js"></script>
       <script src="/js/services/authService.js"></script>
@@ -167,6 +174,7 @@
       <script src="/js/services/loginPopupService.js"></script>
       <script src="/js/services/modalService.js"></script>
       <script src="/js/services/sessionService.js"></script>
+      <script src="/js/services/futureStateService.js"></script>
     <script src="/js/app.js"></script>
       <!-- must come after app.js -->
       <script src="/js/routes.js"></script>

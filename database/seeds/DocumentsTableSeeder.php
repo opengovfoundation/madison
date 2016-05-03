@@ -21,7 +21,7 @@ class DocumentsTableSeeder extends Seeder
 
         // Create first doc
 
-        $docSeedPath = app_path().'/../database/seeds/example.md';
+        $docSeedPath = app_path().'/../database/seeds/docs/example.md';
         if (file_exists($docSeedPath)) {
             $content = file_get_contents($docSeedPath);
         } else {
@@ -44,7 +44,7 @@ class DocumentsTableSeeder extends Seeder
 
         // Create second doc
 
-        $docSeedPath = app_path().'/../database/seeds/example2.md';
+        $docSeedPath = app_path().'/../database/seeds/docs/example2.md';
         if (file_exists($docSeedPath)) {
             $content = file_get_contents($docSeedPath);
         } else {

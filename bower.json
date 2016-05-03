@@ -36,7 +36,8 @@
     "angular-i18n": "~1.5.0",
     "angular-translate": "~2.8.1",
     "angular-translate-loader-static-files": "~2.8.1",
-    "angular-translate-interpolation-messageformat": "~2.8.1"
+    "angular-translate-interpolation-messageformat": "~2.8.1",
+    "ui-router-extras": "^0.1.2"
   },
   "resolutions": {
     "select2": "~3.4",

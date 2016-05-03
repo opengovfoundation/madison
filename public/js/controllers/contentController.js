@@ -4,17 +4,22 @@
  */
 angular.module('madisonApp.controllers')
   .controller('ContentController', ['$scope', '$stateParams', '$translate',
-    'pageService', 'SITE',
-    function ($scope, $stateParams, $translate, pageService, SITE) {
-      var page = $stateParams.page.replace(/-/g, '');
-      $translate('content.' + page + '.title', {title: SITE.name}).then(function(translation) {
-        pageService.setTitle(translation);
-      });
-      $translate('content.' + page + '.header', {title: SITE.name}).then(function(translation) {
-        $scope.header = translation;
-      });
-      $translate('content.' + page + '.body', {title: SITE.name}).then(function(translation) {
-        $scope.body = translation;
+    'pageService', 'SITE', 'Page', 'thePage',
+    function ($scope, $stateParams, $translate, pageService, SITE, Page, thePage) {
+
+      $scope.page = thePage;
+
+      pageService.setTitle(SITE.name + ' - ' + $scope.page.page_title);
+
+      Page.getContent({
+        id: $scope.page.id,
+        format: 'html'
+      }, function(content) {
+        $scope.page.content = content.content;
+      }, function(err) {
+        $translate('errors.general.load').then(function(translation) {
+          growl.error(translation);
+        });
       });
     }
   ]);

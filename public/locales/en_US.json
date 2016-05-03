@@ -21,6 +21,7 @@
   "menu.nav.currentlyactive": "(active)",
   "menu.nav.removegroup": "Remove Active Group",
   "menu.admin.nav.documents": "Edit Documents",
+  "menu.admin.nav.pages": "Edit Pages",
   "menu.admin.nav.verifyaccounts": "Verify Accounts",
   "menu.admin.nav.verifygroups": "Verify Groups",
   "menu.admin.nav.verifysponsors": "Verify Independent Sponsors",
@@ -39,10 +40,14 @@
   "form.general.hide": "Hide",
   "form.general.savenow": "Save Now",
   "form.general.update": "Update",
+  "form.general.edit": "Edit",
+  "form.general.create": "Create",
   "form.general.cancel": "Cancel",
   "form.general.remove": "Remove",
   "form.general.clearfilters": "Clear",
   "form.general.required": "Required",
+  "form.general.delete": "Delete",
+  "form.general.options": "Options",
 
   "form.signup.title": "Sign Up",
   "form.signup.firstname": "First Name",
@@ -171,6 +176,19 @@
   "form.document.restore.success": "Document successfully restored",
   "form.document.content.charactercount": "Characters: {{ count | number }} / {{ max | number }}",
 
+  "form.page.nav_title.label": "Navigation Title",
+  "form.page.page_title.label": "Page Title",
+  "form.page.url.label": "URL",
+  "form.page.header.label": "Page Header",
+  "form.page.content.label": "Content",
+
+  "form.page.nav_title.placeholder": "Navigation Title",
+  "form.page.page_title.placeholder": "Page Title",
+  "form.page.url.placeholder": "URL",
+  "form.page.header.placeholder": "Page Header",
+
+  "form.page.delete.confirm.body": "Are you sure you wish to delete this page?  This action can not be reversed.",
+
   "form.featureddoc.order": "Order",
   "form.featureddoc.title": "Title",
   "form.featureddoc.delete": "Delete",
@@ -187,6 +205,8 @@
   "form.group.contactphone.label": "Contact Phone Number",
   "form.group.status": "Group Status: {{ status }}",
   "form.group.submit": "Submit",
+
+  "form.page.title": "Title",
 
   "form.addmember.email.label": "Email",
   "form.addmember.role.label": "User's Role",
@@ -413,6 +433,17 @@
   "content.admindocument.searchplaceholder": "Filter document titles",
   "content.admindocument.dateposted": "Date Posted",
   "content.admindocument.lastupdated": "Last Updated",
+
+  "content.admin.pages.list.title": "{{ title }} - Manage Pages",
+  "content.admin.pages.list.header": "Manage Pages",
+  "content.admin.pages.list.nav_title": "Navigation Title",
+  "content.admin.pages.list.url": "URL",
+  "content.admin.pages.list.header_nav_link": "Show in Header?",
+  "content.admin.pages.list.footer_nav_link": "Show in Footer?",
+  "content.admin.pages.list.createpage": "Create Page",
+
+  "content.admin.pages.edit.title": "{{ title }} - Edit Page",
+  "content.admin.pages.edit.header": "Edit Page",
 
   "content.edituser.title": "{{ title }} - Edit Profile",
   "content.edituser.header": "Edit Profile",

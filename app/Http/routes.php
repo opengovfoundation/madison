@@ -84,6 +84,7 @@ Route::pattern('state', Doc::validPublishStatesRoutePattern());
  */
 Route::model('user', 'App\Models\User');
 Route::model('user/edit', 'App\Models\User');
+Route::model('page', 'App\Models\Page');
 
 // Modal Routes
 Route::get('modals/annotation_thanks', array(
@@ -225,6 +226,15 @@ Route::delete('api/groups/{groupId}/members/{memberId}', 'GroupController@remove
 Route::put('api/groups/{groupId}/invite', 'GroupController@processMemberInvite');
 Route::get('api/groups/{groupId}/members', 'GroupController@getMembers');
 Route::put('api/groups/{groupId}/members/{memberId}', 'GroupController@putMember');
+
+// Page Routes
+Route::get('api/pages/', 'PageController@index');
+Route::get('api/pages/{page}', 'PageController@show');
+Route::post('api/pages/', 'PageController@store');
+Route::put('api/pages/{page}', 'PageController@update');
+Route::delete('api/pages/{page}', 'PageController@destroy');
+Route::get('api/pages/{page}/content', 'PageController@getContent');
+Route::put('api/pages/{page}/content', 'PageController@updateContent');
 
 // User Login / Signup AJAX requests
 Route::post('api/user/login', 'UserController@postLogin');
