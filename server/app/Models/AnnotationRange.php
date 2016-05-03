@@ -16,7 +16,7 @@ class AnnotationRange extends Model
 
     public function annotation()
     {
-        return $this->belongsTo('App\Models\DBAnnotation');
+        return $this->belongsTo('App\Models\Annotation');
     }
 
     public static function firstByRangeOrNew(array $input)

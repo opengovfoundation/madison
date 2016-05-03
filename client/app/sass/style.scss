@@ -50,6 +50,8 @@
 @import 'modules/prompts';
 @import 'modules/annotation';
 @import 'modules/annotator';
+@import 'modules/modals';
+@import 'modules/wmd-editor';
 
 /*
  * Page-specific styles
@@ -61,4 +63,5 @@
 @import 'pages/admin-verify';
 @import 'pages/my-documents';
 @import 'pages/edit-document';
+@import 'pages/edit-page';
 @import 'pages/site-settings';

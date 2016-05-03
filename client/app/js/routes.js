@@ -1,6 +1,6 @@
 angular.module( 'madisonApp' )
-  .config( [ '$stateProvider', '$urlRouterProvider', 'USER_ROLES',
-    function( $stateProvider, $urlRouterProvider, USER_ROLES ) {
+  .config( [ '$stateProvider', '$futureStateProvider', '$urlRouterProvider', 'USER_ROLES',
+    function( $stateProvider, $futureStateProvider, $urlRouterProvider, USER_ROLES ) {
 
     $urlRouterProvider.otherwise( '404' );
 
@@ -202,6 +202,22 @@ angular.module( 'madisonApp' )
           authorizedRoles: [ USER_ROLES.admin ]
         }
       } )
+      .state( 'dashboard-pages-list', {
+        url: '/administrative-dashboard/pages',
+        templateUrl: '/templates/pages/pages-list.html',
+        controller: 'PagesListController',
+        data: {
+          authorizedRoles: [ USER_ROLES.admin ]
+        }
+      } )
+      .state( 'dashboard-edit-page', {
+        url: '/administrative-dashboard/pages/:id',
+        templateUrl: '/templates/pages/page-edit.html',
+        controller: 'PageEditController',
+        data: {
+          authorizedRoles: [ USER_ROLES.admin ]
+        }
+      } )
       .state( 'verify-account', {
         url: '/administrative-dashboard/verify-account',
         templateUrl: '/templates/pages/verify-account.html',
@@ -258,12 +274,48 @@ angular.module( 'madisonApp' )
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
-      .state( 'content', {
-        url: '/{page:faq|about|privacy-policy|copyright|terms-and-conditions|404}',
-        controller: 'ContentController',
-        templateUrl: '/templates/pages/content.html',
+      .state( '404', {
+        url: '/404',
+        controller: '404Controller',
+        templateUrl: '/templates/pages/404.html',
         data: {
           authorizedRoles: [ USER_ROLES.all ]
         }
       } );
+
+      $futureStateProvider.stateFactory('customPage', function($q, futureState) {
+        var state = {
+          name: futureState.name,
+          url: futureState.url,
+          controller: 'ContentController',
+          templateUrl: '/templates/pages/content.html',
+          resolve: {
+            thePage: function() {
+              return futureState.page;
+            }
+          },
+          data: {
+            authorizedRoles: [ USER_ROLES.all ]
+          }
+        };
+
+        return $q.when(state);
+      });
+
+      $futureStateProvider.addResolve(function($http) {
+        return $http.get('/api/pages?external=false').then(function(resp) {
+
+          angular.forEach(resp.data, function(page) {
+            var fstate = {
+              type: 'customPage',
+              name: page.url,
+              url: page.url,
+              page: page
+            };
+
+            $futureStateProvider.futureState(fstate);
+          });
+
+        });
+      });
   } ] );

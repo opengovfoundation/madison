@@ -21,6 +21,7 @@ var imports = [
   'angulartics',
   'angulartics.google.analytics',
   'ui.router',
+  'ct.ui.router.extras.future',
   'ui.bootstrap',
   'ui.bootstrap.datetimepicker',
   'ui.select',
@@ -68,17 +69,42 @@ app.config(['$locationProvider',
     });
   }]);
 
-app.run(function (AuthService, annotationService, AUTH_EVENTS, $rootScope, $window, $location, $state, growl, SessionService) {
-  if(!(window.history && history.pushState)){
-      $rootScope.$on('$locationChangeStart', function(event) {
-          var loc = window.location;
-          var hash = loc.hash;
-          var path = loc.pathname || '/';
+app.run(function(AuthService, annotationService, AUTH_EVENTS, $rootScope,
+  $window, $location, $state, growl, SessionService, Page, $translate, $q) {
 
-          if(!hash){
-              loc.href = '/#' + path + (loc.search || '');
-          }
+  $rootScope.loadPages = function() {
+    return $q(function(resolve, reject) {
+
+      Page.query(function(pages) {
+        $rootScope.headerLinks = _.where(pages, { header_nav_link: true });
+        $rootScope.footerLinks = _.where(pages, { footer_nav_link: true });
+        resolve(pages);
+      }, function(err) {
+        $translate('errors.general.load').then(function(translation) {
+          growl.error(translation);
+        });
+        reject();
       });
+
+    });
+  };
+
+  /**
+   * Load pages!
+   */
+  $rootScope.loadPages();
+
+
+  if(!(window.history && history.pushState)){
+    $rootScope.$on('$locationChangeStart', function(event) {
+      var loc = window.location;
+      var hash = loc.hash;
+      var path = loc.pathname || '/';
+
+      if (!hash) {
+        loc.href = '/#' + path + (loc.search || '');
+      }
+    });
   }
 
   AuthService.setUser(user);

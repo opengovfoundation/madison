@@ -2,7 +2,7 @@
 
 all: deps build-client
 
-deps: clean deps-server autoload optimize deps-client
+deps: clean deps-server optimize autoload deps-client
 
 deps-server:
 	cd server && composer install

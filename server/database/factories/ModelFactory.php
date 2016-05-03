@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -11,7 +10,13 @@
 |
 */
 
-$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Group;
+use App\Models\Page;
+use App\Models\PageContent;
+
+$factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'fname' => $faker->firstName,
         'lname' => $faker->lastName,
@@ -21,10 +26,13 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\Group::class, function (Fake\Generator $faker) {
+$factory->defineAs(Role::class, 'admin_role', function (Faker\Generator $faker) {
+    return ['name' => Role::ROLE_ADMIN];
+});
+
+$factory->define(Group::class, function (Faker\Generator $faker) {
     $name = $faker->company;
     $display_name = "{$name} {$faker->companySuffix}";
-
     return [
         'name' => $name,
         'display_name' => $display_name,
@@ -34,4 +42,12 @@ $factory->define(App\Models\Group::class, function (Fake\Generator $faker) {
         'postal_code' => $faker->postcode,
         'phone' => $faker->e164PhoneNumber
     ];
+});
+
+$factory->define(Page::class, function (Faker\Generator $faker) {
+    return [ 'nav_title' => $faker->domainWord ];
+});
+
+$factory->define(PageContent::class, function (Faker\Generator $faker) {
+    return [ 'content' => join(' ', $faker->sentences) ];
 });

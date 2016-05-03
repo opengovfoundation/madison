@@ -13,6 +13,7 @@ use App\Models\AnnotationRange;
 use App\Models\AnnotationPermission;
 use App\Models\AnnotationTag;
 use App\Models\AnnotationComment;
+use App\Events\CommentCreated;
 
 /**
  * 	Controller for Document actions.
@@ -289,16 +290,9 @@ class AnnotationController extends Controller
                                 ->where('id', '=', $annotationId)
                                 ->first();
 
-        $annotation->link = $annotation->getLink();
-        $annotation->type = 'annotation';
-
         $result = $annotation->addOrUpdateComment($comment);
 
-        // TODO: Hack to allow notification events.  Needs cleaned up.
-        $result->doc_id = $docId;
-        $result->link = $result->getLink($docId);
-
-        Event::fire(MadisonEvent::DOC_SUBCOMMENT, array('subcomment' => $result, 'parent' => $annotation));
+        Event::fire(new CommentCreated($result, $annotation));
 
         return Response::json($result);
     }

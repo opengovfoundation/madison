@@ -13,8 +13,11 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        'App\Events\CommentCreated' => [
+            'App\Listeners\CommentCreatedNotificationRequest',
+        ],
+        'App\Events\NotificationRequest' => [
+            'App\Listeners\NotificationRequestHandler',
         ],
     ];
 
@@ -27,7 +30,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot(DispatcherContract $events)
     {
         parent::boot($events);
-
-        //
     }
 }
