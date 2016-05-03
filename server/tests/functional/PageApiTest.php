@@ -25,7 +25,7 @@ class PageApiTest extends TestCase
         $user->attachRole($admin_role);
 
         $this->actingAs($user)
-            ->json('POST', '/api/pages', ['nav_title' => 'A New Page'])
+            ->json('POST', '/pages', ['nav_title' => 'A New Page'])
             ->seeJson([
                 'nav_title' => 'A New Page',
                 'page_title' => 'A New Page',
@@ -39,7 +39,7 @@ class PageApiTest extends TestCase
         $page = Page::where('nav_title', 'A New Page')->first();
 
         // Should also create base page content
-        $this->json('GET', "/api/pages/{$page->id}/content?format=markdown")
+        $this->json('GET', "/pages/{$page->id}/content?format=markdown")
             ->seeJson([ 'content' => 'New page content' ]);
 
         $this->seeInDatabase('pages', [
@@ -67,7 +67,7 @@ class PageApiTest extends TestCase
         $page1 = factory(Page::class)->create();
         $page2 = factory(Page::class)->create();
 
-        $this->json('GET', '/api/pages')
+        $this->json('GET', '/pages')
             ->seeJson($page1->toArray())
             ->seeJson($page2->toArray());
     }
@@ -87,13 +87,13 @@ class PageApiTest extends TestCase
             'footer_nav_link' => true
         ]);
 
-        $this->json('GET', '/api/pages?header_nav_link=true')
+        $this->json('GET', '/pages?header_nav_link=true')
             ->seeJsonEquals([
                 $page1->toArray(),
                 $page2->toArray()
             ]);
 
-        $this->json('GET', '/api/pages?footer_nav_link=true')
+        $this->json('GET', '/pages?footer_nav_link=true')
             ->seeJsonEquals([$page3->toArray()]);
     }
 
@@ -106,7 +106,7 @@ class PageApiTest extends TestCase
     {
         $page = factory(Page::class)->create();
 
-        $this->json('GET', "/api/pages/{$page->id}")
+        $this->json('GET', "/pages/{$page->id}")
             ->seeJson($page->toArray());
     }
 
@@ -120,7 +120,7 @@ class PageApiTest extends TestCase
         $user = factory(User::class)->create();
 
         $this->actingAs($user)
-            ->json('POST', '/api/pages', ['nav_title' => 'A New Page'])
+            ->json('POST', '/pages', ['nav_title' => 'A New Page'])
             ->assertResponseStatus(403);
     }
 
@@ -138,7 +138,7 @@ class PageApiTest extends TestCase
         $page = factory(Page::class)->create();
 
         $this->actingAs($admin)
-            ->json('PUT', "/api/pages/{$page->id}",
+            ->json('PUT', "/pages/{$page->id}",
                 array_merge(
                     $page->toArray(),
                     ['nav_title' => 'New Title!']
@@ -160,7 +160,7 @@ class PageApiTest extends TestCase
         $page = factory(Page::class)->create();
 
         $this->actingAs($user)
-            ->json('PUT', "/api/pages/{$page->id}",
+            ->json('PUT', "/pages/{$page->id}",
                 array_merge(
                     ['nav_title' => 'New Title!'],
                     $page->toArray()
@@ -186,7 +186,7 @@ class PageApiTest extends TestCase
         unset($page_attrs['nav_title']);
 
         $this->actingAs($user)
-            ->json('PUT', "/api/pages/{$page->id}", $page_attrs)
+            ->json('PUT', "/pages/{$page->id}", $page_attrs)
             ->assertResponseStatus(422);
     }
 
@@ -201,7 +201,7 @@ class PageApiTest extends TestCase
         $page = factory(Page::class)->create();
 
         $this->actingAs($user)
-            ->json('DELETE', "/api/pages/{$page->id}")
+            ->json('DELETE', "/pages/{$page->id}")
             ->assertResponseStatus(403);
     }
 
@@ -219,7 +219,7 @@ class PageApiTest extends TestCase
         $page = factory(Page::class)->create();
 
         $this->actingAs($user)
-            ->json('DELETE', "/api/pages/{$page->id}")
+            ->json('DELETE', "/pages/{$page->id}")
             ->assertResponseStatus(200);
 
         $this->notSeeInDatabase('pages', [ 'id' => $page->id ]);
@@ -238,7 +238,7 @@ class PageApiTest extends TestCase
             'page_id' => $page->id
         ]);
 
-        $this->json('GET', "/api/pages/{$page->id}/content?format=html")
+        $this->json('GET', "/pages/{$page->id}/content?format=html")
             ->seeJson([ 'content' => $content->html() ]);
     }
 
@@ -254,7 +254,7 @@ class PageApiTest extends TestCase
             'page_id' => $page->id
         ]);
 
-        $this->json('GET', "/api/pages/{$page->id}/content")
+        $this->json('GET', "/pages/{$page->id}/content")
             ->seeJson([ 'content' => $content->markdown() ]);
     }
 
@@ -270,13 +270,13 @@ class PageApiTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->json('PUT', "/api/pages/{$page->id}/content", [
+            ->json('PUT', "/pages/{$page->id}/content", [
                 'content' => 'New page content!'
             ])->seeJson([
                 'content' => 'New page content!'
             ]);
 
-        $this->json('GET', "/api/pages/{$page->id}/content")
+        $this->json('GET', "/pages/{$page->id}/content")
             ->seeJson([ 'content' => 'New page content!' ]);
     }
 }
