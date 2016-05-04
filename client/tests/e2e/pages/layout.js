@@ -6,8 +6,6 @@ var PageLayout = function() {
   var links = {
     logo: element(by.css('.logo-madison')),
     home: element(by.css('.nav-main .link-home')),
-    about: element(by.css('.nav-main .link-about')),
-    faq: element(by.css('.nav-main .link-faq')),
     support: element(by.cssContainingText('.nav-main .link-support', 'Support')),
     donate: element(by.cssContainingText('.nav-main .link-support', 'Donate')),
     subscribe: element(by.css('.nav-main .link-subscribe')),

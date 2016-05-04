@@ -21,46 +21,34 @@ describe('Madison page layout', function() {
 
   describe('navigation links', function() {
     it('takes us to the home page when clicking banner logo', function() {
-      browser.get('/about'); // Go somewhere else first
+      browser.get('/user/login'); // Go somewhere else first
       pageLayout.links.logo.click();
-      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8100/');
+      expect(browser.getCurrentUrl()).toBe('http://test.mymadison.local/');
     });
 
     it('takes us home when clicking the HOME nav link', function() {
-      browser.get('/about'); // Go somewhere else first
+      browser.get('/user/login'); // Go somewhere else first
       pageLayout.links.home.click();
-      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8100/');
-    });
-
-    it('takes us to the about page when clicking the ABOUT nav link',
-    function() {
-      pageLayout.links.about.click();
-      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8100/about');
-    });
-
-    it('takes us to the faq page when clicking the FAQ nav link',
-    function() {
-      pageLayout.links.faq.click();
-      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8100/faq');
+      expect(browser.getCurrentUrl()).toBe('http://test.mymadison.local/');
     });
 
     it('takes us to the login page when clicking the LOGIN nav link',
     function() {
       pageLayout.links.login.click();
-      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8100/user/login');
+      expect(browser.getCurrentUrl()).toBe('http://test.mymadison.local/user/login');
     });
 
     it('takes us to the signup page when clicking the SIGNUP nav link',
     function() {
       pageLayout.links.signup.click();
-      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8100/user/signup');
+      expect(browser.getCurrentUrl()).toBe('http://test.mymadison.local/user/signup');
     });
   });
 
   describe('footer links', function() {
     it('takes you to about page for each "for ___" link', function() {
       pageLayout.links.footer.intro.click();
-      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8100/about');
+      expect(browser.getCurrentUrl()).toBe('http://test.mymadison.local/about');
     });
   });
 });

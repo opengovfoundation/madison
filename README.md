@@ -77,6 +77,18 @@ To run only server tests, the command is `make test-server`.
 
 ### Client Testing
 
+For client testing to work properly, you need to have a vhost set up to be
+serving the client at `test.mymadison.local` with the API (server folder)
+mounted at `/api`. This vhost should also set two ENV vars:
+
+* `TESTING=true`
+* `DB_CONNECTION=mysql_testing`
+
+For an example of what this config should look like for Apache, look at
+`client/tests/apache.travis.conf`. This is the configuration file that is used
+for running client tests on travis. Don't forget to add the domain to
+`/etc/hosts` as well!
+
 Make sure you have run `make deps` to have all dependencies installed. Once that
 is done you should be able to run `make selenium-start` to install and start
 your local Selenium server.

@@ -21,10 +21,10 @@ build-client:
 
 test: test-server test-client
 
-test-server:
+test-server: db-test-setup
 	cd server && ./vendor/bin/phpunit
 
-test-client:
+test-client: build-client db-test-setup db-test-seed
 	cd client && npm run test
 
 selenium-start:
@@ -39,6 +39,12 @@ distclean: clean
 
 db-reset:
 	cd server && php artisan db:rebuild && php artisan migrate && php artisan db:seed
+
+db-test-setup:
+	cd server && php artisan db:rebuild --database=mysql_testing && php artisan migrate --database=mysql_testing
+
+db-test-seed:
+	cd server && php artisan db:seed --database=mysql_testing
 
 db-migrate:
 	cd server && php artisan migrate
