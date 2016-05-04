@@ -29,6 +29,8 @@ before_script:
   - cat travis/phpenv.conf | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
   - cat travis/apache.conf | sed -e "s,PATH,`pwd`/web,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   - nvm install 0.12.7
+  - rvm install 2.3.1
+  - gem install compass
   - mysql -e 'create database madison_testing;'
   - make deps
 
