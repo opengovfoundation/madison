@@ -22,22 +22,19 @@ addons:
 before_install:
   - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B -n 1 $TRAVIS_COMMIT)\""
 before_script:
+  - sudo apt-get install apache2
+  - sudo a2enmod actions
+  - sudo a2enmod rewrite
+  - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
+  - cat travis/phpenv.conf | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
+  - cat travis/apache.conf | sed -e "s,PATH,`pwd`/web,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   - nvm install 0.12.7
-  - npm install -g grunt-cli
-  - npm install -g bower
-  - npm install
-  - grunt install
   - mysql -e 'create database madison_testing;'
+  - make deps
 
 # Commands you want to run that will verify your build.
 script:
-  - ./vendor/bin/phpunit
-  #- grunt karma
-  - grunt test_firefox
-  - grunt test_chrome
-  - grunt test_ie
-  # TODO: Visit unclickable element issues in Safari
-  #- grunt test_safari
+  - make test
 
 # allow_failures: Allow this build to fail under the specified environments.
 # fast_finish: If your build fails do not continue trying to build, just stop.

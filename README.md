@@ -85,7 +85,7 @@ mounted at `/api`. This vhost should also set two ENV vars:
 * `DB_CONNECTION=mysql_testing`
 
 For an example of what this config should look like for Apache, look at
-`client/tests/apache.travis.conf`. This is the configuration file that is used
+`travis/apache.conf`. This is the configuration file that is used
 for running client tests on travis. Don't forget to add the domain to
 `/etc/hosts` as well!
 
