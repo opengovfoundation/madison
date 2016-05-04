@@ -16,7 +16,7 @@ use App\Models\MadisonEvent;
 use App\Models\DocMeta;
 use App\Models\Role;
 use App\Http\Requests\SignupRequest;
-use App\Events\CommentCreated;
+use App\Events\UserVerificationStatusChange;
 
 /**
  * 	Controller for user actions.
@@ -749,10 +749,13 @@ class UserController extends Controller
         }
 
         $meta = UserMeta::find($request['id']);
+        $oldValue = $meta->meta_value;
 
         $meta->meta_value = $status;
 
         $ret = $meta->save();
+
+        Event::fire(new UserVerificationStatusChange($oldValue, $status, $meta->user));
 
         return Response::json($ret);
     }
