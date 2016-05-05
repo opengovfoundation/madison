@@ -11,7 +11,7 @@ module.exports = function (grunt) {
           'public/build/app.css': [
               'public/css/style.css',
               'public/bower_components/angular-tour/dist/angular-tour.css',
-              'public/bower_components/angular-growl/build/angular-growl.min.css',
+              'public/bower_components/angular-growl-v2/build/angular-growl.min.css',
               'public/vendor/pagedown/assets/demo.css',
               'public/vendor/datetimepicker/datetimepicker.css',
               'public/vendor/jquery/jquery-ui-smoothness.css',
