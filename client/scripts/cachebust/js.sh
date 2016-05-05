@@ -1,0 +1,1 @@
+hashmark -c build -r -l 6 '*.js' '{dir}/{name}-{hash}{ext}' | sed -e 's/:"/:"/g' > ./build/build.json && replaceinfiles -s 'build/index.html' -d '{dir}/{base}' < ./build/build.json && sed -i '' 's/\/css\//\/css\//g' build/index.html && rm ./build/build.json
