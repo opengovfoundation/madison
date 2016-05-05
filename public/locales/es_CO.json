@@ -1,5 +1,5 @@
 {
-  /*"_comment": "traducido por Jhon Felipe Urrego Mejia",*/
+  "_comment": "traducido por Jhon Felipe Urrego Mejia",
   "site.name": "LEGISLANDO",
   "site.name.full": "Legislan<span class=\"dot-io\">.do</span>",
 
@@ -148,7 +148,7 @@
   "form.document.discussionstate.label": "El Estado del debate",
   "form.document.discussionstate.help": "Si el debate se establece a 'abierto', los usuarios podrán comentar y anotar normalmente. Si está 'cerrado', entonces la discusión existente será visible, pero el nuevo debate no puede suceder. Si se establece a 'oculta', no puede suceder, nueva discusión y debate existente no será visible",
   "form.document.publishstate.label": "Estado de publicación",
-  "form.document.publishstate.help": "Si un documento está configurado para "sin publicar", sólo puede verlo. Si está configurado como privado, cualquier persona con el enlace lo puede ver. Lo contrario es públicamente visible",
+  "form.document.publishstate.help": "Si un documento está configurado para 'sin publicar', sólo puede verlo. Si está configurado como privado, cualquier persona con el enlace lo puede ver. Lo contrario es públicamente visible",
   "form.document.introtext.label": "Texto de introducción",
   "form.document.introtext.help": "Markdown amable. Auto-ahorra 3 segundos después de que haya terminado la edición.",
   "form.document.image.label": "Imagen",
