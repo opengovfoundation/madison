@@ -3,7 +3,7 @@ angular.module('madisonApp.directives')
   return function(scope, element, attrs) {
     scope.$watch(attrs.showFocus, function(newValue) {
       $timeout(function() {
-        newValue && element.focus();
+        if (newValue) element.focus();
       }, true);
     });
   };

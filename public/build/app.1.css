@@ -3328,6 +3328,8 @@ pre code {
 .document-dates .dates-header,
 .document-edit-tabs .nav-tabs,
 .existing-date,
+.page-content,
+.page-settings,
 .previous-features,
 .row,
 .social-login {
@@ -3345,6 +3347,10 @@ pre code {
 .document-edit-tabs .nav-tabs:before,
 .existing-date:after,
 .existing-date:before,
+.page-content:after,
+.page-content:before,
+.page-settings:after,
+.page-settings:before,
 .previous-features:after,
 .previous-features:before,
 .row:after,
@@ -3360,6 +3366,8 @@ pre code {
 .document-dates .dates:after,
 .document-edit-tabs .nav-tabs:after,
 .existing-date:after,
+.page-content:after,
+.page-settings:after,
 .previous-features:after,
 .row:after,
 .social-login:after {
@@ -3479,6 +3487,11 @@ pre code {
 .home-feature,
 .main-feature .doc-content,
 .most-active,
+.page-content .page-content-inner,
+.page-settings .header-input,
+.page-settings .nav-title-input,
+.page-settings .page-title-input,
+.page-settings .url-input,
 .recent-activity,
 .search-list,
 .social-login .oauth-login {
@@ -3513,7 +3526,12 @@ pre code {
 .col-xs-7,
 .col-xs-8,
 .col-xs-9,
-.doc-secondary-content .stats-number {
+.doc-secondary-content .stats-number,
+.page-content .page-content-inner,
+.page-settings .header-input,
+.page-settings .nav-title-input,
+.page-settings .page-title-input,
+.page-settings .url-input {
   float: left;
 }
 
@@ -3563,7 +3581,11 @@ pre code {
 }
 
 .chart-stat,
-.col-xs-12 {
+.col-xs-12,
+.page-settings .header-input,
+.page-settings .nav-title-input,
+.page-settings .page-title-input,
+.page-settings .url-input {
   width: 50%;
 }
 
@@ -3611,7 +3633,8 @@ pre code {
   width: 95.83333%;
 }
 
-.col-xs-24 {
+.col-xs-24,
+.page-content .page-content-inner {
   width: 100%;
 }
 
@@ -5920,7 +5943,11 @@ input[type=search] {
   }
 }
 
-.form-group {
+.form-group,
+.page-settings .header-input,
+.page-settings .nav-title-input,
+.page-settings .page-title-input,
+.page-settings .url-input {
   margin-bottom: 15px;
 }
 
@@ -6378,7 +6405,15 @@ textarea.input-lg {
 }
 
 @media (min-width:768px) {
-  .form-inline .form-group {
+  .form-inline .form-group,
+  .form-inline .page-settings .header-input,
+  .form-inline .page-settings .nav-title-input,
+  .form-inline .page-settings .page-title-input,
+  .form-inline .page-settings .url-input,
+  .page-settings .form-inline .header-input,
+  .page-settings .form-inline .nav-title-input,
+  .page-settings .form-inline .page-title-input,
+  .page-settings .form-inline .url-input {
     display: inline-block;
     margin-bottom: 0;
     vertical-align: middle;
@@ -6452,18 +6487,50 @@ textarea.input-lg {
   min-height: 3.125rem;
 }
 
-.form-horizontal .form-group {
+.form-horizontal .form-group,
+.form-horizontal .page-settings .header-input,
+.form-horizontal .page-settings .nav-title-input,
+.form-horizontal .page-settings .page-title-input,
+.form-horizontal .page-settings .url-input,
+.page-settings .form-horizontal .header-input,
+.page-settings .form-horizontal .nav-title-input,
+.page-settings .form-horizontal .page-title-input,
+.page-settings .form-horizontal .url-input {
   margin-left: -15px;
   margin-right: -15px;
 }
 
 .form-horizontal .form-group:after,
-.form-horizontal .form-group:before {
+.form-horizontal .form-group:before,
+.form-horizontal .page-settings .header-input:after,
+.form-horizontal .page-settings .header-input:before,
+.form-horizontal .page-settings .nav-title-input:after,
+.form-horizontal .page-settings .nav-title-input:before,
+.form-horizontal .page-settings .page-title-input:after,
+.form-horizontal .page-settings .page-title-input:before,
+.form-horizontal .page-settings .url-input:after,
+.form-horizontal .page-settings .url-input:before,
+.page-settings .form-horizontal .header-input:after,
+.page-settings .form-horizontal .header-input:before,
+.page-settings .form-horizontal .nav-title-input:after,
+.page-settings .form-horizontal .nav-title-input:before,
+.page-settings .form-horizontal .page-title-input:after,
+.page-settings .form-horizontal .page-title-input:before,
+.page-settings .form-horizontal .url-input:after,
+.page-settings .form-horizontal .url-input:before {
   content: " ";
   display: table;
 }
 
-.form-horizontal .form-group:after {
+.form-horizontal .form-group:after,
+.form-horizontal .page-settings .header-input:after,
+.form-horizontal .page-settings .nav-title-input:after,
+.form-horizontal .page-settings .page-title-input:after,
+.form-horizontal .page-settings .url-input:after,
+.page-settings .form-horizontal .header-input:after,
+.page-settings .form-horizontal .nav-title-input:after,
+.page-settings .form-horizontal .page-title-input:after,
+.page-settings .form-horizontal .url-input:after {
   clear: both;
 }
 
@@ -8624,69 +8691,4 @@ tbody.collapse.in {
 
 .input-group-addon:first-child {
   border-right: 0;
-}
-
-.home-feature .input-group-btn:first-child>.btn-group:not(:first-child)>.read-button,
-.home-feature .input-group-btn:first-child>.read-button:not(:first-child),
-.home-feature .input-group-btn:last-child>.btn-group>.read-button,
-.home-feature .input-group-btn:last-child>.read-button,
-.input-group .form-control:last-child,
-.input-group-addon:last-child,
-.input-group-btn:first-child>.btn-group:not(:first-child)>.btn,
-.input-group-btn:first-child>.btn-group:not(:first-child)>.button,
-.input-group-btn:first-child>.btn-group:not(:first-child)>.create-document-button,
-.input-group-btn:first-child>.btn-group:not(:first-child)>.delete-document-button,
-.input-group-btn:first-child>.btn-group:not(:first-child)>.delete-page-button,
-.input-group-btn:first-child>.btn-group:not(:first-child)>.login-button,
-.input-group-btn:first-child>.btn-group:not(:first-child)>.save-document-button,
-.input-group-btn:first-child>.btn:not(:first-child),
-.input-group-btn:first-child>.button:not(:first-child),
-.input-group-btn:first-child>.create-document-button:not(:first-child),
-.input-group-btn:first-child>.delete-document-button:not(:first-child),
-.input-group-btn:first-child>.delete-page-button:not(:first-child),
-.input-group-btn:first-child>.login-button:not(:first-child),
-.input-group-btn:first-child>.save-document-button:not(:first-child),
-.input-group-btn:last-child>.btn,
-.input-group-btn:last-child>.btn-group>.btn,
-.input-group-btn:last-child>.btn-group>.button,
-.input-group-btn:last-child>.btn-group>.create-document-button,
-.input-group-btn:last-child>.btn-group>.delete-document-button,
-.input-group-btn:last-child>.btn-group>.delete-page-button,
-.input-group-btn:last-child>.btn-group>.login-button,
-.input-group-btn:last-child>.btn-group>.save-document-button,
-.input-group-btn:last-child>.button,
-.input-group-btn:last-child>.create-document-button,
-.input-group-btn:last-child>.delete-document-button,
-.input-group-btn:last-child>.delete-page-button,
-.input-group-btn:last-child>.dropdown-toggle,
-.input-group-btn:last-child>.login-button,
-.input-group-btn:last-child>.save-document-button,
-.search-form .input-group-btn:first-child>.btn-group:not(:first-child)>.search-button,
-.search-form .input-group-btn:first-child>.search-button:not(:first-child),
-.search-form .input-group-btn:last-child>.btn-group>.search-button,
-.search-form .input-group-btn:last-child>.search-button {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-}
-
-.input-group-addon:last-child {
-  border-left: 0;
-}
-
-.input-group-btn {
-  position: relative;
-  font-size: 0;
-  white-space: nowrap;
-}
-
-.home-feature .input-group-btn>.read-button,
-.input-group-btn>.btn,
-.input-group-btn>.button,
-.input-group-btn>.create-document-button,
-.input-group-btn>.delete-document-button,
-.input-group-btn>.delete-page-button,
-.input-group-btn>.login-button,
-.input-group-btn>.save-document-button,
-.search-form .input-group-btn>.search-button {
-  position: relative;
 }

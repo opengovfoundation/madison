@@ -1,4 +1,69 @@
-@import "app.1.45b96ac4.css";
+@import "app.1.6d42c3ac.css";
+
+.home-feature .input-group-btn:first-child>.btn-group:not(:first-child)>.read-button,
+.home-feature .input-group-btn:first-child>.read-button:not(:first-child),
+.home-feature .input-group-btn:last-child>.btn-group>.read-button,
+.home-feature .input-group-btn:last-child>.read-button,
+.input-group .form-control:last-child,
+.input-group-addon:last-child,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.btn,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.button,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.create-document-button,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.delete-document-button,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.delete-page-button,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.login-button,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.save-document-button,
+.input-group-btn:first-child>.btn:not(:first-child),
+.input-group-btn:first-child>.button:not(:first-child),
+.input-group-btn:first-child>.create-document-button:not(:first-child),
+.input-group-btn:first-child>.delete-document-button:not(:first-child),
+.input-group-btn:first-child>.delete-page-button:not(:first-child),
+.input-group-btn:first-child>.login-button:not(:first-child),
+.input-group-btn:first-child>.save-document-button:not(:first-child),
+.input-group-btn:last-child>.btn,
+.input-group-btn:last-child>.btn-group>.btn,
+.input-group-btn:last-child>.btn-group>.button,
+.input-group-btn:last-child>.btn-group>.create-document-button,
+.input-group-btn:last-child>.btn-group>.delete-document-button,
+.input-group-btn:last-child>.btn-group>.delete-page-button,
+.input-group-btn:last-child>.btn-group>.login-button,
+.input-group-btn:last-child>.btn-group>.save-document-button,
+.input-group-btn:last-child>.button,
+.input-group-btn:last-child>.create-document-button,
+.input-group-btn:last-child>.delete-document-button,
+.input-group-btn:last-child>.delete-page-button,
+.input-group-btn:last-child>.dropdown-toggle,
+.input-group-btn:last-child>.login-button,
+.input-group-btn:last-child>.save-document-button,
+.search-form .input-group-btn:first-child>.btn-group:not(:first-child)>.search-button,
+.search-form .input-group-btn:first-child>.search-button:not(:first-child),
+.search-form .input-group-btn:last-child>.btn-group>.search-button,
+.search-form .input-group-btn:last-child>.search-button {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.input-group-addon:last-child {
+  border-left: 0;
+}
+
+.input-group-btn {
+  position: relative;
+  font-size: 0;
+  white-space: nowrap;
+}
+
+.home-feature .input-group-btn>.read-button,
+.input-group-btn>.btn,
+.input-group-btn>.button,
+.input-group-btn>.create-document-button,
+.input-group-btn>.delete-document-button,
+.input-group-btn>.delete-page-button,
+.input-group-btn>.login-button,
+.input-group-btn>.save-document-button,
+.search-form .input-group-btn>.search-button {
+  position: relative;
+}
 
 .home-feature .input-group-btn>.btn+.read-button,
 .home-feature .input-group-btn>.button+.read-button,
@@ -629,7 +694,15 @@
 }
 
 @media (min-width:768px) {
-  .navbar-form .form-group {
+  .navbar-form .form-group,
+  .navbar-form .page-settings .header-input,
+  .navbar-form .page-settings .nav-title-input,
+  .navbar-form .page-settings .page-title-input,
+  .navbar-form .page-settings .url-input,
+  .page-settings .navbar-form .header-input,
+  .page-settings .navbar-form .nav-title-input,
+  .page-settings .navbar-form .page-title-input,
+  .page-settings .navbar-form .url-input {
     display: inline-block;
     margin-bottom: 0;
     vertical-align: middle;
@@ -690,11 +763,27 @@
 }
 
 @media (max-width:767px) {
-  .navbar-form .form-group {
+  .navbar-form .form-group,
+  .navbar-form .page-settings .header-input,
+  .navbar-form .page-settings .nav-title-input,
+  .navbar-form .page-settings .page-title-input,
+  .navbar-form .page-settings .url-input,
+  .page-settings .navbar-form .header-input,
+  .page-settings .navbar-form .nav-title-input,
+  .page-settings .navbar-form .page-title-input,
+  .page-settings .navbar-form .url-input {
     margin-bottom: 5px;
   }
 
-  .navbar-form .form-group:last-child {
+  .navbar-form .form-group:last-child,
+  .navbar-form .page-settings .header-input:last-child,
+  .navbar-form .page-settings .nav-title-input:last-child,
+  .navbar-form .page-settings .page-title-input:last-child,
+  .navbar-form .page-settings .url-input:last-child,
+  .page-settings .navbar-form .header-input:last-child,
+  .page-settings .navbar-form .nav-title-input:last-child,
+  .page-settings .navbar-form .page-title-input:last-child,
+  .page-settings .navbar-form .url-input:last-child {
     margin-bottom: 0;
   }
 }
@@ -4256,12 +4345,20 @@ header small {
   color: #000;
 }
 
-.form-group {
+.form-group,
+.page-settings .header-input,
+.page-settings .nav-title-input,
+.page-settings .page-title-input,
+.page-settings .url-input {
   margin-bottom: .8125rem;
   margin-top: .8125rem;
 }
 
-.form-group>label {
+.form-group>label,
+.page-settings .header-input>label,
+.page-settings .nav-title-input>label,
+.page-settings .page-title-input>label,
+.page-settings .url-input>label {
   display: block;
 }
 
@@ -4668,6 +4765,36 @@ label .required {
 
 .annotator-viewer div:first-of-type {
   border-bottom: 1px solid rgba(133,133,133,.11);
+}
+
+.doc-content .modal .modal-header h1,
+.doc-content .modal .modal-header h2,
+.doc-content .previous-features .modal .modal-header .heading,
+.modal .modal-header .doc-content .previous-features .heading,
+.modal .modal-header .doc-content h1,
+.modal .modal-header .doc-content h2,
+.modal .modal-header .previous-features .doc-content .heading,
+.modal .modal-header h3,
+.previous-features .doc-content .modal .modal-header .heading {
+  margin-bottom: 0;
+}
+
+.content-editor {
+  float: none;
+  height: 40rem;
+  overflow: hidden;
+}
+
+.content-editor .wmd-input {
+  height: 100%;
+}
+
+.content-editor .wmd-preview {
+  margin-top: 0;
+}
+
+.content-editor .wmd-button-row {
+  height: 1rem;
 }
 
 .home-feature {
@@ -5822,24 +5949,6 @@ section.login {
 .document-edit-tabs .nav-tabs li.active a:hover {
   background-color: #00cae5;
   color: #fff;
-}
-
-.document-edit-tabs .tab-pane .wmd-input {
-  height: 100%;
-}
-
-.document-edit-tabs .tab-pane .wmd-preview {
-  margin-top: 0;
-}
-
-.document-edit-tabs .tab-pane .wmd-button-row {
-  height: 1rem;
-}
-
-.document-edit-tabs .tab-pane .doc-content-editor {
-  float: none;
-  height: 40rem;
-  overflow: hidden;
 }
 
 .document-dates {

@@ -24,7 +24,7 @@ function($scope, Page, growl, $translate, pageService, SITE,
     $rootScope.loadPages().then(function(pages) {
       $scope.pages = pages;
     });
-  }
+  };
 
   $scope.showCreatePageModal = function() {
     modalService.showModal({
