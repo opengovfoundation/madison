@@ -4,21 +4,22 @@ namespace App\Notification;
 
 use App\Models\User;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class Message
 {
     use SerializesModels;
 
     protected $subject;
-    protected $recipient;
+    protected $recipients;
     protected $parts;
     protected $preferredContentType = 'text/html';
 
-    public function __construct($subject = null, $body = null, User $recipient = null)
+    public function __construct($subject = null, $body = null, $recipients = null)
     {
         $this->setSubject($subject);
         $this->setBody($body);
-        $this->setRecipient($recipient);
+        $this->setRecipients($recipients);
     }
 
     /**
@@ -80,27 +81,37 @@ class Message
     }
 
     /**
-     * Set the recipient for this Message.
+     * Set the recipient(s) for this Message.
      *
-     * @param User $recipient
+     * @param array|User $recipient
      *
      * @return Message
      */
-    public function setRecipient(User $recipient = null)
+    public function setRecipients($recipient = null)
     {
-        $this->recipient = $recipient;
+        if (is_array($recipient)) {
+            $this->recipients = $recipient;
+        } elseif (is_null($recipient)) {
+            $this->recipients = [];
+        } elseif ($recipient instanceof Collection) {
+            $this->recipients = $recipient->all();
+        } elseif ($recipient instanceof User) {
+            $this->recipients = [$recipient];
+        } else {
+            throw new \InvalidArgumentException('Recipients must be users or a collection of users');
+        }
 
         return $this;
     }
 
     /**
-     * Get the recipient for this Message.
+     * Get the recipients for this Message.
      *
      * @return User
      */
-    public function getRecipient()
+    public function getRecipients()
     {
-        return $this->recipient;
+        return $this->recipients;
     }
 
     /**

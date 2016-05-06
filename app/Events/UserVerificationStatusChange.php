@@ -46,4 +46,9 @@ class UserVerificationStatusChange extends Event
     {
         return 'When your account verification status changes';
     }
+
+    public static function getType()
+    {
+        return static::TYPE_USER;
+    }
 }

@@ -5,10 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Models\MadisonEvent;
-use App\Events\CommentCreated;
-use App\Events\FeedbackSeen;
-use App\Events\GroupMemberAdded;
+use App\Models\Role;
+use App\Models\User;
 
 class NotificationPreference extends Model
 {
@@ -39,29 +37,60 @@ class NotificationPreference extends Model
     }
 
     /**
+     *	Return array of valid notifications for the given user.
+     *
+     * @return array
+     */
+    public static function getValidNotificationsForUser(User $user)
+    {
+        $validNotifications = static::getUserNotifications();
+
+        if ($user->hasRole(Role::ROLE_ADMIN)) {
+            $validNotifications = $validNotifications + static::getAdminNotifications();
+        }
+
+        return $validNotifications;
+    }
+
+    /**
      *	Return array of valid admin notifications.
      *
      *	@return array
      */
-    public static function getValidNotifications()
+    public static function getAdminNotifications()
     {
-        return MadisonEvent::validAdminNotifications();
+        $validNotifications = [
+            'GroupCreated',
+        ];
+
+        return static::buildNotificationsFromEventNames($validNotifications);
     }
 
     /**
      *	Return array of valid user notifications.
      *
-     *	@param void
-     *
      *	@return array
      */
     public static function getUserNotifications()
     {
-        $validNotifications = MadisonEvent::validUserNotifications();
-        $validNotifications[CommentCreated::getName()] = CommentCreated::getDescription();
-        $validNotifications[FeedbackSeen::getName()] = FeedbackSeen::getDescription();
-        $validNotifications[GroupMemberAdded::getName()] = GroupMemberAdded::getDescription();
-        return $validNotifications;
+        $validNotifications = [
+            'CommentCreated',
+            'GroupMemberAdded',
+            'FeedbackSeen',
+        ];
+
+        return static::buildNotificationsFromEventNames($validNotifications);
+    }
+
+    protected static function buildNotificationsFromEventNames($names)
+    {
+        $ret = [];
+        foreach ($names as $name) {
+            $class = '\App\Events\\'.$name;
+            $ret[$class::getName()] = $class;
+        }
+
+        return $ret;
     }
 
     public static function addNotificationForUser($event, $user_id, $type = self::TYPE_EMAIL)

@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\CommentCreated;
-use App\Notification\Message;
 use App\Notification\Notifier;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -46,7 +45,7 @@ class CommentCreatedNotification implements ShouldQueue
 
             $this->notifier->queue('notification.comment.reply-html', $data, function ($message) use ($recipient) {
                 $message->setSubject('Activity on something of yours');
-                $message->setRecipient($recipient);
+                $message->setRecipients($recipient);
             }, $event);
         }
     }

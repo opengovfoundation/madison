@@ -4,7 +4,15 @@
 <div class="row">
   <div class="col-md-12">
     <div translate="content.notificationsettings.body"></div>
-    <div class="checkbox" ng-repeat="notification in notifications">
+    <div class="checkbox" ng-repeat="notification in notifications | filter : { type: 'user' }">
+      <label>
+        <input type="checkbox" name="{{ notification.event }}"
+            ng-model="notification.selected">
+        {{ notification.description }}
+      </label>
+    </div>
+    <h2>Admin notifications</h2>
+    <div class="checkbox" ng-repeat="notification in notifications | filter : { type: 'admin' }">
       <label>
         <input type="checkbox" name="{{ notification.event }}"
             ng-model="notification.selected">

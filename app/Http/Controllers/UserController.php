@@ -12,7 +12,6 @@ use Mail;
 use App\Models\User;
 use App\Models\UserMeta;
 use App\Models\NotificationPreference;
-use App\Models\MadisonEvent;
 use App\Models\DocMeta;
 use App\Models\Role;
 use App\Http\Requests\SignupRequest;
@@ -66,7 +65,7 @@ class UserController extends Controller
         $notifications = Input::get('notifications');
 
         //Retrieve valid notification events
-        $validNotifications = NotificationPreference::getUserNotifications();
+        $validNotifications = NotificationPreference::getValidNotificationsForUser($user);
         $events = array_keys($validNotifications);
 
         //Loop through each notification
@@ -117,7 +116,7 @@ class UserController extends Controller
         }
 
         //Retrieve all valid user notifications as associative array (event => description)
-        $validNotifications = NotificationPreference::getUserNotifications();
+        $validNotifications = NotificationPreference::getValidNotificationsForUser($user);
 
         //Filter out event keys
         $events = array_keys($validNotifications);
@@ -133,12 +132,13 @@ class UserController extends Controller
         }
 
         //Build array of notifications and their selected status
-        $toReturn = array();
-        foreach ($validNotifications as $event => $description) {
-            $notification = array();
-            $notification['event'] = $event;
-            $notification['description'] = $description;
-            $notification['selected'] = in_array($event, $selectedEvents) ? true : false;
+        $toReturn = [];
+        foreach ($validNotifications as $eventName => $event) {
+            $notification = [];
+            $notification['event'] = $eventName;
+            $notification['description'] = $event::getDescription();
+            $notification['type'] = $event::getType();
+            $notification['selected'] = in_array($eventName, $selectedEvents) ? true : false;
 
             array_push($toReturn, $notification);
         }
@@ -301,8 +301,6 @@ class UserController extends Controller
             $meta->meta_value = 'pending';
             $meta->user_id = $user->id;
             $meta->save();
-
-            Event::fire(MadisonEvent::VERIFY_REQUEST_USER, $user);
 
             return Response::json($this->growlMessage(['Your profile has been updated', 'Your verified status has been requested.'], 'success'));
         }

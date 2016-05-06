@@ -35,7 +35,7 @@ class UserVerificationStatusChangeNotification implements ShouldQueue
 
         $this->notifier->queue('notification.simple-html', $data, function ($message) use ($recipient) {
             $message->setSubject('Your account verification status has changed');
-            $message->setRecipient($recipient);
+            $message->setRecipients($recipient);
         }, $event);
     }
 }
