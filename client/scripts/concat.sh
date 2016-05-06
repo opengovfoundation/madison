@@ -1,1 +1,2 @@
-npm run concat:css && npm run concat:js
+npm run concat:css
+npm run concat:js
