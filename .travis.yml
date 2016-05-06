@@ -29,7 +29,7 @@ before_script:
   - cat travis/phpenv.conf | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
   - cat travis/apache.conf | sed -e "s,PATH,`pwd`/web,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   - sudo service apache2 restart
-  - nvm install 0.12.7
+  - nvm install 4.1.2
   - npm install -g npm
   - rvm install 2.3.1
   - gem install compass
