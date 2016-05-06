@@ -22,7 +22,7 @@ exports.config = {
     'tests/e2e/logged-in/document.spec.js'
   ],
 
-  baseUrl: 'http://test.mymadison.local',
+  baseUrl: 'http://localhost:8888',
 
   rootElement: 'html',
 

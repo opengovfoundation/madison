@@ -78,7 +78,7 @@ To run only server tests, the command is `make test-server`.
 ### Client Testing
 
 For client testing to work properly, you need to have a vhost set up to be
-serving the client at `test.mymadison.local` with the API (server folder)
+serving the client at `localhost:8888` with the API (server folder)
 mounted at `/api`. This vhost should also set two ENV vars:
 
 * `TESTING=true`
