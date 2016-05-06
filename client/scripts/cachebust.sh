@@ -2,4 +2,7 @@ npm run cachebust:locales
 npm run cachebust:templates
 npm run cachebust:css
 npm run cachebust:js
-chmod 664 ./build/index.html
+
+# reaplceinfiles messes up permissions, this fixes it
+chmod 644 ./build/index.html
+chmod 644 ./build/app.min-*.js
