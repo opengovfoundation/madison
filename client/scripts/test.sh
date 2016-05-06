@@ -1,1 +1,1 @@
-protractor
+protractor protractor.conf.js
