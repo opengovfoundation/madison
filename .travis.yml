@@ -6,7 +6,7 @@ php:
 
 # Set environment variables
 node_js:
-  - "0.12"
+  - "4.1"
 services:
   - mysql
 env:

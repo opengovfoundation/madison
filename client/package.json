@@ -13,7 +13,7 @@
     "url": "https://github.com/opengovfoundation/madison/issues"
   },
   "homepage": "http://mymadison.io",
-  "engine": "node 0.12.7",
+  "engine": "node 4.1.2",
   "devDependencies": {
     "bless": "3.0.3",
     "breakpoint-sass": "^2.7.0",
