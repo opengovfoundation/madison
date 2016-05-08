@@ -50,3 +50,6 @@ matrix:
 notifications:
   on_success: never
   on_failure: always
+
+after_failure:
+  - cat $APACHE_LOG_DIR/error.log
