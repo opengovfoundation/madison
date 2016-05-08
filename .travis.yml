@@ -11,7 +11,7 @@ services:
   - mysql
 env:
   matrix:
-  - APP_ENV=testing DB_HOST=localhost DB_DATABASE=madison_testing DB_USERNAME=root
+  - APP_URL=http://0.0.0.0:8888 APP_ENV=testing DB_HOST=localhost DB_DATABASE=madison_testing DB_USERNAME=root
   global:
   - secure: XPSHwPKz6T6gKRYD8gmBZI1TRU79VpE/puIdIzno3mcVfR9Mt0jR39r759EGOGX94rNo2vjoBlOHLvECSYKl6kn1gjuWQDq8LkOD2QGKO+KmE8GDaED4DFds6EvtoHm/pkFpVBsvjGucU6PEZo4ghxhQAGpuX112V5mj1qmf7g0=
   - secure: eRHMypmB5JXiQXwa++FHjbNPg1LnLxJ97HTt/tcL4hrb9KTAioIg4vvOM07PaekLVkZnTtUnOUDDaOlkhSUzjUKaU+fnw4GcUvXTzj73efBSfkoSvWgkquiVCLV+8PJuYkske93ZcR5s91+4oPITQZ4IQVmviaUz3XdLFOgUUFk=
@@ -28,7 +28,7 @@ before_script:
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo a2enmod rewrite actions fastcgi alias
   - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - sudo ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   - sudo cp -f travis/apache.conf /etc/apache2/sites-available/default
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
   - sudo service apache2 restart
