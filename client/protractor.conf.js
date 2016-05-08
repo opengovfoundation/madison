@@ -22,7 +22,7 @@ exports.config = {
     'tests/e2e/logged-in/document.spec.js'
   ],
 
-  baseUrl: 'http://localhost:8888',
+  baseUrl: 'http://0.0.0.0:8888',
 
   rootElement: 'html',
 

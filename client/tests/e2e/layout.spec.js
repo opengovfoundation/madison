@@ -23,32 +23,32 @@ describe('Madison page layout', function() {
     it('takes us to the home page when clicking banner logo', function() {
       browser.get('/user/login'); // Go somewhere else first
       pageLayout.links.logo.click();
-      expect(browser.getCurrentUrl()).toBe('http://localhost:8888/');
+      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8888/');
     });
 
     it('takes us home when clicking the HOME nav link', function() {
       browser.get('/user/login'); // Go somewhere else first
       pageLayout.links.home.click();
-      expect(browser.getCurrentUrl()).toBe('http://localhost:8888/');
+      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8888/');
     });
 
     it('takes us to the login page when clicking the LOGIN nav link',
     function() {
       pageLayout.links.login.click();
-      expect(browser.getCurrentUrl()).toBe('http://localhost:8888/user/login');
+      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8888/user/login');
     });
 
     it('takes us to the signup page when clicking the SIGNUP nav link',
     function() {
       pageLayout.links.signup.click();
-      expect(browser.getCurrentUrl()).toBe('http://localhost:8888/user/signup');
+      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8888/user/signup');
     });
   });
 
   describe('footer links', function() {
     it('takes you to about page for each "for ___" link', function() {
       pageLayout.links.footer.intro.click();
-      expect(browser.getCurrentUrl()).toBe('http://localhost:8888/about');
+      expect(browser.getCurrentUrl()).toBe('http://0.0.0.0:8888/about');
     });
   });
 });
