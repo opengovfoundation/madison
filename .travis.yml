@@ -23,6 +23,7 @@ before_install:
   - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B -n 1 $TRAVIS_COMMIT)\""
 before_script:
   - sudo apt-get update
+  - sudo apt-get upgrade
   - sudo apt-get install apache2 libapache2-mod-fastcgi
   # enable php-fpm
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
