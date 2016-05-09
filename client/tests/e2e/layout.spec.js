@@ -9,7 +9,7 @@ describe('Madison page layout', function() {
   });
 
   describe('signup banner', function() {
-    fit('should display the signup banner if not logged in', function() {
+    it('should display the signup banner if not logged in', function() {
       expect(pageLayout.signupBanner().isPresent()).toBe(true);
     });
 
