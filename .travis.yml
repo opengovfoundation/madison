@@ -22,8 +22,9 @@ addons:
 before_install:
   - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B -n 1 $TRAVIS_COMMIT)\""
 before_script:
+  - sudo apt-add-repository ppa:ondrej/php5
   - sudo apt-get update
-  - sudo apt-add-repository ppa:ondrej/apache
+  - sudo apt-get upgrade
   - sudo apt-get install apache2 libapache2-mod-fastcgi
   - apache2 -v
   # enable php-fpm
