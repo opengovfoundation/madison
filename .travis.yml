@@ -26,7 +26,7 @@ before_script:
   - sudo apt-add-repository -y ppa:ondrej/php5
   - sudo apt-get update
   #- sudo apt-get -y dist-upgrade
-  - sudo apt-get apache2 libapache2-mod-fastcgi
+  - sudo apt-get install -y apache2 libapache2-mod-fastcgi
   - apache2 -v
   # enable php-fpm
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
