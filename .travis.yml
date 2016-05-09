@@ -23,8 +23,9 @@ before_install:
   - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B -n 1 $TRAVIS_COMMIT)\""
 before_script:
   - sudo apt-get update
-  - sudo apt-get upgrade
+  - sudo apt-add-repository ppa:ondrej/apache
   - sudo apt-get install apache2 libapache2-mod-fastcgi
+  - apache2 -v
   # enable php-fpm
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo a2enmod rewrite actions fastcgi alias headers
