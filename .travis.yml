@@ -24,7 +24,7 @@ before_install:
 before_script:
   - sudo apt-add-repository -y ppa:ondrej/php5
   - sudo apt-get update
-  - sudo apt-get upgrade
+  #- sudo apt-get upgrade
   - sudo apt-get install apache2 libapache2-mod-fastcgi
   - apache2 -v
   # enable php-fpm
