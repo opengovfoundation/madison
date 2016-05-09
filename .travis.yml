@@ -22,10 +22,11 @@ addons:
 before_install:
   - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B -n 1 $TRAVIS_COMMIT)\""
 before_script:
+  - sudo apt-add-repository ppa:ptn107/apache
   - sudo apt-add-repository -y ppa:ondrej/php5
   - sudo apt-get update
   #- sudo apt-get upgrade
-  - sudo apt-get install apache2 libapache2-mod-fastcgi
+  - sudo apt-get install apache2-mpm-worker apache2-utils apache2.4-bin apache2.4-common libapache2-mod-fastcgi
   - apache2 -v
   # enable php-fpm
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
