@@ -22,12 +22,8 @@ addons:
 before_install:
   - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B -n 1 $TRAVIS_COMMIT)\""
 before_script:
-  - sudo apt-add-repository -y ppa:ptn107/apache
-  - sudo apt-add-repository -y ppa:ondrej/php5
   - sudo apt-get update
-  #- sudo apt-get -y dist-upgrade
   - sudo apt-get install -y apache2 libapache2-mod-fastcgi
-  - apache2 -v
   # enable php-fpm
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo a2enmod rewrite actions fastcgi alias headers
@@ -35,6 +31,7 @@ before_script:
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   - sudo cp -f travis/apache.conf /etc/apache2/sites-available/default
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
+  - cat /etc/apache2/sites-available/default
   - sudo service apache2 restart
   - nvm install 4.1.2
   - npm install -g npm
