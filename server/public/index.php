@@ -18,6 +18,7 @@
 | loading any of our classes later on. It feels nice to relax.
 |
 */
+file_put_contents('./_delete-me.log', 'MADE IT TO THE SERVER');
 
 require __DIR__.'/../bootstrap/autoload.php';
 
