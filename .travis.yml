@@ -31,7 +31,6 @@ before_script:
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   - sudo cp -f travis/apache.conf /etc/apache2/sites-available/default
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
-  - cat /etc/apache2/sites-available/default
   - sudo service apache2 restart
   - nvm install 4.1.2
   - npm install -g npm
@@ -42,9 +41,11 @@ before_script:
 
 # Commands you want to run that will verify your build.
 script:
+  - sudo touch /var/log/lol && sudo chmod a+w /var/log/lol
   - make test
   - sudo cat /var/log/apache2/error.log
   - sudo cat /var/log/apache2/access.log
+  - sudo cat /var/log/lol
 
 # allow_failures: Allow this build to fail under the specified environments.
 # fast_finish: If your build fails do not continue trying to build, just stop.
