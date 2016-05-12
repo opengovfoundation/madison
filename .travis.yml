@@ -22,6 +22,9 @@ addons:
 before_install:
   - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B -n 1 $TRAVIS_COMMIT)\""
 before_script:
+  - sudo ls -la ./
+  - sudo ls -la ./server
+  - sudo ls -la ./server/public
   - sudo apt-get update
   - sudo apt-get install -y apache2 libapache2-mod-fastcgi
   # enable php-fpm
