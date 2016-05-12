@@ -16,5 +16,5 @@ angular.module('madisonApp.translate', ['pascalprecht.translate'])
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
   $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
   $translateProvider.usePostCompiling(true);
-  $translateProvider.use('en_US');
+  $translateProvider.determinePreferredLanguage();
 });
