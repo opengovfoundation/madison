@@ -40,7 +40,7 @@ input[type="text"].form-control {
 
 .fa-lg {
   font-size: 1.33333em;
-  line-height: .75em;
+  line-height: 0.75em;
   vertical-align: -15%;
 }
 
@@ -79,7 +79,7 @@ input[type="text"].form-control {
   position: absolute;
   left: -2.14286em;
   width: 2.14286em;
-  top: .14286em;
+  top: 0.14286em;
   text-align: center;
 }
 
@@ -2816,7 +2816,7 @@ h3,
 .previous-features .doc-content .heading,
 .h3 {
   margin-top: 1.625rem;
-  margin-bottom: .8125rem;
+  margin-bottom: 0.8125rem;
 }
 
 h1 small,
@@ -2856,8 +2856,8 @@ h5,
 .h5,
 h6,
 .h6 {
-  margin-top: .8125rem;
-  margin-bottom: .8125rem;
+  margin-top: 0.8125rem;
+  margin-bottom: 0.8125rem;
 }
 
 h4 small,
@@ -2924,11 +2924,11 @@ h5,
 
 h6,
 .h6 {
-  font-size: .85rem;
+  font-size: 0.85rem;
 }
 
 p {
-  margin: 0 0 .8125rem;
+  margin: 0 0 0.8125rem;
 }
 
 .lead {
@@ -3076,7 +3076,7 @@ a.bg-danger:hover {
 }
 
 .page-header {
-  padding-bottom: -.1875rem;
+  padding-bottom: -0.1875rem;
   margin: 3.25rem 0 1.625rem;
   border-bottom: 1px solid #eee;
 }
@@ -3084,7 +3084,7 @@ a.bg-danger:hover {
 ul,
 ol {
   margin-top: 0;
-  margin-bottom: .8125rem;
+  margin-bottom: 0.8125rem;
 }
 
 ul ul,
@@ -3167,7 +3167,7 @@ abbr[data-original-title] {
 }
 
 blockquote {
-  padding: .8125rem 1.625rem;
+  padding: 0.8125rem 1.625rem;
   margin: 0 0 1.625rem;
   font-size: 1.25rem;
   border-left: 5px solid #eee;
@@ -3267,8 +3267,8 @@ kbd kbd {
 
 pre {
   display: block;
-  padding: .3125rem;
-  margin: 0 0 .8125rem;
+  padding: 0.3125rem;
+  margin: 0 0 0.8125rem;
   font-size: 0rem;
   line-height: 1.625;
   word-break: break-all;
@@ -5373,7 +5373,7 @@ th {
 .table-condensed>tbody>tr>td,
 .table-condensed>tfoot>tr>th,
 .table-condensed>tfoot>tr>td {
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .table-bordered {
@@ -5795,7 +5795,7 @@ output {
   display: block;
   width: 100%;
   height: 2.625rem;
-  padding: .5rem 12px;
+  padding: 0.5rem 12px;
   font-size: 1rem;
   line-height: 1.625;
   color: #555;
@@ -6090,8 +6090,8 @@ fieldset[disabled] .checkbox label {
 .input-group-sm>.input-group-btn>.delete-document-button,
 .input-group-sm>.input-group-btn>.delete-page-button {
   height: 2rem;
-  padding: .5rem 10px;
-  font-size: .85rem;
+  padding: 0.5rem 10px;
+  font-size: 0.85rem;
   line-height: 2;
   border-radius: 3px;
 }
@@ -6141,8 +6141,8 @@ select[multiple].input-sm,
 
 .form-group-sm .form-control {
   height: 2rem;
-  padding: .5rem 10px;
-  font-size: .85rem;
+  padding: 0.5rem 10px;
+  font-size: 0.85rem;
   line-height: 2;
   border-radius: 3px;
 }
@@ -6159,8 +6159,8 @@ select[multiple].input-sm,
 
 .form-group-sm .form-control-static {
   height: 2rem;
-  padding: .5rem 10px;
-  font-size: .85rem;
+  padding: 0.5rem 10px;
+  font-size: 0.85rem;
   line-height: 2;
 }
 
@@ -6599,7 +6599,7 @@ select[multiple].input-lg,
   background-image: none;
   border: 1px solid transparent;
   white-space: nowrap;
-  padding: .5rem 12px;
+  padding: 0.5rem 12px;
   font-size: 1rem;
   line-height: 1.625;
   border-radius: 7px;
@@ -6754,7 +6754,7 @@ fieldset[disabled] .delete-document-button,
 fieldset[disabled] .delete-page-button {
   cursor: not-allowed;
   pointer-events: none;
-  opacity: .65;
+  opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -7571,8 +7571,8 @@ fieldset[disabled] .btn-link:focus {
 .btn-group-sm>.save-document-button,
 .btn-group-sm>.delete-document-button,
 .btn-group-sm>.delete-page-button {
-  padding: .5rem 10px;
-  font-size: .85rem;
+  padding: 0.5rem 10px;
+  font-size: 0.85rem;
   line-height: 2;
   border-radius: 3px;
 }
@@ -7588,7 +7588,7 @@ fieldset[disabled] .btn-link:focus {
 .btn-group-xs>.delete-document-button,
 .btn-group-xs>.delete-page-button {
   padding: 0rem 5px;
-  font-size: .85rem;
+  font-size: 0.85rem;
   line-height: 2;
   border-radius: 3px;
 }
@@ -7699,7 +7699,7 @@ tbody.collapse.in {
 
 .dropdown-menu .divider {
   height: 1px;
-  margin: -.1875rem 0;
+  margin: -0.1875rem 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
@@ -7766,7 +7766,7 @@ tbody.collapse.in {
 .dropdown-header {
   display: block;
   padding: 3px 20px;
-  font-size: .85rem;
+  font-size: 0.85rem;
   line-height: 1.625;
   color: #777;
   white-space: nowrap;
@@ -8623,7 +8623,7 @@ tbody.collapse.in {
 }
 
 .input-group-addon {
-  padding: .5rem 12px;
+  padding: 0.5rem 12px;
   font-size: 1rem;
   font-weight: normal;
   line-height: 1;
@@ -8645,8 +8645,8 @@ tbody.collapse.in {
 .input-group-sm>.input-group-btn>.input-group-addon.save-document-button,
 .input-group-sm>.input-group-btn>.input-group-addon.delete-document-button,
 .input-group-sm>.input-group-btn>.input-group-addon.delete-page-button {
-  padding: .5rem 10px;
-  font-size: .85rem;
+  padding: 0.5rem 10px;
+  font-size: 0.85rem;
   border-radius: 3px;
 }
 

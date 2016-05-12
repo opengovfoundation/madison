@@ -37,7 +37,8 @@
     "angular-translate": "~2.8.1",
     "angular-translate-loader-static-files": "~2.8.1",
     "angular-translate-interpolation-messageformat": "~2.8.1",
-    "ui-router-extras": "^0.1.2"
+    "ui-router-extras": "^0.1.2",
+    "Autolinker.js": "~0.22.0"
   },
   "resolutions": {
     "select2": "~3.4",
