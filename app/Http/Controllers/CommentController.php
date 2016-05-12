@@ -7,6 +7,7 @@ use Input;
 use Response;
 use Event;
 use App\Events\CommentCreated;
+use App\Events\FeedbackSeen;
 use App\Models\MadisonEvent;
 use App\Models\Comment;
 
@@ -96,15 +97,7 @@ class CommentController extends Controller
         $comment->seen = 1;
         $comment->save();
 
-        $doc = Doc::find($docId);
-        $vars = array('sponsor' => $user->fname.' '.$user->lname, 'label' => 'comment', 'slug' => $doc->slug, 'title' => $doc->title, 'text' => $comment->text);
-        $email = $comment->user->email;
-
-        Mail::queue('email.read', $vars, function ($message) use ($email) {
-            $message->subject('Your feedback on Madison was viewed by a sponsor!');
-            $message->from('sayhello@opengovfoundation.org', 'Madison');
-            $message->to($email); // Recipient address
-        });
+        Event::fire(new FeedbackSeen($comment, $user));
 
         return Response::json($comment);
     }

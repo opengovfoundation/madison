@@ -204,6 +204,7 @@ Route::get('api/user/{user}/docs', 'DocumentController@getUserDocuments');
 Route::get('api/user/{user}/notifications', 'UserController@getNotifications');
 Route::put('api/user/{user}/notifications', 'UserController@putNotifications');
 Route::get('api/user/{user}/groups', 'UserController@getGroups');
+Route::post('api/user/{user}/verify-email/resend', 'UserController@postResendVerifyEmail');
 Route::get('api/user/facebook-login', 'UserController@getFacebookLogin');
 Route::get('api/user/twitter-login', 'UserController@getTwitterLogin');
 Route::get('api/user/linkedin-login', 'UserController@getLinkedinLogin');

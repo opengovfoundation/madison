@@ -14,10 +14,13 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\CommentCreated' => [
-            'App\Listeners\CommentCreatedNotificationRequest',
+            'App\Listeners\CommentCreatedNotification',
         ],
-        'App\Events\NotificationRequest' => [
-            'App\Listeners\NotificationRequestHandler',
+        'App\Events\FeedbackSeen' => [
+            'App\Listeners\FeedbackSeenNotification',
+        ],
+        'App\Events\GroupMemberAdded' => [
+            'App\Listeners\GroupMemberAddedNotification',
         ],
     ];
 

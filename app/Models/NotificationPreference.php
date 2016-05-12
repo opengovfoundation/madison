@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\MadisonEvent;
 use App\Events\CommentCreated;
+use App\Events\FeedbackSeen;
+use App\Events\GroupMemberAdded;
 
-class Notification extends Model
+class NotificationPreference extends Model
 {
     const TYPE_EMAIL = "email";
     const TYPE_TEXT = "text";
 
-    protected $table = 'notifications';
+    protected $table = 'notification_preferences';
     public $timestamps = false;
 
     public function group()
@@ -57,6 +59,8 @@ class Notification extends Model
     {
         $validNotifications = MadisonEvent::validUserNotifications();
         $validNotifications[CommentCreated::getName()] = CommentCreated::getDescription();
+        $validNotifications[FeedbackSeen::getName()] = FeedbackSeen::getDescription();
+        $validNotifications[GroupMemberAdded::getName()] = GroupMemberAdded::getDescription();
         return $validNotifications;
     }
 

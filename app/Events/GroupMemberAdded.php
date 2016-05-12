@@ -3,26 +3,23 @@
 namespace App\Events;
 
 use App\Events\Event;
-use App\Values\Message;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NotificationRequest extends Event
+class GroupMemberAdded extends Event
 {
     use SerializesModels;
 
-    public $message;
-    public $event;
+    public $groupMember;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Message $message, Event $event)
+    public function __construct(GroupMember $groupMember)
     {
-        $this->message = $message;
-        $this->event = $event;
+        $this->groupMember = $groupMember;
     }
 
     /**
@@ -37,11 +34,11 @@ class NotificationRequest extends Event
 
     public static function getName()
     {
-        return 'madison.notification.request';
+        return 'madison.group.member-added';
     }
 
     public static function getDescription()
     {
-        return 'When a notification is generated to be sent';
+        return 'When you are added to a group';
     }
 }
