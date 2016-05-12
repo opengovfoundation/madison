@@ -22,9 +22,6 @@ addons:
 before_install:
   - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B -n 1 $TRAVIS_COMMIT)\""
 before_script:
-  - sudo ls -la ./
-  - sudo ls -la ./server
-  - sudo ls -la ./server/public
   - sudo apt-get update
   - sudo apt-get install -y apache2 libapache2-mod-fastcgi
   # enable php-fpm
@@ -34,6 +31,7 @@ before_script:
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   - sudo cp -f travis/apache.conf /etc/apache2/sites-available/default
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
+  - sudo cat /etc/apache2/sites-available/default
   - sudo service apache2 restart
   - nvm install 4.1.2
   - npm install -g npm
