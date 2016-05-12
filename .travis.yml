@@ -45,7 +45,6 @@ script:
   - make test
   - sudo cat /var/log/apache2/error.log
   - sudo cat /var/log/apache2/access.log
-  - sudo cat /var/log/apache2/rewrite.log
   - sudo cat /var/log/lol
 
 # allow_failures: Allow this build to fail under the specified environments.
