@@ -42,7 +42,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        file_put_contents('/var/log/lol', $request->path(), FILE_APPEND);
+        file_put_contents('/var/log/lol', 'EXCEPTION ON PATH: ' . $request->path() . "\n\n", FILE_APPEND);
         if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
