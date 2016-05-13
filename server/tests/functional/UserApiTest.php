@@ -18,7 +18,7 @@ class UserApiTest extends TestCase
         $user = factory(App\Models\User::class)->create();
 
         $this->actingAs($user)
-            ->get('/user/current')
+            ->get('/api/user/current')
             ->seeJson([
                 'activeGroupId' => null,
                 'groups' => [],

@@ -20,14 +20,6 @@
 */
 
 file_put_contents("/var/log/lol", "made it to server\n\n", FILE_APPEND);
-
-ob_start();
-phpinfo();
-$info = ob_get_contents();
-ob_end_clean();
-
-file_put_contents("/var/log/lol", $info . "\n\n", FILE_APPEND);
-
 require __DIR__.'/../bootstrap/autoload.php';
 
 /*

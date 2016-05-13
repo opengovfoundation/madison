@@ -16,7 +16,7 @@ class PageApiTest extends TestCase
     /**
      * Test creating a new page.
      *
-     * POST /pages
+     * POST /api/pages
      */
     public function testCreatePage()
     {
@@ -25,7 +25,7 @@ class PageApiTest extends TestCase
         $user->attachRole($admin_role);
 
         $this->actingAs($user)
-            ->json('POST', '/pages', ['nav_title' => 'A New Page'])
+            ->json('POST', '/api/pages', ['nav_title' => 'A New Page'])
             ->seeJson([
                 'nav_title' => 'A New Page',
                 'page_title' => 'A New Page',
@@ -39,7 +39,7 @@ class PageApiTest extends TestCase
         $page = Page::where('nav_title', 'A New Page')->first();
 
         // Should also create base page content
-        $this->json('GET', "/pages/{$page->id}/content?format=markdown")
+        $this->json('GET', "/api/pages/{$page->id}/content?format=markdown")
             ->seeJson([ 'content' => 'New page content' ]);
 
         $this->seeInDatabase('pages', [
@@ -60,14 +60,14 @@ class PageApiTest extends TestCase
     /**
      * Test return list of pages.
      *
-     * GET /pages
+     * GET /api/pages
      */
     public function testGetListOfPages()
     {
         $page1 = factory(Page::class)->create();
         $page2 = factory(Page::class)->create();
 
-        $this->json('GET', '/pages')
+        $this->json('GET', '/api/pages')
             ->seeJson($page1->toArray())
             ->seeJson($page2->toArray());
     }
@@ -87,47 +87,47 @@ class PageApiTest extends TestCase
             'footer_nav_link' => true
         ]);
 
-        $this->json('GET', '/pages?header_nav_link=true')
+        $this->json('GET', '/api/pages?header_nav_link=true')
             ->seeJsonEquals([
                 $page1->toArray(),
                 $page2->toArray()
             ]);
 
-        $this->json('GET', '/pages?footer_nav_link=true')
+        $this->json('GET', '/api/pages?footer_nav_link=true')
             ->seeJsonEquals([$page3->toArray()]);
     }
 
     /**
      * Test get one specific page.
      *
-     * GET /pages/:id
+     * GET /api/pages/:id
      */
     public function testGetOnePage()
     {
         $page = factory(Page::class)->create();
 
-        $this->json('GET', "/pages/{$page->id}")
+        $this->json('GET', "/api/pages/{$page->id}")
             ->seeJson($page->toArray());
     }
 
     /**
      * Test only admins can create new pages.
      *
-     * POST /pages
+     * POST /api/pages
      */
     public function testOnlyAdminCanCreatePage()
     {
         $user = factory(User::class)->create();
 
         $this->actingAs($user)
-            ->json('POST', '/pages', ['nav_title' => 'A New Page'])
+            ->json('POST', '/api/pages', ['nav_title' => 'A New Page'])
             ->assertResponseStatus(403);
     }
 
     /**
      * Test admin can update page.
      *
-     * PUT /pages/:id
+     * PUT /api/pages/:id
      */
     public function testUpdatePage()
     {
@@ -138,7 +138,7 @@ class PageApiTest extends TestCase
         $page = factory(Page::class)->create();
 
         $this->actingAs($admin)
-            ->json('PUT', "/pages/{$page->id}",
+            ->json('PUT', "/api/pages/{$page->id}",
                 array_merge(
                     $page->toArray(),
                     ['nav_title' => 'New Title!']
@@ -152,7 +152,7 @@ class PageApiTest extends TestCase
     /**
      * Test only admins can update pages.
      *
-     * PUT /pages/:id
+     * PUT /api/pages/:id
      */
     public function testOnlyAdminCanUpdatePage()
     {
@@ -160,7 +160,7 @@ class PageApiTest extends TestCase
         $page = factory(Page::class)->create();
 
         $this->actingAs($user)
-            ->json('PUT', "/pages/{$page->id}",
+            ->json('PUT', "/api/pages/{$page->id}",
                 array_merge(
                     ['nav_title' => 'New Title!'],
                     $page->toArray()
@@ -171,7 +171,7 @@ class PageApiTest extends TestCase
     /**
      * Test PUT route requires whole object.
      *
-     * PUT /pages/:id
+     * PUT /api/pages/:id
      */
     public function testWholeObjectRequiredForUpdate()
     {
@@ -186,14 +186,14 @@ class PageApiTest extends TestCase
         unset($page_attrs['nav_title']);
 
         $this->actingAs($user)
-            ->json('PUT', "/pages/{$page->id}", $page_attrs)
+            ->json('PUT', "/api/pages/{$page->id}", $page_attrs)
             ->assertResponseStatus(422);
     }
 
     /**
      * Test that non-admins can NOT destroy pages.
      *
-     * DELETE /pages/:id
+     * DELETE /api/pages/:id
      */
     public function testNonAdminCantDestroyPage()
     {
@@ -201,14 +201,14 @@ class PageApiTest extends TestCase
         $page = factory(Page::class)->create();
 
         $this->actingAs($user)
-            ->json('DELETE', "/pages/{$page->id}")
+            ->json('DELETE', "/api/pages/{$page->id}")
             ->assertResponseStatus(403);
     }
 
     /**
      * Test that admins can destroy pages.
      *
-     * DELETE /pages/:id
+     * DELETE /api/pages/:id
      */
     public function testAdminCanDestroyPage()
     {
@@ -219,7 +219,7 @@ class PageApiTest extends TestCase
         $page = factory(Page::class)->create();
 
         $this->actingAs($user)
-            ->json('DELETE', "/pages/{$page->id}")
+            ->json('DELETE', "/api/pages/{$page->id}")
             ->assertResponseStatus(200);
 
         $this->notSeeInDatabase('pages', [ 'id' => $page->id ]);
@@ -229,7 +229,7 @@ class PageApiTest extends TestCase
     /**
      * Test getting page content in HTML.
      *
-     * GET /pages/:id/content?format=html
+     * GET /api/pages/:id/content?format=html
      */
     public function testGetPageContentHTML()
     {
@@ -238,14 +238,14 @@ class PageApiTest extends TestCase
             'page_id' => $page->id
         ]);
 
-        $this->json('GET', "/pages/{$page->id}/content?format=html")
+        $this->json('GET', "/api/pages/{$page->id}/content?format=html")
             ->seeJson([ 'content' => $content->html() ]);
     }
 
     /**
      * Test getting page content, default of markdown
      *
-     * GET /pages/:id/content
+     * GET /api/pages/:id/content
      */
     public function testGetPageContent()
     {
@@ -254,7 +254,7 @@ class PageApiTest extends TestCase
             'page_id' => $page->id
         ]);
 
-        $this->json('GET', "/pages/{$page->id}/content")
+        $this->json('GET', "/api/pages/{$page->id}/content")
             ->seeJson([ 'content' => $content->markdown() ]);
     }
 
@@ -270,13 +270,13 @@ class PageApiTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->json('PUT', "/pages/{$page->id}/content", [
+            ->json('PUT', "/api/pages/{$page->id}/content", [
                 'content' => 'New page content!'
             ])->seeJson([
                 'content' => 'New page content!'
             ]);
 
-        $this->json('GET', "/pages/{$page->id}/content")
+        $this->json('GET', "/api/pages/{$page->id}/content")
             ->seeJson([ 'content' => 'New page content!' ]);
     }
 }
