@@ -5,6 +5,8 @@
 
     RewriteEngine On
 
+    RewriteRule api/(.*)$ $1
+
     RewriteCond %{HTTPS} off
     RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
     RewriteRule ^(.*)$ http://%1/$1 [R=301,L,NE]
