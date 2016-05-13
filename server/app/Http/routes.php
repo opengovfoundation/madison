@@ -196,6 +196,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('user/{user}/notifications', 'UserController@getNotifications');
     Route::put('user/{user}/notifications', 'UserController@putNotifications');
     Route::get('user/{user}/groups', 'UserController@getGroups');
+    Route::post('user/{user}/verify-email/resend', 'UserController@postResendVerifyEmail');
     Route::get('user/facebook-login', 'UserController@getFacebookLogin');
     Route::get('user/twitter-login', 'UserController@getTwitterLogin');
     Route::get('user/linkedin-login', 'UserController@getLinkedinLogin');

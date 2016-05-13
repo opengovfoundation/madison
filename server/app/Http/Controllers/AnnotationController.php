@@ -14,6 +14,7 @@ use App\Models\AnnotationPermission;
 use App\Models\AnnotationTag;
 use App\Models\AnnotationComment;
 use App\Events\CommentCreated;
+use App\Events\FeedbackSeen;
 
 /**
  * 	Controller for Document actions.
@@ -168,15 +169,7 @@ class AnnotationController extends Controller
         $annotation->seen = 1;
         $annotation->save();
 
-        $doc = Doc::find($docId);
-        $vars = array('sponsor' => $user->display_name, 'label' => 'annotation', 'slug' => $doc->slug, 'title' => $doc->title, 'text' => $annotation->text);
-        $email = $annotation->user->email;
-
-        Mail::queue('email.read', $vars, function ($message) use ($email) {
-            $message->subject('Your feedback on Madison was viewed by a sponsor!');
-            $message->from('sayhello@opengovfoundation.org', 'Madison');
-            $message->to($email); // Recipient address
-        });
+        Event::fire(new FeedbackSeen($annotation, $user));
 
         return Response::json($annotation);
     }

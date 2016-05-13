@@ -32,11 +32,11 @@ describe('Auth test', function() {
   });
 
   // Check unconfirmed email sign in
-  it('should fail to sign in into unconfirmed account', function() {
+  it('should display confirm message after sign in into unconfirmed account', function() {
     loginPage.loginUnconfirmed();
 
-    expect(pageLayout.growlError().getText())
-    .toMatch(/Please click the link sent to your email to verify your account/i);
+    expect(pageLayout.profileCompletionMessages().getText())
+    .toMatch(/Uh oh, we noticed you haven't verified your email address yet. We need you to verify it before we can send messages to it. Please check your inbox or resend the verification email./i);
   });
 
   // Check invalid email

@@ -15,6 +15,7 @@ use App\Models\GroupMember;
 use App\Models\MadisonEvent;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
+use App\Events\GroupMemberAdded;
 
 class GroupController extends Controller
 {
@@ -140,14 +141,8 @@ class GroupController extends Controller
         $newMember->role = $role;
 
         $newMember->save();
-        $text = "You've been added to the group ".$group->getDisplayName()." with the role of ".$role.".";
 
-        // Notify member of invite
-        Mail::queue('email.notification', array('text' => $text), function ($message) use ($email) {
-            $message->subject("You've been added to a Madison group");
-            $message->from('sayhello@opengovfoundation.org', 'Madison');
-            $message->to($email);
-        });
+        Event::fire(new GroupMemberAdded($newMember));
 
         return Response::json($this->growlMessage('User added successfully', 'success'));
     }

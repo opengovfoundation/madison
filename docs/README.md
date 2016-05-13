@@ -203,6 +203,8 @@ To see a live example, have a look at [DC's custom theme file](https://github.co
 
 Madison has internationalization support, and but currently only has localization for US English.  To create a new localization, you just need to create a new language file in `public/locales` that matches the name of your language, and then add suitable translations for all the phrases in the English file.
 
+You will also need to include a pluralization file to match the new language in `public/pre-build.html` from the ones provided by `messageformat` (installed by `bower` into `public/bower_components/messageformat/locale/`).
+
 Madison uses the Angular-Translate plugin for frontend translation.  As a result, there are a few oddities:
 
 * In most cases, we're using [the `translate` directive](http://angular-translate.github.io/docs/#/guide/05_using-translate-directive), which results in the content being hidden until it's translated. This also means that html is rendered properly, so it may be used safely in your translations.  The major exception to this is for any html-attribute text that's translated, such as `placeholder` attributes; in these cases, we're using [the `translate` filter](http://angular-translate.github.io/docs/#/guide/04_using-translate-filter) instead.

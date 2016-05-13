@@ -39,6 +39,10 @@ var PageLayout = function() {
   this.loginModal = function() {
     return loginModal;
   };
+
+  this.profileCompletionMessages = function() {
+    return element(by.css('.profile-completion-message'));
+  };
 };
 
 module.exports = PageLayout;

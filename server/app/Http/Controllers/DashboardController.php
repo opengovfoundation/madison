@@ -93,7 +93,7 @@ class DashboardController extends Controller
         $notifications = Input::get('notifications');
 
         //Retrieve valid notification events
-        $validNotifications = Notification::getValidNotifications();
+        $validNotifications = NotificationPreference::getValidNotifications();
         $events = array_keys($validNotifications);
 
         //Loop through each notification
@@ -104,7 +104,7 @@ class DashboardController extends Controller
             }
 
             //Grab this notification from the database
-            $model = Notification::where('user_id', '=', $user->id)->where('event', '=', $notification['event'])->first();
+            $model = NotificationPreference::where('user_id', '=', $user->id)->where('event', '=', $notification['event'])->first();
 
             //If we don't want that notification ( and it exists ), delete it
             if ($notification['selected'] === false) {
@@ -115,7 +115,7 @@ class DashboardController extends Controller
                 //If the entry doesn't already exist, create it.
                     //Otherwise, ignore ( there was no change )
                 if (!isset($model)) {
-                    $model = new Notification();
+                    $model = new NotificationPreference();
                     $model->user_id = $user->id;
                     $model->event = $notification['event'];
                     $model->type = "email";
@@ -130,8 +130,8 @@ class DashboardController extends Controller
 
     public function getNotifications()
     {
-        $notifications = Notification::where('user_id', '=', Auth::user()->id)->get();
-        $validNotifications = Notification::getValidNotifications();
+        $notifications = NotificationPreference::where('user_id', '=', Auth::user()->id)->get();
+        $validNotifications = NotificationPreference::getValidNotifications();
 
         $selectedNotifications = [];
         foreach ($notifications as $n) {
