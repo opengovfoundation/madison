@@ -16,7 +16,7 @@ describe('Auth test', function() {
   });
 
   // Check simple sign in
-  fit('should be able to sign in', function() {
+  it('should be able to sign in', function() {
     loginPage.loginUser();
 
     expect(pageLayout.accountDropdown().getText())

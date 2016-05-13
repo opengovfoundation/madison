@@ -19,7 +19,6 @@
 |
 */
 
-file_put_contents("/var/log/lol", "made it to server\n\n", FILE_APPEND);
 require __DIR__.'/../bootstrap/autoload.php';
 
 /*
