@@ -3,7 +3,7 @@
     ServerAlias mymadison.local
 
     DocumentRoot "/path/to/madison/client/app"
-    Alias "/api" "/path/to/madison/server/public"
+    Alias "/api" "/path/to/madison/server/public/index.php/api"
 
     ErrorLog "/path/to/logs/mymadison.local-error_log"
     CustomLog "/path/to/logs/mymadison.local-access_log" common
