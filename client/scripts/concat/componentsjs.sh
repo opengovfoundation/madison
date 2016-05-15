@@ -7,4 +7,5 @@ cat node_modules/jquery/dist/jquery.js \
   node_modules/underscore/underscore.js \
   node_modules/zeroclipboard/dist/ZeroClipboard.js \
   node_modules/moment/moment.js \
+  node_modules/autolinker/dist/Autolinker.js \
   > build/components.js

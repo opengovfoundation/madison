@@ -19,6 +19,8 @@ cat node_modules/angular/angular.min.js \
   node_modules/angular-ui-router/release/angular-ui-router.min.js \
   node_modules/angular-translate/dist/angular-translate.min.js \
   node_modules/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js \
-  node_modules/messageformat/messageformat.js \
+  app/vendor/messageformat/messageformat.js \
+  app/vendor/messageformat/locale/en.js \
+  app/vendor/messageformat/locale/es.js \
   node_modules/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.min.js \
   > build/angular.js
