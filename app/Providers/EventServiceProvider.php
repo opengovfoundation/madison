@@ -22,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\GroupMemberAdded' => [
             'App\Listeners\GroupMemberAddedNotification',
         ],
+        'App\Events\UserVerificationStatusChange' => [
+            'App\Listeners\UserVerificationStatusChangeNotification',
+        ],
     ];
 
     /**
