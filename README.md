@@ -3,8 +3,6 @@
 [![Build Status](https://api.travis-ci.org/opengovfoundation/madison.svg?branch=master)](https://travis-ci.org/opengovfoundation/madison)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/opengovfoundation/madison.svg)](https://scrutinizer-ci.com/g/opengovfoundation/madison?branch=master)
 
-**This is the branch for Madison 3.0**
-
 Madison is an open-source, collaborative document editing platform.  While
 Madison can be used to collaborate on many different kinds of documents, the
 official version is being built with legislative and policy documents in mind.
@@ -41,7 +39,8 @@ Some modules are shared across repositories, such as our
 
 ## Installation
 
-Please take a look at the `INSTALL.md` file for how to install Madison.
+Please take a look at the `docs/INSTALL.md` or `docs/INSTALL.OSX.md` files for
+how to install Madison.
 
 ## Customization
 

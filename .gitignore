@@ -1,6 +1,4 @@
 server/vendor
-server/Homestead.yaml
-server/Homestead.json
 server/.env
 
 client/build

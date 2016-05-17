@@ -41,7 +41,6 @@ before_script:
 
 # Commands you want to run that will verify your build.
 script:
-  - sudo touch /var/log/lol && sudo chmod a+w /var/log/lol
   - make test
 
 # allow_failures: Allow this build to fail under the specified environments.

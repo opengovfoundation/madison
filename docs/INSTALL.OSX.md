@@ -32,7 +32,7 @@ on top of Mac OSX's ruby.
   the aforementioned commands.
 
 1. Set up the site as an Apache vhost. An example can be seen in
-   `docs/apache.conf.example`.
+   [docs/apache.conf.example](docs/apache.conf.example).
 
 1. Create a clean database in MySQL.
 
@@ -41,7 +41,7 @@ enter your DB info, as well as admin info for the initial admin user seed.
 Additionally, do the same for `example_smtp.php` if you want to enable email
 functionality (required for registering new users).
 
-1. Run `make rebuild-db` to get the database migrated and seeded with data.
+1. Run `make db-reset` to get the database migrated and seeded with data.
 
 1. Install and run elasticsearch. [See here for installation](elasticsearch).
   1. Additionally, run `curl -XPUT http://localhost:9200/madison` when ES is running
