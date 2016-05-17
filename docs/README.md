@@ -150,10 +150,9 @@ logging in.  These options include:
 
 ## Theming
 
-**Note: Madison's styles are built using grunt, via
-[Compass](http://compass-style.org/) which uses [SASS](http://sass-lang.com/).
-You'll need to have a decent knowledge of SASS and CSS to customize the theme
-currently.**
+**Note: Madison's styles are built using [Compass](http://compass-style.org/)
+which uses [SASS](http://sass-lang.com/).  You'll need to have a decent
+knowledge of SASS and CSS to customize the theme currently.**
 
 To customize the Madison design, simply add a new file in the
 `public/sass/custom/` directory with your custom styles.  All files in this
