@@ -35,7 +35,7 @@ class GroupMemberAddedNotification implements ShouldQueue
 
         $this->notifier->queue('notification.simple-html', $data, function ($message) use ($recipient) {
             $message->setSubject("You've been added to a Madison group");
-            $message->setRecipient($recipient);
+            $message->setRecipients($recipient);
         }, $event);
     }
 }

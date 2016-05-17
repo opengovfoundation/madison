@@ -402,8 +402,6 @@ class Doc extends Model
             $document->save();
         });
 
-        Event::fire(MadisonEvent::NEW_DOCUMENT, $document);
-
         return $document;
     }
 

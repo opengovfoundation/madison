@@ -41,4 +41,9 @@ class GroupMemberAdded extends Event
     {
         return 'When you are added to a group';
     }
+
+    public static function getType()
+    {
+        return static::TYPE_USER;
+    }
 }

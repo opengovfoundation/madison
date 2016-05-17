@@ -3,25 +3,24 @@
 namespace App\Events;
 
 use App\Events\Event;
+use App\Models\Group;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CommentCreated extends Event
+class GroupCreated extends Event
 {
     use SerializesModels;
 
-    public $comment;
-    public $parent;
+    public $group;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($comment, $parent)
+    public function __construct(Group $group)
     {
-        $this->comment = $comment; // either a Comment or AnnotationComment
-        $this->parent = $parent; // either a Comment or Annotation
+        $this->group = $group;
     }
 
     /**
@@ -36,16 +35,16 @@ class CommentCreated extends Event
 
     public static function getName()
     {
-        return 'madison.comment.created';
+        return 'madison.group.created';
     }
 
     public static function getDescription()
     {
-        return 'When a new comment is made on something related to you';
+        return 'When a new group is created';
     }
 
     public static function getType()
     {
-        return static::TYPE_USER;
+        return static::TYPE_ADMIN;
     }
 }
