@@ -31,12 +31,12 @@ class PopulateIndividualSponsorsAsGroups extends Migration
                 'name' => $user->fname . ' ' . $user->lname,
                 'display_name' => $user->fname . ' ' . $user->lname,
                 'user_id' => $individual_sponsor->user_id,
-                'address1' => $user->address1,
-                'address2' => $user->address2,
-                'city' => $user->city,
-                'state' => $user->state,
-                'postal_code' => $user->postal_code,
-                'phone' => $user->phone,
+                'address1' => $user->address1 || ' ',
+                'address2' => $user->address2 || ' ',
+                'city' => $user->city || ' ',
+                'state' => $user->state || ' ',
+                'postal_code' => $user->postal_code || ' ',
+                'phone' => $user->phone || ' ',
                 'individual' => true,
             ]);
 
