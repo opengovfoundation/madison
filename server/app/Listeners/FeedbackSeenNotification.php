@@ -42,7 +42,7 @@ class FeedbackSeenNotification implements ShouldQueue
 
         $this->notifier->queue('notification.feedback.seen-html', $data, function ($message) use ($recipient) {
             $message->setSubject('Your feedback on Madison was viewed by a sponsor!');
-            $message->setRecipient($recipient);
+            $message->setRecipients($recipient);
         }, $event);
     }
 }

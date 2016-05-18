@@ -19,8 +19,14 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\FeedbackSeen' => [
             'App\Listeners\FeedbackSeenNotification',
         ],
+        'App\Events\GroupCreated' => [
+            'App\Listeners\GroupCreatedNotification',
+        ],
         'App\Events\GroupMemberAdded' => [
             'App\Listeners\GroupMemberAddedNotification',
+        ],
+        'App\Events\UserVerificationStatusChange' => [
+            'App\Listeners\UserVerificationStatusChangeNotification',
         ],
     ];
 

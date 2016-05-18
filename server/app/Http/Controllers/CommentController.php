@@ -8,7 +8,6 @@ use Response;
 use Event;
 use App\Events\CommentCreated;
 use App\Events\FeedbackSeen;
-use App\Models\MadisonEvent;
 use App\Models\Comment;
 
 /**
@@ -110,8 +109,6 @@ class CommentController extends Controller
         //Load fields for notification
         $comment->load('user');
         $comment->type = 'comment';
-
-        Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'like', 'activity' => $comment, 'user'    => Auth::user()));
 
         return Response::json($comment->loadArray());
     }

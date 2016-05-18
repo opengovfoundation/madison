@@ -23,7 +23,6 @@ use App\Models\DocContent;
 use App\Models\Annotation;
 use App\Models\Comment;
 use App\Models\Category;
-use App\Models\MadisonEvent;
 use \League\Csv\Writer;
 
 /**
@@ -284,8 +283,6 @@ class DocumentController extends Controller
             $doc_content->page = $last_page + 1;
             $doc->content()->save($doc_content);
 
-            Event::fire(MadisonEvent::DOC_EDITED, $doc);
-
             return Response::json($doc_content->toArray());
         }
     }
@@ -306,8 +303,6 @@ class DocumentController extends Controller
             $cacheKey = 'doc-'.$docId.'-'.$page.'-'.$format;
             Cache::forget($cacheKey);
 
-            Event::fire(MadisonEvent::DOC_EDITED, Doc::find($docId));
-
             return Response::json($doc_content->toArray());
         }
     }
@@ -325,8 +320,6 @@ class DocumentController extends Controller
 
             $doc = Doc::find($docId);
             $doc->enableCounts();
-
-            Event::fire(MadisonEvent::DOC_EDITED, $doc);
 
             return Response::json($doc->toArray());
         }

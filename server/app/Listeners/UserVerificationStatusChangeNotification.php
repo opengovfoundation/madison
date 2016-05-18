@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\GroupMemberAdded;
+use App\Events\UserVerificationStatusChange;
 use App\Notification\Notifier;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class GroupMemberAddedNotification implements ShouldQueue
+class UserVerificationStatusChangeNotification implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -22,19 +22,19 @@ class GroupMemberAddedNotification implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  GroupMemberAdded  $event
+     * @param  UserVerificationStatusChange  $event
      * @return void
      */
-    public function handle(GroupMemberAdded $event)
+    public function handle(UserVerificationStatusChange $event)
     {
-        $text = "You've been added to the group ".$event->groupMember->group->getDisplayName()." with the role of ".$event->groupMember->role.".";
+        $text = "Your account verification status has changed from {$event->oldValue} to {$event->newValue}.";
         $data = [
             'text' => $text,
         ];
-        $recipient = $event->groupMember->user;
+        $recipient = $event->user;
 
         $this->notifier->queue('notification.simple-html', $data, function ($message) use ($recipient) {
-            $message->setSubject("You've been added to a Madison group");
+            $message->setSubject('Your account verification status has changed');
             $message->setRecipients($recipient);
         }, $event);
     }

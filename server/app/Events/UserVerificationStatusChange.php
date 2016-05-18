@@ -3,25 +3,28 @@
 namespace App\Events;
 
 use App\Events\Event;
+use App\Models\User;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CommentCreated extends Event
+class UserVerificationStatusChange extends Event
 {
     use SerializesModels;
 
-    public $comment;
-    public $parent;
+    public $oldValue;
+    public $newValue;
+    public $user;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($comment, $parent)
+    public function __construct($oldValue, $newValue, User $user)
     {
-        $this->comment = $comment; // either a Comment or AnnotationComment
-        $this->parent = $parent; // either a Comment or Annotation
+        $this->oldValue = $oldValue;
+        $this->newValue = $newValue;
+        $this->user = $user;
     }
 
     /**
@@ -36,12 +39,12 @@ class CommentCreated extends Event
 
     public static function getName()
     {
-        return 'madison.comment.created';
+        return 'madison.user.verification.changed';
     }
 
     public static function getDescription()
     {
-        return 'When a new comment is made on something related to you';
+        return 'When your account verification status changes';
     }
 
     public static function getType()

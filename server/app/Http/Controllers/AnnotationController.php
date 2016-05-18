@@ -8,7 +8,6 @@ use Input;
 use Event;
 use Redirect;
 use App\Models\Annotation;
-use App\Models\MadisonEvent;
 use App\Models\AnnotationRange;
 use App\Models\AnnotationPermission;
 use App\Models\AnnotationTag;
@@ -140,8 +139,6 @@ class AnnotationController extends Controller
 
         $annotation = Annotation::find($id);
 
-        Event::fire(MadisonEvent::DOC_ANNOTATED, $annotation);
-
         return Redirect::to('/api/docs/'.$doc.'/annotations/'.$id, 303);
     }
 
@@ -257,8 +254,6 @@ class AnnotationController extends Controller
         $annotation->link = $annotation->getLink();
         $annotation->load('user');
         $annotation->type = 'annotation';
-
-        Event::fire(MadisonEvent::NEW_ACTIVITY_VOTE, array('vote_type' => 'like', 'activity' => $annotation, 'user'    => Auth::user()));
 
         return Response::json($annotation->toAnnotatorArray());
     }

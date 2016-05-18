@@ -44,4 +44,9 @@ class FeedbackSeen extends Event
     {
         return 'When feedback (an annotation or comment) of yours is seen by the document sponsor';
     }
+
+    public static function getType()
+    {
+        return static::TYPE_USER;
+    }
 }

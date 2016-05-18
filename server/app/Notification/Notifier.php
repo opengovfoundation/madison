@@ -5,6 +5,8 @@ namespace App\Notification;
 use App\Events\Event;
 use App\Notification\Message;
 use App\Models\NotificationPreference;
+use App\Models\Role;
+use App\Models\User;
 
 use Closure;
 use Illuminate\Support\Arr;
@@ -126,15 +128,20 @@ class Notifier
 
         $this->callMessageBuilder($callback, $message);
 
-        if (isset($this->to['address'])) {
-            $message->to($this->to['address'], $this->to['name'], true);
-        }
-
         // determine if the recipient wants notifications from this kind of event
-        $recipientNotificationPreference = NotificationPreference
-            ::where('user_id', $message->getRecipient()->id)
-            ->where('event', $event::getName())
-            ->get();
+        $recipientNotificationPreference = [];
+        foreach ($message->getRecipients() as $recipient) {
+            // if the event is not in the set of valid notifications for the
+            // recipient, then skip it
+            if (empty(NotificationPreference::getValidNotificationsForUser($recipient)[$event::getName()])) {
+                continue;
+            }
+
+            $recipientNotificationPreference[$recipient->id] = NotificationPreference
+                ::where('user_id', $recipient->id)
+                ->where('event', $event::getName())
+                ->get();
+        }
 
         if (empty($recipientNotificationPreference)) {
             // they don't want notifications for this event type
@@ -358,26 +365,30 @@ class Notifier
             $this->events->fire('notifier.sending', [$message]);
         }
 
-        foreach ($recipientNotificationPreference as $pref) {
-            switch ($pref->type) {
-                case NotificationPreference::TYPE_EMAIL:
-                    // if the email is not verified, don't send a message to
-                    // it regardless of if the user has it selected
-                    if (!empty($message->getRecipient()->token) || empty($message->getRecipient()->email)) {
-                        continue;
-                    }
+        foreach ($recipientNotificationPreference as $userId => $prefs) {
+            foreach ($prefs as $pref) {
+                switch ($pref->type) {
+                    case NotificationPreference::TYPE_EMAIL:
+                        $recipient = User::find($userId);
 
-                    $this->mailer->raw($message->getBody(), function ($swiftMessage) use ($message) {
-                        $swiftMessage->setContentType('text/html');
-                        $swiftMessage->subject($message->getSubject());
-                        $swiftMessage->from('sayhello@opengovfoundation.org', 'Madison');
-                        $swiftMessage->to($message->getRecipient()->email);
-                    });
-                    break;
-                case NotificationPreference::TYPE_TEXT:
-                    // unsupported
-                default:
-                    // do nothing
+                        // if the email is not verified, don't send a message to
+                        // it regardless of if the user has it selected
+                        if (!empty($recipient->token) || empty($recipient->email)) {
+                            continue;
+                        }
+
+                        $this->mailer->raw($message->getBody(), function ($swiftMessage) use ($message, $recipient) {
+                            $swiftMessage->setContentType('text/html');
+                            $swiftMessage->subject($message->getSubject());
+                            $swiftMessage->from('sayhello@opengovfoundation.org', 'Madison');
+                            $swiftMessage->to($recipient->email);
+                        });
+                        break;
+                    case NotificationPreference::TYPE_TEXT:
+                        // unsupported
+                    default:
+                        // do nothing
+                }
             }
         }
     }

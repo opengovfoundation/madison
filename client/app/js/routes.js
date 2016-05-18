@@ -234,14 +234,6 @@ angular.module( 'madisonApp' )
           authorizedRoles: [ USER_ROLES.admin ]
         }
       } )
-      .state( 'admin-notifications', {
-        url: "/administrative-dashboard/notification-settings",
-        templateUrl: '/templates/pages/admin-notifications.html',
-        controller: 'DashboardNotificationsController',
-        data: {
-          authorizedRoles: [ USER_ROLES.admin ]
-        }
-      } )
       .state( 'site-settings', {
         url: '/administrative-dashboard/site-settings',
         templateUrl: '/templates/pages/site-settings.html',
