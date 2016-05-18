@@ -60,7 +60,6 @@
     "autolinker": "^0.26.0",
     "bootstrap-sass": "3.3.3",
     "breakpoint": "at-import/breakpoint#2.x.x",
-    "cssmin": "^0.4.3",
     "font-awesome": "~4.2.0",
     "jquery": "~2.1.3",
     "messageformat": "^0.3.1",
