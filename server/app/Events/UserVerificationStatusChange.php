@@ -42,11 +42,6 @@ class UserVerificationStatusChange extends Event
         return 'madison.user.verification.changed';
     }
 
-    public static function getDescription()
-    {
-        return 'When your account verification status changes';
-    }
-
     public static function getType()
     {
         return static::TYPE_USER;

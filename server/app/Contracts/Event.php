@@ -8,6 +8,5 @@ interface Event
     const TYPE_USER = 'user';
 
     public static function getName();
-    public static function getDescription();
     public static function getType();
 }

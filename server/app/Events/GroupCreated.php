@@ -38,11 +38,6 @@ class GroupCreated extends Event
         return 'madison.group.created';
     }
 
-    public static function getDescription()
-    {
-        return 'When a new group is created';
-    }
-
     public static function getType()
     {
         return static::TYPE_ADMIN;

@@ -37,11 +37,6 @@ class GroupMemberAdded extends Event
         return 'madison.group.member-added';
     }
 
-    public static function getDescription()
-    {
-        return 'When you are added to a group';
-    }
-
     public static function getType()
     {
         return static::TYPE_USER;

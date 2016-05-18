@@ -8,7 +8,7 @@
       <label>
         <input type="checkbox" name="{{ notification.event }}"
             ng-model="notification.selected">
-        {{ notification.description }}
+        {{ "notification.events."+notification.event | translate }}
       </label>
     </div>
     <h2>Admin notifications</h2>
@@ -16,7 +16,7 @@
       <label>
         <input type="checkbox" name="{{ notification.event }}"
             ng-model="notification.selected">
-        {{ notification.description }}
+        {{ "notification.events."+notification.event | translate }}
       </label>
     </div>
   </div>
