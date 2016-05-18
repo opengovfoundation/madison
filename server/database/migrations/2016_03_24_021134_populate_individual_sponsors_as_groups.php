@@ -41,8 +41,8 @@ class PopulateIndividualSponsorsAsGroups extends Migration
             ]);
 
             switch ($individual_sponsor->meta_value) {
-                case 1: $group->status = 'active';
-                case 0: $group->status = 'pending';
+                case 1: $group->status = 'active'; break;
+                case 0: $group->status = 'pending'; break;
             }
 
             $group->save();
