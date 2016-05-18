@@ -12,7 +12,6 @@ use DB;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\GroupMember;
-use App\Models\MadisonEvent;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Events\GroupCreated;
@@ -38,7 +37,7 @@ class GroupController extends Controller
         $group->status = Group::STATUS_PENDING;
         $group->save();
         $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
-        Event::fire(MadisonEvent::VERIFY_REQUEST_GROUP, $group);
+        Event::fire(new GroupCreated($group));
         return response()->json($group);
     }
 
@@ -65,43 +64,6 @@ class GroupController extends Controller
     public function getRoles()
     {
         return Response::json(Group::getRoles());
-    }
-
-    public function postGroup($id = null)
-    {
-        if (Input::has('id')) {
-            $group = Group::find(Input::get('id'));
-
-            if (!$group->isGroupOwner(Auth::user()->id)) {
-                return Response::json($this->growlMessage('You cannot modify a group you do not own.', 'error'));
-            }
-
-            $message = "Your group has been updated!";
-        } else {
-            $group = new Group();
-            $group->status = Group::STATUS_PENDING;
-
-            $message = "Your group has been created! It must be approved before you can invite others to join or create documents.";
-        }
-
-        $postData = array('name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone');
-
-        foreach ($postData as $field) {
-            $group->$field = Input::get($field);
-        }
-
-        if ($group->validate()) {
-            $group->save();
-            $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
-
-            if ($group->status === Group::STATUS_PENDING) {
-                Event::fire(new GroupCreated($group));
-            }
-
-            return Response::json($this->growlMessage($message, 'success'));
-        } else {
-            return Response::json($this->growlMessage($group->getErrors()->all(), 'error'), 400);
-        }
     }
 
     public function processMemberInvite($groupId)
