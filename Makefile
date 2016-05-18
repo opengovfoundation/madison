@@ -1,4 +1,4 @@
-.PHONY: all deps deps-server deps-client build-client clean distclean db-reset db-migrate test test-server test-client selenium-start queue-listen
+.PHONY: all deps deps-server check-node deps-client build-client clean distclean db-reset db-migrate test test-server test-client selenium-start queue-listen
 
 all: deps build-client
 
@@ -7,7 +7,14 @@ deps: clean deps-server optimize autoload deps-client
 deps-server:
 	cd server && composer install
 
-deps-client:
+NODE_VERSION=$(shell node --version | grep -e '^v4\.')
+
+check-node:
+ifeq ($(NODE_VERSION),)
+	$(error 'You must have node version 4 to run this installer.')
+endif
+
+deps-client: check-node
 	cd client && npm install
 
 autoload:
