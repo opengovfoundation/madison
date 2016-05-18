@@ -229,46 +229,46 @@ angular.element(document).ready(function () {
 
   //Get the current user
   $http.get('/api/user/current')
-    .success(function (res) {
-      var key;
+  .success(function (res) {
+    var key;
 
-      if (!$.isEmptyObject(res) && Object.getOwnPropertyNames(res.user).length > 0) {
-        for (key in res.user) {
-          if (res.user.hasOwnProperty(key)) {
-            user[key] = res.user[key];
-          }
+    if (!$.isEmptyObject(res) && Object.getOwnPropertyNames(res.user).length > 0) {
+      for (key in res.user) {
+        if (res.user.hasOwnProperty(key)) {
+          user[key] = res.user[key];
         }
-      } else {
-        user = null;
       }
-
-      //Get the vendor settings ( callback hell :( )
-      $http.get( '/api/settings/vendors' )
-        .then( function( res ) {
-          vendors = res.data;
-
-          installGA( vendors.ga );
-          installUservoice( vendors.uservoice );
-
-          angular.bootstrap(document, ['madisonApp']);
-        });
-    });
-
-    $(document).delegate(
-      '.nav-main li a:not(.dropdown-trigger)',
-      'click',
-      collapseNavMenu);
-
-    $(document).delegate(
-      '.link-home',
-      'click',
-      collapseNavMenu);
-
-    function collapseNavMenu() {
-      if ($('.navbar-collapse').attr('aria-expanded') === 'true') {
-        $('.navbar-collapse').collapse('hide');
-      }
+    } else {
+      user = null;
     }
+
+    //Get the vendor settings ( callback hell :( )
+    $http.get( '/api/settings/vendors' )
+    .then( function( res ) {
+      vendors = res.data;
+
+      installGA( vendors.ga );
+      installUservoice( vendors.uservoice );
+
+      angular.bootstrap(document, ['madisonApp']);
+    });
+  });
+
+  $(document).delegate(
+    '.nav-main li a:not(.dropdown-trigger)',
+    'click',
+    collapseNavMenu);
+
+  $(document).delegate(
+    '.link-home',
+    'click',
+    collapseNavMenu);
+
+  function collapseNavMenu() {
+    if ($('.navbar-collapse').attr('aria-expanded') === 'true') {
+      $('.navbar-collapse').collapse('hide');
+    }
+  }
 });
 
 
