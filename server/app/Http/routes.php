@@ -75,6 +75,7 @@ Route::pattern('doc', '[0-9]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('date', '[0-9]+');
 Route::pattern('group', '[0-9]+');
+Route::pattern('pagenum', '[0-9]+');
 Route::pattern('image', '[a-zA-Z0-9-_]+\.[a-zA-Z0-9]{2,4}');
 Route::pattern('state', Doc::validPublishStatesRoutePattern());
 
@@ -144,8 +145,8 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('docs/{doc}/publishstate', 'DocumentController@postPublishState')->middleware(['doc.access.edit']);
     Route::post('docs/{doc}/slug', 'DocumentController@postSlug')->middleware(['doc.access.edit']);
     Route::post('docs/{doc}/content', 'DocumentController@postContent')->middleware(['doc.access.edit']);
-    Route::put('docs/{doc}/content/{page}', 'DocumentController@putContent')->middleware(['doc.access.edit']);
-    Route::delete('docs/{doc}/content/{page}', 'DocumentController@deleteContent')->middleware(['doc.access.edit']);
+    Route::put('docs/{doc}/content/{pagenum}', 'DocumentController@putContent')->middleware(['doc.access.edit']);
+    Route::delete('docs/{doc}/content/{pagenum}', 'DocumentController@deleteContent')->middleware(['doc.access.edit']);
     Route::get('docs/embed/{slug}', 'DocumentController@getEmbedded')->middleware(['doc.access.read']);
     Route::get('docs/{doc}/activity', 'DocumentController@getActivity')->middleware(['doc.access.edit']);
 
