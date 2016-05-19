@@ -11,7 +11,12 @@
     <Directory "/path/to/madison/client/app">
         Options indexes followsymlinks
         DirectoryIndex index.html
-        FallbackResource /index.html
+
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule . /index.html [L]
+
         AllowOverride all
         Allow from all
         Require all granted
