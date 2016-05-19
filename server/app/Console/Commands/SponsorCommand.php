@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Doc;
+use DB;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Database\Eloquent\Collection;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class SponsorCommand extends Command
 {
@@ -118,18 +120,6 @@ class SponsorCommand extends Command
     {
         return array(
             array('docId', InputArgument::OPTIONAL, 'An optional document to change the sponsor of.'),
-        );
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return array(
-            array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
         );
     }
 }

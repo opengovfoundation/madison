@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class UserRole extends Command
@@ -48,7 +50,7 @@ class UserRole extends Command
 
         $roleOptions = "";
         foreach ($roles as $role) {
-            $roleOptions .= "$role->id - $role->name\n";
+            $roleOptions .= "{$role->id} - {$role->name}\n";
         }
 
         $this->info("\nRole Options: \n".$roleOptions);
@@ -64,6 +66,6 @@ class UserRole extends Command
 
         $user->attachRole($role);
 
-        $this->info("Role $role->name added to user with email $user->email");
+        $this->info("Role {$role->name} added to user with email {$user->email}");
     }
 }

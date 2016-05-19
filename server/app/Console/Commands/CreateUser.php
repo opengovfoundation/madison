@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
+use Hash;
 use Illuminate\Console\Command;
 
 class CreateUser extends Command
@@ -48,7 +50,7 @@ class CreateUser extends Command
         $user->lname = $lname;
         $user->token = '';
 
-        if ($this->confirm("You are about to create user:\n--------------------\nEmail: $user->email\nPassword: $password ($user->password)\nName: $user->fname $user->lname\n--------------------\n Continue? [yes|no]")) {
+        if ($this->confirm("You are about to create user:\n--------------------\nEmail: {$user->email}\nPassword: $password ({$user->password})\nName: {$user->fname} {$user->lname}\n--------------------\n Continue? [yes|no]")) {
             $user->save();
 
             $this->info('User created.');

@@ -1,6 +1,11 @@
 <?php
 namespace App\Console\Commands;
+
+use Config;
+use DB;
 use Illuminate\Console\Command;
+use Schema;
+
 class DatabaseClear extends Command
 {
     /**
@@ -8,13 +13,15 @@ class DatabaseClear extends Command
      *
      * @var string
      */
-    protected $name = 'db:clear';
+    protected $name = 'db:clear {--database=mysql : The database connection to use}';
+
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Clears the database.';
+
     /**
      * Create a new command instance.
      */
@@ -22,6 +29,7 @@ class DatabaseClear extends Command
     {
         parent::__construct();
     }
+
     /**
      * Execute the console command.
      *
@@ -29,7 +37,7 @@ class DatabaseClear extends Command
      */
     public function fire()
     {
-        $database = Config::get('database')['connections']['mysql']['database'];
+        $database = Config::get('database')['connections'][$this->option('database')]['database'];
         $tables = DB::select("select * from information_schema.tables where table_schema='".$database."'");
         DB::statement('SET foreign_key_checks = 0');
         foreach ($tables as $table) {
