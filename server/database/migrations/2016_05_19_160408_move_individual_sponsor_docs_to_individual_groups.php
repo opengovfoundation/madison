@@ -34,7 +34,9 @@ class MoveIndividualSponsorDocsToIndividualGroups extends Migration
             ]);
         }
 
-        Schema::drop('doc_user');
+        if (Schema::hasTable('doc_user')) {
+            Schema::drop('doc_user');
+        }
     }
 
     /**
