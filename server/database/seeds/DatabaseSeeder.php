@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         'docs',
         'group_members',
         'groups',
+        'jobs',
         'note_meta',
         'notification_preferences',
         'organizations',

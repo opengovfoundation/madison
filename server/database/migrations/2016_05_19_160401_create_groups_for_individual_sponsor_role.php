@@ -14,10 +14,14 @@ class CreateGroupsForIndividualSponsorRole extends Migration
      */
     public function up()
     {
-        $ind_sponsor_role_id = DB::select(
+        $ind_sponsor_roles = DB::select(
             'select id from roles where name = ?',
             [Role::ROLE_INDEPENDENT_SPONSOR]
-        )[0]->id;
+        );
+
+        if (count($ind_sponsor_roles) == 0) return;
+
+        $ind_sponsor_role_id = $ind_sponsor_roles[0]->id;
 
         $individual_sponsors = DB::select(
             'select user_id from role_user where role_id = ?',

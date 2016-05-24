@@ -31,9 +31,9 @@ class RbacSeeder extends Seeder
         $admin->name = 'Admin';
         $admin->save();
 
-        $independent_sponsor = new Role();
-        $independent_sponsor->name = 'Independent Sponsor';
-        $independent_sponsor->save();
+        //$independent_sponsor = new Role();
+        //$independent_sponsor->name = 'Independent Sponsor';
+        //$independent_sponsor->save();
 
         $permIds = array();
         foreach ($this->adminPermissions as $permClass => $data) {
@@ -53,11 +53,11 @@ class RbacSeeder extends Seeder
         $user = User::where('email', '=', $adminEmail)->first();
         $user->attachRole($admin);
 
-        $createDocPerm = new Permission();
-        $createDocPerm->name = "independent_sponsor_create_doc";
-        $createDocPerm->display_name = "Independent Sponsoring";
-        $createDocPerm->save();
+        //$createDocPerm = new Permission();
+        //$createDocPerm->name = "independent_sponsor_create_doc";
+        //$createDocPerm->display_name = "Independent Sponsoring";
+        //$createDocPerm->save();
 
-        $independent_sponsor->perms()->sync(array($createDocPerm->id));
+        //$independent_sponsor->perms()->sync(array($createDocPerm->id));
     }
 }
