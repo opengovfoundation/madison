@@ -34,9 +34,6 @@ class MoveIndividualSponsorDocsToIndividualGroups extends Migration
             ]);
         }
 
-        if (Schema::hasTable('doc_user')) {
-            Schema::drop('doc_user');
-        }
     }
 
     /**
@@ -46,13 +43,15 @@ class MoveIndividualSponsorDocsToIndividualGroups extends Migration
      */
     public function down()
     {
-        Schema::create('doc_user', function ($table) {
-            $table->integer('doc_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+        if (!Schema::hasTable('doc_user')) {
+            Schema::create('doc_user', function ($table) {
+                $table->integer('doc_id')->unsigned();
+                $table->integer('user_id')->unsigned();
 
-            $table->foreign('doc_id')->references('id')->on('docs')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        });
+                $table->foreign('doc_id')->references('id')->on('docs')->onDelete('cascade');
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            });
+        }
 
         // get individual groups
         $individual_groups = Group::where('individual', true);
