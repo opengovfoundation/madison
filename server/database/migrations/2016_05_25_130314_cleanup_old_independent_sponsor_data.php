@@ -21,7 +21,7 @@ class CleanupOldIndependentSponsorData extends Migration
         $role = DB::selectOne('select id from roles where name = ?', ['Independent Sponsor']);
 
         // If there is no Independent Sponsor role go ahead and bail
-        if (!$roll) return;
+        if (!$role) return;
 
         // Delete records in the `user_role` tabloe
         DB::delete('delete from role_user where role_id = ?', [$role->id]);
