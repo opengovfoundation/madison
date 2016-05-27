@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder
         'doc_group',
         'doc_meta',
         'doc_status',
-        'doc_user',
         'docs',
         'group_members',
         'groups',
