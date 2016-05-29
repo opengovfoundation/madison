@@ -14,12 +14,22 @@ class CreateGroupsForDocOwningUsers extends Migration
      */
     public function up()
     {
-        // All documents that belong to a user under old ind sponsor model
-        $doc_user_records = DB::select('select user_id from doc_user');
+        // We're getting all the documents that belong to a User under the old
+        // independent sponsorship model and converting them to belong to those
+        // users' newly made individual groups.
+        //
+        // The migration right before this successfully handled creating groups
+        // for those with the Independent Sponsor "role", and a prior migration
+        // handled it for users with the `independent_sponsor` meta value.
+        //
+        // This one takes care of anything left over, being careful to only make
+        // groups "active" if the user had a currently enabled permission level.
 
+        $doc_user_records = DB::select('select user_id from doc_user');
         if (count($doc_user_records) == 0) return;
 
         foreach($doc_user_records as $record) {
+            // Check if the user has an individual group already
             $individual_group = Group::where('user_id', $record->user_id)->first();
 
             // If there's already an individual group, skip it

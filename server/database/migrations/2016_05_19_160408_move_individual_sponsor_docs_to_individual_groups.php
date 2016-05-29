@@ -23,7 +23,7 @@ class MoveIndividualSponsorDocsToIndividualGroups extends Migration
             );
 
             if (count($ind_groups) == 0) {
-                dd($record->user_id);
+                continue;
             }
 
             $group_id = $ind_groups[0]->id;
