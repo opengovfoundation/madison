@@ -2,17 +2,23 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Annotation;
+use App\Models\Comment;
+use App\Models\Doc;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use URL;
 
 class ActivityExport extends Command
 {
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'activity:export';
+    protected $signature = 'activity:export
+                            {doc_id : Document id for exported activity}
+                            {filename : Filename to save csv as}';
 
     /**
      * The console command description.
@@ -45,12 +51,12 @@ class ActivityExport extends Command
         $annotations = Annotation::where('doc_id', $this->argument('doc_id'))->with('user')->with('comments')->get();
         $comments = Comment::where('doc_id', $this->argument('doc_id'))->with('user')->get();
 
-        $headers = array("Created At", "Link", "Display Name", "Full Name", "Email", "Type", "Quote", "Text");
+        $headers = ["Created At", "Link", "Display Name", "Full Name", "Email", "Type", "Quote", "Text"];
 
-        $toExport = array();
+        $toExport = [];
 
         foreach ($annotations as $annotation) {
-            $annotationArray = array();
+            $annotationArray = [];
 
             $annotationArray['date'] = $annotation->created_at;
             $annotationArray['link'] = URL::to('/').$annotation->uri.'#annotation_'.$annotation->id;
@@ -66,7 +72,7 @@ class ActivityExport extends Command
             foreach ($annotation->comments as $comment) {
                 $user = User::find($comment->user_id);
 
-                $commentArray = array();
+                $commentArray = [];
 
                 $commentArray['date'] = $comment->created_at;
                 $commentArray['link'] = "";
@@ -82,7 +88,7 @@ class ActivityExport extends Command
         }
 
         foreach ($comments as $comment) {
-            $commentArray = array();
+            $commentArray = [];
 
             $commentArray['date'] = $comment->created_at;
             $commentArray['link'] = "";
@@ -106,18 +112,5 @@ class ActivityExport extends Command
 
         fclose($fp);
         $this->info('Done.');
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return array(
-            array('doc_id', InputArgument::REQUIRED, 'Document id for exported activity.'),
-            array('filename', InputArgument::REQUIRED, 'Filename to save csv as.'),
-        );
     }
 }

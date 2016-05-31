@@ -3,21 +3,24 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Input\InputOption;
 
 class DatabaseRebuild extends Command
 {
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'db:rebuild {--database=mysql}';
+    protected $signature = 'db:rebuild {--database=mysql : The database connection to use}';
+
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Drops and recreates the database.';
+
     /**
      * Create a new command instance.
      */
@@ -25,6 +28,7 @@ class DatabaseRebuild extends Command
     {
         parent::__construct();
     }
+
     /**
      * Execute the console command.
      *
