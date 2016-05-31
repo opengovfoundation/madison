@@ -26,10 +26,9 @@ angular.module('madisonApp.services')
         // Get the first highlight's parent, and show our toolbar link for it next to it.
         var annotationParent = $(annotation.highlights[0]).parents(parentElements).first();
         var annotationParentId;
-        if(annotationParent.prop('id')) {
+        if (annotationParent.prop('id')) {
           annotationParentId = annotationParent.prop('id');
-        }
-        else {
+        } else {
           this.count++;
           annotationParentId = 'annotationGroup-' + this.count;
           annotationParent.prop('id', annotationParentId);
@@ -105,10 +104,10 @@ angular.module('madisonApp.services')
           'uri': path,
           'comments': []
         },
-        prefix: '/api/docs/' + doc.id + '/annotations',
+        prefix: '/api/docs/' + doc.id + '/comments',
         urls: {
           create: '',
-          read: '/:id',
+          read: '/:id?is_ranged=true',
           update: '/:id',
           destroy: '/:id',
           search: '/search'

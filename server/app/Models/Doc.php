@@ -6,17 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Category;
+use App\Traits\AnnotatableHelpers;
 use Event;
 use Exception;
 use URL;
+use Cache;
 
 class Doc extends Model
 {
     use SoftDeletes;
+    use AnnotatableHelpers;
 
     public static $timestamp = true;
-
-    protected $index;
 
     protected $dates = ['deleted_at'];
     protected $appends = ['featured', 'url'];
@@ -38,8 +39,6 @@ class Doc extends Model
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
-
-        $this->index = \Config::get('elasticsearch.annotationIndex');
     }
 
     public static function boot()
@@ -52,6 +51,11 @@ class Doc extends Model
         Doc::saving(function($doc) {
             if (!isset($doc->slug)) $doc->slug = Doc::makeSlug($doc->title);
         });
+    }
+
+    public function annotations()
+    {
+        return $this->morphMany('App\Models\Annotation', 'annotatable');
     }
 
     public function getEmbedCode()
@@ -81,8 +85,10 @@ class Doc extends Model
 
     public function setIntroText($value)
     {
-        $introtext = DocMeta::where('meta_key', '=', 'intro-text')
-            ->where('doc_id', $this->id)->first();
+        $introtext = DocMeta
+            ::where('meta_key', '=', 'intro-text')
+            ->where('doc_id', $this->id)
+            ->first();
 
         if ($introtext) {
             $introtext->meta_value = $value;
@@ -115,22 +121,18 @@ class Doc extends Model
 
     public function canUserEdit($user)
     {
-        // TODO: This method should eventually handle multiple sponsors on a document
-        $sponsor = $this->sponsors()->first();
-
         if ($user->hasRole('Admin')) {
             return true;
         }
 
-        switch (true) {
-            case $sponsor instanceof User:
-                return $sponsor->hasRole('Independent Sponsor');
-                break;
-            case $sponsor instanceof Group:
-                return $sponsor->userHasRole($user, Group::ROLE_EDITOR) || $sponsor->userHasRole($user, Group::ROLE_OWNER);
-                break;
-            default:
-                throw new \Exception("Unknown Sponsor Type");
+        foreach ($this->sponsors as $sponsor) {
+            switch (true) {
+                case $sponsor instanceof Group:
+                    return $sponsor->userHasRole($user, Group::ROLE_EDITOR) || $sponsor->userHasRole($user, Group::ROLE_OWNER);
+                    break;
+                default:
+                    throw new \Exception("Unknown Sponsor Type");
+            }
         }
 
         return false;
@@ -138,9 +140,6 @@ class Doc extends Model
 
     public function canUserView($user)
     {
-        // TODO: This method should eventually handle multiple sponsors on a document
-        $sponsor = $this->sponsors()->first();
-
         if (in_array(
             $this->publish_state,
             [Doc::PUBLISH_STATE_PUBLISHED, Doc::PUBLISH_STATE_PRIVATE]
@@ -164,20 +163,16 @@ class Doc extends Model
         return false;
     }
 
-    public function setSponsor($sponsor)
-    {
-        // TODO: This method should eventually handle multiple sponsors
-        if (!isset($sponsor)) {
-            $this->sponsors()->sync(array());
-        } else {
-            $this->sponsors()->sync([$sponsor['id']]);
-        }
-    }
-
     public function sponsors()
     {
-        // TODO: This should eventually handle multiple sponsors
         return $this->belongsToMany('App\Models\Group');
+    }
+
+    // We need to declare this in order to dynamically add 'sponsors' to
+    // $appends in enableSponsors()
+    public function getSponsorsAttribute()
+    {
+        return $this->sponsors()->get();
     }
 
     public function statuses()
@@ -194,7 +189,7 @@ class Doc extends Model
     {
         $categoriesToSync = [];
 
-        foreach($categoriesArray as $category) {
+        foreach ($categoriesArray as $category) {
             // check if category has an id property
             if (!isset($category['id'])) {
                 // Make sure category with same name doesn't already exist
@@ -215,11 +210,6 @@ class Doc extends Model
         $this->categories()->sync($categoriesToSync);
     }
 
-    public function comments()
-    {
-        return $this->hasMany('App\Models\Comment');
-    }
-
     public function getPages()
     {
         return $this->content()->count();
@@ -230,67 +220,45 @@ class Doc extends Model
         return $this->getPages();
     }
 
-    public function getCommentCount()
-    {
-        return $this->comments()->count();
-    }
-
     public function getCommentCountAttribute()
     {
-        return $this->getCommentCount();
+        // note that this is only the top level comment count
+        return $this->comments
+            ->filter(function ($item) {
+                return !$item->isNote();
+            })
+            ->count()
+            ;
     }
 
-    public function getAnnotationCount()
+    public function getNoteCount()
     {
-        return $this->annotations()->count();
+        return $this->comments
+            ->filter(function ($item) {
+                return $item->isNote();
+            })
+            ->count()
+            ;
     }
 
-    public function getAnnotationCountAttribute()
+    public function getNoteCountAttribute()
     {
-        return $this->getAnnotationCount();
+        return $this->getNoteCount();
     }
 
-    public function getAnnotationCommentCount()
+    public function getNoteCommentCount()
     {
-        return $this->annotationComments()->count();
+        return $this->allCommentsCount() - $this->note_count - $this->comment_count;
     }
 
-    public function getAnnotationCommentCountAttribute()
+    public function getNoteCommentCountAttribute()
     {
-        return $this->getAnnotationCommentCount();
+        return $this->getNoteCommentCount();
     }
 
     public function getUserCount()
     {
-
-        //Return user objects with only user_id property
-        $annotationUsers = \DB::table('annotations')
-            ->where('doc_id', '=', $this->id)
-            ->get(['user_id']);
-
-        //Returns user objects with only user_id property
-        $commentUsers = \DB::table('comments')
-            ->where('doc_id', '=', $this->id)
-            ->get(['user_id']);
-
-        //Returns user objects with only user_id property
-        $annotationCommentUsers = \DB::table('annotation_comments')
-            ->join('annotations', function ($join) {
-                $join->on('annotation_comments.annotation_id', '=', 'annotations.id')
-                    ->where('annotations.doc_id', '=', $this->id);
-            })
-            ->get(['annotation_comments.user_id']);
-
-        //Merge object arrays
-        $users = array_merge($annotationUsers, $commentUsers, $annotationCommentUsers);
-
-        //Grab only the user_id attributes
-        $userArray = array_map(function ($user) {
-            return $user->user_id;
-        }, $users);
-
-        //Return the count of the array with uniques filtered
-        return count(array_unique($userArray));
+        return $this->allComments()->unique('user.id')->count();
     }
 
     public function getUserCountAttribute()
@@ -300,12 +268,12 @@ class Doc extends Model
 
     public function getSupportAttribute()
     {
-        return DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $this->id)->count();
+        return DocMeta::where('meta_key', 'support')->where('meta_value', '1')->where('doc_id', $this->id)->count();
     }
 
     public function getOpposeAttribute()
     {
-        return DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $this->id)->count();
+        return DocMeta::where('meta_key', 'support')->where('meta_value', '')->where('doc_id', $this->id)->count();
     }
 
     /*
@@ -315,27 +283,11 @@ class Doc extends Model
     {
         $this->appends[] = 'pages';
         $this->appends[] = 'comment_count';
-        $this->appends[] = 'annotation_count';
-        $this->appends[] = 'annotation_comment_count';
+        $this->appends[] = 'note_count';
+        $this->appends[] = 'note_comment_count';
         $this->appends[] = 'user_count';
         $this->appends[] = 'support';
         $this->appends[] = 'oppose';
-    }
-
-    public function getSponsors()
-    {
-        $sponsors = [];
-
-        foreach($this->sponsors()->get() as $sponsor) {
-            $sponsors[] = ['display_name' => $sponsor->display_name];
-        }
-
-        return $sponsors;
-    }
-
-    public function getSponsorsAttribute()
-    {
-        return $this->getSponsors();
     }
 
     public function enableSponsors()
@@ -359,38 +311,16 @@ class Doc extends Model
 
     public function getSponsorIdsAttribute()
     {
-        $ids = array();
-        foreach($this->sponsor as $sponsor)
+        $ids = [];
+        foreach ($this->sponsors as $sponsor)
         {
-            if($sponsor instanceof User)
+            foreach ($sponsor->members as $member)
             {
-                $ids[] = $sponsor->id;
-            }
-            elseif($sponsor instanceof Group)
-            {
-                foreach($sponsor->members as $member)
-                {
-                    $ids[] = $member->user_id;
-                }
+                $ids[] = $member->user_id;
             }
         }
 
         return $ids;
-    }
-
-    public function annotations()
-    {
-        return $this->hasMany('App\Models\Annotation');
-    }
-
-    public function annotationComments()
-    {
-        return $this->hasManyThrough(AnnotationComment::class, Annotation::class);
-    }
-
-    public function actions()
-    {
-        return $this->hasMany('App\Models\DocAction');
     }
 
     public function getLink()
@@ -411,6 +341,17 @@ class Doc extends Model
         return $this->hasMany('App\Models\DocContent');
     }
 
+    public function fullContentHtml()
+    {
+        return $this->content()
+            ->orderBy('page')
+            ->get()
+            ->reduce(function ($fullContent, $content) {
+                return $fullContent . $content->html();
+            }, '')
+            ;
+    }
+
     public function doc_meta()
     {
         return $this->hasMany('App\Models\DocMeta');
@@ -425,7 +366,6 @@ class Doc extends Model
         $defaults = array(
             'content' => "New Document Content",
             'sponsor' => null,
-            'sponsorType' => null,
             'publish_state' => 'unpublished'
         );
 
@@ -456,9 +396,9 @@ class Doc extends Model
         return $document;
     }
 
-    public static function prepareCountsAndDates($docs = array())
+    public static function prepareCountsAndDates($docs = [])
     {
-        $return_docs = array();
+        $return_docs = [];
 
         if ($docs) {
             foreach ($docs as $doc) {
@@ -467,9 +407,12 @@ class Doc extends Model
 
                 $return_doc = $doc->toArray();
 
-                $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
-                $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
-                $return_doc['deleted_at'] = date('c', strtotime($return_doc['deleted_at']));
+                $return_doc['updated_at'] = $doc->updated_at->toRfc3339String();
+                $return_doc['created_at'] = $doc->created_at->toRfc3339String();
+
+                if (!empty($doc->deleted_at)) {
+                    $return_doc['deleted_at'] = $doc->deleted_at->toRfc3339String();
+                }
 
                 $return_docs[] = $return_doc;
             }
@@ -505,68 +448,44 @@ class Doc extends Model
      * Active documents are much harder to query.  We do this with its own
      * custom query.
      */
-    public static function getActive($num, $offset)
+    public static function getActive($num = 10, $offset = 0)
     {
-        // Defaults to limit 10 because of the expense here.
-        if (!$num) {
-            $num = 10;
+        $docsInfo = Cache::get('active-docs');
+
+        if (empty($docsInfo)) {
+            $docs = static
+                ::where('publish_state', static::PUBLISH_STATE_PUBLISHED)
+                ->where('discussion_state', static::DISCUSSION_STATE_OPEN)
+                ->where('is_template', false)
+                ->get()
+                ;
+
+            $docsInfo = [];
+
+            //Create array of [id => total] for each document
+            foreach ($docs as $doc) {
+                $docsInfo[$doc->id] = $doc->allCommentsCount();
+            }
+
+            Cache::put('active-docs', $docsInfo, 1440);
         }
 
-        if (!$offset) {
-            $offset = 0;
-        }
-
-        $docIds = \DB::select(
-            \DB::raw(
-                "SELECT doc_id, SUM(num) AS total FROM (
-                    SELECT doc_id, COUNT(*) AS num
-                        FROM annotations
-                        GROUP BY doc_id
-                    UNION ALL
-                    SELECT doc_id, COUNT(*) AS num
-                        FROM comments
-                        GROUP BY doc_id
-                    UNION ALL
-                    SELECT annotations.doc_id, COUNT(*) AS num
-                        FROM annotation_comments
-                        INNER JOIN annotations
-                        ON annotation_comments.annotation_id = annotations.id
-                        GROUP BY doc_id
-
-                ) total_count
-                LEFT JOIN docs on doc_id = docs.id
-                WHERE publish_state = 'published'
-                AND discussion_state = 'open'
-                AND docs.is_template != 1
-                GROUP BY doc_id
-                ORDER BY total DESC
-                LIMIT :offset, :limit"
-            ),
-            array(
-                ':offset' => $offset,
-                ':limit' => $num
-            )
-        );
-
-        $docArray = [];
-
-        //Create array of [id => total] for each document
-        foreach ($docIds as $docId) {
-            $docArray[$docId->doc_id] = $docId->total;
-        }
         $docs = false;
 
-        if (count($docArray) > 0) {
+        if (count($docsInfo) > 0) {
             //Grab out most active documents
-            $docs = Doc::getEager()->whereIn('id', array_keys($docArray))->get();
+            $docs = Doc::getEager()->whereIn('id', array_keys($docsInfo))->get();
 
             //Set the sort value to the total count
             foreach ($docs as $doc) {
-                $doc->participationTotal = $docArray[$doc->id];
+                $doc->participationTotal = $docsInfo[$doc->id];
             }
 
             //Sort by the sort value descending
-            $docs = $docs->sortByDesc('participationTotal');
+            $docs = $docs
+                ->sortByDesc('participationTotal')
+                ->slice($offset, $num)
+                ;
         }
 
         return $docs;
@@ -581,15 +500,11 @@ class Doc extends Model
 					   FROM doc_group, group_members
 					  WHERE doc_group.group_id = group_members.group_id
 					    AND group_members.user_id = ?
-					UNION ALL
-					 SELECT doc_id
-					   FROM doc_user
-					  WHERE doc_user.user_id = ?
 				    ) DocUnion, docs
 				  WHERE docs.id = DocUnion.doc_id
 			   GROUP BY docs.id"
             ),
-            array($userId, $userId)
+            [$userId]
         );
 
         $results = new Collection();
@@ -609,144 +524,16 @@ class Doc extends Model
 
     public static function getAllValidSponsors()
     {
-        $userMeta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
-                            ->where('meta_value', '=', 1)
-                            ->get();
-
-        $groups = Group::where('status', '=', Group::STATUS_ACTIVE)
-                        ->get();
-
-        $results = new Collection();
-
-        $userIds = array();
-
-        foreach ($userMeta as $m) {
-            $userIds[] = $m->user_id;
-        }
-
-        if (!empty($userIds)) {
-            $users = User::whereIn('id', $userIds)->get();
-
-            foreach ($users as $user) {
-                $row = array(
-                        'display_name' => "{$user->fname} {$user->lname}",
-                        'sponsor_type' => 'individual',
-                        'id' => $user->id,
-                );
-
-                $results->add($row);
-            }
-        }
-
-        foreach ($groups as $group) {
-            $row = array(
-                    'display_name' => $group->display_name,
-                    'sponsor_type' => 'group',
+        return Group
+            ::where('status', '=', Group::STATUS_ACTIVE)
+            ->get()
+            ->map(function ($group) {
+                return [
                     'id' => $group->id,
-            );
-
-            $results->add($row);
-        }
-
-        return $results;
-    }
-
-    public function get_file_path($format = 'markdown')
-    {
-        switch ($format) {
-            case 'html' :
-                $path = 'html';
-                $ext = '.html';
-                break;
-
-            case 'markdown':
-            default:
-                $path = 'md';
-                $ext = '.md';
-        }
-
-        $filename = $this->slug.$ext;
-        $path = implode(DIRECTORY_SEPARATOR, array(storage_path(), 'docs', $path, $filename));
-
-        return $path;
-    }
-
-    public function indexContent($doc_content)
-    {
-        $es = self::esConnect();
-
-        \File::put($this->get_file_path('markdown'), $doc_content->content);
-
-        \File::put($this->get_file_path('html'),
-            Markdown::render($doc_content->content)
-        );
-
-        $body = array(
-            'id' => $this->id,
-            'content' => $doc_content->content,
-        );
-
-        $params = array(
-            'index'    => $this->index,
-            'type'    => self::TYPE,
-            'id'    => $this->id,
-            'body'    => $body,
-        );
-
-        $results = $es->index($params);
-    }
-
-    public function get_content($format = null)
-    {
-        $path = $this->get_file_path($format);
-
-        try {
-            return \File::get($path);
-        } catch (Illuminate\Filesystem\FileNotFoundException $e) {
-            $content = DocContent::where('doc_id', '=', $this->attributes['id'])->where('parent_id')->first()->content;
-
-            if ($format == 'html') {
-                $content = Markdown::render($content);
-            }
-
-            return $content;
-        }
-    }
-
-    public static function search($query)
-    {
-        $es = self::esConnect();
-
-        $params['index'] = \Config::get('elasticsearch.annotationIndex');
-        $params['type'] = self::TYPE;
-        $params['body']['query']['filtered']['query']['query_string']['query'] = $query;
-
-        return $es->search($params);
-    }
-
-    public static function esConnect()
-    {
-        $esParams['hosts'] = \Config::get('elasticsearch.hosts');
-        $es = new \Elasticsearch\Client($esParams);
-
-        return $es;
-    }
-
-    public static function findDocBySlug($slug = null)
-    {
-        //Retrieve requested document
-        $doc = static::where('slug', $slug)
-                     ->with('statuses')
-                     ->with('sponsors')
-                     ->with('categories')
-                     ->with('dates')
-                     ->first();
-
-        if (!isset($doc)) {
-            return;
-        }
-
-        return $doc;
+                    'display_name' => $group->display_name,
+                ];
+            })
+            ;
     }
 
     public static function validPublishStates()
@@ -793,7 +580,7 @@ class Doc extends Model
      */
     public function scopeBelongsToUser($query, $userId)
     {
-        return $query->whereHas(function($q) use ($userId) {
+        return $query->whereHas('sponsors', function($q) use ($userId) {
             // user belongs to group as EDITOR or OWNER
             $q->whereHas('members', function($q) use ($userId) {
                 $q->where('user_id', '=', $userId);
@@ -864,7 +651,7 @@ class Doc extends Model
         $imageParts = explode('.', $imageName, 2);
 
         // Remove all possible image sizes.
-        foreach($sizes as $name=>$size)
+        foreach ($sizes as $name=>$size)
         {
             $sizeName = $size['width'] . 'x' . $size['height'];
             $imageParts[0] = preg_replace('/-'.$sizeName.'$/', '', $imageParts[0]);

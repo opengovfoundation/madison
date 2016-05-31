@@ -158,13 +158,16 @@ return [
         App\Providers\PdoEventSessionHandlerProvider::class,
         App\Providers\SessionRejectServiceProvider::class,
         App\Providers\NotificationServiceProvider::class,
+        App\Providers\CommentsServiceProvider::class,
+        App\Providers\AnnotationsServiceProvider::class,
 
         /**
          * Vendor Providers...
          */
         Zizaco\Entrust\EntrustServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        Roumen\Feed\FeedServiceProvider::class,
 
     ],
 
@@ -217,6 +220,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'Feed'      => Roumen\Feed\Feed::class,
 
     ],
 

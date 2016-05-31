@@ -5,19 +5,8 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use App\Models\Doc;
 
-class UpdateDocumentRequest extends Request
+class UpdateDocumentRequest extends DocAccessEditRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        // TODO: Move middleware doc edit auth logic here
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *

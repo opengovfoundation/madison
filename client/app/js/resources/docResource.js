@@ -1,11 +1,6 @@
 angular.module('madisonApp.resources')
   .factory("Doc", function ($resource) {
     var Doc = $resource("/api/docs/:id", [], {
-      getDocBySlug: {
-        method: 'GET',
-        url: '/api/docs/slug/:slug',
-        params: {slug: '@slug'}
-      },
       getDocContent: {
         method: 'GET',
         url: '/api/docs/:id/content?format=:format&page=:page',
@@ -13,13 +8,6 @@ angular.module('madisonApp.resources')
           id: '@id',
           page: '@page',
           format: '@format'
-        }
-      },
-      getActivity: {
-        method: 'GET',
-        url: '/api/docs/:id/activity',
-        params: {
-          id: '@id'
         }
       },
       getFeaturedDocs: {

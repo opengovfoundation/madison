@@ -33,7 +33,7 @@ angular.module('madisonApp.controllers')
         // Get all doc comments, regardless of nesting level
         $http({
           method: 'GET',
-          url: '/api/docs/' + docId + '/comments'
+          url: '/api/docs/' + docId + '/comments?is_ranged=false&include_replies=false'
         })
         .success(function (data) {
           // Convert links in the comments to html
@@ -110,9 +110,7 @@ angular.module('madisonApp.controllers')
         comment.user = $scope.user;
         comment.doc = $scope.doc;
 
-        $http.post('/api/docs/' + comment.doc.id + '/comments', {
-          'comment': comment
-        })
+        $http.post('/api/docs/' + comment.doc.id + '/comments', comment)
           .success(function (data) {
             data.permalinkBase = 'comment';
             data.label = 'comment';
@@ -138,9 +136,7 @@ angular.module('madisonApp.controllers')
       $scope.subcommentSubmit = function (activity, subcomment) {
         subcomment.user = $scope.user;
 
-        $.post('/api/docs/' + $scope.doc.id + '/' + activity.label + 's/' + activity.id + '/comments', {
-          'comment': subcomment
-        })
+          $.post('/api/docs/' + $scope.doc.id + '/comments/' + activity.id + '/comments', subcomment)
           .success(function (data) {
             data.comments = [];
             data.permalinkBase = 'comment';
@@ -162,11 +158,11 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.toggleReplies = function(comment, $event) {
-        if(comment.replyCount > 0 && comment.comments.length === 0) {
+        if (comment.comments_count > 0 && comment.comments.length === 0) {
           $scope.loadingReplies[comment.id] = true;
           return $http({
             method: 'GET',
-            url: '/api/docs/' + comment.doc_id + '/comments',
+            url: '/api/docs/' + $scope.doc.id + '/comments',
             params: {'parent_id' : comment.id}
           })
           .success(function (data) {
@@ -177,7 +173,7 @@ angular.module('madisonApp.controllers')
 
             comment.comments = data;
             var commentsLength = comment.comments.length;
-            for(i = 0; i < commentsLength; i++) {
+            for (i = 0; i < commentsLength; i++) {
               comment.comments[i].permalinkBase = 'comment';
               comment.comments[i].label = 'comment';
               comment.comments[i].parentPointer = comment;
@@ -185,13 +181,11 @@ angular.module('madisonApp.controllers')
             $scope.toggleReplies(comment, $event);
             $scope.loadingReplies[comment.id] = false;
           });
-        }
-        else {
-          if($scope.showReplies[comment.id] === 'undefined' || !$scope.showReplies[comment.id]) {
+        } else {
+          if ($scope.showReplies[comment.id] === 'undefined' || !$scope.showReplies[comment.id]) {
             $scope.showReplies[comment.id] = true;
             $scope.$broadcast('commentRepliesShown');
-          }
-          else {
+          } else {
             $scope.showReplies[comment.id] = false;
             $scope.$broadcast('commentRepliesHidden');
           }

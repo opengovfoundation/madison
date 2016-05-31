@@ -1,7 +1,7 @@
 <h2 class="normal-title annotation-title">
-  <span translate="document.label.annotations"></span>
+  <span translate="document.label.notes"></span>
   <i class="fa fa-question-circle annotation-help" data-toggle="tooltip"
-    data-placement="bottom" title="{{ 'annotations.label.help' | translate }}"></i>
+    data-placement="bottom" title="{{ 'notes.label.help' | translate }}"></i>
   <a href="/api/docs/{{ doc.slug }}/feed"
     class="rss-link" target="_self"
     title="{{ 'document.action.rss.title' | translate }}"
@@ -10,23 +10,23 @@
 <div id="participate-activity" class="participate-activity">
   <div class="activity-thread">
     <div ng-hide="annotations.length"
-      translate="annotations.label.none"></div>
+      translate="notes.label.none"></div>
 
     <div class="annotation-group" ng-style="{top: annotationGroup.top}"
       ng-repeat="annotationGroup in annotationGroups"
-      ng-click="showAnnotations(annotationGroup)">
+      ng-click="showNotes(annotationGroup)">
         <span class="annotation-group-count"
-          translate="annotations.label.count"
+          translate="notes.label.count"
           translate-values="{count: annotationGroup.annotations.length}"></span>
 
         <div class="annotation-group-statistics">
           <span class="annotation-collaborator-count"
-            translate="annotations.label.collaborators"
+            translate="notes.label.collaborators"
             translate-values="{count: annotationGroup.users.length}"
             translate-interpolation="messageformat"></span>
 
           <span class="annotation-comment-count"
-            translate="annotations.label.comments"
+            translate="notes.label.comments"
             translate-values="{count: annotationGroup.commentCount}"
             translate-interpolation="messageformat"></span>
         </div>
@@ -36,8 +36,8 @@
 
 <aside class="annotation-pane" ng-class="{'active': annotationsShow}">
   <header class="title-header">
-    <h2 translate="document.label.annotationdiscussion"></h2>
-    <a class="close-button" ng-click="hideAnnotations()"
+    <h2 translate="document.label.notediscussion"></h2>
+    <a class="close-button" ng-click="hideNotes()"
       translate="document.action.closesidebar"></a>
   </header>
 
@@ -68,7 +68,7 @@
       </div>
 
       <div ng-hide="doc.discussion_state === 'closed'">
-        <comment-actions object="annotation"></comment-actions>
+        <comment-actions object="annotation" root-target="doc"></comment-actions>
         <footer>
           <div class="reply-action">
             <a ng-click="showCommentForm($event)"
@@ -94,7 +94,7 @@
             {{ comment.text }}
           </section>
           <div ng-hide="doc.discussion_state === 'closed'">
-            <comment-actions object="comment"></comment-actions>
+            <comment-actions object="comment" root-target="doc"></comment-actions>
           </div>
         </article>
       </section>
@@ -102,7 +102,7 @@
         <div ng-hide="doc.discussion_state === 'closed'">
           <form name="add-subcomment-form"
             ng-submit="subcommentSubmit(annotation, subcomment)" ng-if="user">
-            <h4 translate="document.action.replyannotation"></h4>
+            <h4 translate="document.action.replynote"></h4>
             <input id="comment-form-field" ng-model="subcomment.text" type="text"
               class="form-control centered" required
               placeholder="{{ document.action.commentplaceholder | translate }}" />

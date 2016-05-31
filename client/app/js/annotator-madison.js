@@ -304,9 +304,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     };
 
     //POST request to add user's comment
-    $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/comments', {
-      comment: comment
-    }, function () {
+    $.post('/api/docs/' + doc.id + '/comments/' + annotation.id + '/comments', comment, function () {
       annotation.comments.push(comment);
 
       return this.annotator.publish('commentCreated', comment);
@@ -314,7 +312,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   },
   addLike: function (annotation, element) {
     var doc = this.options.doc;
-    $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/likes', function (data) {
+    $.post('/api/docs/' + doc.id + '/comments/' + annotation.id + '/likes', function (data) {
       element = $(element);
       element.children('.action-count').text(data.likes);
       element.siblings('span').removeClass('selected');
@@ -335,7 +333,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   },
   addFlag: function (annotation, element) {
     var doc = this.options.doc;
-    $.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/flags', function (data) {
+    $.post('/api/docs/' + doc.id + '/comments/' + annotation.id + '/flags', function (data) {
       element = $(element);
       element.children('.action-count').text(data.flags);
       element.siblings('span').removeClass('selected');

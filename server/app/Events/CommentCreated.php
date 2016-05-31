@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Events\Event;
+use App\Models\Annotation;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
@@ -18,10 +19,10 @@ class CommentCreated extends Event
      *
      * @return void
      */
-    public function __construct($comment, $parent)
+    public function __construct(Annotation $comment, $parent)
     {
-        $this->comment = $comment; // either a Comment or AnnotationComment
-        $this->parent = $parent; // either a Comment or Annotation
+        $this->comment = $comment;
+        $this->parent = $parent;
     }
 
     /**

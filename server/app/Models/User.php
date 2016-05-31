@@ -18,6 +18,7 @@ use Session;
 use Hash;
 use Log;
 
+use App\Models\AnnotationTypes;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\Role;
@@ -72,6 +73,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         ),
     );
 
+    protected $validationErrors = null;
+    protected $verify = false;
+
     /**
      *	Custom error messages for certain validation requirements.
      */
@@ -111,12 +115,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         if (!$this->beforeSave()) {
             return false;
         }
-
-        //Don't want user model trying to save validationErrors field.
-        //	TODO: I'm sure Eloquent can handle this.  What's the setting for ignoring fields when saving?
-        unset($this->validationErrors);
-        unset($this->rules);
-        unset($this->verify);
 
         return parent::save($options);
     }
@@ -192,16 +190,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      *	@param void
      *
-     *	@return Group|| new Group
-     *
-     *	@todo Why would this return a new group?  Should probalby return some falsy value.
+     *	@return null || Group
      */
     public function activeGroup()
     {
         $activeGroupId = Session::get('activeGroupId');
 
         if ($activeGroupId <= 0) {
-            //return new Group();
             return;
         }
 
@@ -235,24 +230,20 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->belongsToMany('App\Models\Group', 'group_members');
     }
 
-    /**
-     *	comments.
-     *
-     *	Eloquent hasMany relationship for Comment
-     *
-     *	@param void
-     *
-     *	@return Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function comments()
     {
-        return $this->hasMany('App\Models\Comment');
+        return $this->annotations()->where('annotation_type_type', AnnotationTypes\Comment::class);
+    }
+
+    public function getCommentsAttribute()
+    {
+        return $this->comments()->get();
     }
 
     /**
      *	annotations.
      *
-     *	Eloquent hasMany relationship for Annoation
+     *	Eloquent hasMany relationship for Annotation
      *
      *	@param void
      *
@@ -309,36 +300,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     *	organization.
-     *
-     *	Eloquent belongsTo relationship for Organization
-     *
-     *	@param void
-     *
-     *	@return Illuminate\Database\Eloquent\Relations\BelongsTo
-     *
-     *	@todo This can be removed as we use Groups in place of Organizations
-     */
-    public function organization()
-    {
-        return $this->belongsTo('App\Models\Organization');
-    }
-
-    /**
-     *	note_meta.
-     *
-     *	Eloquent hasMany relationship for NoteMeta
-     *
-     *	@param void
-     *
-     *	@return Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function note_meta()
-    {
-        return $this->hasMany('App\Models\NoteMeta');
-    }
-
-    /**
      *	user_meta.
      *
      *	Eloquent hasMany relationship for UserMeta
@@ -350,56 +311,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function user_meta()
     {
         return $this->hasMany('App\Models\UserMeta');
-    }
-
-    /**
-     *	getSponsorStatus.
-     *
-     *	Returns the value of the UserMeta for this user with key 'independent_sponsor'
-     *		The value of this is either '1' or '0'
-     *		If the user hasn't requested independent sponsor status, this will return null
-     *
-     *	@param void
-     *
-     * @return string||null
-     */
-    public function getSponsorStatus()
-    {
-        $result = $this->user_meta()->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)->first();
-        if ($result) {
-            return (bool) $result->meta_value;
-        } else {
-            return;
-        }
-    }
-
-    /**
-     *	setIndependentAuthor.
-     *
-     *	Sets the Independent Sponsor status for this user
-     *		Sets / Creates a UserMeta for this user with key = 'independent_sponsor'
-     *		and value '1'||'0' based on input boolean
-     *
-     *	@param bool $bool
-     */
-    public function setIndependentAuthor($bool)
-    {
-        if ($bool) {
-            \DB::transaction(function () {
-                $metaKey = UserMeta::where('user_id', '=', $this->id)
-                                   ->where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
-                                   ->first();
-
-                if (!$metaKey) {
-                    $metakey = new UserMeta();
-                    $metaKey->user_id = $this->id;
-                    $metaKey->meta_key = 'independent_author';
-                }
-
-                $metaKey->meta_value = $bool ? 1 : 0;
-                $metaKey->save();
-            });
-        }
     }
 
     /**

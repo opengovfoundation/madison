@@ -7,7 +7,8 @@ angular.module('madisonApp.directives')
       restrict: 'E',
       templateUrl: '/templates/partials/comment-actions.html',
       scope: {
-        obj: '=object'
+        obj: '=object',
+        rootTarget: '='
       },
       controller: function ($scope) {
         $scope.permalink = buildPermalink($scope.obj);
@@ -15,7 +16,7 @@ angular.module('madisonApp.directives')
         $scope.user = SessionService.user;
         $scope.addAction = function (activity, action, $event) {
           if ($scope.user && $scope.user.id !== '') {
-            $http.post('/api/docs/' + activity.doc_id + '/' + activity.label + 's/' + activity.id + '/' + action)
+            $http.post('/api/docs/' + $scope.rootTarget.id + '/comments/' + activity.id + '/' + action)
               .success(function (data) {
                 activity.likes = data.likes;
                 activity.flags = data.flags;

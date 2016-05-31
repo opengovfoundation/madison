@@ -61,7 +61,7 @@ $(document).ready(function () {
   });
 
   if (user.id === '') {
-    
+
     Annotator.prototype.checkForEndSelection = function (event) {
 
       // This is what normally happens.
@@ -152,10 +152,10 @@ $(document).ready(function () {
       'uri': window.location.pathname,
       'comments': []
     },
-    prefix: '/api/docs/' + doc.id + '/annotations',
+    prefix: '/api/docs/' + doc.id + '/comments',
     urls: {
       create: '',
-      read: '/:id',
+      read: '/:id?is_ranged=true',
       update: '/:id',
       destroy: '/:id',
       search: '/search'

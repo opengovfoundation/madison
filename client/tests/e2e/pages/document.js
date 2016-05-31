@@ -28,7 +28,7 @@ var DocumentPage = function() {
   this.stats = {
     participants: element(by.binding('doc.user_count')),
     comments: element(by.binding('doc.comment_count')),
-    annotations: element(by.binding('doc.annotation_count')),
+    annotations: element(by.binding('doc.note_count')),
 
     updated: element(by.css('.stats-history .date')),
 

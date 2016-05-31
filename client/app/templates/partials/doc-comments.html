@@ -31,22 +31,22 @@
             </section>
         </div>
 
-        <div ng-if="comment.replyCount > 0" class="toggle-replies">
+        <div ng-if="comment.comments_count > 0" class="toggle-replies">
             <a class="doc-replies-count"
                 ng-click="toggleReplies(comment, $event)">
                 <span ng-if="!showReplies[comment.id]"
                     translate="form.general.show">j</span>
                 <span ng-if="showReplies[comment.id]"
                     translate="form.general.hide"></span>
-                <span translate="annotations.label.replies"
-                    translate-values="{count: comment.replyCount}"
+                <span translate="notes.label.replies"
+                    translate-values="{count: comment.comments_count}"
                     translate-interpolation="messageformat"></span>
             </a>
             <span class="loading"
                 ng-class="{hidden: !loadingReplies[comment.id]}"></span>
         </div>
 
-        <comment-actions object="comment"></comment-actions>
+        <comment-actions object="comment" root-target="doc"></comment-actions>
 
         <section class="replies" ng-show="showReplies[comment.id]">
             <article ng-repeat="reply in comment.comments"
@@ -65,11 +65,11 @@
                         {{ reply.text }}
                     </section>
                 </div>
-                <comment-actions object="reply"></comment-actions>
+                <comment-actions object="reply" root-target="doc"></comment-actions>
             </article>
-            <div ng-if="comment.replyCount == 0">
+            <div ng-if="comment.comments_count == 0">
                 <span class="doc-replies-count"
-                    translate="annotations.label.replies.none"></span>
+                    translate="notes.label.replies.none"></span>
             </div>
         </section>
         <a ng-show="!user" class="login-message"
@@ -102,5 +102,5 @@
 </div>
 
 <div class="comment-thread" ng-hide="doc.comments.length">
-    <p translate="annotations.label.comments.none"></p>
+    <p translate="notes.label.comments.none"></p>
 </div>

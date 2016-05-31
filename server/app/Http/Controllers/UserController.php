@@ -12,10 +12,12 @@ use Mail;
 use App\Models\User;
 use App\Models\UserMeta;
 use App\Models\NotificationPreference;
+use App\Models\Doc;
 use App\Models\DocMeta;
 use App\Models\Role;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\SignupRequest;
+use App\Http\Requests\DocAccessReadRequest;
 use App\Events\UserVerificationStatusChange;
 
 /**
@@ -220,11 +222,6 @@ class UserController extends Controller
 
         $user->display_name = $user->getDisplayName();
         $user->admin = $user->hasRole('Admin');
-        if ($user->hasRole('Independent Sponsor')) {
-            $user->independent_sponsor = true;
-        } elseif ($user->getSponsorStatus() !== null) {
-            $user->independent_sponsor = $user->getSponsorStatus();
-        }
         $user->verified = $user->verified();
         $user->email_verified = empty($user->token);
 
@@ -635,7 +632,7 @@ class UserController extends Controller
         }
     }
 
-    public function getSupport($user, $doc)
+    public function getSupport(DocAccessReadRequest $request, $user, Doc $doc)
     {
         $docMeta = DocMeta::where('user_id', $user->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
 
@@ -656,78 +653,9 @@ class UserController extends Controller
 
     public function getUser($user)
     {
-        $user->load('docs', 'user_meta', 'comments', 'comments.doc', 'annotations', 'annotations.doc');
+        $user->load('docs', 'user_meta', 'comments');
 
         return Response::json($user);
-    }
-
-    public function getIndependentVerify()
-    {
-        $this->beforeFilter('admin');
-
-        $requests = UserMeta::where('meta_key', UserMeta::TYPE_INDEPENDENT_SPONSOR)
-                            ->with('user')->get();
-
-        return Response::json($requests);
-    }
-
-    public function postIndependentVerify()
-    {
-        $this->beforeFilter('admin');
-
-        $request = Input::get('request');
-        $status = Input::get('status');
-
-        $user = User::find($request['user_id']);
-
-        if (!isset($user)) {
-            throw new Exception('User ('.$user->id.') not found.');
-        }
-
-        $accepted = array('verified', 'denied', 'pending');
-
-        if (!in_array($status, $accepted)) {
-            throw new Exception("Invalid value for verify request.");
-        }
-
-        $meta = UserMeta::where('meta_key', '=', UserMeta::TYPE_INDEPENDENT_SPONSOR)
-                        ->where('user_id', '=', $user->id)
-                        ->first();
-
-        if (!$meta) {
-            throw new Exception("Invalid ID {$user->id}");
-        }
-
-        switch ($status) {
-            case 'verified':
-
-                $role = Role::where('name', 'Independent Sponsor')->first();
-                if (!isset($role)) {
-                    throw new Exception("Role 'Independent Sponsor' doesn't exist.");
-                }
-
-                $user->attachRole($role);
-
-                $meta->meta_value = 1;
-                $retval = $meta->save();
-                break;
-            case 'pending':
-                $role = Role::where('name', 'Independent Sponsor')->first();
-                if (!isset($role)) {
-                    throw new Exception("Role 'Independent Sponsor' doesn't exist.");
-                }
-
-                $user->detachRole($role);
-
-                $meta->meta_value = 0;
-                $retval = $meta->save();
-                break;
-            case 'denied':
-                $retval = $meta->delete();
-                break;
-        }
-
-        return Response::json($retval);
     }
 
     public function getVerify()

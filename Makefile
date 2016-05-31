@@ -39,7 +39,7 @@ selenium-start:
 
 clean:
 	rm -rf client/.sass-cache
-	cd server && composer clear-cache
+	cd server && php artisan cache:clear
 
 distclean: clean
 	rm -rf client/node_modules server/vendor/* client/build/*

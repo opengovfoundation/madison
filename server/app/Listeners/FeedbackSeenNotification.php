@@ -29,13 +29,13 @@ class FeedbackSeenNotification implements ShouldQueue
     {
         $data = [
             'feedback' => $event->feedback,
-            'doc' => $event->feedback->doc,
+            'doc' => $event->feedback->getRootTarget(),
             'user' => $event->user,
         ];
         $recipient = $event->feedback->user;
 
-        if ($event->feedback instanceof Annotation) {
-            $data['label'] = 'annotation';
+        if ($event->feedback->isNote()) {
+            $data['label'] = 'note';
         } else {
             $data['label'] = 'comment';
         }
