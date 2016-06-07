@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\GroupMember;
 use App\Models\Role;
 use App\Models\Permission;
+use App\Models\User;
 
 use Log;
 
@@ -493,5 +494,30 @@ class Group extends Model
         }
 
         $groupMember->save();
+    }
+
+    public static function createIndividualGroup($userId, $input_attrs = [])
+    {
+        $user = User::find($userId);
+
+        $attrs = array_merge([
+            'name' => $user->fname . ' ' . $user->lname,
+            'display_name' => $user->fname . ' ' . $user->lname,
+            'user_id' => $userId,
+            'address1' => $user->address1 || ' ',
+            'address2' => $user->address2 || ' ',
+            'city' => $user->city || ' ',
+            'state' => $user->state || ' ',
+            'postal_code' => $user->postal_code || ' ',
+            'phone' => $user->phone || ' ',
+            'individual' => true,
+            'status' => 'pending'
+        ], $input_attrs);
+
+        $group = new Group($attrs);
+        $group->save();
+        $group->addMember($userId, Group::ROLE_OWNER);
+
+        return $group;
     }
 }
