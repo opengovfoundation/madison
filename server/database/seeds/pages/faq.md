@@ -10,7 +10,7 @@ government and a way to hold it accountable.
 
 Government policy covers a huge range of issues that directly impact you, your
 family, and your place of work--from where you can park your car, to where your
-kids go to school, to how much you pay in taxes. To find a bill on a topic you
+kids go to school, to how much you pay in taxes. To find a document on a topic you
 care about, simply search Madison with keywords, councilmembers’ names, or
 document status. Then sign up for an account to vote, add general comments, ask
 questions, and suggest changes directly to these new laws, rules and

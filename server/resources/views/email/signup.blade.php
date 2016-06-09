@@ -13,7 +13,7 @@
 			<li>Add your voice by supporting or opposing a document, making general comments, or annotating specific sections of the work in progress.</li>
 		</ol>
 
-		<p>When you comment on or annotate a document the bill's sponsor will be notified.  Your interaction with legislation on Madison will keep sponsors informed on how their constituents feel about their work; they may also choose to incorporate suggested edits straight into their documents.</p>
+		<p>When you comment on or annotate a document the document's sponsor will be notified.  Your interaction with legislation on Madison will keep sponsors informed on how their constituents feel about their work; they may also choose to incorporate suggested edits straight into their documents.</p>
 
 		<ol>
 			<li>Become an active member of the Madison community.  <a href="http://eepurl.com/EvUnb">Sign up to receive email updates</a> about Madison.  Interact with other civic-minded participants by responding to their comments.  Share what you find via links and social media.  <a href="http://www.usa.gov/Contact/Elected.shtml">Call your elected officials</a>.  Speak out on the issues that matter to you.</li>

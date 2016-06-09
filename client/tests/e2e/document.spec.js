@@ -13,7 +13,7 @@ describe('Document view', function() {
     expect(docPage.info.title.getText()).toBe('Example Document');
   });
 
-  it('shows the bill text', function() {
+  it('shows the document text', function() {
     expect(docPage.info.content.getText()).toMatch(/Document 1/);
   });
 
@@ -30,7 +30,7 @@ describe('Document view', function() {
       expect(docPage.stats.annotations.getText()).toBe('2');
     });
 
-    it('shows how recently the bill was updated', function() {
+    it('shows how recently the document was updated', function() {
       expect(docPage.stats.updated.getText())
       .toMatch(/updated (about )?(\d+|a) .+ ago/i);
     });
@@ -76,9 +76,9 @@ describe('Document view', function() {
       expect(pageLayout.loginModal().isDisplayed()).toBe(true);
     });
 
-    describe('clicking bill text tab', function() {
-      it('hides discussion tab, shows bill text', function() {
-        docPage.showBillText();
+    describe('clicking document text tab', function() {
+      it('hides discussion tab, shows document text', function() {
+        docPage.showDocumentText();
         expect(docPage.info.content.getText()).toMatch(/Document 1/);
         expect(docPage.info.content.isDisplayed()).toBe(true);
       });
