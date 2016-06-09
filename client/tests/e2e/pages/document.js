@@ -3,8 +3,8 @@ var DocumentPage = function() {
   var discussionTabBtn = element(
     by.cssContainingText('.doc-content .nav-tabs a', 'Discussion')
   );
-  var billTextTabBtn = element(
-    by.cssContainingText('.doc-content .nav-tabs a', 'Bill Text')
+  var documentTextTabBtn = element(
+    by.cssContainingText('.doc-content .nav-tabs a', 'Document Text')
   );
   var tableOfContents = element(by.css('.toc'));
 
@@ -136,8 +136,8 @@ var DocumentPage = function() {
     discussionTabBtn.click();
   };
 
-  this.showBillText = function() {
-    billTextTabBtn.click();
+  this.showDocumentText = function() {
+    document.click();
   };
 
   this.showTableOfContents = function() {
