@@ -137,7 +137,7 @@ var DocumentPage = function() {
   };
 
   this.showDocumentText = function() {
-    document.click();
+    documentTextTabBtn.click();
   };
 
   this.showTableOfContents = function() {
