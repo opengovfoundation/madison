@@ -1,8 +1,8 @@
 angular.module('madisonApp.controllers')
   .controller('ResendConfirmationController', ['$scope', '$http', '$state',
-    '$stateParams', '$translate', 'pageService', 'SITE', '$timeout',
+    '$stateParams', '$translate', 'pageService', 'SITE', '$timeout', 'AuthService',
     function ($scope, $http, $state, $stateParams, $translate, pageService,
-      SITE, $timeout) {
+      SITE, $timeout, AuthService) {
       $translate('content.confirmationresend.title', {title: SITE.name}).then(function(translation) {
         pageService.setTitle(translation);
       });
@@ -16,7 +16,24 @@ angular.module('madisonApp.controllers')
           $http.post('/api/user/verify-email', {
             token: $stateParams.token
           }).success(function (response) {
-            $state.go('index');
+
+            $http.get('/api/user/current').success(function(res) {
+              var user = {};
+              if (!$.isEmptyObject(res) && Object.getOwnPropertyNames(res.user).length > 0) {
+                for (var key in res.user) {
+                  if (res.user.hasOwnProperty(key)) {
+                    user[key] = res.user[key];
+                  }
+                }
+              } else {
+                user = null;
+              }
+              AuthService.setUser(user);
+
+              // $location.url(url);
+              $state.go('index', {}, {reload: true, notify: true});
+            });
+
           }).error(function (response) {
             $state.go('login');
             console.error(response);
