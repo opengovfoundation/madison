@@ -133,11 +133,6 @@ angular.module('madisonApp.services')
             authorized = true;
           }
 
-          //Check Independent Sponsor Role
-          if (authorizedRoles.indexOf(USER_ROLES.independent) !== -1 && SessionService.user.independent_sponsor === true){
-            authorized = true;
-          }
-
           //Check Group Member Role
           if (authorizedRoles.indexOf(USER_ROLES.groupMember) !== -1 && SessionService.groups.length > 0) {
             authorized = true;

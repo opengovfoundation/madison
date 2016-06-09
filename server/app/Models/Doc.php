@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Category;
 use Event;
+use Exception;
 use URL;
 
 class Doc extends Model
@@ -34,11 +35,23 @@ class Doc extends Model
     const DISCUSSION_STATE_CLOSED = 'closed';
     const DISCUSSION_STATE_HIDDEN = 'hidden';
 
-    public function __construct()
+    public function __construct($attributes = [])
     {
-        parent::__construct();
+        parent::__construct($attributes);
 
         $this->index = \Config::get('elasticsearch.annotationIndex');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        /**
+         * Set default value for slug
+         */
+        Doc::saving(function($doc) {
+            if (!isset($doc->slug)) $doc->slug = Doc::makeSlug($doc->title);
+        });
     }
 
     public function getEmbedCode()
@@ -465,25 +478,16 @@ class Doc extends Model
         return $return_docs;
     }
 
-    public function save(array $options = array())
+    /**
+     * Class method for converting a title into a valid slug
+     */
+    public static function makeSlug($title)
     {
-        if (empty($this->slug)) {
-            $this->slug = $this->getSlug();
-        }
-
-        return parent::save($options);
-    }
-
-    public function getSlug()
-    {
-        if (empty($this->title)) {
+        if (empty($title)) {
             throw new Exception("Can't get a slug - empty title");
         }
 
-        return str_replace(
-                    array(' ', '.', ',', '#'),
-                    array('-', '', '', ''),
-                    strtolower($this->title));
+        return str_slug($title, '-');
     }
 
     /*

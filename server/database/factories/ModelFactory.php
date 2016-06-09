@@ -10,11 +10,12 @@
 |
 */
 
-use App\Models\User;
-use App\Models\Role;
+use App\Models\Doc;
 use App\Models\Group;
 use App\Models\Page;
 use App\Models\PageContent;
+use App\Models\Role;
+use App\Models\User;
 
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [
@@ -40,7 +41,7 @@ $factory->define(Group::class, function (Faker\Generator $faker) {
         'city' => $faker->city,
         'state' => $faker->state,
         'postal_code' => $faker->postcode,
-        'phone' => $faker->e164PhoneNumber
+        'phone' => $faker->phoneNumber
     ];
 });
 
@@ -50,4 +51,8 @@ $factory->define(Page::class, function (Faker\Generator $faker) {
 
 $factory->define(PageContent::class, function (Faker\Generator $faker) {
     return [ 'content' => join(' ', $faker->sentences) ];
+});
+
+$factory->define(Doc::class, function (Faker\Generator $faker) {
+    return [ 'title' => $faker->words(5, true) ];
 });
