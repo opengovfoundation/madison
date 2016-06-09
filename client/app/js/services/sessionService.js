@@ -5,7 +5,7 @@ angular.module('madisonApp.services')
     this.user = null;
     this.groups = [];
     this.activeGroup = null;
-    this.docs = {'independent': [], 'group': []};
+    this.groupedDocs = {};
 
     this.create = function (user, groups, activeGroupId) {
       this.user = user;
@@ -47,15 +47,14 @@ angular.module('madisonApp.services')
       return this.activeGroup;
     };
 
-    this.setDocs = function (docs) {
-      this.docs.independent = docs.independent;
-      this.docs.group = docs.group;
+    this.setDocs = function (groupedDocs) {
+      this.groupedDocs = groupedDocs;
 
       $rootScope.$broadcast('docsChanged');
     };
 
     this.getDocs = function () {
-      return this.docs;
+      return this.groupedDocs;
     };
 
     this._setActiveGroup = function (groupId) {

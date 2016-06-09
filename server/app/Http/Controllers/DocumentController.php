@@ -1133,22 +1133,16 @@ class DocumentController extends Controller
     public function getUserDocuments()
     {
         $user = Auth::user();
-        $docs = $user->docs->toArray();
 
         $groups = Auth::user()->groups;
-        $groupDocs = [];
+        $groupedDocs = [];
 
         foreach ($groups as $group) {
             $tempDocs = $group->docs()->get()->toArray();
-            array_push($groupDocs, ['name' => $group->name, 'docs' => $tempDocs]);
+            array_push($groupedDocs, ['name' => $group->name, 'docs' => $tempDocs]);
         }
 
-        $returned = [
-            'independent'   => $docs,
-            'group'         => $groupDocs,
-        ];
-
-        return Response::json($returned);
+        return Response::json([ 'groups' => $groupedDocs ]);
     }
 
 

@@ -14,7 +14,7 @@
       ><a ng-click="scrollTo('create-document-wrapper')"
       translate="content.mydocuments.createheader"></a></strong>
 
-    <div ng-repeat="group in docs.group">
+    <div ng-repeat="group in groupedDocs.groups">
       <h3 class="group-author">{{ group.name }}</h3>
       <ul ng-if="group.docs.length > 0">
         <li ng-repeat="doc in group.docs">

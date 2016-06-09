@@ -185,20 +185,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     *	docs.
-     *
-     *	Eloquent one-to-many relationship for Doc
-     *
-     * @param void
-     *
-     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function docs()
-    {
-        return $this->belongsToMany('App\Models\Doc');
-    }
-
-    /**
      *	activeGroup.
      *
      *	Returns current active group for this user
