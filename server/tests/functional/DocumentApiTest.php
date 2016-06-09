@@ -19,36 +19,48 @@ class DocumentApiTest extends TestCase
      */
     public function testGetAllUserDocs()
     {
-    //    $user = factory(User::class)->create();
-    //    $group = factory(Group::class)->create();
-    //    $group->addMember($user->id, Group::ROLE_OWNER);
-    //    $individual_group = Group::createIndividualGroup($user->id);
+        $user = factory(User::class)->create();
+        $group = factory(Group::class)->create();
+        $group->addMember($user->id, Group::ROLE_OWNER);
+        $individual_group = Group::createIndividualGroup($user->id);
 
         /**
          * TODO: These should be getting set from the factory
          */
-    //    $doc1 = factory(Doc::class)->make();
-    //    $doc1->title = 'Doc 1';
+        $doc1 = factory(Doc::class)->create();
+        $doc2 = factory(Doc::class)->create();
+        $doc3 = factory(Doc::class)->create();
 
-    //    $doc2 = factory(Doc::class)->make();
-    //    $doc2->title = 'Doc 2';
+        $group->docs()->saveMany([ $doc1, $doc2 ]);
+        $individual_group->docs()->save($doc3);
 
-    //    $doc3 = factory(Doc::class)->make();
-    //    $doc3->title = 'Doc 3';
+        //$response = $this->actingAs($user)
+        //    ->get("/api/user{$user->id}/docs", ['content-type' => 'application/json'])->response;
 
-    //    $group->docs()->saveMany([ $doc1, $doc2 ]);
-    //    $individual_group->docs()->save($doc3);
+        $data = $this->actingAs($user)
+            ->json('GET', "/api/user/{$user->id}/docs")
+            ->response->getContent();
 
-    //    // create docs for each group
-    //    // -- set publish_state on some to private / unpublished
-    //    // log in as user
-    //    // get all docs
-    //    $this->actingAs($user)
-    //        ->json('GET', "/api/user/{$user->id}/docs")
-    //        ->seeJson(['name' => $individual_group->name])
-    //        ->seeJson(['docs' => [$doc3->toArray()]])
-    //        ->seeJson(['name' => $group->name])
-    //        ->seeJson(['docs' => [$doc1->toArray(), $doc2->toArray()]]);
+        $response = json_decode($data, true);
+
+        $this->assertEquals(count($response['groups']), 2);
+        $this->assertEquals(count($response['groups'][0]['docs']), 2);
+        $this->assertEquals(count($response['groups'][1]['docs']), 1);
+
+        //$this->actingAs($user)
+        //    ->json('GET', "/api/user/{$user->id}/docs")
+        //    ->seeJson([
+        //        'groups' => [
+        //            [
+        //                'name' => $individual_group->name,
+        //                'docs' => [$doc3->toArray()]
+        //            ],
+        //            [
+        //                'name' => $group->name,
+        //                'docs' => [$doc1->toArray(), $doc2->toArray()]
+        //            ]
+        //        ]
+        //    ]);
     }
 
 }

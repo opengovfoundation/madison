@@ -35,9 +35,9 @@ class Doc extends Model
     const DISCUSSION_STATE_CLOSED = 'closed';
     const DISCUSSION_STATE_HIDDEN = 'hidden';
 
-    public function __construct()
+    public function __construct($attributes = [])
     {
-        parent::__construct();
+        parent::__construct($attributes);
 
         $this->index = \Config::get('elasticsearch.annotationIndex');
     }
@@ -487,10 +487,7 @@ class Doc extends Model
             throw new Exception("Can't get a slug - empty title");
         }
 
-        return str_replace(
-                    array(' ', '.', ',', '#'),
-                    array('-', '', '', ''),
-                    strtolower($title));
+        return str_slug($title, '-');
     }
 
     /*
