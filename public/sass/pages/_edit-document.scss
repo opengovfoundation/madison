@@ -46,6 +46,7 @@
 
         .wmd-input {
             height:100%;
+            min-height: 40rem;
         }
 
         .wmd-preview {
@@ -58,8 +59,7 @@
 
         .doc-content-editor {
             float:none;
-            height:40rem;
-            overflow:hidden;
+            min-height:40rem;
         }
     }
 
