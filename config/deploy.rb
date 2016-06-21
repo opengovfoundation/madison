@@ -1,5 +1,3 @@
-# config valid only for current version of Capistrano
-lock '3.5.0'
 
 set :application, 'madison'
 set :repo_url, 'git@github.com:opengovfoundation/madison.git'
@@ -61,7 +59,7 @@ namespace :deploy do
   end
 
   after :published, :migrate_database do
-    on role(:all) do |host|
+    on roles(:all) do |host|
       info 'Running `make db-migrate` to run database migrations'
       within release_path do
         execute :make, 'db-migrate'
