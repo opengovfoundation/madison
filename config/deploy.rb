@@ -41,9 +41,6 @@ namespace :deploy do
     on roles(:all) do |host|
       info 'Running `make deps` to install dependencies'
       within release_path do
-        execute :echo, '---------------------'
-        execute :pwd
-        execute :echo, '---------------------'
         execute :make, :deps
       end
     end
