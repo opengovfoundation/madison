@@ -10,6 +10,10 @@ client/.sass-cache
 # Custom locale files
 client/locales/custom/*.json
 
+# Capistrano stage configuration files
+config/deploy/*
+!config/deploy/example.rb
+
 # OS
 shared
 .settings/
