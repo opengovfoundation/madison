@@ -1,4 +1,0 @@
-/cookbooks/
-/data_bags/sites/*.json
-/data_bags/users/*.json
-/nodes/*.json
