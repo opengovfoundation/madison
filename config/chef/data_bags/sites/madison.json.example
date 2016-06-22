@@ -1,0 +1,12 @@
+{
+  "id": "madison",
+  "type": "madison",
+  "aliases": [],
+
+  // Which nodes will this be deployed on
+  "servers": [""],
+
+  "database_name": "madison",
+  "database_username": "madison",
+  "database_password": "REPLACE ME"
+}

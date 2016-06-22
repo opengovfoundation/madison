@@ -21,3 +21,5 @@ shared
 .buildpath
 .project
 .tmp
+
+log/
