@@ -27,7 +27,7 @@ set :linked_files, fetch(:linked_files, [])
 
 set :linked_dirs, fetch(:linked_dirs, [])
   .push(
-    'log',
+    'server/storage/logs',
     'client/app/locales/custom',
     'client/app/sass/custom'
   )
@@ -59,18 +59,9 @@ namespace :deploy do
     on roles(:all) do |host|
       info 'Running `make db-migrate` to run database migrations'
       within release_path do
-        execute :make, 'db-migrate'
+        execute :make, 'db-force-migrate'
       end
     end
   end
-
-  #after :restart, :clear_cache do
-  #  on roles(:web), in: :groups, limit: 3, wait: 10 do
-  #    # Here we can do anything such as:
-  #    # within release_path do
-  #    #   execute :rake, 'cache:clear'
-  #    # end
-  #  end
-  #end
 
 end
