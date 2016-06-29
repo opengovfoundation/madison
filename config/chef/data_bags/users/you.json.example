@@ -1,6 +1,9 @@
 {
-  "id": "deploy",
-  "comment": "Deploy user",
+
+  // NOTE: This will be your user account on the system
+
+  "id": "yourname",
+  "comment": "Your user on the system",
   "shell": "/bin/bash",
 
   // TODO: Include instructions on encrypting a password
