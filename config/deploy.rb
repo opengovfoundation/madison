@@ -39,9 +39,9 @@ namespace :deploy do
 
   after :published, :install_dependencies do
     on roles(:all) do |host|
-      info 'Running `make deps` to install dependencies'
+      info 'Running `make deps-production` to install dependencies'
       within release_path do
-        execute :make, :deps
+        execute :make, 'deps-production'
       end
     end
   end
@@ -61,6 +61,13 @@ namespace :deploy do
       within release_path do
         execute :make, 'db-force-migrate'
       end
+    end
+  end
+
+  after :published, :set_folder_permissions do
+    on roles(:all) do |host|
+      info 'Ensuring current permissions on shared folders'
+      execute "chmod -R 775 #{shared_path}/server/storage"
     end
   end
 
