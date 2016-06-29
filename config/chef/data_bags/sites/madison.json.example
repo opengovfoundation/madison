@@ -4,7 +4,7 @@
   "id": "madison",
 
   // ServerName to be set in Apache
-  "server_name": "madison.servername.com",
+  "url": "madison.servername.com",
 
   "type": "madison", // Should not change
   "aliases": [],
