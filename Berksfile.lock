@@ -4,13 +4,16 @@ DEPENDENCIES
     revision: bc87b5842863f05232def0be3598b828a6227e88
   lamp-server
     git: git@github.com:opengovfoundation/cookbook-lamp-server.git
-    revision: e8e90c52d48c89f225085eb1f82f31dae825bb39
+    revision: 070b26cdecdccfcafceeb7dd02245c70fb7d8e7f
   madison-server
     git: git@github.com:opengovfoundation/cookbook-madison-server.git
-    revision: ba84fad2ac12139c34ed49d9de029a1e546a3d1a
+    revision: d45a61d572e0a65448c770daa0dbf0fb422b9b1d
   opengov-users
     git: git@github.com:opengovfoundation/cookbook-users.git
-    revision: 488e10fdb503e2cad57b9685f92efdee3a8fdab2
+    revision: ae3a584aac3380d7d562fd1f39c0dbff93d0e73c
+  php
+    git: git@github.com:opengovfoundation/cookbook-php.git
+    revision: f3ccae7bb3b0026cfc3b6065565b31255e76f144
 
 GRAPH
   apache2 (3.2.2)
@@ -36,8 +39,12 @@ GRAPH
     windows (>= 1.42.0)
   chef-sugar (3.3.0)
   chef-vault (1.3.3)
+  chef_gem (0.1.0)
   chef_handler (1.4.0)
   compat_resource (12.10.6)
+  composer (2.3.0)
+    php (>= 0.0.0)
+    windows (>= 0.0.0)
   cron (1.7.6)
   database (5.1.2)
     postgresql (>= 1.0.0)
@@ -49,9 +56,11 @@ GRAPH
     yum-epel (>= 0.0.0)
   homebrew (2.1.0)
     build-essential (>= 2.1.2)
-  iis (4.1.8)
+  iis (4.1.9)
     windows (>= 1.34.6)
-  lamp-server (0.1.16)
+  java (1.39.0)
+    apt (>= 0.0.0)
+  lamp-server (0.1.17)
     apache2 (>= 0.0.0)
     base-server (>= 0.0.0)
     ca-certificates (>= 0.0.0)
@@ -62,9 +71,11 @@ GRAPH
     mysql2_chef_gem (>= 0.0.0)
     nodejs (>= 0.0.0)
     php (>= 0.0.0)
+    rvm (>= 0.0.0)
   logrotate (1.9.2)
   madison-server (0.1.23)
     chef-client (>= 0.0.0)
+    composer (>= 0.0.0)
     git (>= 0.0.0)
     lamp-server (>= 0.0.0)
     opengov-users (>= 0.0.0)
@@ -72,7 +83,7 @@ GRAPH
     apt (>= 0.0.0)
     yum (>= 0.0.0)
     yum-epel (>= 0.0.0)
-  mingw (1.2.0)
+  mingw (1.2.2)
     compat_resource (>= 0.0.0)
     seven_zip (>= 0.0.0)
   mysql (7.1.1)
@@ -93,10 +104,9 @@ GRAPH
     sudo (>= 0.0.0)
   openssl (4.4.0)
     chef-sugar (>= 3.1.1)
-  php (1.9.0)
+  php (1.9.1)
     build-essential (>= 0.0.0)
     iis (>= 0.0.0)
-    mysql (>= 6.0.0)
     windows (>= 1.39.1)
     xml (>= 0.0.0)
     yum-epel (>= 0.0.0)
@@ -105,6 +115,9 @@ GRAPH
     build-essential (>= 0.0.0)
     openssl (~> 4.0)
   rbac (1.0.3)
+  rvm (0.9.4)
+    chef_gem (>= 0.0.0)
+    java (>= 0.0.0)
   seven_zip (2.0.1)
     windows (>= 1.2.2)
   smf (2.2.8)
