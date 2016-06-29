@@ -4,6 +4,12 @@ all: deps build-client
 
 deps: deps-server optimize autoload deps-client
 
+gems:
+	gem install bundler && bundle install
+
+gems-production:
+	gem install bundler && bundle install --without=deployment
+
 deps-server:
 	cd server && composer install
 
