@@ -1,12 +1,19 @@
 {
+
+  // ID (name) becomes the name of the application folder on the server
   "id": "madison",
-  "type": "madison",
+
+  // ServerName to be set in Apache
+  "server_name": "madison.servername.com",
+
+  "type": "madison", // Should not change
   "aliases": [],
 
-  // Which nodes will this be deployed on
+  // This should contain the hostname or IP of the server you are deploying to
   "servers": [""],
 
   "database_name": "madison",
   "database_username": "madison",
   "database_password": "REPLACE ME"
+
 }
