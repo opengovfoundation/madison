@@ -2,7 +2,9 @@
 
 all: deps build-client
 
-deps: deps-server optimize autoload deps-client
+deps: clean deps-server optimize autoload deps-client gems
+
+deps-production: clean deps-server optimize autoload deps-client gems-production
 
 gems:
 	gem install bundler && bundle install
@@ -78,15 +80,15 @@ watch:
 # ----------------------------------------------------------
 
 check-server-variable:
-	@if [ -z "$(SERVER)" ]; then echo "Must provide a SERVER in user@hostname format." && exit 1; fi
+	@if [ -z "$(server)" ]; then echo "Must provide a 'server' in user@hostname format." && exit 1; fi
 
 berks:
 	berks install && berks vendor config/chef/cookbooks
 
 chef-prepare: check-server-variable
-	knife solo prepare $(SERVER) -r "recipe[madison-server::default]"
+	knife solo prepare $(server) -r "recipe[madison-server::default]"
 
-CONFIG := $(shell echo $(SERVER) | sed -e 's/.*@//')
+CONFIG := $(shell echo $(server) | sed -e 's/.*@//')
 
 chef-cook: check-server-variable
-	knife solo cook $(SERVER) config/chef/nodes/$(CONFIG).json
+	knife solo cook $(server) config/chef/nodes/$(CONFIG).json
