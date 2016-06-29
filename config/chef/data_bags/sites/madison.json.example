@@ -3,8 +3,11 @@
   // ID (name) becomes the name of the application folder on the server
   "id": "madison",
 
+  "site_title": "Madison",
+
   // ServerName to be set in Apache
   "url": "madison.servername.com",
+  "ssl": true,
 
   "type": "madison", // Should not change
   "aliases": [],
