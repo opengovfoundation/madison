@@ -10,7 +10,7 @@ gems:
 	gem install bundler --no-rdoc --no-ri && bundle install
 
 gems-production:
-	source /etc/profile.d/rvm.sh && bundle install --path=vendor/bundle --without-deployment
+	bundle install --path=vendor/bundle --without-deployment
 
 deps-server:
 	cd server && composer install
