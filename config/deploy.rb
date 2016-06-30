@@ -70,10 +70,6 @@ namespace :deploy do
 
 end
 
-#before 'deploy', 'rvm1:install:rvm'
-before 'deploy', 'rvm1:install:ruby'
-before 'deploy', 'rvm1:install:gems'
-
 task :seed do
   on roles(:all) do |host|
     info "Running database seeders on #{host}"
