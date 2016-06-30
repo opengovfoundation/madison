@@ -7,6 +7,5 @@ end
 
 group :deployment do
   gem 'capistrano', '~> 3.4'
-  gem 'rvm1-capistrano3'
   gem 'knife-solo'
 end
