@@ -25,6 +25,9 @@ endif
 deps-client: check-node
 	cd client && npm install
 
+set-key:
+	cd server && php artisan key:generate
+
 autoload:
 	cd server && composer dump-autoload
 
