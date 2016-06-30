@@ -77,7 +77,7 @@ task :seed do
   on roles(:all) do |host|
     info "Running database seeders on #{host}"
     within release_path do
-      execute :make, 'db-seed'
+      execute :make, 'db-force-seed'
     end
   end
 end
