@@ -1,3 +1,4 @@
+require 'rvm/capistrano'
 
 set :application, 'madison'
 set :repo_url, 'git@github.com:opengovfoundation/madison.git'
@@ -6,6 +7,7 @@ set :repo_url, 'git@github.com:opengovfoundation/madison.git'
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 set :scm, :git
+set :rvm1_ruby_version, '2.3.0'
 
 set :keep_releases, 5
 
@@ -18,7 +20,7 @@ set :format_options,
   truncate: :auto
 
 # Default value for :pty is false
-# set :pty, true
+set :pty, true
 
 set :linked_files, fetch(:linked_files, [])
   .push(
@@ -34,6 +36,10 @@ set :linked_dirs, fetch(:linked_dirs, [])
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
+
+before 'deploy', 'rvm1:install:rvm'
+before 'deploy', 'rvm1:install:ruby'
+before 'deploy', 'rvm1:install:gems'
 
 namespace :deploy do
 
