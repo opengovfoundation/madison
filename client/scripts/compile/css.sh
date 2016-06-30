@@ -1,1 +1,1 @@
-compass compile --force
+bundle exec compass compile --force
