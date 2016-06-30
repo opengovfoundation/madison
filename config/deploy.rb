@@ -68,6 +68,7 @@ namespace :deploy do
     on roles(:all) do |host|
       info 'Ensuring current permissions on shared folders'
       execute "chmod -R 775 #{shared_path}/server/storage"
+      execute "touch #{shared_path}/server/storage/laravel.log"
     end
   end
 
