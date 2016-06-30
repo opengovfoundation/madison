@@ -72,3 +72,12 @@ namespace :deploy do
   end
 
 end
+
+task :seed do
+  on roles(:all) do |host|
+    info "Running database seeders on #{host}"
+    within release_path do
+      execute :make, 'db-seed'
+    end
+  end
+end
