@@ -4,10 +4,13 @@ all: deps build-client
 
 deps: clean deps-server optimize autoload deps-client gems
 
-deps-production: clean deps-server optimize autoload deps-client
+deps-production: clean deps-server optimize autoload deps-client gems-production
 
 gems:
 	gem install bundler --no-rdoc --no-ri && bundle install
+
+gems-production:
+  bundle install --path vendor/bundle --without deployment
 
 deps-server:
 	cd server && composer install
