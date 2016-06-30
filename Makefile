@@ -61,8 +61,8 @@ db-test-seed:
 db-migrate:
 	cd server && php artisan migrate
 
-db-seed:
-	cd server && php artisan db:seed
+db-force-seed:
+	cd server && php artisan db:seed --force
 
 db-force-migrate:
 	echo "Running a forced database migration, potential to lose some data!"
