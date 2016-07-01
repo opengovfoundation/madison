@@ -29,7 +29,9 @@ set :linked_dirs, fetch(:linked_dirs, [])
   )
 
 # Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+set :default_env, {
+  path: "/usr/local/rvm/gems/ruby-2.3.0/bin:/usr/local/rvm/gems/ruby-2.3.0@global/bin:/usr/local/rvm/rubies/ruby-2.3.0/bin:$PATH"
+}
 
 namespace :deploy do
 
@@ -46,6 +48,10 @@ namespace :deploy do
     on roles(:all) do |host|
       info 'Running `make build-client` to build client side assets'
       within release_path do
+        info '----------------------------------------------'
+        execute "echo $PATH"
+        info '----------------------------------------------'
+
         execute :make, 'build-client'
       end
     end
