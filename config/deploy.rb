@@ -48,10 +48,6 @@ namespace :deploy do
     on roles(:all) do |host|
       info 'Running `make build-client` to build client side assets'
       within release_path do
-        info '----------------------------------------------'
-        execute "echo $PATH"
-        info '----------------------------------------------'
-
         execute :make, 'build-client'
       end
     end
@@ -76,11 +72,13 @@ namespace :deploy do
 
 end
 
-task :seed do
-  on roles(:all) do |host|
-    info "Running database seeders on #{host}"
-    within release_path do
-      execute :make, 'db-force-seed'
+namespace :db do
+  task :seed do
+    on roles(:all) do |host|
+      info "Running database seeders on #{host}"
+      within release_path do
+        execute :make, 'db-force-seed'
+      end
     end
   end
 end
