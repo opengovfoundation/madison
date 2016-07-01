@@ -3,7 +3,8 @@ DEPENDENCIES
     git: git@github.com:opengovfoundation/cookbook-base-server.git
     revision: bc87b5842863f05232def0be3598b828a6227e88
   lamp-server
-    path: ../cookbook-lamp-server
+    git: git@github.com:opengovfoundation/cookbook-lamp-server.git
+    revision: b151233f751303e2a4126f9f397f088b960de4d3
   madison-server
     git: git@github.com:opengovfoundation/cookbook-madison-server.git
     revision: d45a61d572e0a65448c770daa0dbf0fb422b9b1d
