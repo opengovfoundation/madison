@@ -223,37 +223,28 @@ class Doc extends Model
     public function getCommentCountAttribute()
     {
         // note that this is only the top level comment count
-        return $this->comments
-            ->filter(function ($item) {
-                return !$item->isNote();
-            })
-            ->count()
-            ;
-    }
-
-    public function getNoteCount()
-    {
-        return $this->comments
-            ->filter(function ($item) {
-                return $item->isNote();
-            })
-            ->count()
-            ;
+        return $this->comments_count - $this->note_count;
     }
 
     public function getNoteCountAttribute()
     {
-        return $this->getNoteCount();
-    }
-
-    public function getNoteCommentCount()
-    {
-        return $this->allCommentsCount() - $this->note_count - $this->comment_count;
+        return $this
+            ->comments()
+            ->whereIn('id', function ($query) {
+                $query
+                    ->select('annotatable_id')
+                    ->from('annotations')
+                    ->where('annotatable_type', Annotation::class)
+                    ->where('annotation_type_type', AnnotationTypes\Range::class)
+                    ;
+            })
+            ->count()
+            ;
     }
 
     public function getNoteCommentCountAttribute()
     {
-        return $this->getNoteCommentCount();
+        return $this->allCommentsCount() - $this->note_count - $this->comment_count;
     }
 
     public function getUserCount()
