@@ -19,7 +19,6 @@ class CommentUnification extends Migration
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         // create new stuff
         Schema::table('annotations', function ($table) {
-            // TODO: add indexes to the morphed stuff?
             $table->morphs('annotatable');
             $table->morphs('annotation_type');
             $table->json('data');
