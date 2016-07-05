@@ -53,26 +53,29 @@ class CommentController extends Controller
 
             if ($request->query('parent_id')) {
                 $commentsQuery
-                    ->where('annotatable_type', AnnotationTypes\Comment::class)
+                    ->where('annotatable_type', Annotation::class)
                     ->where('annotatable_id', $request->query('parent_id'))
                     ;
             }
 
-            $comments = $commentsQuery->get();
-        }
+            if ($request->exists('is_ranged')) {
+                if ($request->query('is_ranged') && $request->query('is_ranged') !== 'false') {
+                    $condition = 'whereIn';
+                } else {
+                    $condition = 'whereNotIn';
+                }
 
-        if ($request->exists('is_ranged')) {
-            if ($request->query('is_ranged') && $request->query('is_ranged') !== 'false') {
-                $filterFunc = function ($item) {
-                    return $item->ranges_count > 0;
-                };
-            } else {
-                $filterFunc = function ($item) {
-                    return $item->ranges_count === 0;
-                };
+                $commentsQuery->{$condition}('id', function ($query) {
+                    $query
+                        ->select('annotatable_id')
+                        ->from('annotations')
+                        ->where('annotatable_type', Annotation::class)
+                        ->where('annotation_type_type', AnnotationTypes\Range::class)
+                        ;
+                });
             }
 
-            $comments = $comments->filter($filterFunc);
+            $comments = $commentsQuery->get();
         }
 
         // a little silly, we should probably support a more general
