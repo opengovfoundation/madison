@@ -60,9 +60,6 @@ class SponsorCommand extends Command
 					  WHERE id NOT IN (
 						SELECT doc_id
 						  FROM doc_group
-					 UNION ALL
-						SELECT doc_id
-						  FROM doc_user
 					)"
                 ),
                 array()

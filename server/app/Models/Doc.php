@@ -525,14 +525,9 @@ class Doc extends Model
     public static function getAllValidSponsors()
     {
         return Group
-            ::where('status', '=', Group::STATUS_ACTIVE)
+            ::select('id', 'display_name')
+            ->where('status', Group::STATUS_ACTIVE)
             ->get()
-            ->map(function ($group) {
-                return [
-                    'id' => $group->id,
-                    'display_name' => $group->display_name,
-                ];
-            })
             ;
     }
 
