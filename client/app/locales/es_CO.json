@@ -286,6 +286,7 @@
   "document.action.create": "Crear documento",
   "document.action.permalink": "Copiar enlace a este comentario",
   "document.action.restore": "Restaurar",
+    "document.action.rss.title": "RSS feed for this Document",
 
   "document.stats.today": "Hoy",
   "document.stats.thisweek": "Semana",

@@ -308,6 +308,7 @@
   "document.action.create": "Create document",
   "document.action.permalink": "Copy link to this comment",
   "document.action.restore": "Restore",
+  "document.action.rss.title": "RSS feed for this Document",
 
   "document.stats.today": "Today",
   "document.stats.thisweek": "Week",
