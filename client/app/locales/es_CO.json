@@ -213,7 +213,7 @@
   "document.label.quotedtitle": "&quot;{{ title }}&quot;",
   "document.label.sponsoredby": "Patrocinado por",
   "document.label.commentcount": "{count} {count, plural, one{Comment} other{Comments}}",
-  "document.label.notecount": "{count} {count, plural, one{Annotation} other{Annotations}}",
+  "document.label.notecount": "{count} {count, plural, one{Note} other{Notes}}",
   "document.label.collaboratorcount": "{count} {count, plural, one{Collaborator} other{Collaborators}}",
 
   "document.label.stats": "Estadistica leyes/ordenanzas/acuerdos",
@@ -270,7 +270,7 @@
   "notes.label.replies": "{count} {count, plural, one{reply} other{replies}}",
   "notes.label.replies.none": "No hay respuestas",
   "notes.label.comments.none": "sin comentarios aún.",
-  "note.label.jumpto": "Saltar a  {{title}}",
+  "notes.label.jumpto": "Saltar a  {{title}}",
 
   "document.action.like": "como esta",
   "document.action.flag": "Flag esta",

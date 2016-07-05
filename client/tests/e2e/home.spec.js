@@ -16,14 +16,14 @@ describe('madison home doc list', function() {
   it('should display a list of most active documents', function() {
     expect(homePage.mostActiveDoc.title.getText()).toBe('"Example Document"');
     expect(homePage.mostActiveDoc.comments.getText()).toBe('3 Comments');
-    expect(homePage.mostActiveDoc.annotations.getText()).toBe('2 Annotations');
+    expect(homePage.mostActiveDoc.notes.getText()).toBe('2 Notes');
   });
 
   it('should have a featured document', function() {
     expect(homePage.featuredDoc.title.getText()).toBe('Example Document');
     expect(homePage.featuredDoc.sponsor.getText()).toBe('Example Group Display');
     expect(homePage.featuredDoc.comments.getText()).toBe('3 Comments');
-    expect(homePage.featuredDoc.annotations.getText()).toBe('2 Annotations');
+    expect(homePage.featuredDoc.notes.getText()).toBe('2 Notes');
   });
 
   it('goes to the document page when featured title is clicked', function() {
