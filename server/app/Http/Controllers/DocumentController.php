@@ -29,6 +29,7 @@ use App\Models\Comment;
 use App\Models\Category;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use URL;
 
 /**
  * 	Controller for Document actions.
@@ -685,7 +686,7 @@ class DocumentController extends Controller
      *
      * @return view $feed->render()
      */
-    public function getFeed(DocAccessReadRequest $request, Doc $doc)
+    public function getActivityFeed(DocAccessReadRequest $request, Doc $doc)
     {
         $feed = App::make('feed');
 
@@ -699,6 +700,40 @@ class DocumentController extends Controller
 
         foreach ($activities as $activity) {
             $item = $activity->getFeedItem();
+
+            $feed->addItem($item);
+        }
+
+        return $feed->render('atom');
+    }
+
+    public function getFeed()
+    {
+        //Grab all documents
+        $docs = Doc
+            ::with('sponsors', 'content')
+            ->latest('updated_at')
+            ->take(20)
+            ->get();
+
+        $feed = App::make('feed');
+
+        $feed->title = 'Madison Documents';
+        $feed->description = 'Latest 20 documents in Madison';
+        $feed->link = URL::to('rss');
+        $feed->pubdate = $docs->first()->updated_at;
+        $feed->lang = 'en';
+
+        foreach ($docs as $doc) {
+            $item = [];
+            $item['title'] = $doc->title;
+            $item['author'] = $doc->sponsors->first()->display_name;
+            $item['link'] = $doc->url;
+            $item['pubdate'] = $doc->updated_at;
+            $item['description'] = $doc->title;
+            $item['content'] = $doc->fullContentHtml();
+            $item['enclosure'] = [];
+            $item['category'] = '';
 
             $feed->addItem($item);
         }

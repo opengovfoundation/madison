@@ -95,6 +95,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('docs/featured', 'DocumentController@getFeatured');
     Route::get('docs/deleted', 'DocumentController@getDeletedDocs')->middleware(['auth']);
     Route::put('dates/{date}', 'DocumentController@putDate');
+    Route::get('docs/feed', 'DocumentController@getFeed');
 
     // Single Doc Routes
     Route::post('docs/{doc}/support/', 'DocumentController@postSupport');
@@ -126,7 +127,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('docs/{doc}/dates', 'DocumentController@postDate');
     Route::delete('docs/{doc}/dates/{dates}', 'DocumentController@deleteDate');
     Route::post('docs/{doc}/status', 'DocumentController@postStatus');
-    Route::get('docs/{doc}/feed', 'DocumentController@getFeed');
+    Route::get('docs/{doc}/feed', 'DocumentController@getActivityFeed');
 
     // Document Comment Routes
     Route::post('docs/{doc}/comments', 'CommentController@postIndex');
@@ -198,41 +199,4 @@ Route::group(['prefix' => 'api'], function() {
     // apps. E.g., when the user pastes a link to Madison into a Facebook post.
     Route::get('social/docs/{doc}', 'DocumentController@getSocialDoc');
     Route::get('social/api/docs/{doc}/images/{image}','DocumentController@getImage');
-
-    /**
-     *   RSS Feed Route.
-     */
-    Route::get('docs/feed', function () {
-        //Grab all documents
-        $docs = Doc
-            ::with('sponsors', 'content')
-            ->latest('updated_at')
-            ->take(20)
-            ->get();
-
-        $feed = App::make('feed');
-
-        $feed->title = 'Madison Documents';
-        $feed->description = 'Latest 20 documents in Madison';
-        $feed->link = URL::to('rss');
-        $feed->pubdate = $docs->first()->updated_at;
-        $feed->lang = 'en';
-
-        foreach ($docs as $doc) {
-            $item = [];
-            $item['title'] = $doc->title;
-            $item['author'] = $doc->sponsors->first()->display_name;
-            $item['link'] = $doc->url;
-            $item['pubdate'] = $doc->updated_at;
-            $item['description'] = $doc->title;
-            $item['content'] = $doc->fullContentHtml();
-            $item['enclosure'] = [];
-            $item['category'] = '';
-
-            $feed->addItem($item);
-        }
-
-        return $feed->render('atom');
-
-    });
 });
