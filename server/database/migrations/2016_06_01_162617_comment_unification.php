@@ -356,7 +356,7 @@ class CommentUnification extends Migration
             ->update([
                 'created_at' => $basedOn->created_at,
                 'updated_at' => $basedOn->updated_at,
-                'deleted_at' => $basedOn->deleted_at,
+                'deleted_at' => property_exists($basedOn, 'deleted_at') ? $basedOn->deleted_at : null,
             ])
             ;
     }
