@@ -100,7 +100,7 @@ angular.module('madisonApp.controllers')
       };
 
       Doc.getActivity({
-        id: id, summary: 'general'
+        id: id
       }).$promise.then(function(data) {
         $scope.stats = data;
       });

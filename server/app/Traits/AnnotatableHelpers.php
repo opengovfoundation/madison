@@ -154,4 +154,26 @@ trait AnnotatableHelpers
 
         return $commentsCount;
     }
+
+    public function scopeOnlyNotes($query)
+    {
+        $this->notesQuery($query, 'whereIn');
+    }
+
+    public function scopeNotNotes($query)
+    {
+        $this->notesQuery($query, 'whereNotIn');
+    }
+
+    protected function notesQuery($commentsQuery, $condition)
+    {
+        $commentsQuery->{$condition}('id', function ($query) {
+            $query
+                ->select('annotatable_id')
+                ->from('annotations')
+                ->where('annotatable_type', Annotation::class)
+                ->where('annotation_type_type', AnnotationTypes\Range::class)
+                ;
+        });
+    }
 }

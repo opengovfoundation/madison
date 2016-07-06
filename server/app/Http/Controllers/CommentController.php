@@ -60,19 +60,10 @@ class CommentController extends Controller
 
             if ($request->exists('is_ranged')) {
                 if ($request->query('is_ranged') && $request->query('is_ranged') !== 'false') {
-                    $condition = 'whereIn';
+                    $commentsQuery->onlyNotes();
                 } else {
-                    $condition = 'whereNotIn';
+                    $commentsQuery->notNotes();
                 }
-
-                $commentsQuery->{$condition}('id', function ($query) {
-                    $query
-                        ->select('annotatable_id')
-                        ->from('annotations')
-                        ->where('annotatable_type', Annotation::class)
-                        ->where('annotation_type_type', AnnotationTypes\Range::class)
-                        ;
-                });
             }
 
             $comments = $commentsQuery->get();
