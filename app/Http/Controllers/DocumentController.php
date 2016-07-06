@@ -1193,14 +1193,16 @@ class DocumentController extends Controller
         // We want to get the comments and annotations but not from our sponsor
         // or group.
 
-        $skip_ids = $doc->sponsorIds;
+        $skip_ids = [];
+        if(Input::get('no_sponsor_comments') && Input::get('no_sponsor_comments') !== '0') {
+            $skip_ids = $doc->sponsorIds;
+        }
 
-        if(Input::get('summary') === 'general')
-        {
-            $statistics = array(
-                'comments' => array(),
-                'annotations' => array()
-            );
+        if (Input::get('summary') === 'general') {
+            $statistics = [
+                'comments' => [],
+                'annotations' => []
+            ];
             $statistics['comments']['total'] = $doc->comments()->
                 whereNotIn('comments.user_id', $skip_ids)->
                 count();
@@ -1287,7 +1289,10 @@ class DocumentController extends Controller
 
         if($doc)
         {
-            $skip_ids = $doc->sponsorIds;
+            $skip_ids = [];
+            if(Input::get('no_sponsor_comments') && Input::get('no_sponsor_comments') !== '0') {
+                $skip_ids = $doc->sponsorIds;
+            }
 
             $actions = DocAction::where('doc_id', $docId)->
                 whereNotIn('user_id', $skip_ids)->

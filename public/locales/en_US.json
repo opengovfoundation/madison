@@ -294,7 +294,8 @@
   "document.stats.comments": "Comments",
   "document.stats.annotations": "Annotations",
 
-  "document.comments.download.csv": "Download CSV",
+  "document.comments.downloadall.csv": "Download CSV (All Comments)",
+  "document.comments.downloadnosponsors.csv": "Download CSV (Without Sponsor Comments)",
 
   "user.label.verified": "Verified",
   "user.label.membersince": "Member since <time datetime=\"{{ datetime }}\">{{ datetime | parseDate | date:'mediumDate' }}</time>",
