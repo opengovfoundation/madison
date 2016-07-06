@@ -125,8 +125,8 @@ class CommentUnification extends Migration
                     case 'like':
                         $newLike = AnnotationTypes\Like::create();
                         DB::table('annotations')->insert([
-                            'user_id' => $noteMeta['user_id'],
-                            'annotatable_id' => $noteMeta['annotation_id'],
+                            'user_id' => $noteMeta->user_id,
+                            'annotatable_id' => $noteMeta->annotation_id,
                             'annotatable_type' => Annotation::class,
                             'annotation_type_id' => $newLike->id,
                             'annotation_type_type' => AnnotationTypes\Like::class,
@@ -138,8 +138,8 @@ class CommentUnification extends Migration
                     case 'flag':
                         $newFlag = AnnotationTypes\Flag::create();
                         DB::table('annotations')->insert([
-                            'user_id' => $noteMeta['user_id'],
-                            'annotatable_id' => $noteMeta['annotation_id'],
+                            'user_id' => $noteMeta->user_id,
+                            'annotatable_id' => $noteMeta->annotation_id,
                             'annotatable_type' => Annotation::class,
                             'annotation_type_id' => $newFlag->id,
                             'annotation_type_type' => AnnotationTypes\Flag::class,
@@ -269,7 +269,7 @@ class CommentUnification extends Migration
                         $newLike = AnnotationTypes\Like::create();
                         $this->updateTimestamps($newLike, $commentMeta);
                         DB::table('annotations')->insert([
-                            'user_id' => $commentMeta['user_id'],
+                            'user_id' => $commentMeta->user_id,
                             'annotatable_id' => $commentAnnotationId,
                             'annotatable_type' => Annotation::class,
                             'annotation_type_id' => $newLike->id,
@@ -283,7 +283,7 @@ class CommentUnification extends Migration
                         $newFlag = AnnotationTypes\Flag::create();
                         $this->updateTimestamps($newFlag, $commentMeta);
                         DB::table('annotations')->insert([
-                            'user_id' => $commentMeta['user_id'],
+                            'user_id' => $commentMeta->user_id,
                             'annotatable_id' => $commentAnnotationId,
                             'annotatable_type' => Annotation::class,
                             'annotation_type_id' => $newFlag->id,
