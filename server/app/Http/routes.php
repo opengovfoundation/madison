@@ -89,7 +89,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::put('docs/featured', 'DocumentController@putFeatured');
     Route::delete('docs/featured/{doc}', 'DocumentController@deleteFeatured');
     Route::get('docs/recent/{query?}', 'DocumentController@getRecent')->where('query', '[0-9]+');
-    Route::get('docs/categories', 'DocumentController@getCategories');
+    Route::get('docs/categories', 'DocumentController@getAllCategories');
     Route::get('docs/statuses', 'DocumentController@getAllStatuses');
     Route::get('docs/sponsors', 'DocumentController@getAllSponsors');
     Route::get('docs/featured', 'DocumentController@getFeatured');
@@ -100,7 +100,7 @@ Route::group(['prefix' => 'api'], function() {
     // Single Doc Routes
     Route::post('docs/{doc}/support/', 'DocumentController@postSupport');
     Route::get('users/{user}/support/{doc}', 'UserController@getSupport');
-    Route::get('docs/{doc}/categories', 'DocumentController@getCategories');
+    Route::get('docs/{doc}/categories', 'DocumentController@getDocCategories');
     Route::get('docs/{doc}/introtext', 'DocumentController@getIntroText');
     Route::get('docs/{doc}/content', 'DocumentController@getContent');
     Route::get('docs/{doc}/sponsor/{sponsor}', 'DocumentController@hasSponsor');

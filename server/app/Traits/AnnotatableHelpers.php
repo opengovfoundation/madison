@@ -127,15 +127,11 @@ trait AnnotatableHelpers
 
     public function allComments($excludeUserIds = [])
     {
-        $commentsFunc = function ($model) use ($excludeUserIds) {
-            return $model
-                ->comments()
-                ->whereNotIn('user_id', $excludeUserIds)
-                ->get();
+        $comments = $this
+            ->comments()
+            ->whereNotIn('user_id', $excludeUserIds)
+            ->get()
             ;
-        };
-
-        $comments = $commentsFunc($this);
 
         foreach ($this->comments as $subcomment) {
             $comments = $comments->merge($subcomment->allComments($excludeUserIds));

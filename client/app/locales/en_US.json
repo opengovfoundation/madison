@@ -315,7 +315,7 @@
   "document.stats.thismonth": "Month",
   "document.stats.alltime": "All Time",
   "document.stats.comments": "Comments",
-  "document.stats.notes": "Notes",
+  "document.stats.notes": "Notes (and their comments)",
 
   "document.comments.downloadall.csv": "Download CSV (All Comments)",
   "document.comments.downloadnosponsors.csv": "Download CSV (Without Sponsor Comments)",

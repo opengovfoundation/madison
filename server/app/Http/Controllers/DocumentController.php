@@ -463,13 +463,14 @@ class DocumentController extends Controller
         return Response::json([ 'count' => $docCount ]);
     }
 
-    public function getCategories(DocAccessReadRequest $request, Doc $doc = null)
+    public function getAllCategories(DocAccessReadRequest $request)
     {
-        if (!isset($doc)) {
-            $categories = Category::all();
-        } else {
-            $categories = $doc->categories()->get();
-        }
+        return Response::json(Category::all());
+    }
+
+    public function getDocCategories(DocAccessReadRequest $request, Doc $doc)
+    {
+        $categories = $doc->categories()->get();
 
         return Response::json($categories);
     }
@@ -1124,82 +1125,53 @@ class DocumentController extends Controller
 
     public function getActivity(DocAccessEditRequest $request, Doc $doc)
     {
-        // TODO: migrate
-        $skipIds = $doc->sponsorIds;
+        $excludeUserIds = [];
+        if ($request->query('exclude_sponsors') && $request->query('exclude_sponsors') !== 'false') {
+            $excludeUserIds = $doc->sponsorIds;
+        }
 
         $statistics = [
-            'comments' => [],
-            'annotations' => [],
+            'comments' => [
+                'total' => 0,
+                'month' => 0,
+                'week' => 0,
+                'day' => 0,
+            ],
+            'notes' => [
+                'total' => 0,
+                'month' => 0,
+                'week' => 0,
+                'day' => 0,
+            ],
         ];
-        $statistics['comments']['total'] = $doc
-            ->comments()
-            ->whereNotIn('user_id', $skipIds)
-            ->count();
-        $statistics['comments']['month'] = $doc
-            ->comments()
-            ->whereNotIn('user_id', $skipIds)
-            ->where('created_at', '>=',
-                \Carbon\Carbon::now()->subMonth()->toDateTimeString())
-            ->count();
-        $statistics['comments']['week'] = $doc
-            ->comments()
-            ->whereNotIn('user_id', $skipIds)
-            ->where('created_at', '>=',
-                \Carbon\Carbon::now()->subWeek()->toDateTimeString())
-            ->count();
-        $statistics['comments']['day'] = $doc
-            ->comments()
-            ->whereNotIn('user_id', $skipIds)
-            ->where('created_at', '>=',
-                \Carbon\Carbon::now()->subDay()->toDateTimeString())
-            ->count();
 
-        $statistics['annotations']['total'] = $doc
-            ->annotations()
-            ->whereNotIn('annotations.user_id', $skipIds)
-            ->count();
-        $statistics['annotations']['month'] = $doc
-            ->annotations()
-            ->whereNotIn('annotations.user_id', $skipIds)
-            ->where('created_at', '>=',
-                \Carbon\Carbon::now()->subMonth()->toDateTimeString())
-            ->count();
-        $statistics['annotations']['week'] = $doc
-            ->annotations()
-            ->whereNotIn('annotations.user_id', $skipIds)
-            ->where('created_at', '>=',
-                \Carbon\Carbon::now()->subWeek()->toDateTimeString())
-            ->count();
-        $statistics['annotations']['day'] = $doc
-            ->annotations()
-            ->whereNotIn('annotations.user_id', $skipIds)
-            ->where('created_at', '>=',
-                \Carbon\Carbon::now()->subDay()->toDateTimeString())
-            ->count();
+        $now = \Carbon\Carbon::now();
+        foreach ($doc->allComments($excludeUserIds) as $comment) {
+            $key = '';
+            if ($comment->isNote()
+                || ($comment->annotatable_type === Annotation::class
+                    && $comment->annotatable->isNote()
+                   )
+            ) {
+                $key = 'notes';
+            } else {
+                $key = 'comments';
+            }
 
-        $statistics['annotations']['total'] += $doc
-            ->annotationComments()
-            ->whereNotIn('annotation_comments.user_id', $skipIds)
-            ->count();
+            $statistics[$key]['total'] += 1;
 
-        $statistics['annotations']['month'] += $doc
-            ->annotationComments()
-            ->whereNotIn('annotation_comments.user_id', $skipIds)
-            ->where('annotation_comments.created_at', '>=',
-                \Carbon\Carbon::now()->subMonth()->toDateTimeString())
-            ->count();
-        $statistics['annotations']['week'] += $doc
-            ->annotationComments()
-            ->whereNotIn('annotation_comments.user_id', $skipIds)
-            ->where('annotation_comments.created_at', '>=',
-                \Carbon\Carbon::now()->subWeek()->toDateTimeString())
-            ->count();
-        $statistics['annotations']['day'] += $doc
-            ->annotationComments()
-            ->whereNotIn('annotation_comments.user_id', $skipIds)
-            ->where('annotation_comments.created_at', '>=',
-                \Carbon\Carbon::now()->subDay()->toDateTimeString())
-            ->count();
+            switch (true) {
+                case $comment->created_at->gte($now->subMonth()):
+                    $statistics[$key]['month'] += 1;
+                    break;
+                case $comment->created_at->gte($now->subWeek()):
+                    $statistics[$key]['week'] += 1;
+                    break;
+                case $comment->created_at->gte($now->subDay()):
+                    $statistics[$key]['day'] += 1;
+                    break;
+            }
+        }
 
         return Response::json($statistics);
     }
