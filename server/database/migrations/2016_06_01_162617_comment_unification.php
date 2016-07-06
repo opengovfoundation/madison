@@ -132,7 +132,6 @@ class CommentUnification extends Migration
                             'annotation_type_type' => AnnotationTypes\Like::class,
                             'created_at' => $noteMeta->created_at,
                             'updated_at' => $noteMeta->updated_at,
-                            'deleted_at' => $noteMeta->deleted_at,
                         ]);
                         break;
                     case 'flag':
@@ -145,7 +144,6 @@ class CommentUnification extends Migration
                             'annotation_type_type' => AnnotationTypes\Flag::class,
                             'created_at' => $noteMeta->created_at,
                             'updated_at' => $noteMeta->updated_at,
-                            'deleted_at' => $noteMeta->deleted_at,
                         ]);
                         break;
                     default:
@@ -276,7 +274,6 @@ class CommentUnification extends Migration
                             'annotation_type_type' => AnnotationTypes\Like::class,
                             'created_at' => $commentMeta->created_at,
                             'updated_at' => $commentMeta->updated_at,
-                            'deleted_at' => $commentMeta->deleted_at,
                         ]);
                         break;
                     case 'flag':
@@ -290,7 +287,6 @@ class CommentUnification extends Migration
                             'annotation_type_type' => AnnotationTypes\Flag::class,
                             'created_at' => $commentMeta->created_at,
                             'updated_at' => $commentMeta->updated_at,
-                            'deleted_at' => $commentMeta->deleted_at,
                         ]);
                         break;
                     default:
