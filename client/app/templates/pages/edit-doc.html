@@ -233,11 +233,14 @@
 
     <!-- Start comments tab -->
     <section id="tab-comments" class="tab-pane">
-      <div>
-        <a class="download download-csv" target="_blank"
+      <ul>
+        <li><a class="download download-csv" target="_blank"
+          href="/api/docs/{{ doc.id }}/comments?all=true&download=csv"
+          translate="document.comments.downloadall.csv"></a></li>
+        <li><a class="download download-csv" target="_blank"
           href="/api/docs/{{ doc.id }}/comments?all=true&exclude_sponsors=true&download=csv"
-          translate="document.comments.download.csv"></a>
-      </div>
+          translate="document.comments.downloadnosponsors.csv"></a></li>
+      </ul>
     </section>
     <!-- End comments tab -->
 
