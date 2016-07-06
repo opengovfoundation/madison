@@ -138,7 +138,7 @@ trait AnnotatableHelpers
         $comments = $commentsFunc($this);
 
         foreach ($this->comments as $subcomment) {
-            $comments = $comments->merge($commentsFunc($subcomment));
+            $comments = $comments->merge($subcomment->allComments($excludeUserIds));
         }
 
         return $comments;
