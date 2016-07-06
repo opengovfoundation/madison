@@ -128,6 +128,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::delete('docs/{doc}/dates/{dates}', 'DocumentController@deleteDate');
     Route::post('docs/{doc}/status', 'DocumentController@postStatus');
     Route::get('docs/{doc}/feed', 'DocumentController@getActivityFeed');
+    Route::get('docs/{doc}/activity', 'DocumentController@getActivity');
 
     // Document Comment Routes
     Route::post('docs/{doc}/comments', 'CommentController@postIndex');
