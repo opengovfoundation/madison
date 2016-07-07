@@ -101,21 +101,26 @@ class CommentUnification extends Migration
                 ;
 
             if ($annotation->seen) {
-                $newSeen = AnnotationTypes\Seen::create();
-
                 $doc = Doc::find($annotation->doc_id);
-                $sponser = $doc->sponsors()->first()->findUsersByRole(Group::ROLE_OWNER)->first();
 
-                DB::table('annotations')->insert([
-                    'user_id' => $sponsor->id,
-                    'annotatable_id' => $newComment->id,
-                    'annotatable_type' => Annotation::class,
-                    'annotation_type_id' => $newSeen->id,
-                    'annotation_type_type' => AnnotationTypes\Seen::class,
-                    'created_at' => $annotation->created_at,
-                    'updated_at' => $annotation->updated_at,
-                    'deleted_at' => $annotation->deleted_at,
-                ]);
+                if ($doc->sponsors()->count()) {
+                    $newSeen = AnnotationTypes\Seen::create();
+
+                    $this->updateTimestamps($newSeen, $annotation);
+
+                    $sponser = $doc->sponsors()->first()->findUsersByRole(Group::ROLE_OWNER)->first();
+
+                    DB::table('annotations')->insert([
+                        'user_id' => $sponsor->id,
+                        'annotatable_id' => $newComment->id,
+                        'annotatable_type' => Annotation::class,
+                        'annotation_type_id' => $newSeen->id,
+                        'annotation_type_type' => AnnotationTypes\Seen::class,
+                        'created_at' => $annotation->created_at,
+                        'updated_at' => $annotation->updated_at,
+                        'deleted_at' => $annotation->deleted_at,
+                    ]);
+                }
             }
 
             // NoteMeta -> AnnotationTypes/Likes and AnnotationTypes/Flags
@@ -196,15 +201,20 @@ class CommentUnification extends Migration
 
             $annotationSeen = DB::select('select seen from annotations where id = ?', [$annotationComment->annotation_id]);
             if ($annotationSeen) {
-                $newSeen = AnnotationTypes\Seen::create();
-
-                $this->updateTimestamps($newSeen, $annotationComment);
-
                 $doc = Doc::find(
                     DB::table('annotations')
                       ->where('id', $annotationComment->annotation_id)
                       ->value('doc_id')
                 );
+
+                if ($doc->sponsors()->count() === 0) {
+                    continue;
+                }
+
+                $newSeen = AnnotationTypes\Seen::create();
+
+                $this->updateTimestamps($newSeen, $annotationComment);
+
                 $sponsor = $doc->sponsors()->first()->findUsersByRole(Group::ROLE_OWNER)->first();
 
                 DB::table('annotations')->insert([
@@ -241,23 +251,26 @@ class CommentUnification extends Migration
             ]);
 
             if ($comment->seen) {
-                $newSeen = AnnotationTypes\Seen::create();
-
-                $this->updateTimestamps($newSeen, $comment);
-
                 $doc = Doc::find($comment->doc_id);
-                $sponsor = $doc->sponsors()->first()->findUsersByRole(Group::ROLE_OWNER)->first();
 
-                DB::table('annotations')->insert([
-                    'user_id' => $sponsor->id,
-                    'annotatable_id' => $commentAnnotationId,
-                    'annotatable_type' => Annotation::class,
-                    'annotation_type_id' => $newSeen->id,
-                    'annotation_type_type' => AnnotationTypes\Seen::class,
-                    'created_at' => $comment->created_at,
-                    'updated_at' => $comment->updated_at,
-                    'deleted_at' => $comment->deleted_at,
-                ]);
+                if ($doc->sponsors()->count()) {
+                    $newSeen = AnnotationTypes\Seen::create();
+
+                    $this->updateTimestamps($newSeen, $comment);
+
+                    $sponsor = $doc->sponsors()->first()->findUsersByRole(Group::ROLE_OWNER)->first();
+
+                    DB::table('annotations')->insert([
+                        'user_id' => $sponsor->id,
+                        'annotatable_id' => $commentAnnotationId,
+                        'annotatable_type' => Annotation::class,
+                        'annotation_type_id' => $newSeen->id,
+                        'annotation_type_type' => AnnotationTypes\Seen::class,
+                        'created_at' => $comment->created_at,
+                        'updated_at' => $comment->updated_at,
+                        'deleted_at' => $comment->deleted_at,
+                    ]);
+                }
             }
 
             // CommentMeta -> AnnotationTypes/Likes and AnnotationTypes/Flags
