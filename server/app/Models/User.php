@@ -445,7 +445,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     private function beforeSave(array $options = array())
     {
-        static::$rules = $this->mergeRules();
+        Log::info('rules in beforeSave');
+        Log::info(print_r(static::$rules, true));
 
         if (!$this->validate()) {
             Log::error("Unable to validate user: ");
@@ -525,7 +526,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function validate()
     {
-        $validation = Validator::make($this->attributes, static::$rules, static::$customMessages);
+        // `mergeRules` handles logic for determining the context of the
+        // validation, eg: save, update, create, oauth create, etc
+        $validation = Validator::make($this->attributes, $this->mergeRules(), static::$customMessages);
 
         if ($validation->passes()) {
             return true;
