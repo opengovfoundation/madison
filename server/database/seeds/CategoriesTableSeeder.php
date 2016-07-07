@@ -11,8 +11,12 @@ class CategoriesTableSeeder extends Seeder
     {
         $doc = Doc::find(1);
 
-        $cat1 = factory(Category::class)->create();
-        $cat2 = factory(Category::class)->create();
+        $cat1 = factory(Category::class)->create([
+            'name' => 'first category'
+        ]);
+        $cat2 = factory(Category::class)->create([
+            'name' => 'second category'
+        ]);
 
         $doc->categories()->sync([$cat1->id, $cat2->id]);
     }
