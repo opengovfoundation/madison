@@ -46,17 +46,21 @@ class CommentController extends Controller
         if ($request->query('all') && $request->query('all') !== 'false') {
             $comments = $doc->allComments($excludeUserIds);
         } else {
-            $commentsQuery = $doc
-                ->comments()
+            if ($request->query('parent_id')) {
+                $commentsQuery = Annotation
+                    ::where('annotatable_type', Annotation::class)
+                    ->where('annotatable_id', $request->query('parent_id'))
+                    ->where('annotation_type_type', AnnotationTypes\Comment::class)
+                    ;
+            } else {
+                $commentsQuery = $doc
+                    ->comments()
+                ;
+            }
+
+            $commentsQuery
                 ->whereNotIn('user_id', $excludeUserIds)
                 ;
-
-            if ($request->query('parent_id')) {
-                $commentsQuery
-                    ->where('annotatable_type', Annotation::class)
-                    ->where('annotatable_id', $request->query('parent_id'))
-                    ;
-            }
 
             if ($request->exists('is_ranged')) {
                 if ($request->query('is_ranged') && $request->query('is_ranged') !== 'false') {

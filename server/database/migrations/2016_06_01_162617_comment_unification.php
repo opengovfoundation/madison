@@ -231,7 +231,8 @@ class CommentUnification extends Migration
         }
 
         // Comment -> AnnotationTypes/Comment
-        $comments = DB::table('comments')->get();
+        $comments = DB::table('comments')->orderBy('id')->get();
+        $commentIdToAnnotationId = [];
         foreach ($comments as $comment) {
             $newComment = AnnotationTypes\Comment::create([
                 'content' => $comment->text,
@@ -239,16 +240,30 @@ class CommentUnification extends Migration
 
             $this->updateTimestamps($newComment, $comment);
 
+            $annotatableId = $comment->doc_id;
+            $annotatableType = Doc::class;
+
+            // if this is a reply/subcomment, then look up it's new id as an
+            // annotation, this should be safe to just do since subcomments
+            // will naturally come after their parents by id
+            if (!empty($comment->parent_id)) {
+                $annotatableId = $commentIdToAnnotationId[$comment->parent_id];
+                $annotatableType = Annotation::class;
+            }
+
             $commentAnnotationId = DB::table('annotations')->insertGetId([
                 'user_id' => $comment->user_id,
-                'annotatable_id' => $comment->doc_id,
-                'annotatable_type' => Doc::class,
+                'annotatable_id' => $annotatableId,
+                'annotatable_type' => $annotatableType,
                 'annotation_type_id' => $newComment->id,
                 'annotation_type_type' => AnnotationTypes\Comment::class,
                 'created_at' => $comment->created_at,
                 'updated_at' => $comment->updated_at,
                 'deleted_at' => $comment->deleted_at,
             ]);
+
+            // save our old id -> new id info for any sub comments
+            $commentIdToAnnotationId[$comment->id] = $commentAnnotationId;
 
             if ($comment->seen) {
                 $doc = Doc::find($comment->doc_id);
