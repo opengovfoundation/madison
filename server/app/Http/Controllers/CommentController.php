@@ -117,14 +117,26 @@ class CommentController extends Controller
 
     public function postLikes(DocAccessReadRequest $request, Doc $doc, Annotation $comment)
     {
-        $this->annotationService->createAnnotationLike($comment, Auth::user(), []);
+        $user = Auth::user();
+
+        if ($comment->likes()->where('user_id', $user->id)->count()) {
+            return Response::json($this->toAnnotatorArray($comment));
+        }
+
+        $this->annotationService->createAnnotationLike($comment, $user, []);
 
         return Response::json($this->toAnnotatorArray($comment));
     }
 
     public function postFlags(DocAccessReadRequest $request, Doc $doc, Annotation $comment)
     {
-        $this->annotationService->createAnnotationFlag($comment, Auth::user(), []);
+        $user = Auth::user();
+
+        if ($comment->flags()->where('user_id', $user->id)->count()) {
+            return Response::json($this->toAnnotatorArray($comment));
+        }
+
+        $this->annotationService->createAnnotationFlag($comment, $user, []);
 
         return Response::json($this->toAnnotatorArray($comment));
     }
@@ -226,6 +238,8 @@ class CommentController extends Controller
                     'created_at' => $childComment->created_at->toRfc3339String(),
                     'updated_at' => $childComment->updated_at->toRfc3339String(),
                     'user' => $getUserInfo($childComment->user),
+                    'likes' => $childComment->likes_count,
+                    'flags' => $childComment->flags_count,
                 ];
             }
         } else {
