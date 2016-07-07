@@ -44,34 +44,34 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      *	Validation rules.
      */
-    protected static $rules = array(
-      'save' => array(
-      'fname'    => 'required',
-      'lname'    => 'required',
-        ),
-      'create' => array(
-        'email'            => 'required|unique:users',
-        'password'    => 'required',
-      ),
-      'social-signup'    => array(
-        'email'            => 'required|unique:users',
-        'oauth_vendor'    => 'required',
-        'oauth_id'            => 'required',
-        'oauth_update'    => 'required',
-        ),
-        'twitter-signup'    => array(
-      'oauth_vendor'    => 'required',
-      'oauth_id'            => 'required',
-      'oauth_update'    => 'required',
-    ),
-    'update'    => array(
-      'email'            => 'required|unique:users',
-      'password'    => 'required',
-        ),
-        'verify'    => array(
-      'phone'            => 'required',
-        ),
-    );
+    protected static $rules = [
+        'save' => [
+            'fname' => 'required',
+            'lname' => 'required',
+        ],
+        'create' => [
+            'email' => 'required|unique:users',
+            'password' => 'required',
+        ],
+        'social-signup' => [
+            'email' => 'required|unique:users',
+            'oauth_vendor' => 'required',
+            'oauth_id' => 'required',
+            'oauth_update' => 'required',
+        ],
+        'twitter-signup' => [
+            'oauth_vendor' => 'required',
+            'oauth_id' => 'required',
+            'oauth_update' => 'required',
+        ],
+        'update' => [
+            'email' => 'required|unique:users',
+            'password' => 'required',
+        ],
+        'verify' => [
+            'phone' => 'required',
+        ],
+    ];
 
     protected $validationErrors = null;
     protected $verify = false;
