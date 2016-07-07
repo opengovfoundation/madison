@@ -3,24 +3,19 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Annotation;
+use App\Models\Doc;
+use App\Models\User;
 
 class AnnotationsTableSeeder extends Seeder
 {
     public function run()
     {
-        $adminEmail = Config::get('madison.seeder.admin_email');
-        $adminPassword = Config::get('madison.seeder.admin_password');
+        $user = User::find(1);
+        $doc = Doc::find(1);
 
-        // Login as admin to create docs
-        $credentials = array('email' => $adminEmail, 'password' => $adminPassword);
-        Auth::attempt($credentials);
-        $admin = Auth::user();
-
-        $annotation1 = [
-            'user_id' => 1,
-            'doc_id' => 1,
+        $note1 = [
             'quote' => 'Document',
-            'text' => 'Annotation!',
+            'text' => 'Note!',
             'uri' => '/docs/example-document',
             'tags' => [],
             'comments' => [],
@@ -34,14 +29,12 @@ class AnnotationsTableSeeder extends Seeder
             ]
         ];
 
-        Input::replace($annotation1);
-        App::make('App\Http\Controllers\AnnotationController')->postIndex($annotation1['doc_id']);
+        App::make('App\Http\Controllers\CommentController')
+            ->createFromAnnotatorArray($doc, $user, $note1);
 
-        $annotation2 = [
-            'user_id' => 1,
-            'doc_id' => 1,
+        $note2 = [
             'quote' => 'Content',
-            'text' => 'Another Annotation!',
+            'text' => 'Another Note!',
             'uri' => '/docs/example-document',
             'tags' => [],
             'comments' => [],
@@ -55,7 +48,29 @@ class AnnotationsTableSeeder extends Seeder
             ]
         ];
 
-        Input::replace($annotation2);
-        App::make('App\Http\Controllers\AnnotationController')->postIndex($annotation2['doc_id']);
+        App::make('App\Http\Controllers\CommentController')
+            ->createFromAnnotatorArray($doc, $user, $note2);
+
+        $comment1 = [
+            'text' => 'This is a comment'
+        ];
+
+        $comment1Result = App::make('App\Http\Controllers\CommentController')
+            ->createFromAnnotatorArray($doc, $user, $comment1);
+
+        $comment1Reply = [
+            'text' => 'Comment reply',
+        ];
+
+        $commentTarget = Annotation::find($comment1Result['id']);
+        App::make('App\Http\Controllers\CommentController')
+            ->createFromAnnotatorArray($commentTarget, $user, $comment1Reply);
+
+        $comment2 = [
+            'text' => 'Yet another comment'
+        ];
+
+        App::make('App\Http\Controllers\CommentController')
+            ->createFromAnnotatorArray($doc, $user, $comment2);
     }
 }

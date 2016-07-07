@@ -12,18 +12,16 @@ class CategoriesTableSeeder extends Seeder
         $adminEmail = Config::get('madison.seeder.admin_email');
         $adminPassword = Config::get('madison.seeder.admin_password');
 
-        // Login as admin to create docs
+        // Login as admin to create categories
         $credentials = ['email' => $adminEmail, 'password' => $adminPassword];
         Auth::attempt($credentials);
         $admin = Auth::user();
 
-        $category1 = ['text' => 'first category'];
-        $category2 = ['text' => 'second category'];
+        $doc = Doc::find(1);
 
-        Input::replace($input = ['categories' => [$category1]]);
-        App::make('App\Http\Controllers\DocumentController')->postCategories(1);
+        $cat1 = factory(Category::class)->create();
+        $cat2 = factory(Category::class)->create();
 
-        Input::replace($input = ['categories' => [$category1, $category2]]);
-        App::make('App\Http\Controllers\DocumentController')->postCategories(1);
+        $doc->categories()->sync([$cat1->id, $cat2->id]);
     }
 }
