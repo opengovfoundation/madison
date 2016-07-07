@@ -632,22 +632,19 @@ class UserController extends Controller
         }
     }
 
-    public function getSupport(DocAccessReadRequest $request, $user, Doc $doc)
+    public function getSupport(DocAccessReadRequest $request, User $user, Doc $doc)
     {
-        $docMeta = DocMeta::where('user_id', $user->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
+        $docMeta = DocMeta::where('user_id', $user->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc->id)->first();
 
         //Translate meta value
         if (isset($docMeta) && $docMeta->meta_value == '1') {
             $docMeta->meta_value = true;
         }
 
-        $supports = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $doc)->count();
-        $opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $doc)->count();
-
         if (isset($docMeta)) {
-            return Response::json(array('support' => $docMeta->meta_value, 'supports' => $supports, 'opposes' => $opposes));
+            return Response::json(array('support' => $docMeta->meta_value, 'supports' => $doc->support, 'opposes' => $doc->oppose));
         } else {
-            return Response::json(array('support' => null, 'supports' => $supports, 'opposes' => $opposes));
+            return Response::json(array('support' => null, 'supports' => $doc->support, 'opposes' => $doc->oppose));
         }
     }
 
