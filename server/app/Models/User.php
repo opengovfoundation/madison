@@ -102,9 +102,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      *	Override Eloquent save() method
      *		Runs $this->beforeSave()
-     *		Unsets:
-     *			* $this->validationErrors
-     *			* $this->rules
      *
      * @param array $options
      *
@@ -448,7 +445,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     private function beforeSave(array $options = array())
     {
-        $this->rules = $this->mergeRules();
+        static::$rules = $this->mergeRules();
 
         if (!$this->validate()) {
             Log::error("Unable to validate user: ");
@@ -502,7 +499,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         }
 
         //Include verify rules if requesting verification
-        if (isset($this->verify)) {
+        if ($this->verify) {
             $merged = array_merge_recursive($merged, $rules['verify']);
         }
 
@@ -528,7 +525,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function validate()
     {
-        $validation = Validator::make($this->attributes, $this->rules, static::$customMessages);
+        $validation = Validator::make($this->attributes, static::$rules, static::$customMessages);
 
         if ($validation->passes()) {
             return true;
