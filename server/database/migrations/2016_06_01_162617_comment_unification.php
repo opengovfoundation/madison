@@ -161,8 +161,9 @@ class CommentUnification extends Migration
 
             $this->updateTimestamps($newTag, $tag);
 
+            $userId = DB::table('annotations')->where('id', $tag->annotation_id)->value('user_id');
             DB::table('annotations')->insert([
-                'user_id' => $tag->user_id,
+                'user_id' => $userId,
                 'annotatable_id' => $tag->annotation_id,
                 'annotatable_type' => Annotation::class,
                 'annotation_type_id' => $newTag->id,

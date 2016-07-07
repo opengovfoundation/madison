@@ -178,7 +178,7 @@ class CommentController extends Controller
 
             if (!empty($data['tags'])) {
                 foreach ($data['tags'] as $tag) {
-                    $this->annotationService->createAnnotationTag($annotation, $user, $tag);
+                    $this->annotationService->createAnnotationTag($annotation, $user, ['tag' => $tag]);
                 }
             }
 
