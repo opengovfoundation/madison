@@ -64,7 +64,6 @@ angular.module('madisonApp.controllers')
         return $q(function(resolve, reject) {
           $http.get('/api/docs/' + id)
             .success(function (data) {
-              console.log('Got document');
               $scope.doc = data;
               getContent(1, function() {
                 $scope.contentLoaded = true;
@@ -87,7 +86,7 @@ angular.module('madisonApp.controllers')
           });
       };
 
-      getContent = function(page, callback) {
+      function getContent(page, callback) {
         return Doc.getDocContent({
           id: $scope.doc.id, format: 'raw', page: page
         }).$promise.then(function(data) {
