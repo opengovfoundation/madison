@@ -278,7 +278,6 @@ class UserController extends Controller
         $user->lname = Input::get('lname');
         $user->url = Input::get('url');
         $user->phone = Input::get('phone');
-        $user->verify = $verify;
 
         // Don't allow oauth logins to update the user's data anymore,
         // since they've set values within Madison.
