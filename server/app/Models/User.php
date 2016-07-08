@@ -445,9 +445,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     private function beforeSave(array $options = array())
     {
-        Log::info('rules in beforeSave');
-        Log::info(print_r(static::$rules, true));
-
         if (!$this->validate()) {
             Log::error("Unable to validate user: ");
             Log::error($this->getErrors()->toArray());
