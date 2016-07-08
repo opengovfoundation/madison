@@ -113,7 +113,7 @@ class Annotations
 
         $annotation = $this->createBaseAnnotation($target, $user, $data);
 
-        $annotationSeen->annotation()->save($annotation);
+        $annotationTag->annotation()->save($annotation);
 
         return $annotation;
     }
