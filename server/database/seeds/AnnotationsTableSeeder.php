@@ -11,6 +11,7 @@ class AnnotationsTableSeeder extends Seeder
     public function run()
     {
         $user = User::find(1);
+        $admin = User::find(2);
         $doc = Doc::find(1);
 
         $note1 = [
@@ -56,7 +57,7 @@ class AnnotationsTableSeeder extends Seeder
         ];
 
         $comment1Result = App::make('App\Http\Controllers\CommentController')
-            ->createFromAnnotatorArray($doc, $user, $comment1);
+            ->createFromAnnotatorArray($doc, $admin, $comment1);
 
         $comment1Reply = [
             'text' => 'Comment reply',
@@ -71,6 +72,6 @@ class AnnotationsTableSeeder extends Seeder
         ];
 
         App::make('App\Http\Controllers\CommentController')
-            ->createFromAnnotatorArray($doc, $user, $comment2);
+            ->createFromAnnotatorArray($doc, $admin, $comment2);
     }
 }

@@ -45,10 +45,10 @@ describe('Document view', function() {
 
   describe('Document comments', function() {
     beforeEach(function() {
-      docPage.showDiscussion();
+      docPage.showComments();
     });
 
-    it('shows document comments in the "discussion" tab', function() {
+    it('shows document comments in the "comments" tab', function() {
       var comment1 = docPage.getComment(0);
       var comment2 = docPage.getComment(1);
 
@@ -77,7 +77,7 @@ describe('Document view', function() {
     });
 
     describe('clicking document text tab', function() {
-      it('hides discussion tab, shows document text', function() {
+      it('hides comments tab, shows document text', function() {
         docPage.showDocumentText();
         expect(docPage.info.content.getText()).toMatch(/Document 1/);
         expect(docPage.info.content.isDisplayed()).toBe(true);

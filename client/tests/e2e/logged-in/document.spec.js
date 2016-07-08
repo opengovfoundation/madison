@@ -47,7 +47,7 @@ describe('Logged In - Document view', function() {
 
   describe('Document comments', function() {
     beforeEach(function() {
-      docPage.showDiscussion()
+      docPage.showComments()
     });
 
     it('handles adding a comment to a document', function() {
