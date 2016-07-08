@@ -31,8 +31,8 @@ angular.module('madisonApp.directives')
         function buildPermalink(comment) {
           var hash = '#' + comment.permalinkBase + '_';
 
-          if (comment.parent_id) {
-            hash += comment.parent_id + '-' + comment.id;
+          if (comment.parentPointer) {
+            hash += comment.parentPointer.id + '-' + comment.id;
           } else {
             hash += comment.id;
           }
