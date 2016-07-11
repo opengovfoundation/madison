@@ -39,11 +39,6 @@ class CommentCreated extends Event
         return 'madison.comment.created';
     }
 
-    public static function getDescription()
-    {
-        return 'When a new comment is made on something related to you';
-    }
-
     public static function getType()
     {
         return static::TYPE_USER;

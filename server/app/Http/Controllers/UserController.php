@@ -147,7 +147,6 @@ class UserController extends Controller
         foreach ($validNotifications as $eventName => $event) {
             $notification = [];
             $notification['event'] = $eventName;
-            $notification['description'] = $event::getDescription();
             $notification['type'] = $event::getType();
             $notification['selected'] = in_array($eventName, $selectedEvents) ? true : false;
 
