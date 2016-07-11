@@ -3,14 +3,13 @@
 namespace App\Traits;
 
 use App\Models\Annotation;
-use App\Models\AnnotationTypes;
 
 trait AnnotatableHelpers
 {
     public function annotatableBaseQuery()
     {
         return Annotation
-            ::where('annotatable_type', static::class)
+            ::where('annotatable_type', static::ANNOTATABLE_TYPE)
             ->where('annotatable_id', $this->id)
             ;
     }
@@ -26,7 +25,7 @@ trait AnnotatableHelpers
     public function comments()
     {
         return $this
-            ->annotationTypeBaseQuery(AnnotationTypes\Comment::class)
+            ->annotationTypeBaseQuery(Annotation::TYPE_COMMENT)
             ;
     }
 
@@ -43,7 +42,7 @@ trait AnnotatableHelpers
     public function flags()
     {
         return $this
-            ->annotationTypeBaseQuery(AnnotationTypes\Flag::class)
+            ->annotationTypeBaseQuery(Annotation::TYPE_FLAG)
             ;
     }
 
@@ -60,7 +59,7 @@ trait AnnotatableHelpers
     public function likes()
     {
         return $this
-            ->annotationTypeBaseQuery(AnnotationTypes\Like::class)
+            ->annotationTypeBaseQuery(Annotation::TYPE_LIKE)
             ;
     }
 
@@ -77,7 +76,7 @@ trait AnnotatableHelpers
     public function seens()
     {
         return $this
-            ->annotationTypeBaseQuery(AnnotationTypes\Seen::class)
+            ->annotationTypeBaseQuery(Annotation::TYPE_SEEN)
             ;
     }
 
@@ -94,7 +93,7 @@ trait AnnotatableHelpers
     public function ranges()
     {
         return $this
-            ->annotationTypeBaseQuery(AnnotationTypes\Range::class)
+            ->annotationTypeBaseQuery(Annotation::TYPE_RANGE)
             ;
     }
 
@@ -111,7 +110,7 @@ trait AnnotatableHelpers
     public function tags()
     {
         return $this
-            ->annotationTypeBaseQuery(AnnotationTypes\Tag::class)
+            ->annotationTypeBaseQuery(Annotation::TYPE_TAG)
             ;
     }
 
@@ -167,8 +166,8 @@ trait AnnotatableHelpers
             $query
                 ->select('annotatable_id')
                 ->from('annotations')
-                ->where('annotatable_type', Annotation::class)
-                ->where('annotation_type_type', AnnotationTypes\Range::class)
+                ->where('annotatable_type', Annotation::ANNOTATABLE_TYPE)
+                ->where('annotation_type_type', Annotation::TYPE_RANGE)
                 ;
         });
     }

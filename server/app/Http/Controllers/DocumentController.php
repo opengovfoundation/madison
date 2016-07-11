@@ -1149,7 +1149,7 @@ class DocumentController extends Controller
         foreach ($doc->allComments($excludeUserIds) as $comment) {
             $key = '';
             if ($comment->isNote()
-                || ($comment->annotatable_type === Annotation::class
+                || ($comment->annotatable_type === Annotation::ANNOTATABLE_TYPE
                     && $comment->annotatable->isNote()
                    )
             ) {

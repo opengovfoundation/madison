@@ -9,7 +9,6 @@ use Event;
 use DB;
 use App\Models\Annotation;
 use App\Models\AnnotationPermission;
-use App\Models\AnnotationTypes;
 use App\Models\Doc;
 use App\Models\User;
 use App\Events\CommentCreated;
@@ -48,9 +47,9 @@ class CommentController extends Controller
         } else {
             if ($request->query('parent_id')) {
                 $commentsQuery = Annotation
-                    ::where('annotatable_type', Annotation::class)
+                    ::where('annotatable_type', Annotation::ANNOTATABLE_TYPE)
                     ->where('annotatable_id', $request->query('parent_id'))
-                    ->where('annotation_type_type', AnnotationTypes\Comment::class)
+                    ->where('annotation_type_type', Annotation::TYPE_COMMENT)
                     ;
             } else {
                 $commentsQuery = $doc
@@ -211,7 +210,7 @@ class CommentController extends Controller
 
     public function toAnnotatorArray(Annotation $comment, $includeChildren = true, $userId = null)
     {
-        if ($comment->annotation_type_type !== AnnotationTypes\Comment::class) {
+        if ($comment->annotation_type_type !== Annotation::TYPE_COMMENT) {
             throw new InvalidArgumentException('Can only handle Annotations of type Comment');
         }
 

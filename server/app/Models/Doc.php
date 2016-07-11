@@ -25,6 +25,7 @@ class Doc extends Model
     protected $fillable = ['discussion_state', 'publish_state', 'title', 'slug'];
 
     const TYPE = 'doc';
+    const ANNOTATABLE_TYPE = 'doc';
 
     const PUBLISH_STATE_PUBLISHED = 'published';
     const PUBLISH_STATE_UNPUBLISHED = 'unpublished';

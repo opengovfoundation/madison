@@ -16,12 +16,16 @@ class Annotation extends Model implements ActivityInterface
 
     const ANNOTATION_CONSUMER = "Madison";
 
-    const TYPE_COMMENT = 'Comment';
-    const TYPE_FLAG = 'Flag';
-    const TYPE_LIKE = 'Like';
-    const TYPE_RANGE = 'Range';
-    const TYPE_SEEN = 'Seen';
-    const TYPE_TAG = 'Tag';
+    const ANNOTATABLE_TYPE = 'annotation';
+
+    const TYPE_COMMENT = 'comment';
+    const TYPE_FLAG = 'flag';
+    const TYPE_LIKE = 'like';
+    const TYPE_RANGE = 'range';
+    const TYPE_SEEN = 'seen';
+    const TYPE_TAG = 'tag';
+
+    const SUBTYPE_NOTE = 'note';
 
     protected $table = 'annotations';
     protected $fillable = ['data', 'user_id'];
@@ -72,7 +76,7 @@ class Annotation extends Model implements ActivityInterface
     public function getLink()
     {
         switch ($this->annotation_type_type) {
-            case AnnotationTypes\Comment::class:
+            case static::TYPE_COMMENT:
                 $root = $this->getRootTarget();
 
                 if ($root instanceof Doc) {
@@ -80,7 +84,7 @@ class Annotation extends Model implements ActivityInterface
 
                     $hash = '';
                     if ($this->isNote()) {
-                        if ($this->annotatable_type === Annotation::class) {
+                        if ($this->annotatable_type === Annotation::ANNOTATABLE_TYPE) {
                             $hash = 'annsubcomment';
                         } else {
                             $hash = 'annotation';
@@ -106,7 +110,7 @@ class Annotation extends Model implements ActivityInterface
     public function getFeedItem()
     {
         switch ($this->annotation_type_type) {
-            case AnnotationTypes\Comment::class:
+            case static::TYPE_COMMENT:
                 $description = $this->annotationType->content;
                 break;
             default:
@@ -133,7 +137,7 @@ class Annotation extends Model implements ActivityInterface
      */
     public function getRootTarget()
     {
-        if ($this->annotatable_type !== Annotation::class) {
+        if ($this->annotatable_type !== Annotation::ANNOTATABLE_TYPE) {
             return $this->annotatable;
         }
 
@@ -142,7 +146,7 @@ class Annotation extends Model implements ActivityInterface
 
     public function isNote()
     {
-        if ($this->annotation_type_type != AnnotationTypes\Comment::class) {
+        if ($this->annotation_type_type != static::TYPE_COMMENT) {
             return false;
         }
 

@@ -18,7 +18,7 @@ use Session;
 use Hash;
 use Log;
 
-use App\Models\AnnotationTypes;
+use App\Models\Annotation;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\Role;
@@ -229,7 +229,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function comments()
     {
-        return $this->annotations()->where('annotation_type_type', AnnotationTypes\Comment::class);
+        return $this->annotations()->where('annotation_type_type', Annotation::TYPE_COMMENT);
     }
 
     public function getCommentsAttribute()

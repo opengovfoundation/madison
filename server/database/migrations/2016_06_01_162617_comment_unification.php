@@ -93,9 +93,9 @@ class CommentUnification extends Migration
                 ->where('id', $annotation->id)
                 ->update([
                     'annotatable_id' => $annotation->doc_id,
-                    'annotatable_type' => Doc::class,
+                    'annotatable_type' => Doc::TYPE,
                     'annotation_type_id' => $newComment->id,
-                    'annotation_type_type' => AnnotationTypes\Comment::class,
+                    'annotation_type_type' => Annotation::TYPE_COMMENT,
                     'data' => json_encode($data),
                 ])
                 ;
@@ -113,9 +113,9 @@ class CommentUnification extends Migration
                     DB::table('annotations')->insert([
                         'user_id' => $sponsor->id,
                         'annotatable_id' => $newComment->id,
-                        'annotatable_type' => Annotation::class,
+                        'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                         'annotation_type_id' => $newSeen->id,
-                        'annotation_type_type' => AnnotationTypes\Seen::class,
+                        'annotation_type_type' => Annotation::TYPE_SEEN,
                         'created_at' => $annotation->created_at,
                         'updated_at' => $annotation->updated_at,
                         'deleted_at' => $annotation->deleted_at,
@@ -132,9 +132,9 @@ class CommentUnification extends Migration
                         DB::table('annotations')->insert([
                             'user_id' => $noteMeta->user_id,
                             'annotatable_id' => $noteMeta->annotation_id,
-                            'annotatable_type' => Annotation::class,
+                            'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                             'annotation_type_id' => $newLike->id,
-                            'annotation_type_type' => AnnotationTypes\Like::class,
+                            'annotation_type_type' => Annotation::TYPE_LIKE,
                             'created_at' => $noteMeta->created_at,
                             'updated_at' => $noteMeta->updated_at,
                         ]);
@@ -144,9 +144,9 @@ class CommentUnification extends Migration
                         DB::table('annotations')->insert([
                             'user_id' => $noteMeta->user_id,
                             'annotatable_id' => $noteMeta->annotation_id,
-                            'annotatable_type' => Annotation::class,
+                            'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                             'annotation_type_id' => $newFlag->id,
-                            'annotation_type_type' => AnnotationTypes\Flag::class,
+                            'annotation_type_type' => Annotation::TYPE_FLAG,
                             'created_at' => $noteMeta->created_at,
                             'updated_at' => $noteMeta->updated_at,
                         ]);
@@ -170,9 +170,9 @@ class CommentUnification extends Migration
             DB::table('annotations')->insert([
                 'user_id' => $userId,
                 'annotatable_id' => $tag->annotation_id,
-                'annotatable_type' => Annotation::class,
+                'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                 'annotation_type_id' => $newTag->id,
-                'annotation_type_type' => AnnotationTypes\Tag::class,
+                'annotation_type_type' => Annotation::TYPE_TAG,
                 'created_at' => $tag->created_at,
                 'updated_at' => $tag->updated_at,
                 'deleted_at' => $tag->deleted_at,
@@ -191,9 +191,9 @@ class CommentUnification extends Migration
             DB::table('annotations')->insert([
                 'user_id' => $annotationComment->user_id,
                 'annotatable_id' => $annotationComment->annotation_id,
-                'annotatable_type' => Annotation::class,
+                'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                 'annotation_type_id' => $newComment->id,
-                'annotation_type_type' => AnnotationTypes\Comment::class,
+                'annotation_type_type' => Annotation::TYPE_COMMENT,
                 'created_at' => $annotationComment->created_at,
                 'updated_at' => $annotationComment->updated_at,
                 'deleted_at' => $annotationComment->deleted_at,
@@ -220,9 +220,9 @@ class CommentUnification extends Migration
                 DB::table('annotations')->insert([
                     'user_id' => $sponsor->id,
                     'annotatable_id' => $annotationComment->annotation_id,
-                    'annotatable_type' => Annotation::class,
+                    'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                     'annotation_type_id' => $newSeen->id,
-                    'annotation_type_type' => AnnotationTypes\Seen::class,
+                    'annotation_type_type' => Annotation::TYPE_SEEN,
                     'created_at' => $annotationComment->created_at,
                     'updated_at' => $annotationComment->updated_at,
                     'deleted_at' => $annotationComment->deleted_at,
@@ -241,14 +241,14 @@ class CommentUnification extends Migration
             $this->updateTimestamps($newComment, $comment);
 
             $annotatableId = $comment->doc_id;
-            $annotatableType = Doc::class;
+            $annotatableType = Doc::TYPE;
 
             // if this is a reply/subcomment, then look up it's new id as an
             // annotation, this should be safe to just do since subcomments
             // will naturally come after their parents by id
             if (!empty($comment->parent_id)) {
                 $annotatableId = $commentIdToAnnotationId[$comment->parent_id];
-                $annotatableType = Annotation::class;
+                $annotatableType = Annotation::ANNOTATABLE_TYPE;
             }
 
             $commentAnnotationId = DB::table('annotations')->insertGetId([
@@ -256,7 +256,7 @@ class CommentUnification extends Migration
                 'annotatable_id' => $annotatableId,
                 'annotatable_type' => $annotatableType,
                 'annotation_type_id' => $newComment->id,
-                'annotation_type_type' => AnnotationTypes\Comment::class,
+                'annotation_type_type' => Annotation::TYPE_COMMENT,
                 'created_at' => $comment->created_at,
                 'updated_at' => $comment->updated_at,
                 'deleted_at' => $comment->deleted_at,
@@ -278,9 +278,9 @@ class CommentUnification extends Migration
                     DB::table('annotations')->insert([
                         'user_id' => $sponsor->id,
                         'annotatable_id' => $commentAnnotationId,
-                        'annotatable_type' => Annotation::class,
+                        'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                         'annotation_type_id' => $newSeen->id,
-                        'annotation_type_type' => AnnotationTypes\Seen::class,
+                        'annotation_type_type' => Annotation::TYPE_SEEN,
                         'created_at' => $comment->created_at,
                         'updated_at' => $comment->updated_at,
                         'deleted_at' => $comment->deleted_at,
@@ -298,9 +298,9 @@ class CommentUnification extends Migration
                         DB::table('annotations')->insert([
                             'user_id' => $commentMeta->user_id,
                             'annotatable_id' => $commentAnnotationId,
-                            'annotatable_type' => Annotation::class,
+                            'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                             'annotation_type_id' => $newLike->id,
-                            'annotation_type_type' => AnnotationTypes\Like::class,
+                            'annotation_type_type' => Annotation::TYPE_LIKE,
                             'created_at' => $commentMeta->created_at,
                             'updated_at' => $commentMeta->updated_at,
                         ]);
@@ -311,9 +311,9 @@ class CommentUnification extends Migration
                         DB::table('annotations')->insert([
                             'user_id' => $commentMeta->user_id,
                             'annotatable_id' => $commentAnnotationId,
-                            'annotatable_type' => Annotation::class,
+                            'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                             'annotation_type_id' => $newFlag->id,
-                            'annotation_type_type' => AnnotationTypes\Flag::class,
+                            'annotation_type_type' => Annotation::TYPE_FLAG,
                             'created_at' => $commentMeta->created_at,
                             'updated_at' => $commentMeta->updated_at,
                         ]);
@@ -345,9 +345,9 @@ class CommentUnification extends Migration
             DB::table('annotations')->insert([
                 'user_id' => $userId,
                 'annotatable_id' => $annotationRange->annotation_id,
-                'annotatable_type' => Annotation::class,
+                'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                 'annotation_type_id' => $newRange->id,
-                'annotation_type_type' => AnnotationTypes\Range::class,
+                'annotation_type_type' => Annotation::TYPE_RANGE,
                 'created_at' => $annotationRange->created_at,
                 'updated_at' => $annotationRange->updated_at,
                 'deleted_at' => $annotationRange->deleted_at,
