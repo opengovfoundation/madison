@@ -33,7 +33,7 @@ angular.module('madisonApp.controllers')
         // Get all doc comments, regardless of nesting level
         $http({
           method: 'GET',
-          url: '/api/docs/' + docId + '/comments?is_ranged=false&include_replies=false'
+          url: '/api/docs/' + docId + '/comments?exclude_notes=true&include_replies=false'
         })
         .success(function (data) {
           // Convert links in the comments to html

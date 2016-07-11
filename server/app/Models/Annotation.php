@@ -28,7 +28,7 @@ class Annotation extends Model implements ActivityInterface
     const SUBTYPE_NOTE = 'note';
 
     protected $table = 'annotations';
-    protected $fillable = ['data', 'user_id'];
+    protected $fillable = ['data', 'user_id', 'annotation_subtype'];
     protected $dates = ['deleted_at'];
     protected $casts = [
         'data' => 'array',
@@ -146,6 +146,6 @@ class Annotation extends Model implements ActivityInterface
             return false;
         }
 
-        return $this->ranges_count > 0;
+        return $this->annotation_subtype === static::SUBTYPE_NOTE;
     }
 }

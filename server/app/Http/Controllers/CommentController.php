@@ -42,35 +42,33 @@ class CommentController extends Controller
         }
 
         $comments = new Collection();
-        if ($request->query('all') && $request->query('all') !== 'false') {
-            $comments = $doc->allComments($excludeUserIds);
+        if ($request->query('parent_id')) {
+            $commentsQuery = Annotation
+                ::where('annotatable_type', Annotation::ANNOTATABLE_TYPE)
+                ->where('annotatable_id', $request->query('parent_id'))
+                ->where('annotation_type_type', Annotation::TYPE_COMMENT)
+                ;
+        } elseif ($request->query('all') && $request->query('all') !== 'false') {
+            $commentsQuery = $doc->allComments();
         } else {
-            if ($request->query('parent_id')) {
-                $commentsQuery = Annotation
-                    ::where('annotatable_type', Annotation::ANNOTATABLE_TYPE)
-                    ->where('annotatable_id', $request->query('parent_id'))
-                    ->where('annotation_type_type', Annotation::TYPE_COMMENT)
-                    ;
-            } else {
-                $commentsQuery = $doc
-                    ->comments()
-                ;
-            }
-
-            $commentsQuery
-                ->whereNotIn('user_id', $excludeUserIds)
-                ;
-
-            if ($request->exists('is_ranged')) {
-                if ($request->query('is_ranged') && $request->query('is_ranged') !== 'false') {
-                    $commentsQuery->onlyNotes();
-                } else {
-                    $commentsQuery->notNotes();
-                }
-            }
-
-            $comments = $commentsQuery->get();
+            $commentsQuery = $doc
+                ->comments()
+            ;
         }
+
+        $commentsQuery
+            ->whereNotIn('user_id', $excludeUserIds)
+            ;
+
+        if ($request->query('only_notes') && $request->query('only_notes') !== 'false') {
+            $commentsQuery->onlyNotes();
+        }
+
+        if ($request->query('exclude_notes') && $request->query('exclude_notes') !== 'false') {
+            $commentsQuery->notNotes();
+        }
+
+        $comments = $commentsQuery->get();
 
         // a little silly, we should probably support a more general
         // download=true param and a content type headers, but for now we'll
@@ -172,6 +170,12 @@ class CommentController extends Controller
         }
 
         $id = DB::transaction(function () use ($target, $user, $data, $isEdit) {
+            if ((!empty($data['ranges']) && $target instanceof Doc)
+                || (empty($data['ranges']) && $target instanceof Annotation && $target->isNote())
+            ) {
+                $data['subtype'] = Annotation::SUBTYPE_NOTE;
+            }
+
             $annotation = $this->annotationService->createAnnotationComment($target, $user, $data);
 
             // TODO: we only need to apply these permissions

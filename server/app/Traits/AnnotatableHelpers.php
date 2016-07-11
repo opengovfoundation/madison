@@ -152,23 +152,11 @@ trait AnnotatableHelpers
 
     public function scopeOnlyNotes($query)
     {
-        $this->notesQuery($query, 'whereIn');
+        $query->where('annotation_subtype', Annotation::SUBTYPE_NOTE);
     }
 
     public function scopeNotNotes($query)
     {
-        $this->notesQuery($query, 'whereNotIn');
-    }
-
-    protected function notesQuery($commentsQuery, $condition)
-    {
-        $commentsQuery->{$condition}('id', function ($query) {
-            $query
-                ->select('annotatable_id')
-                ->from('annotations')
-                ->where('annotatable_type', Annotation::ANNOTATABLE_TYPE)
-                ->where('annotation_type_type', Annotation::TYPE_RANGE)
-                ;
-        });
+        $query->whereRaw('COALESCE(annotation_subtype <> ?, TRUE)', [Annotation::SUBTYPE_NOTE]);
     }
 }

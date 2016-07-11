@@ -32,6 +32,7 @@ class Annotations
     {
         $annotation = Annotation::create([
             'user_id' => $user->id,
+            'annotation_subtype' => $data['subtype'],
         ]);
 
         $target->annotations()->save($annotation);
@@ -53,7 +54,7 @@ class Annotations
     public function createAnnotationComment($target, $user, $data)
     {
         $annotationComment = AnnotationTypes\Comment::create([
-            'content' => $data['text']
+            'content' => $data['text'],
         ]);
 
         $annotation = $this->createBaseAnnotation($target, $user, $data);

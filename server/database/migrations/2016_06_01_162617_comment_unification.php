@@ -22,6 +22,7 @@ class CommentUnification extends Migration
             $table->morphs('annotatable');
             $table->morphs('annotation_type');
             $table->morphs('root_annotatable');
+            $table->string('annotation_subtype', 10)->nullable();
             $table->json('data');
         });
 
@@ -99,6 +100,7 @@ class CommentUnification extends Migration
                     'annotation_type_type' => Annotation::TYPE_COMMENT,
                     'root_annotatable_id' => $annotation->doc_id,
                     'root_annotatable_type' => Doc::ANNOTATABLE_TYPE,
+                    'annotation_subtype' => Annotation::SUBTYPE_NOTE,
                     'data' => json_encode($data),
                 ])
                 ;

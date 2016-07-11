@@ -107,7 +107,7 @@ angular.module('madisonApp.services')
         prefix: '/api/docs/' + doc.id + '/comments',
         urls: {
           create: '',
-          read: '/:id?is_ranged=true',
+          read: '/:id?only_notes=true',
           update: '/:id',
           destroy: '/:id',
           search: '/search'
