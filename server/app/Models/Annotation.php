@@ -59,6 +59,17 @@ class Annotation extends Model implements ActivityInterface
         return $this->morphTo();
     }
 
+    /**
+     * The ultimate non-Annotation target for this Annotation. Currently
+     * the only possibility is a Document.
+     *
+     * @return Doc
+     */
+    public function rootAnnotatable()
+    {
+        return $this->morphTo();
+    }
+
     public function delete()
     {
         DB::transaction(function () {
@@ -77,7 +88,7 @@ class Annotation extends Model implements ActivityInterface
     {
         switch ($this->annotation_type_type) {
             case static::TYPE_COMMENT:
-                $root = $this->getRootTarget();
+                $root = $this->rootAnnotatable;
 
                 if ($root instanceof Doc) {
                     $slug = DB::table('docs')->where('id', $root->id)->pluck('slug');
@@ -127,21 +138,6 @@ class Annotation extends Model implements ActivityInterface
             'enclosure' => [],
             'category' => '',
         ];
-    }
-
-    /**
-     * Get the ultimate non-Annotation target for this Annotation. Currently
-     * the only possibility is a Document.
-     *
-     * @return Doc
-     */
-    public function getRootTarget()
-    {
-        if ($this->annotatable_type !== Annotation::ANNOTATABLE_TYPE) {
-            return $this->annotatable;
-        }
-
-        return $this->annotatable->getRootTarget();
     }
 
     public function isNote()

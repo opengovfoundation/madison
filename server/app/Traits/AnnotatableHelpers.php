@@ -124,7 +124,7 @@ trait AnnotatableHelpers
         return $this->tags()->count();
     }
 
-    public function allComments($excludeUserIds = [])
+    public function allCommentsRecursive($excludeUserIds = [])
     {
         $comments = $this
             ->comments()
@@ -133,18 +133,18 @@ trait AnnotatableHelpers
             ;
 
         foreach ($this->comments as $subcomment) {
-            $comments = $comments->merge($subcomment->allComments($excludeUserIds));
+            $comments = $comments->merge($subcomment->allCommentsRecursive($excludeUserIds));
         }
 
         return $comments;
     }
 
-    public function allCommentsCount()
+    public function allCommentsRecursiveCount()
     {
         $commentsCount = $this->comments_count;
 
         foreach ($this->comments as $subcomment) {
-            $commentsCount += $subcomment->allCommentsCount();
+            $commentsCount += $subcomment->allCommentsRecursiveCount();
         }
 
         return $commentsCount;

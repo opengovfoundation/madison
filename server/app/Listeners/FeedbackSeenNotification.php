@@ -29,7 +29,7 @@ class FeedbackSeenNotification implements ShouldQueue
     {
         $data = [
             'feedback' => $event->feedback,
-            'doc' => $event->feedback->getRootTarget(),
+            'doc' => $event->feedback->rootAnnotatable,
             'user' => $event->user,
         ];
         $recipient = $event->feedback->user;

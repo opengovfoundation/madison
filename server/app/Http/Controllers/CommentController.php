@@ -93,7 +93,7 @@ class CommentController extends Controller
 
     public function getComment(DocAccessReadRequest $request, Doc $doc, Annotation $comment)
     {
-        if (!($comment->getRootTarget() instanceof Doc) || $comment->getRootTarget()->id != $doc->id) {
+        if (!($comment->rootAnnotatable instanceof Doc) || $comment->rootAnnotatable->id != $doc->id) {
             App::abort(404, 'A comment with id "'.$comment->id.'" does not exist on document with id "'.$doc->id);
         }
 

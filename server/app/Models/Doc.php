@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Category;
-use App\Traits\AnnotatableHelpers;
+use App\Traits\RootAnnotatableHelpers;
 use Event;
 use Exception;
 use URL;
 use Cache;
+use DB;
 
 class Doc extends Model
 {
     use SoftDeletes;
-    use AnnotatableHelpers;
+    use RootAnnotatableHelpers;
 
     public static $timestamp = true;
 
@@ -57,6 +58,11 @@ class Doc extends Model
     public function annotations()
     {
         return $this->morphMany('App\Models\Annotation', 'annotatable');
+    }
+
+    public function allAnnotations()
+    {
+        return $this->morphMany('App\Models\Annotation', 'root_annotatable');
     }
 
     public function getEmbedCode()
@@ -223,9 +229,8 @@ class Doc extends Model
 
     public function getCommentCountAttribute()
     {
-        // note that this is only the top level comment count
         return $this
-            ->comments()
+            ->allComments()
             ->notNotes()
             ->count()
             ;
@@ -234,20 +239,15 @@ class Doc extends Model
     public function getNoteCountAttribute()
     {
         return $this
-            ->comments()
+            ->allComments()
             ->onlyNotes()
             ->count()
             ;
     }
 
-    public function getNoteCommentCountAttribute()
-    {
-        return $this->allCommentsCount() - $this->note_count - $this->comment_count;
-    }
-
     public function getUserCount()
     {
-        return $this->allComments()->unique('user.id')->count();
+        return $this->allComments()->count(DB::raw('DISTINCT user_id'));
     }
 
     public function getUserCountAttribute()
@@ -273,7 +273,6 @@ class Doc extends Model
         $this->appends[] = 'pages';
         $this->appends[] = 'comment_count';
         $this->appends[] = 'note_count';
-        $this->appends[] = 'note_comment_count';
         $this->appends[] = 'user_count';
         $this->appends[] = 'support';
         $this->appends[] = 'oppose';

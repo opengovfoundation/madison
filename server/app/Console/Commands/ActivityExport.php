@@ -51,7 +51,7 @@ class ActivityExport extends Command
         $doc = Doc::where('id', $doc_id)->first();
         $this->info("Exporting activity for ".$doc->title);
 
-        $comments = $doc->allComments();
+        $comments = $doc->all_comments;
 
         $csv = $this->commentService->toCsv($comments);
         file_put_contents($filename, $csv);

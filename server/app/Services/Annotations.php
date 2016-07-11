@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Annotation;
 use App\Models\AnnotationTypes;
+use App\Models\Doc;
 
 class Annotations
 {
@@ -34,6 +35,17 @@ class Annotations
         ]);
 
         $target->annotations()->save($annotation);
+
+        $rootTarget = null;
+        if ($target instanceof Doc) {
+            $rootTarget = $target;
+        } elseif ($target instanceof Annotation) {
+            $rootTarget = $target->rootAnnotatable;
+        } else {
+            throw new \InvalidArgumentException();
+        }
+
+        $rootTarget->allAnnotations()->save($annotation);
 
         return $annotation;
     }
