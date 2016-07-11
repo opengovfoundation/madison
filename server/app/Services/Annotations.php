@@ -32,7 +32,7 @@ class Annotations
     {
         $annotation = Annotation::create([
             'user_id' => $user->id,
-            'annotation_subtype' => $data['subtype'],
+            'annotation_subtype' => !empty($data['subtype']) ? $data['subtype'] : null,
         ]);
 
         $target->annotations()->save($annotation);
