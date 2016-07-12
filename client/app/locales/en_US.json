@@ -270,7 +270,7 @@
   "document.discussionstate.closed.tooltip": "Commenting is closed on this document.",
   "document.label.rss": "RSS",
   "document.label.rss.title": "Subscribe to RSS Feed",
-  "document.label.notediscussion": "Note &amp; Comment",
+  "document.label.notediscussion": "Notes",
   "document.tabs.text": "Document Text",
   "document.tabs.discussion": "Comments ({{count}})",
   "document.label.text": "Document Text",
