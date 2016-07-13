@@ -29,7 +29,7 @@ class CommentCreatedNotification implements ShouldQueue
     {
         // if the comment is in reply to something, signal a notification to
         // the parent user
-        if (!empty($event->parent)) {
+        if ($event->parent instanceof Annotation) {
             if ($event->parent->isNote()) {
                 $parentType = 'note';
             } else {
