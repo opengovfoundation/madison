@@ -194,6 +194,11 @@ class Doc extends Model
 
     public function syncCategories($categoriesArray)
     {
+        if (empty($categoriesArray)) {
+            $this->categories()->sync([]);
+            return;
+        }
+
         $categoriesToSync = [];
 
         foreach ($categoriesArray as $category) {
