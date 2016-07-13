@@ -203,7 +203,11 @@ class CommentController extends Controller
 
             // TODO should an edit be its own type
             if ($isEdit) {
-                $this->annotationService->createAnnotationComment($annotation, $user, ['text' => $data['explanation']]);
+                $editData = [
+                    'text' => $data['explanation'],
+                    'subtype' => !empty($data['subtype']) ? $data['subtype'] : null,
+                ];
+                $this->annotationService->createAnnotationComment($annotation, $user, $editData);
             }
 
             return $annotation->id;
