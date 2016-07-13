@@ -452,7 +452,7 @@ class Doc extends Model
 
             //Create array of [id => total] for each document
             foreach ($docs as $doc) {
-                $docsInfo[$doc->id] = $doc->allCommentsCount();
+                $docsInfo[$doc->id] = $doc->all_comments_count;
             }
 
             Cache::put('active-docs', $docsInfo, 1440);
