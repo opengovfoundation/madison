@@ -1131,46 +1131,31 @@ class DocumentController extends Controller
         }
 
         $statistics = [
-            'comments' => [
-                'total' => 0,
-                'month' => 0,
-                'week' => 0,
-                'day' => 0,
-            ],
-            'notes' => [
-                'total' => 0,
-                'month' => 0,
-                'week' => 0,
-                'day' => 0,
-            ],
+            'comments' => [],
+            'notes' => [],
         ];
 
         $now = \Carbon\Carbon::now();
-        foreach ($doc->allComments($excludeUserIds) as $comment) {
-            $key = '';
-            if ($comment->isNote()
-                || ($comment->annotatable_type === Annotation::ANNOTATABLE_TYPE
-                    && $comment->annotatable->isNote()
-                   )
-            ) {
-                $key = 'notes';
+        $baseQuery = $doc->allComments()->whereNotIn('user_id', $excludeUserIds);
+        $statsFor = function ($query, $time) {
+            $query = clone $query;
+            return $query
+                ->where('created_at', '>=', $time)
+                ->count()
+                ;
+        };
+        foreach (['notes', 'comments'] as $key) {
+            $query = clone $baseQuery;
+            if ($key === 'notes') {
+                $query->onlyNotes();
             } else {
-                $key = 'comments';
+                $query->notNotes();
             }
 
-            $statistics[$key]['total'] += 1;
-
-            switch (true) {
-                case $comment->created_at->gte($now->subMonth()):
-                    $statistics[$key]['month'] += 1;
-                    break;
-                case $comment->created_at->gte($now->subWeek()):
-                    $statistics[$key]['week'] += 1;
-                    break;
-                case $comment->created_at->gte($now->subDay()):
-                    $statistics[$key]['day'] += 1;
-                    break;
-            }
+            $statistics[$key]['total'] = $query->count();
+            $statistics[$key]['month'] = $statsFor($query, $now->copy()->subMonth());
+            $statistics[$key]['week'] = $statsFor($query, $now->copy()->subWeek());
+            $statistics[$key]['day'] = $statsFor($query, $now->copy()->subDay());
         }
 
         return Response::json($statistics);
