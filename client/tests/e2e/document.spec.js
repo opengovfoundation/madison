@@ -26,8 +26,8 @@ describe('Document view', function() {
       expect(docPage.stats.comments.getText()).toBe('3');
     });
 
-    it('shows the number of annotations', function() {
-      expect(docPage.stats.annotations.getText()).toBe('2');
+    it('shows the number of notes', function() {
+      expect(docPage.stats.notes.getText()).toBe('2');
     });
 
     it('shows how recently the document was updated', function() {
