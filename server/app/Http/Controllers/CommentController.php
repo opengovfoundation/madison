@@ -34,8 +34,6 @@ class CommentController extends Controller
 
     public function getIndex(DocAccessReadRequest $request, Doc $doc)
     {
-        // TODO: page support?
-
         $excludeUserIds = [];
         if ($request->query('exclude_sponsors') && $request->query('exclude_sponsors') !== 'false') {
             $excludeUserIds = $doc->sponsorIds;
@@ -178,8 +176,6 @@ class CommentController extends Controller
 
             $annotation = $this->annotationService->createAnnotationComment($target, $user, $data);
 
-            // TODO: we only need to apply these permissions
-            // to a top level annotation?
             $permissions = new AnnotationPermission();
             $permissions->annotation_id = $annotation->id;
             $permissions->user_id = $user->id;
@@ -201,7 +197,6 @@ class CommentController extends Controller
                 }
             }
 
-            // TODO should an edit be its own type
             if ($isEdit) {
                 $editData = [
                     'text' => $data['explanation'],
