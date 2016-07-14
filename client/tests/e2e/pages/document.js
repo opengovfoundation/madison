@@ -45,6 +45,7 @@ var DocumentPage = function() {
   this.writeComment = function(text) {
     commentBox.sendKeys(text);
     commentBtn.click();
+    browser.sleep(1500);
   };
 
   this.writeCommentReply = function(commentText, text) {
