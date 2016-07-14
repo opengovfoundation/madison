@@ -18,6 +18,7 @@ describe('Logged In - Document view', function() {
   describe('Supporting / Opposing document', function() {
     it('properly handles "supporting" a document', function() {
       docPage.buttons.support.click();
+      browser.sleep(1500);
 
       // check that button states change
       expect(docPage.buttons.support.getText()).toMatch(/1 support/i);
