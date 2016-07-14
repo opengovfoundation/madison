@@ -70,8 +70,7 @@
     "select2": "~3.5.0",
     "ui-router-extras": "^0.1.2",
     "ui-select": "^0.14.9",
-    "underscore": "~1.7.0",
-    "zeroclipboard": "~2.0.1"
+    "underscore": "~1.7.0"
   },
   "scripts": {
     "test": "scripty",
