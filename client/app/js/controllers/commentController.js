@@ -51,8 +51,7 @@ angular.module('madisonApp.controllers')
             comment.comments = [];
 
             $scope.doc.comments.push(comment);
-
-            if ($scope.subCommentId && comment.id === $scope.commentId) {
+            if ($scope.subCommentId && parseInt(comment.id) === parseInt($scope.commentId)) {
               $scope.toggleReplies(comment);
             }
           });
