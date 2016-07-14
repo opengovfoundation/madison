@@ -64,9 +64,9 @@ angular.module('madisonApp.controllers')
 
         angular.forEach($scope.annotations, function (annotation) {
           var commentIds = annotation.comments.map(function (comment) {
-            return comment.id;
+            return parseInt(comment.id);
           });
-          if (commentIds.indexOf(commentId) !== -1) foundId = annotation.id;
+          if (commentIds.indexOf(parseInt(commentId)) !== -1) foundId = annotation.id;
         });
 
         return foundId;
@@ -77,10 +77,10 @@ angular.module('madisonApp.controllers')
 
         angular.forEach($scope.annotationGroups, function (group) {
           var idsInGroup = group.annotations.map(function (annotation)  {
-            return annotation.id;
+            return parseInt(annotation.id);
           });
 
-          if (idsInGroup.indexOf(annotationId) !== -1) foundGroup = group;
+          if (idsInGroup.indexOf(parseInt(annotationId)) !== -1) foundGroup = group;
         });
 
         return foundGroup;
