@@ -38,19 +38,6 @@ angular.module('madisonApp.directives')
 
           return window.getBasePath() + hash;
         }
-      },
-      compile: function() {
-        return {
-          post: function(scope, element, attrs) {
-            var link = element.find('.link');
-            var client = new ZeroClipboard(link);
-            client.on('aftercopy', function (event) {
-              scope.$apply(function () {
-                growl.success("Link copied to clipboard.");
-              });
-            });
-          }
-        };
       }
     };
   }]);

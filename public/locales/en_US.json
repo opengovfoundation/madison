@@ -202,7 +202,7 @@
   "document.interface.readmore": "Read More",
   "document.interface.readmoretitle": "Read more of {{title}}",
   "document.interface.readdocument": "Read More",
-  "document.interface.copylink": "Copy link to clipboard",
+  "document.interface.permalink": "Permanent link to this note",
 
   "document.title.activelegislation": "Active Legislation",
   "document.title.recentactivity": "Recent Activity",

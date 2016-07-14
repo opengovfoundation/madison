@@ -28,7 +28,6 @@
     "google-translate": "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit",
     "angular-route": "~1.4.8",
     "angular-cookie": "~4.0.9",
-    "zeroclipboard": "~2.0.1",
     "select2": "~3.4",
     "underscore": "~1.7.0",
     "compass-breakpoint": "~2.4.2",
