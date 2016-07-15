@@ -26,8 +26,6 @@ class CommentUnification extends Migration
             $table->json('data');
         });
 
-        // TODO: do we really need timestamps on all of these types? should we
-        // just use the timestamps on parent annotation?
         Schema::create('annotation_types_comment', function (Blueprint $table) {
             $table->increments('id');
             $table->longText('content');
@@ -75,8 +73,6 @@ class CommentUnification extends Migration
 
         // Annotation -> AnnotationTypes/Comment
         $annotations = DB::table('annotations')->get();
-        // TODO: need to migrate the page property? or just dynamically
-        // calculate it based on the range?
         foreach ($annotations as $annotation) {
             $newComment = AnnotationTypes\Comment::create([
                 'content' => $annotation->text,
@@ -88,6 +84,8 @@ class CommentUnification extends Migration
                 'quote' => $annotation->quote,
                 'uri' => $annotation->uri,
                 'page' => $annotation->page,
+                'old_id' => $annotation->id, // not actually changing, but just to be complete
+                'old_permalink_type' => 'annotation',
             ];
 
             DB
@@ -202,6 +200,10 @@ class CommentUnification extends Migration
             $this->updateTimestamps($newComment, $annotationComment);
 
             $docId = DB::table('annotations')->where('id', $annotationComment->annotation_id)->value('doc_id');
+            $data = [
+                'old_id' => $annotationComment->id,
+                'old_permalink_type' => 'annsubcomment',
+            ];
             DB::table('annotations')->insert([
                 'user_id' => $annotationComment->user_id,
                 'annotatable_id' => $annotationComment->annotation_id,
@@ -213,6 +215,7 @@ class CommentUnification extends Migration
                 'created_at' => $annotationComment->created_at,
                 'updated_at' => $annotationComment->updated_at,
                 'deleted_at' => $annotationComment->deleted_at,
+                'data' => json_encode($data),
             ]);
 
             $annotationSeen = DB::select('select seen from annotations where id = ?', [$annotationComment->annotation_id]);
@@ -265,6 +268,11 @@ class CommentUnification extends Migration
                 $annotatableType = Annotation::ANNOTATABLE_TYPE;
             }
 
+            $data = [
+                'old_id' => $comment->id,
+                'old_permalink_type' => 'comment',
+            ];
+
             $commentAnnotationId = DB::table('annotations')->insertGetId([
                 'user_id' => $comment->user_id,
                 'annotatable_id' => $annotatableId,
@@ -276,6 +284,7 @@ class CommentUnification extends Migration
                 'created_at' => $comment->created_at,
                 'updated_at' => $comment->updated_at,
                 'deleted_at' => $comment->deleted_at,
+                'data' => json_encode($data),
             ]);
 
             // save our old id -> new id info for any sub comments
