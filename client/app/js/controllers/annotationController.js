@@ -23,16 +23,17 @@ angular.module('madisonApp.controllers')
       var annotationId = hash.match(ANNOTATION_HASH_REGEX);
       var subCommentId = hash.match(ANNOTATION_COMMENT_HASH_REGEX);
 
-
       if (annotationId || subCommentId) {
-        if (annotationId) $scope.annotationId = parseInt(annotationId[1]);
-        if (subCommentId) $scope.subCommentId = parseInt(subCommentId[1]);
+        if (annotationId) {
+          $scope.annotationId = parseInt(annotationId[1]);
+        }
+        if (subCommentId) {
+          $scope.annotationId = parseInt(subCommentId[1]);
+          $scope.subCommentId = parseInt(subCommentId[2]);
+        }
 
         $scope.$on('annotationsSet', function () {
-          var parentAnnotationId = annotationId ?
-            parseInt(annotationId[1]) : parentAnnotationIdFromComment(parseInt(subCommentId[1]));
-
-          openPanelForAnnotationId(parentAnnotationId);
+          openPanelForAnnotationId($scope.annotationId);
           if ($scope.subCommentId) scrollToAnnotationComment($scope.subCommentId);
         });
       }
