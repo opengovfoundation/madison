@@ -333,7 +333,7 @@ class DocumentController extends Controller
         return Response::json($result);
     }
 
-    public function getRestoreDoc(DocAccessEditRequest $request, Doc $doc)
+    public function restoreDoc(DocAccessEditRequest $request, Doc $doc)
     {
         if ($doc->publish_state == Doc::PUBLISH_STATE_DELETED_ADMIN) {
             if (!Auth::user()->hasRole(Role::ROLE_ADMIN)) {
@@ -343,7 +343,6 @@ class DocumentController extends Controller
 
         DocMeta::withTrashed()->where('doc_id', $doc->id)->restore();
         DocContent::withTrashed()->where('doc_id', $doc->id)->restore();
-        // TODO: does this work?
         $doc->annotations()->withTrashed()->restore();
 
         $doc->restore();
@@ -463,7 +462,7 @@ class DocumentController extends Controller
         return Response::json([ 'count' => $docCount ]);
     }
 
-    public function getAllCategories(DocAccessReadRequest $request)
+    public function getAllCategories()
     {
         return Response::json(Category::all());
     }

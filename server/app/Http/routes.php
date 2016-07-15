@@ -119,7 +119,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::put('docs/{doc}/content/{pagenum}', 'DocumentController@putContent');
     Route::delete('docs/{doc}/content/{pagenum}', 'DocumentController@deleteContent');
     Route::get('docs/embed/{doc}', 'DocumentController@getEmbedded');
-    Route::get('docs/{docTrashed}/restore', 'DocumentController@getRestoreDoc');
+    Route::put('docs/{docTrashed}/restore', 'DocumentController@restoreDoc');
     Route::delete('docs/{doc}', 'DocumentController@deleteDoc');
     Route::post('docs/{doc}/featured-image', 'DocumentController@uploadImage');
     Route::delete('docs/{doc}/featured-image', 'DocumentController@deleteImage');
