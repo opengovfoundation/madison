@@ -53,7 +53,7 @@
       </blockquote>
 
       <div class="comment-body"
-        ng-class="{ highlight: annotation.id === annotationId }">
+        ng-class="{ highlight: !(subCommentId) && (annotation.id-0) === (annotationId-0) }">
 
         <header class="annotation-header">
           <span class="author">{{ annotation.user.display_name }}</span>
@@ -81,10 +81,9 @@
         <article ng-repeat="comment in annotation.comments"
           class="comment"
           id="annsubcomment_{{comment.id}}"
-          ng-class="{ highlight: subCommentId === comment.id }">
+          ng-class="{ highlight: subCommentId && (subCommentId-0) === (comment.id-0) }">
 
           <header class="comment-header">
-
             <span class="author">{{ comment.user.display_name }}</span>
 
             <span translate="document.label.date.timeago"

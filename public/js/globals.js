@@ -1,7 +1,7 @@
 /*global window*/
 
 var ANNOTATION_HASH_REGEX = /^annotation_([0-9]+)$/;
-var ANNOTATION_COMMENT_HASH_REGEX = /^annsubcomment_([0-9]+)$/;
+var ANNOTATION_COMMENT_HASH_REGEX = /^annsubcomment_([0-9]+)-([0-9]+)$/;
 var COMMENT_HASH_REGEX = /^comment_([0-9]+)-?([0-9]+)?$/;
 
 window.getAnnotationService = function () {
