@@ -5826,6 +5826,7 @@ section.login {
 
 .document-edit-tabs .tab-pane .wmd-input {
   height: 100%;
+  min-height: 40rem;
 }
 
 .document-edit-tabs .tab-pane .wmd-preview {
@@ -5838,8 +5839,7 @@ section.login {
 
 .document-edit-tabs .tab-pane .doc-content-editor {
   float: none;
-  height: 40rem;
-  overflow: hidden;
+  min-height: 40rem;
 }
 
 .document-dates {
