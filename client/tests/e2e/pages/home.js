@@ -29,8 +29,8 @@ var HomePage = function() {
       by.cssContainingText('.doc-stats li', 'Comments')
     ),
 
-    annotations: mostActiveDoc.element(
-      by.cssContainingText('.doc-stats li', 'Annotations')
+    notes: mostActiveDoc.element(
+      by.cssContainingText('.doc-stats li', 'Notes')
     ),
   };
 
@@ -43,8 +43,8 @@ var HomePage = function() {
       by.cssContainingText('.doc-stats li', 'Comments')
     ),
 
-    annotations: featuredDoc.element(
-      by.cssContainingText('.doc-stats li', 'Annotations')
+    notes: featuredDoc.element(
+      by.cssContainingText('.doc-stats li', 'Notes')
     )
   };
 

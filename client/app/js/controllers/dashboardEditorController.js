@@ -15,6 +15,8 @@ angular.module('madisonApp.controllers')
       $scope.doc = {};
       $scope.docContent = '';
 
+      $scope.stats = {};
+
       $scope.newdate = {
         label: '',
         date: new Date()
@@ -165,6 +167,18 @@ angular.module('madisonApp.controllers')
         }
 
         $scope.doc.featured = false;
+      }
+
+      /**
+       * Statistics
+       * ----------------------------------------------
+       */
+      $scope.getStats = function() {
+        return Doc.getActivity({
+            id: id
+        }).$promise.then(function(data) {
+            $scope.stats = data;
+        });
       }
 
       /**
@@ -525,6 +539,7 @@ angular.module('madisonApp.controllers')
 
       $scope.getAllSponsors();
       $scope.getAllCategories();
+      $scope.getStats();
       $scope.getDoc(id).then(function () {
 
         $scope.markdownEditor = new Markdown.Editor(

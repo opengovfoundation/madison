@@ -10,6 +10,7 @@
 |
 */
 
+use App\Models\Category;
 use App\Models\Doc;
 use App\Models\Group;
 use App\Models\Page;
@@ -55,4 +56,8 @@ $factory->define(PageContent::class, function (Faker\Generator $faker) {
 
 $factory->define(Doc::class, function (Faker\Generator $faker) {
     return [ 'title' => $faker->words(5, true) ];
+});
+
+$factory->define(Category::class, function (Faker\Generator $faker) {
+    return [ 'name' => $faker->words(2, true) ];
 });

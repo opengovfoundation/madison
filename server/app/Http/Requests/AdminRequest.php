@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\AdminRequest;
 use App\Models\Role;
 use Auth;
 

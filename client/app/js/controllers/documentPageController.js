@@ -163,7 +163,7 @@ angular.module('madisonApp.controllers')
       });
 
       //Load the document
-      $scope.doc = Doc.getDocBySlug({slug: $stateParams.slug});
+      $scope.doc = Doc.get({id: $stateParams.slug});
 
       //After loading the document
       $scope.doc.$promise.then(function (doc) {

@@ -42,7 +42,7 @@ angular.module('madisonApp.controllers')
 
         if (!group) return;
 
-        $scope.showAnnotations(group);
+        $scope.showNotes(group);
         $(document).scrollTop($('#annotation_' + id).offset().top - 50);
       }
 
@@ -152,7 +152,6 @@ angular.module('madisonApp.controllers')
                 var comment = annotation.comments[commentIndex];
                 annotation.comments[commentIndex].permalinkBase = 'annsubcomment';
                 annotation.comments[commentIndex].label = 'comment';
-                annotation.comments[commentIndex].doc_id = annotation.doc_id;
                 if(annotationGroup.users.indexOf(comment.user.id) < 0) {
                   annotationGroup.users.push(comment.user.id);
                 }
@@ -184,7 +183,7 @@ angular.module('madisonApp.controllers')
 
       $scope.notifyAuthor = function (annotation) {
 
-        $http.post('/api/docs/' + doc.id + '/annotations/' + annotation.id + '/' + 'seen')
+        $http.post('/api/docs/' + doc.id + '/comments/' + annotation.id + '/' + 'seen')
           .success(function (data) {
             annotation.seen = data.seen;
           }).error(function (data) {
@@ -215,9 +214,7 @@ angular.module('madisonApp.controllers')
       $scope.subcommentSubmit = function (activity, subcomment) {
         subcomment.user = $scope.user;
 
-        $.post('/api/docs/' + $scope.doc.id + '/' + activity.label + 's/' + activity.id + '/comments', {
-          'comment': subcomment
-        })
+        $.post('/api/docs/' + $scope.doc.id + '/comments/' + activity.id + '/comments', subcomment)
         .success(function (data) {
           data.permalinkBase = 'annsubcomment';
           data.label = 'comment';
@@ -230,12 +227,12 @@ angular.module('madisonApp.controllers')
         });
       };
 
-      $scope.showAnnotations = function(annotationGroup) {
+      $scope.showNotes = function(annotationGroup) {
         $scope.annotationsShow = true;
         $scope.currentGroup = annotationGroup;
       };
 
-      $scope.hideAnnotations = function() {
+      $scope.hideNotes = function() {
         $scope.annotationsShow = false;
         $scope.currentGroup = null;
       };

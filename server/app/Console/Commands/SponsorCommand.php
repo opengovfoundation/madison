@@ -60,9 +60,6 @@ class SponsorCommand extends Command
 					  WHERE id NOT IN (
 						SELECT doc_id
 						  FROM doc_group
-					 UNION ALL
-						SELECT doc_id
-						  FROM doc_user
 					)"
                 ),
                 array()
@@ -98,16 +95,8 @@ class SponsorCommand extends Command
                 continue;
             }
 
-            switch ($sponsors[$selected]['sponsor_type']) {
-                case 'individual':
-                    $doc->userSponsors()->sync(array($sponsors[$selected]['id']));
-                    $this->info("Assigned Document to Independent Sponsor");
-                    break;
-                case 'group':
-                    $doc->groupSponsors()->sync(array($sponsors[$selected]['id']));
-                    $this->info("Assigned Document to Group Sponsor");
-                    break;
-            }
+            $doc->sponsors()->sync([$sponsors[$selected]['id']]);
+            $this->info("Assigned Document to Group Sponsor");
         }
     }
 

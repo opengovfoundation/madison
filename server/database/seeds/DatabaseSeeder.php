@@ -11,15 +11,10 @@ class DatabaseSeeder extends Seeder
      * @var array
      */
     private $tables = [
-        'annotation_comments',
         'annotation_permissions',
-        'annotation_ranges',
-        'annotation_tags',
         'annotations',
         'categories',
         'category_doc',
-        'comment_meta',
-        'comments',
         'dates',
         'doc_contents',
         'doc_group',
@@ -29,7 +24,6 @@ class DatabaseSeeder extends Seeder
         'group_members',
         'groups',
         'jobs',
-        'note_meta',
         'notification_preferences',
         'organizations',
         'pages',
@@ -59,7 +53,6 @@ class DatabaseSeeder extends Seeder
         $this->call('GroupsTableSeeder');
         $this->call('DocumentsTableSeeder');
         $this->call('CategoriesTableSeeder');
-        $this->call('CommentsTableSeeder');
         $this->call('AnnotationsTableSeeder');
         $this->call('PagesTableSeeder');
 

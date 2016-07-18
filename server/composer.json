@@ -17,9 +17,8 @@
         "overtrue/laravel-lang": "~1.0",
         "graham-campbell/markdown": "~5.3",
         "doctrine/dbal": "2.5.*",
-        "elasticsearch/elasticsearch": "~0.4",
         "roumen/sitemap": "2.4.*",
-        "roumen/feed": "2.8.*",
+        "roumen/feed": "~2.10",
         "zizaco/entrust": "dev-laravel-5",
         "league/csv": "8.0.*",
         "intervention/image": "2.3.*"

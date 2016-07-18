@@ -13,7 +13,7 @@ class DatabaseClear extends Command
      *
      * @var string
      */
-    protected $name = 'db:clear {--database=mysql : The database connection to use}';
+    protected $signature = 'db:clear {--database=mysql : The database connection to use}';
 
     /**
      * The console command description.
@@ -41,7 +41,11 @@ class DatabaseClear extends Command
         $tables = DB::select("select * from information_schema.tables where table_schema='".$database."'");
         DB::statement('SET foreign_key_checks = 0');
         foreach ($tables as $table) {
-            Schema::drop($table->TABLE_NAME);
+            if (str_contains($table->TABLE_TYPE, 'VIEW')) {
+                DB::statement('DROP VIEW '.$table->TABLE_NAME);
+            } else {
+                Schema::drop($table->TABLE_NAME);
+            }
         }
         DB::statement('SET foreign_key_checks = 1');
     }

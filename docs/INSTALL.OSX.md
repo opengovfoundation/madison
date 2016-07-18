@@ -43,10 +43,6 @@ functionality (required for registering new users).
 
 1. Run `make db-reset` to get the database migrated and seeded with data.
 
-1. Install and run elasticsearch. [See here for installation](elasticsearch).
-  1. Additionally, run `curl -XPUT http://localhost:9200/madison` when ES is running
-  to create a new index.
-
 1. Copy the `server/.env.example` file to `server/.env` and set the appropriate variables.
   1. If you don't have one already, set up an account at [MailTrap](mailtrap)
   and set the `MAIL_USERNAME` and `MAIL_PASSWORD` variables to what it provides
@@ -57,7 +53,6 @@ functionality (required for registering new users).
 When editing any .scss files, make sure to run `make watch` so that it can watch for and
 re-compile the main css files.
 
-[elasticsearch]: https://gist.github.com/rajraj/1556657
 [homebrew]: http://brew.sh/
 [composer]: https://getcomposer.org/
 [bower]: http://bower.io/

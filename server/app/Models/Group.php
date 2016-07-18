@@ -201,11 +201,6 @@ class Group extends Model
         return !empty($this->display_name) ? $this->display_name : !empty($this->name) ? $this->name : "";
     }
 
-    public function getSponsorType()
-    {
-        return 'Group';
-    }
-
     /**
      *	@todo is this used?  Used to be used in $this->userHasRole, but the logic there has been changed.
      */

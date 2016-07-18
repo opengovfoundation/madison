@@ -1,7 +1,7 @@
 var DocumentPage = function() {
   var docInfo = element(by.css('.doc-info'));
-  var discussionTabBtn = element(
-    by.cssContainingText('.doc-content .nav-tabs a', 'Discussion')
+  var commentsTabBtn = element(
+    by.cssContainingText('.doc-content .nav-tabs a', 'Comments')
   );
   var documentTextTabBtn = element(
     by.cssContainingText('.doc-content .nav-tabs a', 'Document Text')
@@ -28,7 +28,7 @@ var DocumentPage = function() {
   this.stats = {
     participants: element(by.binding('doc.user_count')),
     comments: element(by.binding('doc.comment_count')),
-    annotations: element(by.binding('doc.annotation_count')),
+    notes: element(by.binding('doc.note_count')),
 
     updated: element(by.css('.stats-history .date')),
 
@@ -45,6 +45,7 @@ var DocumentPage = function() {
   this.writeComment = function(text) {
     commentBox.sendKeys(text);
     commentBtn.click();
+    browser.sleep(1500);
   };
 
   this.writeCommentReply = function(commentText, text) {
@@ -132,8 +133,8 @@ var DocumentPage = function() {
     oppose: element(by.css('#doc-oppose'))
   };
 
-  this.showDiscussion = function() {
-    discussionTabBtn.click();
+  this.showComments = function() {
+    commentsTabBtn.click();
   };
 
   this.showDocumentText = function() {

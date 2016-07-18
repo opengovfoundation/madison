@@ -233,17 +233,14 @@
 
     <!-- Start comments tab -->
     <section id="tab-comments" class="tab-pane">
-      <div>
-        <ul>
-          <li><a class="download download-csv" target="_blank"
-            href="/api/docs/{{ doc.id }}/actions?download=csv"
-            translate="document.comments.downloadall.csv"></a></li>
-
-          <li><a class="download download-csv" target="_blank"
-            href="/api/docs/{{ doc.id }}/actions?download=csv&no_sponsor_comments=1"
-            translate="document.comments.downloadnosponsors.csv"></a></li>
-        </ul>
-      </div>
+      <ul>
+        <li><a class="download download-csv" target="_blank"
+          href="/api/docs/{{ doc.id }}/comments?all=true&download=csv"
+          translate="document.comments.downloadall.csv"></a></li>
+        <li><a class="download download-csv" target="_blank"
+          href="/api/docs/{{ doc.id }}/comments?all=true&exclude_sponsors=true&download=csv"
+          translate="document.comments.downloadnosponsors.csv"></a></li>
+      </ul>
     </section>
     <!-- End comments tab -->
 
@@ -268,11 +265,11 @@
             <td>{{ stats.comments.total }}</td>
           </tr>
           <tr>
-            <td translate="document.stats.annotations"></td>
-            <td>{{ stats.annotations.day }}</td>
-            <td>{{ stats.annotations.week }}</td>
-            <td>{{ stats.annotations.month }}</td>
-            <td>{{ stats.annotations.total }}</td>
+            <td translate="document.stats.notes"></td>
+            <td>{{ stats.notes.day }}</td>
+            <td>{{ stats.notes.week }}</td>
+            <td>{{ stats.notes.month }}</td>
+            <td>{{ stats.notes.total }}</td>
           </tr>
         </tbody>
       </table>

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use Auth;
 use Validator;
 use Cache;
 use Input;
 use Response;
 use Event;
+use App\Http\Requests\AdminRequest;
+use App\Http\Requests\DocAccessEditRequest;
+use App\Http\Requests\DocAccessReadRequest;
 use App\Http\Requests\UpdateDocumentRequest;
 use File;
 use Image;
@@ -23,7 +27,9 @@ use App\Models\DocContent;
 use App\Models\Annotation;
 use App\Models\Comment;
 use App\Models\Category;
-use \League\Csv\Writer;
+use App\Models\Role;
+use Illuminate\Http\Request;
+use URL;
 
 /**
  * 	Controller for Document actions.
@@ -34,20 +40,11 @@ class DocumentController extends Controller
     {
         parent::__construct();
 
-        $this->beforeFilter('auth', array('on' => array('post', 'put', 'delete')));
+        $this->beforeFilter('auth', ['on' => ['post', 'put', 'delete']]);
     }
 
-    public function getDoc($doc)
+    public function getDoc(DocAccessReadRequest $request, Doc $doc)
     {
-        $doc_id = $doc;
-
-        $doc = Doc::with('categories')
-            ->with('sponsors')
-            ->with('statuses')
-            ->with('categories')
-            ->with('dates')
-            ->find($doc);
-
         $doc->enableIntrotext();
         $doc->enableCounts();
         $doc->enableSponsors();
@@ -60,9 +57,8 @@ class DocumentController extends Controller
         )->header('content-type', 'application/json');
     }
 
-    public function getDocBySlug($slug)
+    public function getDocBySlug(DocAccessReadRequest $request, Doc $doc)
     {
-        $doc = Doc::findDocBySlug($slug);
         $introtext = $doc->introtext()->first()['meta_value'];
         $doc->introtext = $introtext;
 
@@ -71,14 +67,8 @@ class DocumentController extends Controller
         return Response::json($doc);
     }
 
-    public function getEmbedded($slug = null)
+    public function getEmbedded(DocAccessEditRequest $request, Doc $doc)
     {
-        $doc = Doc::findDocBySlug($slug);
-
-        if (is_null($doc)) {
-            App::abort('404');
-        }
-
         $view = View::make('doc.reader.embed', compact('doc'));
 
         return $view;
@@ -102,15 +92,14 @@ class DocumentController extends Controller
                 if (!isset($groupUser->id)) {
                     return Response::json($this->growlMessage("You do not have permission", 'error'));
                 }
-            } elseif (!$user->getSponsorStatus()) {
+            } else {
                 return Response::json($this->growlMessage("You do not have permission", 'error'));
             }
         }
 
         //Creating new document
         $title = Input::get('title');
-        $slug = Input::get('slug',
-            str_replace(array(' ', '.'), array('-', ''), strtolower($title)));
+        $slug = Input::get('slug', str_slug($title, '-'));
 
 
         // If the slug is taken
@@ -160,48 +149,43 @@ class DocumentController extends Controller
         }
     }
 
-    public function update($id, UpdateDocumentRequest $request)
+    public function update(UpdateDocumentRequest $request, Doc $doc)
     {
-        $doc = Doc::find($id);
-        if (!$doc) return response('Not found.', 404);
         $doc->update($request->all());
         $doc->setIntroText($request->input('introtext'));
-        $doc->sponsors()->sync([$request->input('sponsors')[0]['id']]);
+        $doc->sponsors()->sync(array_pluck($request->input('sponsors'), 'id'));
         $doc->syncCategories($request->input('categories'));
         return Response::json($doc);
     }
 
-    public function postTitle($id)
+    public function postTitle(DocAccessEditRequest $request, Doc $doc)
     {
-        $rules = array('title' => 'required');
+        $rules = ['title' => 'required'];
         $validation = Validator::make(Input::only('title'), $rules);
         if ($validation->fails()) {
             return Response::json($this->growlMessage('A valid title is required, changes are not saved', 'error'));
         }
 
-        $doc = Doc::find($id);
         $doc->title = Input::get('title');
         $doc->save();
 
-        $response['messages'][0] = array('text' => 'Document title saved', 'severity' => 'info');
+        $response['messages'][0] = ['text' => 'Document title saved', 'severity' => 'info'];
 
         return Response::json($response);
     }
 
-    public function postPublishState($id)
+    public function postPublishState(DocAccessEditRequest $request, Doc $doc)
     {
-        $doc = Doc::find($id);
         $doc->publish_state = Input::get('publish_state');
         $doc->save();
 
-        $response['messages'][0] = array('text' => 'Document publish state saved', 'severity' => 'info');
+        $response['messages'][0] = ['text' => 'Document publish state saved', 'severity' => 'info'];
 
         return Response::json($response);
     }
 
-    public function postSlug($id)
+    public function postSlug(DocAccessEditRequest $request, Doc $doc)
     {
-        $doc = Doc::find($id);
         // Compare current and new slug
         $old_slug = $doc->slug;
         // If the new slug is different, save it
@@ -227,7 +211,7 @@ class DocumentController extends Controller
         return Response::json($response);
     }
 
-    public function getContent($id)
+    public function getContent(DocAccessReadRequest $request, Doc $doc)
     {
         $page = Input::get('page', 1);
         if (!$page) {
@@ -239,22 +223,26 @@ class DocumentController extends Controller
             $format = 'html';
         }
 
-        $cacheKey = 'doc-'.$id.'-'.$page.'-'.$format;
+        $cacheKey = 'doc-'.$doc->id.'-'.$page.'-'.$format;
 
         if ($format === 'html' && Cache::has($cacheKey)) {
             return Response::json(Cache::get($cacheKey));
         }
 
-        $docContent = DocContent::where('doc_id', $id)->
-            limit(1)->offset($page - 1)->first();
+        $docContent = DocContent
+            ::where('doc_id', $doc->id)
+            ->where('page', $page)
+            ->limit(1)
+            ->first()
+            ;
 
-        $returned = array();
+        $returned = [];
 
         if ($docContent) {
-            if($format === 'raw' || $format === 'all') {
+            if ($format === 'raw' || $format === 'all') {
                 $returned['raw'] = $docContent->content;
             }
-            if($format === 'html' || $format === 'all') {
+            if ($format === 'html' || $format === 'all') {
                 $returned['html'] = $docContent->html();
             }
         }
@@ -268,68 +256,65 @@ class DocumentController extends Controller
     }
 
 
-    public function postContent($docId)
+    public function postContent(DocAccessEditRequest $request, Doc $doc)
     {
-        $doc = Doc::find($docId);
-
-        if($doc) {
-            $last_page = DocContent::where('doc_id', $docId)->max('page');
-            if(!$last_page) {
-                $last_page = 0;
-            }
-
-            $doc_content = new DocContent();
-            $doc_content->content = Input::get('content', '');
-            $doc_content->page = $last_page + 1;
-            $doc->content()->save($doc_content);
-
-            return Response::json($doc_content->toArray());
+        $last_page = DocContent::where('doc_id', $doc->id)->max('page');
+        if (!$last_page) {
+            $last_page = 0;
         }
+
+        $doc_content = new DocContent();
+        $doc_content->content = Input::get('content', '');
+        $doc_content->page = $last_page + 1;
+        $doc->content()->save($doc_content);
+
+        return Response::json($doc_content->toArray());
     }
 
 
-    public function putContent($docId, $page)
+    public function putContent(DocAccessEditRequest $request, Doc $doc, $page)
     {
-        $doc_content = DocContent::where('doc_id', $docId)
-            ->where('page', $page)->first();
+        $doc_content = DocContent
+            ::where('doc_id', $doc->id)
+            ->where('page', $page)
+            ->first()
+            ;
 
-        if($doc_content) {
+        if ($doc_content) {
 
             $doc_content->content = Input::get('content', '');
             $doc_content->save();
 
             // Invalidate the cache
             $format = 'html';
-            $cacheKey = 'doc-'.$docId.'-'.$page.'-'.$format;
+            $cacheKey = 'doc-'.$doc->id.'-'.$page.'-'.$format;
             Cache::forget($cacheKey);
 
             return Response::json($doc_content->toArray());
         }
     }
 
-    public function deleteContent($docId, $page)
+    public function deleteContent(DocAccessEditRequest $request, Doc $doc, $page)
     {
-        $doc_content = DocContent::where('doc_id', $docId)
+        $doc_content = DocContent::where('doc_id', $doc->id)
             ->where('page', $page)->first();
-        if($doc_content) {
+        if ($doc_content) {
             $doc_content->delete();
 
-            DocContent::where('doc_id', $docId)
+            DocContent
+                ::where('doc_id', $doc->id)
                 ->where('page', '>', $page)
                 ->decrement('page');
 
-            $doc = Doc::find($docId);
             $doc->enableCounts();
 
             return Response::json($doc->toArray());
         }
     }
 
-    public function deleteDoc($docId)
+    public function deleteDoc(DocAccessEditRequest $request, Doc $doc)
     {
         $admin_flag = Input::get('admin');
-        $doc = Doc::find($docId);
-        if (!$doc) return response('Not found.', 404);
 
         if ($admin_flag) {
             $doc->publish_state = Doc::PUBLISH_STATE_DELETED_ADMIN;
@@ -339,7 +324,6 @@ class DocumentController extends Controller
 
         $doc->save();
 
-        $doc->comments()->delete();
         $doc->annotations()->delete();
         $doc->doc_meta()->delete();
         $doc->content()->delete();
@@ -349,24 +333,17 @@ class DocumentController extends Controller
         return Response::json($result);
     }
 
-    public function getRestoreDoc($docId)
+    public function restoreDoc(DocAccessEditRequest $request, Doc $doc)
     {
-        $doc = Doc::withTrashed()->find($docId);
-
         if ($doc->publish_state == Doc::PUBLISH_STATE_DELETED_ADMIN) {
-            if (!Auth::user()->hasRole('admin')) {
+            if (!Auth::user()->hasRole(Role::ROLE_ADMIN)) {
                 return Response('Unauthorized.', 403);
             }
         }
 
-        if (!$doc->canUserEdit(Auth::user())) {
-            return Response('Unauthorized.', 403);
-        }
-
-        DocMeta::withTrashed()->where('doc_id', $docId)->restore();
-        DocContent::withTrashed()->where('doc_id', $docId)->restore();
-        Annotation::withTrashed()->where('doc_id', $docId)->restore();
-        Comment::withTrashed()->where('doc_id', $docId)->restore();
+        DocMeta::withTrashed()->where('doc_id', $doc->id)->restore();
+        DocContent::withTrashed()->where('doc_id', $doc->id)->restore();
+        $doc->annotations()->withTrashed()->restore();
 
         $doc->restore();
         $doc->publish_state = Doc::PUBLISH_STATE_UNPUBLISHED;
@@ -443,7 +420,7 @@ class DocumentController extends Controller
 
     public function getDeletedDocs() {
         $admin_flag = Input::get('admin');
-        $query = Doc::onlyTrashed()->with('sponsor')->where('is_template', '!=', '1');
+        $query = Doc::onlyTrashed()->with('sponsors')->where('is_template', '!=', '1');
 
         $publish_states = [Doc::PUBLISH_STATE_DELETED_USER];
 
@@ -485,24 +462,24 @@ class DocumentController extends Controller
         return Response::json([ 'count' => $docCount ]);
     }
 
-    public function getCategories($doc = null)
+    public function getAllCategories()
     {
-        if (!isset($doc)) {
-            $categories = Category::all();
-        } else {
-            $doc = Doc::find($doc);
-            $categories = $doc->categories()->get();
-        }
+        return Response::json(Category::all());
+    }
+
+    public function getDocCategories(DocAccessReadRequest $request, Doc $doc)
+    {
+        $categories = $doc->categories()->get();
 
         return Response::json($categories);
     }
 
-    public function postCategories($doc)
+    public function postCategories(DocAccessEditRequest $request, $doc)
     {
         $doc = Doc::find($doc);
 
         $categories = Input::get('categories');
-        $categoryIds = array();
+        $categoryIds = [];
 
         foreach ($categories as $category) {
             $toAdd = Category::where('name', $category['text'])->first();
@@ -518,96 +495,77 @@ class DocumentController extends Controller
         }
 
         $doc->categories()->sync($categoryIds);
-        $response['messages'][0] = array('text' => 'Categories saved', 'severity' => 'info');
+        $response['messages'][0] = ['text' => 'Categories saved', 'severity' => 'info'];
 
         return Response::json($response);
     }
 
-    public function getIntroText($doc)
+    public function getIntroText(DocAccessReadRequest $request, Doc $doc)
     {
-        $introText = DocMeta::where('meta_key', '=', 'intro-text')->where('doc_id', '=', $doc)->first();
+        $introText = DocMeta::where('meta_key', '=', 'intro-text')->where('doc_id', '=', $doc->id)->first();
 
         return Response::json($introText);
     }
 
-    public function postIntroText($doc)
+    public function postIntroText(DocAccessEditRequest $request, Doc $doc)
     {
-        $introText = DocMeta::where('meta_key', '=', 'intro-text')->where('doc_id', '=', $doc)->first();
+        $doc->setIntroText($request->get('intro-text'));
 
-        if (!$introText) {
-            $introText = new DocMeta();
-            $introText->doc_id = $doc;
-            $introText->meta_key = 'intro-text';
-        }
-
-        $text = Input::get('intro-text');
-        $introText->meta_value = $text;
-
-        $introText->save();
-
-        $response['messages'][0] = array('text' => 'Intro Text Saved.', 'severity' => 'info');
+        $response['messages'][0] = ['text' => 'Intro Text Saved.', 'severity' => 'info'];
 
         return Response::json($response);
     }
 
-    public function hasSponsor($doc, $sponsor)
+    public function hasSponsor(DocAccessReadRequest $request, Doc $doc, $sponsor)
     {
-        $result = Doc::find($doc)->sponsors()->find($sponsor);
+        $result = $doc->sponsors()->find($sponsor);
 
         return Response::json($result);
     }
 
-    public function getSponsor($doc)
+    public function getSponsor(DocAccessReadRequest $request, Doc $doc)
     {
-        $doc = Doc::find($doc);
         $sponsor = $doc->sponsors()->first();
 
         if ($sponsor) {
-            $sponsor->sponsorType = str_replace('App\Models\\', '', get_class($sponsor));
-
             return Response::json($sponsor);
         }
 
         return Response::json();
     }
 
-    public function postSponsor($doc)
+    public function postSponsor(DocAccessEditRequest $request, Doc $doc)
     {
         $sponsor = Input::get('sponsor');
 
-        $doc = Doc::find($doc);
         $response = null;
 
         if (!isset($sponsor)) {
             throw new Exception('Must provide a sponsor');
         } else {
-            $doc->sponspors()->sync([$sponsor['id']]);
+            $doc->sponsors()->sync([$sponsor['id']]);
         }
 
-        $response['messages'][0] = array('text' => 'Sponsor saved', 'severity' => 'info');
+        $response['messages'][0] = ['text' => 'Sponsor saved', 'severity' => 'info'];
 
         return Response::json($response);
     }
 
-    public function getStatus($doc)
+    public function getStatus(DocAccessReadRequest $request, Doc $doc)
     {
-        $doc = Doc::find($doc);
-
         $status = $doc->statuses()->first();
 
         return Response::json($status);
     }
 
-    public function postStatus($doc)
+    public function postStatus(DocAccessEditRequest $request, Doc $doc)
     {
         $toAdd = null;
 
         $status = Input::get('status');
 
-        $doc = Doc::find($doc);
-
         if (!isset($status)) {
-            $doc->statuses()->sync(array());
+            $doc->statuses()->sync([]);
         } else {
             $toAdd = Status::where('label', $status['text'])->first();
 
@@ -617,27 +575,23 @@ class DocumentController extends Controller
             }
             $toAdd->save();
 
-            $doc->statuses()->sync(array($toAdd->id));
+            $doc->statuses()->sync([$toAdd->id]);
         }
 
-        $response['messages'][0] = array('text' => 'Document saved', 'severity' => 'info');
+        $response['messages'][0] = ['text' => 'Document saved', 'severity' => 'info'];
 
         return Response::json($response);
     }
 
-    public function getDates($doc)
+    public function getDates(DocAccessReadRequest $request, Doc $doc)
     {
-        $doc = Doc::find($doc);
-
         $dates = $doc->dates()->get();
 
         return Response::json($dates);
     }
 
-    public function postDate($doc)
+    public function postDate(DocAccessEditRequest $request, Doc $doc)
     {
-        $doc = Doc::find($doc);
-
         $date = Input::get('date');
 
         $returned = new Date();
@@ -649,12 +603,12 @@ class DocumentController extends Controller
         return Response::json($returned);
     }
 
-    public function deleteDate($doc, $date)
+    public function deleteDate(DocAccessEditRequest $request, Doc $doc, $date)
     {
         $date = Date::find($date);
 
         if (!isset($date)) {
-            throw new Exception("Unable to delete date.  Date id $date not found.");
+            throw new Exception("Unable to delete date. Date id $date not found.");
         }
 
         $date->delete();
@@ -678,18 +632,18 @@ class DocumentController extends Controller
 
         $date->save();
 
-        $response['messages'][0] = array('text' => 'Document saved', 'severity' => 'info');
+        $response['messages'][0] = ['text' => 'Document saved', 'severity' => 'info'];
 
         return Response::json($response);
     }
 
     public function getAllSponsorsForUser()
     {
-        $retval = array(
+        $retval = [
             'success' => false,
-            'sponsors' => array(),
+            'sponsors' => [],
             'message' => "",
-        );
+        ];
 
         if (!Auth::check()) {
             $retval['message'] = "You must be logged in to perform this call";
@@ -710,7 +664,7 @@ class DocumentController extends Controller
 
     public function getAllSponsors()
     {
-        $doc = Doc::with('sponsor')->first();
+        $doc = Doc::with('sponsors')->first();
         $sponsors = $doc->sponsors;
 
         return Response::json($sponsors);
@@ -732,28 +686,56 @@ class DocumentController extends Controller
      *
      * @return view $feed->render()
      */
-    public function getFeed($slug)
+    public function getActivityFeed(DocAccessReadRequest $request, Doc $doc)
     {
-        $doc = Doc::where('slug', $slug)->with('comments', 'annotations', 'sponsors')->first();
-
-        $feed = Feed::make();
+        $feed = App::make('feed');
 
         $feed->title = $doc->title;
         $feed->description = "Activity feed for '".$doc->title."'";
-        $feed->link = URL::to('docs/'.$slug);
+        $feed->link = $doc->url;
         $feed->pubdate = $doc->updated_at;
         $feed->lang = 'en';
 
-        $activities = $doc->comments->merge($doc->annotations);
-
-        $activities = $activities->sort(function ($a, $b) {
-            return (strtotime($a['updated_at']) > strtotime($b['updated_at'])) ? -1 : 1;
-        });
+        $activities = $doc->comments()->orderBy('updated_at', 'DESC')->get();
 
         foreach ($activities as $activity) {
             $item = $activity->getFeedItem();
 
-            array_push($feed->items, $item);
+            $feed->addItem($item);
+        }
+
+        return $feed->render('atom');
+    }
+
+    public function getFeed()
+    {
+        //Grab all documents
+        $docs = Doc
+            ::with('sponsors', 'content')
+            ->latest('updated_at')
+            ->take(20)
+            ->get();
+
+        $feed = App::make('feed');
+
+        $feed->title = 'Madison Documents';
+        $feed->description = 'Latest 20 documents in Madison';
+        $feed->link = URL::to('rss');
+        $feed->pubdate = $docs->first()->updated_at;
+        $feed->lang = 'en';
+
+        foreach ($docs as $doc) {
+            $item = [];
+            $item['title'] = $doc->title;
+            $item['author'] = $doc->sponsors->first()->display_name;
+            $item['link'] = $doc->url;
+            $item['pubdate'] = $doc->updated_at;
+            $item['description'] = $doc->title;
+            $item['content'] = $doc->fullContentHtml();
+            $item['enclosure'] = [];
+            $item['category'] = '';
+
+            $feed->addItem($item);
         }
 
         return $feed->render('atom');
@@ -766,17 +748,17 @@ class DocumentController extends Controller
      *
      * @return json array
      */
-    public function postSupport($doc)
+    public function postSupport(DocAccessReadRequest $request, Doc $doc)
     {
         $input = Input::get();
 
         $supported = (bool) $input['support'];
 
-        $docMeta = DocMeta::withTrashed()->where('user_id', Auth::user()->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc)->first();
+        $docMeta = DocMeta::withTrashed()->where('user_id', Auth::user()->id)->where('meta_key', '=', 'support')->where('doc_id', '=', $doc->id)->first();
 
         if (!isset($docMeta)) {
             $docMeta = new DocMeta();
-            $docMeta->doc_id = $doc;
+            $docMeta->doc_id = $doc->id;
             $docMeta->user_id = Auth::user()->id;
             $docMeta->meta_key = 'support';
             $docMeta->meta_value = (string) $supported;
@@ -788,17 +770,17 @@ class DocumentController extends Controller
             if ($docMeta->trashed()) {
                 $docMeta->restore();
             }
-            $docMeta->doc_id = $doc;
+            $docMeta->doc_id = $doc->id;
             $docMeta->user_id = Auth::user()->id;
             $docMeta->meta_key = 'support';
             $docMeta->meta_value = (string) (bool) $input['support'];
             $docMeta->save();
         }
 
-        $supports = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $doc)->count();
-        $opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $doc)->count();
+        $supports = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $doc->id)->count();
+        $opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $doc->id)->count();
 
-        return Response::json(array('support' => $supported, 'supports' => $supports, 'opposes' => $opposes));
+        return Response::json(['support' => $supported, 'supports' => $supports, 'opposes' => $opposes]);
     }
 
     public function getFeatured()
@@ -815,18 +797,17 @@ class DocumentController extends Controller
                 ->whereIn('id', $featuredIds)
                 ->where('is_template', '!=', '1');
 
-            if(Input::get('published') || (Auth::user() && !Auth::user()->hasRole('admin')))
-            {
+            if (Input::get('published') || (Auth::user() && !Auth::user()->hasRole('admin'))) {
                 $docQuery->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED);
             }
 
             $docs = $docQuery->get();
 
-            if($docs) {
+            if ($docs) {
                 // Reorder based on our previous list.
-                $tempDocs = array();
+                $tempDocs = [];
                 $orderList = array_flip($featuredIds);
-                foreach($docs as $key=>$doc) {
+                foreach ($docs as $key=>$doc) {
                     $tempDocs[(int) $orderList[$doc->id]] = $doc;
                 }
 
@@ -843,8 +824,8 @@ class DocumentController extends Controller
         }
 
         // If we don't have a document, just find anything recent.
-        if(empty($docs) && !Input::get('featured_only')) {
-            $docs = array(
+        if (empty($docs) && !Input::get('featured_only')) {
+            $docs = [
                 Doc::with('categories')
                 ->with('sponsors')
                 ->with('statuses')
@@ -853,7 +834,7 @@ class DocumentController extends Controller
                 ->where('is_template', '!=', '1')
                 ->orderBy('created_at', 'desc')
                 ->first()
-            );
+            ];
         }
 
         // If we still don't have a document, give up.
@@ -861,8 +842,8 @@ class DocumentController extends Controller
             return Response::make(null, 404);
         }
 
-        $return_docs = array();
-        foreach($docs as $key => $doc) {
+        $return_docs = [];
+        foreach ($docs as $key => $doc) {
             $doc->enableCounts();
             $doc->enableSponsors();
             $return_doc = $doc->toArray();
@@ -871,7 +852,7 @@ class DocumentController extends Controller
             $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
             $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
 
-            if(!$return_doc['thumbnail']) {
+            if (!$return_doc['thumbnail']) {
                 $return_doc['thumbnail'] = '/img/default/default.jpg';
             }
 
@@ -884,23 +865,24 @@ class DocumentController extends Controller
     // We just need a summary to respond to the post/put/delete methods.
     public function getFeaturedShort()
     {
-        $docs = array();
+        $docs = [];
 
-        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
+        $featuredSetting = Setting::where(['meta_key' => 'featured-doc'])->first();
 
         if ($featuredSetting) {
             // Make sure our featured document can be viewed by the public.
             $featuredIds = explode(',', $featuredSetting->meta_value);
-            $docQuery = Doc::with('statuses')
+            $docQuery = Doc
+                ::with('statuses')
                 ->whereIn('id', $featuredIds)
                 ->where('is_template', '!=', '1');
             $docs = $docQuery->get();
 
-            if($docs) {
+            if ($docs) {
                 // Reorder based on our previous list.
-                $tempDocs = array();
+                $tempDocs = [];
                 $orderList = array_flip($featuredIds);
-                foreach($docs as $key=>$doc) {
+                foreach ($docs as $key=>$doc) {
                     $tempDocs[(int) $orderList[$doc->id]] = $doc;
                 }
 
@@ -921,13 +903,14 @@ class DocumentController extends Controller
     private function cleanDocs($docs)
     {
         $docs = array_filter($docs);
-        if(is_array($docs) && count($docs)) {
-            $existingDocs = array();
+        if (is_array($docs) && count($docs)) {
+            $existingDocs = [];
 
-            $docResults = Doc::whereIn('id', $docs)
+            $docResults = Doc
+                ::whereIn('id', $docs)
                 ->where('is_template', '!=', '1')
                 ->get();
-            foreach($docResults as $doc) {
+            foreach ($docResults as $doc) {
                 $existingDocs[] = $doc->id;
             }
 
@@ -945,8 +928,8 @@ class DocumentController extends Controller
         $docId = Input::get('id');
 
         // firstOrNew() is not working for some reason, so we do it manually.
-        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
-        if(!$featuredSetting)
+        $featuredSetting = Setting::where(['meta_key' => 'featured-doc'])->first();
+        if (!$featuredSetting)
         {
             $featuredSetting = new Setting;
             $featuredSetting->meta_key = 'featured-doc';
@@ -954,7 +937,7 @@ class DocumentController extends Controller
 
         $docs = explode(',', $featuredSetting->meta_value);
 
-        if(!in_array($docId, $docs)) {
+        if (!in_array($docId, $docs)) {
             array_unshift($docs, $docId);
         }
         $featuredSetting->meta_value = join(',', $this->cleanDocs($docs));
@@ -972,9 +955,8 @@ class DocumentController extends Controller
         $docs = explode(',', Input::get('docs'));
 
         // firstOrNew() is not working for some reason, so we do it manually.
-        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
-        if(!$featuredSetting)
-        {
+        $featuredSetting = Setting::where(['meta_key' => 'featured-doc'])->first();
+        if (!$featuredSetting) {
             $featuredSetting = new Setting;
             $featuredSetting->meta_key = 'featured-doc';
         }
@@ -985,15 +967,11 @@ class DocumentController extends Controller
         return $this->getFeaturedShort();
     }
 
-    public function deleteFeatured($docId)
+    public function deleteFeatured(AdminRequest $request, Doc $doc)
     {
-        if (!Auth::user()->hasRole('Admin')) {
-            return Response::json($this->growlMessage('You are not authorized to change the Featured Document.', 'error'), 403);
-        }
-
         // firstOrNew() is not working for some reason, so we do it manually.
-        $featuredSetting = Setting::where(array('meta_key' => 'featured-doc'))->first();
-        if(!$featuredSetting)
+        $featuredSetting = Setting::where(['meta_key' => 'featured-doc'])->first();
+        if (!$featuredSetting)
         {
             $featuredSetting = new Setting;
             $featuredSetting->meta_key = 'featured-doc';
@@ -1001,8 +979,8 @@ class DocumentController extends Controller
 
         $docs = explode(',', $featuredSetting->meta_value);
 
-        if(in_array($docId, $docs)) {
-            $docs = array_diff($docs, array($docId));
+        if (in_array($doc->id, $docs)) {
+            $docs = array_diff($docs, [$doc->id]);
         }
         $featuredSetting->meta_value = join(',', $this->cleanDocs($docs));
         $featuredSetting->save();
@@ -1010,57 +988,49 @@ class DocumentController extends Controller
         return $this->getFeaturedShort();
     }
 
-    public function getImage($docId, $image)
+    public function getImage(DocAccessReadRequest $request, Doc $doc, $image)
     {
         $size = Input::get('size');
 
-        $doc = Doc::where('id', $docId)->first();
-        if($doc) {
-            $path = $doc->getImagePath($image, $size);
-            if(Storage::has($path)) {
-                return response(Storage::get($path), 200)
-                    ->header('Content-Type', Storage::mimeType($path));
-            }
-            else {
-                return Response::make(null, 404);
-            }
-        }
-        else {
+        $path = $doc->getImagePath($image, $size);
+        if (Storage::has($path)) {
+            return response(Storage::get($path), 200)
+                ->header('Content-Type', Storage::mimeType($path));
+        } else {
             return Response::make(null, 404);
         }
     }
 
-    public function uploadImage($docId)
+    public function uploadImage(DocAccessEditRequest $request, Doc $doc)
     {
         if (Input::hasFile('file')) {
             $file = Input::file('file');
 
             try {
-                $doc = Doc::where('id', $docId)->first();
-
                 // Keep a record of our previous thumbnail.
                 $previousThumbnail = $doc->thumbnail;
 
-                $result = Storage::put($doc->getImagePath($file->getClientOriginalName()),
-                    File::get($file));
+                $result = Storage::put(
+                    $doc->getImagePath($file->getClientOriginalName()),
+                    File::get($file)
+                );
 
                 // Save the multiple sizes of this image.
                 $sizes = config('madison.image_sizes');
 
-                foreach($sizes as $name => $size)
+                foreach ($sizes as $name => $size)
                 {
                     $img = Image::make($file);
-                    if($size['crop'])
-                    {
+                    if ($size['crop']) {
                         $img->fit($size['width'], $size['height']);
-                    }
-                    else {
+                    } else {
                         $img->resize($size['width'], $size['height']);
                     }
 
                     Storage::put(
                         $doc->getImagePath($file->getClientOriginalName(), $size),
-                        $img->stream()->__toString());
+                        $img->stream()->__toString()
+                    );
 
                     $result2 = $img->save();
                 }
@@ -1068,31 +1038,31 @@ class DocumentController extends Controller
                 // We want the featured image size to be the default.
                 // Otherwise, we use the fullsize.
                 $sizeName = null;
-                if($sizes['featured'])
-                {
+                if ($sizes['featured']) {
                     $sizeName = 'featured';
                 }
 
-                $doc->thumbnail = $doc->getImageUrl($file->getClientOriginalName(),
-                    $sizes[$sizeName]);
+                $doc->thumbnail = $doc->getImageUrl(
+                    $file->getClientOriginalName(),
+                    $sizes[$sizeName]
+                );
                 $doc->save();
 
                 // Our thumbnail was saved, so let's remove the old one.
 
                 // Only do this if the name has changed, or we'll remove the
                 // image we just uploaded.
-                if($previousThumbnail !== $doc->thumbnail)
+                if ($previousThumbnail !== $doc->thumbnail)
                 {
                   // We just want the base name, not the resized one.
                   $imagePath = $doc->getImagePathFromUrl($previousThumbnail, true);
 
-                  if(Storage::has($imagePath)) {
+                  if (Storage::has($imagePath)) {
                     Storage::delete($imagePath);
                   }
-                  foreach($sizes as $name => $size)
-                  {
+                  foreach ($sizes as $name => $size) {
                     $imagePath = $doc->addSizeToImage($imagePath, $size);
-                    if(Storage::has($imagePath)) {
+                    if (Storage::has($imagePath)) {
                       Storage::delete($imagePath);
                     }
                   }
@@ -1111,17 +1081,15 @@ class DocumentController extends Controller
         }
     }
 
-    public function deleteImage($docId)
+    public function deleteImage(DocAccessEditRequest $request, Doc $doc)
     {
-        $doc = Doc::where('id', $docId)->first();
-
         $image_path = $doc->getImagePathFromUrl($doc->thumbnail);
 
-        if(Storage::has($image_path)) {
+        if (Storage::has($image_path)) {
             try {
                 Storage::delete($image_path);
             } catch (Exception $e) {
-                Log::error("Error deleting document featured image for document id $docId");
+                Log::error("Error deleting document featured image for document id {$doc->id}");
                 Log::error($e);
             }
         }
@@ -1130,11 +1098,9 @@ class DocumentController extends Controller
         return Response::json($this->growlMessage('Image deleted successfully', 'success'));
     }
 
-    public function getUserDocuments()
+    public function getUserDocuments(User $user)
     {
-        $user = Auth::user();
-
-        $groups = Auth::user()->groups;
+        $groups = $user->groups;
         $groupedDocs = [];
 
         foreach ($groups as $group) {
@@ -1145,161 +1111,52 @@ class DocumentController extends Controller
         return Response::json([ 'groups' => $groupedDocs ]);
     }
 
-
-    public function getActivity($docId)
+    public function getSocialDoc(DocAccessReadRequest $request, Doc $doc)
     {
-        $doc = Doc::where('id', $docId)->first();
-        // We want to get the comments and annotations but not from our sponsor
-        // or group.
+        $content = [
+            'title' => $doc->title,
+            'description' => $doc->introtext()->first()['meta_value'],
+            'image' => $doc->thumbnail
+        ];
 
-        $skip_ids = [];
-        if(Input::get('no_sponsor_comments') && Input::get('no_sponsor_comments') !== '0') {
-            $skip_ids = $doc->sponsorIds;
-        }
-
-        if (Input::get('summary') === 'general') {
-            $statistics = [
-                'comments' => [],
-                'annotations' => []
-            ];
-            $statistics['comments']['total'] = $doc->comments()->
-                whereNotIn('comments.user_id', $skip_ids)->
-                count();
-            $statistics['comments']['month'] = $doc->comments()->
-                whereNotIn('comments.user_id', $skip_ids)->
-                where('created_at', '>=',
-                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
-                count();
-            $statistics['comments']['week'] = $doc->comments()->
-                whereNotIn('comments.user_id', $skip_ids)->
-                where('created_at', '>=',
-                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
-                count();
-            $statistics['comments']['day'] = $doc->comments()->
-                whereNotIn('comments.user_id', $skip_ids)->
-                where('created_at', '>=',
-                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
-                count();
-
-            $statistics['annotations']['total'] = $doc->annotations()->
-                whereNotIn('annotations.user_id', $skip_ids)->
-                count();
-            $statistics['annotations']['month'] = $doc->annotations()->
-                whereNotIn('annotations.user_id', $skip_ids)->
-                where('created_at', '>=',
-                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
-                count();
-            $statistics['annotations']['week'] = $doc->annotations()->
-                whereNotIn('annotations.user_id', $skip_ids)->
-                where('created_at', '>=',
-                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
-                count();
-            $statistics['annotations']['day'] = $doc->annotations()->
-                whereNotIn('annotations.user_id', $skip_ids)->
-                where('created_at', '>=',
-                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
-                count();
-
-            $statistics['annotations']['total'] += $doc->annotationComments()->
-                whereNotIn('annotation_comments.user_id', $skip_ids)->
-                count();
-
-            $statistics['annotations']['month'] += $doc->annotationComments()->
-                whereNotIn('annotation_comments.user_id', $skip_ids)->
-                where('annotation_comments.created_at', '>=',
-                    \Carbon\Carbon::now()->subMonth()->toDateTimeString() )->
-                count();
-            $statistics['annotations']['week'] += $doc->annotationComments()->
-                whereNotIn('annotation_comments.user_id', $skip_ids)->
-                where('annotation_comments.created_at', '>=',
-                    \Carbon\Carbon::now()->subWeek()->toDateTimeString() )->
-                count();
-            $statistics['annotations']['day'] += $doc->annotationComments()->
-                whereNotIn('annotation_comments.user_id', $skip_ids)->
-                where('annotation_comments.created_at', '>=',
-                    \Carbon\Carbon::now()->subDay()->toDateTimeString() )->
-                count();
-
-            return Response::json($statistics);
-        }
-        else
-        {
-
-        }
+        return view('layouts.social', $content);
     }
 
-    public function getSocialDoc($slug)
+    public function getActivity(DocAccessEditRequest $request, Doc $doc)
     {
-        $doc = Doc::findDocBySlug($slug);
-        if($doc) {
-            $content = array(
-                'title' => $doc->title,
-                'description' => $doc->introtext()->first()['meta_value'],
-                'image' => $doc->thumbnail
-            );
-
-            return view('layouts.social', $content);
-        }
-    }
-
-    public function getActions($docId)
-    {
-        $doc = Doc::where('id', $docId)->first();
-
-        if($doc)
-        {
-            $skip_ids = [];
-            if(Input::get('no_sponsor_comments') && Input::get('no_sponsor_comments') !== '0') {
-                $skip_ids = $doc->sponsorIds;
-            }
-
-            $actions = DocAction::where('doc_id', $docId)->
-                whereNotIn('user_id', $skip_ids)->
-                with('user')->orderBy('created_at')->get();
-
-            if($actions)
-            {
-                if(Input::get('download') === 'csv')
-                {
-                    $csv = Writer::createFromFileObject(new \SplTempFileObject());
-
-                    $fields = array(
-                        'first_name',
-                        'last_name',
-                        'email',
-                        'quote',
-                        'text',
-                        'type',
-                        'created_at'
-                    );
-                    // Headings.
-                    $csv->insertOne($fields);
-
-                    foreach($actions as $action)
-                    {
-                        $actionRow = $action->toArray();
-                        $actionRow['first_name'] = $actionRow['user']['fname'];
-                        $actionRow['last_name'] = $actionRow['user']['lname'];
-                        $actionRow['email'] = $actionRow['user']['email'];
-
-                        // Rearrange our columns
-                        $saveRow = array();
-                        foreach($fields as $field)
-                        {
-                            $saveRow[$field] = $actionRow[$field];
-                        }
-                        $csv->insertOne($saveRow);
-                    }
-                    $csv->output('actions.csv');
-                    return;
-                }
-                else
-                {
-                    return Response::json($actions->toArray());
-                }
-            }
+        $excludeUserIds = [];
+        if ($request->query('exclude_sponsors') && $request->query('exclude_sponsors') !== 'false') {
+            $excludeUserIds = $doc->sponsorIds;
         }
 
-        return Response::notFound();
+        $statistics = [
+            'comments' => [],
+            'notes' => [],
+        ];
+
+        $now = \Carbon\Carbon::now();
+        $baseQuery = $doc->allComments()->whereNotIn('user_id', $excludeUserIds);
+        $statsFor = function ($query, $time) {
+            $query = clone $query;
+            return $query
+                ->where('created_at', '>=', $time)
+                ->count()
+                ;
+        };
+        foreach (['notes', 'comments'] as $key) {
+            $query = clone $baseQuery;
+            if ($key === 'notes') {
+                $query->onlyNotes();
+            } else {
+                $query->notNotes();
+            }
+
+            $statistics[$key]['total'] = $query->count();
+            $statistics[$key]['month'] = $statsFor($query, $now->copy()->subMonth());
+            $statistics[$key]['week'] = $statsFor($query, $now->copy()->subWeek());
+            $statistics[$key]['day'] = $statsFor($query, $now->copy()->subDay());
+        }
+
+        return Response::json($statistics);
     }
 }

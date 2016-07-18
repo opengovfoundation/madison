@@ -258,14 +258,6 @@ angular.module( 'madisonApp' )
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
-      .state( 'user', {
-        url: '/user/:id',
-        templateUrl: '/templates/pages/user.html',
-        controller: 'UserPageController',
-        data: {
-          authorizedRoles: [ USER_ROLES.all ]
-        }
-      } )
       .state( '404', {
         url: '/404',
         controller: '404Controller',
