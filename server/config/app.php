@@ -89,6 +89,7 @@ return [
     |
     */
 
+    # The APP_KEY setting needs to be 32 characters long for proper encryption usage
     'key' => env('APP_KEY', 'SomeRandomStringSomeRandomString'),
 
     'cipher' => 'AES-256-CBC',
