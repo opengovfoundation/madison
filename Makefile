@@ -2,9 +2,9 @@
 
 all: deps build-client
 
-deps: clean deps-server optimize autoload deps-client gems
+deps: deps-server optimize autoload deps-client gems
 
-deps-production: clean deps-server optimize autoload deps-client gems-production
+deps-production: deps-server optimize autoload deps-client gems-production
 
 gems:
 	gem install bundler --no-rdoc --no-ri && bundle install
