@@ -1,4 +1,3 @@
-
 set :application, 'madison'
 set :repo_url, 'git@github.com:opengovfoundation/madison.git'
 
@@ -17,9 +16,6 @@ set :format_options,
   color: :auto,
   truncate: :auto
 
-# Default value for :pty is false
-# set :pty, true
-
 set :linked_files, fetch(:linked_files, [])
   .push(
     'server/.env'
@@ -27,21 +23,23 @@ set :linked_files, fetch(:linked_files, [])
 
 set :linked_dirs, fetch(:linked_dirs, [])
   .push(
-    'log',
+    'server/storage/logs',
     'client/app/locales/custom',
     'client/app/sass/custom'
   )
 
 # Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+set :default_env, {
+  path: "/usr/local/rvm/gems/ruby-2.3.0/bin:/usr/local/rvm/gems/ruby-2.3.0@global/bin:/usr/local/rvm/rubies/ruby-2.3.0/bin:$PATH"
+}
 
 namespace :deploy do
 
   after :published, :install_dependencies do
     on roles(:all) do |host|
-      info 'Running `make deps` to install dependencies'
+      info 'Running `make deps-production` to install dependencies'
       within release_path do
-        execute :make, :deps
+        execute :make, 'deps-production'
       end
     end
   end
@@ -59,18 +57,28 @@ namespace :deploy do
     on roles(:all) do |host|
       info 'Running `make db-migrate` to run database migrations'
       within release_path do
-        execute :make, 'db-migrate'
+        execute :make, 'db-force-migrate'
       end
     end
   end
 
-  #after :restart, :clear_cache do
-  #  on roles(:web), in: :groups, limit: 3, wait: 10 do
-  #    # Here we can do anything such as:
-  #    # within release_path do
-  #    #   execute :rake, 'cache:clear'
-  #    # end
-  #  end
-  #end
+  after :published, :set_folder_permissions do
+    on roles(:all) do |host|
+      info 'Ensuring current permissions on shared folders'
+      execute "chmod -R 775 #{shared_path}/server/storage"
+      execute "touch #{shared_path}/server/storage/laravel.log"
+    end
+  end
 
+end
+
+namespace :db do
+  task :seed do
+    on roles(:all) do |host|
+      info "Running database seeders on #{host}"
+      within release_path do
+        execute :make, 'db-force-seed'
+      end
+    end
+  end
 end

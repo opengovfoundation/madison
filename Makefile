@@ -2,7 +2,15 @@
 
 all: deps build-client
 
-deps: deps-server optimize autoload deps-client
+deps: deps-server optimize autoload deps-client gems
+
+deps-production: deps-server optimize autoload deps-client gems-production
+
+gems:
+	gem install bundler --no-rdoc --no-ri && bundle install
+
+gems-production:
+	bundle install --without deployment --path vendor/bundle
 
 deps-server:
 	cd server && composer install
@@ -16,6 +24,9 @@ endif
 
 deps-client: check-node
 	cd client && npm install
+
+set-key:
+	cd server && php artisan key:generate
 
 autoload:
 	cd server && composer dump-autoload
@@ -56,6 +67,9 @@ db-test-seed:
 db-migrate:
 	cd server && php artisan migrate
 
+db-force-seed:
+	cd server && php artisan db:seed --force
+
 db-force-migrate:
 	echo "Running a forced database migration, potential to lose some data!"
 	cd server && php artisan migrate --force
@@ -72,15 +86,15 @@ watch:
 # ----------------------------------------------------------
 
 check-server-variable:
-	@if [ -z "$(SERVER)" ]; then echo "Must provide a SERVER in user@hostname format." && exit 1; fi
+	@if [ -z "$(server)" ]; then echo "Must provide a 'server' in user@hostname format." && exit 1; fi
 
 berks:
 	berks install && berks vendor config/chef/cookbooks
 
 chef-prepare: check-server-variable
-	knife solo prepare $(SERVER) -r "recipe[madison-server::default]"
+	knife solo prepare $(server) -r "recipe[madison-server::default]"
 
-CONFIG := $(shell echo $(SERVER) | sed -e 's/.*@//')
+CONFIG := $(shell echo $(server) | sed -e 's/.*@//')
 
 chef-cook: check-server-variable
-	knife solo cook $(SERVER) config/chef/nodes/$(CONFIG).json
+	knife solo cook $(server) config/chef/nodes/$(CONFIG).json
