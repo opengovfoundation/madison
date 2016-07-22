@@ -1,0 +1,12 @@
+{
+  "id": "deploy",
+  "comment": "Deploy user",
+  "shell": "/bin/bash",
+
+  // TODO: Include instructions on encrypting a password
+  "password": "REPLACE ME",
+
+  "ssh_keys": [
+    "REPLACE ME"
+  ]
+}
