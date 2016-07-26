@@ -318,7 +318,6 @@ class CommentUnification extends Migration
             // CommentMeta -> AnnotationTypes/Likes and AnnotationTypes/Flags
             $commentMetas = DB::select('select * from comment_meta where comment_id = ?', [$comment->id]);
             foreach ($commentMetas as $commentMeta) {
-                $docId = DB::table('annotations')->where('id', $commentMeta->annotation_id)->value('doc_id');
                 switch ($commentMeta->meta_value) {
                     case 'like':
                         $newLike = AnnotationTypes\Like::create();
@@ -329,7 +328,7 @@ class CommentUnification extends Migration
                             'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                             'annotation_type_id' => $newLike->id,
                             'annotation_type_type' => Annotation::TYPE_LIKE,
-                            'root_annotatable_id' => $docId,
+                            'root_annotatable_id' => $comment->doc_id,
                             'root_annotatable_type' => Doc::ANNOTATABLE_TYPE,
                             'created_at' => $commentMeta->created_at,
                             'updated_at' => $commentMeta->updated_at,
@@ -344,7 +343,7 @@ class CommentUnification extends Migration
                             'annotatable_type' => Annotation::ANNOTATABLE_TYPE,
                             'annotation_type_id' => $newFlag->id,
                             'annotation_type_type' => Annotation::TYPE_FLAG,
-                            'root_annotatable_id' => $docId,
+                            'root_annotatable_id' => $comment->doc_id,
                             'root_annotatable_type' => Doc::ANNOTATABLE_TYPE,
                             'created_at' => $commentMeta->created_at,
                             'updated_at' => $commentMeta->updated_at,
