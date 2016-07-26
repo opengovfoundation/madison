@@ -52,8 +52,8 @@ clean:
 	rm -rf client/.sass-cache
 	cd server && php artisan cache:clear
 
-distclean: clean
-	rm -rf client/node_modules server/vendor/* client/build/*
+distclean:
+	rm -rf client/.sass-cache client/node_modules server/vendor/* client/build/*
 
 db-reset:
 	cd server && php artisan db:rebuild && php artisan migrate && php artisan db:seed
