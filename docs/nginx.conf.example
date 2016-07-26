@@ -1,0 +1,40 @@
+server {
+    listen 80 ssl;
+
+    server_name mymadison.local;
+
+    root /path/to/madison/client/build;
+
+    index index.html index.htm index.php;
+    charset utf-8;
+
+    location ~ index.php {
+        root /path/to/madison/server/public;
+    }
+
+    location /api/ {
+        rewrite /api/(.+) /index.php;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location = /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location = /robots.txt {
+        access_log off;
+        log_not_found off;
+    }
+
+    access_log off;
+    error_log /path/to/logs/mymadison.local-error.log error;
+    error_page 404 /index.php;
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
