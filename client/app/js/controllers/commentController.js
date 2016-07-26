@@ -51,8 +51,7 @@ angular.module('madisonApp.controllers')
             comment.comments = [];
 
             $scope.doc.comments.push(comment);
-
-            if ($scope.subCommentId && comment.id === $scope.commentId) {
+            if ($scope.subCommentId && parseInt(comment.id) === parseInt($scope.commentId)) {
               $scope.toggleReplies(comment);
             }
           });
@@ -209,7 +208,7 @@ angular.module('madisonApp.controllers')
       $scope.shouldHighlightComment = function(comment) {
         // Only highlight top level comment if we're
         // *not* higlighting a subcomment
-        if (!$scope.subCommentId && comment.id === $scope.commentId) {
+        if (!$scope.subCommentId && parseInt(comment.id) === parseInt($scope.commentId)) {
           return true;
         } else {
           return false;
@@ -217,7 +216,7 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.shouldHighlightSubComment = function(comment) {
-        if (comment.id === $scope.subCommentId) {
+        if ($scope.subCommentId && parseInt(comment.id) === parseInt($scope.subCommentId)) {
           return true;
         } else {
           return false;

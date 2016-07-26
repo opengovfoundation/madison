@@ -78,8 +78,6 @@
         <section class="reply" ng-show="user && doc.discussion_state === 'open'">
             <form name="add-comment-form"
                 ng-submit="subcommentSubmit(comment, commentReply)">
-                <input type="hidden" ng-model="commentReply.parent_id"
-                    value="{{comment.id}}" />
                 <textarea ng-model="commentReply.text" id="doc-comment-field"
                     type="text" class="form-control centered" required></textarea>
                 <button class="btn btn-primary"
