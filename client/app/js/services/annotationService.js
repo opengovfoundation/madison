@@ -78,7 +78,6 @@ angular.module('madisonApp.services')
     this.createAnnotator = function (element, doc) {
       var user = SessionService.getUser();
       var path = $location.path();
-      var origin = $location.host();
       var userId = user === null ? null : user.id;
       var readOnly;
 
@@ -145,8 +144,7 @@ angular.module('madisonApp.services')
         doc: doc,
         annotationService: this,
         showLoginForm: function(event) { loginPopupService.showLoginForm(event); },
-        path: path,
-        origin: origin
+        path: path
       });
     };
 
