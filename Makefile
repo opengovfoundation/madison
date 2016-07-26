@@ -74,7 +74,7 @@ db-force-migrate:
 	echo "Running a forced database migration, potential to lose some data!"
 	cd server && php artisan migrate --force
 
-deploy-forge: distclean deps build-client db-force-migrate
+deploy-forge: distclean deps-production build-client db-force-migrate
 
 queue-listen:
 	cd server && php artisan queue:listen
