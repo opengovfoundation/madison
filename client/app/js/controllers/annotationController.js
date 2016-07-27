@@ -25,11 +25,11 @@ angular.module('madisonApp.controllers')
 
       if (annotationId || subCommentId) {
         if (annotationId) {
-          $scope.annotationId = parseInt(annotationId[1]);
+          $scope.annotationId = annotationId[1];
         }
         if (subCommentId) {
-          $scope.annotationId = parseInt(subCommentId[1]);
-          $scope.subCommentId = parseInt(subCommentId[2]);
+          $scope.annotationId = subCommentId[1];
+          $scope.subCommentId = subCommentId[2];
         }
 
         $scope.$on('annotationsSet', function () {
@@ -65,9 +65,9 @@ angular.module('madisonApp.controllers')
 
         angular.forEach($scope.annotations, function (annotation) {
           var commentIds = annotation.comments.map(function (comment) {
-            return parseInt(comment.id);
+            return comment.id;
           });
-          if (commentIds.indexOf(parseInt(commentId)) !== -1) foundId = annotation.id;
+          if (commentIds.indexOf(commentId) !== -1) foundId = annotation.id;
         });
 
         return foundId;
@@ -78,10 +78,10 @@ angular.module('madisonApp.controllers')
 
         angular.forEach($scope.annotationGroups, function (group) {
           var idsInGroup = group.annotations.map(function (annotation)  {
-            return parseInt(annotation.id);
+            return annotation.id;
           });
 
-          if (idsInGroup.indexOf(parseInt(annotationId)) !== -1) foundGroup = group;
+          if (idsInGroup.indexOf(annotationId) !== -1) foundGroup = group;
         });
 
         return foundGroup;

@@ -19,8 +19,8 @@ angular.module('madisonApp.controllers')
 
       if (commentId) {
         // If it's a subcomment link, it will be list of parent-child chain
-        $scope.commentId = parseInt(commentId[1]);
-        if (commentId[2]) $scope.subCommentId = parseInt(commentId[2]);
+        $scope.commentId = commentId[1];
+        if (commentId[2]) $scope.subCommentId = commentId[2];
       }
 
       $scope.doc.$promise.then(function () {
@@ -51,7 +51,7 @@ angular.module('madisonApp.controllers')
             comment.comments = [];
 
             $scope.doc.comments.push(comment);
-            if ($scope.subCommentId && parseInt(comment.id) === parseInt($scope.commentId)) {
+            if ($scope.subCommentId && comment.id === $scope.commentId) {
               $scope.toggleReplies(comment);
             }
           });
@@ -208,7 +208,7 @@ angular.module('madisonApp.controllers')
       $scope.shouldHighlightComment = function(comment) {
         // Only highlight top level comment if we're
         // *not* higlighting a subcomment
-        if (!$scope.subCommentId && parseInt(comment.id) === parseInt($scope.commentId)) {
+        if (!$scope.subCommentId && comment.id === $scope.commentId) {
           return true;
         } else {
           return false;
@@ -216,7 +216,7 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.shouldHighlightSubComment = function(comment) {
-        if ($scope.subCommentId && parseInt(comment.id) === parseInt($scope.subCommentId)) {
+        if ($scope.subCommentId && comment.id === $scope.subCommentId) {
           return true;
         } else {
           return false;
