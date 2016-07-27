@@ -135,6 +135,7 @@ class CommentUnification extends Migration
                 switch ($noteMeta->meta_value) {
                     case 'like':
                         $newLike = AnnotationTypes\Like::create();
+                        $this->updateTimestamps($newLike, $noteMeta);
                         DB::table('annotations')->insert([
                             'user_id' => $noteMeta->user_id,
                             'annotatable_id' => $noteMeta->annotation_id,
@@ -149,6 +150,7 @@ class CommentUnification extends Migration
                         break;
                     case 'flag':
                         $newFlag = AnnotationTypes\Flag::create();
+                        $this->updateTimestamps($newFlag, $noteMeta);
                         DB::table('annotations')->insert([
                             'user_id' => $noteMeta->user_id,
                             'annotatable_id' => $noteMeta->annotation_id,
