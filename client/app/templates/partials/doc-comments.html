@@ -13,7 +13,7 @@
     </div>
 </div>
 <div class="comment-thread" ng-show="doc.comments.length">
-    <article id="comment_{{comment.id}}"
+    <article id="{{comment.id}}"
         class="comment"
         ng-repeat="comment in doc.comments | orderBy:'id':true">
 
@@ -51,7 +51,7 @@
         <section class="replies" ng-show="showReplies[comment.id]">
             <article ng-repeat="reply in comment.comments"
                 class="comment-reply"
-                id="comment_{{comment.id}}-{{reply.id}}">
+                id="{{reply.id}}">
 
                 <div ng-class="{ highlight: shouldHighlightSubComment(reply) }" class="comment-body">
                     <header class="comment-header">

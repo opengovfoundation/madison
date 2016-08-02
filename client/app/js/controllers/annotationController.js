@@ -48,7 +48,7 @@ angular.module('madisonApp.controllers')
       }
 
       function scrollToAnnotationComment(commentId) {
-        var subCommentHash = 'annsubcomment_' + commentId;
+        var subCommentHash = commentId;
 
         // Have to wait for sidebar animation to complete before scrolling
         $timeout(function() {
@@ -121,7 +121,6 @@ angular.module('madisonApp.controllers')
                 });
               }
 
-              annotation.permalinkBase = 'annotation';
               annotation.label = 'annotation';
               annotation.commentsCollapsed = collapsed;
               $scope.annotations.push(annotation);
@@ -151,7 +150,6 @@ angular.module('madisonApp.controllers')
               //Then count the unique users for the responses to each annotation.
               for(var commentIndex in annotation.comments) {
                 var comment = annotation.comments[commentIndex];
-                annotation.comments[commentIndex].permalinkBase = 'annsubcomment';
                 annotation.comments[commentIndex].label = 'comment';
                 if(annotationGroup.users.indexOf(comment.user.id) < 0) {
                   annotationGroup.users.push(comment.user.id);
@@ -217,7 +215,6 @@ angular.module('madisonApp.controllers')
 
         $.post('/api/docs/' + $scope.doc.id + '/comments/' + activity.id + '/comments', subcomment)
         .success(function (data) {
-          data.permalinkBase = 'annsubcomment';
           data.label = 'comment';
           activity.comments.push(data);
           subcomment.text = '';

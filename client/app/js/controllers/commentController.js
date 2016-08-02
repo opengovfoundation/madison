@@ -45,7 +45,6 @@ angular.module('madisonApp.controllers')
           // grabbed as needed from the "show replies" link
           angular.forEach(data, function (comment) {
             comment.commentsCollapsed = true;
-            comment.permalinkBase = 'comment';
             comment.label = 'comment';
             comment.link = 'comment_' + comment.id;
             comment.comments = [];
@@ -111,7 +110,6 @@ angular.module('madisonApp.controllers')
 
         $http.post('/api/docs/' + comment.doc.id + '/comments', comment)
           .success(function (data) {
-            data.permalinkBase = 'comment';
             data.label = 'comment';
             $scope.doc.comments.push(data);
             comment.text = '';
@@ -138,7 +136,6 @@ angular.module('madisonApp.controllers')
           $.post('/api/docs/' + $scope.doc.id + '/comments/' + activity.id + '/comments', subcomment)
           .success(function (data) {
             data.comments = [];
-            data.permalinkBase = 'comment';
             data.label = 'comment';
             if(!activity.comments) {
               activity.comments = [];
@@ -173,7 +170,6 @@ angular.module('madisonApp.controllers')
             comment.comments = data;
             var commentsLength = comment.comments.length;
             for (i = 0; i < commentsLength; i++) {
-              comment.comments[i].permalinkBase = 'comment';
               comment.comments[i].label = 'comment';
               comment.comments[i].parentPointer = comment;
             }

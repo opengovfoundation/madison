@@ -80,7 +80,7 @@
       <section class="comments">
         <article ng-repeat="comment in annotation.comments"
           class="comment"
-          id="annsubcomment_{{comment.id}}"
+          id="{{comment.id}}"
           ng-class="{ highlight: subCommentId && subCommentId === comment.id }">
 
           <header class="comment-header">

@@ -79,20 +79,59 @@ angular.module('madisonApp.controllers')
       };
 
       $scope.checkActiveTab = function () {
-        // Check which tab needs to be active - if the location hash
-        // is #annsubcomment or there is no hash, the annotation/bill tab needs to be active
-        // Otherwise, the hash is #subcomment/#comment and the discussion tab should be active
+        var id = $location.hash();
+
+        if (!id) {
+          return;
+        }
+
+        // if any of these match, we want to lookup in our existing set of
+        // comments/annotations if the old id matches to any of them and get the
+        // new id for use later
         var subCommentHash = $location.hash().match(ANNOTATION_COMMENT_HASH_REGEX);
         var annotationHash = $location.hash().match(ANNOTATION_HASH_REGEX);
         var commentHash = $location.hash().match(COMMENT_HASH_REGEX);
+        var comment;
 
-        $scope.secondtab = false;
-
-        // TODO: Once the hash for comments is decided, we can test for just
-        // that and go to the comment tab, otherwise stay on content.
         if (commentHash) {
-          $scope.secondtab = true;
+          comment = _.find($scope.doc.comments, function (item) {
+            return parseInt(item.old_id) === parseInt(commentHash[1]);
+          });
+        } else if (annotationHash) {
+          comment = _.find($scope.annotations, function (item) {
+            return parseInt(item.old_id) === parseInt(annotationHash[1]);
+          });
+        } else if (subCommentHash) {
+          comment = _.find($scope.doc.comments, function (item) {
+            return parseInt(item.old_id) === parseInt(subCommentHash[1]);
+          })
+          // TODO: the comment we want is a child of this item, so fetch the
+          // comments that have this as it's parent and iterate again to
+          // find the one that matches the id
+          // TODO: since we are already grabbing the info, push it onto the
+          // comments array?
+        }
+
+        if (comment) {
+          id = comment.id;
+        }
+
+        // If the element doesn't exist then either the hash is just wrong, or
+        // it belongs to content that isn't loaded yet
+        if (!angular.element('document').find(id).length) {
+          // TODO: figure out what the id belongs to (most likely a subcomment
+          // at this point, but could be a paragraph on another page)
+        }
+
+        if (angular.element('#tab-discussion').find(id).length) {
+          // Comments tab
           $scope.changeTab('comment');
+          // TODO: trigger anchorScroll? leave it up to the comment controller
+          // as it is now?
+        } else if (angular.element('.annotation-container').find(id).length) {
+          // Notes pane
+          // TODO open the pane and scroll? leave it up to the annotation
+          // controller as it is now?
         }
       };
 

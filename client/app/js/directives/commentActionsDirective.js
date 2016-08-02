@@ -29,14 +29,7 @@ angular.module('madisonApp.directives')
         };
 
         function buildPermalink(comment) {
-          var hash = '#' + comment.permalinkBase + '_';
-
-          if (comment.parentPointer) {
-            hash += comment.parentPointer.id + '-' + comment.id;
-          } else {
-            hash += comment.id;
-          }
-
+          var hash = '#' + comment.id;
           return window.getBasePath() + hash;
         }
       }

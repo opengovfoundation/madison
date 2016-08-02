@@ -44,6 +44,7 @@ class CommentController extends Controller
             $parentDbId = Annotation
                 ::where('str_id', $request->query('parent_id'))
                 ->firstOrFail(['id'])
+                ->id
                 ;
             $commentsQuery = Annotation
                 ::where('annotatable_type', Annotation::ANNOTATABLE_TYPE)

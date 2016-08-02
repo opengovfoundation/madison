@@ -51,18 +51,18 @@
       <div class="mobile-annotation-message"
         translate="info.message.mobilebrowser.annotate"></div>
       <ul class="nav nav-tabs" role="tablist" ng-hide="doc.discussion_state === 'hidden'">
-        <li ng-class="{'active':secondtab == false}"
+        <li ng-class="{'active':activeTab == 'content'}"
           ng-click="changeTab('content')">
           <a href="#tab-activity" target="_self" role="tab" data-toggle="tab"
             translate="document.tabs.text"></a></li>
-        <li ng-class="{'active':secondtab == true}"
+        <li ng-class="{'active':activeTab == 'comment'}"
           ng-click="changeTab('comment')">
           <a href="#tab-discussion" target="_self" role="tab" data-toggle="tab"
             translate="document.tabs.discussion"
             translate-values="{ count: doc.comment_count }"></a></li>
       </ul>
       <div class="tab-content doc-tabs">
-        <section id="tab-activity" ng-class="{'active':secondtab == false}"
+        <section id="tab-activity" ng-class="{'active':activeTab == 'content'}"
           class="tab-pane">
 
           <nav class="page-navigation" ng-if="doc.pages > 1">
@@ -82,7 +82,7 @@
             <span ng-if="loading" translate="info.loading"></span>
           </div>
         </section>
-        <aside id="tab-discussion" ng-class="{'active': secondtab == true}"
+        <aside id="tab-discussion" ng-class="{'active': activetab == 'comment'}"
           class="tab-pane">
           <div class="comments-pane content">
             <h2 class="screen-hidden" translate="document.label.comments"></h2>
