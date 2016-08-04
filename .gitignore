@@ -15,6 +15,7 @@ config/deploy/*
 !config/deploy/example.rb
 
 # Chef config files
+.chef/knife.local.rb
 config/chef/cookbooks/
 config/chef/data_bags/sites/*.json
 config/chef/data_bags/users/*.json
