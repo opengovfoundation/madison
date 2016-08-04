@@ -98,3 +98,10 @@ CONFIG := $(shell echo $(server) | sed -e 's/.*@//')
 
 chef-cook: check-server-variable
 	knife solo cook $(server) config/chef/nodes/$(CONFIG).json
+
+chef-vault-refresh:
+	@for i in $$(knife data bag list); do \
+		for j in $$(knife data bag show $$i|grep _keys$$|sed s/_keys$$//); do \
+			knife vault refresh $$i $$j& \
+		done \
+	done
