@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\MadisonEvent;
+use App\Models\Role;
 
 class GroupController extends Controller
 {
@@ -63,6 +64,18 @@ class GroupController extends Controller
             $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
 
             if ($group->status === Group::STATUS_PENDING) {
+
+                // Send email to each admin to notify of new group needing approval
+                $admins = User::findByRoleName(Role::ROLE_ADMIN);
+
+                foreach($admins->all() as $admin) {
+                    Mail::queue('email.notification.verify_request_group', ['group' => $group], function ($message) use ($admin) {
+                        $message->subject('New Group Requesting Verification');
+                        $message->from('sayhello@opengovfoundation.org', 'Madison');
+                        $message->to($admin->email);
+                    });
+                }
+
                 Event::fire(MadisonEvent::VERIFY_REQUEST_GROUP, $group);
             }
             return Response::json($this->growlMessage($message, 'success'));
