@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\MadisonEvent;
+use App\Models\Role;
 
 class GroupController extends Controller
 {
@@ -50,6 +51,19 @@ class GroupController extends Controller
             $group->status = Group::STATUS_PENDING;
 
             $message = "Your group has been created! It must be approved before you can invite others to join or create documents.";
+
+            // Send email to each admin to notify of new group needing approval
+            $admins = User::findByRoleName(Role::ROLE_ADMIN);
+
+            foreach($admins->all() as $admin) {
+                Mail::queue('email.notification.verify_request_group', ['group' => $group], function ($message) use ($admin) {
+                    $message->subject('New Group Requesting Verification');
+                    $message->from('sayhello@opengovfoundation.org', 'Madison');
+                    $message->to($admin->email);
+                });
+            }
+
+            Event::fire(MadisonEvent::VERIFY_REQUEST_GROUP, $group);
         }
 
         $postData = array('name', 'display_name', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone_number');
@@ -62,9 +76,6 @@ class GroupController extends Controller
             $group->save();
             $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
 
-            if ($group->status === Group::STATUS_PENDING) {
-                Event::fire(MadisonEvent::VERIFY_REQUEST_GROUP, $group);
-            }
             return Response::json($this->growlMessage($message, 'success'));
         } else {
             return Response::json($this->growlMessage($group->getErrors()->all(), 'error'), 400);

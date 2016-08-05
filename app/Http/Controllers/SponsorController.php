@@ -8,6 +8,9 @@ use Response;
 use Validator;
 use Auth;
 use Input;
+use Mail;
+use App\Models\Role;
+use App\Models\User;
 
 
 class SponsorController extends Controller
@@ -64,6 +67,18 @@ class SponsorController extends Controller
             $request->meta_value = 0;
             $request->user_id = $user->id;
             $request->save();
+
+            // Send an email to all admins notifying of independent sponsor request
+            $admins = User::findByRoleName(Role::ROLE_ADMIN);
+
+            foreach($admins->all() as $admin) {
+                Mail::queue('email.notification.independent_sponsor_request', ['user' => $user], function ($message) use ($admin) {
+                    $message->subject('New Indpendent Sponsor Request');
+                    $message->from('sayhello@opengovfoundation.org', 'Madison');
+                    $message->to($admin->email);
+                });
+            }
+
         }
 
         return Response::json();
