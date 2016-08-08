@@ -61,7 +61,8 @@ class NotificationPreference extends Model
     {
         $validNotifications = [
             'GroupCreated',
-            'UserVerificationRequest'
+            'UserVerificationRequest',
+            'IndependentSponsorRequest',
         ];
 
         return static::buildNotificationsFromEventNames($validNotifications);

@@ -495,6 +495,7 @@
   "notification.events.madison.group.member-added": "When you are added to a group",
   "notification.events.madison.user.verification.changed": "When your account verification status changes",
   "notification.events.madison.user.verification.request": "When a new request for user account verification occurs.",
+  "notification.events.madison.user.independentsponsor.request": "When a new request for independent sponsor status occurs.",
 
   "success.general.save": "Saved."
 }

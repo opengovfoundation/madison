@@ -16,6 +16,7 @@ use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Events\GroupCreated;
 use App\Events\GroupMemberAdded;
+use App\Events\IndependentSponsorRequest;
 
 class GroupController extends Controller
 {
@@ -37,7 +38,15 @@ class GroupController extends Controller
         $group->status = Group::STATUS_PENDING;
         $group->save();
         $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
-        Event::fire(new GroupCreated($group));
+
+        switch ($group->individual) {
+        case true:
+            Event::fire(new IndependentSponsorRequest(Auth::user()));
+            break;
+        default:
+            Event::fire(new GroupCreated($group));
+            break;
+        };
         return response()->json($group);
     }
 
