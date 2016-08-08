@@ -28,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserVerificationStatusChange' => [
             'App\Listeners\UserVerificationStatusChangeNotification',
         ],
+        'App\Events\UserVerificationRequest' => [
+            'App\Listeners\UserVerificationRequestNotification',
+        ],
     ];
 
     /**

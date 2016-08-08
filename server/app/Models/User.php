@@ -41,6 +41,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $fillable = ['fname', 'lname', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone', 'url'];
     protected $appends = ['display_name'];
 
+    const STATUS_VERIFIED = 'verified';
+    const STATUS_PENDING = 'pending';
+    const STATUS_DENIED = 'denied';
+
     /**
      *	Validation rules.
      */
