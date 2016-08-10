@@ -31,9 +31,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserVerificationRequest' => [
             'App\Listeners\UserVerificationRequestNotification',
         ],
-        'App\Events\IndependentSponsorRequest' => [
-            'App\Listeners\IndependentSponsorRequestNotification',
-        ],
     ];
 
     /**
