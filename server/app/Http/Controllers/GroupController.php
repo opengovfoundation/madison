@@ -39,14 +39,11 @@ class GroupController extends Controller
         $group->save();
         $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
 
-        switch ($group->individual) {
-        case true:
-            Event::fire(new IndependentSponsorRequest(Auth::user()));
-            break;
-        default:
-            Event::fire(new GroupCreated($group));
-            break;
-        };
+        if ($group->individual) {
+            $group->user = Auth::user();
+        }
+
+        Event::fire(new GroupCreated($group));
         return response()->json($group);
     }
 

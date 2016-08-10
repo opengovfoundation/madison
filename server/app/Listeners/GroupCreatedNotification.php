@@ -35,8 +35,16 @@ class GroupCreatedNotification implements ShouldQueue
             'group' => $event->group,
         ];
 
-        $this->notifier->queue('notification.group.created-html', $data, function ($message) use ($admins) {
-            $message->setSubject('A new group has been created and needs approval');
+        if ($event->group->individual == 1) {
+            $view = 'notification.group.created-independent-html';
+            $subject = 'A user is requesting approval as an independent sponsor';
+        } else {
+            $view = 'notification.group.created-html';
+            $subject = 'A new group has been created and needs approval';
+        }
+
+        $this->notifier->queue($view, $data, function ($message) use ($admins, $subject) {
+            $message->setSubject($subject);
             $message->setRecipients($admins);
         }, $event);
     }

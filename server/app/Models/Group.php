@@ -491,6 +491,19 @@ class Group extends Model
         $groupMember->save();
     }
 
+    /**
+     * user
+     *
+     * Eloquent blongsTo relationship for User
+     *
+     * @param void
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
     public static function createIndividualGroup($userId, $input_attrs = [])
     {
         $user = User::find($userId);
