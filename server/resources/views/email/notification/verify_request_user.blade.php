@@ -5,7 +5,7 @@
 	</head>
 	<body>
 
-		<p>A user - {{ $user['fname'] }} {{ $user['lname'] }} ({{ $user['email'] }}) has requested profile verification.</p>
+		<p>A user - {{ $user['display_name'] }} ({{ $user['email'] }}) has requested profile verification.</p>
 
         <p><a href="{{ URL::to('administrative-dashboard/verify-account') }}#request-{{ $request['id'] }}">View Request</a></p>
 
