@@ -16,7 +16,6 @@ use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Events\GroupCreated;
 use App\Events\GroupMemberAdded;
-use App\Events\IndependentSponsorRequest;
 
 class GroupController extends Controller
 {
