@@ -38,10 +38,6 @@ class GroupController extends Controller
         $group->save();
         $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
 
-        if ($group->individual) {
-            $group->user = Auth::user();
-        }
-
         Event::fire(new GroupCreated($group));
         return response()->json($group);
     }

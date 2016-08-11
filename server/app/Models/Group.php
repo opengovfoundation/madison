@@ -36,7 +36,6 @@ class Group extends Model
         'postal_code',
         'phone',
         'individual',
-        'user_id'
     ];
 
     const STATUS_ACTIVE = 'active';
@@ -491,18 +490,6 @@ class Group extends Model
         $groupMember->save();
     }
 
-    /**
-     * user
-     *
-     * Eloquent blongsTo relationship for User
-     *
-     * @param void
-     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User');
-    }
 
     public static function createIndividualGroup($userId, $input_attrs = [])
     {
@@ -511,7 +498,6 @@ class Group extends Model
         $attrs = array_merge([
             'name' => $user->fname . ' ' . $user->lname,
             'display_name' => $user->fname . ' ' . $user->lname,
-            'user_id' => $userId,
             'address1' => $user->address1 || ' ',
             'address2' => $user->address2 || ' ',
             'city' => $user->city || ' ',
