@@ -39,7 +39,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     protected $hidden = ['password', 'token', 'last_login', 'deleted_at', 'oauth_vendor', 'oauth_id', 'oauth_update', 'roles'];
     protected $fillable = ['fname', 'lname', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone', 'url'];
-    protected $appends = ['display_name'];
+    protected $appends = ['display_name', 'independent_sponsor'];
+
+    const STATUS_VERIFIED = 'verified';
+    const STATUS_PENDING = 'pending';
+    const STATUS_DENIED = 'denied';
 
     /**
      *	Validation rules.
@@ -180,6 +184,22 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
+     * getIndependentSponsorAttribute
+     *
+     * Returns the user's independent sponsor status.
+     *
+     * @param void
+     * @return string
+     */
+    public function getIndependentSponsorAttribute()
+    {
+        // check if user has group marked as individual
+        // return the status of that group
+        $individual_group = $this->groups->where('individual', 1)->first();
+        return $individual_group ? $individual_group->status : null;
+    }
+
+    /**
      *	activeGroup.
      *
      *	Returns current active group for this user
@@ -225,6 +245,19 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function groups()
     {
         return $this->belongsToMany('App\Models\Group', 'group_members');
+    }
+
+    /**
+     * individualGroup
+     *
+     * Eloquent belongsTo relationship for an independent sponsor group
+     *
+     * @param void
+     * @return App\Models\Group
+     */
+    public function individualGroup()
+    {
+        return $this->groups->where('individual', true)->first();
     }
 
     public function comments()

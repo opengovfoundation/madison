@@ -37,6 +37,7 @@ class GroupController extends Controller
         $group->status = Group::STATUS_PENDING;
         $group->save();
         $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
+
         Event::fire(new GroupCreated($group));
         return response()->json($group);
     }

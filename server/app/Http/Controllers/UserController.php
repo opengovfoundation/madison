@@ -18,6 +18,7 @@ use App\Models\Role;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\SignupRequest;
 use App\Http\Requests\DocAccessReadRequest;
+use App\Events\UserVerificationRequest;
 use App\Events\UserVerificationStatusChange;
 
 /**
@@ -301,11 +302,25 @@ class UserController extends Controller
         }
 
         if (isset($verify)) {
+            $existing_verification = UserMeta::whereMetaKey('verify')->whereUserId($user->id)->first();
+            if ($existing_verification) {
+                switch ($existing_verification->meta_value) {
+                    case User::STATUS_VERIFIED:
+                        return Response::json($this->growlMessage(['This account is already verified.'], 'warning'), 400);
+                    case User::STATUS_DENIED:
+                        return Response::json($this->growlMessage(['This account has been denied for verification.'], 'warning'), 400);
+                    case User::STATUS_PENDING:
+                        return Response::json($this->growlMessage(['Your verification request has already been received.'], 'warning'), 400);
+                }
+            }
+
             $meta = new UserMeta();
             $meta->meta_key = 'verify';
-            $meta->meta_value = 'pending';
+            $meta->meta_value = User::STATUS_PENDING;
             $meta->user_id = $user->id;
             $meta->save();
+
+            Event::fire(new UserVerificationRequest($user));
 
             return Response::json($this->growlMessage(['Your profile has been updated', 'Your verified status has been requested.'], 'success'));
         }
@@ -673,7 +688,7 @@ class UserController extends Controller
         $request = Input::get('request');
         $status = Input::get('status');
 
-        $accepted = array('pending', 'verified', 'denied');
+        $accepted = array(User::STATUS_VERIFIED, User::STATUS_PENDING, User::STATUS_DENIED);
 
         if (!in_array($status, $accepted)) {
             throw new Exception('Invalid value for verify request: '.$status);

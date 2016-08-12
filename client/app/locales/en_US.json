@@ -490,10 +490,11 @@
   "errors.resetpassword.general": "There was an error resetting your password.  Please try again later.",
 
   "notification.events.madison.feedback.seen": "When feedback (an annotation or comment) of yours is seen by the document sponsor",
-  "notification.events.madison.group.created": "When a new group is created",
+  "notification.events.madison.group.created": "When a new group or independent sponsor needs approval",
   "notification.events.madison.comment.created": "When a new comment is made on something related to you",
   "notification.events.madison.group.member-added": "When you are added to a group",
   "notification.events.madison.user.verification.changed": "When your account verification status changes",
+  "notification.events.madison.user.verification.request": "When a new request for user account verification occurs.",
 
   "success.general.save": "Saved."
 }
