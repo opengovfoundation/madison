@@ -52,17 +52,6 @@ class GroupController extends Controller
 
             $message = "Your group has been created! It must be approved before you can invite others to join or create documents.";
 
-            // Send email to each admin to notify of new group needing approval
-            $admins = User::findByRoleName(Role::ROLE_ADMIN);
-
-            foreach($admins->all() as $admin) {
-                Mail::queue('email.notification.verify_request_group', ['group' => $group], function ($message) use ($admin) {
-                    $message->subject('New Group Requesting Verification');
-                    $message->from('sayhello@opengovfoundation.org', 'Madison');
-                    $message->to($admin->email);
-                });
-            }
-
             Event::fire(MadisonEvent::VERIFY_REQUEST_GROUP, $group);
         }
 
@@ -75,6 +64,19 @@ class GroupController extends Controller
         if ($group->validate()) {
             $group->save();
             $group->addMember(Auth::user()->id, Group::ROLE_OWNER);
+
+            if (!Input::has('id')) { // <-- new group request
+              // Send email to each admin to notify of new group needing approval
+              $admins = User::findByRoleName(Role::ROLE_ADMIN);
+
+              foreach($admins->all() as $admin) {
+                  Mail::queue('email.notification.verify_request_group', ['group' => $group->toArray()], function ($message) use ($admin) {
+                      $message->subject('New Group Requesting Verification');
+                      $message->from('sayhello@opengovfoundation.org', 'Madison');
+                      $message->to($admin->email);
+                  });
+              }
+            }
 
             return Response::json($this->growlMessage($message, 'success'));
         } else {
