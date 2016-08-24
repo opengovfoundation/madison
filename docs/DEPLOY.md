@@ -56,6 +56,7 @@ This file contains configuration settings for the site. This includes:
 * `url` - The URL the site will be accessed at
 * `ssl` - Whether to use SSL or not (this will install certs with letsencrypt!)
 * `type` - Tells chef what kind of server this is, should always be "Madison"
+* `git_branch` - Which git branch on the remote repo to deploy from
 * `aliases` - A way for you to tag the server node (optional)
 * `servers` - Contains the hostname or IP of the server(s) you are deploying to
 * `database_name` - The name of the database that will be created

@@ -1,4 +1,4 @@
-set :branch, 'dev' # Which branch you want to deploy from
+set :branch, '<%= site[:git_branch] %>' # Which branch you want to deploy from
 
 server '<%= site[:url] %>', # Server IP address / hostname
   user: 'deploy', # Server user to deploy as
