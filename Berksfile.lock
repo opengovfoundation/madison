@@ -4,7 +4,7 @@ DEPENDENCIES
     revision: 5246a2f0cacc0d92d2de2fe204b85930fecbcf86
   lamp-server
     git: git@github.com:opengovfoundation/cookbook-lamp-server.git
-    revision: 9a197aa6d00131c68e4f0e24718880df32f51481
+    revision: a63f6dc6cdb5d21a772b463c4be6e6addc8da33a
   madison-server
     git: git@github.com:opengovfoundation/cookbook-madison-server.git
     revision: 6ffa9afe385b4ead08bbb46d692156306affdf3a
@@ -43,7 +43,8 @@ GRAPH
   chef_gem (0.1.0)
   chef_handler (1.4.0)
   compat_resource (12.10.7)
-  composer (2.3.0)
+  composer (2.4.0)
+    apt (>= 0.0.0)
     php (>= 0.0.0)
     windows (>= 0.0.0)
   cron (1.7.6)
