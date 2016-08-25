@@ -24,6 +24,7 @@ set :linked_files, fetch(:linked_files, [])
 set :linked_dirs, fetch(:linked_dirs, [])
   .push(
     'server/storage/logs',
+    'server/storage/db_backups',
     'client/app/locales/custom',
     'client/app/sass/custom'
   )
@@ -90,6 +91,16 @@ namespace :db do
         within current_path do
           execute :make, "db-backup"
         end
+      end
+    end
+
+    # Fetches the latest database backup file from the remote instance
+    task :fetch do
+      on roles(:all) do |host|
+        create_output = capture "cd #{current_path} && make db-backup"
+        file_name = /Backup created:.+db_backups\/(.+)$/.match(create_output)[1]
+        folder = "#{shared_path}/server/storage/db_backups"
+        download! "#{folder}/#{file_name}", "."
       end
     end
 
