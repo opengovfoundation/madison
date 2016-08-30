@@ -55,12 +55,10 @@ class DatabaseBackup extends Command
     //Run mysqldump and include timestamp in file name
     public function backup($backups_path)
     {
-        //$creds = yaml_parse_file(app_path().'/config/creds.yml');
         $timestamp = date('YmdHis', strtotime('now'));
         $filename = $timestamp.'_bak.sql';
         $backup_target = $backups_path.'/'.$filename;
 
-        //exec('mysqldump '.$creds['database'].' -u'.$creds['username'].' -p'.$creds['password'].' > '.$backups_path.'/'.$filename);
         exec('mysqldump '.$_ENV['DB_DATABASE'].' -u'.$_ENV['DB_USERNAME'].' -p'.$_ENV['DB_PASSWORD'].' > '.$backup_target);
 
         $this->info("Backup created: " . $backup_target);
