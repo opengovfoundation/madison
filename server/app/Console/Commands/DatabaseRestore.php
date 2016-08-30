@@ -37,7 +37,7 @@ class DatabaseRestore extends Command
      */
     public function fire()
     {
-        $database = \Config::get('database')['connections'][$this->option('database')]['database'];
+        $database_config = \Config::get('database')['connections'][$this->option('database')];
         $filename = $this->argument('filename');
 
         // Make sure file option is a valid file
@@ -46,15 +46,15 @@ class DatabaseRestore extends Command
         }
 
         // Recreate the database first
-        \DB::statement('DROP DATABASE IF EXISTS '.$database);
-        \DB::statement('CREATE DATABASE '.$database);
+        \DB::statement('DROP DATABASE IF EXISTS '.$database_config['database']);
+        \DB::statement('CREATE DATABASE '.$database_config['database']);
 
-        if (empty($_ENV['DB_PASSWORD'])) {
+        if (empty($database_config['password'])) {
             $pass = '';
         } else {
-            $pass = '-p'.$_ENV['DB_PASSWORD'];
+            $pass = '-p'.$database_config['password'];
         }
 
-        exec('mysql '.$_ENV['DB_DATABASE'].' -u'.$_ENV['DB_USERNAME'].' '.$pass.' < '.$filename);
+        exec('mysql '.$database_config['database'].' -u'.$database_config['username'].' '.$pass.' < '.$filename);
     }
 }
