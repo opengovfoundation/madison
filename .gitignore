@@ -1,5 +1,6 @@
 server/vendor
 server/.env
+server/storage/db_backups
 
 client/build
 client/app/css/*

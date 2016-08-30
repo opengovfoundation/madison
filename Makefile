@@ -99,12 +99,12 @@ berks:
 	berks install && berks vendor config/chef/cookbooks
 
 chef-prepare: check-server-variable
-	knife solo prepare $(server) -r "recipe[madison-server::default]"
+	knife solo prepare $(server) -r "recipe[madison-server::default]" -c .chef/knife.rb
 
 CONFIG := $(shell echo $(server) | sed -e 's/.*@//')
 
 chef-cook: check-server-variable
-	knife solo cook $(server) config/chef/nodes/$(CONFIG).json
+	knife solo cook $(server) -c .chef/knife.rb
 
 chef-vault-refresh:
 	@for i in $$(knife data bag list); do \
@@ -112,3 +112,6 @@ chef-vault-refresh:
 			knife vault refresh $$i $$j& \
 		done \
 	done
+
+deploy-targets:
+	@ruby bin/rb/generate_cap_targets.rb
