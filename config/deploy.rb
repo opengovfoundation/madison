@@ -23,6 +23,7 @@ set :linked_files, fetch(:linked_files, [])
 
 set :linked_dirs, fetch(:linked_dirs, [])
   .push(
+    'server/storage/framework/cache',
     'server/storage/logs',
     'server/storage/db_backups',
     'client/app/locales/custom',
@@ -66,6 +67,7 @@ namespace :deploy do
   after :published, :set_folder_permissions do
     on roles(:all) do |host|
       info 'Ensuring current permissions on shared folders'
+      execute "chmod -R 775 #{shared_path}/server/storage"
       execute "touch #{shared_path}/server/storage/laravel.log"
     end
   end
