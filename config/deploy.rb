@@ -23,6 +23,7 @@ set :linked_files, fetch(:linked_files, [])
 
 set :linked_dirs, fetch(:linked_dirs, [])
   .push(
+    'server/storage/framework/cache',
     'server/storage/logs',
     'server/storage/db_backups',
     'client/app/locales/custom',
@@ -66,6 +67,7 @@ namespace :deploy do
   after :published, :set_folder_permissions do
     on roles(:all) do |host|
       info 'Ensuring current permissions on shared folders'
+      execute "chmod -R 775 #{shared_path}/server/storage"
       execute "touch #{shared_path}/server/storage/laravel.log"
     end
   end
@@ -86,7 +88,7 @@ namespace :db do
     set(:continue, ask('if you would like to continue (this action is irreversible!)', 'Y/N', echo: false))
     exit if fetch(:continue) != 'Y'
     on roles(:all) do |host|
-      info "Running database seeders on #{host}"
+      info "Running database migrations on #{host}"
       within release_path do
         execute :make, 'db-force-migrate'
       end
@@ -134,6 +136,19 @@ namespace :db do
       # run the artisan command remotely, passing in filename
       within current_path do
         execute :make, "db-restore file=/tmp/#{file_name}"
+      end
+    end
+  end
+end
+
+namespace :client do
+  task :rebuild do
+    set(:continue, ask('if you would like to continue (this action is irreversible!)', 'Y/N', echo: false))
+    exit if fetch(:continue) != 'Y'
+
+    on roles(:all) do |host|
+      within current_path do
+        execute :make, "build-client"
       end
     end
   end
