@@ -1,3 +1,5 @@
+require 'sass-globbing'
+
 # Require any additional compass plugins here.
 add_import_path "node_modules/breakpoint-sass/stylesheets"
 add_import_path "node_modules/bootstrap-sass/assets/stylesheets"
