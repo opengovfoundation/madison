@@ -86,7 +86,7 @@ namespace :db do
     set(:continue, ask('if you would like to continue (this action is irreversible!)', 'Y/N', echo: false))
     exit if fetch(:continue) != 'Y'
     on roles(:all) do |host|
-      info "Running database seeders on #{host}"
+      info "Running database migrations on #{host}"
       within release_path do
         execute :make, 'db-force-migrate'
       end
