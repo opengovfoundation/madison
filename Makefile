@@ -77,6 +77,10 @@ db-force-migrate:
 db-backup:
 	cd server && php artisan db:backup
 
+db-restore:
+	@if [ -z "$(file)" ]; then echo "Must provide a 'file' option." && exit 1; fi
+	cd server && php artisan db:restore $(file)
+
 deploy-forge: distclean deps-production build-client db-force-migrate
 
 queue-listen:

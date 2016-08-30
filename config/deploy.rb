@@ -82,6 +82,17 @@ namespace :db do
     end
   end
 
+  task :migrate do
+    set(:continue, ask('if you would like to continue (this action is irreversible!)', 'Y/N', echo: false))
+    exit if fetch(:continue) != 'Y'
+    on roles(:all) do |host|
+      info "Running database seeders on #{host}"
+      within release_path do
+        execute :make, 'db-force-migrate'
+      end
+    end
+  end
+
   namespace :backup do
 
     # Creates a backup of the remote database in `server/storage/db_backups`
@@ -104,5 +115,26 @@ namespace :db do
       end
     end
 
+  end
+
+  task :restore do
+    # take input for file name
+    raise 'Must provide a file to restore from.' if !ENV['file']
+    raise 'No such file.' if !File.exists? ENV['file']
+
+    set(:continue, ask('if you would like to continue (this action is irreversible!)', 'Y/N', echo: false))
+    exit if fetch(:continue) != 'Y'
+
+    file_path = ENV['file']
+    file_name = Pathname.new(file_path).basename
+
+    on roles(:all) do |host|
+      # scp that file to the host in tmp
+      upload! file_path, "/tmp/#{file_name}"
+      # run the artisan command remotely, passing in filename
+      within current_path do
+        execute :make, "db-restore file=/tmp/#{file_name}"
+      end
+    end
   end
 end
