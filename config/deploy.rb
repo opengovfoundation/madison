@@ -138,3 +138,16 @@ namespace :db do
     end
   end
 end
+
+namespace :client do
+  task :rebuild do
+    set(:continue, ask('if you would like to continue (this action is irreversible!)', 'Y/N', echo: false))
+    exit if fetch(:continue) != 'Y'
+
+    on roles(:all) do |host|
+      within current_path do
+        execute :make, "build-client"
+      end
+    end
+  end
+end
