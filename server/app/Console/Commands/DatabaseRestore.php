@@ -55,6 +55,6 @@ class DatabaseRestore extends Command
             $pass = '-p'.$_ENV['DB_PASSWORD'];
         }
 
-        exec('mysql '.$_ENV['DB_DATABASE'].' -u'.$_ENV['DB_USERNAME'].$pass.' < '.$filename);
+        exec('mysql '.$_ENV['DB_DATABASE'].' -u'.$_ENV['DB_USERNAME'].' '.$pass.' < '.$filename);
     }
 }
