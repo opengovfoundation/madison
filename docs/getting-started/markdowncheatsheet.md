@@ -46,9 +46,9 @@ If you want to use a symbol in your content that Markdown uses to create styling
 You can contact us with any questions by email at sayhello@opengovfoundation.org or on Twitter with @FoundOpenGov
 
 The following websites contin additional helpful information on how to use Markdown:
-* (http://daringfireball.net/projects/markdown/syntax#overview)
-* (http://whatismarkdown.com/)
-* (http://en.wikipedia.org/wiki/Markdown)
-* (http://stackoverflow.com/help/formatting)
-* (http://greg.brim.net/markdown_cheatsheet.html) 
-* (http://stet.editorially.com/articles/why-markup-and-markdown-matter/)
+* http://daringfireball.net/projects/markdown/syntax#overview
+* http://whatismarkdown.com/
+* http://en.wikipedia.org/wiki/Markdown
+* http://stackoverflow.com/help/formatting
+* http://greg.brim.net/markdown_cheatsheet.html 
+* http://stet.editorially.com/articles/why-markup-and-markdown-matter/
