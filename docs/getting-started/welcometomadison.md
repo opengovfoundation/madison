@@ -21,7 +21,7 @@
 * Create a new document
 * Copy and Paste the document text into the left-hand window and format it using the icons at the top of the page
 * To create a table of contents, use the heading icon. Anything styled as Heading 1 will become a linked section in the table of contents
-* For more information on how to edit documents in Markdown, please refer to the [Markdown Cheat-Sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+* For more information on how to edit documents in Markdown, please refer to the [Markdown Cheat-Sheet](https://github.com/opengovfoundation/madison/blob/dev/docs/getting-started/markdowncheatsheet.md)
 * **If you need to make major edits after users start commenting, it is better to post a second version of the document incorporating those changes**, as major edits can throw off the location of annotations on the text
 
 #### Additional Document Information to Include on Madison
