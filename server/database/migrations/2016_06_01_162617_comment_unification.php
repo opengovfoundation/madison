@@ -413,7 +413,7 @@ class CommentUnification extends Migration
         Schema::drop('comments');
         Schema::drop('comment_meta');
         Schema::drop('note_meta');
-        DB::statement('DROP VIEW doc_actions');
+        DB::statement('DROP VIEW IF EXISTS doc_actions');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 
