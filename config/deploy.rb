@@ -67,8 +67,8 @@ namespace :deploy do
   after :published, :set_folder_permissions do
     on roles(:all) do |host|
       info 'Ensuring current permissions on shared folders'
-      execute "chmod -R 775 #{shared_path}/server/storage"
-      execute "touch #{shared_path}/server/storage/laravel.log"
+      execute "if [[ ! -d #{shared_path}/server/storage/framework ]]; then chmod -R 775 #{shared_path}/server/storage; fi"
+      execute "if [[ ! -d #{shared_path}/server/storage/framework ]]; then touch #{shared_path}/server/storage/laravel.log; fi"
     end
   end
 
