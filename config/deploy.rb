@@ -23,6 +23,7 @@ set :linked_files, fetch(:linked_files, [])
 
 set :linked_dirs, fetch(:linked_dirs, [])
   .push(
+    'server/storage/app',
     'server/storage/framework/cache',
     'server/storage/logs',
     'server/storage/db_backups',
