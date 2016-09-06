@@ -7,6 +7,8 @@ comments, annotate specific content, and interact with other civic-minded
 participants. Madison brings the lawmaking process straight to you, and gives
 you a say in your government’s decisions.
 
+<iframe id="tutorial" width="560" height="315" src="https://www.youtube.com/embed/qfhBO6u-xJY" frameborder="0" allowfullscreen=""></iframe>
+
 **How it works:**
 
 1. Sign up and create a username.
