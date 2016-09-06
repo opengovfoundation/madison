@@ -322,6 +322,18 @@ class UserController extends Controller
 
             Event::fire(new UserVerificationRequest($user));
 
+            // Send an email to all admin users to notify of new user
+            // verification request.
+            $admins = User::findByRoleName(Role::ROLE_ADMIN);
+
+            foreach($admins->all() as $admin) {
+                Mail::queue('email.notification.verify_request_user', ['user' => $user, 'request' => $meta], function ($message) use ($admin) {
+                    $message->subject('New User Requesting Verification');
+                    $message->from('sayhello@opengovfoundation.org', 'Madison');
+                    $message->to($admin->email);
+                });
+            }
+
             return Response::json($this->growlMessage(['Your profile has been updated', 'Your verified status has been requested.'], 'success'));
         }
 

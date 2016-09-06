@@ -1,4 +1,3 @@
-{{-- Receives $group[] --}}
 <!DOCTYPE html>
 <html lang="en-US">
 	<head>
@@ -16,7 +15,7 @@
     <p><strong>Postal Code:</strong> {{ $group['postal_code'] }}</p>
     <p><strong>Phone Number:</strong> {{ $group['phone_number'] }}</p>
 
-    <a href="{{ URL::to('dashboard/groupverifications') }}">View Request</a>
+    <a href="{{ URL::to('administrative-dashboard/verify-group') }}">View Request</a>
 
 	<p>&ndash; The OpenGov Foundation Team</p>
 	</body>

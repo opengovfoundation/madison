@@ -58,7 +58,6 @@ class GroupController extends Controller
     public function getGroup($id = null)
     {
         $group = Group::find($id);
-
         return Response::json($group);
     }
 
