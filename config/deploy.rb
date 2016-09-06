@@ -114,7 +114,7 @@ namespace :db do
         create_output = capture "cd #{current_path} && make db-backup"
         file_name = /Backup created:.+db_backups\/(.+)$/.match(create_output)[1]
         folder = "#{shared_path}/server/storage/db_backups"
-        download! "#{folder}/#{file_name}", "./#{host.hostname}_#{file_name}"
+        download! "#{folder}/#{file_name}", "./#{host.hostname}_#{fetch(:stage)}_#{file_name}"
       end
     end
 
