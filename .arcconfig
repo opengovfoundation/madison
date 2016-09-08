@@ -1,3 +1,4 @@
 {
-  "phabricator.uri" : "https://phabricator.opengovfoundation.org/"
+  "phabricator.uri": "https://phabricator.opengovfoundation.org/",
+  "base": "git:merge-base(origin/master), arc:prompt"
 }
