@@ -1,5 +1,5 @@
 set :application, 'madison'
-set :repo_url, 'git@github.com:opengovfoundation/madison.git'
+set :repo_url, 'ssh://vcs@phabricator.opengovfoundation.org/diffusion/1/madison.git'
 
 # Explicitly ask for which branch to deploy from
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -18,7 +18,8 @@ set :format_options,
 
 set :linked_files, fetch(:linked_files, [])
   .push(
-    'server/.env'
+    'server/.env',
+    'client/app/favicon.ico'
   )
 
 set :linked_dirs, fetch(:linked_dirs, [])
@@ -37,6 +38,14 @@ set :default_env, {
 }
 
 namespace :deploy do
+
+  before "check:linked_files", :check_favicon do
+    on roles(:all) do |host|
+      within shared_path do
+        execute "if [[ ! -f #{shared_path}/client/app/favicon.ico ]]; then touch #{shared_path}/client/app/favicon.ico; fi"
+      end
+    end
+  end
 
   after :published, :install_dependencies do
     on roles(:all) do |host|

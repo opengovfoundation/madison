@@ -97,6 +97,7 @@
     "copy:index": "scripty",
     "copy:fonts": "scripty",
     "copy:images": "scripty",
+    "copy:favicon": "scripty",
     "copy": "scripty",
     "cachebust:locales": "scripty",
     "cachebust:templates": "scripty",

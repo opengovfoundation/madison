@@ -4,6 +4,7 @@ server/storage/db_backups
 
 client/build
 client/app/css/*
+client/app/favicon.ico
 client/node_modules
 client/app/sass/.sass-cache
 client/.sass-cache
