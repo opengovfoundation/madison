@@ -20,7 +20,7 @@
     "chai": "^1.9.1",
     "copyfiles": "latest",
     "cssmin": "latest",
-    "hashmark": "latest",
+    "hashmark": "3.1.0",
     "include-all": "^0.1.6",
     "karma": "^0.12.21",
     "karma-chai": "^0.1.0",
