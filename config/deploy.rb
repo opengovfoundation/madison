@@ -24,10 +24,7 @@ set :linked_files, fetch(:linked_files, [])
 
 set :linked_dirs, fetch(:linked_dirs, [])
   .push(
-    'server/storage/app',
-    'server/storage/framework/cache',
-    'server/storage/logs',
-    'server/storage/db_backups',
+    'server/storage',
     'client/app/locales/custom',
     'client/app/sass/custom'
   )
@@ -77,8 +74,12 @@ namespace :deploy do
   after :published, :set_folder_permissions do
     on roles(:all) do |host|
       info 'Ensuring current permissions on shared folders'
+
+      make_logs_folder = "mkdir -p #{shared_path}/server/storage/logs"
+      create_log_file = "touch #{shared_path}/server/storage/logs/laravel.log"
+
+      execute "if [[ ! -d #{shared_path}/server/storage/framework ]]; then #{make_logs_folder} && #{create_log_file}; fi"
       execute "if [[ ! -d #{shared_path}/server/storage/framework ]]; then chmod -R 775 #{shared_path}/server/storage; fi"
-      execute "if [[ ! -d #{shared_path}/server/storage/framework ]]; then touch #{shared_path}/server/storage/laravel.log; fi"
     end
   end
 
