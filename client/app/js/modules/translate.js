@@ -17,4 +17,5 @@ angular.module('madisonApp.translate', ['pascalprecht.translate'])
   $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
   $translateProvider.usePostCompiling(true);
   $translateProvider.determinePreferredLanguage();
+  $translateProvider.uniformLanguageTag('java')
 });
