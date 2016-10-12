@@ -1,14 +1,24 @@
 # [Welcome to the Madison community!](https://www.youtube.com/watch?v=qfhBO6u-xJY)
+
 ## Documents.MyMadison.io
+
+![](1_home_page.png)
+
 ### THE BASICS
+
 #### A. Govern Better, Together
 With Madison, you, your elected officials, and issue area experts are ablt to collaborate in order to help create and amend legislation from your elected officials.
+
 #### B. Be Heard
 Madison allows you to post your thoughts and questions directly onto currnet and pending legislation in the form of comments.
+
 #### C. Create Better Policy
 By governing together your government officials will have better knowledge and be better equipped to represent you.
 
 ### GETTING STARTED
+
+![](2_sign_up.png)
+
 #### Creating a **User Account**
 1. Go to Documents.MyMadison.io and *click on 'Sign Up' in the top right corner of your screen.
 2. Enter your *firt and last name, email address* (enter and address you want to be associated with Madison) and *create a password*
@@ -16,14 +26,28 @@ By governing together your government officials will have better knowledge and b
 4. A Madison Administrator will accept your request within about 24 hours, and you can begin posting!
   - A message will appear in the 'Account Settings' section of you Account letting you know that your request has been accepted.
 
+#### Becoming a Document Sponsor
+1. Click on the drop-down menu (appears when you click on your name)
+2. Scroll down to “Account Settings”
+3. At the bottom of the page click the box requesting to be an Individual Sponsor and complete the form provided.
+4. A Madison Administrator will accept your request, and you can begin posting!
+
+![](3_document_sponsor_a.png)
+
+![](4_document_sponsor_b.png)
+
 #### Creating a **Governing Group**
-1. CLick on the *drop down menu* (appears when you click your name)
+1. Click on the *drop down menu* (appears when you click your name)
 2. Select *"Group Management"*
 3. Select *"Create a Group"* to submit a request to a Madison Administrator
 4. Once the *request is accepted*, your group has been created and you may:
   - *Add* other users to your group
   - *Manage* other users' editing preferences
   - Create documents under sponsorship of the new group
+
+![](5_create_a_governing_group_a.png)
+
+![](6_create_a_governing_group.png)
 
 #### Posting a **Bill**
 1. Click on the *drop-down menu* (appears when you click your name)
@@ -36,6 +60,8 @@ By governing together your government officials will have better knowledge and b
 **Tip** If you need to make *major edits* to your bill after users begin commenting, we recommend posting a second version of the document including those changes.
   - Major edits can throw off the location of comments in the text
 
+![](7_posting_a_bill.png)
+
 #### Recommended Additional **Document Information**
 1. *Status* of the bill
   a. Published: public and listed in the front page of documents
@@ -46,6 +72,8 @@ By governing together your government officials will have better knowledge and b
   - Such as *press releases, news articles, or videos* about the bill, further information on your legislature's website
 4. A *summary* or *introduction* for lengthy documents
 5. *Tags* by topic
+
+![](8_posting_public_hearings.png)
 
 ### TIPS AND RECOMMENDATIONS
 #### *Timing*
