@@ -79,27 +79,6 @@ angular.module( 'madisonApp' )
           authorizedRoles: [ USER_ROLES.all ]
         }
       } )
-      .state( 'facebook-login', {
-        url: '/user/login/facebook-login',
-        controller: 'OauthLoginController',
-        data: {
-          authorizedRoles: [ USER_ROLES.all ]
-        }
-      } )
-      .state( 'twitter-login', {
-        url: '/user/login/twitter-login',
-        controller: 'OauthLoginController',
-        data: {
-          authorizedRoles: [ USER_ROLES.all ]
-        }
-      } )
-      .state( 'linkedin-login', {
-        url: '/user/login/linkedin-login',
-        controller: 'OauthLoginController',
-        data: {
-          authorizedRoles: [ USER_ROLES.all ]
-        }
-      } )
       .state( 'signup', {
         url: '/user/signup',
         controller: "SignupPageController",

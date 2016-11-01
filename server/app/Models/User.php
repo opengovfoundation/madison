@@ -37,7 +37,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     use EntrustUserTrait;
 
-    protected $hidden = ['password', 'token', 'last_login', 'deleted_at', 'oauth_vendor', 'oauth_id', 'oauth_update', 'roles'];
+    protected $hidden = ['password', 'token', 'last_login', 'deleted_at', 'roles'];
     protected $fillable = ['fname', 'lname', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone', 'url'];
     protected $appends = ['display_name', 'independent_sponsor'];
 
@@ -56,17 +56,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'create' => [
             'email' => 'required|unique:users',
             'password' => 'required',
-        ],
-        'social-signup' => [
-            'email' => 'required|unique:users',
-            'oauth_vendor' => 'required',
-            'oauth_id' => 'required',
-            'oauth_update' => 'required',
-        ],
-        'twitter-signup' => [
-            'oauth_vendor' => 'required',
-            'oauth_id' => 'required',
-            'oauth_update' => 'required',
         ],
         'update' => [
             'email' => 'required|unique:users',
@@ -497,8 +486,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @param void
      *
      * @return array $output
-     *
-     * @todo handle social login / signup rule merges
      */
     public function mergeRules()
     {
@@ -509,20 +496,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         if ($this->exists) {
             $merged = array_merge_recursive($rules['save'], $rules['update']);
             $merged['email'] = 'required|unique:users,email,'.$this->id;
-        }
-        //If we're signing up via Oauth
-        elseif (isset($this->oauth_vendor)) {
-            switch ($this->oauth_vendor) {
-                case 'twitter':
-                    $merged = array_merge_recursive($rules['save'], $rules['twitter-signup']);
-                    break;
-                case 'facebook':
-                case 'linkedin':
-                    $merged = array_merge_recursive($rules['save'], $rules['social-signup']);
-                    break;
-                default:
-                    throw new Exception("Unknown OAuth vendor: ".$this->oauth_vendor);
-            }
         }
         //If we're creating a user via Madison
         else {
@@ -557,7 +530,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function validate()
     {
         // `mergeRules` handles logic for determining the context of the
-        // validation, eg: save, update, create, oauth create, etc
+        // validation, eg: save, update, create, etc
         $validation = Validator::make($this->attributes, $this->mergeRules(), static::$customMessages);
 
         if ($validation->passes()) {

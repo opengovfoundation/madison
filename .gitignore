@@ -8,6 +8,7 @@ client/app/favicon.ico
 client/node_modules
 client/app/sass/.sass-cache
 client/.sass-cache
+client/npm-debug.*
 
 # Custom locale files
 client/locales/custom/*.json

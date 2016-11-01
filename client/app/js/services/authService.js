@@ -84,29 +84,6 @@ angular.module('madisonApp.services')
                     });
       };
 
-      authService.facebookLogin = function () {
-        authService._oauthLogin('/api/user/facebook-login', 'Facebook');
-      };
-
-      authService.twitterLogin = function () {
-        authService._oauthLogin('/api/user/twitter-login', 'Twitter');
-      };
-
-      authService.linkedinLogin = function () {
-        authService._oauthLogin('/api/user/linkedin-login', 'LinkedIn');
-      };
-
-      authService._oauthLogin = function (url, name) {
-        return $http.get(url)
-          .then(function (res) {
-            if (res.status === 200) {
-              window.location.href = res.data.authUrl;
-            } else {
-              growl.error('There was an error logging in with ' + name + '.');
-            }
-          });
-      };
-
       authService.isAuthenticated = function () {
         return !!SessionService.user;
       };

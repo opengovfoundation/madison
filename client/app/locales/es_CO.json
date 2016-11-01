@@ -300,12 +300,6 @@
   "user.label.verified": "verificado",
   "user.label.membersince": "Miembro desde <time datetime=\"{{ datetime }}\">{{ datetime | parseDate | date:'mediumDate' }}</time>",
   "user.activity.message": "añadido {label, select, annotation{an} other{a}} { label } al texto de <a href=\"/docs/{ slug }\">{ title }</a>",
-  "user.login.facebook": "Login con Facebook",
-  "user.login.facebook.icon": "Facebook icon",
-  "user.login.twitter": "Login con Twitter",
-  "user.login.twitter.icon": "Twitter icon",
-  "user.login.linkedin": "Login con LinkedIn",
-  "user.login.linkedin.icon": "LinkedIn icon",
 
   "content.home.title": "{{ title }} - Inicio",
   "content.document.title": "{{ title }} - {{ docTitle }}",

@@ -13,7 +13,6 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
-        "artdarek/oauth-4-laravel": "~1.0",
         "overtrue/laravel-lang": "~1.0",
         "graham-campbell/markdown": "~5.3",
         "doctrine/dbal": "2.5.*",

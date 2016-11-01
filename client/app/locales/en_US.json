@@ -323,12 +323,6 @@
   "user.label.verified": "Verified",
   "user.label.membersince": "Member since <time datetime=\"{{ datetime }}\">{{ datetime | parseDate | date:'mediumDate' }}</time>",
   "user.activity.message": "Added {label, select, comment{c} other{a}} { label } to the text of <a href=\"/docs/{ slug }\">{ title }</a>",
-  "user.login.facebook": "Login with Facebook",
-  "user.login.facebook.icon": "Facebook icon",
-  "user.login.twitter": "Login with Twitter",
-  "user.login.twitter.icon": "Twitter icon",
-  "user.login.linkedin": "Login with LinkedIn",
-  "user.login.linkedin.icon": "LinkedIn icon",
 
   "content.home.title": "{{ title }} - Home",
   "content.document.title": "{{ title }} - {{ docTitle }}",

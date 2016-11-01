@@ -95,6 +95,9 @@ settings.](https://laravel.com/docs/5.2/mail)
 
 #### Social Authentication
 
+**Note:** Social login is [currently not
+working](https://phabricator.opengovfoundation.org/T76).
+
 We allow several services for OAuth for users to login to the system. You will
 need to signup for accounts on each service you which to provide, and fill in
 the API info as follows:
