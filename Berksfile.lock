@@ -1,18 +1,18 @@
 DEPENDENCIES
   base-server
-    git: git@github.com:opengovfoundation/cookbook-base-server.git
+    git: https://github.com/opengovfoundation/cookbook-base-server
     revision: 5246a2f0cacc0d92d2de2fe204b85930fecbcf86
   lamp-server
-    git: git@github.com:opengovfoundation/cookbook-lamp-server.git
-    revision: a63f6dc6cdb5d21a772b463c4be6e6addc8da33a
+    git: https://github.com/opengovfoundation/cookbook-lamp-server
+    revision: cd20483e06fd17bbce97d6e62670244d5307e3ff
   madison-server
-    git: git@github.com:opengovfoundation/cookbook-madison-server.git
+    git: https://github.com/opengovfoundation/cookbook-madison-server
     revision: 6ffa9afe385b4ead08bbb46d692156306affdf3a
   opengov-users
-    git: git@github.com:opengovfoundation/cookbook-users.git
+    git: https://github.com/opengovfoundation/cookbook-users
     revision: 2bc1f42d94600a1af971a0af4749f85e5798a70d
   php
-    git: git@github.com:opengovfoundation/cookbook-php.git
+    git: https://github.com/opengovfoundation/cookbook-php
     revision: f3ccae7bb3b0026cfc3b6065565b31255e76f144
 
 GRAPH
