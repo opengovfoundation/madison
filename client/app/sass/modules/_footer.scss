@@ -38,6 +38,7 @@
         list-style: none;
 
         li { display: inline; }
+        li:not(:last-child) { padding-right: 10px; }
     }
 
     a {
