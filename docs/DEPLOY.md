@@ -23,6 +23,8 @@ you'd like here, as long as you have a user on the server that has `sudo`
 permissions. Some options here are [Digital Ocean](https://digitalocean.com),
 [AWS](https://aws.amazon.com) or [Linode](https://www.linode.com/).
 
+**Note:** It is recommended that you use Ubuntu 14.04 LTS.
+
 ### Installing chef on the server
 
 Once you have the server spun up, run the following command to prepare it for

@@ -9,4 +9,5 @@ end
 group :deployment do
   gem 'capistrano', '~> 3.4'
   gem 'knife-solo'
+  gem 'berkshelf'
 end
