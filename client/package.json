@@ -31,7 +31,6 @@
     "protractor": "3.0.0",
     "replaceinfiles": "latest",
     "rimraf": "latest",
-    "scripty": "^1.5.0",
     "sinon": "^1.10.3",
     "uglify-js": "latest",
     "wr": "^1.3.1"
@@ -67,6 +66,7 @@
     "ng-file-upload": "~3.2.4",
     "pagedown": "~1.1.0",
     "pagedown-editor": "0.0.9",
+    "scripty": "^1.5.0",
     "select2": "~3.5.0",
     "ui-router-extras": "^0.1.2",
     "ui-select": "^0.14.9",
