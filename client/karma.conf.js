@@ -25,7 +25,6 @@ module.exports = function(config) {
         'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
         'app/bower_components/angular-cookies/angular-cookies.js',
         'app/bower_components/angular-ui/build/angular-ui.min.js',
-        'app/bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
         'app/bower_components/angular-growl/build/angular-growl.min.js',
         'app/bower_components/angular-sanitize/angular-sanitize.js',
         'app/bower_components/angular-resource/angular-resource.min.js',

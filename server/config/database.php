@@ -67,7 +67,7 @@ return [
         'mysql_testing' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
-            'database'  => 'madison_testing',
+            'database'  => env('DB_DATABASE', 'madison_testing'),
             'username'  => env('DB_USERNAME', 'root'),
             'password'  => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
