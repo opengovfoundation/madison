@@ -15,7 +15,7 @@ gems-production:
 deps-server:
 	cd server && composer install
 
-NODE_VERSION=$(shell node --version | grep -e '^v4\.')
+NODE_VERSION=$(shell if command -v node 2>/dev/null; then node --version; else nodejs --version; fi | grep -e '^v4\.')
 
 check-node:
 ifeq ($(NODE_VERSION),)

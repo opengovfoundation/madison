@@ -1,40 +1,49 @@
 server {
-    listen 80 ssl;
+  listen 80;
 
-    server_name mymadison.local;
+  server_name mymadison.local;
+  charset utf-8;
 
-    root /path/to/madison/client/build;
+  location / {
+    root /path/to/madison/project/client/build;
+    index index.html;
+    try_files $uri $uri/ /index.html;
+  }
 
-    index index.html index.htm index.php;
-    charset utf-8;
+  location /api/ {
+    root /path/to/madison/project/server/public;
+    index index.php;
+    try_files $uri $uri/ /index.php?$query_string;
+  }
 
-    location ~ index.php {
-        root /path/to/madison/server/public;
-    }
+  location ~ \.php$ {
+    root /path/to/madison/project/server/public;
+    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+    include snippets/fastcgi-php.conf;
+  }
+}
 
-    location /api/ {
-        rewrite /api/(.+) /index.php;
-    }
+server {
+  listen 81;
 
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
+  server_name mymadison-dev.local;
+  charset utf-8;
 
-    location = /favicon.ico {
-        access_log off;
-        log_not_found off;
-    }
+  location / {
+    root /path/to/madison/project/client/app;
+    index index.html;
+    try_files $uri $uri/ /index.html;
+  }
 
-    location = /robots.txt {
-        access_log off;
-        log_not_found off;
-    }
+  location /api/ {
+    root /path/to/madison/project/server/public;
+    index index.php;
+    try_files $uri $uri/ /index.php?$query_string;
+  }
 
-    access_log off;
-    error_log /path/to/logs/mymadison.local-error.log error;
-    error_page 404 /index.php;
-
-    location ~ /\.ht {
-        deny all;
-    }
+  location ~ \.php$ {
+    root /path/to/madison/project/server/public;
+    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+    include snippets/fastcgi-php.conf;
+  }
 }
