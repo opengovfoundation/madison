@@ -13,8 +13,14 @@ angular.module('madisonApp.translate', ['pascalprecht.translate'])
       }
     ]
   });
+  $translateProvider.registerAvailableLanguageKeys(['en', 'es', 'fr'], {
+    'en_US': 'en',
+    'en_UK': 'en',
+    'es_CO': 'es'
+  });
   $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
   $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
   $translateProvider.usePostCompiling(true);
   $translateProvider.uniformLanguageTag('java').determinePreferredLanguage();
+  $translateProvider.fallbackLanguage('en');
 });
