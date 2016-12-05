@@ -1,1 +1,0 @@
-rimraf build/index.html
