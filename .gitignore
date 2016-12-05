@@ -1,3 +1,6 @@
+vendor
+.bundle
+
 server/vendor
 server/.env
 server/storage/db_backups
