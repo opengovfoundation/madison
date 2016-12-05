@@ -30,12 +30,7 @@ better understand what your needs are and who is using Madison:
 
 ## Architecture
 
-As of 3.0, Madison has been broken into two separate pieces: a standalone
-API in Laravel (PHP) (the `server` folder) and a piece for the interface / client
-side of the system (Angular / JavaScript) (the `client` folder).
-
-Some modules are shared across repositories, such as our
-[internationalization locale files](https://github.com/opengovfoundation/madison-locales).
+As of 4.0, Madison is a generally plain Laravel (PHP) application.
 
 ## Installation
 
@@ -61,38 +56,10 @@ during the build and can overwrite any existing styles. You can also change sass
 variables here. Reference the sass config files in `client/app/sass/config/` to see
 what variables can be changed.
 
-## Testing Suite
-
-To run the full test suite for both client and server, run the `make test`
-command. Some setup is necesary, see below.
-
-### Server Testing
+## Test Suite
 
 To run the tests, you will need to make sure to have a database created called
-`madison_testing`. Then you will need to run all migrations on that database
-with the command `php artisan migrate --database=mysql_testing`.
-
-To run only server tests, the command is `make test-server`.
-
-### Client Testing
-
-For client testing to work properly, you need to have a vhost set up to be
-serving the client at `localhost:8888` with the API (server folder)
-mounted at `/api`. This vhost should also set two ENV vars:
-
-* `TESTING=true`
-* `DB_CONNECTION=mysql_testing`
-
-For an example of what this config should look like for Apache, look at
-`travis/apache.conf`. This is the configuration file that is used
-for running client tests on travis. Don't forget to add the domain to
-`/etc/hosts` as well!
-
-Make sure you have run `make deps` to have all dependencies installed. Once that
-is done you should be able to run `make selenium-start` to install and start
-your local Selenium server.
-
-To run the client tests only, the command is `make test-client`.
+`madison_testing`, then simply run `make test`.
 
 ## How to help
 
