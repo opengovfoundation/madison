@@ -11,15 +11,15 @@ government and a way to hold it accountable.
 Government policy covers a huge range of issues that directly impact you, your
 family, and your place of work--from where you can park your car, to where your
 kids go to school, to how much you pay in taxes. To find a document on a topic you
-care about, simply search Madison with keywords, councilmembers’ names, or
+care about, simply search Madison with keywords, councilmembers' names, or
 document status. Then sign up for an account to vote, add general comments, ask
 questions, and suggest changes directly to these new laws, rules and
 regulations.
 
 **How do I annotate a document in Madison?**
 
-Thanks for asking! We’ve made you a helpful gif on the document page showing you
-how it’s done. (It’s super easy!)
+Thanks for asking! We've made you a helpful gif on the document page showing you
+how it's done. (It's super easy!)
 
 **How can I get help with a Madison issue or question?**
 
@@ -28,7 +28,7 @@ please use the feedback question mark button at the bottom left of every web
 page.
 
 To ask questions about Madison or your user account, send us an email at
-[sayhello@opengovfoundation.org](mailto:sayhello@opengovfoundation.org). We’d love
+[sayhello@opengovfoundation.org](mailto:sayhello@opengovfoundation.org). We'd love
 to hear from you!
 
 To raise a question about a document in Madison, just sign up and add it
@@ -52,7 +52,7 @@ instantly receive both an email notification and a Madison notification.
 A verified user is someone who has proven that they are a real human being, or a
 real representative of a real organization. Being a verified user gives your
 activity on Madison a little more weight--for example, by showing an elected
-official that you’re an actual constituent, or by demonstrating that you are an
+official that you're an actual constituent, or by demonstrating that you are an
 expert in a pertinent field.
 
 Request verification at the bottom of your profile page.
@@ -77,7 +77,7 @@ Keep in touch--sign up for news and updates on Madison.
 Contact your elected officials. Madison is built for democracies everywhere, at
 any level of government. Spread the word!
 
-If you’re a developer, fork Madison [on Github](https://github.com/opengovfoundation/madison).
+If you're a developer, fork Madison [on Github](https://github.com/opengovfoundation/madison).
 Pull requests welcome!
 
 **How can I bring Madison to my local and state government?**

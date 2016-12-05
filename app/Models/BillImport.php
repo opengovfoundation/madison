@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 	Import Class for House Bill XML
- * 	Not pretty at the moment, but it works.
+ * Import Class for House Bill XML
+ * Not pretty at the moment, but it works.
  */
 
 /**
- * 	Bill class.
+ *  Bill class.
  */
 class BillImport
 {
@@ -26,9 +26,9 @@ class BillImport
     public $text_tags = array('enum', 'header', 'text');
 
     /**
-     * 	Constructor
-     * 	1.  Set Import URL
-     * 	2.  Set rawXML and DOMDocument.
+     *  Constructor
+     *  1.  Set Import URL
+     *  2.  Set rawXML and DOMDocument.
      */
     public function __construct($url)
     {
@@ -37,7 +37,7 @@ class BillImport
     }
 
     /**
-     * 	Sets top-level bill information.
+     *  Sets top-level bill information.
      */
     public function createDoc()
     {
@@ -82,7 +82,7 @@ class BillImport
     }
 
     /**
-     * 	Recursive function to save children of a given node as DocContent items.
+     *  Recursive function to save children of a given node as DocContent items.
      */
     public function saveChildren($node, $parent_id, $child_priority)
     {
@@ -126,7 +126,7 @@ class BillImport
     }
 
     /**
-     * 	Combine child nodes designated as relevant text.
+     *  Combine child nodes designated as relevant text.
      */
     protected function getNodeContent($node)
     {
@@ -144,7 +144,7 @@ class BillImport
     }
 
     /**
-     * 	Set bill slug from the bill title.
+     *  Set bill slug from the bill title.
      */
     public function setBillSlug()
     {
@@ -154,7 +154,7 @@ class BillImport
     }
 
     /**
-     * 	Set bill title ( Checks short-title tag and then legis-num).
+     *  Set bill title ( Checks short-title tag and then legis-num).
      */
     public function setBillTitle()
     {
@@ -171,7 +171,7 @@ class BillImport
     }
 
     /**
-     * 	Set rawXML attribute and create DOMDocument.
+     *  Set rawXML attribute and create DOMDocument.
      */
     public function setXML()
     {
@@ -188,7 +188,7 @@ class BillImport
     }
 
     /**
-     * 	Get top-level meta information from the bill.
+     *  Get top-level meta information from the bill.
      */
     public function getBillMeta($tag)
     {
@@ -208,7 +208,7 @@ class BillImport
     }
 
     /**
-     * 	Create DOMDocument object from raw XML.
+     *  Create DOMDocument object from raw XML.
      */
     public function setDomDoc()
     {
@@ -221,7 +221,7 @@ class BillImport
     }
 
     /**
-     * 	Sets root string where parser will start from.
+     *  Sets root string where parser will start from.
      */
     public function setRootTag($rootTag)
     {
@@ -231,8 +231,8 @@ class BillImport
     }
 
     /**
-     * 	Check attributes are set
-     * 	Accepts single string or array of strings.
+     *  Check attributes are set
+     *  Accepts single string or array of strings.
      */
     protected function checkAttr($attribute)
     {

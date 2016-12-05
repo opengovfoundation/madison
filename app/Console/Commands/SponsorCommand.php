@@ -56,11 +56,11 @@ class SponsorCommand extends Command
             $rawDocs = DB::select(
                 DB::raw(
                     "SELECT *
-					   FROM docs
-					  WHERE id NOT IN (
-						SELECT doc_id
-						  FROM doc_group
-					)"
+                      FROM docs
+                      WHERE id NOT IN (
+                        SELECT doc_id
+                            FROM doc_group
+                    )"
                 ),
                 array()
             );

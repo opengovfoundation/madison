@@ -27,7 +27,7 @@ class NotificationPreference extends Model
     }
 
     /**
-     *	Return notifications registered for a given event.
+     *  Return notifications registered for a given event.
      *
      * @param string $event
      */
@@ -37,7 +37,7 @@ class NotificationPreference extends Model
     }
 
     /**
-     *	Return array of valid notifications for the given user.
+     *  Return array of valid notifications for the given user.
      *
      * @return array
      */
@@ -53,9 +53,9 @@ class NotificationPreference extends Model
     }
 
     /**
-     *	Return array of valid admin notifications.
+     *  Return array of valid admin notifications.
      *
-     *	@return array
+     *  @return array
      */
     public static function getAdminNotifications()
     {
@@ -68,9 +68,9 @@ class NotificationPreference extends Model
     }
 
     /**
-     *	Return array of valid user notifications.
+     *  Return array of valid user notifications.
      *
-     *	@return array
+     *  @return array
      */
     public static function getUserNotifications()
     {

@@ -22,7 +22,7 @@ use App\Events\UserVerificationRequest;
 use App\Events\UserVerificationStatusChange;
 
 /**
- * 	Controller for user actions.
+ * Controller for user actions.
  */
 class UserController extends Controller
 {
@@ -40,10 +40,10 @@ class UserController extends Controller
     }
 
     /**
-     *	getGroups
-     *		Returns a user's groups with the user's role included.
+     *  getGroups
+     *      Returns a user's groups with the user's role included.
      *
-     *	@param User $user
+     *  @param User $user
      *
      * @return Response::json
      */
@@ -60,11 +60,11 @@ class UserController extends Controller
     }
 
     /**
-     *	API PUT Route to update a user's notification settings.
+     *  API PUT Route to update a user's notification settings.
      *
-     *	@param User $user
+     *  @param User $user
      *
-     *	@return Response::json
+     *  @return Response::json
      *
      * @todo There has to be a more efficient way to do this... We should probably only send changes from Angular.  We can also separate the array matching into helper functions
      */
@@ -114,13 +114,13 @@ class UserController extends Controller
     }
 
     /**
-     *	API GET Route to get viable User notifications and notification statuses for current user.
+     *  API GET Route to get viable User notifications and notification statuses for current user.
      *
-     *	@param User $user
+     *  @param User $user
      *
-     *	@return Response::json
+     *  @return Response::json
      *
-     *	@todo I'm sure this can be simplified...
+     *  @todo I'm sure this can be simplified...
      */
     public function getNotifications(User $user)
     {
@@ -159,11 +159,11 @@ class UserController extends Controller
     }
 
     /**
-     *	Notification Preference Page.
+     *  Notification Preference Page.
      *
-     *	@param User $user
+     *  @param User $user
      *
-     *	@return Illuminate\View\View
+     *  @return Illuminate\View\View
      */
     public function editNotifications(User $user)
     {
@@ -172,7 +172,7 @@ class UserController extends Controller
     }
 
     /**
-     *	Api route to edit user's email.
+     *  Api route to edit user's email.
      *
      * @param User $user
      *
@@ -203,9 +203,9 @@ class UserController extends Controller
     }
 
     /**
-     *	Api route to get logged in user / group.
+     *  Api route to get logged in user / group.
      *
-     *	@param void
+     *  @param void
      *
      * @return JSON user
      */
@@ -249,13 +249,13 @@ class UserController extends Controller
     }
 
     /**
-     *	putEdit.
+     *  putEdit.
      *
-     *	User's put request to update their profile
+     *  User's put request to update their profile
      *
-     *	@param User $user
+     *  @param User $user
      *
-     *	@return Illuminate\Http\RedirectResponse
+     *  @return Illuminate\Http\RedirectResponse
      */
     public function putEdit(User $user)
     {
@@ -337,15 +337,15 @@ class UserController extends Controller
     }
 
     /**
-     *	putIndex.
+     *  putIndex.
      *
-     *	Returns 404 Response
+     *  Returns 404 Response
      *
-     *	@param $id
+     *  @param $id
      *
-     *	@return Response
+     *  @return Response
      *
-     *	@todo Remove route and method
+     *  @todo Remove route and method
      */
     public function putIndex($id = null)
     {
@@ -353,15 +353,15 @@ class UserController extends Controller
     }
 
     /**
-     *	postIndex.
+     *  postIndex.
      *
-     *	Returns 404 Response
+     *  Returns 404 Response
      *
-     *	@param $id
+     *  @param $id
      *
-     *	@return Response
+     *  @return Response
      *
-     *	@todo remove route and method
+     *  @todo remove route and method
      */
     public function postIndex($id = null)
     {
@@ -369,11 +369,11 @@ class UserController extends Controller
     }
 
     /**
-     * 	postVerifyEmail.
+     *  postVerifyEmail.
      *
-     *	Handles POST requests for email verifications
+     *  Handles POST requests for email verifications
      *
-     *	@param string $token
+     *  @param string $token
      */
     public function postVerifyEmail()
     {

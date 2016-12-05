@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 	Document date model.
+ *  Document date model.
  */
 class Date extends Model
 {

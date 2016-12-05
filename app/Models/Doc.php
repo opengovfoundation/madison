@@ -489,13 +489,13 @@ class Doc extends Model
         $rawDocs = \DB::select(
             \DB::raw(
                 "SELECT docs.* FROM
-					(SELECT doc_id
-					   FROM doc_group, group_members
-					  WHERE doc_group.group_id = group_members.group_id
-					    AND group_members.user_id = ?
-				    ) DocUnion, docs
-				  WHERE docs.id = DocUnion.doc_id
-			   GROUP BY docs.id"
+                    (SELECT doc_id
+                       FROM doc_group, group_members
+                      WHERE doc_group.group_id = group_members.group_id
+                        AND group_members.user_id = ?
+                    ) DocUnion, docs
+                  WHERE docs.id = DocUnion.doc_id
+               GROUP BY docs.id"
             ),
             [$userId]
         );

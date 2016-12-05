@@ -2,10 +2,10 @@ Madison is a government policy co-creation platform that opens up laws and
 legislation previously off-limits to individuals and the Internet community.
 Launched to battle the Stop Online Piracy Act (SOPA), it has since been used to
 power citizen participation in government policymaking in the United States
-Congress. With Madison, you can access the law as it’s being written, leave
+Congress. With Madison, you can access the law as it's being written, leave
 comments, annotate specific content, and interact with other civic-minded
 participants. Madison brings the lawmaking process straight to you, and gives
-you a say in your government’s decisions.
+you a say in your government's decisions.
 
 <iframe id="tutorial" width="560" height="315" src="https://www.youtube.com/embed/qfhBO6u-xJY" frameborder="0" allowfullscreen=""></iframe>
 
@@ -18,20 +18,20 @@ you a say in your government’s decisions.
 1. Stay connected by signing up for email updates.
 
 When you support or oppose a document, enter a comment, or annotate a specific
-section of a work in progress, the document’s sponsor receives an electronic
+section of a work in progress, the document's sponsor receives an electronic
 notification. Your interaction with legislation on Madison will provide sponsors
 with valuable feedback on how their constituents feel about proposed
 legislation, and they may even choose to incorporate suggested edits straight
 into their documents.
 
-**What’s next?**
+**What's next?**
 
 Engage with the community. Madison allows you to interact not only with specific
 pieces of legislation, but with other civic-minded citizens. See what other
 people are saying and share your thoughts. Explore documents from other sponsors
-or legislative bodies. And suggest changes or features you’d like to see on
+or legislative bodies. And suggest changes or features you'd like to see on
 Madison by giving us feedback in the tab at the left-hand side of the page, or
-by sending us an email. We’d love to hear from you.
+by sending us an email. We'd love to hear from you.
 
 **Coming Soon**
 

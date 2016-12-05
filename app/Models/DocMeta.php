@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * 	Document meta model.
+ *  Document meta model.
  */
 class DocMeta extends Model
 {

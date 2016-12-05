@@ -190,10 +190,10 @@ class StringDiff
     /**
      * given an array of form
      * array (
-     * 	key1 => array(),
-     * 	key2 => array();
+     *  key1 => array(),
+     *  key2 => array();
      *  ...
-     *  )
+     * )
      *  this returns the longest value.
      *
      * @param array $commonarrays
@@ -212,7 +212,7 @@ class StringDiff
                 $longestIdx = $key;
             }
         }
-        //		print_r($longest_common_substring);
+        //      print_r($longest_common_substring);
         return $commonarrays[$longestIdx];
     }
     /**
@@ -252,12 +252,12 @@ class StringDiff
      * to all positions in array b where the same character
      * occurs
      * e.g.
-     * 	$a = 'abc',
+     *  $a = 'abc',
      *  $b = 'xyaac',
      *  $idmap = array(
-     *  	'a' => array(2,3),
-     *  	'b' => array()
-     *  	'c' => array(4)
+     *      'a' => array(2,3),
+     *      'b' => array()
+     *      'c' => array(4)
      *  ).
      *
      * @param array $achars
@@ -283,14 +283,14 @@ class StringDiff
     /**
      * inverts an array, which means here: returns an index list for each item in the array
      * e.g.
-     * 	$a = array (
-     * 		0 => 'a',
-     * 		1 => 'b',
-     * 		2 => 'a'
+     *  $a = array (
+     *      0 => 'a',
+     *      1 => 'b',
+     *      2 => 'a'
      * )
      *  $ainverted = array (
-     *		'a' => array(0,2),
-     *		'b' => array(1),
+     *      'a' => array(0,2),
+     *      'b' => array(1),
      *  ).
      *
      * @param array $a

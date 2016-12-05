@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-US">
-	<head>
-		<meta charset="utf-8" />
-	</head>
-	<body>
+    <head>
+        <meta charset="utf-8" />
+    </head>
+    <body>
 
-		<p>A new user - {{ $user['fname'] }} {{ $user['lname'] }} ({{ $user['email'] }}) - has signed up!</p>
+        <p>A new user - {{ $user['fname'] }} {{ $user['lname'] }} ({{ $user['email'] }}) - has signed up!</p>
 
-		<p>&ndash; The OpenGov Foundation Team</p>
-	</body>
+        <p>&ndash; The OpenGov Foundation Team</p>
+    </body>
 </html>

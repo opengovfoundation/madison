@@ -7,7 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * 	Organization Model.
+ *  Organization Model.
  */
 class Organization extends Model
 {

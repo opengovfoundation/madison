@@ -32,7 +32,7 @@ use Illuminate\Http\Request;
 use URL;
 
 /**
- * 	Controller for Document actions.
+ * Controller for Document actions.
  */
 class DocumentController extends Controller
 {
@@ -75,7 +75,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * 	Post route for creating / updating documents.
+     * Post route for creating / updating documents.
      */
     public function postDocs()
     {
@@ -680,9 +680,9 @@ class DocumentController extends Controller
     }
 
     /**
-     *	Method to handle document RSS feeds.
+     *  Method to handle document RSS feeds.
      *
-     *	@param string $slug
+     *  @param string $slug
      *
      * @return view $feed->render()
      */
@@ -742,7 +742,7 @@ class DocumentController extends Controller
     }
 
     /**
-     *	Method to handle posting support/oppose clicks on a document.
+     *  Method to handle posting support/oppose clicks on a document.
      *
      * @param int $doc
      *

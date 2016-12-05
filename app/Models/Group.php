@@ -3,7 +3,7 @@
 namespace App\Models;
 
 /**
- *	Group Model.
+ *  Group Model.
  */
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Validator;
@@ -46,7 +46,7 @@ class Group extends Model
     const ROLE_STAFF = 'staff';
 
     /**
-     *	Validation Rules.
+     *  Validation Rules.
      */
     public static $rules = array(
         'name' => 'required',
@@ -69,10 +69,10 @@ class Group extends Model
     );
 
     /**
-     *	Constructor.
+     *  Constructor.
      *
-     *	@param array $attributes
-     *	Extends Eloquent constructor
+     *  @param array $attributes
+     *  Extends Eloquent constructor
      */
     public function __construct($attributes = array())
     {
@@ -81,16 +81,16 @@ class Group extends Model
     }
 
     /**
-     *	Save.
+     *  Save.
      *
-     *	Override Eloquent save() method
-     *		Runs $this->beforeSave()
-     *		Unsets:
-     *			* $this->validationErrors
-     *			* $this->rules
+     *  Override Eloquent save() method
+     *      Runs $this->beforeSave()
+     *      Unsets:
+     *          * $this->validationErrors
+     *          * $this->rules
      *
-     *	@param array $options
-     *	$return bool
+     *  @param array $options
+     *  $return bool
      */
     public function save(array $options = array())
     {
@@ -105,13 +105,13 @@ class Group extends Model
     }
 
     /**
-     *	getErrors.
+     *  getErrors.
      *
-     *	Returns errors from validation
+     *  Returns errors from validation
      *
-     *	@param void
+     *  @param void
      *
-     *	@return MessageBag $this->validationErrors
+     *  @return MessageBag $this->validationErrors
      */
     public function getErrors()
     {
@@ -119,13 +119,13 @@ class Group extends Model
     }
 
     /**
-     *	beforeSave.
+     *  beforeSave.
      *
-     *	Validates before saving.  Returns whether the Group can be saved.
+     *  Validates before saving.  Returns whether the Group can be saved.
      *
-     *	@param array $options
+     *  @param array $options
      *
-     *	@return bool
+     *  @return bool
      */
     private function beforeSave(array $options = array())
     {
@@ -141,13 +141,13 @@ class Group extends Model
     }
 
     /**
-     *	Validate.
+     *  Validate.
      *
-     *	Validate input against merged rules
+     *  Validate input against merged rules
      *
-     *	@param array $attributes
+     *  @param array $attributes
      *
-     *	@return bool
+     *  @return bool
      */
     public function validate()
     {
@@ -201,7 +201,7 @@ class Group extends Model
     }
 
     /**
-     *	@todo is this used?  Used to be used in $this->userHasRole, but the logic there has been changed.
+     *  @todo is this used?  Used to be used in $this->userHasRole, but the logic there has been changed.
      */
     public function getRoleId($role)
     {

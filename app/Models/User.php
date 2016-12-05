@@ -3,7 +3,7 @@
 namespace App\Models;
 
 /**
- * 	User Model.
+ * User Model.
  */
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -42,7 +42,7 @@ class User extends Authenticatable
     const STATUS_DENIED = 'denied';
 
     /**
-     *	Validation rules.
+     * Validation rules.
      */
     protected static $rules = [
         'save' => [
@@ -66,7 +66,7 @@ class User extends Authenticatable
     protected $verify = false;
 
     /**
-     *	Custom error messages for certain validation requirements.
+     *  Custom error messages for certain validation requirements.
      */
     protected static $customMessages = array(
         'fname.required' => 'The first name field is required.',
@@ -75,10 +75,10 @@ class User extends Authenticatable
     );
 
     /**
-     *	Constructor.
+     *  Constructor.
      *
-     *	@param array $attributes
-     *	Extends Eloquent constructor
+     *  @param array $attributes
+     *  Extends Eloquent constructor
      */
     public function __construct($attributes = array())
     {
@@ -87,10 +87,10 @@ class User extends Authenticatable
     }
 
     /**
-     *	Save.
+     *  Save.
      *
-     *	Override Eloquent save() method
-     *		Runs $this->beforeSave()
+     *  Override Eloquent save() method
+     *      Runs $this->beforeSave()
      *
      * @param array $options
      *
@@ -106,11 +106,11 @@ class User extends Authenticatable
     }
 
     /**
-     *	getErrors.
+     *  getErrors.
      *
-     *	Returns errors from validation
+     *  Returns errors from validation
      *
-     *	@param void
+     *  @param void
      *
      * @return MessageBag $this->validationErrors
      */
@@ -120,13 +120,13 @@ class User extends Authenticatable
     }
 
     /**
-     *	verified.
+     *  verified.
      *
-     *	Returns the value of the UserMeta for this user with key 'verify'
-     *		The value of this is either 'verified' or 'pending'
-     *		If the user hasn't requested verified status, this will return null
+     *  Returns the value of the UserMeta for this user with key 'verify'
+     *      The value of this is either 'verified' or 'pending'
+     *      If the user hasn't requested verified status, this will return null
      *
-     *	@param void
+     *  @param void
      *
      * @return string||null
      */
@@ -142,11 +142,11 @@ class User extends Authenticatable
     }
 
     /**
-     *	getDisplayName.
+     *  getDisplayName.
      *
-     *	Returns the user's display name
+     *  Returns the user's display name
      *
-     *	@param void
+     *  @param void
      *
      * @return string
      */
@@ -185,14 +185,14 @@ class User extends Authenticatable
     }
 
     /**
-     *	activeGroup.
+     *  activeGroup.
      *
-     *	Returns current active group for this user
-     *		Grabs the active group id from Session
+     *  Returns current active group for this user
+     *      Grabs the active group id from Session
      *
-     *	@param void
+     *  @param void
      *
-     *	@return null || Group
+     *  @return null || Group
      */
     public function activeGroup()
     {
@@ -206,12 +206,12 @@ class User extends Authenticatable
     }
 
     /**
-     *	setPasswordAttribute.
+     *  setPasswordAttribute.
      *
-     *	Mutator method for the password attribute
-     *		Hashes the password and sets the attribute
+     *  Mutator method for the password attribute
+     *      Hashes the password and sets the attribute
      *
-     *	@param string $password
+     *  @param string $password
      */
     public function setPasswordAttribute($password)
     {
@@ -219,13 +219,13 @@ class User extends Authenticatable
     }
 
     /**
-     *	groups.
+     *  groups.
      *
-     *	Eloquent belongsToMany relationship for Group
+     *  Eloquent belongsToMany relationship for Group
      *
-     *	@param void
+     *  @param void
      *
-     *	@return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *  @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function groups()
     {
@@ -256,13 +256,13 @@ class User extends Authenticatable
     }
 
     /**
-     *	annotations.
+     *  annotations.
      *
-     *	Eloquent hasMany relationship for Annotation
+     *  Eloquent hasMany relationship for Annotation
      *
-     *	@param void
+     *  @param void
      *
-     *	@return Illuminate\Database\Eloquent\Relations\HasMany
+     *  @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function annotations()
     {
@@ -270,14 +270,14 @@ class User extends Authenticatable
     }
 
     /**
-     *	getAuthIdentifier.
+     *  getAuthIdentifier.
      *
-     *	Determines value used by Laravel's Auth class to identify users
-     *		Uses the user id
+     *  Determines value used by Laravel's Auth class to identify users
+     *      Uses the user id
      *
-     *	@param void
+     *  @param void
      *
-     *	@return int $this->id
+     *  @return int $this->id
      */
     public function getAuthIdentifier()
     {
@@ -285,14 +285,14 @@ class User extends Authenticatable
     }
 
     /**
-     *	getAuthPassword.
+     *  getAuthPassword.
      *
-     *	Determines value used by Laravel's Auth class to authenticate users
-     *		Uses the user password
+     *  Determines value used by Laravel's Auth class to authenticate users
+     *      Uses the user password
      *
-     *	@param void
+     *  @param void
      *
-     *	@return string $this->password
+     *  @return string $this->password
      */
     public function getAuthPassword()
     {
@@ -300,14 +300,14 @@ class User extends Authenticatable
     }
 
     /**
-     *	getReminderEmail.
+     *  getReminderEmail.
      *
-     *	Determines value to use for reminder emails
-     *		Uses the user email
+     *  Determines value to use for reminder emails
+     *      Uses the user email
      *
-     *	@param void
+     *  @param void
      *
-     *	@return string $this->email
+     *  @return string $this->email
      */
     public function getReminderEmail()
     {
@@ -315,13 +315,13 @@ class User extends Authenticatable
     }
 
     /**
-     *	user_meta.
+     *  user_meta.
      *
-     *	Eloquent hasMany relationship for UserMeta
+     *  Eloquent hasMany relationship for UserMeta
      *
-     *	@param void
+     *  @param void
      *
-     *	@return Illuminate\Database\Eloquent\Relations\HasMany
+     *  @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function user_meta()
     {
@@ -329,15 +329,15 @@ class User extends Authenticatable
     }
 
     /**
-     *	admin_contact.
+     *  admin_contact.
      *
-     *	Sets the user as an admin contact for the site
+     *  Sets the user as an admin contact for the site
      *
-     *	@param unknownType $setting
+     *  @param unknownType $setting
      *
-     *	@return bool||void
+     *  @return bool||void
      *
-     *	@todo References to this should be removed.  We're allowing all admins to determine notification subscriptions
+     *  @todo References to this should be removed.  We're allowing all admins to determine notification subscriptions
      */
     public function admin_contact($setting = null)
     {
@@ -374,13 +374,13 @@ class User extends Authenticatable
     }
 
     /**
-     *	doc_meta.
+     *  doc_meta.
      *
-     *	Eloquent hasMany relationship for DocMeta
+     *  Eloquent hasMany relationship for DocMeta
      *
-     *	@param void
+     *  @param void
      *
-     *	@return Illuminate\Database\Eloquent\Relations\HasMany
+     *  @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function doc_meta()
     {
@@ -388,9 +388,9 @@ class User extends Authenticatable
     }
 
     /**
-     *	getValidSponsors.
+     *  getValidSponsors.
      *
-     *	@todo I'm not sure what exactly this does at first glance
+     *  @todo I'm not sure what exactly this does at first glance
      */
     public function getValidSponsors()
     {
@@ -408,13 +408,13 @@ class User extends Authenticatable
     }
 
     /**
-     *	findByRoleName.
+     *  findByRoleName.
      *
-     *	Returns all users with a given role
+     *  Returns all users with a given role
      *
-     *	@param string $role
+     *  @param string $role
      *
-     *	@return Illuminate\Database\Eloquent\Collection
+     *  @return Illuminate\Database\Eloquent\Collection
      */
     public static function findByRoleName($role)
     {
@@ -453,11 +453,11 @@ class User extends Authenticatable
     }
 
     /**
-     *	beforeSave.
+     *  beforeSave.
      *
-     *	Validates before saving.  Returns whether the User can be saved.
+     *  Validates before saving.  Returns whether the User can be saved.
      *
-     *	@param array $options
+     *  @param array $options
      *
      * @return bool
      */
@@ -475,9 +475,9 @@ class User extends Authenticatable
     }
 
     /**
-     *	mergeRules.
+     *  mergeRules.
      *
-     *	Merge the rules arrays to form one set of rules
+     *  Merge the rules arrays to form one set of rules
      *
      * @param void
      *
@@ -515,11 +515,11 @@ class User extends Authenticatable
     }
 
     /**
-     *	Validate.
+     *  Validate.
      *
-     *	Validate input against merged rules
+     *  Validate input against merged rules
      *
-     *	@param array $attributes
+     *  @param array $attributes
      *
      * @return bool
      */

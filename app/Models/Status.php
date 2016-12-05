@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 	Document meta model.
+ *  Document meta model.
  */
 class Status extends Model
 {
