@@ -5,15 +5,12 @@ namespace App\Models;
 /**
  * 	User Model.
  */
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Session;
 use Hash;
 use Log;
@@ -28,16 +25,15 @@ use DB;
 
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends Authenticatable
 {
+    use Notifiable;
+    use EntrustUserTrait;
     use SoftDeletes;
 
-    use Authenticatable, CanResetPassword;
     protected $dates = ['deleted_at'];
 
-    use EntrustUserTrait;
-
-    protected $hidden = ['password', 'token', 'last_login', 'deleted_at', 'roles'];
+    protected $hidden = ['password', 'token', 'last_login', 'deleted_at', 'roles', 'remember_token'];
     protected $fillable = ['fname', 'lname', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone', 'url'];
     protected $appends = ['display_name', 'independent_sponsor'];
 

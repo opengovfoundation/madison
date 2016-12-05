@@ -37,13 +37,13 @@ Guidelines](#contributing). Pull requests welcome!
 
 ## Installation
 
-Madison is build on top of [Laravel v.5.1](http://laravel.com/docs/5.1) and uses
+Madison is build on top of [Laravel v.5.3](http://laravel.com/docs/5.3) and uses
 many of configuration tools that Laravel provides ( specifically its [`.env`
-files](https://laravel.com/docs/5.1#environment-configuration) )
+files](https://laravel.com/docs/5.3#environment-configuration) )
 
 ### .env file
 
-Regardless of your configuration method, you'll need to setup a `server/.env`
+Regardless of your configuration method, you'll need to setup a `.env`
 file for the application in the document root directory.  We have included a
 sample file, `.env.example`.  You can find more details about [configuring
 Laravel in the Laravel
@@ -69,7 +69,7 @@ are the values you will need to set:
 
 #### Storage settings
 
-* `DB_DRIVE`: The database engine to use, probably `MySQL` or `Postgres`.
+* `DB_CONNECTION`: The database engine to use, probably `MySQL` or `Postgres`.
   You can use `SQLite` but we don't recommend it or support it.
 * `DB_HOST`: The hostname of your database.
 * `DB_DATABASE`: The database name.
@@ -176,47 +176,24 @@ which overrides variables and styles.
 
 ## Architecture and Development Notes
 
-### Single Page Application Architecture
-
-Madison uses a [Single Page Application](https://en.wikipedia.org/wiki/Single-page_application)
-architecture
-
-* The API side is served from the Laravel application in the `server` folder.
-* The client is entirely served from the code in the `client` folder.
+Madison is a fairly standard Laravel application.
 
 ## Localization
 
+TODO: update for new gettext setup
+
 Madison has internationalization support, and but currently only has
-localization for US English.  To create a new localization, you just need to
+localization for US English. To create a new localization, you just need to
 create a new language file in `public/locales` that matches the name of your
 language, and then add suitable translations for all the phrases in the English
 file.
-
-Madison uses the Angular-Translate plugin for frontend translation.  As a result, there are a few oddities:
-
-* In most cases, we're using [the `translate`
-  directive](http://angular-translate.github.io/docs/#/guide/05_using-translate-directive),
-  which results in the content being hidden until it's translated. This also
-  means that html is rendered properly, so it may be used safely in your
-  translations.  The major exception to this is for any html-attribute text
-  that's translated, such as `placeholder` attributes; in these cases, we're
-  using [the `translate`
-  filter](http://angular-translate.github.io/docs/#/guide/04_using-translate-filter)
-  instead.
-
-* In a few places, we need to deal with fancy pluralization/language rules, so
-  we're using [the MessageFormat
-  syntax](http://angular-translate.github.io/docs/#/guide/14_pluralization) in
-  those cases.  In most places, we're using standard interpolation.  This is a
-  bit inconsistent, unfortunately - be careful when creating new locales.
-
-* There are a few outstanding localization issues on the server-side, all
-  covered here: https://github.com/opengovfoundation/madison/issues/513
 
 We encourage you to create new locale files and submit them back to the project!
 We hope to support many languages in the future.
 
 ### Annotations
+
+TODO: update
 
 * Madison uses [AnnotatorJS](http://annotatorjs.org/) as its Annotation engine.
   This library is only loaded on document pages.
@@ -232,45 +209,6 @@ We hope to support many languages in the future.
   when it is instantiated and allows communication between the Angular
   application and Annotator.
 
-### Authentication / Authorization
-
-* `client/app/js/services/authService` handles all authentication /
-  authorization for the front-end.
-  * This service keeps the user updated via its `getUser` method which pulls
-    the current user session from Laravel.
-* All page-level authorizations are handled in `client/app/js/routes.js` in the
-  `authorizedRoles` data attribute.  These are set when the user logs in.
-* All user session data is stored and shared across the app via the
-  `client/app/js/services/sessionService`.
-* All app constants ( events and user roles ) can be found in `client/app/js/constants.js`
-
-### Templates
-*All templates are in the `client/app/templates` directory.*
-**Disclaimer: We're still working on getting these organized.**
-
-* `templates/directives`: This directory is for anything being loaded via `templateUrl` in a directive.
-* `templates/partials`: This directory is for anything that is included as ng-include as a partial for a view
-* `templates/pages`: This directory is for page views being loaded in `routes.js`
-
-
-### Helpers
-
-We've created a couple helper components devs should be aware of
-
-* Server Side Notifications
-  * The front-end is set up to automatically present notifications handled by
-    the controller helper method `growlMessage($messages, $severity, $params)`
-    which can be found in the `app/controllers/BaseController` class.
-    * `$messages` is an array of message texts
-    * `$severity` is the severity of the messages to pass (`error`, `success`, `info`)
-    * `$params` is an array of any extra data needed to pass in the JSON response.
-* Front-end helpers
-  * `modalService` can be used any time a modal needs to be displayed
-  * `prompts` module can be used to add prompt bars at the top of the main content
-    * eg. `prompts.info(<html-content>)`
-  * `loginPopupService` can be used to display the login modal
-
-
 ## Contributing
 
 Please include a descriptive message ( and if possible an issue link ) with each pull request.  We will try to merge PRs as quickly as possible.
@@ -285,6 +223,8 @@ Please include a descriptive message ( and if possible an issue link ) with each
   committing code.
 
 ### Development Configuration
+
+TODO: update for new setup
 
 #### Vagrant
 We supply a `Vagrantfile` which should get a working development environment
@@ -333,14 +273,11 @@ built by running `make build-client`.
   assets.
 * You must have [composer](https://getcomposer.org/) and
   [npm](https://www.npmjs.com/) installed to install client and server
-  dependensies.
-* All client tasks are found in the `client/tasks` directory.
+  dependencies.
 * To build the application, run `make`. This will run `make deps` and `make
   build-client`. What happens is:
-  * Server: composer dependencies are installed
-  * Server: composer dumps the autoload
-  * Client: npm dependencies are installed
-  * Client: assets are built into the `client/app/build` folder
+  * Composer dependencies are installed
+  * Composer dumps the autoload
 
 ### Roadmap
 
@@ -349,6 +286,9 @@ Milestones](https://github.com/opengovfoundation/madison/milestones).  Please
 see milestone descriptions / issues for an up-to-date roadmap.
 
 ## Changelog
+* `4.0`
+  * Remove Angular client code
+  * Upgrade to Laravel 5.3
 * `3.0`
   * Client and server code has been separated into `client` and `server` folders
   * Built assets are now removed from repo, build happens on deploy
