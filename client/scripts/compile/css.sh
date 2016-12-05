@@ -1,1 +1,1 @@
-../vendor/gems/bin/bundle exec compass compile --force
+bundle exec compass compile --force

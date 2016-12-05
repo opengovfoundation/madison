@@ -58,6 +58,8 @@ Vagrant.configure("2") do |config|
 
     # Dev tools
     apt-get install -y composer nodejs-legacy npm ruby php-xml
+    chmod -R 777 /var/lib/gems
+    chmod -R 777 /usr/local/bin
 
     cd /vagrant
     make

@@ -6,13 +6,11 @@ deps: deps-server optimize autoload deps-client gems
 
 deps-production: deps-server optimize autoload deps-client gems-production
 
-GEM_PATH_TWEAK:=GEM_PATH=$$GEM_PATH:$(shell pwd)/vendor/gems
-
 gems:
-	gem install bundler --no-rdoc --no-ri --install-dir vendor/gems && $(GEM_PATH_TWEAK) vendor/gems/bin/bundle install --path vendor/bundle
+	gem install bundler --no-rdoc --no-ri && bundle install --path vendor/bundle
 
 gems-production:
-	$(GEM_PATH_TWEAK) vendor/gems/bin/bundle install --without deployment --path vendor/bundle
+	bundle install --without deployment --path vendor/bundle
 
 deps-server:
 	cd server && composer install
@@ -37,7 +35,7 @@ optimize:
 	cd server && php artisan optimize
 
 build-client:
-	export $(GEM_PATH_TWEAK) && cd client && npm run build
+	cd client && npm run build
 
 test: test-server test-client
 
@@ -55,7 +53,7 @@ clean:
 	cd server && php artisan cache:clear
 
 distclean:
-	rm -rf client/.sass-cache client/node_modules server/vendor/* client/build/*
+	rm -rf vendor client/.sass-cache client/node_modules server/vendor/* client/build/*
 
 db-reset:
 	cd server && php artisan db:rebuild && php artisan migrate && php artisan db:seed
@@ -98,22 +96,22 @@ check-server-variable:
 	@if [ -z "$(server)" ]; then echo "Must provide a 'server' in user@hostname format." && exit 1; fi
 
 berks:
-	export $(GEM_PATH_TWEAK) && berks install && berks vendor config/chef/cookbooks
+	berks install && berks vendor config/chef/cookbooks
 
 chef-prepare: check-server-variable
-	export $(GEM_PATH_TWEAK) && knife solo prepare $(server) -r "recipe[madison-server::default]" -c .chef/knife.rb
+	knife solo prepare $(server) -r "recipe[madison-server::default]" -c .chef/knife.rb
 
 CONFIG := $(shell echo $(server) | sed -e 's/.*@//')
 
 chef-cook: check-server-variable
-	export $(GEM_PATH_TWEAK) && knife solo cook $(server) -c .chef/knife.rb
+	knife solo cook $(server) -c .chef/knife.rb
 
 chef-vault-refresh:
 	@for i in $$(knife data bag list); do \
 		for j in $$(knife data bag show $$i|grep _keys$$|sed s/_keys$$//); do \
-			export $(GEM_PATH_TWEAK) && knife vault refresh $$i $$j& \
+			knife vault refresh $$i $$j& \
 		done \
 	done
 
 deploy-targets:
-	@export $(GEM_PATH_TWEAK) && ruby bin/rb/generate_cap_targets.rb
+	@ruby bin/rb/generate_cap_targets.rb
