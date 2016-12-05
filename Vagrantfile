@@ -58,11 +58,17 @@ Vagrant.configure("2") do |config|
 
     # Dev tools
     apt-get install -y composer nodejs-legacy npm ruby ruby-dev php-xml
+
+    # Allows us to install some gems globally
     chmod -R 777 /var/lib/gems
     chmod -R 777 /usr/local/bin
 
     cd /vagrant
     make
+
+    # Reset permissions
+    chmod -R 755 /var/lib/gems
+    chmod -R 755 /usr/local/bin
 
     # install nginx config
     cp -f docs/nginx.conf.example /etc/nginx/sites-available/madison
