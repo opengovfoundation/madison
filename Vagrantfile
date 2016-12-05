@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
     apt-get install -y nginx make mariadb-server php php-curl php-fpm php-mbstring php-mcrypt php-mysql
 
     # Dev tools
-    apt-get install -y composer nodejs-legacy npm ruby php-xml
+    apt-get install -y composer nodejs-legacy npm ruby ruby-dev php-xml
     chmod -R 777 /var/lib/gems
     chmod -R 777 /usr/local/bin
 
