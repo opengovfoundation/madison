@@ -286,6 +286,39 @@ Please include a descriptive message ( and if possible an issue link ) with each
 
 ### Development Configuration
 
+#### Vagrant
+We supply a `Vagrantfile` which should get a working development environment
+running without much fuss.
+
+For the Vagrant setup to work, you `.env` settings need to be:
+
+```
+DB_HOST=localhost
+DB_DATABASE=madison
+DB_USERNAME=root
+DB_PASSWORD=''
+COOKIE_DOMAIN=''
+```
+
+Once those are set
+up [install Vagrant](https://www.vagrantup.com/docs/installation/)
+and [VirtualBox](https://www.virtualbox.org/) then run `vagrant up` and wait a
+bit.
+
+When it is done you should be able to open `localhost:8080` in your browser and
+see Madison. `localhost:8080` serves the "production" build of the client
+(`client/build`), which means anytime you make a change to the client side code
+you need to run `make build-client` in order to see the changes.
+`localhost:8081` is also available, serving the "development" build
+(`client/app`) which does not require a full rebuild for code changes to take
+effect.
+
+You can run build commands in the VM (connect with `vagrant ssh` and move to the
+shared folder with `cd /vagrant`) since workable versions of the development
+tools are installed in there. You can also install the development tools locally
+and build there since the directory is shared.
+
+#### Locally
 The [example apache config](docs/apache.conf.example) points the document root
 and client folder to `client/app`. This will serve up the development version of
 the application.
