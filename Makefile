@@ -7,7 +7,7 @@ deps: deps-server optimize autoload deps-client gems
 deps-production: deps-server optimize autoload deps-client gems-production
 
 gems:
-	gem install bundler --no-rdoc --no-ri && bundle install
+	gem install bundler --no-rdoc --no-ri && bundle install --path vendor/bundle
 
 gems-production:
 	bundle install --without deployment --path vendor/bundle
@@ -15,7 +15,7 @@ gems-production:
 deps-server:
 	cd server && composer install
 
-NODE_VERSION=$(shell node --version | grep -e '^v4\.')
+NODE_VERSION=$(shell if command -v node 2>/dev/null; then node --version; else nodejs --version; fi | grep -e '^v4\.')
 
 check-node:
 ifeq ($(NODE_VERSION),)
@@ -53,7 +53,7 @@ clean:
 	cd server && php artisan cache:clear
 
 distclean:
-	rm -rf client/.sass-cache client/node_modules server/vendor/* client/build/*
+	rm -rf vendor client/.sass-cache client/node_modules server/vendor/* client/build/*
 
 db-reset:
 	cd server && php artisan db:rebuild && php artisan migrate && php artisan db:seed
