@@ -23,10 +23,10 @@ consideration.
 **For Citizens:**
 This is your chance to tell policymakers how you really feel. Comment, ask
 questions, or suggest changes directly on legislation before it becomes law.
-These are your laws; it’s time for you to have your say.
+These are your laws; it's time for you to have your say.
 
 **For Authors:**
-There’s never been an easier way to get substantive feedback from both
+There's never been an easier way to get substantive feedback from both
 colleagues and citizens. Offer and receive input in real time from fellow
 policymakers, issue experts, and the citizens you represent. With Madison, your
 job has never been easier.
