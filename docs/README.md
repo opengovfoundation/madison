@@ -224,20 +224,19 @@ Please include a descriptive message ( and if possible an issue link ) with each
 
 ### Development Configuration
 
-TODO: update for new setup
-
 #### Vagrant
 We supply a `Vagrantfile` which should get a working development environment
-running without much fuss.
+running without much fuss. This is created via [Homestead](https://laravel.com/docs/5.3/homestead).
 
-For the Vagrant setup to work, you `.env` settings need to be:
+For the Vagrant setup to work, your `.env` settings need to be:
 
 ```
-DB_HOST=localhost
-DB_DATABASE=madison
-DB_USERNAME=root
-DB_PASSWORD=''
-COOKIE_DOMAIN=''
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=homestead
+DB_USERNAME=homestead
+DB_PASSWORD=secret
 ```
 
 Once those are set
@@ -245,13 +244,8 @@ up [install Vagrant](https://www.vagrantup.com/docs/installation/)
 and [VirtualBox](https://www.virtualbox.org/) then run `vagrant up` and wait a
 bit.
 
-When it is done you should be able to open `localhost:8080` in your browser and
-see Madison. `localhost:8080` serves the "production" build of the client
-(`client/build`), which means anytime you make a change to the client side code
-you need to run `make build-client` in order to see the changes.
-`localhost:8081` is also available, serving the "development" build
-(`client/app`) which does not require a full rebuild for code changes to take
-effect.
+When it is done you should be able to open `192.168.10.10` or `localhost:8000`
+in your browser and see Madison.
 
 You can run build commands in the VM (connect with `vagrant ssh` and move to the
 shared folder with `cd /vagrant`) since workable versions of the development
@@ -259,13 +253,8 @@ tools are installed in there. You can also install the development tools locally
 and build there since the directory is shared.
 
 #### Locally
-The [example apache config](docs/apache.conf.example) points the document root
-and client folder to `client/app`. This will serve up the development version of
-the application.
-
-To instead locally test the production built version of the client, change
-`client/app` to `client/build`. You will also need to make sure the client is
-built by running `make build-client`.
+Just running `./artisan serve` will get you going. You will need to setup a
+database corresponding to your settings in `.env` by hand though.
 
 ### Build Process
 
