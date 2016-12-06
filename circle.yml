@@ -51,7 +51,7 @@ dependencies:
 
 test:
   override:
-    - make test-server
+    - make test
 
   post:
     - cp /var/log/apache2/error.log $CIRCLE_ARTIFACTS/apache_error.log
