@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\CommentCreated;
+use App\Models\Annotation;
 use App\Notification\Notifier;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
