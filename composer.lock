@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fc462134017df1f1f2cf7a89b314e36c",
-    "content-hash": "05aa6e547ec29d25cebe8ffa385cfc4e",
+    "hash": "8a2ada5deb432f325957b794335a8eb7",
+    "content-hash": "81a847df3bc76255108ada0c1f937916",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -2946,16 +2946,16 @@
         },
         {
             "name": "laravel/homestead",
-            "version": "v4.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/homestead.git",
-                "reference": "b1699d5a199b71eaf6581b60f3b04e17c9def189"
+                "reference": "e476cbacf0013204c587c4194591e1b6a645a7a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/homestead/zipball/b1699d5a199b71eaf6581b60f3b04e17c9def189",
-                "reference": "b1699d5a199b71eaf6581b60f3b04e17c9def189",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/e476cbacf0013204c587c4194591e1b6a645a7a3",
+                "reference": "e476cbacf0013204c587c4194591e1b6a645a7a3",
                 "shasum": ""
             },
             "require": {
@@ -2988,7 +2988,7 @@
                 }
             ],
             "description": "A virtual machine for web artisans.",
-            "time": "2016-12-05 15:09:03"
+            "time": "2016-12-06 21:16:30"
         },
         {
             "name": "mockery/mockery",
@@ -4536,7 +4536,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "zizaco/entrust": 20
+        "zizaco/entrust": 20,
+        "laravel/homestead": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

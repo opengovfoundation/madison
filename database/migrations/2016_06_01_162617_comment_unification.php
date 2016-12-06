@@ -23,7 +23,7 @@ class CommentUnification extends Migration
             $table->morphs('annotation_type');
             $table->morphs('root_annotatable');
             $table->string('annotation_subtype', 10)->nullable();
-            $table->json('data');
+            $table->text('data');
         });
 
         Schema::create('annotation_types_comment', function (Blueprint $table) {
