@@ -77,6 +77,10 @@ Vagrant.configure("2") do |config|
     rm -f /etc/nginx/sites-enabled/default
     systemctl reload nginx
 
+    # Disable opcache so code changes take effect immediately
+    sed -ri "s|zend_|;zend_|" /etc/php/7.0/mods-available/opcache.ini
+    systemctl restart php7.0-fpm
+
     # Setup db
     # Allow root database user access without sudo, this is not a production configuration
     mysql -u root -e "UPDATE mysql.user SET plugin = 'mysql_native_password' WHERE user = 'root' AND plugin = 'unix_socket'"
