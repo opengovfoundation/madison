@@ -42,12 +42,11 @@ dependencies:
     # Fix connection to MySQL
     - echo "pdo_mysql.default_socket=/var/run/mysqld/mysqld.sock" > /opt/circleci/php/$(phpenv global)/etc/conf.d/mysql.ini
     # Create blank log file and let Apache write to it
-    - touch ./server/storage/logs/laravel.log
-    - sudo chgrp -R www-data ./server/storage
+    - touch ./storage/logs/laravel.log
+    - sudo chgrp -R www-data ./storage
 
   cache_directories:
-    - "client/node_modules"
-    - "server/vendor"
+    - "vendor"
 
 
 test:
@@ -57,7 +56,7 @@ test:
   post:
     - cp /var/log/apache2/error.log $CIRCLE_ARTIFACTS/apache_error.log
     - cp /var/log/apache2/other_vhosts_access.log $CIRCLE_ARTIFACTS/apache_traffic.log
-    - cp ./server/storage/logs/laravel.log $CIRCLE_ARTIFACTS/laravel.log
+    - cp ./storage/logs/laravel.log $CIRCLE_ARTIFACTS/laravel.log
 
 
 notify:
