@@ -254,7 +254,9 @@ and build there since the directory is shared.
 
 #### Locally
 Just running `./artisan serve` will get you going. You will need to setup a
-database corresponding to your settings in `.env` by hand though.
+database corresponding to your settings in `.env` by hand though. You will also
+likely want to run `make watch` while developing to automatically rebuild the
+client whenever changes are made to the SASS or JS files.
 
 ### Build Process
 
@@ -264,9 +266,10 @@ database corresponding to your settings in `.env` by hand though.
   [npm](https://www.npmjs.com/) installed to install client and server
   dependencies.
 * To build the application, run `make`. This will run `make deps` and `make
-  build-client`. What happens is:
+  build`. What happens is:
   * Composer dependencies are installed
-  * Composer dumps the autoload
+  * npm install client dependencies
+  * Client files are built into `/public`
 
 ### Roadmap
 
