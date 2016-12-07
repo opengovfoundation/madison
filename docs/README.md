@@ -180,13 +180,14 @@ Madison is a fairly standard Laravel application.
 
 ## Localization
 
-TODO: update for new gettext setup
-
-Madison has internationalization support, and but currently only has
-localization for US English. To create a new localization, you just need to
-create a new language file in `public/locales` that matches the name of your
-language, and then add suitable translations for all the phrases in the English
-file.
+* Add the locale you want to add support for in the the `supported-locales` key
+  in `config/laravel-gettext.php`.
+* Generate a blank `.po` file for the new locale with `make gettext-prep`
+* Open the new locale file
+  `resources/lang/i18n/<locale>/LC_MESSAGES/messages.po` in Poedit
+* Click the "Update" button in Poedit to scan for all the translations needed,
+  then get to translating
+* Save the file in Poedit and open a pull request to get it merged
 
 We encourage you to create new locale files and submit them back to the project!
 We hope to support many languages in the future.
