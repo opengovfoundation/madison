@@ -1,7 +1,5 @@
 const elixir = require('laravel-elixir');
 
-require('laravel-elixir-vue-2');
-
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -15,5 +13,14 @@ require('laravel-elixir-vue-2');
 
 elixir((mix) => {
     mix.sass('app.scss')
-       .webpack('app.js');
+       .webpack('app.js')
+       .combine(
+         [
+          'node_modules/jquery/dist/jquery.min.js',
+          'node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
+         ],
+         'public/js/vendor.js'
+       )
+       .version(['css/app.css', 'js/app.js', 'js/vendor.js'])
+  ;
 });

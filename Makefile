@@ -1,16 +1,19 @@
-.PHONY: all deps deps-php clean distclean db-reset db-migrate test test-php queue-listen
+.PHONY: all build build-prod deps deps-php clean distclean db-reset db-migrate test test-php queue-listen watch
 
-all: deps
+all: deps build
 
-deps: deps-php optimize autoload gems
+build:
+	./node_modules/.bin/gulp
 
-deps-production: deps-php optimize autoload gems-production
+build-prod:
+	./node_modules/.bin/gulp --production
 
-gems:
-	gem install bundler --no-rdoc --no-ri && bundle install --path vendor/bundle
+deps: deps-node deps-php
 
-gems-production:
-	bundle install --without deployment --path vendor/bundle
+deps-production: deps-node deps-php
+
+deps-node:
+	npm install
 
 deps-php:
 	composer install
@@ -18,23 +21,17 @@ deps-php:
 set-key:
 	php artisan key:generate
 
-autoload:
-	composer dump-autoload
-
-optimize:
-	php artisan optimize
-
 test: test-php
 
 test-php: db-test-setup
 	./vendor/bin/phpunit
 
 clean:
-	rm -rf .sass-cache
+	rm -rf public/build public/css public/js
 	php artisan cache:clear
 
 distclean:
-	rm -rf .sass-cache vendor/*
+	rm -rf node_modules vendor/*
 
 db-reset:
 	php artisan db:rebuild && php artisan migrate && php artisan db:seed
@@ -66,3 +63,6 @@ deploy-forge: distclean deps-production db-force-migrate
 
 queue-listen:
 	php artisan queue:listen
+
+watch:
+	./node_modules/.bin/gulp watch
