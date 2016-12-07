@@ -13,7 +13,8 @@
         "roumen/feed": "~2.10",
         "zizaco/entrust": "dev-laravel-5",
         "league/csv": "8.0.*",
-        "intervention/image": "2.3.*"
+        "intervention/image": "2.3.*",
+        "xinax/laravel-gettext": "4.x"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
