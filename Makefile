@@ -29,6 +29,7 @@ test-php: db-test-setup
 clean:
 	rm -rf public/build public/css public/js
 	php artisan cache:clear
+	php artisan view:clear
 
 distclean:
 	rm -rf node_modules vendor/*
