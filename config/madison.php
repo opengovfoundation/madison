@@ -5,7 +5,7 @@ return [
         'admin_email' => env('ADMIN_EMAIL', 'admin@example.com'),
         'admin_fname' => 'First',
         'admin_lname' => 'Last',
-        'admin_password' => env('ADMIN_PASSWORD', 'password'),
+        'admin_password' => env('ADMIN_PASSWORD', 'secret'),
 
         'user_email' => 'user@example.com',
         'user_fname' => 'John',
