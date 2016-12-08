@@ -1,0 +1,22 @@
+<h1 style="text-align: center">Login</h1>
+<div class="addict container">
+  <div class="addict modal">
+    <div class="addict modal__form">
+      <div class="addict modal__fields">
+        <div class="addict field">
+          <input type="text" id="txt-email" class="addict input" required />
+          <label for="txt-email" class="addict label">E-mail</label>
+        </div>
+        <div class="addict field">
+          <input type="password" id="txt-password" class="addict input" required />
+          <label for="txt-password" class="addict label">Password</label>
+        </div>
+        <div class="addict errors"></div>
+        <div class="addict modal__footer">
+          <button id="btn-login" class="addict btn">Login</button>
+        </div>
+        <a class="addict link" href="/recover_password">Forgot your password?</a>
+      </div>
+     </div>
+  </div>
+</div>

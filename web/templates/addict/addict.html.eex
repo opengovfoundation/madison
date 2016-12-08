@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>User Management</title>
+    <style type="text/css">
+      /* Base styles */
+      *, *:after, *:before {
+        box-sizing: border-box;
+      }
+      html {
+        font-size: 100%;
+        line-height: 1.5;
+        height: 100%;
+      }
+
+      body {
+        position: relative;
+        margin: 0;
+        font-family: 'Work Sans', Arial, Helvetica, sans-serif;
+        min-height: 100%;
+        background: linear-gradient(to bottom, #A0A0A0 0%, #DEDEDE 100%);
+        color: #777;
+      }
+      img {
+        vertical-align: middle;
+        max-width: 100%;
+      }
+
+      /* Container */
+      .addict.container {
+        position: absolute;
+        width: 24em;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        animation: intro .7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      }
+
+      /* Profile Card */
+      /* Based on http://codepen.io/andrejmlinarevic/full/NGGdVv/ */
+      .addict.modal {
+        position: relative;
+      }
+
+      .addict.modal__form {
+        visibility: visible;
+        height: auto;
+        opacity: 1;
+        transform: translateY(-6em);
+        padding-top: 12em;
+      }
+      .addict.modal__fields {
+        opacity: 1;
+      }
+      .addict.modal__avatar {
+        transform: translate(-50%, -1.5em);
+        border-radius: 50%;
+      }
+      .addict.modal__form {
+        position: relative;
+        background: white;
+        padding: 3em;
+        border-radius: .25em;
+        -webkit-filter: drop-shadow(0 0 2em rgba(0,0,0,0.2));
+        transition:
+          opacity .4s ease-in-out,
+          height .4s ease-in-out,
+          transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+          padding .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .addict.modal__footer {
+        padding-top: 1em;
+      }
+
+
+      /* Form */
+      .addict.field {
+        position: relative;
+        margin-bottom: 2em;
+      }
+      .addict.label {
+        position: absolute;
+        height: 1.7rem;
+        line-height: 2rem;
+        bottom: 0;
+        color: #999;
+        transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .addict.input {
+        width: 100%;
+        font-size: 100%;
+        border: 0;
+        padding: 0;
+        background-color: transparent;
+        height: 2rem;
+        line-height: 2rem;
+        border-bottom: 1px solid #eee;
+        color: #777;
+        transition: all .2s ease-in;
+      }
+      .addict.input:focus {
+        outline: 0;
+        border-color: #ccc;
+      }
+
+      /* Using required and a faux pattern to see if input has text from http://stackoverflow.com/questions/16952526/detect-if-an-input-has-text-in-it-using-css */
+      .addict.input:focus + .label,
+      .addict input:valid + .label {
+        transform: translateY(-100%);
+        font-size: 0.75rem;
+        color: #ccc;
+      }
+
+      /* Button */
+      .addict.btn {
+        cursor: pointer;
+        background-color: transparent;
+        border: 0;
+        font-size: 0.75rem;
+        height: 2.5rem;
+        line-height: 2.5rem;
+        padding: 0 1.5rem;
+        color: white;
+        background: #999;
+        text-transform: uppercase;
+        border-radius: .25rem;
+        letter-spacing: .2em;
+        transition: background .2s;
+      }
+      .addict.btn:focus {
+        outline: 0;
+      }
+      .addict.btn:hover,
+      .addict.btn:focus {
+        background: #000;
+      }
+
+      .addict a {
+        text-decoration: none;
+        color: #777;
+        font-size: 80%;
+      }
+
+      .addict a:hover {
+        color: #000;
+        transition: color .2s;
+      }
+
+      .addict.error-message {
+        margin-bottom: 0;
+        margin-top: 0;
+        color: #F00;
+        font-size: 80%;
+      }
+
+      /* Intro animation */
+      @keyframes intro {
+        from {
+          opacity: 0;
+          top: 0;
+        }
+        to {
+          opacity: 1;
+          top: 50%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <input type="hidden" id="csrf-token" value="<%= @csrf_token %>">
+
+      <main role="main">
+        <%= render @view_module, @view_template, assigns %>
+      </main>
+
+    </div> <!-- /container -->
+    <script type="text/javascript">
+
+      var btn_register = document.getElementById("btn-register");
+      var btn_logout = document.getElementById("btn-logout");
+      var btn_login = document.getElementById("btn-login");
+      var btn_reset = document.getElementById("btn-reset-password");
+      var btn_send = document.getElementById("btn-send-reset-password-link");
+
+      function navigateToRoot() {
+        window.location.href = "/";
+      }
+
+      function addErrors(errors) {
+        var el = document.getElementsByClassName('errors')[0];
+
+        function appendError(error_message, el) {
+          var el_error = document.createElement("p");
+          el_error.setAttribute("class", "addict error-message");
+          el_error.innerText = error_message;
+          el.appendChild(el_error);
+        }
+
+        if (errors) {
+          errors = errors.errors;
+          var i = errors.length - 1;
+          errors.forEach(function(error) {
+            appendError(error.message, el);
+          });
+        } else {
+          appendError("Something went wrong, please try again", el);
+        }
+      }
+
+      function clearErrors() {
+        var el = document.getElementsByClassName('errors')[0];
+        el.childNodes.length > 0 && Array.prototype.slice.call(el.childNodes).forEach(function(node){
+          el.removeChild(node);
+        });
+      }
+
+      function makeRequest(url, data, csrf_token, success_callback, failure_callback, method) {
+        clearErrors();
+        method = method || "POST";
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open(method, url);
+        xmlHttp.setRequestHeader("x-csrf-token", csrf_token);
+        xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xmlHttp.onreadystatechange = function() {
+          if (xmlHttp.readyState == 4) {
+            if (xmlHttp.status >= 200 && xmlHttp.status < 400) {
+              success_callback && success_callback();
+            } else if (xmlHttp.status >= 400 && xmlHttp.status < 500){
+              failure_callback && failure_callback(JSON.parse(xmlHttp.responseText));
+            } else {
+              failure_callback && failure_callback(null);
+            }
+          }
+        }
+        xmlHttp.send(JSON.stringify(data));
+      }
+
+      if(btn_register){
+        document.getElementById("btn-register").addEventListener("click", function(ev) {
+          var name = document.getElementById('txt-name').value;
+          var email = document.getElementById('txt-email').value;
+          var password = document.getElementById('txt-password').value;
+          var csrf_token = document.getElementById('csrf-token').value;
+          var params = {
+            name: name,
+            email: email,
+            password: password
+          };
+          makeRequest('/register', params, csrf_token, navigateToRoot, addErrors);
+        }, false);
+      }
+
+      if(btn_logout){
+        document.getElementById("btn-logout").addEventListener("click", function(ev) {
+          var csrf_token = document.getElementById('csrf-token').value;
+          makeRequest('/logout', {}, csrf_token, navigateToRoot, null, "DELETE");
+        }, false);
+      }
+
+      if(btn_login){
+        document.getElementById("btn-login").addEventListener("click", function(ev) {
+          var email = document.getElementById('txt-email').value;
+          var password = document.getElementById('txt-password').value;
+          var csrf_token = document.getElementById('csrf-token').value;
+          var params = {
+            email: email,
+            password: password
+          };
+          makeRequest('/login', params, csrf_token, navigateToRoot, addErrors);
+        }, false);
+      }
+
+      if(btn_reset){
+        document.getElementById("btn-reset-password").addEventListener("click", function(ev) {
+          var password = document.getElementById('txt-password').value;
+          var token = document.getElementById('token').value;
+          var signature = document.getElementById('signature').value;
+          var csrf_token = document.getElementById('csrf-token').value;
+
+          var params = {
+            signature: signature,
+            token: token,
+            password: password
+          };
+          makeRequest('/reset_password', params, csrf_token, navigateToRoot, addErrors);
+        }, false);
+      }
+
+      if(btn_send){
+        document.getElementById("btn-send-reset-password-link").addEventListener("click", function(ev) {
+          var email = document.getElementById('txt-email').value;
+          var csrf_token = document.getElementById('csrf-token').value;
+
+          var params = { email: email };
+          makeRequest('/recover_password', params, csrf_token, navigateToRoot, addErrors);
+        }, false);
+      }
+
+    </script>
+  </body>
+</html>
