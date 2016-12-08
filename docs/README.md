@@ -180,14 +180,13 @@ Madison is a fairly standard Laravel application.
 
 ## Localization
 
-* Add the locale you want to add support for in the the `supported-locales` key
-  in `config/laravel-gettext.php`.
-* Generate a blank `.po` file for the new locale with `make gettext-prep`
-* Open the new locale file
-  `resources/lang/i18n/<locale>/LC_MESSAGES/messages.po` in Poedit
-* Click the "Update" button in Poedit to scan for all the translations needed,
-  then get to translating
-* Save the file in Poedit and open a pull request to get it merged
+* Make a new directory for the language you want to add support for under
+  `resources/assets/lang` and copy the files from `resources/assets/lang/en`
+  into it.
+* Open each PHP file in the new directory and translate the values of each array
+  element into the language you're interested in. Note, only translate the
+  *values*, do not change the keys of the elements as that will break the
+  lookup of the translation.
 
 We encourage you to create new locale files and submit them back to the project!
 We hope to support many languages in the future.
