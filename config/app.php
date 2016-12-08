@@ -184,7 +184,6 @@ return [
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Roumen\Feed\FeedServiceProvider::class,
-        Xinax\LaravelGettext\LaravelGettextServiceProvider::class,
 
     ],
 
