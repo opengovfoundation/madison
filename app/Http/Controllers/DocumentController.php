@@ -36,12 +36,6 @@ use URL;
  */
 class DocumentController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->beforeFilter('auth', ['on' => ['post', 'put', 'delete']]);
-    }
 
     public function getDoc(DocAccessReadRequest $request, Doc $doc)
     {

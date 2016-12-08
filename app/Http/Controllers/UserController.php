@@ -26,11 +26,6 @@ use App\Events\UserVerificationStatusChange;
  */
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function update($id, UpdateUserRequest $request)
     {
         $user = $request->user;

@@ -15,11 +15,6 @@ class PageController extends Controller
 {
     public $restful = true;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * List all pages.
      *
