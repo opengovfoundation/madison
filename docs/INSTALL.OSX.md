@@ -22,7 +22,7 @@ Additionally, make sure your PHP installation includes the mcrypt and libyaml mo
   1. `nvm alias default stable && nvm use default`
   1. Update npm version using `npm install -g npm`
 
-1. Run `make deps`, this will install both client and server dependencies.
+1. Run `make deps`, this will install needed dependencies.
 
 1. Install compass. If you do not have any ruby gems installed, you can get away with
 `sudo gem update --system` and `sudo gem install compass`, installing the compass gem
@@ -36,14 +36,14 @@ on top of Mac OSX's ruby.
 
 1. Create a clean database in MySQL.
 
-1. Rename `server/config/example_creds.php` to `server/config/creds.php` and
+1. Rename `config/example_creds.php` to `config/creds.php` and
 enter your DB info, as well as admin info for the initial admin user seed.
 Additionally, do the same for `example_smtp.php` if you want to enable email
 functionality (required for registering new users).
 
 1. Run `make db-reset` to get the database migrated and seeded with data.
 
-1. Copy the `server/.env.example` file to `server/.env` and set the appropriate variables.
+1. Copy the `.env.example` file to `.env` and set the appropriate variables.
   1. If you don't have one already, set up an account at [MailTrap](mailtrap)
   and set the `MAIL_USERNAME` and `MAIL_PASSWORD` variables to what it provides
   for your test inbox. This is needed for user signup.
