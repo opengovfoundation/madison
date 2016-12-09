@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Models\Page;
 use App\Models\PageContent;
-use App\Http\Requests\StorePageRequest;
-use App\Http\Requests\UpdatePageRequest;
-use App\Http\Requests\DestroyPageRequest;
-use App\Http\Requests\UpdatePageContentRequest;
+use App\Http\Requests\Api\StorePageRequest;
+use App\Http\Requests\Api\UpdatePageRequest;
+use App\Http\Requests\Api\DestroyPageRequest;
+use App\Http\Requests\Api\UpdatePageContentRequest;
 
 class PageController extends Controller
 {

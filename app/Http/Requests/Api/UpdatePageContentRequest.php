@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
 
-use App\Http\Requests\Request;
-use App\Models\Doc;
+use App\Http\Requests\Api\AdminRequest;
+use App\Models\Role;
 use Auth;
-use App\Models\User;
 
-class UpdateUserRequest extends Request
+class UpdatePageContentRequest extends AdminRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,8 +15,7 @@ class UpdateUserRequest extends Request
      */
     public function authorize()
     {
-        $user = Auth::user();
-        return $user == $this->user;
+        return parent::authorize();
     }
 
     /**
@@ -27,6 +25,8 @@ class UpdateUserRequest extends Request
      */
     public function rules()
     {
-        return [];
+        return [
+            'content' => 'required'
+        ];
     }
 }

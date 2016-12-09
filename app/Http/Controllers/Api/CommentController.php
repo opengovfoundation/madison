@@ -17,7 +17,7 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use League\Csv\Writer;
-use App\Http\Requests\DocAccessReadRequest;
+use App\Http\Requests\Api\DocAccessReadRequest;
 use App\Services;
 
 class CommentController extends Controller

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
 
-use App\Http\Requests\AdminRequest;
-use App\Models\Role;
+use App\Http\Requests\Api\Request;
+use App\Models\Doc;
 use Auth;
+use App\Models\User;
 
-class StorePageRequest extends AdminRequest
+class UpdateUserRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +16,8 @@ class StorePageRequest extends AdminRequest
      */
     public function authorize()
     {
-        return parent::authorize();
+        $user = Auth::user();
+        return $user == $this->user;
     }
 
     /**
@@ -25,8 +27,6 @@ class StorePageRequest extends AdminRequest
      */
     public function rules()
     {
-        return [
-            'nav_title' => 'required'
-        ];
+        return [];
     }
 }

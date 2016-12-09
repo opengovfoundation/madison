@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
 
-use App\Http\Requests\AdminRequest;
-use App\Models\Role;
+use App\Http\Requests\Api\Request;
+use App\Models\Group;
 use Auth;
 
-class UpdatePageContentRequest extends AdminRequest
+class StoreGroupRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,7 @@ class UpdatePageContentRequest extends AdminRequest
      */
     public function authorize()
     {
-        return parent::authorize();
+        return Auth::check();
     }
 
     /**
@@ -25,8 +25,6 @@ class UpdatePageContentRequest extends AdminRequest
      */
     public function rules()
     {
-        return [
-            'content' => 'required'
-        ];
+        return Group::$rules;
     }
 }

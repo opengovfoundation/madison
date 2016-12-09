@@ -15,9 +15,9 @@ use App\Models\NotificationPreference;
 use App\Models\Doc;
 use App\Models\DocMeta;
 use App\Models\Role;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Requests\SignupRequest;
-use App\Http\Requests\DocAccessReadRequest;
+use App\Http\Requests\Api\UpdateUserRequest;
+use App\Http\Requests\Api\SignupRequest;
+use App\Http\Requests\Api\DocAccessReadRequest;
 use App\Events\UserVerificationRequest;
 use App\Events\UserVerificationStatusChange;
 

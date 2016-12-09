@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
 
-use App\Http\Requests\Request;
+use App\Http\Requests\Api\Request;
 use App\Models\Doc;
 
 class UpdateDocumentRequest extends DocAccessEditRequest

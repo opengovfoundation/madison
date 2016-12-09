@@ -12,8 +12,8 @@ use DB;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\GroupMember;
-use App\Http\Requests\StoreGroupRequest;
-use App\Http\Requests\UpdateGroupRequest;
+use App\Http\Requests\Api\StoreGroupRequest;
+use App\Http\Requests\Api\UpdateGroupRequest;
 use App\Events\GroupCreated;
 use App\Events\GroupMemberAdded;
 

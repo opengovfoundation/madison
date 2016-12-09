@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
 
 use App\Models\Role;
 use Auth;
 
-class DocAccessReadRequest extends Request
+class DocAccessEditRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class DocAccessReadRequest extends Request
             return false;
         }
 
-        return $doc->canUserView($user);
+        return $user && $doc->canUserEdit($user);
     }
 
     /**
