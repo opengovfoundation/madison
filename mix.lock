@@ -1,5 +1,5 @@
 %{"addict": {:hex, :addict, "0.3.0", "8cbf72bb80abe5cc2934dea1fa601eb4f7fd7fa9ea6869c9e47d24289a939d22", [:mix], [{:comeonin, "~> 2.1", [hex: :comeonin, optional: false]}, {:cowboy, "~> 1.0", [hex: :cowboy, optional: false]}, {:ecto, "~> 2.0", [hex: :ecto, optional: false]}, {:mailgun, "~> 0.1", [hex: :mailgun, optional: false]}, {:phoenix, "~> 1.1", [hex: :phoenix, optional: false]}]},
-  "comeonin": {:hex, :comeonin, "2.6.0", "74c288338b33205f9ce97e2117bb9a2aaab103a1811d243443d76fdb62f904ac", [:make, :mix], []},
+  "comeonin": {:hex, :comeonin, "2.6.0", "74c288338b33205f9ce97e2117bb9a2aaab103a1811d243443d76fdb62f904ac", [:make, :make, :mix], []},
   "connection": {:hex, :connection, "1.0.4", "a1cae72211f0eef17705aaededacac3eb30e6625b04a6117c1b2db6ace7d5976", [:mix], []},
   "cowboy": {:hex, :cowboy, "1.0.4", "a324a8df9f2316c833a470d918aaf73ae894278b8aa6226ce7a9bf699388f878", [:make, :rebar], [{:cowlib, "~> 1.0.0", [hex: :cowlib, optional: false]}, {:ranch, "~> 1.0", [hex: :ranch, optional: false]}]},
   "cowlib": {:hex, :cowlib, "1.0.2", "9d769a1d062c9c3ac753096f868ca121e2730b9a377de23dec0f7e08b1df84ee", [:make], []},

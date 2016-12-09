@@ -1,33 +1,17 @@
 defmodule Madison.UserController do
   use Madison.Web, :controller
 
+  import Ecto.Query, only: [from: 2]
+
   alias Madison.User
 
   def index(conn, _params) do
-    users = Repo.all(User)
+    users = from(User, select: [:id, :email, :name]) |> Repo.all
     render(conn, "index.html", users: users)
   end
 
-  def new(conn, _params) do
-    changeset = User.changeset(%User{})
-    render(conn, "new.html", changeset: changeset)
-  end
-
-  def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params)
-
-    case Repo.insert(changeset) do
-      {:ok, _user} ->
-        conn
-        |> put_flash(:info, "User created successfully.")
-        |> redirect(to: user_path(conn, :index))
-      {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
-  end
-
   def show(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
+    user = from(User, select: [:id, :email, :name]) |> Repo.get!(id)
     render(conn, "show.html", user: user)
   end
 
