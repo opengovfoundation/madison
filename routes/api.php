@@ -14,17 +14,17 @@ use Illuminate\Http\Request;
 */
 
 // User Routes
-Route::get('user/current', 'UserController@getCurrent');
-Route::get('user/{user}/docs', 'DocumentController@getUserDocuments')->middleware(['auth']);
+Route::get('user/current', 'Api\UserController@getCurrent');
+Route::get('user/{user}/docs', 'Api\DocumentController@getUserDocuments')->middleware(['auth']);
 
 // Page Routes
-Route::get('pages/', 'PageController@index');
-Route::get('pages/{page}', 'PageController@show');
-Route::post('pages/', 'PageController@store');
-Route::put('pages/{page}', 'PageController@update');
-Route::delete('pages/{page}', 'PageController@destroy');
-Route::get('pages/{page}/content', 'PageController@getContent');
-Route::put('pages/{page}/content', 'PageController@updateContent');
+Route::get('pages/', 'Api\PageController@index');
+Route::get('pages/{page}', 'Api\PageController@show');
+Route::post('pages/', 'Api\PageController@store');
+Route::put('pages/{page}', 'Api\PageController@update');
+Route::delete('pages/{page}', 'Api\PageController@destroy');
+Route::get('pages/{page}/content', 'Api\PageController@getContent');
+Route::put('pages/{page}/content', 'Api\PageController@updateContent');
 
 Route::get('/user', function (Request $request) {
     return $request->user();
