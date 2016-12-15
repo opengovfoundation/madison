@@ -514,4 +514,14 @@ class Group extends Model
 
         return $group;
     }
+
+    public function userCanCreateDocument($user)
+    {
+        return $this->userHasRole($user, Group::ROLE_EDITOR) || $this->userHasRole($user, Group::ROLE_OWNER);
+    }
+
+    public function isActive()
+    {
+        return $this->status === static::STATUS_ACTIVE;
+    }
 }

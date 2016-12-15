@@ -27,7 +27,6 @@ Route::pattern('date', '[0-9]+');
 Route::pattern('group', '[0-9]+');
 Route::pattern('pagenum', '[0-9]+');
 Route::pattern('image', '[a-zA-Z0-9-_]+\.[a-zA-Z0-9]{2,4}');
-Route::pattern('state', Doc::validPublishStatesRoutePattern());
 
 /**
  * Route - Model bindings
@@ -84,7 +83,6 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('docs/', 'DocumentController@getDocs');
     Route::post('docs/', 'DocumentController@postDocs');
     Route::get('docs/count', 'DocumentController@getDocCount');
-    Route::get('docs/{state}', 'DocumentController@getDocs');
     Route::post('docs/featured', 'DocumentController@postFeatured');
     Route::put('docs/featured', 'DocumentController@putFeatured');
     Route::delete('docs/featured/{doc}', 'DocumentController@deleteFeatured');

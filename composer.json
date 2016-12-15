@@ -13,7 +13,9 @@
         "roumen/feed": "~2.10",
         "zizaco/entrust": "dev-laravel-5",
         "league/csv": "8.0.*",
-        "intervention/image": "2.3.*"
+        "intervention/image": "2.3.*",
+        "laravelcollective/html": "^5.3.0",
+        "laracasts/flash": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

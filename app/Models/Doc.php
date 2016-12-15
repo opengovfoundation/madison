@@ -443,6 +443,25 @@ class Doc extends Model
      */
     public static function getActive($num = 10, $offset = 0)
     {
+        $docsInfo = static::getActiveInfo();
+
+        $docs = false;
+
+        if (count($docsInfo) > 0) {
+            //Grab out most active documents
+            $docs = Doc::getEager()->whereIn('id', static::getActiveIds())->get();
+
+            //Sort by the sort value descending
+            $docs = static::sortByActive($docs)
+                ->slice($offset, $num)
+                ;
+        }
+
+        return $docs;
+    }
+
+    public static function getActiveInfo()
+    {
         $docsInfo = Cache::get('active-docs');
 
         if (empty($docsInfo)) {
@@ -463,25 +482,22 @@ class Doc extends Model
             Cache::put('active-docs', $docsInfo, 1440);
         }
 
-        $docs = false;
+        return $docsInfo;
+    }
 
-        if (count($docsInfo) > 0) {
-            //Grab out most active documents
-            $docs = Doc::getEager()->whereIn('id', array_keys($docsInfo))->get();
 
-            //Set the sort value to the total count
-            foreach ($docs as $doc) {
-                $doc->participationTotal = $docsInfo[$doc->id];
-            }
+    public static function getActiveIds()
+    {
+        return array_keys(static::getActiveInfo());
+    }
 
-            //Sort by the sort value descending
-            $docs = $docs
-                ->sortByDesc('participationTotal')
-                ->slice($offset, $num)
-                ;
-        }
+    public static function sortByActive(Collection $docs)
+    {
+        $activeInfo = static::getActiveInfo();
 
-        return $docs;
+        return $docs->sortByDesc(function ($doc) use ($activeInfo) {
+            return !empty($activeInfo[$doc->id]) ? $activeInfo[$doc->id] : 0;
+        });
     }
 
     public static function getFeatured()
@@ -598,24 +614,12 @@ class Doc extends Model
     public static function validPublishStates()
     {
          return [
-            'all',
             self::PUBLISH_STATE_PUBLISHED,
             self::PUBLISH_STATE_UNPUBLISHED,
             self::PUBLISH_STATE_PRIVATE,
             self::PUBLISH_STATE_DELETED_ADMIN,
             self::PUBLISH_STATE_DELETED_USER
         ];
-    }
-
-    public static function validPublishStatesRoutePattern()
-    {
-        $valid_states = self::validPublishStates();
-
-        foreach ($valid_states as $idx => $state) {
-            $valid_states[$idx] = str_replace('-', '\-', $state);
-        }
-
-        return '(' . implode('|', $valid_states) . ')';
     }
 
     public static function validDiscussionStates()

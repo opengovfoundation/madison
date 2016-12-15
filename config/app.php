@@ -184,6 +184,8 @@ return [
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Roumen\Feed\FeedServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class,
 
     ],
 
@@ -240,6 +242,9 @@ return [
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Feed'      => Roumen\Feed\Feed::class,
         'CategoryHelpers' => App\Helpers\CategoryHelpers::class,
+        'Form'      => Collective\Html\FormFacade::class,
+        'Html'      => Collective\Html\HtmlFacade::class,
+
     ],
 
 ];

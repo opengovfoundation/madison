@@ -11,6 +11,42 @@
 |
 */
 
+use App\Models\Doc as Document;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+Route::bind('document', function ($value) {
+    $doc = Document::find($value);
+    if ($doc) {
+        return $doc;
+    }
+
+    $doc = Document::where('slug', $value)->first();
+    if ($doc) {
+        return $doc;
+    }
+
+    throw new NotFoundHttpException;
+});
+
+Route::bind('documentTrashed', function ($value) {
+    $doc = Document::withTrashed()->find($value);
+    if ($doc) {
+        return $doc;
+    }
+
+    $doc = Document::withTrashed()->where('slug', $value)->first();
+    if ($doc) {
+        return $doc;
+    }
+
+    throw new NotFoundHttpException;
+});
+
 Auth::routes();
 
 Route::get('/', 'HomeController@index');
+
+Route::resource('documents', 'DocumentController');
+
+Route::get('/documents/{documentTrashed}/restore', 'DocumentController@restore')
+     ->name('documents.restore');
