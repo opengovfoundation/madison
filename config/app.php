@@ -239,7 +239,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Feed'      => Roumen\Feed\Feed::class,
-
+        'CategoryHelpers' => App\Helpers\CategoryHelpers::class,
     ],
 
 ];

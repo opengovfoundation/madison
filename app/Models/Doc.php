@@ -484,6 +484,77 @@ class Doc extends Model
         return $docs;
     }
 
+    public static function getFeatured()
+    {
+        $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
+
+        if ($featuredSetting) {
+            // Make sure our featured document can be viewed by the public.
+            $featuredIds = explode(',', $featuredSetting->meta_value);
+            $docQuery = static::with('categories')
+                ->with('sponsors')
+                ->with('statuses')
+                ->with('dates')
+                ->whereIn('id', $featuredIds)
+                ->where('is_template', '!=', '1')
+                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED);
+
+            $docs = $docQuery->get();
+
+            if ($docs) {
+                // Reorder based on our previous list.
+                $tempDocs = [];
+                $orderList = array_flip($featuredIds);
+                foreach ($docs as $key=>$doc) {
+                    $tempDocs[(int) $orderList[$doc->id]] = $doc;
+                }
+
+                // If you set the key of an array value as we do above,
+                // PHP will internally store the object as an associative
+                // array (hash), not as a list, and will return the elements
+                // in the order assigned, not by the key order.
+                // This means our attempt to re-order the object will fail.
+                // The line below will restore the order. Ugh.
+                ksort($tempDocs);
+                $docs = $tempDocs;
+
+            }
+        }
+
+        // If we don't have a document, just find anything recent.
+        if (empty($docs)) {
+            $docs = [
+                static::with('categories')
+                ->with('sponsors')
+                ->with('statuses')
+                ->with('dates')
+                ->where('publish_state', '=', static::PUBLISH_STATE_PUBLISHED)
+                ->where('is_template', '!=', '1')
+                ->orderBy('created_at', 'desc')
+                ->first()
+            ];
+        }
+
+        $return_docs = [];
+        foreach ($docs as $key => $doc) {
+            $doc->enableCounts();
+            $doc->enableSponsors();
+            $return_doc = $doc->toArray();
+
+            $return_doc['introtext'] = $doc->introtext()->first()['meta_value'];
+            $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
+            $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
+
+            if (!$return_doc['thumbnail']) {
+                $return_doc['thumbnail'] = '/img/default/default.jpg';
+            }
+
+            $return_docs[] = $return_doc;
+        }
+
+        return $return_docs;
+    }
+
     public static function allOwnedBy($userId)
     {
         $rawDocs = \DB::select(
@@ -576,6 +647,22 @@ class Doc extends Model
             });
         });
     }
+
+    /**
+     * Scope to get most recently active public documents with open discussion.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeMostRecentPublicWithOpenDiscussion($query, $howMany = 6)
+    {
+        return $query
+            ->orderBy('updated_at', 'DESC')
+            ->where('discussion_state', static::DISCUSSION_STATE_OPEN)
+            ->where('publish_state', static::PUBLISH_STATE_PUBLISHED)
+            ->where('is_template', '!=', '1')
+            ->take($howMany);
+    }
+
 
     public function getImagePath($image = '', $size = null)
     {
