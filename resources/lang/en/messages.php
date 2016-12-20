@@ -86,4 +86,22 @@ return [
         'edit' => 'Edit Document',
     ],
 
+    'user' => [
+        'edit' => 'Edit Profile',
+        'fname' => 'First Name',
+        'lname' => 'Last Name',
+        'email' => 'Email Address',
+        'url' => 'Website',
+        'phone' => 'Phone Number',
+        'address1' => 'Address 1',
+        'address2' => 'Address 2',
+        'city' => 'City',
+        'state' => 'State',
+        'postal_code' => 'Zip Code',
+        'new_password' => 'New Password',
+        'new_password_confirmation' => 'Re-Enter New Password',
+        'updated' => 'User updated.',
+        'update_failed' => 'User update failed.',
+    ],
+
 ];

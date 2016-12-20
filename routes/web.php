@@ -11,6 +11,7 @@
 |
 */
 
+use App\Models\User;
 use App\Models\Doc as Document;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -45,6 +46,10 @@ Route::bind('documentTrashed', function ($value) {
 Auth::routes();
 
 Route::get('/', 'HomeController@index');
+
+Route::resource('users', 'UserController', ['only' => [
+    'edit', 'update'
+]]);
 
 Route::resource('documents', 'DocumentController');
 
