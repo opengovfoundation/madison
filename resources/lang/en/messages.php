@@ -48,21 +48,33 @@ return [
     'document' => [
         'title' => 'Title',
         'title_invalid' => 'Can\'t create document with that name, please try another.',
+        'slug' => 'Custom URL (slug)',
+        'slug_help' => 'Will automatically be set based on title if blank. Only the letters a through z (lowercase), numbers 0 through 9, and hyphens (-) may be used.  For example: my-document',
+        'introtext' => 'Intro Text',
         'category' => 'Category',
         'categories' => 'Categories: ',
         'group' => 'Group',
         'group_others' => 'and others',
+        'content' => 'Content',
+
         'activity' => 'Activity',
         'comments' => 'Comments',
         'notes' => 'Notes',
         'collaborators' => 'Collaborators',
         'sponsoredby' => 'Sponsored by',
+        'featured' => 'Featured',
+        'featured_image' => 'Featured Image',
+        'featured_image_remove' => 'Remove Featured Image',
+        'featured_image_removed' => 'Featured Image Removed',
 
-        'created' => 'Document Created',
-        'deleted' => 'Document Deleted. :restoreLinkOpen Undo :restoreLinkClosed',
-        'restored' => 'Document Restored. It is currently unpublished.',
+        'created' => 'Document created.',
+        'deleted' => 'Document deleted. :restoreLinkOpen Undo :restoreLinkClosed',
+        'restored' => 'Document restored. It is currently unpublished.',
+        'updated' => 'Document updated.',
+        'page_added' => 'Page added.',
 
         'publish_state' => 'Publish State',
+        'publish_state_help' => 'If a document is set to "unpublished", only sponsors can view it. If it is set to private, anyone with the link can view it. Otherwise it is publicly viewable.',
         'publish_states' => [
             'all' => 'All',
             \App\Models\Doc::PUBLISH_STATE_PUBLISHED => 'Published',
@@ -73,6 +85,7 @@ return [
         ],
 
         'discussion_state' => 'Discussion State',
+        'discussion_state_help' => 'If commenting is set to "open", users will be able to comment and make notes normally. If it is "closed", then existing comments will be viewable, but new comments can not happen. If it is set to "hidden", no new commenting can happen, and existing comments will not be viewable.',
         'discussion_states' => [
             \App\Models\Doc::DISCUSSION_STATE_OPEN => 'Open',
             \App\Models\Doc::DISCUSSION_STATE_CLOSED => 'Closed',
@@ -80,6 +93,7 @@ return [
         ],
 
         'create_as' => 'Sponsor As',
+        'add_page' => 'Add Page',
 
         'list' => 'Documents',
         'create' => 'Create Document',

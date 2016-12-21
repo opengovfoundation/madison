@@ -4,7 +4,7 @@ namespace App\Http\Requests\Document;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Edit extends FormRequest
+class View extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,6 @@ class Edit extends FormRequest
      */
     public function authorize()
     {
-        $user = $this->user();
         $document = null;
         foreach (['document', 'documentTrashed'] as $key) {
             if (!empty($this->route()->parameter($key))) {
@@ -22,7 +21,7 @@ class Edit extends FormRequest
             }
         }
 
-        return $user && $document && $document->canUserEdit($user);
+        return $document && $document->canUserView($this->user());
     }
 
     /**
@@ -32,8 +31,6 @@ class Edit extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        return [];
     }
 }

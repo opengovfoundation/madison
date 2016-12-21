@@ -53,5 +53,14 @@ Route::resource('users', 'UserController', ['only' => [
 
 Route::resource('documents', 'DocumentController');
 
+Route::post('/documents/{document}/pages', 'DocumentController@storePage')
+    ->name('documents.pages.store');
+
+Route::get('/documents/{document}/images/{image}', 'DocumentController@showImage')
+    ->name('documents.images.show');
+
+Route::delete('/documents/{document}/images/{image}', 'DocumentController@destroyImage')
+    ->name('documents.images.destroy');
+
 Route::get('/documents/{documentTrashed}/restore', 'DocumentController@restore')
      ->name('documents.restore');

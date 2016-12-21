@@ -8,20 +8,26 @@ use App\Models\Doc as Document;
 use App\Models\DocContent as DocumentContent;
 use App\Models\DocMeta as DocumentMeta;
 use App\Models\Group;
+use App\Services;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Storage;
 
 class DocumentController extends Controller
 {
+    protected $documentService;
+
     /**
      * Instantiate a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Services\Documents $documentService)
     {
+        $this->documentService = $documentService;
+
         $this->middleware('auth')->except(['index', 'show']);
     }
 
@@ -225,7 +231,7 @@ class DocumentController extends Controller
 
         // for the query builder modal
         $categories = Category::all();
-        $groups = Group::all();
+        $groups = Group::where('status', Group::STATUS_ACTIVE)->get();
         $publishStates = static::validPublishStatesForQuery();
         $discussionStates = Document::validDiscussionStates();
 
@@ -265,13 +271,12 @@ class DocumentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Requests\Store $request)
     {
         $title = $request->input('title');
-        $slug = $request->input('slug', str_slug($title, '-'));
+        $slug = str_slug($title, '-');
 
         // If the slug is taken
         if (Document::where('slug', $slug)->count()) {
@@ -296,14 +301,6 @@ class DocumentController extends Controller
 
         $document->sponsors()->sync([$request->input('group_id')]);
 
-        $starter = new DocumentContent();
-        $starter->doc_id = $document->id;
-        $starter->content = "New Document Content";
-        $starter->save();
-
-        $document->init_section = $starter->id;
-        $document->save();
-
         flash(trans('messages.document.created'));
         return redirect()->route('documents.edit', ['document' => $document->slug]);
     }
@@ -311,41 +308,102 @@ class DocumentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Requests\View $request, Document $document)
     {
-        // TODO: document page
+        $pages = $document->content()->paginate(1);
+
+        return view('documents.show', compact([
+            'document',
+            'pages',
+        ]));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Requests\Edit $request, Document $document)
     {
-        return view('documents.edit', compact('document'));
+        $categories = Category::all();
+        $groups = Group::where('status', Group::STATUS_ACTIVE)->get();
+        $publishStates = Document::validPublishStates();
+        $discussionStates = Document::validDiscussionStates();
+        $pages = $document->content()->paginate(1);
+
+        return view('documents.edit', compact([
+            'document',
+            'categories',
+            'groups',
+            'publishStates',
+            'discussionStates',
+            'pages',
+        ]));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\Update $request, Document $document)
     {
-        // TODO: implement
+        $document->update($request->all());
+        $document->setIntroText($request->input('introtext'));
+        $document->sponsors()->sync([$request->input('group_id')]);
+        $document->syncCategories($request->input('category_id'));
+
+        // update content for correct page
+        $pageContent = $document->content()->where('page', $request->input('page', 1))->first();
+
+        if ($pageContent) {
+            $pageContent->content = $request->input('page_content', '');
+            $pageContent->save();
+        }
+
+        // feature document stuff
+        if ($document->featured != (bool) $request->input('featured', false)) {
+            if (!$request->user()->isAdmin()) {
+                abort(403, 'Unauthorized.');
+            }
+
+            if ($request->input('featured')) {
+                $document->setAsFeatured();
+            } else {
+                $document->removeAsFeatured();
+            }
+        }
+
+        if ($request->hasFile('featured-image')) {
+            if (!$request->user()->isAdmin()) {
+                abort(403, 'Unauthorized.');
+            }
+
+            $file = $request->file('featured-image');
+
+            // Keep a record of our previous featuredImage.
+            $previousFeaturedImageId = $document->featuredImage;
+
+            $imageId = $this->documentService->generateAllImageSizes($file);
+
+            $document->featuredImage = $imageId;
+            $document->save();
+
+            // Our featured image was saved, so let's remove the old one.
+            if ($previousFeaturedImageId) {
+                $this->documentService->destroyAllImageSizes($previousFeaturedImageId);
+            }
+        }
+
+        flash(trans('messages.document.updated'));
+        return redirect()->route('documents.edit', ['document' => $document->slug]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Requests\Edit $request, Document $document)
@@ -364,7 +422,7 @@ class DocumentController extends Controller
 
         $document->delete();
 
-        $restoreUrl = '/documents/'.$document->slug.'/restore';
+        $restoreUrl = route('documents.restore', ['document' => $document->slug]);
         flash(trans('messages.document.deleted', [
             'restoreLinkOpen' => "<a href='$restoreUrl'>",
             'restoreLinkClosed' => '</a>',
@@ -389,6 +447,47 @@ class DocumentController extends Controller
         $document->save();
 
         flash(trans('messages.document.restored'));
+        return redirect()->route('documents.edit', ['document' => $document->slug]);
+    }
+
+    public function storePage(Requests\Edit $request, Document $document)
+    {
+        $lastPage = $document->content()->max('page') ?: 0;
+        $page = $lastPage + 1;
+
+        $documentContent = new DocumentContent();
+        $documentContent->content = $request->input('content', '');
+        $documentContent->page = $page;
+        $document->content()->save($documentContent);
+
+        flash(trans('messages.document.page_added'));
+        return redirect()->route('documents.edit', ['document' => $document->slug, 'page' => $page]);
+    }
+
+    public function showImage(Requests\View $request, Document $document, $image)
+    {
+        $size = $request->input('size', null);
+        $imageId = $this->documentService->getImageIdForSize($image, $size);
+
+        if (!Storage::has($imageId)) {
+            abort(null, 404);
+        }
+
+        return response(Storage::get($imageId), 200)
+            ->header('Content-Type', Storage::mimeType($imageId));
+    }
+
+    public function destroyImage(Requests\Edit $request, Document $document, $image)
+    {
+        $this->documentService->destroyAllImageSizes($image);
+
+        if ($image === $document->featuredImage) {
+            $document->featuredImage = null;
+            $document->save();
+
+            flash(trans('messages.document.featured_image_removed'));
+        }
+
         return redirect()->route('documents.edit', ['document' => $document->slug]);
     }
 

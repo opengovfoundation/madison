@@ -176,6 +176,7 @@ return [
         App\Providers\NotificationServiceProvider::class,
         App\Providers\CommentsServiceProvider::class,
         App\Providers\AnnotationsServiceProvider::class,
+        App\Providers\DocumentsServiceProvider::class,
 
         /**
          * Vendor Providers...

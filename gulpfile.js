@@ -21,6 +21,7 @@ elixir((mix) => {
          ],
          'public/js/vendor.js'
        )
+       .copy('resources/assets/img', 'public/img')
        .version(['css/app.css', 'js/app.js', 'js/vendor.js'])
   ;
 });

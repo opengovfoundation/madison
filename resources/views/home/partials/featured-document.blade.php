@@ -1,7 +1,7 @@
 <article class="main-feature">
     <header class="document-info">
         <div class="document-thumbnail-container">
-            <img src="{{ $document['thumbnail'] }}" alt="" class="document-thumbnail">
+            <img src="{{ $document['featuredImageUrl'] }}" alt="" class="document-thumbnail">
         </div>
         <h2 class="heading">
             <a href="/documents/{{ $document['slug'] }}" title="{{ $document['title'] }}" rel="bookmark">

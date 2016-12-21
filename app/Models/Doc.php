@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Category;
+use App\Models\DocContent as DocumentContent;
 use App\Traits\RootAnnotatableHelpers;
 use Event;
 use Exception;
@@ -50,8 +51,22 @@ class Doc extends Model
         /**
          * Set default value for slug
          */
-        Doc::saving(function($doc) {
-            if (!isset($doc->slug)) $doc->slug = Doc::makeSlug($doc->title);
+        static::saving(function($doc) {
+            if (empty($doc->slug)) $doc->slug = static::makeSlug($doc->title);
+        });
+
+        static::created(function ($document) {
+            $starter = new DocumentContent();
+            $starter->doc_id = $document->id;
+            $starter->content = "New Document Content";
+            $starter->save();
+
+            $document->init_section = $starter->id;
+            $document->save();
+        });
+
+        static::deleted(function ($document) {
+            $document->removeAsFeatured();
         });
     }
 
@@ -149,7 +164,7 @@ class Doc extends Model
     {
         if (in_array(
             $this->publish_state,
-            [Doc::PUBLISH_STATE_PUBLISHED, Doc::PUBLISH_STATE_PRIVATE]
+            [static::PUBLISH_STATE_PUBLISHED, static::PUBLISH_STATE_PRIVATE]
         )) {
             return true;
         }
@@ -160,7 +175,7 @@ class Doc extends Model
             }
 
             if (
-                $this->publish_state == Doc::PUBLISH_STATE_UNPUBLISHED
+                $this->publish_state == static::PUBLISH_STATE_UNPUBLISHED
                 && $this->canUserEdit($user)
             ) {
                 return true;
@@ -431,7 +446,7 @@ class Doc extends Model
      */
     public static function getEager()
     {
-        return Doc::with('categories')
+        return static::with('categories')
             ->with('sponsors')
             ->with('statuses')
             ->with('dates');
@@ -449,7 +464,7 @@ class Doc extends Model
 
         if (count($docsInfo) > 0) {
             //Grab out most active documents
-            $docs = Doc::getEager()->whereIn('id', static::getActiveIds())->get();
+            $docs = static::getEager()->whereIn('id', static::getActiveIds())->get();
 
             //Sort by the sort value descending
             $docs = static::sortByActive($docs)
@@ -513,7 +528,7 @@ class Doc extends Model
                 ->with('dates')
                 ->whereIn('id', $featuredIds)
                 ->where('is_template', '!=', '1')
-                ->where('publish_state', '=', Doc::PUBLISH_STATE_PUBLISHED);
+                ->where('publish_state', '=', static::PUBLISH_STATE_PUBLISHED);
 
             $docs = $docQuery->get();
 
@@ -533,7 +548,6 @@ class Doc extends Model
                 // The line below will restore the order. Ugh.
                 ksort($tempDocs);
                 $docs = $tempDocs;
-
             }
         }
 
@@ -560,10 +574,7 @@ class Doc extends Model
             $return_doc['introtext'] = $doc->introtext()->first()['meta_value'];
             $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
             $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
-
-            if (!$return_doc['thumbnail']) {
-                $return_doc['thumbnail'] = '/img/default/default.jpg';
-            }
+            $return_doc['featuredImageUrl'] = $doc->getFeaturedImageUrl();
 
             $return_docs[] = $return_doc;
         }
@@ -668,87 +679,54 @@ class Doc extends Model
     }
 
 
-    public function getImagePath($image = '', $size = null)
+    public function setAsFeatured()
     {
-        return 'doc-' . $this->id . '/' . $this->addSizeToImage($image, $size);
-    }
+        $featuredSetting = static::getFeaturedDocumentsSetting();
+        $docIds = explode(',', $featuredSetting->meta_value);
 
-    public function getImageUrl($image = '', $size = null)
-    {
-        return '/api/docs/' . $this->id . '/images/' . $this->addSizeToImage($image, $size);
-    }
-
-    public function getImagePathFromUrl($image, $unsized = false)
-    {
-        $image_url = str_replace('/api/docs/' . $this->id . '/images/',
-            'doc-' . $this->id . '/',
-            $image);
-
-        // Remove any sizing.
-        if($unsized)
-        {
-            $image_url = $this->removeSizeFromImage($image_url);
+        if (!in_array($this->id, $docIds)) {
+            array_unshift($docIds, $this->id);
         }
 
-        return $image_url;
+        $featuredSetting->meta_value = join(',', $docIds);
+        $featuredSetting->save();
     }
 
-    // This should work for any image - url, full path, or just the base name.
-    public function addSizeToImage($image, $size = null) {
-        $size = $this->parseSizeName($size);
-
-        // Just get the name part of the image.  We don't want to accidentally
-        // break up any paths that happen to have a dot in them.
-        $imageName = basename($image);
-
-        if($size && preg_match('/^[0-9]{1,4}x[0-9]{1,4}$/', $size)) {
-            // Insert the size string before the extension.
-            // Only split this into two parts, in case of multiple extensions.
-            $imageParts = explode('.', $imageName, 2);
-            $newImageName = $imageParts[0] . '-' . $size . '.' . $imageParts[1];
-
-            // Replace the old image name with the new image name.
-            // This is more reliable than splitting the path up.
-            $image = str_replace($imageName, $newImageName, $image);
-        }
-        return $image;
-    }
-
-    public function removeSizeFromImage($image, $sizes = null)
+    public function removeAsFeatured()
     {
-        if(!$sizes)
-        {
-            $sizes = config('madison.image_sizes');
+        $featuredSetting = static::getFeaturedDocumentsSetting();
+        $docIds = explode(',', $featuredSetting->meta_value);
+
+        if (in_array($this->id, $docIds)) {
+            $docIds = array_diff($docIds, [$this->id]);
         }
 
-        // Just get the name part of the image.  We don't want to accidentally
-        // break up any paths that happen to have a dot in them.
-        $imageName = basename($image);
-
-        // Split on the first period, the beginning of the extension.
-        // Only split this into two parts, in case of multiple extensions.
-        $imageParts = explode('.', $imageName, 2);
-
-        // Remove all possible image sizes.
-        foreach ($sizes as $name=>$size)
-        {
-            $sizeName = $size['width'] . 'x' . $size['height'];
-            $imageParts[0] = preg_replace('/-'.$sizeName.'$/', '', $imageParts[0]);
-        }
-        $newImageName = join('.', $imageParts);
-
-        // Replace the old image name with the new image name.
-        // This is more reliable than splitting the path up.
-        return str_replace($imageName, $newImageName, $image);
+        $featuredSetting->meta_value = join(',', $docIds);
+        $featuredSetting->save();
     }
 
-    // We allow a size array to be passed instead of a string, so we build that here.
-    private function parseSizeName($size)
+    public static function getFeaturedDocumentsSetting()
     {
-        if(is_array($size) && isset($size['width'], $size['height']))
-        {
-            $size = $size['width'] . 'x' . $size['height'];
+        // firstOrNew() is not working for some reason, so we do it manually.
+        $featuredSetting = Setting::where(['meta_key' => 'featured-doc'])->first();
+        if (!$featuredSetting) {
+            $featuredSetting = new Setting;
+            $featuredSetting->meta_key = 'featured-doc';
         }
-        return $size;
+
+        return $featuredSetting;
+    }
+
+    public function getFeaturedImageUrl()
+    {
+        if ($this->featuredImage) {
+            return route('documents.images.show', [
+                'document' => $this->slug,
+                'image' => $this->featuredImage,
+                'size' => 'featured',
+            ]);
+        }
+
+        return '/img/default-featured.jpg';
     }
 }
