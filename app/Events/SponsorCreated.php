@@ -3,24 +3,24 @@
 namespace App\Events;
 
 use App\Events\Event;
-use App\Models\Group;
+use App\Models\Sponsor;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class GroupCreated extends Event
+class SponsorCreated extends Event
 {
     use SerializesModels;
 
-    public $group;
+    public $sponsor;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Group $group)
+    public function __construct(Sponsor $sponsor)
     {
-        $this->group = $group;
+        $this->sponsor = $sponsor;
     }
 
     /**
@@ -35,7 +35,7 @@ class GroupCreated extends Event
 
     public static function getName()
     {
-        return 'madison.group.created';
+        return 'madison.sponsor.created';
     }
 
     public static function getType()

@@ -19,7 +19,7 @@ use Storage;
 use Redirect;
 use App\Models\Setting;
 use App\Models\User;
-use App\Models\Group;
+use App\Models\Sponsor;
 use App\Models\Doc;
 use App\Models\DocAction;
 use App\Models\DocMeta;
@@ -76,14 +76,14 @@ class DocumentController extends Controller
         $user = Auth::user();
 
         if (!$user->can('admin_manage_documents')) {
-            // If there's a group
-            if (Input::get('group_id')) {
-                $groupUser = User::with('groups')->whereHas('groups', function ($query) {
+            // If there's a sponsor
+            if (Input::get('sponsor_id')) {
+                $sponsorUser = User::with('sponsors')->whereHas('sponsors', function ($query) {
                      $query->where('status', 'active');
-                     $query->where('group_id', Input::get('group_id'));
+                     $query->where('sponsor_id', Input::get('sponsor_id'));
                 })->find($user->id);
 
-                if (!isset($groupUser->id)) {
+                if (!isset($sponsorUser->id)) {
                     return Response::json($this->growlMessage("You do not have permission", 'error'));
                 }
             } else {
@@ -125,7 +125,7 @@ class DocumentController extends Controller
             $doc->slug = $slug;
             $doc->save();
 
-            $doc->sponsors()->sync([Input::get('group_id')]);
+            $doc->sponsors()->sync([Input::get('sponsor_id')]);
 
             $starter = new DocContent();
             $starter->doc_id = $doc->id;
@@ -1094,15 +1094,15 @@ class DocumentController extends Controller
 
     public function getUserDocuments(User $user)
     {
-        $groups = $user->groups;
-        $groupedDocs = [];
+        $sponsors = $user->sponsors;
+        $sponsoredDocs = [];
 
-        foreach ($groups as $group) {
-            $tempDocs = $group->docs()->get()->toArray();
-            array_push($groupedDocs, ['name' => $group->name, 'docs' => $tempDocs]);
+        foreach ($sponsors as $sponsor) {
+            $tempDocs = $sponsor->docs()->get()->toArray();
+            array_push($sponsoredDocs, ['name' => $sponsor->name, 'docs' => $tempDocs]);
         }
 
-        return Response::json([ 'groups' => $groupedDocs ]);
+        return Response::json([ 'sponsors' => $sponsoredDocs ]);
     }
 
     public function getSocialDoc(DocAccessReadRequest $request, Doc $doc)

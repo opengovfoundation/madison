@@ -149,8 +149,8 @@ class Doc extends Model
 
         foreach ($this->sponsors as $sponsor) {
             switch (true) {
-                case $sponsor instanceof Group:
-                    return $sponsor->userHasRole($user, Group::ROLE_EDITOR) || $sponsor->userHasRole($user, Group::ROLE_OWNER);
+                case $sponsor instanceof Sponsor:
+                    return $sponsor->userHasRole($user, Sponsor::ROLE_EDITOR) || $sponsor->userHasRole($user, Sponsor::ROLE_OWNER);
                     break;
                 default:
                     throw new \Exception("Unknown Sponsor Type");
@@ -187,7 +187,7 @@ class Doc extends Model
 
     public function sponsors()
     {
-        return $this->belongsToMany('App\Models\Group');
+        return $this->belongsToMany('App\Models\Sponsor');
     }
 
     // We need to declare this in order to dynamically add 'sponsors' to
@@ -588,9 +588,9 @@ class Doc extends Model
             \DB::raw(
                 "SELECT docs.* FROM
                     (SELECT doc_id
-                       FROM doc_group, group_members
-                      WHERE doc_group.group_id = group_members.group_id
-                        AND group_members.user_id = ?
+                       FROM doc_sponsor, sponsor_members
+                      WHERE doc_sponsor.sponsor_id = sponsor_members.sponsor_id
+                        AND sponsor_members.user_id = ?
                     ) DocUnion, docs
                   WHERE docs.id = DocUnion.doc_id
                GROUP BY docs.id"
@@ -615,9 +615,9 @@ class Doc extends Model
 
     public static function getAllValidSponsors()
     {
-        return Group
+        return Sponsor
             ::select('id', 'display_name')
-            ->where('status', Group::STATUS_ACTIVE)
+            ->where('status', Sponsor::STATUS_ACTIVE)
             ->get()
             ;
     }
@@ -655,10 +655,10 @@ class Doc extends Model
     public function scopeBelongsToUser($query, $userId)
     {
         return $query->whereHas('sponsors', function($q) use ($userId) {
-            // user belongs to group as EDITOR or OWNER
+            // user belongs to sponsor as EDITOR or OWNER
             $q->whereHas('members', function($q) use ($userId) {
                 $q->where('user_id', '=', $userId);
-                $q->whereIn('role', [Group::ROLE_EDITOR, Group::ROLE_OWNER]);
+                $q->whereIn('role', [Sponsor::ROLE_EDITOR, Sponsor::ROLE_OWNER]);
             });
         });
     }

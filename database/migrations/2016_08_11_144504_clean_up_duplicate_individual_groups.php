@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use App\Models\Group;
 
 class CleanUpDuplicateIndividualGroups extends Migration
 {
@@ -14,11 +13,13 @@ class CleanUpDuplicateIndividualGroups extends Migration
     public function up()
     {
         // Get unique collection of individual group names
-        $individual_groups = Group::select('name', 'id')->where('individual', 1)->orderBy('id', 'ASC')->groupBy('name')->get();
+        // Using DB::table here because we haven't switched to the `sponsor`
+        // model name yet in this migration
+        $individual_groups = DB::table('groups')->select('name', 'id')->where('individual', 1)->orderBy('id', 'ASC')->groupBy('name')->get();
 
         foreach ($individual_groups as $main_group) {
             // Check if another individual group exists under same name
-            $duplicate_groups = Group::where('name', $main_group['name'])
+            $duplicate_groups = DB::table('groups')->where('name', $main_group['name'])
                 ->where('id', '!=', $main_group['id'])
                 ->where('individual', 1)
                 ->get();

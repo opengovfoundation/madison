@@ -53,8 +53,8 @@ return [
         'introtext' => 'Intro Text',
         'category' => 'Category',
         'categories' => 'Categories: ',
-        'group' => 'Group',
-        'group_others' => 'and others',
+        'sponsor' => 'Sponsor',
+        'sponsor_others' => 'and others',
         'content' => 'Content',
 
         'activity' => 'Activity',

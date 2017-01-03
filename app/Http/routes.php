@@ -24,7 +24,7 @@ Route::pattern('doc', '[0-9a-zA-Z_-]+');
 Route::pattern('docTrashed', '[0-9a-zA-Z_-]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('date', '[0-9]+');
-Route::pattern('group', '[0-9]+');
+Route::pattern('sponsor', '[0-9]+');
 Route::pattern('pagenum', '[0-9]+');
 Route::pattern('image', '[a-zA-Z0-9-_]+\.[a-zA-Z0-9]{2,4}');
 
@@ -149,7 +149,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('user/{user}/docs', 'DocumentController@getUserDocuments');
     Route::get('user/{user}/notifications', 'UserController@getNotifications');
     Route::put('user/{user}/notifications', 'UserController@putNotifications');
-    Route::get('user/{user}/groups', 'UserController@getGroups');
+    Route::get('user/{user}/sponsors', 'UserController@getSponsors');
     Route::post('user/{user}/verify-email/resend', 'UserController@postResendVerifyEmail');
     Route::put('user/edit/{user}', 'UserController@putEdit');
     Route::post('user/verify-email', 'UserController@postVerifyEmail');
@@ -159,18 +159,18 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('sponsors/all', 'SponsorController@getAllSponsors');
     Route::post('verification/resend',  'RemindersController@postConfirmation');
 
-    // Group Routes
-    Route::post('groups', 'GroupController@store');
-    Route::get('groups/{group?}', 'GroupController@getGroup');
-    Route::put('groups/{group}', 'GroupController@update');
-    Route::get('groups/verify/', 'GroupController@getVerify')->middleware(['auth']);
-    Route::put('groups/verify/{groupId}', 'GroupController@putVerify')->middleware(['auth']);
-    Route::post('groups/active/{groupId}', 'GroupController@setActiveGroup');
-    Route::get('groups/roles', 'GroupController@getRoles');
-    Route::delete('groups/{groupId}/members/{memberId}', 'GroupController@removeMember');
-    Route::put('groups/{groupId}/invite', 'GroupController@processMemberInvite');
-    Route::get('groups/{groupId}/members', 'GroupController@getMembers');
-    Route::put('groups/{groupId}/members/{memberId}', 'GroupController@putMember');
+    // Sponsor Routes
+    Route::post('sponsors', 'SponsorController@store');
+    Route::get('sponsors/{sponsor?}', 'SponsorController@getSponsor');
+    Route::put('sponsors/{sponsor}', 'SponsorController@update');
+    Route::get('sponsors/verify/', 'SponsorController@getVerify')->middleware(['auth']);
+    Route::put('sponsors/verify/{sponsorId}', 'SponsorController@putVerify')->middleware(['auth']);
+    Route::post('sponsors/active/{sponsorId}', 'SponsorController@setActiveSponsor');
+    Route::get('sponsors/roles', 'SponsorController@getRoles');
+    Route::delete('sponsors/{sponsorId}/members/{memberId}', 'SponsorController@removeMember');
+    Route::put('sponsors/{sponsorId}/invite', 'SponsorController@processMemberInvite');
+    Route::get('sponsors/{sponsorId}/members', 'SponsorController@getMembers');
+    Route::put('sponsors/{sponsorId}/members/{memberId}', 'SponsorController@putMember');
 
     // Page Routes
     Route::get('pages/', 'PageController@index');

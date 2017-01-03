@@ -35,23 +35,23 @@ class UserController extends Controller
     }
 
     /**
-     *  getGroups
-     *      Returns a user's groups with the user's role included.
+     *  getSponsors
+     *      Returns a user's sponsors with the user's role included.
      *
      *  @param User $user
      *
      * @return Response::json
      */
-    public function getGroups(User $user)
+    public function getSponsors(User $user)
     {
         $individual = Input::get('individual');
-        $groups = !$individual ? $user->groups()->where('individual', false)->get() : $user->groups()->get();
+        $sponsors = !$individual ? $user->sponsors()->where('individual', false)->get() : $user->sponsors()->get();
 
-        foreach ($groups as $group) {
-            $group->role = $group->findMemberByUserId($user->id)->role;
+        foreach ($sponsors as $sponsor) {
+            $sponsor->role = $sponsor->findMemberByUserId($user->id)->role;
         }
 
-        return Response::json($groups);
+        return Response::json($sponsors);
     }
 
     /**
@@ -198,7 +198,7 @@ class UserController extends Controller
     }
 
     /**
-     *  Api route to get logged in user / group.
+     *  Api route to get logged in user / sponsor.
      *
      *  @param void
      *
@@ -212,32 +212,32 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        //Grab the active group from the user
-        $activeGroup = $user->activeGroup();
+        //Grab the active sponsor from the user
+        $activeSponsor = $user->activeSponsor();
 
         $user->display_name = $user->getDisplayName();
         $user->admin = $user->hasRole('Admin');
         $user->verified = $user->verified();
         $user->email_verified = empty($user->token);
 
-        //Grab all of the user's groups
-        $groups = $user->groups()->get();
+        //Grab all of the user's sponsors
+        $sponsors = $user->sponsors()->get();
 
-        //Set the user's role in each group
-        foreach ($groups as $group) {
-            $role = $group->getMemberRole($user->id);
+        //Set the user's role in each sponsor
+        foreach ($sponsors as $sponsor) {
+            $role = $sponsor->getMemberRole($user->id);
 
-            $group->role = $role;
+            $sponsor->role = $role;
         }
 
         $userArray = $user->toArray();
-        $groupArray = $groups->toArray();
-        $activeGroupId = $activeGroup != null ? $activeGroup->id : null;
+        $sponsorArray = $sponsors->toArray();
+        $activeSponsorId = $activeSponsor != null ? $activeSponsor->id : null;
 
         $returned = [
         'user'      => $userArray,
-        'groups'    => $groupArray,
-        'activeGroupId' => $activeGroupId,
+        'sponsors'    => $sponsorArray,
+        'activeSponsorId' => $activeSponsorId,
         ];
 
         return Response::json($returned);

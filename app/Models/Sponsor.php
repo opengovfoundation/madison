@@ -3,7 +3,7 @@
 namespace App\Models;
 
 /**
- *  Group Model.
+ *  Sponsor Model.
  */
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Validator;
@@ -11,14 +11,14 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Models\GroupMember;
+use App\Models\SponsorMember;
 use App\Models\Role;
 use App\Models\Permission;
 use App\Models\User;
 
 use Log;
 
-class Group extends Model
+class Sponsor extends Model
 {
     use SoftDeletes;
 
@@ -59,13 +59,13 @@ class Group extends Model
     );
 
     protected static $customMessages = array(
-      'name.required'                    => 'The group name is required',
-      'address1.required'            => 'The group address is required',
-      'city.required'                    => 'The group city is required',
-      'state.required'                => 'The group state is required',
-      'postal_code.required'    => 'The group postal code is required',
-      'phone.required'    => 'The group phone number is required',
-      'display_name.required'    => 'The group display name is required',
+      'name.required'                    => 'The sponsor name is required',
+      'address1.required'            => 'The sponsor address is required',
+      'city.required'                    => 'The sponsor city is required',
+      'state.required'                => 'The sponsor state is required',
+      'postal_code.required'    => 'The sponsor postal code is required',
+      'phone.required'    => 'The sponsor phone number is required',
+      'display_name.required'    => 'The sponsor display name is required',
     );
 
     /**
@@ -98,7 +98,7 @@ class Group extends Model
             return false;
         }
 
-        //Don't want Group model trying to save validationErrors field.
+        //Don't want Sponsor model trying to save validationErrors field.
         unset($this->validationErrors);
 
         return parent::save($options);
@@ -121,7 +121,7 @@ class Group extends Model
     /**
      *  beforeSave.
      *
-     *  Validates before saving.  Returns whether the Group can be saved.
+     *  Validates before saving.  Returns whether the Sponsor can be saved.
      *
      *  @param array $options
      *
@@ -130,7 +130,7 @@ class Group extends Model
     private function beforeSave(array $options = array())
     {
         if (!$this->validate()) {
-            Log::error("Unable to validate group: ");
+            Log::error("Unable to validate sponsor: ");
             Log::error($this->getErrors()->toArray());
             Log::error($this->attributes);
 
@@ -211,14 +211,14 @@ class Group extends Model
             throw new \Exception("Invalid Role");
         }
 
-        return "group_{$this->id}_$role";
+        return "sponsor_{$this->id}_$role";
     }
 
     public function userHasRole($user, $role)
     {
-        $groupMember = GroupMember::where('group_id', '=', $this->id)->where('user_id', '=', $user->id)->first();
+        $sponsorMember = SponsorMember::where('sponsor_id', '=', $this->id)->where('user_id', '=', $user->id)->first();
 
-        return $groupMember && $groupMember->role === $role;
+        return $sponsorMember && $sponsorMember->role === $role;
     }
 
     public static function getRoles($forHtml = false)
@@ -238,19 +238,19 @@ class Group extends Model
     {
         return array(
             array(
-                'name' => "group_{$this->id}_create_document",
+                'name' => "sponsor_{$this->id}_create_document",
                 'display_name' => "Create Documents",
             ),
             array(
-                'name' => "group_{$this->id}_edit_document",
+                'name' => "sponsor_{$this->id}_edit_document",
                 'display_name' => 'Edit Documents',
             ),
             array(
-                'name' => "group_{$this->id}_delete_document",
+                'name' => "sponsor_{$this->id}_delete_document",
                 'display_name' => "Delete Documents",
             ),
             array(
-                'name' => "group_{$this->id}_manage_document",
+                'name' => "sponsor_{$this->id}_manage_document",
                 'display_name' => "Manage Documents",
             ),
         );
@@ -261,7 +261,7 @@ class Group extends Model
         $this->destroyRbacRules();
 
         $ownerRole = new Role();
-        $ownerRole->name = "group_{$this->id}_owner";
+        $ownerRole->name = "sponsor_{$this->id}_owner";
         $ownerRole->save();
 
         $permissions = $this->getPermissionsArray();
@@ -282,16 +282,16 @@ class Group extends Model
             $permIds[] = $permModel->id;
 
             switch ($perm['name']) {
-                case "group_{$this->id}_create_document":
+                case "sponsor_{$this->id}_create_document":
                     $permLookup['create'] = $permModel->id;
                     break;
-                case "group_{$this->id}_edit_document":
+                case "sponsor_{$this->id}_edit_document":
                     $permLookup['edit'] = $permModel->id;
                     break;
-                case "group_{$this->id}_delete_document":
+                case "sponsor_{$this->id}_delete_document":
                     $permLookup['delete'] = $permModel->id;
                     break;
-                case "group_{$this->id}_manage_document":
+                case "sponsor_{$this->id}_manage_document":
                     $permLookup['manage'] = $permModel->id;
                     break;
             }
@@ -300,7 +300,7 @@ class Group extends Model
         $ownerRole->perms()->sync($permIds);
 
         $editorRole = new Role();
-        $editorRole->name = "group_{$this->id}_editor";
+        $editorRole->name = "sponsor_{$this->id}_editor";
         $editorRole->save();
 
         $editorRole->perms()->sync(array(
@@ -310,7 +310,7 @@ class Group extends Model
         ));
 
         $staffRole = new Role();
-        $staffRole->name = "group_{$this->id}_staff";
+        $staffRole->name = "sponsor_{$this->id}_staff";
         $staffRole->save();
 
         $users = array(
@@ -340,11 +340,11 @@ class Group extends Model
     {
         $permissions = $this->getPermissionsArray();
 
-        $members = GroupMember::where('group_id', '=', $this->id)->get();
+        $members = SponsorMember::where('sponsor_id', '=', $this->id)->get();
 
-        $roles = Role::where('name', '=', "group_{$this->id}_owner")
-                     ->orWhere('name', '=', "group_{$this->id}_editor")
-                     ->orWhere('name', '=', "group_{$this->id}_staff")
+        $roles = Role::where('name', '=', "sponsor_{$this->id}_owner")
+                     ->orWhere('name', '=', "sponsor_{$this->id}_editor")
+                     ->orWhere('name', '=', "sponsor_{$this->id}_staff")
                      ->get();
 
         foreach ($roles as $role) {
@@ -368,48 +368,48 @@ class Group extends Model
 
     public function members()
     {
-        return $this->hasMany('App\Models\GroupMember');
+        return $this->hasMany('App\Models\SponsorMember');
     }
 
     public static function findByUserId($userId, $onlyActive = true)
     {
-        $groupMember = static::join('group_members', 'groups.id', '=', 'group_members.group_id')
-                             ->where('group_members.user_id', '=', $userId);
+        $sponsorMember = static::join('sponsor_members', 'sponsors.id', '=', 'sponsor_members.sponsor_id')
+                             ->where('sponsor_members.user_id', '=', $userId);
 
         if ($onlyActive) {
-            $groupMember->where('groups.status', '=', static::STATUS_ACTIVE);
+            $sponsorMember->where('sponsors.status', '=', static::STATUS_ACTIVE);
         }
 
-        return $groupMember->get(array(
-            'groups.id', 'groups.name', 'groups.address1',
-            'groups.address2', 'groups.city', 'groups.state',
-            'groups.postal_code', 'groups.phone', 'groups.display_name',
-            'groups.status', 'groups.created_at', 'groups.updated_at',
-            'groups.deleted_at', ));
+        return $sponsorMember->get(array(
+            'sponsors.id', 'sponsors.name', 'sponsors.address1',
+            'sponsors.address2', 'sponsors.city', 'sponsors.state',
+            'sponsors.postal_code', 'sponsors.phone', 'sponsors.display_name',
+            'sponsors.status', 'sponsors.created_at', 'sponsors.updated_at',
+            'sponsors.deleted_at', ));
     }
 
     public static function findByMemberId($memberId)
     {
-        $groupMember = GroupMember::where('id', '=', $memberId)->first();
+        $sponsorMember = SponsorMember::where('id', '=', $memberId)->first();
 
-        if (!$groupMember) {
+        if (!$sponsorMember) {
             return;
         }
 
-        return static::where('id', '=', $groupMember->group_id)->first();
+        return static::where('id', '=', $sponsorMember->sponsor_id)->first();
     }
 
-    public static function isValidUserForGroup($user_id, $group_id)
+    public static function isValidUserForSponsor($user_id, $sponsor_id)
     {
-        $group = static::where('id', '=', $group_id)->first();
+        $sponsor = static::where('id', '=', $sponsor_id)->first();
 
-        if (!$group) {
-            throw new Exception("Invalid Group ID $group_id");
+        if (!$sponsor) {
+            throw new Exception("Invalid Sponsor ID $sponsor_id");
 
             return false;
         }
 
-        $member = $group->findMemberByUserId($user_id);
+        $member = $sponsor->findMemberByUserId($user_id);
 
         if (!$member) {
             throw new Exception("Invalid Member ID");
@@ -426,8 +426,8 @@ class Group extends Model
             return;
         }
 
-        $members = GroupMember::where('role', '=', $role)
-            ->where('group_id', '=', $this->id)->get();
+        $members = SponsorMember::where('role', '=', $role)
+            ->where('sponsor_id', '=', $this->id)->get();
 
         $retval = new Collection();
         foreach ($members as $member) {
@@ -444,54 +444,54 @@ class Group extends Model
     public function findMemberByUserId($userId)
     {
         if (!isset($this->id) || empty($this->id)) {
-            throw new \Exception("You must have a group ID set in order to search for members");
+            throw new \Exception("You must have a sponsor ID set in order to search for members");
         }
 
-        return GroupMember::where('user_id', '=', $userId)->where('group_id', '=', $this->id)->first();
+        return SponsorMember::where('user_id', '=', $userId)->where('sponsor_id', '=', $this->id)->first();
     }
 
-    public function isGroupOwner($userId)
+    public function isSponsorOwner($userId)
     {
-        $groupMember = $this->findMemberByUserId($userId);
+        $sponsorMember = $this->findMemberByUserId($userId);
 
-        return $groupMember->role == static::ROLE_OWNER;
+        return $sponsorMember->role == static::ROLE_OWNER;
     }
 
     public function getMemberRole($userId)
     {
-        $groupMember = $this->findMemberByUserId($userId);
+        $sponsorMember = $this->findMemberByUserId($userId);
 
-        return $groupMember->role;
+        return $sponsorMember->role;
     }
 
     public function addMember($userId, $role = null)
     {
-        $groupMember = $this->findMemberByUserId($userId);
+        $sponsorMember = $this->findMemberByUserId($userId);
 
-        if (!$groupMember) {
+        if (!$sponsorMember) {
             if (is_null($role)) {
                 throw new \Exception("You must provide a role if adding a new member");
             }
 
             if (!isset($this->id) || empty($this->id)) {
-                throw new \Exception("The group must have a ID set in order to add a member");
+                throw new \Exception("The sponsor must have a ID set in order to add a member");
             }
 
-            $groupMember = new GroupMember();
-            $groupMember->user_id = $userId;
-            $groupMember->role = $role;
-            $groupMember->group_id = $this->id;
+            $sponsorMember = new SponsorMember();
+            $sponsorMember->user_id = $userId;
+            $sponsorMember->role = $role;
+            $sponsorMember->sponsor_id = $this->id;
         } else {
             if (!is_null($role)) {
-                $groupMember->role = $role;
+                $sponsorMember->role = $role;
             }
         }
 
-        $groupMember->save();
+        $sponsorMember->save();
     }
 
 
-    public static function createIndividualGroup($userId, $input_attrs = [])
+    public static function createIndividualSponsor($userId, $input_attrs = [])
     {
         $user = User::find($userId);
 
@@ -508,16 +508,16 @@ class Group extends Model
             'status' => 'pending'
         ], $input_attrs);
 
-        $group = new Group($attrs);
-        $group->save();
-        $group->addMember($userId, Group::ROLE_OWNER);
+        $sponsor = new Sponsor($attrs);
+        $sponsor->save();
+        $sponsor->addMember($userId, Sponsor::ROLE_OWNER);
 
-        return $group;
+        return $sponsor;
     }
 
     public function userCanCreateDocument($user)
     {
-        return $this->userHasRole($user, Group::ROLE_EDITOR) || $this->userHasRole($user, Group::ROLE_OWNER);
+        return $this->userHasRole($user, Sponsor::ROLE_EDITOR) || $this->userHasRole($user, Sponsor::ROLE_OWNER);
     }
 
     public function isActive()

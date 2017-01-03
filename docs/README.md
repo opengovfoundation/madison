@@ -133,15 +133,11 @@ logging in.  These options include:
     registrant.
   * Users request verified status from their `Account Settings` page and must
     be approved by a site admin.
-* `Verify Groups`
-  * Groups can be used for different organizations, legislative offices, etc.
-    Users request to create a group from their `Group Management` page and must
-    be approved by an admin.  Groups have the ability to post new documents on Madison.
-* `Verify Independent Sponsors`
-  * Users to want to publish documents but are not part of a group can request
-    `Independent Sponsor` status. They do this from their `Account Settings`
-    page and must be verified by an admin.  After verification, they will be
-    able to post new documents on Madison.
+* `Verify Sponsors`
+  * Sponsors can be used for different organizations, legislative offices, or
+    individuals.  Users request to create a sponsor from their `Sponsor
+    Management` page and must be approved by an admin.  Sponsors have the
+    ability to post new documents on Madison.
 * `Administrative Notification Settings`
   * Site admins may want to be notified when activity is happening on their
     installation.  This page allows them to subscribe to email notifications for

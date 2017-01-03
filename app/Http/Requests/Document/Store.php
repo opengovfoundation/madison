@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Document;
 
 use App\Models\User;
+use App\Models\Sponsor;
 use Illuminate\Foundation\Http\FormRequest;
 
 class Store extends FormRequest
@@ -15,11 +16,11 @@ class Store extends FormRequest
     public function authorize()
     {
         if (!$this->user()->can('admin_manage_documents')) {
-            // If there's a group
-            if ($this->input('group_id')) {
-                $group = Group::find($this->input('group_id'));
+            // If there's a sponsor
+            if ($this->input('sponsor_id')) {
+                $sponsor = Sponsor::find($this->input('sponsor_id'));
 
-                return $group && $group->isActive() && $group->canUserCreateDocument($request->user());
+                return $sponsor && $sponsor->isActive() && $sponsor->canUserCreateDocument($request->user());
             } else {
                 return false;
             }
@@ -37,7 +38,7 @@ class Store extends FormRequest
     {
         return [
             'title' => 'required',
-            'group_id' => 'integer',
+            'sponsor_id' => 'integer',
         ];
     }
 }

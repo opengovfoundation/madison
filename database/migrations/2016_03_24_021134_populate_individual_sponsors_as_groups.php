@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-use App\Models\Group;
+use App\Models\Sponsor;
 use App\Models\UserMeta;
 
 class PopulateIndividualSponsorsAsGroups extends Migration
@@ -27,7 +27,7 @@ class PopulateIndividualSponsorsAsGroups extends Migration
                 [$individual_sponsor->user_id]
             )[0];
 
-            $group = new Group([
+            $group = new Sponsor([
                 'name' => $user->fname . ' ' . $user->lname,
                 'display_name' => $user->fname . ' ' . $user->lname,
                 'user_id' => $individual_sponsor->user_id,
@@ -46,7 +46,7 @@ class PopulateIndividualSponsorsAsGroups extends Migration
             }
 
             $group->save();
-            $group->addMember($individual_sponsor->user_id, Group::ROLE_OWNER);
+            $group->addMember($individual_sponsor->user_id, Sponsor::ROLE_OWNER);
         }
     }
 

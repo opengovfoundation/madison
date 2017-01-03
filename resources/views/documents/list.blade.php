@@ -22,9 +22,9 @@
                     {{ Form::open(['route' => 'documents.index', 'method' => 'get']) }}
                         {{ Form::mInput('text', 'title', trans('messages.document.title')) }}
                         {{ Form::mSelect(
-                               'group_id[]',
-                               trans('messages.document.group'),
-                               $groups->mapWithKeys_v2(function ($item) {return [$item->id => $item->display_name]; })->toArray(),
+                               'sponsor_id[]',
+                               trans('messages.document.sponsor'),
+                               $sponsors->mapWithKeys_v2(function ($item) {return [$item->id => $item->display_name]; })->toArray(),
                                null,
                                ['multiple' => true]
                                )
@@ -93,7 +93,7 @@
                 <th>@lang('messages.id')</th>
                 <th>@lang('messages.document.title')</th>
                 <th>@lang('messages.created')</th>
-                <th>@lang('messages.document.group')</th>
+                <th>@lang('messages.document.sponsor')</th>
                 <th>@lang('messages.document.publish_state')</th>
                 <th>@lang('messages.actions')</th>
             </tr>
@@ -106,7 +106,7 @@
                     <td>{{ $document->created_at->toDateTimeString() }}</td>
                     <td>{{ $document->sponsors->shift()->display_name }}
                         @if ($document->sponsors->count() > 1)
-                            @lang('messages.document.group_others')
+                            @lang('messages.document.sponsor_others')
                         @endif
                     </td>
                     <td>{{ trans('messages.document.publish_states.'.$document->publish_state) }}</td>

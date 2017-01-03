@@ -3,10 +3,10 @@
 namespace App\Http\Requests\Api;
 
 use App\Http\Requests\Api\Request;
-use App\Models\Group;
+use App\Models\Sponsor;
 use Auth;
 
-class StoreGroupRequest extends Request
+class StoreSponsorRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,6 @@ class StoreGroupRequest extends Request
      */
     public function rules()
     {
-        return Group::$rules;
+        return Sponsor::$rules;
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use App\Models\User;
-use App\Models\Group;
+use App\Models\Sponsor;
 
 class MoveIndividualSponsorDocsToIndividualGroups extends Migration
 {
@@ -55,7 +55,7 @@ class MoveIndividualSponsorDocsToIndividualGroups extends Migration
         }
 
         // get individual groups
-        $individual_groups = Group::where('individual', true);
+        $individual_groups = Sponsor::where('individual', true);
 
         foreach ($individual_groups as $group) {
             // find docs belonging to those groups

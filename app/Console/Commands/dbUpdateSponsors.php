@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use App\Models\Role;
 use Illuminate\Console\Command;
 
-class dbUpdateGroups extends Command
+class dbUpdateSponsors extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'db:update_groups';
+    protected $name = 'db:update_sponsors';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update a live database with changes from groups additions.';
+    protected $description = 'Update a live database with changes from sponsors additions.';
 
     /**
      * Create a new command instance.

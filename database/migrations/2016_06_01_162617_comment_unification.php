@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use App\Models\Annotation;
 use App\Models\AnnotationTypes;
 use App\Models\Doc;
-use App\Models\Group;
+use App\Models\Sponsor;
 
 class CommentUnification extends Migration
 {
@@ -111,7 +111,7 @@ class CommentUnification extends Migration
 
                     $this->updateTimestamps($newSeen, $annotation);
 
-                    $sponser = $doc->sponsors()->first()->findUsersByRole(Group::ROLE_OWNER)->first();
+                    $sponser = $doc->sponsors()->first()->findUsersByRole(Sponsor::ROLE_OWNER)->first();
 
                     DB::table('annotations')->insert([
                         'user_id' => $sponsor->id,
@@ -232,7 +232,7 @@ class CommentUnification extends Migration
 
                 $this->updateTimestamps($newSeen, $annotationComment);
 
-                $sponsor = $doc->sponsors()->first()->findUsersByRole(Group::ROLE_OWNER)->first();
+                $sponsor = $doc->sponsors()->first()->findUsersByRole(Sponsor::ROLE_OWNER)->first();
 
                 DB::table('annotations')->insert([
                     'user_id' => $sponsor->id,
@@ -300,7 +300,7 @@ class CommentUnification extends Migration
 
                     $this->updateTimestamps($newSeen, $comment);
 
-                    $sponsor = $doc->sponsors()->first()->findUsersByRole(Group::ROLE_OWNER)->first();
+                    $sponsor = $doc->sponsors()->first()->findUsersByRole(Sponsor::ROLE_OWNER)->first();
 
                     DB::table('annotations')->insert([
                         'user_id' => $sponsor->id,

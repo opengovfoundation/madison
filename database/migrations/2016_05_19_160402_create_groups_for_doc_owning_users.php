@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use App\Models\Role;
-use App\Models\Group;
+use App\Models\Sponsor;
 
 class CreateGroupsForDocOwningUsers extends Migration
 {
@@ -30,7 +30,7 @@ class CreateGroupsForDocOwningUsers extends Migration
 
         foreach($doc_user_records as $record) {
             // Check if the user has an individual group already
-            $individual_group = Group::where('user_id', $record->user_id)->first();
+            $individual_group = Sponsor::where('user_id', $record->user_id)->first();
 
             // If there's already an individual group, skip it
             if ($individual_group == null) {
@@ -65,7 +65,7 @@ class CreateGroupsForDocOwningUsers extends Migration
                 }
 
                 // Create the group
-                $individual_group = Group::createIndividualGroup($record->user_id, [
+                $individual_group = Sponsor::createIndividualSponsor($record->user_id, [
                     'status' => $status
                 ]);
             }

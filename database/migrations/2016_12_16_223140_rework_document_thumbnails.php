@@ -21,7 +21,7 @@ class ReworkDocumentThumbnails extends Migration
         foreach ($documents as $document) {
             $imageId = str_random(12);
 
-            $oldBaseImagePath = $this->getImagePathFromUrl($document->featuredImage, true);
+            $oldBaseImagePath = $this->getImagePathFromUrl($document->id, $document->featuredImage, true);
 
             $moves = [
                 $oldBaseImagePath => $imageId.'-original',
@@ -34,7 +34,10 @@ class ReworkDocumentThumbnails extends Migration
             }
 
             foreach ($moves as $oldLoc => $newLoc) {
-                Storage::move($oldLoc, $newLoc);
+                // check if file is present first
+                if (Storage::exists($oldLoc)) {
+                    Storage::move($oldLoc, $newLoc);
+                }
             }
 
             DB
@@ -56,10 +59,10 @@ class ReworkDocumentThumbnails extends Migration
         // no going back
     }
 
-    public function getImagePathFromUrl($image, $unsized = false)
+    public function getImagePathFromUrl($docId, $image, $unsized = false)
     {
-        $image_url = str_replace('/documents/' . $this->id . '/images/',
-                                 'doc-' . $this->id . '/',
+        $image_url = str_replace('/documents/' . $docId . '/images/',
+                                 'doc-' . $docId . '/',
                                  $image);
 
         // Remove any sizing.

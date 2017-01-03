@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\User;
 
-class GroupMember extends Model
+class SponsorMember extends Model
 {
     use SoftDeletes;
 
@@ -20,14 +20,14 @@ class GroupMember extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function group()
+    public function sponsor()
     {
-        return $this->belongsTo('App\Models\Group');
+        return $this->belongsTo('App\Models\Sponsor');
     }
 
-    public static function findByGroupId($groupId)
+    public static function findBySponsorId($sponsorId)
     {
-        return static::where('group_id', '=', $groupId)->get();
+        return static::where('sponsor_id', '=', $sponsorId)->get();
     }
 
     public function getUserName()

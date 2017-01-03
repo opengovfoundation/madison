@@ -3,10 +3,10 @@
 namespace App\Http\Requests\Api;
 
 use App\Http\Requests\Api\Request;
-use App\Models\Group;
+use App\Models\Sponsor;
 use Auth;
 
-class UpdateGroupRequest extends Request
+class UpdateSponsorRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,14 +16,14 @@ class UpdateGroupRequest extends Request
     public function authorize()
     {
         $user = Auth::user();
-        $group = Group::find($this->group);
+        $sponsor = Sponsor::find($this->sponsor);
 
-        $changing_status = ($this->input('status') && $group->status !== $this->input('status'));
+        $changing_status = ($this->input('status') && $sponsor->status !== $this->input('status'));
 
         if ($changing_status) {
             return $user->hasRole('Admin');
         } else {
-            return $group->isGroupOwner($user->id) || $user->hasRole('Admin');
+            return $sponsor->isSponsorOwner($user->id) || $user->hasRole('Admin');
         }
     }
 

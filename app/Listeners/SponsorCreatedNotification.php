@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\GroupCreated;
+use App\Events\SponsorCreated;
 use App\Models\Role;
 use App\Notification\Notifier;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class GroupCreatedNotification implements ShouldQueue
+class SponsorCreatedNotification implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -23,24 +23,24 @@ class GroupCreatedNotification implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  GroupCreated  $event
+     * @param  SponsorCreated  $event
      * @return void
      */
-    public function handle(GroupCreated $event)
+    public function handle(SponsorCreated $event)
     {
         $adminRole = Role::where('name', Role::ROLE_ADMIN)->first();
         $admins = $adminRole->users;
 
         $data = [
-            'group' => $event->group,
+            'sponsor' => $event->sponsor,
         ];
 
-        if ($event->group->individual == 1) {
-            $view = 'notification.group.created-independent-html';
+        if ($event->sponsor->individual == 1) {
+            $view = 'notification.sponsor.created-independent-html';
             $subject = 'A user is requesting approval as an independent sponsor';
         } else {
-            $view = 'notification.group.created-html';
-            $subject = 'A new group has been created and needs approval';
+            $view = 'notification.sponsor.created-html';
+            $subject = 'A new sponsor has been created and needs approval';
         }
 
         $this->notifier->queue($view, $data, function ($message) use ($admins, $subject) {

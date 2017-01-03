@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Group;
+use App\Models\Sponsor;
 use App\Models\Doc;
 use App\Models\Setting;
 
@@ -17,7 +17,7 @@ class DocumentsTableSeeder extends Seeder
         $credentials = array('email' => $adminEmail, 'password' => $adminPassword);
         Auth::attempt($credentials);
         $admin = Auth::user();
-        $group = Group::where('id', '=', 1)->first();
+        $sponsor = Sponsor::where('id', '=', 1)->first();
 
         // Create first doc
 
@@ -30,7 +30,7 @@ class DocumentsTableSeeder extends Seeder
         $docOptions = array(
             'title'         => 'Example Document',
             'content'       => $content,
-            'sponsor'       => $group->id,
+            'sponsor'       => $sponsor->id,
             'publish_state' => 'published'
         );
         $document = Doc::createEmptyDocument($docOptions);
@@ -52,7 +52,7 @@ class DocumentsTableSeeder extends Seeder
 
         $docOptions = array(
             'title'         => 'Second Example Document',
-            'sponsor'       => $group->id,
+            'sponsor'       => $sponsor->id,
             'publish_state' => 'published'
         );
         $document = Doc::createEmptyDocument($docOptions);

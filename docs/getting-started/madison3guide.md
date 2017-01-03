@@ -28,7 +28,7 @@ By governing together your government officials will have better knowledge and b
 
 #### Becoming a Document Sponsor
 1. Click on the drop-down menu (appears when you click on your name)
-2. Scroll down to “Account Settings”
+2. Scroll down to "Account Settings"
 3. At the bottom of the page click the box requesting to be an Individual Sponsor and complete the form provided.
 4. A Madison Administrator will accept your request, and you can begin posting!
 
@@ -36,14 +36,14 @@ By governing together your government officials will have better knowledge and b
 
 ![](4_document_sponsor_b.png)
 
-#### Creating a **Governing Group**
+#### Creating a **Sponsor**
 1. Click on the *drop down menu* (appears when you click your name)
-2. Select *"Group Management"*
-3. Select *"Create a Group"* to submit a request to a Madison Administrator
-4. Once the *request is accepted*, your group has been created and you may:
-  - *Add* other users to your group
+2. Select *"Sponsor Management"*
+3. Select *"Create a Sponsor"* to submit a request to a Madison Administrator
+4. Once the *request is accepted*, your sponsor has been created and you may:
+  - *Add* other users to your sponsor
   - *Manage* other users' editing preferences
-  - Create documents under sponsorship of the new group
+  - Create documents under the new sponsor
 
 ![](5_create_a_governing_group_a.png)
 
@@ -65,7 +65,7 @@ By governing together your government officials will have better knowledge and b
 #### Recommended Additional **Document Information**
 1. *Status* of the bill
   a. Published: public and listed in the front page of documents
-  b. Unpublished: only viewable by the creator and group members
+  b. Unpublished: only viewable by the creator and sponsor members
   c. Private: not displayed on homepage but viewable through link-sharing
 2. Time and location of *all public hearings* pertaining to the bill
 3. Insert links to *additional information* about the bill

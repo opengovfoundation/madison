@@ -12,7 +12,7 @@
 
 use App\Models\Category;
 use App\Models\Doc;
-use App\Models\Group;
+use App\Models\Sponsor;
 use App\Models\Page;
 use App\Models\PageContent;
 use App\Models\Role;
@@ -32,7 +32,7 @@ $factory->defineAs(Role::class, 'admin_role', function (Faker\Generator $faker) 
     return ['name' => Role::ROLE_ADMIN];
 });
 
-$factory->define(Group::class, function (Faker\Generator $faker) {
+$factory->define(Sponsor::class, function (Faker\Generator $faker) {
     $name = $faker->company;
     $display_name = "{$name} {$faker->companySuffix}";
     return [

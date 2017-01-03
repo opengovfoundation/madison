@@ -10,10 +10,10 @@
     {{ Form::open(['route' => ['documents.store']]) }}
         {{ Form::mInput('text', 'title', trans('messages.document.title')) }}
         {{ Form::mSelect(
-                'group_id',
+                'sponsor_id',
                 trans('messages.document.create_as'),
-                $availableGroups->mapWithKeys_v2(function ($item) {return [$item->id => $item->display_name]; }),
-                $activeGroup ? $activeGroup->id : null
+                $availableSponsors->mapWithKeys_v2(function ($item) {return [$item->id => $item->display_name]; }),
+                $activeSponsor ? $activeSponsor->id : null
                 )
         }}
         {{ Form::mSubmit() }}

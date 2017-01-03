@@ -6,20 +6,20 @@ use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class GroupMemberAdded extends Event
+class SponsorMemberAdded extends Event
 {
     use SerializesModels;
 
-    public $groupMember;
+    public $sponsorMember;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(GroupMember $groupMember)
+    public function __construct(SponsorMember $sponsorMember)
     {
-        $this->groupMember = $groupMember;
+        $this->sponsorMember = $sponsorMember;
     }
 
     /**
@@ -34,7 +34,7 @@ class GroupMemberAdded extends Event
 
     public static function getName()
     {
-        return 'madison.group.member-added';
+        return 'madison.sponsor.member-added';
     }
 
     public static function getType()

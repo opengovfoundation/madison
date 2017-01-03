@@ -36,11 +36,10 @@ directly to the document and the discussion.
 
 **How can I add documents to Madison?**
 
-Groups and Independent Sponsors have the ability to create documents in Madison.
-To create a group go to the Account Dropdown in the upper right ( after logging
-in ) and go to the Group Management page.  To request Independent Sponsor
-status, go to the Account Dropdown and your Account Settings page.  Check the
-box asking to request Independent Sponsor status and submit the form.
+Sponsor have the ability to create documents in Madison. To start sponsoring
+documents, visit the "Sponsor Management" section in the account drop down and
+request to create a new sponsor. An administrator will receive a notification to
+approve this request. Once approved, you can create documents as this sponsor!
 
 **How do I know if my Madison comments and suggestions are read by my local elected officials?**
 

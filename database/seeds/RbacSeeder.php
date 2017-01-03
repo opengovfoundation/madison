@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Role;
 use App\Models\Permission;
 use App\Models\User;
-use App\Models\Group;
+use App\Models\Sponsor;
 
 class RbacSeeder extends Seeder
 {

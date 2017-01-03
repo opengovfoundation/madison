@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use App\Models\Group;
+use App\Models\Sponsor;
 
 class AddGroupTables extends Migration
 {
@@ -20,7 +20,7 @@ class AddGroupTables extends Migration
             $table->string('postal_code');
             $table->string('phone_number');
             $table->string('display_name');
-            $table->enum('status', Group::getStatuses());
+            $table->enum('status', Sponsor::getStatuses());
 
             $table->timestamps();
             $table->softDeletes();
@@ -30,7 +30,7 @@ class AddGroupTables extends Migration
             $table->increments('id');
             $table->integer('group_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->enum('role', Group::getRoles());
+            $table->enum('role', Sponsor::getRoles());
             $table->timestamps();
             $table->softDeletes();
 

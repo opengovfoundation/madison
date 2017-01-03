@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use App\Models\Role;
-use App\Models\Group;
+use App\Models\Sponsor;
 
 class CreateGroupsForIndividualSponsorRole extends Migration
 {
@@ -40,7 +40,7 @@ class CreateGroupsForIndividualSponsorRole extends Migration
             )[0];
 
             // Create the individual group for this user
-            $group = new Group([
+            $group = new Sponsor([
                 'name' => $user->fname . ' ' . $user->lname,
                 'display_name' => $user->fname . ' ' . $user->lname,
                 'user_id' => $individual_sponsor->user_id,
@@ -56,7 +56,7 @@ class CreateGroupsForIndividualSponsorRole extends Migration
 
             // Save it and add the user as the owner
             $group->save();
-            $group->addMember($individual_sponsor->user_id, Group::ROLE_OWNER);
+            $group->addMember($individual_sponsor->user_id, Sponsor::ROLE_OWNER);
         }
     }
 

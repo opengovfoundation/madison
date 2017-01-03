@@ -17,12 +17,12 @@ class DatabaseSeeder extends Seeder
         'category_doc',
         'dates',
         'doc_contents',
-        'doc_group',
+        'doc_sponsor',
         'doc_meta',
         'doc_status',
         'docs',
-        'group_members',
-        'groups',
+        'sponsor_members',
+        'sponsors',
         'jobs',
         'notification_preferences',
         'organizations',
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call('UsersTableSeeder');
         $this->call('RbacSeeder');
-        $this->call('GroupsTableSeeder');
+        $this->call('SponsorsTableSeeder');
         $this->call('DocumentsTableSeeder');
         $this->call('CategoriesTableSeeder');
         $this->call('AnnotationsTableSeeder');

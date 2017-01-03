@@ -16,9 +16,9 @@ class NotificationPreference extends Model
     protected $table = 'notification_preferences';
     public $timestamps = false;
 
-    public function group()
+    public function sponsor()
     {
-        return $this->belongsTo('App\Models\Group', 'group_id');
+        return $this->belongsTo('App\Models\Sponsor', 'sponsor_id');
     }
 
     public function user()
@@ -60,7 +60,7 @@ class NotificationPreference extends Model
     public static function getAdminNotifications()
     {
         $validNotifications = [
-            'GroupCreated',
+            'SponsorCreated',
             'UserVerificationRequest',
         ];
 
@@ -76,7 +76,7 @@ class NotificationPreference extends Model
     {
         $validNotifications = [
             'CommentCreated',
-            'GroupMemberAdded',
+            'SponsorMemberAdded',
             'FeedbackSeen',
         ];
 
@@ -113,9 +113,9 @@ class NotificationPreference extends Model
         return $notification->save();
     }
 
-    public static function addNotificationForGroup($event, $group_id, $type = self::TYPE_EMAIL)
+    public static function addNotificationForSponsor($event, $sponsor_id, $type = self::TYPE_EMAIL)
     {
-        $notification = static::where('group_id', '=', $group_id)
+        $notification = static::where('sponsor_id', '=', $sponsor_id)
                               ->where('event', '=', $event)
                               ->where('type', '=', $type)
                               ->first();
@@ -126,7 +126,7 @@ class NotificationPreference extends Model
 
         $notification = new static();
         $notification->event = $event;
-        $notification->group_id = $group_id;
+        $notification->sponsor_id = $sponsor_id;
         $notification->type = $type;
 
         return $notification->save();
@@ -135,7 +135,7 @@ class NotificationPreference extends Model
     public static function addNotificationForAdmin($event, $type = self::TYPE_EMAIL)
     {
         $notification = static::where('user_id', '=', null)
-                              ->where('group_id', '=', null)
+                              ->where('sponsor_id', '=', null)
                               ->where('event', '=', $event)
                               ->where('type', '=', $type)
                               ->first();
@@ -146,7 +146,7 @@ class NotificationPreference extends Model
 
         $notification = new static();
         $notification->event = $event;
-        $notification->group_id = null;
+        $notification->sponsor_id = null;
         $notification->user_id = null;
         $notification->type = $type;
 
@@ -156,7 +156,7 @@ class NotificationPreference extends Model
     public static function removeNotificationForAdmin($event, $type = self::TYPE_EMAIL)
     {
         $notification = static::where('user_id', '=', null)
-                              ->where('group_id', '=', null)
+                              ->where('sponsor_id', '=', null)
                               ->where('event', '=', $event)
                               ->where('type', '=', $type)
                               ->first();
@@ -178,9 +178,9 @@ class NotificationPreference extends Model
         }
     }
 
-    public static function removeNotificationForGroup($event, $group_id, $type = self::TYPE_EMAIL)
+    public static function removeNotificationForSponsor($event, $sponsor_id, $type = self::TYPE_EMAIL)
     {
-        $notification = static::where('group_id', '=', $group_id)
+        $notification = static::where('sponsor_id', '=', $sponsor_id)
                               ->where('event', '=', $event)
                               ->where('type', '=', $type)
                               ->first();

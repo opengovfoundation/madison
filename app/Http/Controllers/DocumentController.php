@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Doc as Document;
 use App\Models\DocContent as DocumentContent;
 use App\Models\DocMeta as DocumentMeta;
-use App\Models\Group;
+use App\Models\Sponsor;
 use App\Services;
 use Auth;
 use Illuminate\Http\Request;
@@ -67,53 +67,53 @@ class DocumentController extends Controller
         }
 
         // So this part of the query is a little crazy. It basically grabs
-        // documents on a per-group basis. For any given group any one can see
-        // the groups documents that are published, but for users that belong
-        // to a group, they can also see the documents in their groups in
+        // documents on a per-sponsor basis. For any given sponsor any one can see
+        // the sponsors documents that are published, but for users that belong
+        // to a sponsor, they can also see the documents in their sponsors in
         // other publish states.
         //
-        // As the number of groups in the systems grows so does the size of
+        // As the number of sponsors in the systems grows so does the size of
         // this query, that could become an issue at some point.
         //
         // Default behavior should be to filter to only documents that are
-        // public or the user owns (i.e., they are a member of the group that
+        // public or the user owns (i.e., they are a member of the sponsor that
         // owns them with sufficient privileges to view the document in it's
         // current state)
         //
-        // If the user specifies publish states and no groups, view all
+        // If the user specifies publish states and no sponsors, view all
         // published documents (if that was a publish state requested) and the
-        // publish states allowed for each group the user belongs to
+        // publish states allowed for each sponsor the user belongs to
         //
-        // If the user specifies some groups but no explicit publish states,
-        // should show every document visible to the user in those groups, for
+        // If the user specifies some sponsors but no explicit publish states,
+        // should show every document visible to the user in those sponsors, for
         // some they might be able to see all the publish states, for others
-        // maybe only published (e.g., the groups they are not a part of)
+        // maybe only published (e.g., the sponsors they are not a part of)
         //
         // If the user specifies some of both, then of course we want to
-        // restrict ourselves to only documents that belong to that group and
+        // restrict ourselves to only documents that belong to that sponsor and
         // within those, only the ones they have sufficient permission to view
-        // for the each group
+        // for the each sponsor
 
-        // grab the group ids we want to concern ourselves with, by default we
+        // grab the sponsor ids we want to concern ourselves with, by default we
         // don't want to limit ourselves at all, i.e., we want to make
-        // available all possible documents, so we default to all groups
-        $groupIds = [];
-        if (!$request->has('group_id')) {
-            $groupIds = Group::select('id')->pluck('id')->toArray();
+        // available all possible documents, so we default to all sponsors
+        $sponsorIds = [];
+        if (!$request->has('sponsor_id')) {
+            $sponsorIds = Sponsor::select('id')->pluck('id')->toArray();
         } else {
-            $groupIds = $request->input('group_id');
+            $sponsorIds = $request->input('sponsor_id');
         }
 
-        // if the user is logged in, lookup any groups they belong to so we
-        // can widen the possible publish states we will allow for those group
+        // if the user is logged in, lookup any sponsors they belong to so we
+        // can widen the possible publish states we will allow for those sponsor
         // documents
-        $userGroupIds = [];
+        $userSponsorIds = [];
         if ($request->user()) {
             if ($request->user()->isAdmin()) {
-                // we'll just act like an admin is a member of every group
-                $userGroupIds = Group::select('id')->pluck('id')->flip()->toArray();
+                // we'll just act like an admin is a member of every sponsor
+                $userSponsorIds = Sponsor::select('id')->pluck('id')->flip()->toArray();
             } else {
-                $userGroupIds = $request->user()->groups()->pluck('groups.id')->flip()->toArray();
+                $userSponsorIds = $request->user()->sponsors()->pluck('sponsors.id')->flip()->toArray();
             }
         }
 
@@ -137,29 +137,29 @@ class DocumentController extends Controller
             $documentsQuery->withTrashed();
         }
 
-        // build up a map of which publish states the user can see for each group
-        $groupIdsToPubStates = [];
-        foreach ($groupIds as $groupId) {
+        // build up a map of which publish states the user can see for each sponsor
+        $sponsorIdsToPubStates = [];
+        foreach ($sponsorIds as $sponsorId) {
             $pubStates = [];
             // by default, you can only see published documents
             $possiblePubStates = [Document::PUBLISH_STATE_PUBLISHED];
-            if (isset($userGroupIds[$groupId])) {
-                // if you are a member of the group in any role, you can see
+            if (isset($userSponsorIds[$sponsorId])) {
+                // if you are a member of the sponsor in any role, you can see
                 // the document in whatever state it's in
                 $possiblePubStates = Document::validPublishStates();
             }
             $pubStates = array_intersect($possiblePubStates, $requestedPublishStates);
-            $groupIdsToPubStates[$groupId] = $pubStates;
+            $sponsorIdsToPubStates[$sponsorId] = $pubStates;
         }
 
         // here's the actual query part, restricting the selected documents
         // to only those the user has permission to see
-        $documentsQuery->where(function ($documentsQuery) use ($groupIdsToPubStates) {
-            // add an OR clause for every requested group and publish states combo
-            foreach ($groupIdsToPubStates as $groupId => $pubStates) {
-                $documentsQuery->orWhere(function ($query) use ($groupId, $pubStates) {
-                    $query->whereHas('sponsors', function ($q) use ($groupId, $pubStates) {
-                        $q->where('id', $groupId);
+        $documentsQuery->where(function ($documentsQuery) use ($sponsorIdsToPubStates) {
+            // add an OR clause for every requested sponsor and publish states combo
+            foreach ($sponsorIdsToPubStates as $sponsorId => $pubStates) {
+                $documentsQuery->orWhere(function ($query) use ($sponsorId, $pubStates) {
+                    $query->whereHas('sponsors', function ($q) use ($sponsorId, $pubStates) {
+                        $q->where('id', $sponsorId);
                     });
                     $query->whereIn('publish_state', $pubStates);
                 });
@@ -231,7 +231,7 @@ class DocumentController extends Controller
 
         // for the query builder modal
         $categories = Category::all();
-        $groups = Group::where('status', Group::STATUS_ACTIVE)->get();
+        $sponsors = Sponsor::where('status', Sponsor::STATUS_ACTIVE)->get();
         $publishStates = static::validPublishStatesForQuery();
         $discussionStates = Document::validDiscussionStates();
 
@@ -240,7 +240,7 @@ class DocumentController extends Controller
             'documents',
             'documentsCapabilities',
             'categories',
-            'groups',
+            'sponsors',
             'publishStates',
             'discussionStates',
         ]));
@@ -255,17 +255,17 @@ class DocumentController extends Controller
     {
         $user = $request->user();
 
-        $availableGroups = $user->groups;
-        $availableGroups->filter(function ($group) use ($user) {
-            return $group->userCanCreateDocument($user);
+        $availableSponsors = $user->sponsors;
+        $availableSponsors->filter(function ($sponsor) use ($user) {
+            return $sponsor->userCanCreateDocument($user);
         });
 
-        $activeGroup = $request->user()->activeGroup();
-        if ($activeGroup && !$activeGroup->userCanCreateDocument($user)) {
-            $activeGroup = null;
+        $activeSponsor = $request->user()->activeSponsor();
+        if ($activeSponsor && !$activeSponsor->userCanCreateDocument($user)) {
+            $activeSponsor = null;
         }
 
-        return view('documents.create', compact('availableGroups', 'activeGroup'));
+        return view('documents.create', compact('availableSponsors', 'activeSponsor'));
     }
 
     /**
@@ -299,7 +299,7 @@ class DocumentController extends Controller
         $document->slug = $slug;
         $document->save();
 
-        $document->sponsors()->sync([$request->input('group_id')]);
+        $document->sponsors()->sync([$request->input('sponsor_id')]);
 
         flash(trans('messages.document.created'));
         return redirect()->route('documents.edit', ['document' => $document->slug]);
@@ -328,7 +328,7 @@ class DocumentController extends Controller
     public function edit(Requests\Edit $request, Document $document)
     {
         $categories = Category::all();
-        $groups = Group::where('status', Group::STATUS_ACTIVE)->get();
+        $sponsors = Sponsor::where('status', Sponsor::STATUS_ACTIVE)->get();
         $publishStates = Document::validPublishStates();
         $discussionStates = Document::validDiscussionStates();
         $pages = $document->content()->paginate(1);
@@ -336,7 +336,7 @@ class DocumentController extends Controller
         return view('documents.edit', compact([
             'document',
             'categories',
-            'groups',
+            'sponsors',
             'publishStates',
             'discussionStates',
             'pages',
@@ -352,7 +352,7 @@ class DocumentController extends Controller
     {
         $document->update($request->all());
         $document->setIntroText($request->input('introtext'));
-        $document->sponsors()->sync([$request->input('group_id')]);
+        $document->sponsors()->sync([$request->input('sponsor_id')]);
         $document->syncCategories($request->input('category_id'));
 
         // update content for correct page

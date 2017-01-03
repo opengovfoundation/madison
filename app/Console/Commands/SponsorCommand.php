@@ -59,7 +59,7 @@ class SponsorCommand extends Command
                       FROM docs
                       WHERE id NOT IN (
                         SELECT doc_id
-                            FROM doc_group
+                            FROM doc_sponsor
                     )"
                 ),
                 array()
@@ -96,7 +96,7 @@ class SponsorCommand extends Command
             }
 
             $doc->sponsors()->sync([$sponsors[$selected]['id']]);
-            $this->info("Assigned Document to Group Sponsor");
+            $this->info("Assigned Document to Sponsor");
         }
     }
 

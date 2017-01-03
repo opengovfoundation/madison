@@ -20,8 +20,8 @@ class UserApiTest extends TestCase
         $this->actingAs($user)
             ->get('/api/user/current')
             ->seeJson([
-                'activeGroupId' => null,
-                'groups' => [],
+                'activeSponsorId' => null,
+                'sponsors' => [],
                 'user' => $user->toArray()
             ]);
     }

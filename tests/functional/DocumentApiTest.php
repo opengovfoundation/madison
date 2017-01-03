@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\Models\User;
-use App\Models\Group;
+use App\Models\Sponsor;
 use App\Models\Doc;
 
 class DocumentApiTest extends TestCase
@@ -20,9 +20,9 @@ class DocumentApiTest extends TestCase
     public function testGetAllUserDocs()
     {
         $user = factory(User::class)->create();
-        $group = factory(Group::class)->create();
-        $group->addMember($user->id, Group::ROLE_OWNER);
-        $individual_group = Group::createIndividualGroup($user->id);
+        $sponsor = factory(Sponsor::class)->create();
+        $sponsor->addMember($user->id, Sponsor::ROLE_OWNER);
+        $individual_sponsor = Sponsor::createIndividualSponsor($user->id);
 
         /**
          * TODO: These should be getting set from the factory
@@ -31,8 +31,8 @@ class DocumentApiTest extends TestCase
         $doc2 = factory(Doc::class)->create();
         $doc3 = factory(Doc::class)->create();
 
-        $group->docs()->saveMany([ $doc1, $doc2 ]);
-        $individual_group->docs()->save($doc3);
+        $sponsor->docs()->saveMany([ $doc1, $doc2 ]);
+        $individual_sponsor->docs()->save($doc3);
 
         //$response = $this->actingAs($user)
         //    ->get("/api/user{$user->id}/docs", ['content-type' => 'application/json'])->response;
@@ -43,20 +43,20 @@ class DocumentApiTest extends TestCase
 
         $response = json_decode($data, true);
 
-        $this->assertEquals(count($response['groups']), 2);
-        $this->assertEquals(count($response['groups'][0]['docs']), 2);
-        $this->assertEquals(count($response['groups'][1]['docs']), 1);
+        $this->assertEquals(count($response['sponsors']), 2);
+        $this->assertEquals(count($response['sponsors'][0]['docs']), 2);
+        $this->assertEquals(count($response['sponsors'][1]['docs']), 1);
 
         //$this->actingAs($user)
         //    ->json('GET', "/api/user/{$user->id}/docs")
         //    ->seeJson([
-        //        'groups' => [
+        //        'sponsors' => [
         //            [
-        //                'name' => $individual_group->name,
+        //                'name' => $individual_sponsor->name,
         //                'docs' => [$doc3->toArray()]
         //            ],
         //            [
-        //                'name' => $group->name,
+        //                'name' => $sponsor->name,
         //                'docs' => [$doc1->toArray(), $doc2->toArray()]
         //            ]
         //        ]

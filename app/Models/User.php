@@ -16,8 +16,8 @@ use Hash;
 use Log;
 
 use App\Models\Annotation;
-use App\Models\Group;
-use App\Models\GroupMember;
+use App\Models\Sponsor;
+use App\Models\SponsorMember;
 use App\Models\Role;
 use App\Models\UserMeta;
 
@@ -178,31 +178,31 @@ class User extends Authenticatable
      */
     public function getIndependentSponsorAttribute()
     {
-        // check if user has group marked as individual
-        // return the status of that group
-        $individual_group = $this->groups->where('individual', 1)->first();
-        return $individual_group ? $individual_group->status : null;
+        // check if user has sponsor marked as individual
+        // return the status of that sponsor
+        $individual_sponsor = $this->sponsors->where('individual', 1)->first();
+        return $individual_sponsor ? $individual_sponsor->status : null;
     }
 
     /**
-     *  activeGroup.
+     *  activeSponsor.
      *
-     *  Returns current active group for this user
-     *      Grabs the active group id from Session
+     *  Returns current active sponsor for this user
+     *      Grabs the active sponsor id from Session
      *
      *  @param void
      *
-     *  @return null || Group
+     *  @return null || Sponsor
      */
-    public function activeGroup()
+    public function activeSponsor()
     {
-        $activeGroupId = Session::get('activeGroupId');
+        $activeSponsorId = Session::get('activeSponsorId');
 
-        if ($activeGroupId <= 0) {
+        if ($activeSponsorId <= 0) {
             return;
         }
 
-        return Group::where('id', '=', $activeGroupId)->first();
+        return Sponsor::where('id', '=', $activeSponsorId)->first();
     }
 
     /**
@@ -219,30 +219,30 @@ class User extends Authenticatable
     }
 
     /**
-     *  groups.
+     *  sponsors.
      *
-     *  Eloquent belongsToMany relationship for Group
+     *  Eloquent belongsToMany relationship for Sponsor
      *
      *  @param void
      *
      *  @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function groups()
+    public function sponsors()
     {
-        return $this->belongsToMany('App\Models\Group', 'group_members');
+        return $this->belongsToMany('App\Models\Sponsor', 'sponsor_members');
     }
 
     /**
-     * individualGroup
+     * individualSponsor
      *
-     * Eloquent belongsTo relationship for an independent sponsor group
+     * Eloquent belongsTo relationship for an independent sponsor sponsor
      *
      * @param void
-     * @return App\Models\Group
+     * @return App\Models\Sponsor
      */
-    public function individualGroup()
+    public function individualSponsor()
     {
-        return $this->groups->where('individual', true)->first();
+        return $this->sponsors->where('individual', true)->first();
     }
 
     public function comments()
@@ -396,12 +396,12 @@ class User extends Authenticatable
     {
         $collection = new Collection();
 
-        $groups = GroupMember::where('user_id', '=', $this->id)
-                             ->whereIn('role', array(Group::ROLE_EDITOR, Group::ROLE_OWNER))
+        $sponsors = SponsorMember::where('user_id', '=', $this->id)
+                             ->whereIn('role', array(Sponsor::ROLE_EDITOR, Sponsor::ROLE_OWNER))
                              ->get();
 
-        foreach ($groups as $groupMember) {
-            $collection->add($groupMember->group()->first());
+        foreach ($sponsors as $sponsorMember) {
+            $collection->add($sponsorMember->sponsor()->first());
         }
 
         return $collection;
