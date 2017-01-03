@@ -374,7 +374,7 @@ class Doc extends Model
         $defaults = array(
             'content' => "New Document Content",
             'sponsor' => null,
-            'publish_state' => 'unpublished'
+            'publish_state' => static::PUBLISH_STATE_UNPUBLISHED
         );
 
         $params = array_replace_recursive($defaults, $params);
@@ -392,13 +392,9 @@ class Doc extends Model
 
             $document->sponsors()->sync([$params['sponsor']]);
 
-            $template = new DocContent();
-            $template->doc_id = $document->id;
-            $template->content = $params['content'];
-            $template->save();
-
-            $document->init_section = $template->id;
-            $document->save();
+            $pageContent = $document->content()->first();
+            $pageContent->content = $params['content'];
+            $pageContent->save();
         });
 
         return $document;

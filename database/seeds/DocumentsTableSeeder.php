@@ -21,7 +21,7 @@ class DocumentsTableSeeder extends Seeder
 
         // Create first doc
 
-        $docSeedPath = app_path().'/../database/seeds/docs/example.md';
+        $docSeedPath = database_path('seeds/docs/example.md');
         if (file_exists($docSeedPath)) {
             $content = file_get_contents($docSeedPath);
         } else {
@@ -31,7 +31,7 @@ class DocumentsTableSeeder extends Seeder
             'title'         => 'Example Document',
             'content'       => $content,
             'sponsor'       => $sponsor->id,
-            'publish_state' => 'published'
+            'publish_state' => Doc::PUBLISH_STATE_PUBLISHED,
         );
         $document = Doc::createEmptyDocument($docOptions);
 
@@ -43,7 +43,7 @@ class DocumentsTableSeeder extends Seeder
 
         // Create second doc
 
-        $docSeedPath = app_path().'/../database/seeds/docs/example2.md';
+        $docSeedPath = database_path('seeds/docs/example2.md');
         if (file_exists($docSeedPath)) {
             $content = file_get_contents($docSeedPath);
         } else {
@@ -52,8 +52,9 @@ class DocumentsTableSeeder extends Seeder
 
         $docOptions = array(
             'title'         => 'Second Example Document',
+            'content'       => $content,
             'sponsor'       => $sponsor->id,
-            'publish_state' => 'published'
+            'publish_state' => Doc::PUBLISH_STATE_PUBLISHED,
         );
         $document = Doc::createEmptyDocument($docOptions);
     }
