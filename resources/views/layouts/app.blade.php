@@ -49,6 +49,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="{{ route('documents.index') }}">@lang('messages.document.list')</a></li>
+                        <li><a href="{{ route('sponsors.index') }}">@lang('messages.sponsor.list')</a></li>
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">@lang('messages.login')</a></li>

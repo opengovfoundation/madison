@@ -100,6 +100,22 @@ return [
         'edit' => 'Edit Document',
     ],
 
+    // Sponsor Stuff
+    'sponsor' => [
+        'list' => 'Sponsors',
+        'create' => 'Create Sponsor',
+        'view_docs' => 'Documents',
+
+        'member' => 'Member',
+
+        'status' => 'Status',
+        'name' => 'Name',
+        'statuses' => [
+            \App\Models\Sponsor::STATUS_ACTIVE => 'Active',
+            \App\Models\Sponsor::STATUS_PENDING => 'Pending',
+        ],
+    ],
+
     'user' => [
         'edit' => 'Edit Profile',
         'fname' => 'First Name',
