@@ -114,6 +114,8 @@ return [
             \App\Models\Sponsor::STATUS_ACTIVE => 'Active',
             \App\Models\Sponsor::STATUS_PENDING => 'Pending',
         ],
+
+        'status_updated' => 'Status Updated'
     ],
 
     'user' => [

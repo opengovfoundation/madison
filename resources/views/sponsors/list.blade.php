@@ -90,7 +90,17 @@
                     <td>{{ $sponsor->created_at->toDateTimeString() }}</td>
                     @if ($canSeeAtLeastOneStatus)
                         <td>
-                            @if ($sponsorsCapabilities[$sponsor->id]['viewStatus'])
+                            @if ($sponsorsCapabilities[$sponsor->id]['editStatus'])
+                                {{ Form::open(['route' => ['sponsors.status.update', $sponsor->id], 'method' => 'put']) }}
+                                    {{ Form::select(
+                                        'status',
+                                        collect($validStatuses)->mapWithKeys_v2(function ($item) {return [$item => trans('messages.sponsor.statuses.'.$item)]; })->toArray(),
+                                        $sponsor->status,
+                                        [ 'onchange' => 'if (this.selectedIndex >= 0) this.form.submit();' ]
+                                        )
+                                    }}
+                                {{ Form::close() }}
+                            @elseif ($sponsorsCapabilities[$sponsor->id]['viewStatus'])
                                 {{ trans('messages.sponsor.statuses.'.$sponsor->status) }}
                             @else
                                 {{-- do nothing --}}

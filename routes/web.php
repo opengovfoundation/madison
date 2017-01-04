@@ -71,6 +71,9 @@ Route::get('/documents/{documentTrashed}/restore', 'DocumentController@restore')
 // Sponsors
 Route::resource('sponsors', 'SponsorController');
 
+Route::put('/sponsors/{sponsor}/status', 'SponsorController@updateStatus')
+    ->name('sponsors.status.update');
+
 
 // Users
 Route::resource('users', 'UserController', ['only' => [

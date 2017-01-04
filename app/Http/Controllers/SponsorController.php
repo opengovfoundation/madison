@@ -85,6 +85,7 @@ class SponsorController extends Controller
             'open' => true,
             'edit' => false,
             'viewStatus' => false,
+            'editStatus' => false,
         ];
         $canSeeAtLeastOneStatus = false;
 
@@ -96,6 +97,7 @@ class SponsorController extends Controller
                     $canSeeAtLeastOneStatus = true;
                 } elseif ($sponsor->isValidUserForGroup($request->user())) {
                     $caps = array_map(function ($item) { return true; }, $caps);
+                    $caps['editStatus'] = false;
                     $canSeeAtLeastOneStatus = true;
                 }
             }
@@ -179,5 +181,14 @@ class SponsorController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function updateStatus(Requests\UpdateStatus $request, Sponsor $sponsor)
+    {
+        $sponsor->status = $request->input('status');
+        $sponsor->save();
+
+        flash(trans('messages.sponsor.status_updated'));
+        return redirect()->route('sponsors.index', ['sponsor' => $sponsor->id]);
     }
 }
