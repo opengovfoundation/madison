@@ -29,7 +29,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use EntrustUserTrait;
-    use SoftDeletes;
+    use SoftDeletes { SoftDeletes::restore insteadof EntrustUserTrait; }
 
     protected $dates = ['deleted_at'];
 

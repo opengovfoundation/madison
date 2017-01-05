@@ -27,7 +27,7 @@ class SponsorMemberAddedNotification implements ShouldQueue
      */
     public function handle(SponsorMemberAdded $event)
     {
-        $text = "You've been added to the sponsor ".$event->sponsorMember->sponsor->getDisplayName()." with the role of ".$event->sponsorMember->role.".";
+        $text = "You've been added to the sponsor ".$event->sponsorMember->sponsor->display_name." with the role of ".$event->sponsorMember->role.".";
         $data = [
             'text' => $text,
         ];

@@ -62,7 +62,10 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ route('users.edit', Auth::user()->id) }}">Edit Profile</a>
+                                        <a href="{{ route('users.edit', Auth::user()->id) }}">@lang('messages.user.edit')</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('sponsors.index', ['user_id[]' => Auth::user()->id]) }}">@lang('messages.sponsor.my_sponsors')</a>
                                     </li>
                                     <li>
                                         <a href="{{ url('/logout') }}"

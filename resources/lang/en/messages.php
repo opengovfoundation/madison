@@ -104,25 +104,34 @@ return [
     'sponsor' => [
         'list' => 'Sponsors',
         'create' => 'Create Sponsor',
+        'my_sponsors' => 'My Sponsors',
+        'edit' => 'Edit Sponsor',
         'view_docs' => 'Documents',
 
         'member' => 'Member',
 
-        'status' => 'Status',
         'name' => 'Name',
+        'display_name' => 'Display Name',
+        'internal_name' => 'Internal Name',
+
+        'status' => 'Status',
         'statuses' => [
             \App\Models\Sponsor::STATUS_ACTIVE => 'Active',
             \App\Models\Sponsor::STATUS_PENDING => 'Pending',
         ],
 
-        'status_updated' => 'Status Updated'
+
+        'status_updated' => 'Status Updated',
+
+        'updated' => 'Sponsor updated.',
+        'update_failed' => 'Sponsor update failed.',
+
+        'create' => 'New Sponsor',
+        'created' => 'Sponsor created',
+        'create_failed' => 'Sponsor creation failed.',
     ],
 
-    'user' => [
-        'edit' => 'Edit Profile',
-        'fname' => 'First Name',
-        'lname' => 'Last Name',
-        'email' => 'Email Address',
+    'info' => [
         'url' => 'Website',
         'phone' => 'Phone Number',
         'address1' => 'Address 1',
@@ -130,10 +139,16 @@ return [
         'city' => 'City',
         'state' => 'State',
         'postal_code' => 'Zip Code',
+    ],
+
+    'user' => [
+        'edit' => 'Edit Profile',
+        'fname' => 'First Name',
+        'lname' => 'Last Name',
+        'email' => 'Email Address',
         'new_password' => 'New Password',
         'new_password_confirmation' => 'Re-Enter New Password',
         'updated' => 'User updated.',
         'update_failed' => 'User update failed.',
     ],
-
 ];

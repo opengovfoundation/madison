@@ -24,27 +24,27 @@
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-6">
-                        {{ Form::mInput('text', 'address1', trans('messages.user.address1')) }}
+                        {{ Form::mInput('text', 'address1', trans('messages.info.address1')) }}
                     </div>
                     <div class="col-md-6">
-                        {{ Form::mInput('text', 'address2', trans('messages.user.address2')) }}
+                        {{ Form::mInput('text', 'address2', trans('messages.info.address2')) }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        {{ Form::mInput('text', 'city', trans('messages.user.city')) }}
+                        {{ Form::mInput('text', 'city', trans('messages.info.city')) }}
                     </div>
                     <div class="col-md-4">
-                        {{ Form::mInput('text', 'state', trans('messages.user.state')) }}
+                        {{ Form::mInput('text', 'state', trans('messages.info.state')) }}
                     </div>
                     <div class="col-md-4">
-                        {{ Form::mInput('text', 'postal_code', trans('messages.user.postal_code')) }}
+                        {{ Form::mInput('text', 'postal_code', trans('messages.info.postal_code')) }}
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                {{ Form::mInput('text', 'phone', trans('messages.user.phone')) }}
-                {{ Form::mInput('text', 'url', trans('messages.user.url')) }}
+                {{ Form::mInput('text', 'phone', trans('messages.info.phone')) }}
+                {{ Form::mInput('text', 'url', trans('messages.info.url')) }}
             </div>
         </div>
         <hr>
@@ -56,6 +56,7 @@
                 {{ Form::mInput('password', 'new_password_confirmation', trans('messages.user.new_password_confirmation')) }}
             </div>
         </div>
+        <hr>
         {{ Form::mSubmit() }}
     {{ Form::close() }}
 @endsection

@@ -35,13 +35,8 @@ class SponsorCreatedNotification implements ShouldQueue
             'sponsor' => $event->sponsor,
         ];
 
-        if ($event->sponsor->individual == 1) {
-            $view = 'notification.sponsor.created-independent-html';
-            $subject = 'A user is requesting approval as an independent sponsor';
-        } else {
-            $view = 'notification.sponsor.created-html';
-            $subject = 'A new sponsor has been created and needs approval';
-        }
+        $view = 'notification.sponsor.created-html';
+        $subject = 'A new sponsor has been created and needs approval';
 
         $this->notifier->queue($view, $data, function ($message) use ($admins, $subject) {
             $message->setSubject($subject);

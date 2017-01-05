@@ -11,11 +11,12 @@
         "doctrine/dbal": "2.5.*",
         "roumen/sitemap": "2.4.*",
         "roumen/feed": "~2.10",
-        "zizaco/entrust": "dev-laravel-5",
+        "zizaco/entrust": "dev-master",
         "league/csv": "8.0.*",
         "intervention/image": "2.3.*",
         "laravelcollective/html": "^5.3.0",
-        "laracasts/flash": "^2.0"
+        "laracasts/flash": "^2.0",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

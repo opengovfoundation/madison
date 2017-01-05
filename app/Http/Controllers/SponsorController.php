@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Sponsor as Requests;
 use App\Models\Sponsor;
 use App\Models\User;
+use App\Events\SponsorCreated;
 use Illuminate\Http\Request;
+use Auth;
+use Event;
 
 class SponsorController extends Controller
 {
@@ -42,9 +45,9 @@ class SponsorController extends Controller
         if ($request->user()) {
             if ($request->user()->isAdmin()) {
                 // we'll just act like an admin is a member of every sponsor
-                $userSponsorIds = Sponsor::select('id')->pluck('id')->flip()->toArray();
+                $userSponsorIds = Sponsor::select('id')->pluck('id')->toArray();
             } else {
-                $userSponsorIds = $request->user()->sponsors()->pluck('sponsors.id')->flip()->toArray();
+                $userSponsorIds = $request->user()->sponsors()->pluck('sponsors.id')->toArray();
             }
         }
 
@@ -95,7 +98,7 @@ class SponsorController extends Controller
                 if ($request->user()->isAdmin()) {
                     $caps = array_map(function ($item) { return true; }, $caps);
                     $canSeeAtLeastOneStatus = true;
-                } elseif ($sponsor->isValidUserForGroup($request->user())) {
+                } elseif (Sponsor::isValidUserForSponsor($request->user()->id, $sponsor->id)) {
                     $caps = array_map(function ($item) { return true; }, $caps);
                     $caps['editStatus'] = false;
                     $canSeeAtLeastOneStatus = true;
@@ -122,9 +125,9 @@ class SponsorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Requests\Create $request)
     {
-        //
+        return view('sponsors.create');
     }
 
     /**
@@ -133,9 +136,21 @@ class SponsorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\Store $request)
     {
-        //
+        $sponsor = new Sponsor($request->all());
+        $sponsor->status = Sponsor::STATUS_PENDING;
+
+        if ($sponsor->save()) {
+            $sponsor->addMember(Auth::user()->id, Sponsor::ROLE_OWNER);
+            Event::fire(new SponsorCreated($sponsor));
+
+            flash(trans('messages.sponsor.created'));
+            return redirect()->route('sponsors.edit', $sponsor->id);
+        } else {
+            flash(trans('messages.sponsor.create_failed'));
+            return back()->withInput();
+        }
     }
 
     /**
@@ -155,9 +170,9 @@ class SponsorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Requests\Edit $request, Sponsor $sponsor)
     {
-        //
+        return view('sponsors.edit', compact('sponsor'));
     }
 
     /**
@@ -167,9 +182,24 @@ class SponsorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\Update $request, Sponsor $sponsor)
     {
-        //
+        $sponsor->name = $request->input('name') ?: null;
+        $sponsor->display_name = $request->input('display_name') ?: null;
+        $sponsor->address1 = $request->input('address1') ?: null;
+        $sponsor->address2 = $request->input('address2') ?: null;
+        $sponsor->city = $request->input('city') ?: null;
+        $sponsor->state = $request->input('state') ?: null;
+        $sponsor->postal_code = $request->input('postal_code') ?: null;
+        $sponsor->phone = $request->input('phone') ?: null;
+
+        if ($sponsor->save()) {
+            flash(trans('messages.sponsor.updated'));
+            return redirect()->route('sponsors.edit', ['sponsor' => $sponsor->id]);
+        } else {
+            flash(trans('messages.sponsor.update_failed'));
+            return redirect()->route('sponsors.edit', ['sponsor' => $sponsor->id]);
+        }
     }
 
     /**
