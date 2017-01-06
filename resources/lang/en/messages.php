@@ -109,6 +109,7 @@ return [
         'view_docs' => 'Documents',
 
         'member' => 'Member',
+        'members' => 'Members',
 
         'name' => 'Name',
         'display_name' => 'Display Name',
@@ -129,6 +130,12 @@ return [
         'create' => 'New Sponsor',
         'created' => 'Sponsor created',
         'create_failed' => 'Sponsor creation failed.',
+    ],
+
+    'sponsor_member' => [
+        'list' => 'Sponsor Members',
+        'role' => 'Role',
+        'joined' => 'Joined',
     ],
 
     'info' => [

@@ -12,6 +12,7 @@ class SponsorMember extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
+    protected $appends = ['name'];
 
     public static $timestamp = true;
 
@@ -30,7 +31,7 @@ class SponsorMember extends Model
         return static::where('sponsor_id', '=', $sponsorId)->get();
     }
 
-    public function getUserName()
+    public function getNameAttribute()
     {
         $user = User::where('id', '=', $this->user_id)->first();
 
@@ -38,6 +39,6 @@ class SponsorMember extends Model
             throw new \Exception("Could not locate user with ID");
         }
 
-        return "{$user->fname} {$user->lname}";
+        return "{$user->display_name}";
     }
 }

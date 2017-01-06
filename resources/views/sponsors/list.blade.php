@@ -122,6 +122,16 @@
                                                 )
                                         }}
                                     </div>
+                                @elseif ($cap === 'viewMembers')
+                                    <div class="btn-group" role="group">
+                                        {{ Html::linkRoute(
+                                                'sponsors.members.index',
+                                                trans('messages.sponsor.members'),
+                                                ['sponsor' => $sponsor->id],
+                                                ['class' => 'btn btn-default']
+                                                )
+                                        }}
+                                    </div>
                                 @elseif ($cap === 'open')
                                     <div class="btn-group" role="group">
                                         {{ Html::linkRoute(

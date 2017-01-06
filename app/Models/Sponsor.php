@@ -103,36 +103,36 @@ class Sponsor extends Model
     public static function getRoles($forHtml = false)
     {
         if ($forHtml) {
-            return array(
+            return [
                 static::ROLE_OWNER => static::ROLE_OWNER,
                 static::ROLE_EDITOR => static::ROLE_EDITOR,
                 static::ROLE_STAFF => static::ROLE_STAFF,
-            );
+            ];
         }
 
-        return array(static::ROLE_OWNER, static::ROLE_EDITOR, static::ROLE_STAFF);
+        return [static::ROLE_OWNER, static::ROLE_EDITOR, static::ROLE_STAFF];
     }
 
     protected function getPermissionsArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'name' => "sponsor_{$this->id}_create_document",
                 'display_name' => "Create Documents",
-            ),
-            array(
+            ],
+            [
                 'name' => "sponsor_{$this->id}_edit_document",
                 'display_name' => 'Edit Documents',
-            ),
-            array(
+            ],
+            [
                 'name' => "sponsor_{$this->id}_delete_document",
                 'display_name' => "Delete Documents",
-            ),
-            array(
+            ],
+            [
                 'name' => "sponsor_{$this->id}_manage_document",
                 'display_name' => "Manage Documents",
-            ),
-        );
+            ],
+        ];
     }
 
     public function createRbacRules()
@@ -278,25 +278,23 @@ class Sponsor extends Model
         return static::where('id', '=', $sponsorMember->sponsor_id)->first();
     }
 
+    public function hasMember($user_id)
+    {
+        return static::isValidUserForSponsor($user_id, $this->id);
+    }
+
     public static function isValidUserForSponsor($user_id, $sponsor_id)
     {
         $sponsor = static::where('id', '=', $sponsor_id)->first();
 
         if (!$sponsor) {
-            throw new Exception("Invalid Sponsor ID $sponsor_id");
-
+            throw new \Exception("Invalid Sponsor ID $sponsor_id");
             return false;
         }
 
         $member = $sponsor->findMemberByUserId($user_id);
 
-        if (!$member) {
-            throw new Exception("Invalid Member ID");
-
-            return false;
-        }
-
-        return true;
+        return !!$member;
     }
 
     public function findUsersByRole($role)
