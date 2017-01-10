@@ -365,6 +365,8 @@ class Sponsor extends Model
         }
 
         $sponsorMember->save();
+
+        return $sponsorMember;
     }
 
 

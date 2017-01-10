@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sponsor;
+use App\Models\User;
 use App\Http\Requests\SponsorMember as Requests;
+use App\Events\SponsorMemberAdded;
+use Event;
 
 class SponsorMemberController extends Controller
 {
@@ -13,7 +16,7 @@ class SponsorMemberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Sponsor $sponsor, Requests\Index $request)
+    public function index(Requests\Index $request, Sponsor $sponsor)
     {
         $orderField = $request->input('order', 'updated_at');
         $orderDir = $request->input('order_dir', 'DESC');
@@ -43,9 +46,14 @@ class SponsorMemberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Requests\Create $request, Sponsor $sponsor)
     {
-        //
+        $allRoles = Sponsor::getRoles(true);
+
+        return view('sponsor_members.create', compact([
+            'sponsor',
+            'allRoles',
+        ]));
     }
 
     /**
@@ -54,9 +62,25 @@ class SponsorMemberController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\Store $request, Sponsor $sponsor)
     {
-        //
+        $user = User::where('email', $request->input('email'))->first();
+
+        if (!$user) {
+            flash(trans('messages.sponsor_member.failed_invalid_email'));
+            return back()->withInput();
+        }
+
+        if ($sponsor->hasMember($user->id)) {
+            flash(trans('messages.sponsor_member.failed_already_member'));
+            return back()->withInput();
+        }
+
+        $newMember = $sponsor->addMember($user->id, $request->input('role', null));
+        Event::fire(new SponsorMemberAdded($newMember));
+
+        flash(trans('messages.sponsor_member.created'));
+        return redirect()->route('sponsors.members.index', $sponsor->id);
     }
 
     /**

@@ -147,7 +147,7 @@ class SponsorController extends Controller
             Event::fire(new SponsorCreated($sponsor));
 
             flash(trans('messages.sponsor.created'));
-            return redirect()->route('sponsors.edit', $sponsor->id);
+            return redirect()->route('sponsors.members.index', $sponsor->id);
         } else {
             flash(trans('messages.sponsor.create_failed'));
             return back()->withInput();

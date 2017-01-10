@@ -5,7 +5,7 @@ namespace App\Http\Requests\SponsorMember;
 use App\Models\Sponsor;
 use Illuminate\Foundation\Http\FormRequest;
 
-class Index extends FormRequest
+class Store extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,7 +18,7 @@ class Index extends FormRequest
 
         return $this->sponsor->isActive() || (
             $currentUser && (
-                $currentUser->isAdmin() || $this->sponsor->hasMember($currentUser->id)
+                $currentUser->isAdmin() || $this->sponsor->isSponsorOwner($currentUser->id)
             )
         );
     }
@@ -31,7 +31,8 @@ class Index extends FormRequest
     public function rules()
     {
         return [
-            'roles' => 'array|in:' . implode(',', Sponsor::getRoles()),
+            'email' => 'required|email',
+            'role' => 'in:' . implode(',', Sponsor::getRoles()),
         ];
     }
 }

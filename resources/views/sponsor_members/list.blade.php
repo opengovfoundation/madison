@@ -8,6 +8,7 @@
     @include('components.errors')
 
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#queryModal">Query</button>
+    {{ Html::linkRoute('sponsors.members.create', trans('messages.sponsor_member.add'), [$sponsor], ['class' => 'btn btn-default'])}}
 
     <div class="modal fade" id="queryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">

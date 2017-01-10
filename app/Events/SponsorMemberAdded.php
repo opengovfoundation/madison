@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Events\Event;
+use App\Models\SponsorMember;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
