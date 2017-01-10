@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sponsor;
+use App\Models\SponsorMember;
 use App\Models\User;
 use App\Http\Requests\SponsorMember as Requests;
 use App\Events\SponsorMemberAdded;
@@ -123,8 +124,18 @@ class SponsorMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Requests\Destroy $request, Sponsor $sponsor, SponsorMember $member)
     {
-        //
+        $ownerCount = $sponsor->members()->where('role', Sponsor::ROLE_OWNER)->count();
+
+        // if member being removed is an owner, make sure it's not the last owner
+        if ($member->role == Sponsor::ROLE_OWNER && $ownerCount < 2) {
+            flash(trans('messages.sponsor_member.need_owner'));
+        } else {
+            $member->delete();
+            flash(trans('messages.sponsor_member.removed'));
+        }
+
+        return redirect()->route('sponsors.members.index', $sponsor->id);
     }
 }
