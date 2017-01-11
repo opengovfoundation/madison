@@ -76,6 +76,9 @@ Route::put('/sponsors/{sponsor}/status', 'SponsorController@updateStatus')
 // Sponsor Members
 Route::resource('sponsors.members', 'SponsorMemberController');
 
+Route::put('/sponsors/{sponsor}/members/{member}/role', 'SponsorMemberController@updateRole')
+    ->name('sponsors.members.role.update');
+
 // Users
 Route::resource('users', 'UserController', ['only' => [
     'edit', 'update'

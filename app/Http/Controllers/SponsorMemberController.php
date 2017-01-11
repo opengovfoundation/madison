@@ -119,6 +119,30 @@ class SponsorMemberController extends Controller
     }
 
     /**
+     * Update the role for the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Models\Sponsor  $sponsor
+     * @param  App\Models\SponsorMember $sponsorMember
+     * @return \Illuminate\Http\Response
+     */
+    public function updateRole(Requests\UpdateRole $request, Sponsor $sponsor, SponsorMember $member)
+    {
+        $ownerCount = $sponsor->members()->where('role', Sponsor::ROLE_OWNER)->count();
+
+        if ($member->role == Sponsor::ROLE_OWNER && $ownerCount == 1) {
+            flash(trans('messages.sponsor_member.need_owner'));
+        } else {
+            $member->role = $request->input('role');
+            $member->save();
+
+            flash(trans('messages.sponsor_member.role_updated'));
+        }
+
+        return redirect()->route('sponsors.members.index', $sponsor->id);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

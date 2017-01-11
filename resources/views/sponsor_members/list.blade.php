@@ -73,7 +73,21 @@
             @foreach ($members as $member)
                 <tr>
                     <td>{{ $member->name }}</td>
-                    <td>{{ $member->role }}</td>
+                    <td>
+                        @if ($sponsor->isSponsorOwner(Auth::user()->id) || Auth::user()->isAdmin())
+                            {{ Form::open(['route' => ['sponsors.members.role.update', $sponsor, $member], 'method' => 'put']) }}
+                                {{ Form::select(
+                                    'role',
+                                    $allRoles,
+                                    $member->role,
+                                    [ 'onchange' => 'if (this.selectedIndex >= 0) this.form.submit();' ]
+                                    )
+                                }}
+                            {{ Form::close() }}
+                        @else
+                            {{ trans('messages.sponsor_member.roles.'.$member->role) }}
+                        @endif
+                    </td>
                     <td>{{ $member->created_at->toDateTimeString() }}</td>
                     <td>
                         <div class="btn-toolbar" role="toolbar">

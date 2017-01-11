@@ -104,9 +104,9 @@ class Sponsor extends Model
     {
         if ($forHtml) {
             return [
-                static::ROLE_OWNER => static::ROLE_OWNER,
-                static::ROLE_EDITOR => static::ROLE_EDITOR,
-                static::ROLE_STAFF => static::ROLE_STAFF,
+                static::ROLE_OWNER => trans('messages.sponsor_member.roles.'.static::ROLE_OWNER),
+                static::ROLE_EDITOR => trans('messages.sponsor_member.roles.'.static::ROLE_EDITOR),
+                static::ROLE_STAFF => trans('messages.sponsor_member.roles.'.static::ROLE_STAFF),
             ];
         }
 

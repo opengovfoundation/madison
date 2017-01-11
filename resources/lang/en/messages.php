@@ -135,15 +135,26 @@ return [
     'sponsor_member' => [
         'add' => 'Add a Member',
         'create' => 'New Sponsor Member',
+        'role_updated' => 'Sponsor member role updated',
         'remove' => 'Remove',
+
         'list' => 'Sponsor Members',
         'role' => 'Role',
+
         'joined' => 'Joined',
+
         'failed_invalid_email' => 'User not found by that email address.',
         'failed_already_member' => 'That user is already a member of this sponsor',
+
         'created' => 'Member successfully added to Sponsor',
         'removed' => 'Member successfully removed from Sponsor',
         'need_owner' => 'A sponsor must have at least one owner',
+
+        'roles' => [
+            'owner' => 'Owner',
+            'editor' => 'Editor',
+            'staff' => 'Staff',
+        ],
     ],
 
     'info' => [
