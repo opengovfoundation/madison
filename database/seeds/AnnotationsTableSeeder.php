@@ -13,6 +13,7 @@ class AnnotationsTableSeeder extends Seeder
         $user = User::find(1);
         $admin = User::find(2);
         $doc = Doc::find(1);
+        $commentService = App::make('App\Services\Comments');
 
         $note1 = [
             'quote' => 'Document',
@@ -30,8 +31,7 @@ class AnnotationsTableSeeder extends Seeder
             ]
         ];
 
-        App::make('App\Http\Controllers\Api\CommentController')
-            ->createFromAnnotatorArray($doc, $user, $note1);
+        $commentService->createFromAnnotatorArray($doc, $user, $note1);
 
         $note2 = [
             'quote' => 'Content',
@@ -49,14 +49,13 @@ class AnnotationsTableSeeder extends Seeder
             ]
         ];
 
-        App::make('App\Http\Controllers\Api\CommentController')
-            ->createFromAnnotatorArray($doc, $user, $note2);
+        $commentService->createFromAnnotatorArray($doc, $user, $note2);
 
         $comment1 = [
             'text' => 'This is a comment'
         ];
 
-        $comment1Result = App::make('App\Http\Controllers\Api\CommentController')
+        $comment1Result = $commentService
             ->createFromAnnotatorArray($doc, $admin, $comment1);
 
         $comment1Reply = [
@@ -64,14 +63,12 @@ class AnnotationsTableSeeder extends Seeder
         ];
 
         $commentTarget = Annotation::find($comment1Result['id']);
-        App::make('App\Http\Controllers\Api\CommentController')
-            ->createFromAnnotatorArray($commentTarget, $user, $comment1Reply);
+        $commentService->createFromAnnotatorArray($commentTarget, $user, $comment1Reply);
 
         $comment2 = [
             'text' => 'Yet another comment'
         ];
 
-        App::make('App\Http\Controllers\Api\CommentController')
-            ->createFromAnnotatorArray($doc, $admin, $comment2);
+        $commentService->createFromAnnotatorArray($doc, $admin, $comment2);
     }
 }

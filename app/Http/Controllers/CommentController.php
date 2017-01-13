@@ -2,20 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentCreated;
+use App\Http\Requests\Document\View as DocumentViewRequest;
 use App\Models\Annotation;
 use App\Models\Doc as Document;
 use App\Services;
+use Event;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Response;
 
 class CommentController extends Controller
 {
+    protected $annotationService;
     protected $commentService;
 
-    public function __construct(Services\Comments $commentService)
+    public function __construct(Services\Annotations $annotationService, Services\Comments $commentService)
     {
+        $this->annotationService = $annotationService;
         $this->commentService = $commentService;
+
+        $this->middleware('auth')->except(['index', 'show']);
     }
 
     /**
@@ -23,7 +30,7 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(\App\Http\Requests\Document\View $request, Document $document)
+    public function index(DocumentViewRequest $request, Document $document)
     {
         $excludeUserIds = [];
         if ($request->query('exclude_sponsors') && $request->query('exclude_sponsors') !== 'false') {
@@ -86,7 +93,7 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+        // TODO
     }
 
     /**
@@ -95,9 +102,9 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DocumentViewRequest $request, Document $document)
     {
-        //
+        return $this->createComment($document, $request->user(), $request->all());
     }
 
     /**
@@ -108,7 +115,7 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        //
+        // TODO
     }
 
     /**
@@ -119,7 +126,7 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        // TODO
     }
 
     /**
@@ -131,7 +138,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // TODO
     }
 
     /**
@@ -142,6 +149,15 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // TODO
+    }
+
+    protected function createComment($target, $user, $data)
+    {
+        $newComment = $this->commentService->createFromAnnotatorArray($target, $user, $data);
+
+        Event::fire(new CommentCreated($newComment, $target));
+
+        return Response::json($this->commentService->toAnnotatorArray($newComment));
     }
 }

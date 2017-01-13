@@ -24,22 +24,21 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
      **/
     this.annotator.subscribe('annotationsLoaded', function (annotations) {
       annotations.forEach(function (annotation) {
-        annotation.highlights.forEach(function (highlight) {
-          $(highlight).attr('id', 'annotation_' + annotation.id);
-          $(highlight).attr('name', 'annotation_' + annotation.id);
-
-          annotation.commentsCollapsed = true;
-          annotation.label = 'annotation';
-          annotation.link = 'annotation_' + annotation.id;
-          annotation.permalinkBase = 'annotation';
-        });
-      });
+        this.processAnnotation(annotation);
+      }.bind(this));
 
       // TODO: support scrolling to specific annotation
 
-      annotationGroups = this.groupAnnotations(annotations);
-      this.annotationGroups = annotationGroups;
-      this.drawNotesSideBubbles(annotations, annotationGroups);
+      this.setAnnotations(annotations);
+    }.bind(this));
+
+    /**
+     *  Subscribe to Annotator's `annotationCreated` event
+     *    Adds new annotation to the sidebar
+     */
+    this.annotator.subscribe('annotationCreated', function (annotation) {
+      // TODO: show success notification or maybe in addAnnotation
+      this.addAnnotation(annotation);
     }.bind(this));
 
     this.annotator.subscribe('commentCreated', function (comment) {
@@ -154,6 +153,38 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
         this.onAdderClickOld(event);
       }
     }.bind(this);
+  },
+
+  processAnnotation: function (annotation) {
+    annotation.highlights.forEach(function (highlight) {
+      $(highlight).attr('id', 'annotation_' + annotation.id);
+      $(highlight).attr('name', 'annotation_' + annotation.id);
+    });
+
+    annotation.commentsCollapsed = true;
+    annotation.label = 'annotation';
+    annotation.link = 'annotation_' + annotation.id;
+    annotation.permalinkBase = 'annotation';
+  },
+
+  setAnnotations: function (annotations) {
+    annotationGroups = this.groupAnnotations(annotations);
+    this.annotations = annotations;
+    this.annotationGroups = annotationGroups;
+    this.drawNotesSideBubbles(annotations, annotationGroups);
+  },
+
+  addAnnotation: function (annotation) {
+    if (annotation.id === undefined) {
+      var interval = window.setInterval(function () {
+        this.addAnnotation(annotation);
+        window.clearInterval(interval);
+      }.bind(this), 500);
+    } else {
+      this.processAnnotation(annotation);
+      this.annotations.push(annotation);
+      this.setAnnotations(this.annotations);
+    }
   },
 
   addEditFields: function (field, annotation) {

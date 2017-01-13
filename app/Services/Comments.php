@@ -4,11 +4,20 @@ namespace App\Services;
 
 use App\Models\Annotation;
 use App\Models\AnnotationPermission;
+use App\Models\Doc as Document;
 use App\Models\User;
+use DB;
 use League\Csv\Writer;
 
 class Comments
 {
+    protected $annotationService;
+
+    public function __construct(Annotations $annotationService)
+    {
+        $this->annotationService = $annotationService;
+    }
+
     /**
      * @param [App\Models\Comment] $comments
      *
@@ -144,5 +153,62 @@ class Comments
         ]));
 
         return $item;
+    }
+
+    public function createFromAnnotatorArray($target, User $user, array $data)
+    {
+        $isEdit = false;
+        // check for edit tag
+        if (!empty($data['tags']) && in_array('edit', $data['tags'])) {
+            $isEdit = true;
+
+            // if no explanation present, throw error
+            if (!isset($data['explanation'])) {
+                throw new \Exception('Explanation required for edits');
+            }
+        }
+
+        $id = DB::transaction(function () use ($target, $user, $data, $isEdit) {
+            if ((!empty($data['ranges']) && $target instanceof Document)
+                || (empty($data['ranges']) && $target instanceof Annotation && $target->isNote())
+            ) {
+                $data['subtype'] = Annotation::SUBTYPE_NOTE;
+            }
+
+            $annotation = $this->annotationService->createAnnotationComment($target, $user, $data);
+
+            $permissions = new AnnotationPermission();
+            $permissions->annotation_id = $annotation->id;
+            $permissions->user_id = $user->id;
+            $permissions->read = 1;
+            $permissions->update = 0;
+            $permissions->delete = 0;
+            $permissions->admin = 0;
+            $permissions->save();
+
+            if (!empty($data['ranges'])) {
+                foreach ($data['ranges'] as $range) {
+                    $this->annotationService->createAnnotationRange($annotation, $user, $range);
+                }
+            }
+
+            if (!empty($data['tags'])) {
+                foreach ($data['tags'] as $tag) {
+                    $this->annotationService->createAnnotationTag($annotation, $user, ['tag' => $tag]);
+                }
+            }
+
+            if ($isEdit) {
+                $editData = [
+                    'text' => $data['explanation'],
+                    'subtype' => !empty($data['subtype']) ? $data['subtype'] : null,
+                ];
+                $this->annotationService->createAnnotationComment($annotation, $user, $editData);
+            }
+
+            return $annotation->id;
+        });
+
+        return Annotation::find($id);
     }
 }

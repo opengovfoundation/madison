@@ -32,7 +32,7 @@ class CommentsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('App\Services\Comments', function ($app) {
-            $service = new Services\Comments();
+            $service = new Services\Comments($app->make('App\Services\Annotations'));
 
             return $service;
         });

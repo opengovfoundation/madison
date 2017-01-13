@@ -11,6 +11,7 @@ window.loadAnnotations = function (contentElem, annotationContainerElem, docId, 
   });
   ann.annotator('addPlugin', 'Store', {
     annotationData: {
+      '_token': window.Laravel.csrfToken,
       'uri': window.location.pathname,
       'comments': []
     },
