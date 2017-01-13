@@ -3,8 +3,15 @@
  */
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+$fa-font-path: "/fonts";
+@import "node_modules/font-awesome/scss/font-awesome";
+
+@import "settings";
+
 /**
  * Pages
  */
+@import "global";
 @import "home";
 @import "document-edit";
+@import "annotation";

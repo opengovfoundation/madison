@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
+    <link href="{{ elixir('css/annotator.min.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -95,5 +96,6 @@
     <!-- Scripts -->
     <script src="{{ elixir('js/vendor.js') }}"></script>
     <script src="{{ elixir('js/app.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>

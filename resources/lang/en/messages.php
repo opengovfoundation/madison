@@ -24,6 +24,8 @@ return [
     'register' => 'Register',
     'open' => 'Open',
     'restore' => 'Restore',
+    'none' => 'None',
+    'close' => 'Close',
 
     // Home Page Stuff
     'home' => [
@@ -59,13 +61,17 @@ return [
 
         'activity' => 'Activity',
         'comments' => 'Comments',
+        'note' => 'Note',
+        'note_edit_explanation_prompt' => 'Why did you make this edit?',
         'notes' => 'Notes',
         'collaborators' => 'Collaborators',
+        'collaborators_count' => ':count collaborators',
         'sponsoredby' => 'Sponsored by',
         'featured' => 'Featured',
         'featured_image' => 'Featured Image',
         'featured_image_remove' => 'Remove Featured Image',
         'featured_image_removed' => 'Featured Image Removed',
+        'replies_count' => ':count replies',
 
         'created' => 'Document created.',
         'deleted' => 'Document deleted. :restoreLinkOpen Undo :restoreLinkClosed',

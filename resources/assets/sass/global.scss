@@ -1,0 +1,31 @@
+.title-underline-thick {
+  padding-bottom: calc( #{$line-height-computed} - 5px );
+  border-bottom: 10px solid $gray-darker;
+  margin-bottom: calc( #{$line-height-computed} - 5px );
+
+}
+
+.title-underline-medium {
+  padding-bottom: calc( #{0.5 * $line-height-computed} - 3px );
+  border-bottom: 6px solid $gray-darker;
+  margin-bottom: calc( #{0.5 * $line-height-computed} - 3px );
+
+}
+
+.title-underline-thin {
+  padding-bottom: 0.5 * $line-height-computed;
+  border-bottom: 1px solid $gray-darker;
+  margin-bottom: calc( #{0.5 * $line-height-computed} - 1px);
+
+}
+
+.small-caps {
+  font-size: 90%;
+  line-height: $line-height-computed;
+  text-transform: uppercase;
+}
+
+// Overlay shadows
+%simple-shadow {
+  box-shadow: 0 0 5px 0 rgba(0,0,0,0.9);
+}

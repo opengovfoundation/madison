@@ -13,15 +13,26 @@ const elixir = require('laravel-elixir');
 
 elixir((mix) => {
     mix.sass('app.scss')
+       .webpack('annotator-madison.js')
        .webpack('app.js')
+       .webpack('document.js')
        .combine(
          [
           'node_modules/jquery/dist/jquery.min.js',
           'node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
+          'resources/assets/vendor/js/annotator-full.min.js',
          ],
          'public/js/vendor.js'
        )
        .copy('resources/assets/img', 'public/img')
-       .version(['css/app.css', 'js/app.js', 'js/vendor.js'])
+       .copy('resources/assets/vendor/css/annotator.min.css', 'public/css/')
+       .copy('node_modules/font-awesome/fonts/', 'public/fonts/')
+       .version([
+         'css/app.css',
+         'js/annotator-madison.js',
+         'js/app.js',
+         'js/document.js',
+         'js/vendor.js'
+       ])
   ;
 });

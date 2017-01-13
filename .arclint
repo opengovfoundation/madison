@@ -1,4 +1,11 @@
 {
+  "exclude": [
+    "(^node_modules/)",
+    "(^resources/assets/vendor/)",
+    "(^storage/)",
+    "(^vendor/)"
+  ],
+
   "linters": {
     "chmod": {
       "type": "chmod"
