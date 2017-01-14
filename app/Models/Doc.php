@@ -282,7 +282,7 @@ class Doc extends Model
 
     public function getOpposeAttribute()
     {
-        return DocMeta::where('meta_key', 'support')->where('meta_value', '')->where('doc_id', $this->id)->count();
+        return DocMeta::where('meta_key', 'support')->where('meta_value', '0')->where('doc_id', $this->id)->count();
     }
 
     /*

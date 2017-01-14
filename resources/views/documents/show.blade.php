@@ -7,6 +7,34 @@
 
     @include('components.errors')
 
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                <div class="btn-group" role="group">
+                        {{ Form::open(['route' => ['documents.support', $document->slug], 'method' => 'put']) }}
+                            <input type="hidden" name="support" value="1">
+
+                            @if ($userSupport === true)
+                                <button type="submit" class="btn btn-success">{{ trans('messages.document.supported') }}</button>
+                            @else
+                                <button type="submit" class="btn btn-default">{{ trans('messages.document.support') }}</button>
+                            @endif
+                        {{ Form::close() }}
+                </div>
+                <div class="btn-group" role="group">
+                        {{ Form::open(['route' => ['documents.support', $document->slug], 'method' => 'put']) }}
+                            <input type="hidden" name="support" value="0">
+                            @if ($userSupport === false)
+                                <button type="submit" class="btn btn-warning">{{ trans('messages.document.opposed') }}</button>
+                            @else
+                                <button type="submit" class="btn btn-default">{{ trans('messages.document.oppose') }}</button>
+                            @endif
+                        {{ Form::close() }}
+                </div>
+            </p>
+        </div>
+    </div>
+
     @if (!empty($document->introtext))
         <div class="panel panel-default">
             <div class="panel-heading">@lang('messages.document.introtext')</div>

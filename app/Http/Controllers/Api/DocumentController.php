@@ -772,7 +772,7 @@ class DocumentController extends Controller
         }
 
         $supports = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '1')->where('doc_id', '=', $doc->id)->count();
-        $opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '')->where('doc_id', '=', $doc->id)->count();
+        $opposes = DocMeta::where('meta_key', '=', 'support')->where('meta_value', '=', '0')->where('doc_id', '=', $doc->id)->count();
 
         return Response::json(['support' => $supported, 'supports' => $supports, 'opposes' => $opposes]);
     }

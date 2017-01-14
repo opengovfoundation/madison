@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Document as Requests;
 use App\Models\Category;
+use App\Models\User;
 use App\Models\Doc as Document;
 use App\Models\DocContent as DocumentContent;
 use App\Models\DocMeta as DocumentMeta;
@@ -312,11 +313,23 @@ class DocumentController extends Controller
      */
     public function show(Requests\View $request, Document $document)
     {
+        $userSupport = null;
+
+        // Get current user support status, if logged in
+        if ($request->user()) {
+            $existingSupportMeta = $this->getUserSupportMeta($request->user(), $document);
+
+            if ($existingSupportMeta) {
+                $userSupport = (bool) $existingSupportMeta->meta_value;
+            }
+        }
+
         $pages = $document->content()->paginate(1);
 
         return view('documents.show', compact([
             'document',
             'pages',
+            'userSupport',
         ]));
     }
 
@@ -491,8 +504,45 @@ class DocumentController extends Controller
         return redirect()->route('documents.edit', ['document' => $document->slug]);
     }
 
+    public function updateSupport(Requests\PutSupport $request, Document $document)
+    {
+        $support = (bool) $request->input('support');
+
+        $existingDocumentMeta = $this->getUserSupportMeta($request->user(), $document);
+
+        if ($existingDocumentMeta) {
+
+            // are we removing support/opposition?
+            if ((bool) $existingDocumentMeta->meta_value === $support) {
+                $existingDocumentMeta->forceDelete();
+            } else {
+                $existingDocumentMeta->meta_value = $support;
+                $existingDocumentMeta->save();
+            }
+        } else {
+            // create new one!
+            $documentMeta = new DocumentMeta();
+            $documentMeta->doc_id = $document->id;
+            $documentMeta->user_id = $request->user()->id;
+            $documentMeta->meta_key = 'support';
+            $documentMeta->meta_value = $support;
+            $documentMeta->save();
+        }
+
+        flash(trans('messages.document.update_support'));
+        return redirect()->route('documents.show', ['document' => $document->slug]);
+    }
+
     public static function validPublishStatesForQuery()
     {
        return ['all'] + Document::validPublishStates();
+    }
+
+    protected function getUserSupportMeta(User $user, Document $document)
+    {
+        return DocumentMeta::where('user_id', $user->id)
+            ->where('meta_key', '=', 'support')
+            ->where('doc_id', '=', $document->id)
+            ->first();
     }
 }

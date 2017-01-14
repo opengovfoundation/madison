@@ -72,12 +72,18 @@ return [
         'featured_image_remove' => 'Remove Featured Image',
         'featured_image_removed' => 'Featured Image Removed',
         'replies_count' => ':count replies',
+        'support' => 'Support',
+        'oppose' => 'Oppose',
+        'supported' => 'Supported',
+        'opposed' => 'Opposed',
 
         'created' => 'Document created.',
         'deleted' => 'Document deleted. :restoreLinkOpen Undo :restoreLinkClosed',
         'restored' => 'Document restored. It is currently unpublished.',
         'updated' => 'Document updated.',
         'page_added' => 'Page added.',
+
+        'update_support' => 'Updated your support on this document',
 
         'publish_state' => 'Publish State',
         'publish_state_help' => 'If a document is set to "unpublished", only sponsors can view it. If it is set to private, anyone with the link can view it. Otherwise it is publicly viewable.',
