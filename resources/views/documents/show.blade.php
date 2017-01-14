@@ -10,14 +10,30 @@
     <div class="row">
         <div class="col-md-12">
             <p>
+                <div class="document-stats pull-right lead">
+                    <span class="participants-count">
+                        <strong>{{ trans('messages.document.participants') }}:</strong> {{ $userCount }}
+                    </span>
+                    <span class="comments-count">
+                        <strong>{{ trans('messages.document.comments') }}</strong>: {{ $commentCount }}
+                    </span>
+                    <span class="notes-count">
+                        <strong>{{ trans('messages.document.notes') }}</strong>: {{ $noteCount }}
+                    </span>
+                </div>
+
                 <div class="btn-group" role="group">
                         {{ Form::open(['route' => ['documents.support', $document->slug], 'method' => 'put']) }}
                             <input type="hidden" name="support" value="1">
 
                             @if ($userSupport === true)
-                                <button type="submit" class="btn btn-success">{{ trans('messages.document.supported') }}</button>
+                                <button type="submit" class="btn btn-success">
+                                    {{ trans('messages.document.supported') }} ({{ $supportCount }})
+                                </button>
                             @else
-                                <button type="submit" class="btn btn-default">{{ trans('messages.document.support') }}</button>
+                                <button type="submit" class="btn btn-default">
+                                    {{ trans('messages.document.support') }} ({{ $supportCount }})
+                                </button>
                             @endif
                         {{ Form::close() }}
                 </div>
@@ -25,9 +41,13 @@
                         {{ Form::open(['route' => ['documents.support', $document->slug], 'method' => 'put']) }}
                             <input type="hidden" name="support" value="0">
                             @if ($userSupport === false)
-                                <button type="submit" class="btn btn-warning">{{ trans('messages.document.opposed') }}</button>
+                                <button type="submit" class="btn btn-warning">
+                                    {{ trans('messages.document.opposed') }} ({{ $opposeCount }})
+                                </button>
                             @else
-                                <button type="submit" class="btn btn-default">{{ trans('messages.document.oppose') }}</button>
+                                <button type="submit" class="btn btn-default">
+                                    {{ trans('messages.document.oppose') }} ({{ $opposeCount }})
+                                </button>
                             @endif
                         {{ Form::close() }}
                 </div>

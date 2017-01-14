@@ -313,6 +313,11 @@ class DocumentController extends Controller
      */
     public function show(Requests\View $request, Document $document)
     {
+        $commentCount = $document->comment_count;
+        $noteCount = $document->note_count;
+        $userCount = $document->user_count;
+        $supportCount = $document->support;
+        $opposeCount = $document->oppose;
         $userSupport = null;
 
         // Get current user support status, if logged in
@@ -329,6 +334,11 @@ class DocumentController extends Controller
         return view('documents.show', compact([
             'document',
             'pages',
+            'commentCount',
+            'noteCount',
+            'userCount',
+            'supportCount',
+            'opposeCount',
             'userSupport',
         ]));
     }

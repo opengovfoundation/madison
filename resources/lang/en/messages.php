@@ -60,6 +60,7 @@ return [
         'content' => 'Content',
 
         'activity' => 'Activity',
+        'participants' => 'Participants',
         'comments' => 'Comments',
         'note' => 'Note',
         'note_edit_explanation_prompt' => 'Why did you make this edit?',
