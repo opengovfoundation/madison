@@ -331,14 +331,15 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
     var comment = {
       text: text,
-      user: userId
+      user: userId,
+      _token: window.Laravel.csrfToken
     };
 
     // Add user's comment
-    $.post('/documents/' + docId + '/comments/' + annotation.id + '/comments', comment, function () {
-      annotation.comments.push(comment);
+    $.post('/documents/' + docId + '/comments/' + annotation.id + '/comments', comment, function (commentResponse) {
+      annotation.comments.push(commentResponse);
 
-      return this.annotator.publish('commentCreated', comment);
+      return this.annotator.publish('commentCreated', commentResponse);
     }.bind(this));
   },
 
@@ -476,16 +477,19 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
       pane += '</div>'; // comment-body
 
-      // TODO: this
-      // <div ng-hide="doc.discussion_state === 'closed'">
-      //   <comment-actions object="annotation" root-target="doc"></comment-actions>
-      //   <footer>
-      //     <div class="reply-action">
-      //       <a ng-click="showCommentForm($event)"
-      //         translate="document.action.addreply"></a>
-      //     </div>
-      //   </footer>
-      // </div>
+      if (!this.annotator.options.discussionClosed) {
+        pane += '<div>';
+        // TODO: actions
+        // <comment-actions object="annotation" root-target="doc"></comment-actions>
+        pane += '<footer>';
+        pane += '<div class="reply-action">';
+        pane += '<a onclick="showNoteReplyForm('+this.options.userId+', '+annotation.id+')">';
+        pane += window.trans['messages.document.add_reply'];
+        pane += '</a>';
+        pane += '</div>';
+        pane += '</footer>';
+        pane += '</div>';
+      }
 
       pane += '<section class="comments">';
       annotation.comments.forEach(function (comment) {
@@ -502,31 +506,29 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
         pane += comment.text;
         pane += '</section>';
 
-        // TODO: discussion state
-        // <div ng-hide="doc.discussion_state === 'closed'">
-        // <comment-actions object="comment" root-target="doc"></comment-actions>
-        // </div>
+        if (!this.annotator.options.discussionClosed) {
+          // TODO: actions
+          // <comment-actions object="comment" root-target="doc"></comment-actions>
+        }
+
         pane += '</article>'; // comment
-      });
+      }.bind(this));
       pane += '</section>'; // comments
 
-      // TODO: this
-      //   <section class="subcomment-form">
-      //     <div ng-hide="doc.discussion_state === 'closed'">
-      //       <form name="add-subcomment-form"
-      //         ng-submit="subcommentSubmit(annotation, subcomment)" ng-if="user">
-      //         <h4 translate="document.action.replynote"></h4>
-      //         <input id="comment-form-field" ng-model="subcomment.text" type="text"
-      //           class="form-control centered" required
-      //           placeholder="{{ document.action.commentplaceholder | translate }}" />
-      //         <button class="comment-button" type="submit"
-      //           translate="document.action.postcomment"></button>
-      //       </form>
-      //     </div>
-      // pane += '</section>'; // subcomment-form
+      pane += '<section class="subcomment-form">';
+      if (!this.annotator.options.discussionClosed && this.options.userId) {
+        let url = '/documents/'+this.options.docId+'/comments/'+annotation.id+'/comments';
+        pane += '<form name="add-subcomment-form" action="'+url+'" method="POST">';
+        pane += '<h4>'+window.trans['messages.document.note_reply']+'</h4>';
+        pane += '<input type="hidden" name="_token"' + ' value='+window.Laravel.csrfToken+' >';
+        pane += '<textarea id="comment-form-field-'+annotation.id+'" name="text" class="form-control centered" required></textarea>';
+        pane += '<button class="comment-button" type="submit">'+window.trans['messages.submit']+'</button>'; //TODO: trans
+        pane += '</form>';
+      }
+      pane += '</section>'; // subcomment-form
 
-        pane += '</article>';
-    });
+      pane += '</article>';
+    }.bind(this));
 
     pane += '</section>';
     pane += '</aside>';
@@ -602,3 +604,11 @@ window.hideNotes = function () {
   $('.annotation-click-capture').remove();
   $('.annotation-pane').removeClass('active');
 };
+
+window.showNoteReplyForm = function (userId, annotationId) {
+  if (!userId) {
+    window.location.href = '/login';
+  }
+
+  $('#comment-form-field-'+annotationId).focus();
+}

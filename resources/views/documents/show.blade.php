@@ -62,13 +62,16 @@
         <script>
             loadTranslations([
                 'messages.close',
-                'messages.edit',
-                'messages.none',
+                'messages.document.add_reply',
+                'messages.document.collaborators_count',
                 'messages.document.note',
                 'messages.document.note_edit_explanation_prompt',
-                'messages.document.collaborators_count',
+                'messages.document.notes',
+                'messages.document.note_reply',
                 'messages.document.replies_count',
-                'messages.document.notes'
+                'messages.edit',
+                'messages.none',
+                'messages.submit'
             ])
             .done(function () {
                 loadAnnotations(

@@ -180,7 +180,7 @@
   }
 
   .reply-action {
-    font-size: 0.75rem;
+    @extend .small;
     font-style: italic;
   }
 }

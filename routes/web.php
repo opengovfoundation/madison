@@ -54,6 +54,8 @@ Route::get('/', 'HomeController@index');
 
 // Comments
 Route::resource('documents.comments', 'CommentController');
+Route::post('documents/{document}/comments/{comment}/comments', 'CommentController@storeReply')
+    ->name('documents.comments.storeReply');
 
 
 // Documents
