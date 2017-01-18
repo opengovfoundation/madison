@@ -18,7 +18,7 @@ class AnnotationsTableSeeder extends Seeder
         $note1 = [
             'quote' => 'Document',
             'text' => 'Note!',
-            'uri' => '/docs/example-document',
+            'uri' => '/documents/example-document',
             'tags' => [],
             'comments' => [],
             'ranges' => [
@@ -36,7 +36,7 @@ class AnnotationsTableSeeder extends Seeder
         $note2 = [
             'quote' => 'Content',
             'text' => 'Another Note!',
-            'uri' => '/docs/example-document',
+            'uri' => '/documents/example-document',
             'tags' => [],
             'comments' => [],
             'ranges' => [

@@ -84,7 +84,7 @@ class Doc extends Model
     {
         $dom = new \DOMDocument();
 
-        $docSrc = URL::to('docs/embed', $this->slug);
+        $docSrc = URL::to('documents/embed', $this->slug);
 
         $insertElement = $dom->createElement('div');
 
@@ -333,7 +333,7 @@ class Doc extends Model
 
     public function getLink()
     {
-        return URL::to('docs/'.$this->slug);
+        return URL::route('documents.show', [$this->slug]);
     }
 
     /*

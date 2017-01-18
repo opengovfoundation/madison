@@ -24,7 +24,7 @@
         </style>
     </head>
     <body>
-        <p>Congratulations!  {{ $sponsor }} has marked your {{ $label }} on <a href="{{ url('docs/' . $slug, $parameters = array(), $secure = null) }}">{{ $title }}</a> as seen:</p>
+        <p>Congratulations!  {{ $sponsor }} has marked your {{ $label }} on <a href="{{ url('documents/' . $slug, $parameters = array(), $secure = null) }}">{{ $title }}</a> as seen:</p>
 
         <blockquote>
             <p>{{ $text }}</p>
@@ -32,7 +32,7 @@
 
         <p>Keep up the good work!</p>
 
-        <a href="{{ url('docs/' . $slug, $parameters = array(), $secure = null) }}">Jump back in to the conversation</a>
+        <a href="{{ url('documents/' . $slug, $parameters = array(), $secure = null) }}">Jump back in to the conversation</a>
 
         <p>&ndash; The OpenGov Foundation Team</p>
     </body>

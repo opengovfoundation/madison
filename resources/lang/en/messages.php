@@ -27,6 +27,14 @@ return [
     'none' => 'None',
     'close' => 'Close',
 
+    // Authentication Stuff
+    'password' => 'Password',
+    'confirm_password' => 'Confirm Password',
+    'remember_me' => 'Remember Me',
+    'forgot_password' => 'Forgot Your Password?',
+    'reset_password' => 'Reset Password',
+    'reset_password_send' => 'Send Password Reset Link',
+
     // Home Page Stuff
     'home' => [
         'welcome' => 'Add your voice...',

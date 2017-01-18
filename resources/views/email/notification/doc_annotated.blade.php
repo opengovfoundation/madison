@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
     </head>
     <body>
-        <p>An annotation has been added to - {{ link_to('docs/' . $doc['slug'], $doc['title']) }}</p>
+        <p>An annotation has been added to - {{ link_to('documents/' . $doc['slug'], $doc['title']) }}</p>
 
     <p>&quot;{{ $annotation['text'] }}&quot;</p>
     <blockquote>

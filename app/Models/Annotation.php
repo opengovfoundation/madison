@@ -104,7 +104,7 @@ class Annotation extends Model implements ActivityInterface
                         $hash = 'comment';
                     }
 
-                    return URL::to('docs/'.$slug.'#'.$hash.'_'.$this->id);
+                    return URL::to('documents/'.$slug.'#'.$hash.'_'.$this->id);
                 }
 
                 return;
