@@ -217,6 +217,12 @@ class Doc extends Model
         $categoriesToSync = [];
 
         foreach ($categoriesArray as $category) {
+            // if it's just a number, then it's the category id
+            if (is_numeric($category)) {
+                $categoriesToSync[] = $category;
+                continue;
+            }
+
             // check if category has an id property
             if (!isset($category['id'])) {
                 // Make sure category with same name doesn't already exist

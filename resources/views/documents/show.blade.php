@@ -94,13 +94,15 @@
                 'messages.submit'
             ])
             .done(function () {
-                loadAnnotations(
-                    "#page_content",
-                    ".annotation-container",
-                    {{ $document->id }},
-                    {{ request()->user() ? request()->user()->id : 'null' }},
-                    {{ $document->discussionState === \App\Models\Doc::DISCUSSION_STATE_CLOSED ? 1 : 0 }}
-                );
+                @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
+                    loadAnnotations(
+                        "#page_content",
+                        ".annotation-container",
+                        {{ $document->id }},
+                        {{ request()->user() ? request()->user()->id : 'null' }},
+                        {{ $document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_CLOSED ? 1 : 0 }}
+                    );
+                @endif
         });
         </script>
     @endpush
