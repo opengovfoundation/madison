@@ -104,7 +104,12 @@ class CommentController extends Controller
      */
     public function store(DocumentViewRequest $request, Document $document)
     {
-        return $this->createComment($document, $request->user(), $request->all());
+        $jsonResponse = $this->createComment($document, $request->user(), $request->all());
+        if ($request->expectsJson()) {
+            return $jsonResponse;
+        } else {
+            return redirect()->route('documents.show', ['document' => $document->slug]);
+        }
     }
 
     public function storeReply(DocumentViewRequest $request, Document $document, Annotation $comment)
