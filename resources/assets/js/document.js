@@ -25,3 +25,9 @@ window.loadAnnotations = function (contentElem, annotationContainerElem, docId, 
     }
   });
 };
+
+window.toggleCommentReplies = function(commentId) {
+  var $commentDiv = $('#comment-' + commentId);
+  var $commentReplyDiv = $commentDiv.find('.comment-replies');
+  $commentReplyDiv.toggleClass('hide');
+};
