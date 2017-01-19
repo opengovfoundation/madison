@@ -26,6 +26,7 @@ return [
     'restore' => 'Restore',
     'none' => 'None',
     'close' => 'Close',
+    'permalink' => 'Permalink',
 
     // Authentication Stuff
     'password' => 'Password',
@@ -89,6 +90,8 @@ return [
         'oppose' => 'Oppose',
         'supported' => 'Supported',
         'opposed' => 'Opposed',
+        'flag' => 'Flag',
+        'like' => 'Like',
 
         'created' => 'Document created.',
         'deleted' => 'Document deleted. :restoreLinkOpen Undo :restoreLinkClosed',

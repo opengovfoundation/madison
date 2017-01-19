@@ -23,6 +23,8 @@ class CommentController extends Controller
         $this->commentService = $commentService;
 
         $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('discussion_state:!'.Document::DISCUSSION_STATE_HIDDEN);
+        $this->middleware('discussion_state:'.Document::DISCUSSION_STATE_OPEN)->except(['index', 'show']);
     }
 
     /**
@@ -120,6 +122,28 @@ class CommentController extends Controller
         } else {
             return redirect()->route('documents.show', ['document' => $document->slug]);
         }
+    }
+
+    public function storeLikes(DocumentViewRequest $request, Document $document, Annotation $comment)
+    {
+        if ($comment->likes()->where('user_id', $request->user()->id)->count()) {
+            return Response::json($this->commentService->toAnnotatorArray($comment));
+        }
+
+        $this->annotationService->createAnnotationLike($comment, $request->user(), []);
+
+        return Response::json($this->commentService->toAnnotatorArray($comment));
+    }
+
+    public function storeFlags(DocumentViewRequest $request, Document $document, Annotation $comment)
+    {
+        if ($comment->flags()->where('user_id', $request->user()->id)->count()) {
+            return Response::json($this->commentService->toAnnotatorArray($comment));
+        }
+
+        $this->annotationService->createAnnotationFlag($comment, $request->user(), []);
+
+        return Response::json($this->commentService->toAnnotatorArray($comment));
     }
 
     /**

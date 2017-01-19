@@ -17,6 +17,48 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       }, 100);
     }.bind(this));
 
+    $(document).on('madison.addAction', function (e) {
+      let annotationId = $(e.target).data('annotationId');
+      let action = $(e.target).data('actionType');
+      let element = $(e.target);
+      let data = {
+        _token: window.Laravel.csrfToken
+      };
+
+      if (this.options.userId) {
+        $.post('/documents/' + this.options.docId + '/comments/' + annotationId + '/' + action, data)
+          .done(function (data) {
+            element = $(element);
+
+            let otherAction = { element: '', value: 0 };
+            let currentActionValue = 0;
+            if (action === 'likes') {
+              otherAction.element = '.flag';
+              otherAction.value = data.flags;
+              currentActionValue = data.likes;
+            } else {
+              otherAction.element = '.thumbs-up';
+              otherAction.value = data.likes;
+              currentActionValue = data.flags;
+            }
+
+            // update live display
+            element.children('.action-count').text(currentActionValue);
+            element.siblings(otherAction.element).children('.action-count').text(otherAction.value);
+
+            // update data for later redrawing if needed
+            let annotation = this.findAnnotation(annotationId);
+            annotation.likes = data.likes;
+            annotation.flags = data.flags;
+          }.bind(this))
+          .fail(function (data) {
+            console.error(data);
+          });
+      } else {
+        window.location.href = '/login';
+      }
+    }.bind(this));
+
     /**
      *  Subscribe to Store's `annotationsLoaded` event
      *    Stores all annotation objects provided by Store in the window
@@ -27,7 +69,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
         this.processAnnotation(annotation);
       }.bind(this));
 
-      // TODO: support scrolling to specific annotation
+      // TODO: support showing notes pane for requested permalink
 
       this.setAnnotations(annotations);
     }.bind(this));
@@ -70,7 +112,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     // Add Madison-specific fields to the viewer when Annotator loads it
     this.annotator.viewer.addField({
       load: function (field, annotation) {
-        this.addNoteLink(field, annotation);
         this.addNoteActions(field, annotation);
         this.addComments(field, annotation);
       }.bind(this)
@@ -161,10 +202,16 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       $(highlight).attr('name', 'annotation_' + annotation.id);
     });
 
+    annotation.comments.forEach(function (comment) {
+      comment.htmlId = 'annsubcomment_'+comment.id;
+      comment.link = window.location.pathname+'#'+comment.htmlId;
+    });
+
     annotation.commentsCollapsed = true;
     annotation.label = 'annotation';
-    annotation.link = 'annotation_' + annotation.id;
     annotation.permalinkBase = 'annotation';
+    annotation.htmlId = 'annotation_' + annotation.id;
+    annotation.link = window.location.pathname+'#'+annotation.htmlId;
   },
 
   setAnnotations: function (annotations) {
@@ -172,6 +219,24 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     this.annotations = annotations;
     this.annotationGroups = annotationGroups;
     this.drawNotesSideBubbles(annotations, annotationGroups);
+  },
+
+  findAnnotation: function (annotationId) {
+    for (var i = 0; i < this.annotations.length; i++) {
+      let annotation = this.annotations[i];
+
+      if (annotationId === annotation.id) {
+        return annotation;
+      }
+
+      for (var j = 0; j < annotation.comments.length; j++) {
+        let comment = annotation.comments[j];
+
+        if (annotationId === comment.id) {
+          return comment;
+        }
+      }
+    }
   },
 
   addAnnotation: function (annotation) {
@@ -278,49 +343,29 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   },
 
   addNoteActions: function (field, annotation) {
-    var userId = this.options.userId;
-
-    // Add actions ( like / error) to annotation viewer
-    var annotationAction = $('<div></div>').addClass('activity-actions');
-    var generalAction = $('<span></span>').data('annotation-id', annotation.id);
-
-    var annotationLike = generalAction.clone().addClass('thumbs-up').append('<span class="action-count">' + annotation.likes + '</span>');
-    var annotationFlag = generalAction.clone().addClass('flag').append('<span class="action-count">' + annotation.flags + '</span>');
-
-    annotationAction.append(annotationLike, annotationFlag);
-
-    // If user is logged in add the current action and enable the action buttons
-    if (userId) {
-      if (annotation.user_action) {
-        if (annotation.user_action === 'like') {
-          annotationLike.addClass('selected');
-        } else if (annotation.user_action === 'flag') {
-          annotationFlag.addClass('selected');
-        } // else this user doesn't have any actions on this annotation
-      }
-
-      var that = this;
-
-      annotationLike.addClass('logged-in').click(function () {
-        that.addLike(annotation, this);
-      });
-
-      annotationFlag.addClass('logged-in').click(function () {
-        that.addFlag(annotation, this);
-      });
-    }
-
-    $(field).append(annotationAction);
+    $(field).append(this.noteActionsString(annotation));
   },
 
-  addNoteLink: function (field, annotation) {
-    // Add link to annotation
-    var linkPath = window.location.pathname + '#' + annotation.link;
-    var annotationLink = $('<a></a>').attr('href', linkPath).text('Permanent link to this note').addClass('annotation-permalink');
-    var noteLink = $('<div class="annotation-link"></div>');
+  noteActionsString: function (comment) {
+    let actions = '<div class="activity-actions">';
+    actions += '<a class="thumbs-up" onclick=$(this).trigger("madison.addAction")'
+      + ' data-action-type="likes" data-annotation-id="'+comment.id+'"'
+      + ' title="'+window.trans['messages.document.like']+'"'
+      + ' aria-label="'+window.trans['messages.document.like']+'" role="button"'
+      + ' ><span class="action-count">'+comment.likes+'</span></a>';
 
-    annotationLink.append(noteLink);
-    $(field).append(annotationLink);
+    actions += '<a class="flag" onclick=$(this).trigger("madison.addAction")'
+      + ' data-action-type="flags" data-annotation-id="'+comment.id+'"'
+      + ' title="'+window.trans['messages.document.flag']+'"'
+      + ' aria-label="'+window.trans['messages.document.flag']+'" role="button"'
+      + ' ><span class="action-count">'+comment.flags+'</span></a>';
+
+    actions += '<a class="link" href="'+comment.link+'"'
+      + ' aria-label="'+window.trans['messages.permalink']+'" role="button"'
+      + ' title="'+window.trans['messages.permalink']+'">&nbsp;</a>';
+    actions += '</div>';
+
+    return actions;
   },
 
   createComment: function (textElement, annotation) {
@@ -341,49 +386,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
       return this.annotator.publish('commentCreated', commentResponse);
     }.bind(this));
-  },
-
-  addLike: function (annotation, element) {
-    var docId = this.options.docId;
-    $.post('/documents/' + docId + '/comments/' + annotation.id + '/likes', function (data) {
-      element = $(element);
-      element.children('.action-count').text(data.likes);
-      element.siblings('span').removeClass('selected');
-
-      if (data.action) {
-        element.addClass('selected');
-      } else {
-        element.removeClass('selected');
-      }
-
-      element.siblings('.thumbs-up').children('.action-count').text(data.likes);
-      element.siblings('.flag').children('.action-count').text(data.flags);
-
-      annotation.likes = data.likes;
-      annotation.flags = data.flags;
-      annotation.user_action = 'like';
-    });
-  },
-
-  addFlag: function (annotation, element) {
-    var docId = this.options.docId;
-    $.post('/documents/' + docId + '/comments/' + annotation.id + '/flags', function (data) {
-      element = $(element);
-      element.children('.action-count').text(data.flags);
-      element.siblings('span').removeClass('selected');
-
-      if (data.action) {
-        element.addClass('selected');
-      } else {
-        element.removeClass('selected');
-      }
-
-      element.siblings('.thumbs-up').children('.action-count').text(data.likes);
-
-      annotation.likes = data.likes;
-      annotation.flags = data.flags;
-      annotation.user_action = 'flag';
-    });
   },
 
   drawNotesSideBubbles: function (annotations, annotationGroups) {
@@ -479,8 +481,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
       if (!this.annotator.options.discussionClosed) {
         pane += '<div>';
-        // TODO: actions
-        // <comment-actions object="annotation" root-target="doc"></comment-actions>
+        pane += this.noteActionsString(annotation);
         pane += '<footer>';
         pane += '<div class="reply-action">';
         pane += '<a onclick="showNoteReplyForm('+this.options.userId+', '+annotation.id+')">';
@@ -507,8 +508,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
         pane += '</section>';
 
         if (!this.annotator.options.discussionClosed) {
-          // TODO: actions
-          // <comment-actions object="comment" root-target="doc"></comment-actions>
+          pane += this.noteActionsString(comment);
         }
 
         pane += '</article>'; // comment
@@ -611,4 +611,4 @@ window.showNoteReplyForm = function (userId, annotationId) {
   }
 
   $('#comment-form-field-'+annotationId).focus();
-}
+};

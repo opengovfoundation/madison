@@ -119,13 +119,16 @@
                 'messages.close',
                 'messages.document.add_reply',
                 'messages.document.collaborators_count',
+                'messages.document.flag',
+                'messages.document.like',
                 'messages.document.note',
                 'messages.document.note_edit_explanation_prompt',
-                'messages.document.notes',
                 'messages.document.note_reply',
+                'messages.document.notes',
                 'messages.document.replies_count',
                 'messages.edit',
                 'messages.none',
+                'messages.permalink',
                 'messages.submit'
             ])
             .done(function () {

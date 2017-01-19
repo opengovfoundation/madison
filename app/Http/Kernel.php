@@ -30,7 +30,6 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\SocialSharing::class,
         ],
 
         'api' => [
@@ -54,8 +53,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-
-        'doc.access.edit' => \App\Http\Middleware\DocAccessEdit::class,
-        'doc.access.read' => \App\Http\Middleware\DocAccessRead::class
+        'discussion_state' => \App\Http\Middleware\DiscussionState::class,
     ];
 }
