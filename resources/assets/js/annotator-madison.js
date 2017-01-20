@@ -48,8 +48,10 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
             // update data for later redrawing if needed
             let annotation = this.findAnnotation(annotationId);
-            annotation.likes = data.likes;
-            annotation.flags = data.flags;
+            if (typeof annotation !== 'undefined') {
+              annotation.likes = data.likes;
+              annotation.flags = data.flags;
+            }
           }.bind(this))
           .fail(function (data) {
             console.error(data);

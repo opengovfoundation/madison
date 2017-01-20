@@ -91,7 +91,7 @@ class Annotation extends Model implements ActivityInterface
                 $root = $this->rootAnnotatable;
 
                 if ($root instanceof Doc) {
-                    $slug = DB::table('docs')->where('id', $root->id)->pluck('slug');
+                    $slug = DB::table('docs')->where('id', $root->id)->pluck('slug')[0];
 
                     $hash = '';
                     if ($this->isNote()) {

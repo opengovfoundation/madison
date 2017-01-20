@@ -145,10 +145,15 @@
                         $('a[href="#comments"]').tab('show');
                     }
 
-                    $('.replies a').click(function(e) {
+                    $('.activity-actions a.comments').click(function(e) {
                         e.preventDefault();
-                        var commentId = $(e.target).data('comment-id');
+                        let commentId = $(e.target).data('comment-id');
                         toggleCommentReplies(commentId);
+                    });
+
+                    $('.comment a.action-link').click(function(e) {
+                        e.preventDefault();
+                        $(e.target).trigger('madison.addAction');
                     });
                 @endif
             });

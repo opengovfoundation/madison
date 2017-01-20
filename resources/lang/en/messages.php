@@ -84,6 +84,7 @@ return [
         'featured_image_remove' => 'Remove Featured Image',
         'featured_image_removed' => 'Featured Image Removed',
         'replies_count' => ':count replies',
+        'replies' => 'Replies',
         'add_reply' => 'Add your reply',
         'note_reply' => 'Reply to this note',
         'support' => 'Support',

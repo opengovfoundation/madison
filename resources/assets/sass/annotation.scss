@@ -24,6 +24,11 @@
     @extend .fa-link;
   }
 
+  .comments {
+    @extend .fa;
+    @extend .fa-comments;
+  }
+
   .thumbs-up, .thumbs-down, .flag, .link {
     &::before {
       margin-right: 4px;
