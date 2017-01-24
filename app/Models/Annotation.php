@@ -90,26 +90,25 @@ class Annotation extends Model implements ActivityInterface
             case static::TYPE_COMMENT:
                 $root = $this->rootAnnotatable;
 
-                if ($root instanceof Doc) {
-                    $slug = DB::table('docs')->where('id', $root->id)->pluck('slug')[0];
-
-                    $hash = '';
-                    if ($this->isNote()) {
-                        if ($this->annotatable_type === Annotation::ANNOTATABLE_TYPE) {
-                            $hash = 'annsubcomment';
-                        } else {
-                            $hash = 'annotation';
-                        }
+                $hash = '';
+                if ($this->isNote()) {
+                    if ($this->annotatable_type === static::ANNOTATABLE_TYPE) {
+                        $hash = 'annsubcomment';
                     } else {
-                        $hash = 'comment';
+                        $hash = 'annotation';
                     }
-
-                    return URL::to('documents/'.$slug.'#'.$hash.'_'.$this->id);
+                } else {
+                    $hash = 'comment';
                 }
 
-                return;
+                if ($root instanceof Doc) {
+                    $slug = DB::table('docs')->where('id', $root->id)->pluck('slug')[0];
+                    return URL::to('documents/' . $slug . '#' . $hash . '_' . $this->id);
+                }
+
+                return null;
             default:
-                return;
+                return null;
         }
     }
 

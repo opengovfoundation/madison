@@ -30,30 +30,40 @@
                     title="{{ trans('messages.permalink') }}">&nbsp;</a>
 
                 @if ($comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE)
-                    @if ($comment->comments()->count() > 0)
-                        <a class="comments" aria-label="{{ trans('messages.document.replies') }}
-                            title="{{ trans('messages.document.replies') }} role="button"
-                            data-comment-id="{{ $comment->id }}">
+                    <a class="comments" aria-label="{{ trans('messages.document.replies') }}
+                        title="{{ trans('messages.document.replies') }} role="button"
+                        data-comment-id="{{ $comment->id }}">
 
-                            <span class="action-count">{{ $comment->comments()->count() }}</span>
-                        </a>
-                    @else
-                        <span class="comments" aria-label="{{ trans('messages.document.replies') }}
-                            title="{{ trans('messages.document.replies') }}>
-
-                            <span class="action-count">{{ $comment->comments()->count() }}</span>
-                        </span>
-                    @endif
+                        <span class="action-count">{{ $comment->comments()->count() }}</span>
+                    </a>
                 @endif
             </div>
         </div>
     </div>
 
-    @if ($comment->comments()->count() > 0)
-        <div class="comment-replies hide">
-            <hr>
-            @each ('documents/partials/comment', $comment->comments()->get(), 'comment')
-        </div>
-    @endif
+    <div class="row comment-replies hide">
+        @if (Auth::user() && $comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE)
+            <div class="col-md-12">
+                <hr>
+                {{ Form::open(['route' => ['documents.comments.storeReply', $comment->annotatable_id, $comment->id]]) }}
+                    {{ Form::mInput(
+                        'textarea',
+                        'text',
+                        trans('messages.document.add_reply'),
+                        null,
+                        [ 'rows' => 3 ]
+                    ) }}
+                    {{ Form::mSubmit() }}
+                {{ Form::close() }}
+            </div>
+        @endif
+        @if ($comment->comments()->count() > 0)
+            <div class="col-md-12">
+                <hr>
+                @each ('documents/partials/comment', $comment->comments()->get(), 'comment')
+            </div>
+        @endif
+    </div>
+
     <hr>
 </div>

@@ -92,12 +92,19 @@
                     @if ($document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_OPEN)
                         @if (Auth::user())
                             {{ Form::open(['route' => ['documents.comments.store', $document->slug]]) }}
-                                {{ Form::mInput('textarea', 'text', trans('messages.document.add_comment')) }}
+                                {{ Form::mInput(
+                                    'textarea',
+                                    'text',
+                                    trans('messages.document.add_comment'),
+                                    null,
+                                    [ 'rows' => 3 ]
+                                ) }}
                                 {{ Form::mSubmit() }}
                             {{ Form::close() }}
                         @else
                             {{ Html::linkRoute('login', trans('messages.document.login_to_comment')) }}
                         @endif
+                        <hr>
                     @endif
 
                     @each('documents/partials/comment', $comments, 'comment')

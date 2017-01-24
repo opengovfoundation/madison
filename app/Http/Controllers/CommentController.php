@@ -106,21 +106,23 @@ class CommentController extends Controller
      */
     public function store(DocumentViewRequest $request, Document $document)
     {
-        $jsonResponse = $this->createComment($document, $request->user(), $request->all());
+        $newComment = $this->createComment($document, $request->user(), $request->all());
+
         if ($request->expectsJson()) {
-            return $jsonResponse;
+            return Response::json($this->commentService->toAnnotatorArray($newComment));
         } else {
-            return redirect()->route('documents.show', ['document' => $document->slug]);
+            return redirect($newComment->getLink());
         }
     }
 
     public function storeReply(DocumentViewRequest $request, Document $document, Annotation $comment)
     {
-        $jsonResponse = $this->createComment($comment, $request->user(), $request->all());
+        $newComment = $this->createComment($comment, $request->user(), $request->all());
+
         if ($request->expectsJson()) {
-            return $jsonResponse;
+            return Response::json($this->commentService->toAnnotatorArray($newComment));
         } else {
-            return redirect()->route('documents.show', ['document' => $document->slug]);
+            return redirect($newComment->getLink());
         }
     }
 
@@ -197,6 +199,6 @@ class CommentController extends Controller
 
         Event::fire(new CommentCreated($newComment, $target));
 
-        return Response::json($this->commentService->toAnnotatorArray($newComment));
+        return $newComment;
     }
 }
