@@ -71,7 +71,9 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
         this.processAnnotation(annotation);
       }.bind(this));
 
-      // TODO: support showing notes pane for requested permalink
+      revealComment(this.options.docId);
+
+      // TODO: support showing notes pane for requested permalink?
 
       this.setAnnotations(annotations);
     }.bind(this));
@@ -200,19 +202,17 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
   processAnnotation: function (annotation) {
     annotation.highlights.forEach(function (highlight) {
-      $(highlight).attr('id', 'annotation_' + annotation.id);
-      $(highlight).attr('name', 'annotation_' + annotation.id);
+      $(highlight).attr('id', annotation.htmlId);
     });
 
     annotation.comments.forEach(function (comment) {
-      comment.htmlId = 'annsubcomment_'+comment.id;
+      comment.htmlId = comment.id;
       comment.link = window.location.pathname+'#'+comment.htmlId;
     });
 
     annotation.commentsCollapsed = true;
     annotation.label = 'annotation';
-    annotation.permalinkBase = 'annotation';
-    annotation.htmlId = 'annotation_' + annotation.id;
+    annotation.htmlId = annotation.id;
     annotation.link = window.location.pathname+'#'+annotation.htmlId;
   },
 
@@ -497,7 +497,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       pane += '<section class="comments">';
       annotation.comments.forEach(function (comment) {
         pane += '<article class="comment"'
-          + 'id="annsubcomment_'+comment.id+'"'
+          + 'id="'+comment.htmlId+'"'
           + '>';
 
         pane += '<header class="comment-header">';
@@ -588,7 +588,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       // Then count the unique users for the responses to each annotation.
       for (var commentIndex in annotation.comments) {
         var comment = annotation.comments[commentIndex];
-        annotation.comments[commentIndex].permalinkBase ='annsubcomment';
         annotation.comments[commentIndex].label ='comment';
         if (annotationGroups[annotationParentId].users.indexOf(comment.user.id) < 0) {
           annotationGroups[annotationParentId].users.push(comment.user.id);

@@ -41,9 +41,14 @@ class CommentController extends Controller
 
         $comments = new Collection();
         if ($request->query('parent_id')) {
+            $parentDbId = Annotation
+                ::where('str_id', $request->query('parent_id'))
+                ->firstOrFail(['id'])
+                ->id
+                ;
             $commentsQuery = Annotation
                 ::where('annotatable_type', Annotation::ANNOTATABLE_TYPE)
-                ->where('annotatable_id', $request->query('parent_id'))
+                ->where('annotatable_id', $parentDbId)
                 ->where('annotation_type_type', Annotation::TYPE_COMMENT)
                 ;
         } elseif ($request->query('all') && $request->query('all') !== 'false') {
@@ -154,9 +159,16 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(DocumentViewRequest $request, Document $document, Annotation $comment)
     {
-        // TODO
+        if ($request->expectsJson()) {
+            $includeReplies = !$request->exists('include_replies') || $request->query('include_replies') && $request->query('include_replies') !== 'false';
+            $results = $this->commentService->toAnnotatorArray($comment, $includeReplies);
+
+            return Response::json($results);
+        } else {
+            // TODO: html view?
+        }
     }
 
     /**

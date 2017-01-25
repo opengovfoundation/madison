@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Doc;
+use App\Models\Annotation;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /*
@@ -60,7 +61,18 @@ Route::bind('docTrashed', function ($value) {
 
     throw new NotFoundHttpException;
 });
-Route::model('comment', 'App\Models\Annotation');
+// TODO: make new router to handle this?
+// Route::model('comment', 'App\Models\Annotation');
+Route::bind('comment', function ($value) {
+    // TODO: use this? Error message includes info about model.
+    // return Annotation::where('str_id', $value)->firstOrFail();
+    $comment = Annotation::where('str_id', $value)->first();
+    if ($comment) {
+        return $comment;
+    }
+
+    throw new NotFoundHttpException;
+});
 
 Route::group(['prefix' => 'api'], function() {
     // Vendor Settings

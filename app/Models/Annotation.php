@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Doc;
+use App\Services\UniqId;
+use App\Traits\AnnotatableHelpers;
 use DB;
-use URL;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Doc;
-use App\Traits\AnnotatableHelpers;
+use URL;
 
 class Annotation extends Model implements ActivityInterface
 {
@@ -28,11 +29,22 @@ class Annotation extends Model implements ActivityInterface
     const SUBTYPE_NOTE = 'note';
 
     protected $table = 'annotations';
-    protected $fillable = ['data', 'user_id', 'annotation_subtype'];
+    protected $fillable = ['data', 'user_id', 'annotation_subtype', 'str_id'];
     protected $dates = ['deleted_at'];
     protected $casts = [
         'data' => 'array',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($annotation) {
+            if (!isset($annotation->str_id)) {
+                $annotation->str_id = UniqId::genB64();
+            }
+        });
+    }
 
     public function user()
     {
@@ -74,7 +86,7 @@ class Annotation extends Model implements ActivityInterface
     {
         DB::transaction(function () {
             $this->annotations()->delete();
-            AnnotationPermission::where('annotation_id', '=', $this->id)->delete();
+            $this->permissions()->delete();
             return parent::delete();
         });
     }
@@ -90,20 +102,8 @@ class Annotation extends Model implements ActivityInterface
             case static::TYPE_COMMENT:
                 $root = $this->rootAnnotatable;
 
-                $hash = '';
-                if ($this->isNote()) {
-                    if ($this->annotatable_type === static::ANNOTATABLE_TYPE) {
-                        $hash = 'annsubcomment';
-                    } else {
-                        $hash = 'annotation';
-                    }
-                } else {
-                    $hash = 'comment';
-                }
-
                 if ($root instanceof Doc) {
-                    $slug = DB::table('docs')->where('id', $root->id)->pluck('slug')[0];
-                    return URL::to('documents/' . $slug . '#' . $hash . '_' . $this->id);
+                    return URL::to('documents/'.$root->slug.'#'.$this->str_id);
                 }
 
                 return null;

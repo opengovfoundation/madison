@@ -42,9 +42,14 @@ class CommentController extends Controller
 
         $comments = new Collection();
         if ($request->query('parent_id')) {
+            $parentDbId = Annotation
+                ::where('str_id', $request->query('parent_id'))
+                ->firstOrFail(['id'])
+                ->id
+                ;
             $commentsQuery = Annotation
                 ::where('annotatable_type', Annotation::ANNOTATABLE_TYPE)
-                ->where('annotatable_id', $request->query('parent_id'))
+                ->where('annotatable_id', $parentDbId)
                 ->where('annotation_type_type', Annotation::TYPE_COMMENT)
                 ;
         } elseif ($request->query('all') && $request->query('all') !== 'false') {
@@ -222,7 +227,7 @@ class CommentController extends Controller
             return array_intersect_key($user->toArray(), array_flip(['id', 'email', 'display_name']));
         };
 
-        $item['id'] = $comment->id;
+        $item['id'] = $comment->str_id;
         $item['annotator_schema_version'] = 'v1.0';
         $item['ranges'] = [];
         $item['tags'] = [];
@@ -240,7 +245,7 @@ class CommentController extends Controller
             $childComments = $comment->comments;
             foreach ($childComments as $childComment) {
                 $item['comments'][] = [
-                    'id' => $childComment->id,
+                    'id' => $childComment->str_id,
                     'text' => $childComment->annotationType->content,
                     'created_at' => $childComment->created_at->toRfc3339String(),
                     'updated_at' => $childComment->updated_at->toRfc3339String(),
@@ -299,7 +304,7 @@ class CommentController extends Controller
             'id', 'annotator_schema_version', 'created_at', 'updated_at',
             'text', 'quote', 'uri', 'ranges', 'user', 'consumer', 'tags',
             'permissions', 'likes', 'flags', 'seen', 'comments',
-            'comments_count', 'doc_id',
+            'comments_count', 'old_id', 'old_permalink_type',
         ]));
 
         return $item;

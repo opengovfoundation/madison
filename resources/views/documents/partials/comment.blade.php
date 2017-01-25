@@ -1,4 +1,4 @@
-<div class="comment" id="comment_{{ $comment->id }}">
+<div class="comment" id="{{ $comment->str_id }}">
     <h4>
         <strong>{{ $comment->user->display_name }}</strong>
         <span class="small">{{ $comment->created_at->diffForHumans() }}</span>
@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="activity-actions pull-left">
                 <a class="thumbs-up" onclick="$(this).trigger('madison.addAction')"
-                    data-action-type="likes" data-annotation-id="{{ $comment->id }}"
+                    data-action-type="likes" data-annotation-id="{{ $comment->str_id }}"
                     title="{{ trans('messages.document.like') }}"
                     aria-label="{{ trans('messages.document.like') }}" role="button">
 
@@ -18,7 +18,7 @@
                 </a>
 
                 <a class="flag" onclick="$(this).trigger('madison.addAction')"
-                    data-action-type="flags" data-annotation-id="{{ $comment->id }}"
+                    data-action-type="flags" data-annotation-id="{{ $comment->str_id }}"
                     title="{{ trans('messages.document.flag') }}"
                     aria-label="{{ trans('messages.document.flag') }}" role="button">
 
@@ -32,7 +32,7 @@
                 @if ($comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE)
                     <a class="comments" aria-label="{{ trans('messages.document.replies') }}
                         title="{{ trans('messages.document.replies') }} role="button"
-                        data-comment-id="{{ $comment->id }}">
+                        data-comment-id="{{ $comment->str_id }}">
 
                         <span class="action-count">{{ $comment->comments()->count() }}</span>
                     </a>

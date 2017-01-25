@@ -148,8 +148,14 @@
                         {{ $document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_CLOSED ? 1 : 0 }}
                     );
 
+                    // race-y with loading annotaions, so it's called again
+                    // in annotator-madison.js after annotator.js has loaded
+                    // it's stuff
+                    revealComment({{ $document->id }});
+                    window.onhashchange = revealComment.bind(this, {{$document->id }});
+
                     if (window.getQueryParam('comment_page')) {
-                        $('a[href="#comments"]').tab('show');
+                        showComments();
                     }
 
                     $('.activity-actions a.comments').click(function(e) {

@@ -67,7 +67,7 @@ class Comments
             return array_intersect_key($user->toArray(), array_flip(['id', 'email', 'display_name']));
         };
 
-        $item['id'] = $comment->id;
+        $item['id'] = $comment->str_id;
         $item['annotator_schema_version'] = 'v1.0';
         $item['ranges'] = [];
         $item['tags'] = [];
@@ -85,7 +85,7 @@ class Comments
             $childComments = $comment->comments;
             foreach ($childComments as $childComment) {
                 $item['comments'][] = [
-                    'id' => $childComment->id,
+                    'id' => $childComment->str_id,
                     'text' => $childComment->annotationType->content,
                     'created_at' => $childComment->created_at->toRfc3339String(),
                     'created_at_relative' => $childComment->created_at->diffForHumans(),
@@ -149,7 +149,7 @@ class Comments
             'created_at_relative', 'updated_at', 'updated_at_relative',
             'text', 'quote', 'uri', 'ranges', 'user', 'consumer', 'tags',
             'permissions', 'likes', 'flags', 'seen', 'comments',
-            'comments_count', 'doc_id',
+            'comments_count', 'old_id', 'old_permalink_type',
         ]));
 
         return $item;
