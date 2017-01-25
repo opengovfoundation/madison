@@ -81,6 +81,19 @@
                                     </li>
                                 </ul>
                             </li>
+                            @if (Auth::user()->isAdmin())
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        @lang('messages.admin') <span class="caret"></span>
+                                    </a>
+
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            <a href="{{ route('pages.index') }}">@lang('messages.page.manage')</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endif
                         @endif
                     </ul>
                 </div>

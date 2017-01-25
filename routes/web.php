@@ -118,3 +118,7 @@ Route::get('/translations', 'TranslationController@index');
 Route::resource('users', 'UserController', ['only' => [
     'edit', 'update'
 ]]);
+
+
+// Pages
+Route::resource('pages', 'PageController');

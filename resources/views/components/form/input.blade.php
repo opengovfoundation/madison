@@ -4,6 +4,7 @@
     <div class="checkbox">
         <label>
             {{ Form::checkbox($name, $savedValue, null, $attributes) }}
+            {{ Form::hidden($name, $savedValue ?: "0") }}
             {{ $displayName }}
         </label>
     </div>

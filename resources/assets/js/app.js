@@ -2,6 +2,17 @@ $(function () {
   // For laracasts/flash
   $('#flash-overlay-modal').modal();
   $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+
+  // Use hidden fields for boolean inputs so FormValidations work
+  $('.checkbox label input[type="checkbox"]').change(function(e) {
+    let $hiddenInput = $(e.target).siblings('label input[type="hidden"]');
+
+    if ($(e.target).prop('checked')) {
+      $hiddenInput.val('1');
+    } else {
+      $hiddenInput.val('0');
+    }
+  });
 });
 
 window.loadTranslations = function (msgIds) {

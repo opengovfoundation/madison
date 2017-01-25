@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PageContent;
 
 class Page extends Model
 {
@@ -69,7 +68,7 @@ class Page extends Model
      */
     public function content()
     {
-        return $this->hasOne(PageContent::class);
+        return $this->hasOne('App\Models\PageContent');
     }
 
 }
