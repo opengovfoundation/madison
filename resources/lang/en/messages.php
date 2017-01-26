@@ -4,6 +4,7 @@ return [
     // General Stuff
     'created' => 'Created',
     'updated' => 'Updated',
+    'update_failed' => 'Update failed',
     'readmore' => 'Read More',
     'submit' => 'Submit',
     'clear' => 'Clear',
@@ -198,14 +199,20 @@ return [
     ],
 
     'user' => [
-        'edit' => 'Edit Profile',
+        'settings' => 'Settings',
         'fname' => 'First Name',
         'lname' => 'Last Name',
         'email' => 'Email Address',
+        'email_help' => 'Email will not be displayed publicly.',
         'new_password' => 'New Password',
         'new_password_confirmation' => 'Re-Enter New Password',
-        'updated' => 'User updated.',
-        'update_failed' => 'User update failed.',
+        'verification_info' => 'Verification Information',
+
+        'settings_pages' => [
+            'notifications' => 'Notifications',
+            'password' => 'Password',
+            'account' => 'Account',
+        ],
     ],
 
     'page' => [
@@ -223,5 +230,28 @@ return [
         'show_in_header' => 'Show in Header?',
         'show_in_footer' => 'Show in Footer?',
         'external' => 'External?',
+    ],
+
+    'notifications' => [
+        // boilerplate stuff
+        'greeting' => [
+            'normal' => 'Hello!',
+            'error' => 'Whoops!',
+        ],
+        'salutation' => 'Regards, :name',
+        'having_trouble' => 'If you\'re having trouble clicking the ":actionText" button, copy and paste the URL below into your web browser:',
+
+        // actual notification content
+        'thank_you' => 'Thank you!',
+        'sponsor_needs_approval' => 'A sponsor (:name) needs approval.',
+        'review_sponsor' => 'Review sponsor',
+
+        'descriptions' => [
+            'madison' => [
+                'sponsor' => [
+                    'needs_approval' => 'When a sponsor needs approval',
+                ],
+            ],
+        ],
     ],
 ];

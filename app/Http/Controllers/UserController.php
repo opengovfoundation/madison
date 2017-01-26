@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NotificationPreference;
 use App\Models\User;
 use App\Http\Requests\User as Requests;
 use Illuminate\Http\Request;
@@ -18,15 +19,40 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Requests\Edit $request, User $user)
+    public function editSettings(Requests\Edit $request, User $user)
     {
-        return view('users.edit', compact('user'));
+        return redirect()->route('users.settings.account.edit', $user->id);
+    }
+
+    public function editSettingsAccount(Requests\Edit $request, User $user)
+    {
+        return view('users.settings.account', compact('user'));
+    }
+
+    public function editSettingsPassword(Requests\Edit $request, User $user)
+    {
+        return view('users.settings.password', compact('user'));
+    }
+
+    public function editSettingsNotifications(Requests\Edit $request, User $user)
+    {
+        // Retrieve all valid notifications for user
+        $validNotifications = array_keys(NotificationPreference::getValidNotificationsForUser($user));
+
+        // Retrieve all notification preferences that are set for user
+        $currentNotifications = $user
+            ->notificationPreferences()
+            ->whereIn('event', $validNotifications)
+            ->pluck('event')
+            ->flip();
+
+        // Build array of notifications and their selected status
+        $notificationPreferences = [];
+        foreach ($validNotifications as $notificationName) {
+            $notificationPreferences[$notificationName] = isset($currentNotifications[$notificationName]);
+        }
+
+        return view('users.settings.notifications', compact('user', 'notificationPreferences'));
     }
 
     /**
@@ -36,7 +62,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Requests\Update $request, User $user)
+    public function updateSettingsAccount(Requests\Settings\UpdateAccount $request, User $user)
     {
         $user->fname = $request->input('fname');
         $user->lname = $request->input('lname');
@@ -49,17 +75,60 @@ class UserController extends Controller
         $user->phone = $request->input('phone') ?: null;
         $user->url = $request->input('url') ?: null;
 
+        if ($user->save()) {
+            flash(trans('messages.updated'));
+            return back();
+        } else {
+            flash(trans('messages.update_failed'));
+            return back()->withInput();
+        }
+    }
+
+    public function updateSettingsPassword(Requests\Settings\UpdatePassword $request, User $user)
+    {
         if ($request->input('new_password')) {
             $user->password = $request->input('new_password');
         }
 
         if ($user->save()) {
-            flash(trans('messages.user.updated'));
-            return redirect()->route('users.edit', ['user' => $user->id]);
+            flash(trans('messages.updated'));
         } else {
-            flash(trans('messages.user.update_failed'));
-            return redirect()->route('users.edit', ['user' => $user->id]);
+            flash(trans('messages.update_failed'));
         }
+
+        return back();
     }
 
+    public function updateSettingsNotifications(Requests\Settings\UpdateNotifications $request, User $user)
+    {
+        $validNotifications = array_keys(NotificationPreference::getValidNotificationsForUser($user));
+
+        foreach ($validNotifications as $notificationName) {
+            $notificationParamName = str_replace('.', '_', $notificationName);
+            $newValue = !empty($request->input($notificationParamName));
+
+            // Grab this notification from the database
+            $pref = $user
+                ->notificationPreferences()
+                ->where('event', $notificationName)
+                ->first();
+
+            // If we don't want that notification (and it exists), delete it
+            if (!$newValue && !empty($pref)) {
+                $pref->delete();
+            } else {
+                // If the entry doesn't already exist, create it.
+                if (!isset($pref)) {
+                    $user->notificationPreferences()->create([
+                        'event' => $notificationName,
+                        'type' => NotificationPreference::TYPE_EMAIL,
+                    ]);
+                }
+                // Otherwise, ignore (there was no change)
+            }
+        }
+
+        flash(trans('messages.updated'));
+        return back();
+    }
 }

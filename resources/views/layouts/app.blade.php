@@ -65,7 +65,7 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ route('users.edit', Auth::user()->id) }}">@lang('messages.user.edit')</a>
+                                        <a href="{{ route('users.settings.edit', Auth::user()->id) }}">@lang('messages.user.settings')</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('sponsors.index', ['user_id[]' => Auth::user()->id]) }}">@lang('messages.sponsor.my_sponsors')</a>

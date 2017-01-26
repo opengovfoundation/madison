@@ -4,22 +4,11 @@ namespace App\Listeners;
 
 use App\Events\CommentCreated;
 use App\Models\Annotation;
-use App\Notification\Notifier;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CommentCreatedNotification implements ShouldQueue
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct(Notifier $notifier)
-    {
-        $this->notifier = $notifier;
-    }
-
     /**
      * Handle the event.
      *

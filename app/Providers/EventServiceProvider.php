@@ -31,6 +31,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserVerificationRequest' => [
             'App\Listeners\UserVerificationRequestNotification',
         ],
+        'Illuminate\Notifications\Events\NotificationSending' => [
+            'App\Listeners\ShouldSendNotification',
+        ],
     ];
 
     /**

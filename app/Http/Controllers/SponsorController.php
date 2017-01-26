@@ -26,6 +26,11 @@ class SponsorController extends Controller
         $sponsorsQuery = Sponsor
             ::query();
 
+        if ($request->has('id')) {
+            $sponsorsQuery
+                ->whereIn('id', $request->input('id'));
+        }
+
         if ($request->has('name')) {
             $name = $request->get('name');
             $sponsorsQuery->where('name', 'LIKE', "%$name%");

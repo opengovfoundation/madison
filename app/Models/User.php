@@ -269,6 +269,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Annotation');
     }
 
+    public function notificationPreferences()
+    {
+        return $this->hasMany('App\Models\NotificationPreference');
+    }
+
     /**
      *  getAuthIdentifier.
      *

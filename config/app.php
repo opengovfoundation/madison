@@ -162,6 +162,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -173,7 +174,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\PdoEventSessionHandlerProvider::class,
         App\Providers\SessionRejectServiceProvider::class,
-        App\Providers\NotificationServiceProvider::class,
         App\Providers\CommentsServiceProvider::class,
         App\Providers\AnnotationsServiceProvider::class,
         App\Providers\DocumentsServiceProvider::class,
@@ -224,9 +224,7 @@ return [
         'Lang'      => Illuminate\Support\Facades\Lang::class,
         'Log'       => Illuminate\Support\Facades\Log::class,
         'Mail'      => Illuminate\Support\Facades\Mail::class,
-        'Notification' => App\Facades\Notification::class,
-        // TODO: use this instead of our custom one?
-        // 'Notification' => Illuminate\Support\Facades\Notification::class,
+        'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password'  => Illuminate\Support\Facades\Password::class,
         'Queue'     => Illuminate\Support\Facades\Queue::class,
         'Redirect'  => Illuminate\Support\Facades\Redirect::class,

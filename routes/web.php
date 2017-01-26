@@ -128,9 +128,23 @@ Route::get('/translations', 'TranslationController@index');
 
 
 // Users
-Route::resource('users', 'UserController', ['only' => [
-    'edit', 'update'
-]]);
+Route::get('/users/{user}/settings', 'UserController@editSettings')
+    ->name('users.settings.edit');
+
+Route::get('/users/{user}/settings/account', 'UserController@editSettingsAccount')
+    ->name('users.settings.account.edit');
+Route::put('/users/{user}/settings/account', 'UserController@updateSettingsAccount')
+    ->name('users.settings.account.update');
+
+Route::get('/users/{user}/settings/password', 'UserController@editSettingsPassword')
+    ->name('users.settings.password.edit');
+Route::put('/users/{user}/settings/password', 'UserController@updateSettingsPassword')
+    ->name('users.settings.password.update');
+
+Route::get('/users/{user}/settings/notifications', 'UserController@editSettingsNotifications')
+    ->name('users.settings.notifications.edit');
+Route::put('/users/{user}/settings/notifications', 'UserController@updateSettingsNotifications')
+    ->name('users.settings.notifications.update');
 
 
 // Pages
