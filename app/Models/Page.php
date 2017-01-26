@@ -71,4 +71,12 @@ class Page extends Model
         return $this->hasOne('App\Models\PageContent');
     }
 
+    /**
+     * Get URL with proper prefix if internal page
+     */
+    public function getUrl()
+    {
+        return $this->external ? $this->url : '/pages' . $this->url;
+    }
+
 }

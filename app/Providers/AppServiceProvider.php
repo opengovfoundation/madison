@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Models\Annotation;
 use App\Models\AnnotationTypes;
-use App\Models\Doc;
+use App\Models\Doc as Document;
 use Form;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Relation::morphMap([
             Annotation::ANNOTATABLE_TYPE => Annotation::class,
-            Doc::ANNOTATABLE_TYPE => Doc::class,
+            Document::ANNOTATABLE_TYPE => Document::class,
 
             Annotation::TYPE_COMMENT => AnnotationTypes\Comment::class,
             Annotation::TYPE_FLAG => AnnotationTypes\Flag::class,

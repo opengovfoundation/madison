@@ -44,7 +44,9 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        @foreach ($headerPages as $page)
+                            <li><a href="{{ $page->getUrl() }}">{{ $page->nav_title }}</a></li>
+                        @endforeach
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -103,7 +105,18 @@
         <div class="container">
             @include('flash::message')
             @yield('content')
+
+            <hr>
+
+            <footer class="nav">
+                <ul class="nav navbar-nav navbar-right">
+                    @foreach ($footerPages as $page)
+                        <li><a href="{{ $page->getUrl() }}">{{ $page->nav_title }}</a></li>
+                    @endforeach
+                </ul>
+            </footer>
         </div>
+
     </div>
 
     <!-- Scripts -->

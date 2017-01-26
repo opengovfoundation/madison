@@ -14,6 +14,7 @@
 use App\Models\Annotation;
 use App\Models\Doc as Document;
 use App\Models\User;
+use App\Models\Page;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 Route::bind('comment', function ($value) {
@@ -53,6 +54,18 @@ Route::bind('documentTrashed', function ($value) {
     $doc = Document::withTrashed()->where('slug', $value)->first();
     if ($doc) {
         return $doc;
+    }
+
+    throw new NotFoundHttpException;
+});
+
+Route::bind('page', function ($value) {
+    $page = Page::where('url', '/' . $value)
+        ->orWhere('id', $value)
+        ->first();
+
+    if ($page) {
+        return $page;
     }
 
     throw new NotFoundHttpException;
