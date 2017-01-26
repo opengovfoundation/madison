@@ -2,25 +2,27 @@
 
 namespace App\Notifications;
 
-use App\Models\Sponsor;
+use App\Models\Annotation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class SponsorNeedsApproval extends Notification implements ShouldQueue
+class CommentReplied extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $sponsor;
+    public $comment;
+    public $parent;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Sponsor $sponsor)
+    public function __construct(Annotation $comment, Annotation $parent)
     {
-        $this->sponsor = $sponsor;
+        $this->comment = $comment;
+        $this->parent = $parent;
     }
 
     /**
@@ -42,11 +44,20 @@ class SponsorNeedsApproval extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $url = route('sponsors.index', ['id' => [$this->sponsor->id]]);
+        if ($this->parent->isNote()) {
+            $parentType = trans('messages.notifications.comment_type_note');
+        } else {
+            $parentType = trans('messages.notifications.comment_type_comment');
+        }
+
+        $url = $this->comment->getLink();
 
         return (new MailMessage)
-                    ->line(trans('messages.notifications.sponsor_needs_approval', ['name' => $this->sponsor->name]))
-                    ->action(trans('messages.notifications.review_sponsor'), $url)
+                    ->line(trans('messages.notifications.comment_reply', [
+                        'name' => $this->comment->user->getDisplayName(),
+                        'comment_type' => $parentType,
+                    ]))
+                    ->action(trans('messages.notifications.see_comment'), $url)
                     ->line(trans('messages.notifications.thank_you'));
     }
 
@@ -60,26 +71,23 @@ class SponsorNeedsApproval extends Notification implements ShouldQueue
     {
         return [
             'name' => static::getName(),
-            'sponsor_id' => $this->sponsor->id,
+            'parent_id' => $this->parent->id,
+            'comment_id' => $this->comment->id,
         ];
     }
 
     public static function getName()
     {
-        return 'madison.sponsor.needs_approval';
+        return 'madison.comment.replied';
     }
 
     public static function getType()
     {
-        return static::TYPE_ADMIN;
+        return static::TYPE_USER;
     }
 
     public function getInstigator()
     {
-        // not strictly correct, we do currently set the user who created the
-        // sponsor as an owner, but since these notifications are queued,
-        // there is a small chance that a user could add another user, make
-        // them an owner, and remove themselves...
-        return $this->sponsor->findUsersByRole(Sponsor::ROLE_OWNER)->first();
+        return $this->comment->user;
     }
 }

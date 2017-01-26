@@ -243,13 +243,22 @@ return [
 
         // actual notification content
         'thank_you' => 'Thank you!',
+
         'sponsor_needs_approval' => 'A sponsor (:name) needs approval.',
-        'review_sponsor' => 'Review sponsor',
+        'review_sponsor' => 'Review Sponsor',
+
+        'comment_reply' => ':name replied to your :comment_type.',
+        'comment_type_note' => 'note',
+        'comment_type_comment' => 'comment',
+        'see_comment' => 'See Comment',
 
         'descriptions' => [
             'madison' => [
                 'sponsor' => [
                     'needs_approval' => 'When a sponsor needs approval',
+                ],
+                'comment' => [
+                    'replied' => 'When someone posts a reply to a comment of yours',
                 ],
             ],
         ],

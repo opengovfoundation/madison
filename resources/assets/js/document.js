@@ -34,6 +34,14 @@ window.toggleCommentReplies = function(commentId) {
   }
 };
 
+window.showCommentReplies = function(commentId) {
+  var $commentDiv = $('#' + commentId);
+  var $commentReplyDiv = $commentDiv.find('.comment-replies');
+  if ($commentReplyDiv) {
+    $commentReplyDiv.removeClass('hide');
+  }
+};
+
 window.showComments = function () {
   $('a[href="#comments"]').tab('show');
 };
@@ -51,6 +59,10 @@ window.revealComment = function (docId) {
   };
 
   hash.done(function (id) {
+    if (!id) {
+      return;
+    }
+
     // look in comment pane for hash
     var comments = $('#comments').find('#'+id);
     if (comments.length) {
@@ -60,7 +72,7 @@ window.revealComment = function (docId) {
       $(comments[0]).addClass('anchor-target');
       var parentComment = $(comments[0]).parents('.comment');
       if (parentComment.length) {
-        toggleCommentReplies(parentComment[0].id);
+        showCommentReplies(parentComment[0].id);
       }
       return;
     }

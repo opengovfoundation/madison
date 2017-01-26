@@ -40,6 +40,11 @@ class ShouldSendNotification
             return false;
         }
 
+        // filter out notifications for a user's own actions
+        if ($recipient->id === $notification->getInstigator()->id) {
+            return false;
+        }
+
         // determine if the recipient *wants* notifications from this kind of event
         $recipientNotificationPreferenceQuery = $recipient
             ->notificationPreferences()
