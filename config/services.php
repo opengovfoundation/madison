@@ -14,6 +14,11 @@ return [
     |
     */
 
+    'rollbar' => [
+        'access_token' => env('ROLLBAR_TOKEN'),
+        'level' => env('ROLLBAR_LEVEL'),
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
