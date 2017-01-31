@@ -3,16 +3,17 @@
 namespace App\Events;
 
 use App\Events\Event;
-use App\Models\SponsorMember;
+use App\Models\Sponsor;
 use App\Models\User;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class SponsorMemberAdded extends Event
+class SponsorMemberRemoved extends Event
 {
     use SerializesModels;
 
-    public $sponsorMember;
+    public $sponsor;
+    public $member;
     public $instigator;
 
     /**
@@ -20,9 +21,10 @@ class SponsorMemberAdded extends Event
      *
      * @return void
      */
-    public function __construct(SponsorMember $sponsorMember, User $instigator)
+    public function __construct(Sponsor $sponsor, User $member, User $instigator)
     {
-        $this->sponsorMember = $sponsorMember;
+        $this->sponsor = $sponsor;
+        $this->member = $member;
         $this->instigator = $instigator;
     }
 
@@ -38,7 +40,7 @@ class SponsorMemberAdded extends Event
 
     public static function getName()
     {
-        return 'madison.sponsor.member-added';
+        return 'madison.sponsor.member-removed';
     }
 
     public static function getType()

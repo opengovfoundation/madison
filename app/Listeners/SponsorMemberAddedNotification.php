@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\SponsorMemberAdded;
+use App\Notifications\AddedToSponsor;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -16,15 +17,7 @@ class SponsorMemberAddedNotification implements ShouldQueue
      */
     public function handle(SponsorMemberAdded $event)
     {
-        // $text = "You've been added to the sponsor ".$event->sponsorMember->sponsor->display_name." with the role of ".$event->sponsorMember->role.".";
-        // $data = [
-        //     'text' => $text,
-        // ];
-        // $recipient = $event->sponsorMember->user;
-
-        // $this->notifier->queue('notification.simple-html', $data, function ($message) use ($recipient) {
-        //     $message->setSubject("You've been added to a Madison sponsor");
-        //     $message->setRecipients($recipient);
-        // }, $event);
+        // notify the user
+        $event->sponsorMember->user->notify(new AddedToSponsor($event->sponsorMember, $event->instigator));
     }
 }

@@ -252,6 +252,10 @@ return [
         'comment_type_comment' => 'comment',
         'see_comment' => 'See Comment',
 
+        'added_to_sponsor' => ':name has added to :sponsor with a role of :role',
+        'see_sponsor' => 'See Sponsor',
+        'removed_from_sponsor' => ':name has removed you from :sponsor',
+
         'descriptions' => [
             'madison' => [
                 'sponsor' => [
@@ -259,6 +263,9 @@ return [
                 ],
                 'comment' => [
                     'replied' => 'When someone posts a reply to a comment of yours',
+                ],
+                'user' => [
+                    'sponsor_membership_changed' => 'When you are added to or removed from a sponsor',
                 ],
             ],
         ],

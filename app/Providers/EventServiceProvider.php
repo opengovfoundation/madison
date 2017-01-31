@@ -25,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SponsorMemberAdded' => [
             'App\Listeners\SponsorMemberAddedNotification',
         ],
+        'App\Events\SponsorMemberRemoved' => [
+            'App\Listeners\SponsorMemberRemovedNotification',
+        ],
         'App\Events\UserVerificationStatusChange' => [
             'App\Listeners\UserVerificationStatusChangeNotification',
         ],
