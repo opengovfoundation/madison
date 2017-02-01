@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Feature;
+
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -39,7 +42,7 @@ class DocumentApiTest extends TestCase
 
         $data = $this->actingAs($user)
             ->json('GET', "/api/user/{$user->id}/docs")
-            ->response->getContent();
+            ->getContent();
 
         $response = json_decode($data, true);
 

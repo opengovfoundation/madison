@@ -6,25 +6,23 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
+        "doctrine/dbal": "^2.5",
         "graham-campbell/markdown": "^7.0",
-        "doctrine/dbal": "2.5.*",
-        "roumen/sitemap": "2.4.*",
-        "roumen/feed": "~2.10",
-        "zizaco/entrust": "dev-master",
-        "league/csv": "8.0.*",
         "intervention/image": "2.3.*",
-        "laravelcollective/html": "^5.3.0",
         "laracasts/flash": "^2.0",
-        "predis/predis": "^1.1"
+        "laravel/framework": "5.4.*",
+        "laravel/tinker": "~1.0",
+        "laravelcollective/html": "^5.4.0",
+        "league/csv": "8.0.*",
+        "predis/predis": "^1.1",
+        "roumen/feed": "~2.10",
+        "roumen/sitemap": "2.4.*",
+        "zizaco/entrust": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
-        "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*",
-        "phpspec/phpspec": "~2.1",
         "laravel/homestead": "4.0.x-dev"
     },
     "autoload": {
@@ -36,9 +34,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
         "post-root-package-install": [
@@ -57,6 +55,7 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "sort-packages": true
     }
 }

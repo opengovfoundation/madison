@@ -28,10 +28,10 @@ test-php: db-test-setup
 
 clean:
 	rm -rf public/build public/css public/js
-	php artisan cache:clear
-	php artisan view:clear
+	@-php artisan cache:clear
+	@-php artisan view:clear
 
-distclean:
+distclean: clean
 	rm -rf node_modules vendor/*
 
 db-reset:
