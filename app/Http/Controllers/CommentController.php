@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Events\CommentCreated;
+use App\Events\CommentLiked;
 use App\Http\Requests\Document\View as DocumentViewRequest;
 use App\Models\Annotation;
 use App\Models\Doc as Document;
 use App\Services;
-use Event;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Response;
@@ -137,7 +137,8 @@ class CommentController extends Controller
             return Response::json($this->commentService->toAnnotatorArray($comment));
         }
 
-        $this->annotationService->createAnnotationLike($comment, $request->user(), []);
+        $like = $this->annotationService->createAnnotationLike($comment, $request->user(), []);
+        event(new CommentLiked($like));
 
         return Response::json($this->commentService->toAnnotatorArray($comment));
     }
@@ -209,7 +210,7 @@ class CommentController extends Controller
     {
         $newComment = $this->commentService->createFromAnnotatorArray($target, $user, $data);
 
-        Event::fire(new CommentCreated($newComment, $target));
+        event(new CommentCreated($newComment, $target));
 
         return $newComment;
     }

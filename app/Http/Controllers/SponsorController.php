@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Events\SponsorCreated;
 use Illuminate\Http\Request;
 use Auth;
-use Event;
 
 class SponsorController extends Controller
 {
@@ -149,7 +148,7 @@ class SponsorController extends Controller
 
         if ($sponsor->save()) {
             $sponsor->addMember(Auth::user()->id, Sponsor::ROLE_OWNER);
-            Event::fire(new SponsorCreated($sponsor));
+            event(new SponsorCreated($sponsor));
 
             flash(trans('messages.sponsor.created'));
             return redirect()->route('sponsors.members.index', $sponsor->id);

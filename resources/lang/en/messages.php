@@ -252,6 +252,8 @@ return [
         'comment_type_comment' => 'comment',
         'see_comment' => 'See Comment',
 
+        'comment_liked' => ':name liked your :comment_type.',
+
         'added_to_sponsor' => ':name has added to :sponsor with a role of :role',
         'see_sponsor' => 'See Sponsor',
         'removed_from_sponsor' => ':name has removed you from :sponsor',
@@ -265,6 +267,7 @@ return [
                 ],
                 'comment' => [
                     'replied' => 'When someone posts a reply to a comment of yours',
+                    'liked' => 'When someone likes a comment of yours',
                 ],
                 'user' => [
                     'sponsor_membership_changed' => 'When you are added to or removed from a sponsor',
