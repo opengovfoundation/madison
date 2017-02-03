@@ -8,19 +8,26 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class AddedToSponsor extends UserMembershipChanged
+class UserSponsorRoleChanged extends Notification implements ShouldQueue
 {
+    use Queueable;
+
+    public $oldValue;
+    public $newValue;
     public $sponsorMember;
+    public $instigator;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(SponsorMember $sponsorMember, User $instigator)
+    public function __construct($oldValue, $newValue, SponsorMember $sponsorMember, User $instigator)
     {
-        parent::__construct($instigator);
+        $this->oldValue = $oldValue;
+        $this->newValue = $newValue;
         $this->sponsorMember = $sponsorMember;
+        $this->instigator = $instigator;
     }
 
     /**
@@ -42,13 +49,14 @@ class AddedToSponsor extends UserMembershipChanged
      */
     public function toMail($notifiable)
     {
-        $url = route('sponsors.index', ['id' => [$this->sponsorMember->sponsor->id]]);
+        $url = route('sponsors.members.index', $this->sponsorMember->sponsor);
 
         return (new MailMessage)
-                    ->line(trans('messages.notifications.added_to_sponsor', [
+                    ->line(trans('messages.notifications.sponsor_role_changed', [
                         'name' => $this->instigator->getDisplayName(),
                         'sponsor' => $this->sponsorMember->sponsor->display_name,
-                        'role' => $this->sponsorMember->role,
+                        'old_role' => trans('messages.sponsor_member.roles.'.$this->oldValue),
+                        'new_role' => trans('messages.sponsor_member.roles.'.$this->newValue),
                     ]))
                     ->action(trans('messages.notifications.see_sponsor'), $url)
                     ->line(trans('messages.notifications.thank_you'));
@@ -64,8 +72,26 @@ class AddedToSponsor extends UserMembershipChanged
     {
         return [
             'name' => static::getName(),
+            'old_value' => $this->oldValue,
+            'new_value' => $this->newValue,
             'sponsor_member_id' => $this->sponsorMember->id,
             'instigator_id' => $this->instigator->id,
         ];
+    }
+
+
+    public static function getName()
+    {
+        return 'madison.user.sponsor_role_changed';
+    }
+
+    public static function getType()
+    {
+        return static::TYPE_USER;
+    }
+
+    public function getInstigator()
+    {
+        return $this->instigator;
     }
 }

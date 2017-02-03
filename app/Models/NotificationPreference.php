@@ -77,6 +77,7 @@ class NotificationPreference extends Model
         $validNotifications = [
             'CommentReplied',
             'UserMembershipChanged',
+            'UserSponsorRoleChanged',
         ];
 
         return static::buildNotificationsFromEventNames($validNotifications);

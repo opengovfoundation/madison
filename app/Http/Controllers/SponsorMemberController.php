@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Http\Requests\SponsorMember as Requests;
 use App\Events\SponsorMemberAdded;
 use App\Events\SponsorMemberRemoved;
+use App\Events\SponsorMemberRoleChanged;
 use Event;
 
 class SponsorMemberController extends Controller
@@ -134,8 +135,13 @@ class SponsorMemberController extends Controller
         if ($member->role == Sponsor::ROLE_OWNER && $ownerCount == 1) {
             flash(trans('messages.sponsor_member.need_owner'));
         } else {
+            $oldRole = $member->role;
+            $newRole = $request->input('role');
+
             $member->role = $request->input('role');
             $member->save();
+
+            event(new SponsorMemberRoleChanged($oldRole, $newRole, $member, $request->user()));
 
             flash(trans('messages.sponsor_member.role_updated'));
         }
