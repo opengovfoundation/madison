@@ -34,7 +34,7 @@ class HomeController extends Controller
         }
 
         $documents = $documentQuery->paginate(5);
-        $featuredDocuments = Document::getFeatured();
+        $featuredDocuments = Document::getFeaturedOrRecent();
         $mostActiveDocuments = Document::getActive(6);
         $mostRecentDocuments = Document::mostRecentPublicWithOpenDiscussion()->get();
 

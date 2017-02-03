@@ -94,7 +94,7 @@
                             @if ($sponsor->isSponsorOwner(Auth::user()->id) || Auth::user()->isAdmin())
                                 <div class="btn-group">
                                     {{ Form::open(['route' => ['sponsors.members.destroy', $sponsor, $member], 'method' => 'delete']) }}
-                                        <button type="submit" class="btn btn-default">{{ trans('messages.sponsor_member.remove') }}</button>
+                                        <button type="submit" class="btn btn-default">{{ trans('messages.remove') }}</button>
                                     {{ Form::close() }}
                                 </div>
                             @endif

@@ -149,3 +149,11 @@ Route::put('/users/{user}/settings/notifications', 'UserController@updateSetting
 
 // Pages
 Route::resource('pages', 'PageController');
+
+
+// Settings
+Route::get('/settings/featured', 'SettingController@indexFeaturedDocuments')
+    ->name('settings.featured-documents.list');
+
+Route::put('/settings/featured/{document}', 'SettingController@updateFeaturedDocuments')
+    ->name('settings.featured-documents.update');

@@ -11,6 +11,7 @@ return [
     'submit' => 'Submit',
     'edit' => 'Edit',
     'delete' => 'Delete',
+    'remove' => 'Remove',
     'close' => 'Close',
     'order_by' => 'Order By',
     'order_by_direction' => 'Order By Direction',
@@ -167,7 +168,6 @@ return [
         'add' => 'Add a Member',
         'create' => 'New Sponsor Member',
         'role_updated' => 'Sponsor member role updated',
-        'remove' => 'Remove',
 
         'list' => 'Sponsor Members',
         'role' => 'Role',
@@ -278,5 +278,10 @@ return [
                 ],
             ],
         ],
+    ],
+
+    'settings' => [
+        'featured_documents' => 'Featured Documents',
+        'updated_featured_documents' => 'Feature documents updated',
     ],
 ];

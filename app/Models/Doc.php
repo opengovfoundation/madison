@@ -517,7 +517,7 @@ class Doc extends Model
         });
     }
 
-    public static function getFeatured()
+    public static function getFeatured($onlyPublished = true)
     {
         $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
 
@@ -529,8 +529,11 @@ class Doc extends Model
                 ->with('statuses')
                 ->with('dates')
                 ->whereIn('id', $featuredIds)
-                ->where('is_template', '!=', '1')
-                ->where('publish_state', '=', static::PUBLISH_STATE_PUBLISHED);
+                ->where('is_template', '!=', '1');
+
+            if ($onlyPublished) {
+                $docQuery->where('publish_state', '=', static::PUBLISH_STATE_PUBLISHED);
+            }
 
             $docs = $docQuery->get();
 
@@ -549,9 +552,17 @@ class Doc extends Model
                 // This means our attempt to re-order the object will fail.
                 // The line below will restore the order. Ugh.
                 ksort($tempDocs);
-                $docs = $tempDocs;
+                return $tempDocs;
             }
         }
+
+        return null;
+    }
+
+
+    public static function getFeaturedOrRecent()
+    {
+        $docs = static::getFeatured();
 
         // If we don't have a document, just find anything recent.
         if (empty($docs)) {

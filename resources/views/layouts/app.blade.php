@@ -101,6 +101,9 @@
                                         <li>
                                             <a href="{{ route('pages.index') }}">@lang('messages.page.manage')</a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('settings.featured-documents.list') }}">@lang('messages.settings.featured_documents')</a>
+                                        </li>
                                     </ul>
                                 </li>
                             @endif
