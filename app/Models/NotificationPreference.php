@@ -75,6 +75,7 @@ class NotificationPreference extends Model
     public static function getUserNotifications()
     {
         $validNotifications = [
+            'CommentCreatedOnSponsoredDocument',
             'CommentLiked',
             'CommentReplied',
             'UserMembershipChanged',
