@@ -78,6 +78,7 @@ class NotificationPreference extends Model
             'CommentCreatedOnSponsoredDocument',
             'CommentLiked',
             'CommentReplied',
+            'DocumentPublished',
             'SupportVoteChanged',
             'UserMembershipChanged',
             'UserSponsorRoleChanged',

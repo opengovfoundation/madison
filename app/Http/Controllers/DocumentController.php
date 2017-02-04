@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Document as Requests;
+use App\Events\DocumentPublished;
 use App\Events\SupportVoteChanged;
 use App\Models\Category;
 use App\Models\User;
@@ -376,7 +377,16 @@ class DocumentController extends Controller
      */
     public function update(Requests\Update $request, Document $document)
     {
+        $oldPublishState = $document->publish_state;
+
         $document->update($request->all());
+
+        if ($oldPublishState !== Document::PUBLISH_STATE_PUBLISHED
+            && $request->input('publish_state') === Document::PUBLISH_STATE_PUBLISHED
+        ) {
+            event(new DocumentPublished($document, $request->user()));
+        }
+
         $document->setIntroText($request->input('introtext'));
         $document->sponsors()->sync([$request->input('sponsor_id')]);
         $document->syncCategories($request->input('category_id'));

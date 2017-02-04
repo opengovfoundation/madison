@@ -273,6 +273,11 @@ return [
                     'vote_support_from_oppose' => 'A user changed their vote to support :document.',
                     'vote_oppose_from_support' => 'A user changed their vote to oppose :document.',
                 ],
+
+                'published' => [
+                    'preference_description' => 'When document is published',
+                    'subject' => ':document has been published',
+                ],
             ],
 
             'sponsor' => [
