@@ -30,7 +30,6 @@ class Comments
         $fields = [
             'first_name',
             'last_name',
-            'email',
             'quote',
             'text',
             'type',
@@ -44,7 +43,6 @@ class Comments
             $row = [
                 'first_name' => $comment->user->fname,
                 'last_name' => $comment->user->lname,
-                'email' => $comment->user->email,
                 'quote' => !empty($comment->data['quote']) ? $comment->data['quote'] : null,
                 'text' => $comment->annotationType->content,
                 'type' => $comment->isNote() ? 'note' : 'comment',
@@ -64,7 +62,7 @@ class Comments
         }
 
         $getUserInfo = function (User $user) {
-            return array_intersect_key($user->toArray(), array_flip(['id', 'email', 'display_name']));
+            return array_intersect_key($user->toArray(), array_flip(['id', 'display_name']));
         };
 
         $item['id'] = $comment->str_id;

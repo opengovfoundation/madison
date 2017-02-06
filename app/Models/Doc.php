@@ -339,7 +339,7 @@ class Doc extends Model
 
     public function getLink()
     {
-        return URL::route('documents.show', [$this->slug]);
+        return URL::route('documents.show', $this);
     }
 
     /*
@@ -741,5 +741,15 @@ class Doc extends Model
         }
 
         return '/img/default-featured.jpg';
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

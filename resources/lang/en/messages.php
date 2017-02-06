@@ -30,6 +30,7 @@ return [
     'close' => 'Close',
     'permalink' => 'Permalink',
     'admin' => 'Admin',
+    'misc' => 'Misc.',
 
     // Authentication Stuff
     'password' => 'Password',
@@ -79,6 +80,7 @@ return [
         'note' => 'Note',
         'note_edit_explanation_prompt' => 'Why did you make this edit?',
         'notes' => 'Notes',
+        'download_comments_csv' => 'Download Comments (as CSV)',
         'collaborators' => 'Collaborators',
         'collaborators_count' => ':count collaborators',
         'sponsoredby' => 'Sponsored by',

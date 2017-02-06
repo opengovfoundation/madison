@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="btn-group" role="group">
-                            {{ Form::open(['route' => ['documents.support', $document->slug], 'method' => 'put']) }}
+                            {{ Form::open(['route' => ['documents.support', $document], 'method' => 'put']) }}
                                 <input type="hidden" name="support" value="1">
 
                                 @if ($userSupport === true)
@@ -43,7 +43,7 @@
                             {{ Form::close() }}
                     </div>
                     <div class="btn-group" role="group">
-                            {{ Form::open(['route' => ['documents.support', $document->slug], 'method' => 'put']) }}
+                            {{ Form::open(['route' => ['documents.support', $document], 'method' => 'put']) }}
                                 <input type="hidden" name="support" value="0">
                                 @if ($userSupport === false)
                                     <button type="submit" class="btn btn-warning">
@@ -95,7 +95,7 @@
                 <section class="col-md-8">
                     @if ($document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_OPEN)
                         @if (Auth::user())
-                            {{ Form::open(['route' => ['documents.comments.store', $document->slug]]) }}
+                            {{ Form::open(['route' => ['documents.comments.store', $document]]) }}
                                 {{ Form::mInput(
                                     'textarea',
                                     'text',
