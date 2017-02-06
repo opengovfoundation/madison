@@ -8,5 +8,8 @@ abstract class Notification
     extends BaseNotification
     implements \App\Contracts\Notification
 {
-    //
+    public static function baseMessageLocation()
+        {
+            return 'messages.notifications.'.static::getName();
+        }
 }

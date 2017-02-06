@@ -51,13 +51,13 @@ class CommentCreatedOnSponsoredDocument extends Notification implements ShouldQu
         $url = $this->comment->getLink();
 
         return (new MailMessage)
-                    ->line(trans('messages.notifications.comment_created_on_sponsored', [
+                    ->subject(trans(static::baseMessageLocation().'.subject', [
                         'name' => $this->comment->user->getDisplayName(),
                         'comment_type' => $commentType,
                         'document' => $this->comment->rootAnnotatable->title,
                     ]))
                     ->action(trans('messages.notifications.see_comment'), $url)
-                    ->line(trans('messages.notifications.thank_you'));
+                    ;
     }
 
     /**

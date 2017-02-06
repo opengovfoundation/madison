@@ -45,13 +45,13 @@ class AddedToSponsor extends UserMembershipChanged
         $url = route('sponsors.index', ['id' => [$this->sponsorMember->sponsor->id]]);
 
         return (new MailMessage)
-                    ->line(trans('messages.notifications.added_to_sponsor', [
+                    ->subject(trans(static::baseMessageLocation().'.added_to_sponsor', [
                         'name' => $this->instigator->getDisplayName(),
                         'sponsor' => $this->sponsorMember->sponsor->display_name,
                         'role' => $this->sponsorMember->role,
                     ]))
                     ->action(trans('messages.notifications.see_sponsor'), $url)
-                    ->line(trans('messages.notifications.thank_you'));
+                    ;
     }
 
     /**

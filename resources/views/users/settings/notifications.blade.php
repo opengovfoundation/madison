@@ -2,8 +2,13 @@
 
 @section('settings_content')
     {{ Form::open(['route' => ['users.settings.notifications.update', $user->id], 'method' => 'put']) }}
-        @foreach($notificationPreferences as $notificationName => $value)
-            {{ Form::mInput('checkbox', $notificationName, trans('messages.notifications.descriptions.'.$notificationName), $value) }}
+        @foreach($notificationPreferences as $notificationClass => $value)
+            {{ Form::mInput(
+                   'checkbox',
+                   $notificationClass::getName(),
+                   trans($notificationClass::baseMessageLocation().'.preference_description'),
+                   $value
+            ) }}
         @endforeach
         <hr>
         {{ Form::mSubmit() }}

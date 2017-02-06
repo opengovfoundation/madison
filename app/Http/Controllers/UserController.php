@@ -37,19 +37,19 @@ class UserController extends Controller
     public function editSettingsNotifications(Requests\Edit $request, User $user)
     {
         // Retrieve all valid notifications for user
-        $validNotifications = array_keys(NotificationPreference::getValidNotificationsForUser($user));
+        $validNotifications = NotificationPreference::getValidNotificationsForUser($user);
 
         // Retrieve all notification preferences that are set for user
         $currentNotifications = $user
             ->notificationPreferences()
-            ->whereIn('event', $validNotifications)
+            ->whereIn('event', array_keys($validNotifications))
             ->pluck('event')
             ->flip();
 
         // Build array of notifications and their selected status
         $notificationPreferences = [];
-        foreach ($validNotifications as $notificationName) {
-            $notificationPreferences[$notificationName] = isset($currentNotifications[$notificationName]);
+        foreach ($validNotifications as $notificationName => $className) {
+            $notificationPreferences[$className] = isset($currentNotifications[$notificationName]);
         }
 
         return view('users.settings.notifications', compact('user', 'notificationPreferences'));

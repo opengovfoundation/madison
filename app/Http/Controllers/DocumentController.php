@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Document as Requests;
+use App\Events\SupportVoteChanged;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Doc as Document;
@@ -522,10 +523,14 @@ class DocumentController extends Controller
 
         $existingDocumentMeta = $this->getUserSupportMeta($request->user(), $document);
 
+        $oldValue = null;
+        $newValue = $support;
         if ($existingDocumentMeta) {
+            $oldValue = (bool) $existingDocumentMeta->meta_value;
 
             // are we removing support/opposition?
-            if ((bool) $existingDocumentMeta->meta_value === $support) {
+            if ($oldValue === $support) {
+                $newValue = null;
                 $existingDocumentMeta->forceDelete();
             } else {
                 $existingDocumentMeta->meta_value = $support;
@@ -540,6 +545,8 @@ class DocumentController extends Controller
             $documentMeta->meta_value = $support;
             $documentMeta->save();
         }
+
+        event(new SupportVoteChanged($oldValue, $newValue, $document, $request->user()));
 
         flash(trans('messages.document.update_support'));
         return redirect()->route('documents.show', ['document' => $document->slug]);

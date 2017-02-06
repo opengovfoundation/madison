@@ -2,32 +2,32 @@
 
 namespace App\Notifications;
 
-use App\Models\SponsorMember;
+use App\Models\Doc as Document;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserSponsorRoleChanged extends Notification implements ShouldQueue
+class SupportVoteChanged extends Notification implements ShouldQueue
 {
     use Queueable;
 
     public $oldValue;
     public $newValue;
-    public $sponsorMember;
-    public $instigator;
+    public $document;
+    public $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($oldValue, $newValue, SponsorMember $sponsorMember, User $instigator)
+    public function __construct($oldValue, $newValue, Document $document, User $user)
     {
         $this->oldValue = $oldValue;
         $this->newValue = $newValue;
-        $this->sponsorMember = $sponsorMember;
-        $this->instigator = $instigator;
+        $this->document = $document;
+        $this->user = $user;
     }
 
     /**
@@ -49,16 +49,33 @@ class UserSponsorRoleChanged extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $url = route('sponsors.members.index', $this->sponsorMember->sponsor);
+        $url = $this->document->url;
+
+        $subject = '';
+
+        if ($this->oldValue === null) {
+            // then this is a new vote
+            if ($this->newValue === true) {
+                $subject = static::baseMessageLocation().'.vote_support';
+            } else {
+                $subject = static::baseMessageLocation().'.vote_oppose';
+            }
+        } else {
+            // they are changing their vote
+            if ($this->oldValue === false && $this->newValue === true) {
+                $subject = static::baseMessageLocation().'.vote_support_from_oppose';
+            } else {
+                $subject = static::baseMessageLocation().'.vote_oppose_from_support';
+            }
+        }
+
+        $args = [
+            'document' => $this->document->title,
+        ];
 
         return (new MailMessage)
-                    ->subject(trans(static::baseMessageLocation().'.subject', [
-                        'name' => $this->instigator->getDisplayName(),
-                        'sponsor' => $this->sponsorMember->sponsor->display_name,
-                        'old_role' => trans('messages.sponsor_member.roles.'.$this->oldValue),
-                        'new_role' => trans('messages.sponsor_member.roles.'.$this->newValue),
-                    ]))
-                    ->action(trans('messages.notifications.see_sponsor'), $url)
+                    ->subject(trans($subject, $args))
+                    ->action(trans('messages.notifications.see_document'), $url)
                     ;
     }
 
@@ -74,15 +91,14 @@ class UserSponsorRoleChanged extends Notification implements ShouldQueue
             'name' => static::getName(),
             'old_value' => $this->oldValue,
             'new_value' => $this->newValue,
-            'sponsor_member_id' => $this->sponsorMember->id,
-            'instigator_id' => $this->instigator->id,
+            'document_id' => $this->document->id,
+            'user_id' => $this->user->id,
         ];
     }
 
-
     public static function getName()
     {
-        return 'madison.user.sponsor_role_changed';
+        return 'madison.document.support_vote_changed';
     }
 
     public static function getType()
@@ -92,6 +108,6 @@ class UserSponsorRoleChanged extends Notification implements ShouldQueue
 
     public function getInstigator()
     {
-        return $this->instigator;
+        return $this->user;
     }
 }

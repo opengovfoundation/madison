@@ -51,12 +51,13 @@ class CommentLiked extends Notification implements ShouldQueue
         $url = $this->like->annotatable->getLink();
 
         return (new MailMessage)
-                    ->line(trans('messages.notifications.comment_liked', [
+                    ->subject(trans(static::baseMessageLocation().'.subject', [
                         'name' => $this->like->user->getDisplayName(),
                         'comment_type' => $parentType,
+                        'document' => $this->comment->rootAnnotatable->title,
                     ]))
                     ->action(trans('messages.notifications.see_comment'), $url)
-                    ->line(trans('messages.notifications.thank_you'));
+                    ;
     }
 
     /**

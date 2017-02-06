@@ -244,40 +244,65 @@ return [
         'unsubscribe' => 'If you do not wish to receive these notifications, you can unsubscribe in your user settings.',
 
         // actual notification content
-        'sponsor_needs_approval' => 'A sponsor (:name) needs approval.',
-        'review_sponsor' => 'Review Sponsor',
+        'madison' => [
+            'comment' => [
+                'replied' => [
+                    'preference_description' => 'When someone posts a reply to a comment of yours',
 
-        'comment_reply' => ':name replied to your :comment_type.',
-        'comment_type_note' => 'note',
-        'comment_type_comment' => 'comment',
-        'see_comment' => 'See Comment',
-
-        'comment_created_on_sponsored' => ':name has created a :comment_type on :document',
-
-        'comment_liked' => ':name liked your :comment_type.',
-
-        'added_to_sponsor' => ':name has added you to :sponsor with a role of :role',
-        'see_sponsor' => 'See Sponsor',
-        'removed_from_sponsor' => ':name has removed you from :sponsor',
-
-        'sponsor_role_changed' => ':name changed your role for :sponsor from :old_role to :new_role',
-
-        'descriptions' => [
-            'madison' => [
-                'sponsor' => [
-                    'needs_approval' => 'When a sponsor needs approval',
+                    'subject' => ':name replied to your :comment_type on :document',
                 ],
-                'comment' => [
-                    'replied' => 'When someone posts a reply to a comment of yours',
-                    'liked' => 'When someone likes a comment of yours',
-                    'created_on_sponsored' => 'When someone makes a comment on a document you sponsored',
+
+                'liked' => [
+                    'preference_description' => 'When someone likes a comment of yours',
+                    'subject' => 'Someone liked your :comment_type on :document.',
                 ],
-                'user' => [
-                    'sponsor_membership_changed' => 'When you are added to or removed from a sponsor',
-                    'sponsor_role_changed' => 'When your role in a sponsor is changed',
+
+                'created_on_sponsored' => [
+                    'preference_description' => 'When someone makes a comment on a document you sponsored',
+
+                    'subject' => ':name has created a :comment_type on :document',
+                ],
+            ],
+
+            'document' => [
+                'support_vote_changed' => [
+                    'preference_description' => 'When someone votes on a document you sponsored',
+
+                    'vote_support' => 'A user voted in support of :document.',
+                    'vote_oppose' => 'A user voted in opposition of :document.',
+                    'vote_support_from_oppose' => 'A user changed their vote to support :document.',
+                    'vote_oppose_from_support' => 'A user changed their vote to oppose :document.',
+                ],
+            ],
+
+            'sponsor' => [
+                'needs_approval' => [
+                    'preference_description' => 'When a sponsor needs approval',
+
+                    'subject' => 'The sponsor :name needs approval.',
+                ],
+            ],
+
+            'user' => [
+                'sponsor_membership_changed' => [
+                    'preference_description' => 'When you are added to or removed from a sponsor',
+                    'added_to_sponsor' => ':name has added you to :sponsor with a role of :role',
+                    'removed_from_sponsor' => ':name has removed you from :sponsor',
+                ],
+                'sponsor_role_changed' => [
+                    'preference_description' => 'When your role in a sponsor is changed',
+                    'subject' => ':name changed your role for :sponsor from :old_role to :new_role',
                 ],
             ],
         ],
+
+        // helpers
+        'comment_type_note' => 'note',
+        'comment_type_comment' => 'comment',
+        'see_comment' => 'See Comment',
+        'see_sponsor' => 'See Sponsor',
+        'see_document' => 'See Document',
+        'review_sponsor' => 'Review Sponsor',
     ],
 
     'settings' => [

@@ -2,12 +2,6 @@
 {{-- Greeting --}}
 @if (! empty($greeting))
 # {{ $greeting }}
-@else
-@if ($level == 'error')
-# @lang('messages.notifications.greeting.error')
-@else
-# @lang('messages.notifications.greeting.normal')
-@endif
 @endif
 
 {{-- Intro Lines --}}
@@ -45,7 +39,6 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-@lang('messages.notifications.salutation', ['name' => config('app.name')])
 @endif
 
 <!-- Subcopy -->
