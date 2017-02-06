@@ -17,7 +17,8 @@
         "predis/predis": "^1.1",
         "roumen/feed": "~2.10",
         "roumen/sitemap": "2.4.*",
-        "zizaco/entrust": "dev-master"
+        "zizaco/entrust": "dev-master",
+        "jenssegers/rollbar": "^1.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

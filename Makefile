@@ -30,6 +30,8 @@ clean:
 	rm -rf public/build public/css public/js
 	@-php artisan cache:clear
 	@-php artisan view:clear
+	@-php artisan config:clear
+	@-php artisan route:clear
 
 distclean: clean
 	rm -rf node_modules vendor/*
@@ -70,3 +72,9 @@ queue-listen:
 
 watch:
 	./node_modules/.bin/gulp watch
+
+envoyer-post-composer: clean deps-node build-prod
+	php artisan config:cache
+	php artisan route:cache
+
+envoyer-post-activate: db-force-migrate

@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($this->app->environment('production', 'staging')) {
+            $this->app->register(\Jenssegers\Rollbar\RollbarServiceProvider::class);
+        }
+
         Relation::morphMap([
             Annotation::ANNOTATABLE_TYPE => Annotation::class,
             Document::ANNOTATABLE_TYPE => Document::class,

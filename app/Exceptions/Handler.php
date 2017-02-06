@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Log;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -32,6 +33,8 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        // Logging the error here will send it to Rollbar, if configured
+        Log::error($exception);
         parent::report($exception);
     }
 
