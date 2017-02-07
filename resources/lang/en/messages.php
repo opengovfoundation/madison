@@ -13,6 +13,7 @@ return [
     'delete' => 'Delete',
     'remove' => 'Remove',
     'close' => 'Close',
+    'order' => 'Order',
     'order_by' => 'Order By',
     'order_by_direction' => 'Order By Direction',
     'order_by_dir_desc' => 'Descending',
@@ -31,6 +32,7 @@ return [
     'permalink' => 'Permalink',
     'admin' => 'Admin',
     'misc' => 'Misc.',
+    'settings' => 'Settings',
 
     // Authentication Stuff
     'password' => 'Password',
@@ -42,6 +44,7 @@ return [
 
     // Home Page Stuff
     'home' => [
+        'home' => 'Home',
         'welcome' => 'Add your voice...',
         'intro' => 'Find legislation and regulations being developed and get informed. Then get involved and collaboratively craft the documents with the sponsors. To get started, choose from the recent documents below, or search the whole repository.',
     ],
@@ -139,6 +142,7 @@ return [
         'list' => 'Sponsors',
         'create' => 'Create Sponsor',
         'my_sponsors' => 'My Sponsors',
+        'all_sponsors' => 'All Sponsors',
         'edit' => 'Edit Sponsor',
         'view_docs' => 'Documents',
 
@@ -201,7 +205,6 @@ return [
     ],
 
     'user' => [
-        'settings' => 'Settings',
         'fname' => 'First Name',
         'lname' => 'Last Name',
         'email' => 'Email Address',
@@ -218,8 +221,7 @@ return [
     ],
 
     'page' => [
-        'manage' => 'Manage Pages',
-        'create' => 'Create New Page',
+        'create' => 'New Page',
         'edit' => 'Edit Page',
         'updated' => 'Page updated',
         'deleted' => 'Page deleted',
@@ -229,8 +231,8 @@ return [
         'nav_title' => 'Navigation Title',
         'page_title' => 'Page Title',
         'header' => 'Page Header',
-        'show_in_header' => 'Show in Header?',
-        'show_in_footer' => 'Show in Footer?',
+        'show_in_header' => 'Header',
+        'show_in_footer' => 'Footer',
         'external' => 'External?',
     ],
 
@@ -312,8 +314,11 @@ return [
         'review_sponsor' => 'Review Sponsor',
     ],
 
-    'settings' => [
+    'setting' => [
+        'admin_label' => 'Site Administration: :page',
         'featured_documents' => 'Featured Documents',
         'updated_featured_documents' => 'Feature documents updated',
+        'site_settings' => 'Site Settings',
+        'custom_pages' => 'Custom Pages',
     ],
 ];

@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Madison') }}</title>
+    <title>@yield('pageTitle') | {{ config('app.name', 'Madison') }}</title>
 
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -52,15 +52,20 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        @foreach ($headerPages as $page)
-                            <li><a href="{{ $page->getUrl() }}">{{ $page->nav_title }}</a></li>
-                        @endforeach
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="{{ route('documents.index') }}">@lang('messages.document.list')</a></li>
-                        <li><a href="{{ route('sponsors.index') }}">@lang('messages.sponsor.list')</a></li>
+                        <li>
+                            <a href="{{ route('documents.index') }}">
+                                <strong>@lang('messages.document.list')</strong>
+                            </a>
+                        </li>
+
+                        @foreach ($headerPages as $page)
+                            <li><a href="{{ $page->getUrl() }}">{{ $page->nav_title }}</a></li>
+                        @endforeach
+
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">@lang('messages.login')</a></li>
@@ -68,16 +73,24 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->displayName }} <span class="caret"></span>
+                                    <i class="fa fa-user"></i> {{ Auth::user()->displayName }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ route('users.settings.edit', Auth::user()->id) }}">@lang('messages.user.settings')</a>
+                                        <a href="{{ route('users.settings.edit', Auth::user()->id) }}">@lang('messages.settings')</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('sponsors.index', ['user_id[]' => Auth::user()->id]) }}">@lang('messages.sponsor.my_sponsors')</a>
+                                        <a href="{{ route('sponsors.index') }}">@lang('messages.sponsor.list')</a>
                                     </li>
+                                    @if (Auth::user()->isAdmin())
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="{{ route('settings.site.index') }}">@lang('messages.admin')</a>
+                                        </li>
+                                    @endif
+
+                                    <li role="separator" class="divider"></li>
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
@@ -89,24 +102,9 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+
                                 </ul>
                             </li>
-                            @if (Auth::user()->isAdmin())
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                        @lang('messages.admin') <span class="caret"></span>
-                                    </a>
-
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <a href="{{ route('pages.index') }}">@lang('messages.page.manage')</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('settings.featured-documents.list') }}">@lang('messages.settings.featured_documents')</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            @endif
                         @endif
                     </ul>
                 </div>

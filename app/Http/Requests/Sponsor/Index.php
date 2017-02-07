@@ -4,6 +4,7 @@ namespace App\Http\Requests\Sponsor;
 
 use App\Models\Sponsor;
 use Illuminate\Foundation\Http\FormRequest;
+use Auth;
 
 class Index extends FormRequest
 {
@@ -14,7 +15,7 @@ class Index extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::check();
     }
 
     /**

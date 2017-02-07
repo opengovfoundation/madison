@@ -1,5 +1,7 @@
 @extends('users.settings')
 
+@section('pageTitle', trans('messages.user.settings_pages.password'))
+
 @section('settings_content')
     {{ Form::open(['route' => ['users.settings.password.update', $user->id], 'method' => 'put']) }}
         <div class="row">

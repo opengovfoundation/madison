@@ -21,22 +21,41 @@ class SponsorController extends Controller
         $orderField = $request->input('order', 'updated_at');
         $orderDir = $request->input('order_dir', 'DESC');
         $limit = $request->input('limit', 10);
+        $onlyUserSponsors = true;
 
         $sponsorsQuery = Sponsor
             ::query();
-
-        if ($request->has('id')) {
-            $sponsorsQuery
-                ->whereIn('id', $request->input('id'));
-        }
 
         if ($request->has('name')) {
             $name = $request->get('name');
             $sponsorsQuery->where('name', 'LIKE', "%$name%");
         }
 
-        // limit to selected members
-        $userIds = $request->input('user_id', []);
+        // by default, only show sponsors that current user belongs to
+        $userIds = [$request->user()->id];
+
+        // query functions only available to admins
+        if ($request->user() && $request->user()->isAdmin()) {
+
+            // view all sponsors
+            if ($request->has('all') && $request->input('all') === 'true') {
+                $userIds = [];
+                $onlyUserSponsors = false;
+            }
+
+            // filter by user
+            if ($request->has('user_id')) {
+                $userIds = $request->input('user_id', $userIds);
+                $onlyUserSponsors = false;
+            }
+
+            // filter by specific sponsor
+            if ($request->has('id')) {
+                $sponsorsQuery
+                    ->whereIn('id', $request->input('id'));
+            }
+        }
+
         if (!empty($userIds)) {
             $sponsorsQuery->whereHas('members', function ($q) use ($userIds) {
                 $q->whereIn('sponsor_members.user_id', $userIds);
@@ -122,6 +141,7 @@ class SponsorController extends Controller
             'canSeeAtLeastOneStatus',
             'users',
             'validStatuses',
+            'onlyUserSponsors',
         ]));
     }
 

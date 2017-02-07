@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', $document->title)
+
 @push('styles')
     <link href="{{ elixir('css/annotator.min.css') }}" rel="stylesheet">
 @endpush

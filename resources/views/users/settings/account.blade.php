@@ -1,5 +1,7 @@
 @extends('users.settings')
 
+@section('pageTitle', trans('messages.user.settings_pages.account'))
+
 @section('settings_content')
     {{ Form::model($user, ['route' => ['users.settings.account.update', $user->id], 'method' => 'put']) }}
         <div class="row">

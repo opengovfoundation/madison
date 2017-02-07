@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', trans('messages.document.list'))
+
 @section('content')
     <div class="page-header">
         <h1>{{ trans('messages.document.list') }}</h1>
@@ -7,7 +9,9 @@
 
     @include('components.errors')
 
-    {{ Html::linkRoute('documents.create', trans('messages.document.create'), [], ['class' => 'btn btn-default'])}}
+    @if (Auth::user())
+        {{ Html::linkRoute('documents.create', trans('messages.document.create'), [], ['class' => 'btn btn-default'])}}
+    @endif
 
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#queryModal">Query</button>
 
@@ -37,14 +41,16 @@
                                ['multiple' => true]
                                )
                         }}
-                        {{ Form::mSelect(
-                               'publish_state[]',
-                               trans('messages.document.publish_state'),
-                               collect($publishStates)->mapWithKeys_v2(function ($item) {return [$item => trans('messages.document.publish_states.'.$item)]; })->toArray(),
-                               null,
-                               ['multiple' => true]
-                               )
-                        }}
+                        @if (Auth::user())
+                            {{ Form::mSelect(
+                                   'publish_state[]',
+                                   trans('messages.document.publish_state'),
+                                   collect($publishStates)->mapWithKeys_v2(function ($item) {return [$item => trans('messages.document.publish_states.'.$item)]; })->toArray(),
+                                   null,
+                                   ['multiple' => true]
+                                   )
+                            }}
+                        @endif
                         {{ Form::mSelect(
                                'discussion_state[]',
                                trans('messages.document.discussion_state'),
@@ -94,7 +100,9 @@
                 <th>@lang('messages.document.title')</th>
                 <th>@lang('messages.created')</th>
                 <th>@lang('messages.document.sponsor')</th>
-                <th>@lang('messages.document.publish_state')</th>
+                @if (Auth::user() && Auth::user()->isAdmin())
+                    <th>@lang('messages.document.publish_state')</th>
+                @endif
                 <th>@lang('messages.actions')</th>
             </tr>
         </thead>
@@ -109,8 +117,9 @@
                             @lang('messages.document.sponsor_others')
                         @endif
                     </td>
-                    <td>{{ trans('messages.document.publish_states.'.$document->publish_state) }}</td>
-
+                    @if (Auth::user() && Auth::user()->isAdmin())
+                        <td>{{ trans('messages.document.publish_states.'.$document->publish_state) }}</td>
+                    @endif
                     <td>
                         <div class="btn-toolbar" role="toolbar">
                             @foreach ($documentsCapabilities[$document->id] as $cap => $allowed)

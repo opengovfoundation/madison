@@ -409,26 +409,15 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
           + ' onclick=$(this).trigger("madison.showNotes")'
           + ' data-group-id='+index+'>';
 
+        // TODO: Figure out a better way to display this number.
+        // When it gets large enough, it can break out of the bubble.
         sideBubbles += '<span class="annotation-group-count fa-stack">';
         sideBubbles += '<i class="fa fa-comment fa-stack-2x"></i>';
         sideBubbles += '<span class="fa-stack-1x">';
-        sideBubbles += annotationGroup.annotations.length;
+        sideBubbles += annotationGroup.annotations.length + annotationGroup.commentCount;
         sideBubbles += '</span>';
         sideBubbles += '</span>';
 
-        sideBubbles += '<div class="annotation-group-statistics">';
-
-        sideBubbles += '<span class="annotation-collaborator-count">';
-        sideBubbles += window.trans['messages.document.collaborators_count']
-          .replace(':count', annotationGroup.users.length);
-        sideBubbles += '</span>';
-
-        sideBubbles += '<span class="annotation-comment-count">';
-        sideBubbles += window.trans['messages.document.replies_count']
-          .replace(':count', annotationGroup.commentCount);
-        sideBubbles += '</span>';
-
-        sideBubbles += '</div>'; // annotation-group-statistics
         sideBubbles += '</div>'; // annotation-group
       }
     }
@@ -572,27 +561,12 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
           parent: annotationParent,
           parentId: annotationParentId,
           commentCount: 0,
-          top: positionTop,
-          users: []
+          top: positionTop
         };
       }
 
       // Count replies
       annotationGroups[annotationParentId].commentCount += annotation.comments.length;
-
-      // Count the unique users for our annotations.
-      if (annotationGroups[annotationParentId].users.indexOf(annotation.user.id) < 0) {
-        annotationGroups[annotationParentId].users.push(annotation.user.id);
-      }
-
-      // Then count the unique users for the responses to each annotation.
-      for (var commentIndex in annotation.comments) {
-        var comment = annotation.comments[commentIndex];
-        annotation.comments[commentIndex].label ='comment';
-        if (annotationGroups[annotationParentId].users.indexOf(comment.user.id) < 0) {
-          annotationGroups[annotationParentId].users.push(comment.user.id);
-        }
-      }
 
       annotationGroups[annotationParentId].annotations.push(annotation);
     }, this);

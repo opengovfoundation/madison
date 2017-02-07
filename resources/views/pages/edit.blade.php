@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', trans('messages.page.edit'))
+
 @section('content')
     <div class="page-header">
         <h1>{{ trans('messages.page.edit') }}</h1>

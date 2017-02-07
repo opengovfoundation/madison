@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', trans('messages.sponsor.edit'))
+
 @section('content')
     <div class="page-header">
         <h1>{{ trans('messages.sponsor.edit') }}: {{ $sponsor->display_name }}</h1>

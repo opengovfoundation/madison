@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', trans('messages.home.home'))
+
 @section('content')
 
 <div class="row">

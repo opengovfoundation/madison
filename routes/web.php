@@ -110,7 +110,9 @@ Route::put('/documents/{document}/support', 'DocumentController@updateSupport')
 
 
 // Sponsors
-Route::resource('sponsors', 'SponsorController');
+Route::resource('sponsors', 'SponsorController', [
+    'except' => ['show']
+]);
 
 Route::put('/sponsors/{sponsor}/status', 'SponsorController@updateStatus')
     ->name('sponsors.status.update');
@@ -148,12 +150,20 @@ Route::put('/users/{user}/settings/notifications', 'UserController@updateSetting
 
 
 // Pages
-Route::resource('pages', 'PageController');
+Route::resource('pages', 'PageController', [
+    'except' => ['index']
+]);
 
 
 // Settings
+Route::get('/settings/site', 'SettingController@siteSettingsIndex')
+    ->name('settings.site.index');
+
+Route::get('/settings/pages', 'PageController@index')
+    ->name('settings.pages.index');
+
 Route::get('/settings/featured', 'SettingController@indexFeaturedDocuments')
-    ->name('settings.featured-documents.list');
+    ->name('settings.featured-documents.index');
 
 Route::put('/settings/featured/{document}', 'SettingController@updateFeaturedDocuments')
     ->name('settings.featured-documents.update');

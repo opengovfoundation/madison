@@ -10,6 +10,16 @@ class SettingController extends Controller
 {
 
     /**
+     * Admin page for configuring site settings.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function siteSettingsIndex(Requests\SiteSettings\Index $request)
+    {
+        return view('settings.site-settings');
+    }
+
+    /**
      * Show a list of featured documents so an admin can manage them.
      *
      * @return \Illuminate\Http\Response
@@ -61,8 +71,8 @@ class SettingController extends Controller
         $featuredSetting->meta_value = join(',', $featuredIds);
         $featuredSetting->save();
 
-        flash(trans('messages.settings.updated_featured_documents'));
-        return redirect()->route('settings.featured-documents.list');
+        flash(trans('messages.setting.updated_featured_documents'));
+        return redirect()->route('setings.featured-documents.index');
     }
 
 }

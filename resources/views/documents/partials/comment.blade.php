@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="row comment-replies hide">
+    <div class="row comment-replies">
         @if (Auth::user() && $comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE)
             <div class="col-md-12">
                 <hr>
