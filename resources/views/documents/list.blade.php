@@ -111,7 +111,11 @@
                 <tr>
                     <td>{{ $document->id }}</td>
                     <td>{{ $document->title }}</td>
-                    <td>{{ $document->created_at->toDateTimeString() }}</td>
+                    <td>
+                        @include('components/date', [
+                        'datetime' => $document->created_at,
+                        ])
+                    </td>
                     <td>{{ $document->sponsors->shift()->display_name }}
                         @if ($document->sponsors->count() > 1)
                             @lang('messages.document.sponsor_others')

@@ -16,12 +16,16 @@ return [
         'unconfirmed_fname' => 'Jane',
         'unconfirmed_lname' => 'Doe',
         'unconfirmed_password' => 'password'
- ],
+    ],
+
     'image_sizes' => env('IMAGE_SIZES') ? json_decode(env('IMAGE_SIZES'), true) : [
         'featured' => [
             'height' => 300,
             'width' => 633,
             'crop' => true
         ]
-    ]
+    ],
+
+    'date_format' => 'Y-m-d',
+    'time_format' => 'H:i',
  ];

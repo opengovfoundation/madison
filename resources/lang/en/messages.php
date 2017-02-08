@@ -325,5 +325,8 @@ return [
         'updated_featured_documents' => 'Feature documents updated',
         'site_settings' => 'Site Settings',
         'custom_pages' => 'Custom Pages',
+
+        'date_format' => 'Date Format',
+        'time_format' => 'Time Format',
     ],
 ];

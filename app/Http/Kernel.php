@@ -39,7 +39,6 @@ class Kernel extends HttpKernel
         ],
     ];
 
-
     /**
      * The application's route middleware.
      *
@@ -56,4 +55,13 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'discussion_state' => \App\Http\Middleware\DiscussionState::class,
     ];
+
+    protected function bootstrappers()
+    {
+        $bootstrappers = parent::bootstrappers();
+
+        $bootstrappers[] = 'App\Config\Bootstrap\LoadConfiguration';
+
+        return $bootstrappers;
+    }
 }

@@ -90,7 +90,11 @@
                             {{ trans('messages.sponsor_member.roles.'.$member->role) }}
                         @endif
                     </td>
-                    <td>{{ $member->created_at->toDateTimeString() }}</td>
+                    <td>
+                        @include('components/date', [
+                        'datetime' => $member->created_at,
+                        ])
+                    </td>
                     <td>
                         <div class="btn-toolbar" role="toolbar">
                             @if ($sponsor->isSponsorOwner(Auth::user()->id) || Auth::user()->isAdmin())

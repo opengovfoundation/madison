@@ -101,7 +101,11 @@
                 <tr>
                     <td>{{ $sponsor->id }}</td>
                     <td>{{ $sponsor->name }}</td>
-                    <td>{{ $sponsor->created_at->toDateTimeString() }}</td>
+                    <td>
+                        @include('components/date', [
+                        'datetime' => $sponsor->created_at,
+                        ])
+                    </td>
                     @if ($canSeeAtLeastOneStatus)
                         <td>
                             @if ($sponsorsCapabilities[$sponsor->id]['editStatus'])

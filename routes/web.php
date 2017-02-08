@@ -159,6 +159,9 @@ Route::resource('pages', 'PageController', [
 Route::get('/settings/site', 'SettingController@siteSettingsIndex')
     ->name('settings.site.index');
 
+Route::put('/settings/site', 'SettingController@siteSettingsUpdate')
+    ->name('settings.site.update');
+
 Route::get('/settings/pages', 'PageController@index')
     ->name('settings.pages.index');
 
