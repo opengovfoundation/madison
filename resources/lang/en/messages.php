@@ -336,7 +336,11 @@ return [
         'site_settings' => 'Site Settings',
         'custom_pages' => 'Custom Pages',
 
-        'date_format' => 'Date Format',
-        'time_format' => 'Time Format',
+        'madison' => [
+            'date_format' => 'Date Format',
+            'time_format' => 'Time Format',
+            'google_analytics_property_id' => 'Google Analytics Property Id',
+            'google_analytics_property_id_help' => 'The UA-XXXXX-Y string identifying which Google Analytics property you wish to track traffic against',
+        ],
     ],
 ];

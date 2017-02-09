@@ -14,9 +14,16 @@ class Update extends AdminRequest
      */
     public function rules()
     {
-        return [
-            'date_format' => 'in:default,' . implode(',', array_keys(SettingController::validDateFormats())),
-            'time_format' => 'in:default,' . implode(',', array_keys(SettingController::validTimeFormats())),
+        $rules = [
+            'madison.date_format' => 'in:default,' . implode(',', array_keys(SettingController::validDateFormats())),
+            'madison.time_format' => 'in:default,' . implode(',', array_keys(SettingController::validTimeFormats())),
+            'madison.google_analytics_property_id' => 'regex:/UA-[0-9]+-[0-9]+/',
         ];
+
+        $keys = array_map(function ($key) {
+            return str_replace('.', '_', $key);
+        }, array_keys($rules));
+
+        return array_combine($keys, $rules);
     }
 }

@@ -37,4 +37,13 @@ class Kernel extends ConsoleKernel
         $schedule->command('inspire')
                  ->hourly();
     }
+
+    protected function bootstrappers()
+    {
+        $bootstrappers = parent::bootstrappers();
+
+        $bootstrappers[] = 'App\Config\Bootstrap\LoadConfiguration';
+
+        return $bootstrappers;
+    }
 }

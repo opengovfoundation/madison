@@ -19,36 +19,62 @@ class SettingController extends Controller
     {
         $dbSettings = collect(SiteConfigSaver::get());
 
-        $currentSettings = new \stdClass();
-        foreach (static::getSiteSettingKeys() as $key) {
-            $k = str_replace('.', '_', $key);
-            $currentSettings->{$k} = $dbSettings->get($key, 'default');
-        }
-
         // reset config() to just the configuration file contents so we can
         // show correct default values
         (new \Illuminate\Foundation\Bootstrap\LoadConfiguration())
             ->bootstrap(app());
 
-        $dateFormats = static::addDefaultOption(
-            static::validDateFormats(),
-            config('madison.date_format')
-        );
-        $timeFormats = static::addDefaultOption(
-            static::validTimeFormats(),
-            config('madison.time_format')
-        );
+        $allSettingsDesc = static::getSiteSettingKeys();
+        $currentSettings = new \stdClass();
+        $options = [];
+        foreach ($allSettingsDesc as $key => $desc) {
+            $k = str_replace('.', '_', $key);
+
+            if ($val = $dbSettings->get($key)) {
+                $currentSettings->{$k} = $val;
+            } else {
+                // not set in the database
+                switch ($desc['type']) {
+                    case 'select':
+                        $currentSettings->{$k} = 'default';
+                        break;
+                    case 'text':
+                        $currentSettings->{$k} = null;
+                        break;
+                }
+            }
+
+            switch ($desc['type']) {
+                case 'select':
+                    $options[$key] = [
+                        'choices' => static::addDefaultOption(
+                            $desc['choices'],
+                            config($key)
+                        )
+                    ];
+                    break;
+                case 'text':
+                    $options[$key] = [
+                        'placeholder' => static::makeDefaultString(config($key)),
+                    ];
+                    break;
+            }
+        }
+
+        // reset config() to full settings
+        (new \App\Config\Bootstrap\LoadConfiguration())
+            ->bootstrap(app());
 
         return view('settings.site-settings', compact([
+            'allSettingsDesc',
             'currentSettings',
-            'dateFormats',
-            'timeFormats',
+            'options',
         ]));
     }
 
     public function siteSettingsUpdate(Requests\SiteSettings\Update $request)
     {
-        foreach (static::getSiteSettingKeys() as $key) {
+        foreach (static::getSiteSettingKeys() as $key => $desc) {
             $input = $request->input(str_replace('.', '_', $key));
 
             list($group, $item) = ConfigModel::explodeGroupAndKey($key);
@@ -130,9 +156,14 @@ class SettingController extends Controller
         if (!isset($choices[$current])) {
             $value = 'Unknown';
         } else {
-            $value = 'Default ('.$choices[$current].')';
+            $value = static::makeDefaultString($choices[$current]);
         }
         return ['default' => $value]+$choices;
+    }
+
+    public static function makeDefaultString($choice)
+    {
+        return 'Default ('.($choice ?: trans('messages.none')).')';
     }
 
     public static function validDateFormats()
@@ -155,8 +186,17 @@ class SettingController extends Controller
     public static function getSiteSettingKeys()
     {
         return [
-            'madison.date_format',
-            'madison.time_format',
+            'madison.date_format' => [
+                'type' => 'select',
+                'choices' => static::validDateFormats(),
+            ],
+            'madison.time_format' => [
+                'type' => 'select',
+                'choices' => static::validTimeFormats(),
+            ],
+            'madison.google_analytics_property_id' => [
+                'type' => 'text',
+            ],
         ];
     }
 }

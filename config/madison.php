@@ -28,4 +28,6 @@ return [
 
     'date_format' => 'Y-m-d',
     'time_format' => 'H:i',
+
+    'google_analytics_property_id' => env('GA', ''),
  ];

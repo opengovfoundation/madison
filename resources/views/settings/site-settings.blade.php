@@ -14,19 +14,37 @@
 
         <div class="col-md-9">
             {{ Form::model($currentSettings, ['route' => ['settings.site.update'], 'method' => 'put']) }}
-                {{ Form::mSelect(
-                        'madison.date_format',
-                        trans('messages.setting.date_format'),
-                        $dateFormats
-                        )
-                }}
-
-                {{ Form::mSelect(
-                        'madison.time_format',
-                        trans('messages.setting.time_format'),
-                        $timeFormats
-                        )
-                }}
+                @foreach ($allSettingsDesc as $key => $desc)
+                    @if ($desc['type'] === 'select')
+                        {{ Form::mSelect(
+                                $key,
+                                trans('messages.setting.'.$key),
+                                $options[$key]['choices'],
+                                null,
+                                [],
+                                trans('messages.setting.'.$key.'_help') !== 'messages.setting.'.$key.'_help'
+                                       ? trans('messages.setting.'.$key.'_help')
+                                       : null
+                                )
+                        }}
+                    @elseif ($desc['type'] === 'text')
+                        {{ Form::mInput(
+                                'text',
+                                $key,
+                                trans('messages.setting.'.$key),
+                                null,
+                                [ 'placeholder' =>
+                                    !empty($options[$key]['placeholder'])
+                                        ? $options[$key]['placeholder']
+                                        : ''
+                                ],
+                                trans('messages.setting.'.$key.'_help') !== 'messages.setting.'.$key.'_help'
+                                       ? trans('messages.setting.'.$key.'_help')
+                                       : null
+                                )
+                        }}
+                    @endif
+                @endforeach
 
                 {{ Form::mSubmit() }}
             {{ Form::close() }}
