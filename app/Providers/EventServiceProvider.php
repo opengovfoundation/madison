@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CommentCreated' => [
             'App\Listeners\CommentCreatedNotification',
         ],
+        'App\Events\CommentFlagged' => [
+            'App\Listeners\CommentFlaggedNotification',
+        ],
         'App\Events\CommentLiked' => [
             'App\Listeners\CommentLikedNotification',
         ],

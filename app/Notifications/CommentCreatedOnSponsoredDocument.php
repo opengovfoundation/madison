@@ -56,7 +56,7 @@ class CommentCreatedOnSponsoredDocument extends Notification implements ShouldQu
                         'comment_type' => $commentType,
                         'document' => $this->comment->rootAnnotatable->title,
                     ]))
-                    ->action(trans('messages.notifications.see_comment'), $url)
+                    ->action(trans('messages.notifications.see_comment', ['comment_type' => $commentType]), $url)
                     ;
     }
 

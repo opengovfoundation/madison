@@ -76,6 +76,7 @@ class NotificationPreference extends Model
     {
         $validNotifications = [
             'CommentCreatedOnSponsoredDocument',
+            'CommentFlagged',
             'CommentLiked',
             'CommentReplied',
             'DocumentPublished',

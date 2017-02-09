@@ -7,22 +7,20 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CommentReplied extends Notification implements ShouldQueue
+class CommentFlagged extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $comment;
-    public $parent;
+    public $flag;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Annotation $comment, Annotation $parent)
+    public function __construct(Annotation $flag)
     {
-        $this->comment = $comment;
-        $this->parent = $parent;
+        $this->flag = $flag;
     }
 
     /**
@@ -44,19 +42,18 @@ class CommentReplied extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        if ($this->parent->isNote()) {
+        if ($this->flag->annotatable->isNote()) {
             $parentType = trans('messages.notifications.comment_type_note');
         } else {
             $parentType = trans('messages.notifications.comment_type_comment');
         }
 
-        $url = $this->comment->getLink();
+        $url = $this->flag->annotatable->getLink();
 
         return (new MailMessage)
                     ->subject(trans(static::baseMessageLocation().'.subject', [
-                        'name' => $this->comment->user->getDisplayName(),
                         'comment_type' => $parentType,
-                        'document' => $this->comment->rootAnnotatable->title,
+                        'document' => $this->flag->rootAnnotatable->title,
                     ]))
                     ->action(trans('messages.notifications.see_comment', ['comment_type' => $parentType]), $url)
                     ;
@@ -72,14 +69,13 @@ class CommentReplied extends Notification implements ShouldQueue
     {
         return [
             'name' => static::getName(),
-            'parent_id' => $this->parent->id,
-            'comment_id' => $this->comment->id,
+            'flag_id' => $this->flag->id,
         ];
     }
 
     public static function getName()
     {
-        return 'madison.comment.replied';
+        return 'madison.comment.flagged';
     }
 
     public static function getType()
@@ -89,6 +85,6 @@ class CommentReplied extends Notification implements ShouldQueue
 
     public function getInstigator()
     {
-        return $this->comment->user;
+        return $this->flag->user;
     }
 }

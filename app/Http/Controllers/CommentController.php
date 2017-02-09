@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\CommentCreated;
+use App\Events\CommentFlagged;
 use App\Events\CommentLiked;
 use App\Http\Requests\Document\View as DocumentViewRequest;
 use App\Models\Annotation;
@@ -149,7 +150,8 @@ class CommentController extends Controller
             return Response::json($this->commentService->toAnnotatorArray($comment));
         }
 
-        $this->annotationService->createAnnotationFlag($comment, $request->user(), []);
+        $flag = $this->annotationService->createAnnotationFlag($comment, $request->user(), []);
+        event(new CommentFlagged($flag));
 
         return Response::json($this->commentService->toAnnotatorArray($comment));
     }
