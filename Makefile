@@ -21,10 +21,13 @@ deps-php:
 set-key:
 	php artisan key:generate
 
-test: test-php
+test: test-php test-browser
 
 test-php: db-test-setup
 	./vendor/bin/phpunit
+
+test-browser: db-test-setup
+	./artisan dusk
 
 clean:
 	rm -rf public/build public/css public/js

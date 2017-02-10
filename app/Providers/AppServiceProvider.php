@@ -9,6 +9,7 @@ use Form;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
     {
         if ($this->app->environment('production', 'staging')) {
             $this->app->register(\Jenssegers\Rollbar\RollbarServiceProvider::class);
+        }
+
+        if ($this->app->environment('local', 'testing')) {
+            $this->app->register(DuskServiceProvider::class);
         }
 
         Relation::morphMap([

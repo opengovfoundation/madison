@@ -9,7 +9,9 @@
         "doctrine/dbal": "^2.5",
         "graham-campbell/markdown": "^7.0",
         "intervention/image": "2.3.*",
+        "jenssegers/rollbar": "^1.5",
         "laracasts/flash": "^2.0",
+        "laravel/dusk": "^1.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
@@ -17,8 +19,7 @@
         "predis/predis": "^1.1",
         "roumen/feed": "~2.10",
         "roumen/sitemap": "2.4.*",
-        "zizaco/entrust": "dev-master",
-        "jenssegers/rollbar": "^1.5"
+        "zizaco/entrust": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
