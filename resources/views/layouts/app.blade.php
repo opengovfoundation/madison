@@ -112,6 +112,20 @@
         </nav>
 
         <div class="container">
+            @if (Auth::check() && Auth::user()->token)
+                <div class="alert alert-info alert-important" role="alert">
+                    @php ($resendLink = route('users.resend_email_verification', Auth::user()))
+                    @lang('messages.email_verification.banner', [
+                      'resendLinkOpen' => '<a href="'.$resendLink.'" onclick="event.preventDefault(); document.getElementById(\'resend-email-verification-form\').submit();">',
+                      'resendLinkClose' => '</a>',
+                    ])
+
+                    <form id="resend-email-verification-form" action="{{ $resendLink }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+                </div>
+            @endif
+
             @include('flash::message')
             @yield('content')
 

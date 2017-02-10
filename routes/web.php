@@ -130,6 +130,12 @@ Route::get('/translations', 'TranslationController@index');
 
 
 // Users
+Route::get('users/{user}/verify_email/{token}', 'UserController@verifyEmail')
+    ->name('users.verify_email');
+
+Route::post('users/{user}/resend_email_verification', 'UserController@resendEmailVerification')
+    ->name('users.resend_email_verification');
+
 Route::get('/users/{user}/settings', 'UserController@editSettings')
     ->name('users.settings.edit');
 

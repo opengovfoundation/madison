@@ -42,6 +42,16 @@ return [
     'reset_password' => 'Reset Password',
     'reset_password_send' => 'Send Password Reset Link',
 
+    'email_verification' => [
+        'banner' => 'You haven\'t verified your email address yet. We need you to verify it before we can send messages to it. Please check your inbox or :resendLinkOpen resend the verification email :resendLinkClose.',
+        'ask' => 'Please verify this email address',
+        'reason' => 'Before we can send you notifications and otherwise interact over email, we need you to verify you email. Just click the button below.',
+        'action' => 'Verify email',
+        'verified' => 'Your email has been verified',
+        'already_verified' => 'Your email has already been verified',
+        'sent' => 'Email verification sent',
+    ],
+
     // Home Page Stuff
     'home' => [
         'home' => 'Home',

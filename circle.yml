@@ -15,6 +15,9 @@ machine:
   php:
     version: 5.6.22
 
+  services:
+    - redis
+
 
 dependencies:
   override:
