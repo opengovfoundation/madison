@@ -2,12 +2,15 @@ machine:
   environment:
     APP_URL: http://0.0.0.0:8888
     APP_ENV: testing
-    DB_HOST: 127.0.0.1
-    DB_CONNECTION: mysql_testing
-    DB_DATABASE: circle_test
-    DB_USERNAME: ubuntu
     APP_DEBUG: true
     TESTING: true
+    DB_HOST: 127.0.0.1
+    DB_DATABASE: circle_test
+    DB_USERNAME: ubuntu
+    BROADCAST_DRIVER: log
+    CACHE_DRIVER: array
+    SESSION_DRIVER: array
+    QUEUE_DRIVER: sync
 
   node:
     version: 6.1.0
@@ -35,10 +38,13 @@ dependencies:
     - echo "export APP_DEBUG=$APP_DEBUG" | sudo tee --append /etc/apache2/envvars > /dev/null
     - echo "export APP_ENV=$APP_ENV" | sudo tee --append /etc/apache2/envvars > /dev/null
     - echo "export TESTING=$TESTING" | sudo tee --append /etc/apache2/envvars > /dev/null
-    - echo "export DB_CONNECTION=$DB_CONNECTION" | sudo tee --append /etc/apache2/envvars > /dev/null
     - echo "export DB_HOST=$DB_HOST" | sudo tee --append /etc/apache2/envvars > /dev/null
     - echo "export DB_USERNAME=$DB_USERNAME" | sudo tee --append /etc/apache2/envvars > /dev/null
     - echo "export DB_DATABASE=$DB_DATABASE" | sudo tee --append /etc/apache2/envvars > /dev/null
+    - echo "export BROADCAST_DRIVER=$BROADCAST_DRIVER" | sudo tee --append /etc/apache2/envvars > /dev/null
+    - echo "export CACHE_DRIVER=$CACHE_DRIVER" | sudo tee --append /etc/apache2/envvars > /dev/null
+    - echo "export SESSION_DRIVER=$SESSION_DRIVER" | sudo tee --append /etc/apache2/envvars > /dev/null
+    - echo "export QUEUE_DRIVER=$QUEUE_DRIVER" | sudo tee --append /etc/apache2/envvars > /dev/null
     # Install our config and make it active
     - sudo cp -f circleci/apache.conf /etc/apache2/sites-available/madison.conf
     - sudo a2enmod rewrite actions alias headers negotiation dir vhost_alias deflate

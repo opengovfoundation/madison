@@ -27,7 +27,7 @@ test-php: db-test-setup
 	./vendor/bin/phpunit
 
 test-browser: db-test-setup
-	./artisan dusk
+	APP_ENV=testing ./artisan dusk
 
 clean:
 	rm -rf public/build public/css public/js
@@ -43,10 +43,10 @@ db-reset:
 	php artisan db:rebuild && php artisan migrate && php artisan db:seed
 
 db-test-setup:
-	php artisan db:rebuild --database=mysql_testing && php artisan migrate --database=mysql_testing
+	php artisan db:rebuild --env=testing && php artisan migrate --env=testing
 
 db-test-seed:
-	php artisan db:seed --database=mysql_testing
+	php artisan db:seed --env=testing
 
 db-migrate:
 	php artisan migrate

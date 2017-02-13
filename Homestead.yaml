@@ -22,6 +22,7 @@ sites:
 
 databases:
     - homestead
+    - homestead_testing
 
 # blackfire:
 #     - id: foo
