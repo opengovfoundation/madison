@@ -9,7 +9,7 @@ machine:
     DB_USERNAME: ubuntu
     BROADCAST_DRIVER: log
     CACHE_DRIVER: array
-    SESSION_DRIVER: array
+    SESSION_DRIVER: file
     QUEUE_DRIVER: sync
 
   node:

@@ -19,11 +19,13 @@ use App\Models\Role;
 use App\Models\User;
 
 $factory->define(User::class, function (Faker\Generator $faker) {
+    static $password;
+
     return [
         'fname' => $faker->firstName,
         'lname' => $faker->lastName,
-        'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
+        'email' => $faker->unique()->safeEmail,
+        'password' => $password ?: $password = 'secret',
         'remember_token' => str_random(10),
     ];
 });
