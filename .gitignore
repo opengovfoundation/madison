@@ -1,4 +1,6 @@
 .env
+.env.testing
+.env.dusk.testing
 .vagrant
 
 node_modules
