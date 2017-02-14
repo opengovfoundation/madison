@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Setting\FeaturedDocuments;
+namespace App\Http\Requests\Admin\FeaturedDocuments;
 
 use App\Http\Requests\AdminRequest;
 

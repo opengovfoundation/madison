@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Setting\SiteSettings;
+namespace App\Http\Requests\Admin\SiteSettings;
 
 use App\Http\Requests\AdminRequest;
 

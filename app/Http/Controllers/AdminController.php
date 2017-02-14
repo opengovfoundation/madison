@@ -5,11 +5,35 @@ namespace App\Http\Controllers;
 use App\Config\Models\Config as ConfigModel;
 use App\Models\Doc as Document;
 use App\Models\Setting;
-use App\Http\Requests\Setting as Requests;
+use App\Models\User;
+use App\Models\Role;
+use App\Http\Requests\Admin as Requests;
 use SiteConfigSaver;
 
-class SettingController extends Controller
+class AdminController extends Controller
 {
+
+    public function usersIndex(Requests\Users\Index $request)
+    {
+        $users = User::all();
+        return view('users.list', compact('users'));
+    }
+
+    public function usersPostAdmin(Requests\Users\PostAdmin $request, User $user)
+    {
+        $makingAdmin = $request->input('admin', false);
+        $adminRole = Role::where('name', Role::ROLE_ADMIN)->first();
+
+        if ($makingAdmin) {
+            $user->attachRole($adminRole);
+        } else {
+            $user->detachRole($adminRole);
+        }
+
+        flash(trans('messages.updated'));
+        return redirect()->route('admin.users.index');
+    }
+
     /**
      * Admin page for configuring site settings.
      *
@@ -65,7 +89,7 @@ class SettingController extends Controller
         (new \App\Config\Bootstrap\LoadConfiguration())
             ->bootstrap(app());
 
-        return view('settings.site-settings', compact([
+        return view('admin.site-settings', compact([
             'allSettingsDesc',
             'currentSettings',
             'options',
@@ -91,7 +115,7 @@ class SettingController extends Controller
         }
 
         flash(trans('messages.updated'));
-        return redirect()->route('settings.site.index');
+        return redirect()->route('admin.site.index');
     }
 
     /**
@@ -102,7 +126,7 @@ class SettingController extends Controller
     public function indexFeaturedDocuments(Requests\FeaturedDocuments\Index $request)
     {
         $documents = Document::getFeatured(false);
-        return view('settings.featured-documents', compact([
+        return view('admin.featured-documents', compact([
             'documents'
         ]));
     }
@@ -146,8 +170,8 @@ class SettingController extends Controller
         $featuredSetting->meta_value = join(',', $featuredIds);
         $featuredSetting->save();
 
-        flash(trans('messages.setting.updated_featured_documents'));
-        return redirect()->route('setings.featured-documents.index');
+        flash(trans('messages.admin.updated_featured_documents'));
+        return redirect()->route('admin.featured-documents.index');
     }
 
     public static function addDefaultOption($choices, $current)

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Setting\SiteSettings;
+namespace App\Http\Requests\Admin\SiteSettings;
 
 use App\Http\Requests\AdminRequest;
-use App\Http\Controllers\SettingController;
+use App\Http\Controllers\AdminController;
 
 class Update extends AdminRequest
 {
@@ -15,8 +15,8 @@ class Update extends AdminRequest
     public function rules()
     {
         $rules = [
-            'madison.date_format' => 'in:default,' . implode(',', array_keys(SettingController::validDateFormats())),
-            'madison.time_format' => 'in:default,' . implode(',', array_keys(SettingController::validTimeFormats())),
+            'madison.date_format' => 'in:default,' . implode(',', array_keys(AdminController::validDateFormats())),
+            'madison.time_format' => 'in:default,' . implode(',', array_keys(AdminController::validTimeFormats())),
             'madison.google_analytics_property_id' => 'regex:/UA-[0-9]+-[0-9]+/',
         ];
 

@@ -86,7 +86,7 @@
                                     @if (Auth::user()->isAdmin())
                                         <li role="separator" class="divider"></li>
                                         <li>
-                                            <a href="{{ route('settings.site.index') }}">@lang('messages.admin')</a>
+                                            <a href="{{ route('admin.site.index') }}">@lang('messages.administrator')</a>
                                         </li>
                                     @endif
 

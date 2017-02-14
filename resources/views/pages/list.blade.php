@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
-@section('pageTitle', trans('messages.setting.custom_pages'))
+@section('pageTitle', trans('messages.admin.custom_pages'))
 
 @section('content')
 
     <div class="page-header">
-        <h1>{{ trans('messages.setting.admin_label', ['page' => trans('messages.setting.custom_pages')]) }}</h1>
+        <h1>{{ trans('messages.admin.admin_label', ['page' => trans('messages.admin.custom_pages')]) }}</h1>
     </div>
 
     @include('components.errors')
 
 
     <div class="row">
-        @include('settings.partials.admin-sidebar')
+        @include('admin.partials.admin-sidebar')
 
         <div class="col-md-9">
             <table class="table">
@@ -39,8 +39,8 @@
                                     {{ $page->url }}
                                 </a>
                             </td>
-                            <td class="text-center">{!! $page->header_nav_link ? '<i class="fa fa-check-square-o"></i>' : '<i class="fa fa-square-o"></i>' !!}</td>
-                            <td class="text-center">{!! $page->footer_nav_link ? '<i class="fa fa-check-square-o"></i>' : '<i class="fa fa-square-o"></i>' !!}</td>
+                            <td class="text-center">{!! $page->header_nav_link ? '<i class="fa fa-check"></i>' : '<i class="fa fa"></i>' !!}</td>
+                            <td class="text-center">{!! $page->footer_nav_link ? '<i class="fa fa-check"></i>' : '<i class="fa fa"></i>' !!}</td>
                             <td>
                                 <a href="{{ route('pages.edit', $page) }}"
                                     title="@lang('messages.page.edit')"

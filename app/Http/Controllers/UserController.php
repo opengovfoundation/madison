@@ -6,6 +6,7 @@ use App\Http\Requests\User as Requests;
 use App\Mail\EmailVerification;
 use App\Models\NotificationPreference;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Mail;
 

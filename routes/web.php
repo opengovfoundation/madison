@@ -162,17 +162,23 @@ Route::resource('pages', 'PageController', [
 
 
 // Settings
-Route::get('/settings/site', 'SettingController@siteSettingsIndex')
-    ->name('settings.site.index');
+Route::get('/admin/site', 'AdminController@siteSettingsIndex')
+    ->name('admin.site.index');
 
-Route::put('/settings/site', 'SettingController@siteSettingsUpdate')
-    ->name('settings.site.update');
+Route::put('/admin/site', 'AdminController@siteSettingsUpdate')
+    ->name('admin.site.update');
 
-Route::get('/settings/pages', 'PageController@index')
-    ->name('settings.pages.index');
+Route::get('/admin/pages', 'PageController@index')
+    ->name('admin.pages.index');
 
-Route::get('/settings/featured', 'SettingController@indexFeaturedDocuments')
-    ->name('settings.featured-documents.index');
+Route::get('/admin/featured', 'AdminController@indexFeaturedDocuments')
+    ->name('admin.featured-documents.index');
 
-Route::put('/settings/featured/{document}', 'SettingController@updateFeaturedDocuments')
-    ->name('settings.featured-documents.update');
+Route::put('/admin/featured/{document}', 'AdminController@updateFeaturedDocuments')
+    ->name('admin.featured-documents.update');
+
+Route::get('/admin/users', 'AdminController@usersIndex')
+    ->name('admin.users.index');
+
+Route::post('/admin/users/{user}/admin', 'AdminController@usersPostAdmin')
+    ->name('admin.users.postAdmin');

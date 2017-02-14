@@ -30,7 +30,8 @@ return [
     'none' => 'None',
     'close' => 'Close',
     'permalink' => 'Permalink',
-    'admin' => 'Admin',
+    'administrator' => 'Admin',
+    'email_verified' => 'Email Verified',
     'misc' => 'Misc.',
     'settings' => 'Settings',
 
@@ -222,6 +223,8 @@ return [
         'new_password' => 'New Password',
         'new_password_confirmation' => 'Re-Enter New Password',
         'verification_info' => 'Verification Information',
+        'make_admin' => 'Make Admin',
+        'remove_admin' => 'Remove Admin',
 
         'settings_pages' => [
             'notifications' => 'Notifications',
@@ -329,9 +332,10 @@ return [
         'review_sponsor' => 'Review Sponsor',
     ],
 
-    'setting' => [
+    'admin' => [
         'admin_label' => 'Site Administration: :page',
         'featured_documents' => 'Featured Documents',
+        'manage_users' => 'Manage Users',
         'updated_featured_documents' => 'Feature documents updated',
         'site_settings' => 'Site Settings',
         'custom_pages' => 'Custom Pages',
