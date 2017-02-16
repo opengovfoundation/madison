@@ -21,7 +21,7 @@
                 {{ Form::mInput('text', 'slug', trans('messages.document.slug'), null, [], trans('messages.document.slug_help')) }}
                 {{ Form::mInput('textarea', 'introtext', trans('messages.document.introtext')) }}
 
-                {{ Form::mInput('checkbox', 'featured', trans('messages.document.featured'), null, request()->user()->isAdmin() ? [] : ['disabled' => true]) }}
+                {{ Form::mInput('checkbox', 'featured', trans('messages.document.featured'), $document->featured, request()->user()->isAdmin() ? [] : ['disabled' => true]) }}
                 {{ Form::mInput('file', 'featured-image', trans('messages.document.featured_image'), null, request()->user()->isAdmin() ? [] : ['disabled' => true]) }}
                 @if ($document->featuredImage)
                     <img src="{{ $document->getFeaturedImageUrl() }}"/>
