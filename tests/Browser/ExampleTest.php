@@ -16,11 +16,6 @@ class ExampleTest extends DuskTestCase
      */
     public function testBasicExample()
     {
-        // Need at least one published document for homepage to load
-        $document = factory(Document::class)->create([
-            'publish_state' => Document::PUBLISH_STATE_PUBLISHED,
-        ]);
-
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
                     ->assertSee('Madison');

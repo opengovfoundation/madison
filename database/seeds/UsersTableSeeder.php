@@ -9,29 +9,27 @@ class UsersTableSeeder extends Seeder
     {
         $creds = Config::get('madison.seeder');
 
-        DB::table('users')->insert([
+        factory(User::class)->create([
             'email' => $creds['user_email'],
-            'password' => Hash::make($creds['user_password']),
+            'password' => $creds['user_password'],
             'fname' => $creds['user_fname'],
             'lname' => $creds['user_lname'],
             'token' => '',
         ]);
 
-        DB::table('users')->insert([
+        factory(User::class)->create([
             'email' => $creds['admin_email'],
-            'password' => Hash::make($creds['admin_password']),
+            'password' => $creds['admin_password'],
             'fname' => $creds['admin_fname'],
             'lname' => $creds['admin_lname'],
             'token' => '',
         ]);
 
-        DB::table('users')->insert([
+        factory(User::class)->create([
             'email' => $creds['unconfirmed_email'],
-            'password' => Hash::make($creds['unconfirmed_password']),
+            'password' => $creds['unconfirmed_password'],
             'fname' => $creds['unconfirmed_fname'],
             'lname' => $creds['unconfirmed_lname'],
-            'token' => '12345',
         ]);
-
     }
 }

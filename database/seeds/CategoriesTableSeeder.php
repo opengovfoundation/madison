@@ -3,13 +3,13 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
-use App\Models\Doc;
+use App\Models\Doc as Document;
 
 class CategoriesTableSeeder extends Seeder
 {
     public function run()
     {
-        $doc = Doc::find(1);
+        $doc = Document::find(1);
 
         $cat1 = factory(Category::class)->create([
             'name' => 'first category'

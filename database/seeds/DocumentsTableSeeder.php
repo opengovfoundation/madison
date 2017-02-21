@@ -3,59 +3,23 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Sponsor;
-use App\Models\Doc;
+use App\Models\Doc as Document;
+use App\Models\DocContent;
 use App\Models\Setting;
 
 class DocumentsTableSeeder extends Seeder
 {
     public function run()
     {
-        $adminEmail = Config::get('madison.seeder.admin_email');
-        $adminPassword = Config::get('madison.seeder.admin_password');
+        $sponsor = Sponsor::find(1);
 
-        // Login as admin to create docs
-        $credentials = array('email' => $adminEmail, 'password' => $adminPassword);
-        Auth::attempt($credentials);
-        $admin = Auth::user();
-        $sponsor = Sponsor::where('id', '=', 1)->first();
+        $documents = factory(Document::class, (int)config('madison.seeder.num_docs'))->create([
+            'publish_state' => Document::PUBLISH_STATE_PUBLISHED,
+        ])->each(function ($document) use ($sponsor) {
+            $document->sponsors()->attach($sponsor);
+            $document->content()->save(factory(DocContent::class)->make());
+        });
 
-        // Create first doc
-
-        $docSeedPath = database_path('seeds/docs/example.md');
-        if (file_exists($docSeedPath)) {
-            $content = file_get_contents($docSeedPath);
-        } else {
-            $content = "New Document Content";
-        }
-        $docOptions = array(
-            'title'         => 'Example Document',
-            'content'       => $content,
-            'sponsor'       => $sponsor->id,
-            'publish_state' => Doc::PUBLISH_STATE_PUBLISHED,
-        );
-        $document = Doc::createEmptyDocument($docOptions);
-
-        //Set first doc as featured doc
-        $featuredSetting = new Setting();
-        $featuredSetting->meta_key = 'featured-doc';
-        $featuredSetting->meta_value = $document->id;
-        $featuredSetting->save();
-
-        // Create second doc
-
-        $docSeedPath = database_path('seeds/docs/example2.md');
-        if (file_exists($docSeedPath)) {
-            $content = file_get_contents($docSeedPath);
-        } else {
-            $content = "New Document Content";
-        }
-
-        $docOptions = array(
-            'title'         => 'Second Example Document',
-            'content'       => $content,
-            'sponsor'       => $sponsor->id,
-            'publish_state' => Doc::PUBLISH_STATE_PUBLISHED,
-        );
-        $document = Doc::createEmptyDocument($docOptions);
+        $documents->first()->setAsFeatured();
     }
 }

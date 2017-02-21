@@ -302,6 +302,10 @@ class DocumentController extends Controller
         $document->slug = $slug;
         $document->save();
 
+        $document->content()->create([
+            'content' => 'New Document Content',
+        ]);
+
         $document->sponsors()->sync([$request->input('sponsor_id')]);
 
         flash(trans('messages.document.created'));

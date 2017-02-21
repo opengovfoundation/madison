@@ -55,14 +55,10 @@ class Doc extends Model
             if (empty($doc->slug)) $doc->slug = static::makeSlug($doc->title);
         });
 
-        static::created(function ($document) {
-            $starter = new DocumentContent();
-            $starter->doc_id = $document->id;
-            $starter->content = "New Document Content";
-            $starter->save();
-
-            $document->init_section = $starter->id;
-            $document->save();
+        static::updating(function ($document) {
+            if (empty($document->init_section) && $document->content()->count()) {
+                $document->init_section = $document->content()->first()->id;
+            }
         });
 
         static::deleted(function ($document) {
@@ -462,7 +458,7 @@ class Doc extends Model
     {
         $docsInfo = static::getActiveInfo();
 
-        $docs = false;
+        $docs = [];
 
         if (count($docsInfo) > 0) {
             //Grab out most active documents
@@ -566,7 +562,7 @@ class Doc extends Model
 
         // If we don't have a document, just find anything recent.
         if (empty($docs)) {
-            $docs = [
+            $docs =
                 static::with('categories')
                 ->with('sponsors')
                 ->with('statuses')
@@ -574,8 +570,9 @@ class Doc extends Model
                 ->where('publish_state', '=', static::PUBLISH_STATE_PUBLISHED)
                 ->where('is_template', '!=', '1')
                 ->orderBy('created_at', 'desc')
-                ->first()
-            ];
+                ->limit(1)
+                ->get()
+                ;
         }
 
         $return_docs = [];
