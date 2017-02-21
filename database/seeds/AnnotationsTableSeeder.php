@@ -15,6 +15,7 @@ class AnnotationsTableSeeder extends Seeder
         $adminUser = User::find(2);
         $users = collect([$regularUser, $adminUser]);
         $docs = Document::all();
+        $annotationService = App::make('App\Services\Annotations');
 
         foreach ($docs as $doc) {
             // All the comments
@@ -27,20 +28,19 @@ class AnnotationsTableSeeder extends Seeder
                 continue;
             }
 
-            $comments = factory(Annotation::class, $numComments)->create([
-                'user_id' => $users->random()->id,
-            ])->each(function ($ann) use ($doc, $users) {
-                $doc->annotations()->save($ann);
-                $doc->allAnnotations()->save($ann);
-                $comment = factory(AnnotationTypes\Comment::class)->create();
-                $comment->annotation()->save($ann);
-                $ann->user()->associate($users->random());
+            $fakeComments = factory(AnnotationTypes\Comment::class, $numComments)->make();
+            $comments = $fakeComments->map(function ($fakeComment) use ($doc, $users, $annotationService) {
+                $commentData = [
+                    'text' => $fakeComment->content,
+                ];
+                return $annotationService
+                    ->createAnnotationComment($doc, $users->random(), $commentData);
             });
 
             // Make some of them notes
             $numNotes = round($comments->count() * max(0, min(1, config('madison.seeder.comments_percentage_notes'))));
             if ($numNotes) {
-                $notes = $comments->random($numNotes)->each(function ($comment) use ($doc) {
+                $notes = $comments->random($numNotes)->each(function ($comment) use ($doc, $annotationService) {
                     $content = $doc->content()->first()->content;
                     $contentLines = preg_split('/\\n\\n/', $content);
                     $paragraphNumber = rand(1, count($contentLines));
@@ -49,21 +49,16 @@ class AnnotationsTableSeeder extends Seeder
                     $endOffset = rand($startOffset, $endParagraphOffset);
 
                     // create range annotation
-                    $annotation = factory(Annotation::class)->create([
-                        'user_id' => $comment->user->id,
-                    ]);
-                    $range = factory(AnnotationTypes\Range::class)->create([
+                    $rangeData = [
                         'start' => '/p['.$paragraphNumber.']',
                         'end' => '/p['.$paragraphNumber.']',
-                        'start_offset' => $startOffset,
-                        'end_offset' => $endOffset,
-                    ]);
-                    $range->annotation()->save($annotation);
+                        'startOffset' => $startOffset,
+                        'endOffset' => $endOffset,
+                    ];
+                    $annotationService
+                        ->createAnnotationRange($comment, $comment->user, $rangeData);
 
-                    // mark comment with range
-                    $comment->annotations()->save($annotation);
-                    $doc->allAnnotations()->save($annotation);
-                    $comment->annotation_subtype = 'note';
+                    $comment->annotation_subtype = Annotation::SUBTYPE_NOTE;
                     $comment->save();
                 });
             }
@@ -71,26 +66,25 @@ class AnnotationsTableSeeder extends Seeder
             // Reply to some of them
             $numReplied = round($comments->count() * max(0, min(1, config('madison.seeder.comments_percentage_replied'))));
             if ($numReplied) {
-                $replies = $comments->random($numReplied)->each(function ($comment) use ($doc, $users) {
+                $replies = $comments->random($numReplied)->each(function ($comment) use ($users, $annotationService) {
                     $numReplies = rand(
                         config('madison.seeder.num_replies_per_comment_min'),
                         config('madison.seeder.num_replies_per_comment_max')
                     );
 
                     if ($numReplies) {
-                        $replies = factory(Annotation::class, $numReplies)->create([
-                            'user_id' => $users->random()->id,
-                        ])->each(function ($annotation) use ($doc, $comment) {
-                            $reply = factory(AnnotationTypes\Comment::class)->create();
-                            $reply->annotation()->save($annotation);
+                        $fakeComments = factory(AnnotationTypes\Comment::class, $numReplies)->make();
+                        $replies = $fakeComments->map(function ($fakeComment) use ($users, $annotationService, $comment) {
+                            $commentData = [
+                                'text' => $fakeComment->content,
+                            ];
 
-                            // mark comment with reply
-                            $comment->annotations()->save($annotation);
-                            $doc->allAnnotations()->save($annotation);
                             if ($comment->isNote()) {
-                                $comment->annotation_subtype = 'note';
+                                $commentData['subtype'] = Annotation::SUBTYPE_NOTE;
                             }
-                            $comment->save();
+
+                            return $annotationService
+                                ->createAnnotationComment($comment, $users->random(), $commentData);
                         });
                     }
                 });
