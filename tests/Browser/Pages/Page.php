@@ -14,7 +14,8 @@ abstract class Page extends BasePage
     public static function siteElements()
     {
         return [
-            '@element' => '#selector',
+            '@headerNav' => '.navbar-static-top .navbar-right',
+            '@footerNav' => 'footer.nav .navbar-nav',
         ];
     }
 }
