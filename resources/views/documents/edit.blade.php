@@ -86,7 +86,7 @@
 
             {{ Form::close() }}
         </div>
-        <div role="tabpanel" class="tab-pane active" id="misc">
+        <div role="tabpanel" class="tab-pane" id="misc">
             <a href="{{ route('documents.comments.index', [$document, 'download' => 'csv']) }}">@lang('messages.document.download_comments_csv')</a>
         </div>
     </div>

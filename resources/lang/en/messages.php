@@ -34,6 +34,8 @@ return [
     'email_verified' => 'Email Verified',
     'misc' => 'Misc.',
     'settings' => 'Settings',
+    'type' => 'Type',
+    'view' => 'View',
 
     // Authentication Stuff
     'password' => 'Password',
@@ -81,13 +83,14 @@ return [
         'slug_help' => 'Will automatically be set based on title if blank. Only the letters a through z (lowercase), numbers 0 through 9, and hyphens (-) may be used.  For example: my-document',
         'introtext' => 'Intro Text',
         'category' => 'Category',
+        'content' => 'Content',
         'categories' => 'Categories: ',
         'sponsor' => 'Sponsor',
         'sponsor_others' => 'and others',
-        'content' => 'Content',
 
         'activity' => 'Activity',
         'participants' => 'Participants',
+        'comment' => 'Comment',
         'comments' => 'Comments',
         'add_comment' => 'Add comment',
         'login_to_comment' => 'Login to comment',
@@ -112,6 +115,17 @@ return [
         'opposed' => 'Opposed',
         'flag' => 'Flag',
         'like' => 'Like',
+        'moderate' => 'Moderate',
+        'moderate_document' => 'Moderate: :document',
+        'hide_comment' => 'Hide',
+        'hidden_comment' => 'Hidden',
+        'resolve_comment' => 'Resolve',
+        'resolved_comment' => 'Resolved',
+        'comment_hide_success' => 'Comment hidden',
+        'comment_resolve_success' => 'Comment marked as resolved',
+        'comment_action_removed' => 'Comment action removed',
+        'comments_handled' => 'Handled Comments',
+        'comments_unhandled' => 'Unhandled Comments',
 
         'created' => 'Document created.',
         'deleted' => 'Document deleted. :restoreLinkOpen Undo :restoreLinkClosed',
@@ -216,6 +230,7 @@ return [
     ],
 
     'user' => [
+        'user' => 'User',
         'fname' => 'First Name',
         'lname' => 'Last Name',
         'email' => 'Email Address',

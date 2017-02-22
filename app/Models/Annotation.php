@@ -7,6 +7,7 @@ use App\Services\UniqId;
 use App\Traits\AnnotatableHelpers;
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use URL;
 
@@ -25,6 +26,8 @@ class Annotation extends Model implements ActivityInterface
     const TYPE_RANGE = 'range';
     const TYPE_SEEN = 'seen';
     const TYPE_TAG = 'tag';
+    const TYPE_HIDDEN = 'hidden';
+    const TYPE_RESOLVED = 'resolved';
 
     const SUBTYPE_NOTE = 'note';
 
@@ -38,6 +41,10 @@ class Annotation extends Model implements ActivityInterface
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope('visible', function (Builder $builder) {
+            $builder->visible();
+        });
 
         static::creating(function($annotation) {
             if (!isset($annotation->str_id)) {
@@ -147,4 +154,5 @@ class Annotation extends Model implements ActivityInterface
 
         return $this->annotation_subtype === static::SUBTYPE_NOTE;
     }
+
 }

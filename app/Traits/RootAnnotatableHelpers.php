@@ -40,4 +40,14 @@ trait RootAnnotatableHelpers
     {
         return $this->allComments()->count();
     }
+
+    public function allCommentsWithHidden()
+    {
+        return $this->allComments()->withoutGlobalScope('visible');
+    }
+
+    public function getAllCommentsWithHiddenAttribute()
+    {
+        return $this->allCommentsWithHidden()->get();
+    }
 }

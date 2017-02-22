@@ -16,6 +16,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Storage;
 
 class DocumentController extends Controller
@@ -564,6 +565,30 @@ class DocumentController extends Controller
 
         flash(trans('messages.document.update_support'));
         return redirect()->route('documents.show', $document);
+    }
+
+    public function moderate(Requests\Moderate $request, Document $document)
+    {
+        $allFlaggedComments = $document->allCommentsWithHidden->filter(function ($comment) {
+            return $comment->flags_count;
+        });
+
+        $unhandledComments = new Collection();
+        $handledComments = new Collection();
+
+        $allFlaggedComments->filter(function($c) use ($unhandledComments, $handledComments) {
+            if ($c->isResolved() || $c->isHidden()) {
+                $handledComments->push($c);
+            } else {
+                $unhandledComments->push($c);
+            }
+        });
+
+        return view('documents.moderate', compact([
+            'document',
+            'unhandledComments',
+            'handledComments',
+        ]));
     }
 
     public static function validPublishStatesForQuery()

@@ -209,4 +209,27 @@ class Comments
 
         return Annotation::find($id);
     }
+
+
+    public function hideComment(Annotation $comment, User $user)
+    {
+        // Do nothing if comment is already hidden
+        if ($comment->isHidden()) { return; }
+
+        // Can't be hidden and resolved at the same time.
+        if ($comment->isResolved()) { $comment->resolves()->withoutGlobalScope('visible')->delete(); }
+
+        $this->annotationService->createAnnotationHidden($comment, $user, []);
+    }
+
+    public function resolveComment(Annotation $comment, User $user)
+    {
+        // Do nothing if comment is already resolved
+        if ($comment->isResolved()) { return; }
+
+        // Can't be hidden and resolved at the same time.
+        if ($comment->isHidden()) { $comment->hiddens()->withoutGlobalScope('visible')->delete(); }
+
+        $this->annotationService->createAnnotationResolved($comment, $user, []);
+    }
 }

@@ -90,6 +90,30 @@ trait AnnotatableHelpers
         return $this->seens()->count();
     }
 
+    public function hiddens()
+    {
+        return $this
+            ->annotationTypeBaseQuery(Annotation::TYPE_HIDDEN)
+            ;
+    }
+
+    public function isHidden()
+    {
+        return $this->hiddens()->count() > 0;
+    }
+
+    public function resolves()
+    {
+        return $this
+            ->annotationTypeBaseQuery(Annotation::TYPE_RESOLVED)
+            ;
+    }
+
+    public function isResolved()
+    {
+        return $this->resolves()->count() > 0;
+    }
+
     public function ranges()
     {
         return $this
@@ -158,5 +182,49 @@ trait AnnotatableHelpers
     public function scopeNotNotes($query)
     {
         $query->whereRaw('COALESCE(annotation_subtype <> ?, TRUE)', [Annotation::SUBTYPE_NOTE]);
+    }
+
+    public function scopeVisible($query)
+    {
+        $query->notHidden()->notRepliesToHidden();
+    }
+
+    public function scopeNotHidden($query)
+    {
+        $query->whereNotIn('id', function ($query) {
+            $query
+                ->select('annotatable_id')
+                ->from('annotations')
+                ->where('annotation_type_type', '=', Annotation::TYPE_HIDDEN)
+                ->whereNull('deleted_at')
+                ;
+        });
+    }
+
+    public function scopeNotRepliesToHidden($query)
+    {
+        $query->whereNotIn('id', function ($query) {
+            $query
+                ->select('id')
+                ->from('annotations')
+                ->where('annotatable_type', '=', Annotation::ANNOTATABLE_TYPE)
+                ->where('annotation_type_type', '=', Annotation::TYPE_COMMENT)
+                ->whereIn('annotatable_id', function ($query) {
+                    $query
+                        ->select('id')
+                        ->from('annotations')
+                        ->whereIn('id', function ($query) {
+                            $query
+                                ->select('annotatable_id')
+                                ->from('annotations')
+                                ->where('annotation_type_type', '=', Annotation::TYPE_HIDDEN)
+                                ->whereNull('deleted_at')
+                                ;
+                        })
+                        ->whereNull('deleted_at')
+                        ;
+                })
+                ;
+        });
     }
 }

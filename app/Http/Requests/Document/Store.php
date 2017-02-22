@@ -20,7 +20,7 @@ class Store extends FormRequest
             if ($this->input('sponsor_id')) {
                 $sponsor = Sponsor::find($this->input('sponsor_id'));
 
-                return $sponsor && $sponsor->isActive() && $sponsor->canUserCreateDocument($request->user());
+                return $sponsor && $sponsor->isActive() && $sponsor->canUserCreateDocument($this->user());
             } else {
                 return false;
             }

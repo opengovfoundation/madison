@@ -38,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
             Annotation::TYPE_RANGE => AnnotationTypes\Range::class,
             Annotation::TYPE_SEEN => AnnotationTypes\Seen::class,
             Annotation::TYPE_TAG => AnnotationTypes\Tag::class,
+            Annotation::TYPE_HIDDEN => AnnotationTypes\Hidden::class,
+            Annotation::TYPE_RESOLVED => AnnotationTypes\Resolved::class,
         ]);
 
         Form::component('mInput', 'components.form.input', [

@@ -23,6 +23,10 @@ class Annotations
                 return $this->createAnnotationSeen($target, $user, $data);
             case Annotation::TYPE_TAG:
                 return $this->createAnnotationTag($target, $user, $data);
+            case Annotation::TYPE_HIDDEN:
+                return $this->createAnnotationHidden($target, $user, $data);
+            case Annotation::TYPE_RESOLVED:
+                return $this->createAnnotationResolved($target, $user, $data);
             default:
                 throw new \InvalidArgumentException('Annotation type not recognized');
         }
@@ -130,4 +134,29 @@ class Annotations
 
         return $annotation;
     }
+
+    public function createAnnotationHidden($target, $user, $data)
+    {
+        $annotationHidden = AnnotationTypes\Hidden::create([
+        ]);
+
+        $annotation = $this->createBaseAnnotation($target, $user, $data);
+
+        $annotationHidden->annotation()->save($annotation);
+
+        return $annotation;
+    }
+
+    public function createAnnotationResolved($target, $user, $data)
+    {
+        $annotationResolved = AnnotationTypes\Resolved::create([
+        ]);
+
+        $annotation = $this->createBaseAnnotation($target, $user, $data);
+
+        $annotationResolved->annotation()->save($annotation);
+
+        return $annotation;
+    }
+
 }

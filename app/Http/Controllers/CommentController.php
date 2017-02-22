@@ -6,6 +6,7 @@ use App\Events\CommentCreated;
 use App\Events\CommentFlagged;
 use App\Events\CommentLiked;
 use App\Http\Requests\Document\View as DocumentViewRequest;
+use App\Http\Requests\Document\Edit as DocumentEditRequest;
 use App\Models\Annotation;
 use App\Models\Doc as Document;
 use App\Services;
@@ -154,6 +155,20 @@ class CommentController extends Controller
         event(new CommentFlagged($flag));
 
         return Response::json($this->commentService->toAnnotatorArray($comment));
+    }
+
+    public function storeHidden(DocumentEditRequest $request, Document $document, Annotation $comment)
+    {
+        $this->commentService->hideComment($comment, $request->user());
+        flash(trans('messages.document.comment_hide_success'));
+        return redirect()->route('documents.moderate', $document);
+    }
+
+    public function storeResolve(DocumentEditRequest $request, Document $document, Annotation $comment)
+    {
+        $this->commentService->resolveComment($comment, $request->user());
+        flash(trans('messages.document.comment_resolve_success'));
+        return redirect()->route('documents.moderate', $document);
     }
 
     /**
