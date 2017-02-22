@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use App\Models\User;
 use Tests\DuskTestCase;
 use Tests\Browser\Pages\User\Settings\AccountPage;
+use Tests\Browser\Pages\User\Settings\PasswordPage;
 use Laravel\Dusk\Browser;
 
 class UserTest extends DuskTestCase
@@ -106,6 +107,48 @@ class UserTest extends DuskTestCase
             // ensure changes did not reach db
             $user = $user->fresh();
             $this->assertEquals($originalEmail, $user->email);
+        });
+    }
+
+    public function testPasswordSettingsViewOwn()
+    {
+        $user = factory(User::class)->create();
+
+        $this->browse(function ($browser) use ($user) {
+            $page = new PasswordPage($user);
+
+            $browser
+                ->loginAs($user)
+                ->visit($page)
+                // ensure we don't show passwords
+                ->assertInputValue('new_password', '')
+                ->assertInputValue('new_password_confirmation', '')
+                ;
+        });
+    }
+
+    public function testPasswordSettingsUpdate()
+    {
+        $user = factory(User::class)->create();
+
+        $this->browse(function ($browser) use ($user) {
+            $page = new PasswordPage($user);
+
+            $oldPasswordHash = $user->password;
+            $newPassword = str_random();
+
+            $browser
+                ->loginAs($user)
+                ->visit($page)
+                ->type('new_password', $newPassword)
+                ->type('new_password_confirmation', $newPassword)
+                ->press('Submit')
+                // some success
+                ->assertVisible('.alert.alert-info')
+                ;
+
+            $user = $user->fresh();
+            $this->assertNotEquals($oldPasswordHash, $user->password);
         });
     }
 }

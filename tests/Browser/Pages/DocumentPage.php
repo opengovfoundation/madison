@@ -26,16 +26,6 @@ class DocumentPage extends BasePage
     }
 
     /**
-     * Assert that the browser is on the page.
-     *
-     * @return void
-     */
-    public function assert(Browser $browser)
-    {
-        $browser->assertPathIs($this->url());
-    }
-
-    /**
      * Get the element shortcuts for the page.
      *
      * @return array

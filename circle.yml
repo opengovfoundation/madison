@@ -11,6 +11,7 @@ machine:
     CACHE_DRIVER: array
     SESSION_DRIVER: file
     QUEUE_DRIVER: sync
+    MAIL_DRIVER: log
 
   node:
     version: 6.1.0
@@ -45,6 +46,7 @@ dependencies:
     - echo "export CACHE_DRIVER=$CACHE_DRIVER" | sudo tee --append /etc/apache2/envvars > /dev/null
     - echo "export SESSION_DRIVER=$SESSION_DRIVER" | sudo tee --append /etc/apache2/envvars > /dev/null
     - echo "export QUEUE_DRIVER=$QUEUE_DRIVER" | sudo tee --append /etc/apache2/envvars > /dev/null
+    - echo "export MAIL_DRIVER=$MAIL_DRIVER" | sudo tee --append /etc/apache2/envvars > /dev/null
     # Install our config and make it active
     - sudo cp -f circleci/apache.conf /etc/apache2/sites-available/madison.conf
     - sudo a2enmod rewrite actions alias headers negotiation dir vhost_alias deflate

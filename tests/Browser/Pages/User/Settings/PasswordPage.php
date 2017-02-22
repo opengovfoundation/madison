@@ -6,7 +6,7 @@ use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\Page;
 
-class AccountPage extends Page
+class PasswordPage extends Page
 {
     public $user;
 
@@ -22,7 +22,7 @@ class AccountPage extends Page
      */
     public function url()
     {
-        return route('users.settings.account.edit', $this->user, false);
+        return route('users.settings.password.edit', $this->user, false);
     }
 
     /**
