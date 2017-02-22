@@ -447,7 +447,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
     pane += '<section class="annotation-list">'
     annotationGroup.annotations.forEach(function (annotation) {
-      pane += '<article class="annotation">';
+      pane += '<article class="annotation" id="' + annotation.htmlId + '">';
 
       pane += '<blockquote>&quot;';
       annotation.highlights.forEach(function (highlight) {

@@ -45,7 +45,7 @@
         @if (Auth::user() && $comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE)
             <div class="col-md-12">
                 <hr>
-                {{ Form::open(['route' => ['documents.comments.storeReply', $comment->annotatable_id, $comment->id]]) }}
+                {{ Form::open(['route' => ['documents.comments.storeReply', $comment->annotatable_id, $comment->id], 'class' => 'comment-form']) }}
                     {{ Form::mInput(
                         'textarea',
                         'text',

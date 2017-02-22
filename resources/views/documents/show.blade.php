@@ -9,6 +9,12 @@
 @section('content')
     <div class="page-header">
         <h1>{{ $document->title }}</h1>
+        <h3 class="sponsors">
+            <small>
+            Sponsored by:
+            {{ $document->sponsors->implode('display_name', ', ') }}
+            </small>
+        </h3>
     </div>
 
     @include('components.errors')
@@ -32,7 +38,7 @@
                         @endif
                     </div>
 
-                    <div class="btn-group" role="group">
+                    <div class="btn-group support-btn" role="group">
                             {{ Form::open(['route' => ['documents.support', $document], 'method' => 'put']) }}
                                 <input type="hidden" name="support" value="1">
 
@@ -47,7 +53,7 @@
                                 @endif
                             {{ Form::close() }}
                     </div>
-                    <div class="btn-group" role="group">
+                    <div class="btn-group oppose-btn" role="group">
                             {{ Form::open(['route' => ['documents.support', $document], 'method' => 'put']) }}
                                 <input type="hidden" name="support" value="0">
                                 @if ($userSupport === false)
@@ -100,7 +106,7 @@
                 <section class="col-md-8">
                     @if ($document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_OPEN)
                         @if (Auth::user())
-                            {{ Form::open(['route' => ['documents.comments.store', $document]]) }}
+                            {{ Form::open(['route' => ['documents.comments.store', $document], 'class' => 'comment-form']) }}
                                 {{ Form::mInput(
                                     'textarea',
                                     'text',

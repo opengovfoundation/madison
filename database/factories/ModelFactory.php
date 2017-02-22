@@ -34,10 +34,6 @@ $factory->define(User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->defineAs(Role::class, 'admin_role', function (Faker\Generator $faker) {
-    return ['name' => Role::ROLE_ADMIN];
-});
-
 $factory->define(Sponsor::class, function (Faker\Generator $faker) {
     $name = $faker->company;
     $display_name = "{$name} {$faker->companySuffix}";
@@ -61,9 +57,7 @@ $factory->define(PageContent::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Document::class, function (Faker\Generator $faker) {
-    return [
-        'title' => substr($faker->sentence(5), 0, -1),
-    ];
+    return [ 'title' => $faker->words(5, true) ];
 });
 
 $factory->define(DocContent::class, function (Faker\Generator $faker) {
