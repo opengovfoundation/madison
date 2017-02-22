@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5b557506ad02e40a61f7e28e28b6e3a3",
-    "content-hash": "671f8fff6774e4abac3ce5318a1a25b7",
+    "hash": "052bd85e71893c7dfc1cf9cc73d0e764",
+    "content-hash": "fdcd233c9a71aa6eb2729796520dc6bd",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -967,16 +967,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v1.0.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "54353b68369dc7f2f07b9809a0d24bab5ccc6886"
+                "reference": "9fdcc27114814bb7905503892ade82574ed9819d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/54353b68369dc7f2f07b9809a0d24bab5ccc6886",
-                "reference": "54353b68369dc7f2f07b9809a0d24bab5ccc6886",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/9fdcc27114814bb7905503892ade82574ed9819d",
+                "reference": "9fdcc27114814bb7905503892ade82574ed9819d",
                 "shasum": ""
             },
             "require": {
@@ -1018,7 +1018,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2017-02-01 16:55:39"
+            "time": "2017-02-21 14:36:54"
         },
         {
             "name": "laravel/framework",
@@ -4659,6 +4659,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "laravel/dusk": 20,
         "zizaco/entrust": 20,
         "laravel/homestead": 20
     },
