@@ -46,7 +46,7 @@ class NotificationPreference extends Model
     {
         $validNotifications = static::getUserNotifications();
 
-        if ($user->hasRole(Role::ROLE_ADMIN)) {
+        if ($user->isAdmin()) {
             $validNotifications = $validNotifications + static::getAdminNotifications();
         }
 

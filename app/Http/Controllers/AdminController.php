@@ -22,12 +22,11 @@ class AdminController extends Controller
     public function usersPostAdmin(Requests\Users\PostAdmin $request, User $user)
     {
         $makingAdmin = $request->input('admin', false);
-        $adminRole = Role::where('name', Role::ROLE_ADMIN)->first();
 
         if ($makingAdmin) {
-            $user->attachRole($adminRole);
+            $user->makeAdmin();
         } else {
-            $user->detachRole($adminRole);
+            $user->removeAdmin();
         }
 
         flash(trans('messages.updated'));

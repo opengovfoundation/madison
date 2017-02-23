@@ -3,9 +3,11 @@
 namespace Tests\Browser;
 
 use App\Models\User;
+use App\Models\NotificationPreference;
 use Tests\DuskTestCase;
 use Tests\Browser\Pages\User\Settings\AccountPage;
 use Tests\Browser\Pages\User\Settings\PasswordPage;
+use Tests\Browser\Pages\User\Settings\NotificationsPage;
 use Laravel\Dusk\Browser;
 
 class UserTest extends DuskTestCase
@@ -149,6 +151,67 @@ class UserTest extends DuskTestCase
 
             $user = $user->fresh();
             $this->assertNotEquals($oldPasswordHash, $user->password);
+        });
+    }
+
+    public function testNotificationsSettingsViewOwn()
+    {
+        $user = factory(User::class)->create();
+        $this->notificationsSettingsViewOwnCommon($user);
+    }
+
+    public function testNotificationsSettingsViewOwnAdmin()
+    {
+        $user = factory(User::class)->create();
+        $user->makeAdmin();
+        $this->notificationsSettingsViewOwnCommon($user);
+    }
+
+    protected function notificationsSettingsViewOwnCommon($user)
+    {
+        $events = NotificationPreference::getValidNotificationsForUser($user);
+
+        foreach ($events as $eventName => $eventClass) {
+            NotificationPreference::addNotificationForUser($eventName, $user->id);
+        }
+
+        $this->browse(function ($browser) use ($user, $events) {
+            $page = new NotificationsPage($user);
+
+            $browser
+                ->loginAs($user)
+                ->visit($page)
+                ;
+
+            $activePreferences = $user->notificationPreferences->pluck('event');
+
+            foreach ($activePreferences as $eventName) {
+                $browser->assertChecked($eventName);
+            }
+
+            foreach (collect(array_keys($events))->diff($activePreferences) as $eventName) {
+                $browser->assertNotChecked($eventName);
+            }
+        });
+    }
+
+    public function testNotificationsSettingsUpdate()
+    {
+        $user = factory(User::class)->create();
+
+        $this->browse(function ($browser) use ($user) {
+            $page = new NotificationsPage($user);
+            $events = array_keys(NotificationPreference::getValidNotificationsForUser($user));
+
+            $browser
+                ->loginAs($user)
+                ->visit($page)
+                ->check($events[0])
+                ->press('Submit')
+                // some success
+                ->assertVisible('.alert.alert-info')
+                ->assertChecked($events[0])
+                ;
         });
     }
 }

@@ -572,4 +572,24 @@ class User extends Authenticatable
     {
         return $this->hasRole(Role::ROLE_ADMIN);
     }
+
+    public function makeAdmin()
+    {
+        if ($this->isAdmin()) {
+            return;
+        }
+
+        $adminRole = Role::adminRole();
+        $this->attachRole($adminRole);
+    }
+
+    public function removeAdmin()
+    {
+        if (!$this->isAdmin()) {
+            return;
+        }
+
+        $adminRole = Role::adminRole();
+        $this->detachRole($adminRole);
+    }
 }

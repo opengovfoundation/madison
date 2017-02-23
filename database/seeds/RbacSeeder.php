@@ -26,10 +26,7 @@ class RbacSeeder extends Seeder
     public function run()
     {
         $adminEmail = Config::get('madison.seeder.admin_email');
-
-        $admin = new Role();
-        $admin->name = 'Admin';
-        $admin->save();
+        $adminRole = Role::adminRole();
 
         $permIds = array();
         foreach ($this->adminPermissions as $permClass => $data) {
@@ -44,9 +41,9 @@ class RbacSeeder extends Seeder
             $permIds[] = $perm->id;
         }
 
-        $admin->perms()->sync($permIds);
+        $adminRole->perms()->sync($permIds);
 
         $user = User::where('email', '=', $adminEmail)->first();
-        $user->attachRole($admin);
+        $user->makeAdmin();
     }
 }
