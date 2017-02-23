@@ -428,7 +428,8 @@ class User extends Authenticatable
      */
     public static function findByRoleName($role)
     {
-        return Role::where('name', '=', $role)->first()->users()->get();
+        $role = Role::where('name', '=', $role)->first();
+        return $role ? $role->users()->get() : [];
     }
 
     /**
