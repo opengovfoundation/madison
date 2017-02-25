@@ -475,7 +475,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
         pane += this.noteActionsString(annotation);
         pane += '<footer>';
         pane += '<div class="reply-action">';
-        pane += '<a onclick="showNoteReplyForm('+this.options.userId+', '+annotation.id+')">';
+        pane += '<a onclick="showNoteReplyForm('+this.options.userId+', \''+annotation.id+'\')">';
         pane += window.trans['messages.document.add_reply'];
         pane += '</a>';
         pane += '</div>';
