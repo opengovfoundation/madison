@@ -14,7 +14,6 @@ class UsersTableSeeder extends Seeder
             'password' => $creds['user_password'],
             'fname' => $creds['user_fname'],
             'lname' => $creds['user_lname'],
-            'token' => '',
         ]);
 
         factory(User::class)->create([
@@ -22,10 +21,9 @@ class UsersTableSeeder extends Seeder
             'password' => $creds['admin_password'],
             'fname' => $creds['admin_fname'],
             'lname' => $creds['admin_lname'],
-            'token' => '',
         ]);
 
-        factory(User::class)->create([
+        factory(User::class)->states('emailUnverified')->create([
             'email' => $creds['unconfirmed_email'],
             'password' => $creds['unconfirmed_password'],
             'fname' => $creds['unconfirmed_fname'],

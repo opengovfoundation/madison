@@ -29,8 +29,14 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'lname' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = 'secret',
-        'token' => str_random(10),
+        'token' => '',
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->state(User::class, 'emailUnverified', function (Faker\Generator $faker) {
+    return [
+        'token' => str_random(10),
     ];
 });
 

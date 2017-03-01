@@ -16,8 +16,9 @@ class SponsorTest extends DuskTestCase
     {
         $this->browse(function ($browser) {
             $browser
-                ->visitRoute('sponsors.create')
-                ->assertSee('unauthorized');
+                ->visit(new SponsorPages\CreatePage)
+                ->assertSee('unauthorized')
+                ;
         });
     }
 
@@ -30,13 +31,17 @@ class SponsorTest extends DuskTestCase
         $user = factory(User::class)->create();
 
         $this->browse(function ($browser) use ($attrs, $user) {
-            $browser->loginAs($user)
+            $browser
+                ->loginAs($user)
                 ->visit(new SponsorPages\CreatePage)
                 ->fillNewSponsorForm($attrs)
                 ->click('@submitBtn')
+                ->assertVisible('.alert.alert-info') // some success
                 ;
 
             $sponsor = Sponsor::first();
+
+            $browser->assertRouteIs('sponsors.members.index', $sponsor);
 
             $this->assertEquals($sponsor->status, Sponsor::STATUS_PENDING);
 
