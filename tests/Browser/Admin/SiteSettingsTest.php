@@ -5,22 +5,12 @@ namespace Tests\Browser;
 use App\Models\User;
 use App\Http\Controllers\AdminController;
 use SiteConfigSaver;
-use Tests\DuskTestCase;
+use Tests\Browser\AdminTestCase;
 use Tests\Browser\Pages\Admin;
 use Laravel\Dusk\Browser;
 
-class AdminTest extends DuskTestCase
+class SiteSettingsTest extends AdminTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->admin = factory(User::class)->create();
-        $this->admin->makeAdmin();
-
-        $this->user = factory(User::class)->create();
-    }
-
     public function testSiteSettings()
     {
         $this->browse(function ($browser) {
@@ -70,23 +60,5 @@ class AdminTest extends DuskTestCase
                 ->assertSourceMissing('window.ga')
                 ;
         });
-    }
-
-    public function assertNonAdminsDenied($browser, $page)
-    {
-        // anonymous user
-        $browser
-            ->visit($page)
-            // 403 status
-            ->assertSee('Whoops, looks like something went wrong')
-            ;
-
-        // non-admin
-        $browser
-            ->loginAs($this->user)
-            ->visit($page)
-            // 403 status
-            ->assertSee('Whoops, looks like something went wrong')
-            ;
     }
 }

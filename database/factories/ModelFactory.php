@@ -58,6 +58,22 @@ $factory->define(Page::class, function (Faker\Generator $faker) {
     return [ 'nav_title' => $faker->domainWord ];
 });
 
+$factory->state(Page::class, 'randomize', function (Faker\Generator $faker) {
+    return [
+        'url' => $faker->slug,
+        'page_title' => $faker->words(2, true),
+        'nav_title' => $faker->domainWord,
+        'header' => $faker->words(2, true),
+    ];
+});
+
+$factory->state(Page::class, 'external', function (Faker\Generator $faker) {
+    return [
+        'url' => $faker->url,
+        'external' => true
+    ];
+});
+
 $factory->define(PageContent::class, function (Faker\Generator $faker) {
     return [ 'content' => join(' ', $faker->sentences) ];
 });

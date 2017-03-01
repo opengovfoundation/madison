@@ -21,13 +21,15 @@ deps-php:
 set-key:
 	php artisan key:generate
 
+TEST_ARG ?= ''
+
 test: test-php test-browser
 
 test-php: db-test-setup
-	./vendor/bin/phpunit
+	./vendor/bin/phpunit $(TEST_ARG)
 
 test-browser: db-test-setup
-	APP_ENV=testing ./artisan dusk
+	APP_ENV=testing ./artisan dusk $(TEST_ARG)
 
 clean:
 	rm -rf public/build public/css public/js

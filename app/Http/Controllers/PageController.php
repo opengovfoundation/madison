@@ -12,7 +12,6 @@ class PageController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['show']);
-        $this->middleware('auth')->except(['show']);
     }
 
     /**
@@ -71,7 +70,7 @@ class PageController extends Controller
      */
     public function edit(Requests\Edit $request, Page $page)
     {
-        $pageContent = $page->content->content;
+        $pageContent = $page->content ? $page->content->content : null;
 
         return view('pages.edit', compact([
             'page',
@@ -109,6 +108,6 @@ class PageController extends Controller
         $page->delete();
 
         flash(trans('messages.page.deleted'));
-        return redirect()->route('pages.index');
+        return redirect()->route('admin.pages.index');
     }
 }

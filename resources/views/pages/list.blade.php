@@ -44,7 +44,7 @@
                             <td>
                                 <a href="{{ route('pages.edit', $page) }}"
                                     title="@lang('messages.page.edit')"
-                                    class="btn btn-xs btn-default">
+                                    class="btn btn-xs btn-default edit">
 
                                     <i class="fa fa-pencil"></i>
                                 </a>
@@ -53,7 +53,7 @@
                             <td>
                                 <div class="btn-group" role="group">
                                     {{ Form::open(['route' => ['pages.destroy', $page], 'method' => 'delete']) }}
-                                        <button type="submit" class="btn btn-xs btn-danger">
+                                        <button type="submit" class="btn btn-xs btn-danger destroy">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     {{ Form::close() }}
@@ -64,7 +64,7 @@
                 </tbody>
             </table>
 
-            {{ Html::linkRoute('pages.create', trans('messages.page.create'), [], ['class' => 'btn btn-default'])}}
+            {{ Html::linkRoute('pages.create', trans('messages.page.create'), [], ['class' => 'btn btn-default new'])}}
         </div>
     </div>
 

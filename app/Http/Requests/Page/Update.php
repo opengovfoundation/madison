@@ -21,9 +21,9 @@ class Update extends AdminRequest
             'external' => 'boolean|required',
 
             // These not required if the page is external
-            'page_title' => 'string' . $this->input('external') === "1" ? "" : "|required",
-            'header' => 'string' . $this->input('external') === "1" ? "" : "|required",
-            'page_content' => 'string' . $this->input('external') === "1" ? "" : "|required",
+            'page_title' => 'string' . ($this->input('external') === "1" ? "" : "|required"),
+            'header' => 'string' . ($this->input('external') === "1" ? "" : "|required"),
+            'page_content' => 'string' . ($this->input('external') === "1" ? "" : "|required"),
         ];
     }
 
