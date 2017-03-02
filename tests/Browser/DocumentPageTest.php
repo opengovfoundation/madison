@@ -5,10 +5,17 @@ namespace Tests\Browser;
 use Tests\DuskTestCase;
 use Tests\Browser\Pages\DocumentPage;
 use Tests\FactoryHelpers;
-
+use Illuminate\Support\Facades\Notification;
+use App\Models\Annotation;
 use App\Models\Doc as Document;
 use App\Models\DocContent;
 use App\Models\User;
+use App\Notifications\CommentCreatedOnSponsoredDocument;
+use App\Notifications\CommentReplied;
+use App\Notifications\CommentLiked;
+use App\Notifications\CommentFlagged;
+use App\Notifications\SupportVoteChanged;
+
 
 class DocumentPageTest extends DuskTestCase
 {
@@ -39,6 +46,12 @@ class DocumentPageTest extends DuskTestCase
         $this->comment2 = FactoryHelpers::createComment($this->sponsorUser, $this->document);
 
         $this->commentReply = FactoryHelpers::createComment($this->sponsorUser, $this->comment1);
+
+        // TODO: Mocking does not work with Dusk yet!
+        // -- ref: https://github.com/laravel/dusk/issues/152
+
+        //FactoryHelpers::subscribeUsersToAllNotifications();
+        //Notification::fake();
     }
 
     public function testCanSeeDocumentContent()
@@ -241,6 +254,14 @@ class DocumentPageTest extends DuskTestCase
                 ->waitFor('.comment#' . $newComment->str_id)
                 ->assertSeeComment($newComment)
                 ;
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentCreatedOnSponsoredDocument::class,
+            //    function ($notification, $channels) use ($newComment) {
+            //        $notification->comment->id === $newComment->id;
+            //    }
+            //);
         });
     }
 
@@ -263,6 +284,22 @@ class DocumentPageTest extends DuskTestCase
                 ->waitFor('.comment#' . $newComment->str_id)
                 ->assertSeeReplyToComment($this->comment1, $newComment)
                 ;
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentCreatedOnSponsoredDocument::class,
+            //    function ($notification, $channels) use ($newComment) {
+            //        $notification->comment->id === $newComment->id;
+            //    }
+            //);
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentReplied::class,
+            //    function ($notification, $channels) use ($newComment) {
+            //        $notification->comment->id === $newComment->id;
+            //    }
+            //);
         });
     }
 
@@ -284,6 +321,14 @@ class DocumentPageTest extends DuskTestCase
                 ->openNotesPane()
                 ->assertSeeNote($newNote)
                 ;
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentCreatedOnSponsoredDocument::class,
+            //    function ($notification, $channels) use ($newNote) {
+            //        $notification->comment->id === $newNote->id;
+            //    }
+            //);
         });
     }
 
@@ -306,6 +351,22 @@ class DocumentPageTest extends DuskTestCase
                 ->openNotesPane()
                 ->assertSeeReplyToNote($this->note1, $newNote)
                 ;
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentCreatedOnSponsoredDocument::class,
+            //    function ($notification, $channels) use ($newNote) {
+            //        $notification->comment->id === $newNote->id;
+            //    }
+            //);
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentReplied::class,
+            //    function ($notification, $channels) use ($newNote) {
+            //        $notification->comment->id === $newNote->id;
+            //    }
+            //);
         });
     }
 
@@ -321,6 +382,18 @@ class DocumentPageTest extends DuskTestCase
                 ->addActionToComment('like', $this->comment1)
                 ->assertCommentHasActionCount('like', $this->comment1, $commentLikes + 1)
                 ;
+
+            //$newLike = Annotation::where('annotation_type_type', Annotation::TYPE_LIKE)
+            //    ->orderBy('created_at', 'desc')
+            //    ->first();
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentLiked::class,
+            //    function ($notification, $channels) use ($newLike) {
+            //        $notification->like->id === $newLike->id;
+            //    }
+            //);
         });
     }
 
@@ -336,6 +409,18 @@ class DocumentPageTest extends DuskTestCase
                 ->addActionToComment('flag', $this->comment1)
                 ->assertCommentHasActionCount('flag', $this->comment1, $commentFlags + 1)
                 ;
+
+            //$newFlag = Annotation::where('annotation_type_type', Annotation::TYPE_FLAG)
+            //    ->orderBy('created_at', 'desc')
+            //    ->first();
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentFlagged::class,
+            //    function ($notification, $channels) use ($newFlag) {
+            //        $notification->flag->id === $newFlag->id;
+            //    }
+            //);
         });
     }
 
@@ -352,6 +437,18 @@ class DocumentPageTest extends DuskTestCase
                 ->addActionToComment('like', $reply)
                 ->assertCommentHasActionCount('like', $reply, $replyLikes + 1)
                 ;
+
+            //$newLike = Annotation::where('annotation_type_type', Annotation::TYPE_COMMENT)
+            //    ->orderBy('created_at', 'desc')
+            //    ->first();
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentLiked::class,
+            //    function ($notification, $channels) use ($newLike) {
+            //        $notification->like->id === $newLike->id;
+            //    }
+            //);
         });
     }
 
@@ -368,6 +465,18 @@ class DocumentPageTest extends DuskTestCase
                 ->addActionToComment('flag', $reply)
                 ->assertCommentHasActionCount('flag', $reply, $replyFlags + 1)
                 ;
+
+            //$newFlag = Annotation::where('annotation_type_type', Annotation::TYPE_FLAG)
+            //    ->orderBy('created_at', 'desc')
+            //    ->first();
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentFlagged::class,
+            //    function ($notification, $channels) use ($newFlag) {
+            //        $notification->flag->id === $newFlag->id;
+            //    }
+            //);
         });
     }
 
@@ -383,6 +492,18 @@ class DocumentPageTest extends DuskTestCase
                 ->addActionToNote('like', $this->note1)
                 ->assertNoteHasActionCount('like', $this->note1, $noteLikes +1)
                 ;
+
+            //$newLike = Annotation::where('annotation_type_type', Annotation::TYPE_LIKE)
+            //    ->orderBy('created_at', 'desc')
+            //    ->first();
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentLiked::class,
+            //    function ($notification, $channels) use ($newLike) {
+            //        $notification->like->id === $newLike->id;
+            //    }
+            //);
         });
     }
 
@@ -398,6 +519,18 @@ class DocumentPageTest extends DuskTestCase
                 ->addActionToNote('flag', $this->note1)
                 ->assertNoteHasActionCount('flag', $this->note1, $noteFlags +1)
                 ;
+
+            //$newFlag = Annotation::where('annotation_type_type', Annotation::TYPE_FLAG)
+            //    ->orderBy('created_at', 'desc')
+            //    ->first();
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentFlagged::class,
+            //    function ($notification, $channels) use ($newFlag) {
+            //        $notification->flag->id === $newFlag->id;
+            //    }
+            //);
         });
     }
 
@@ -414,6 +547,18 @@ class DocumentPageTest extends DuskTestCase
                 ->addActionToComment('like', $reply)
                 ->assertCommentHasActionCount('like', $reply, $replyLikes + 1)
                 ;
+
+            //$newLike = Annotation::where('annotation_type_type', Annotation::TYPE_LIKE)
+            //    ->orderBy('created_at', 'desc')
+            //    ->first();
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentLiked::class,
+            //    function ($notification, $channels) use ($newLike) {
+            //        $notification->like->id === $newLike->id;
+            //    }
+            //);
         });
     }
 
@@ -430,6 +575,18 @@ class DocumentPageTest extends DuskTestCase
                 ->addActionToComment('flag', $reply)
                 ->assertCommentHasActionCount('flag', $reply, $replyFlags + 1)
                 ;
+
+            //$newFlag = Annotation::where('annotation_type_type', Annotation::TYPE_FLAG)
+            //    ->orderBy('created_at', 'desc')
+            //    ->first();
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    CommentFlagged::class,
+            //    function ($notification, $channels) use ($newFlag) {
+            //        return $notification->flag->id === $newFlag->id;
+            //    }
+            //);
         });
     }
 
@@ -444,6 +601,19 @@ class DocumentPageTest extends DuskTestCase
                 ->click('@supportBtn')
                 ->assertDocumentSupportCount($documentSupport + 1)
                 ;
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    SupportVoteChanged::class,
+            //    function ($notification, $channels) {
+            //        return
+            //            $notification->document->id === $this->document->id &&
+            //            $notification->user->id === $this->user2->id &&
+            //            $notification->oldValue === null &&
+            //            $notification->newValue === 'support'
+            //            ;
+            //    }
+            //);
         });
     }
 
@@ -458,6 +628,19 @@ class DocumentPageTest extends DuskTestCase
                 ->click('@opposeBtn')
                 ->assertDocumentOpposeCount($documentOppose + 1)
                 ;
+
+            //Notification::assertSentTo(
+            //    $this->user,
+            //    SupportVoteChanged::class,
+            //    function ($notification, $channels) {
+            //        return
+            //            $notification->document->id === $this->document->id &&
+            //            $notification->user->id === $this->user2->id &&
+            //            $notification->oldValue === null &&
+            //            $notification->newValue === 'oppose'
+            //            ;
+            //    }
+            //);
         });
     }
 }
