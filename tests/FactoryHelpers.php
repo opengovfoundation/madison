@@ -10,6 +10,7 @@ use App\Models\Doc as Document;
 use App\Models\User;
 use App\Models\Sponsor;
 use App\Models\AnnotationTypes;
+use App\Models\NotificationPreference;
 
 class FactoryHelpers
 {
@@ -73,6 +74,17 @@ class FactoryHelpers
         $sponsor->addMember($user->id, Sponsor::ROLE_OWNER);
 
         return $sponsor;
+    }
+
+    public static function subscribeUsersToAllNotifications($users)
+    {
+        foreach ($users as $user) {
+            $events = NotificationPreference::getValidNotificationsForUser($user);
+
+            foreach ($events as $eventName => $eventClass) {
+                NotificationPreference::addNotificationForUser($eventName, $user->id);
+            }
+        }
     }
 
     /**

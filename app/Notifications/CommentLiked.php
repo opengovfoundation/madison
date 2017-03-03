@@ -54,7 +54,7 @@ class CommentLiked extends Notification implements ShouldQueue
                     ->subject(trans(static::baseMessageLocation().'.subject', [
                         'name' => $this->like->user->getDisplayName(),
                         'comment_type' => $parentType,
-                        'document' => $this->comment->rootAnnotatable->title,
+                        'document' => $this->like->rootAnnotatable->title,
                     ]))
                     ->action(trans('messages.notifications.see_comment', ['comment_type' => $parentType]), $url)
                     ;

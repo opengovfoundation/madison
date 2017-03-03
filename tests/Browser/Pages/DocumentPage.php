@@ -5,6 +5,7 @@ namespace Tests\Browser\Pages;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Page as BasePage;
 use App\Models\Annotation;
+use App\Models\AnnotationTypes\Comment;
 use App\Models\User;
 
 class DocumentPage extends BasePage
@@ -44,11 +45,16 @@ class DocumentPage extends BasePage
             '@commentsTab' => '.nav-tabs a[href="#comments"]',
             '@noteBubble' => '.annotation-group',
             '@notesPane' => '.annotation-list',
-            '@commentsList' => '#comments.comments',
+            '@commentsPane' => '#comments.comments',
+            '@contentPane' => '#content #page_content',
             '@likeCount' => '.activity-actions a[data-action-type="likes"] .action-count',
             '@flagCount' => '.activity-actions a[data-action-type="flags"] .action-count',
             '@addCommentForm' => '.comment-form',
             '@noteReplyForm' => '.add-subcomment-form',
+            '@submitBtn' => 'button[type="submit"]',
+            '@noteAdder' => '.annotator-adder button',
+            '@annotatorWidget' => '.annotator-widget',
+            '@saveNoteBtn' => '.annotator-save',
         ];
     }
 
@@ -67,7 +73,7 @@ class DocumentPage extends BasePage
         $browser
             ->waitFor('@noteBubble') // Ensures annotator has added action callbacks to comments
             ->click('@commentsTab')
-            ->waitFor('@commentsList')
+            ->waitFor('@commentsPane')
             ;
     }
 
@@ -81,11 +87,27 @@ class DocumentPage extends BasePage
                     ->assertSee($note->user->name)
                     ->assertSeeIn('@likeCount', (string) $note->likes_count)
                     ->assertSeeIn('@flagCount', (string) $note->flags_count)
+                    ->assertSee(static::flattenParagraphs($note->annotationType->content))
                     ;
+            });
+        });
+    }
 
-                foreach (explode("\n\n", $note->annotationType->content) as $p) {
-                    $noteElement->assertSee($p);
-                }
+    public function assertSeeReplyToNote(Browser $browser, Annotation $note, Annotation $reply)
+    {
+        $noteSelector = static::noteSelector($note);
+        $replySelector = static::commentSelector($reply); // replies are comments, not notes
+
+        $browser->with('@notesPane', function ($notesPane) use ($reply, $noteSelector, $replySelector) {
+            $notesPane->with($noteSelector, function ($noteElement) use ($reply, $replySelector) {
+                $noteElement->with($replySelector, function ($replyElement) use ($reply) {
+                    $replyElement
+                        ->assertSee($reply->user->name)
+                        ->assertSeeIn('@likeCount', (string) $reply->likes_count)
+                        ->assertSeeIn('@flagCount', (string) $reply->flags_count)
+                        ->assertSee(static::flattenParagraphs($reply->annotationType->content))
+                        ;
+                });
             });
         });
     }
@@ -99,11 +121,8 @@ class DocumentPage extends BasePage
                 ->assertSee($comment->user->name)
                 ->assertSeeIn('@likeCount', (string) $comment->likes_count)
                 ->assertSeeIn('@flagCount', (string) $comment->flags_count)
+                ->assertSee(static::flattenParagraphs($comment->annotationType->content))
                 ;
-
-            foreach (explode("\n\n", $comment->annotationType->content) as $p) {
-                $commentDiv->assertSee($p);
-            }
         })
         ;
     }
@@ -122,21 +141,53 @@ class DocumentPage extends BasePage
                     ->assertSee($reply->user->name)
                     ->assertSeeIn('@likeCount', (string) $reply->likes_count)
                     ->assertSeeIn('@flagCount', (string) $reply->flags_count)
+                    ->assertSee(static::flattenParagraphs($reply->annotationType->content))
                     ;
-
-                foreach (explode("\n\n", $reply->annotationType->content) as $p) {
-                    $replyDiv->assertSee($p);
-                }
             });
         })
         ;
+    }
+
+    public function assertCommentHasActionCount(Browser $browser, $action, Annotation $comment, $count)
+    {
+        $commentSelector = static::commentSelector($comment);
+        $browser->with($commentSelector, function ($commentDiv) use ($action, $count) {
+            $commentDiv->with('@' . $action . 'Count', function ($actionDiv) use ($count) {
+                // Use a wait since it updates after going to server
+                $actionDiv->waitForText($count);
+            });
+        });
+    }
+
+    public function assertNoteHasActionCount(Browser $browser, $action, Annotation $note, $count)
+    {
+        $noteSelector = static::noteSelector($note);
+        $browser->with($noteSelector, function ($noteDiv) use ($action, $count) {
+            $noteDiv->with('@' . $action . 'Count', function ($actionDiv) use ($count) {
+                // Use a wait since it updates after going to server
+                $actionDiv->waitForText($count);
+            });
+        });
+    }
+
+    public function assertDocumentSupportCount(Browser $browser, $count)
+    {
+        $browser->with('@supportBtn', function ($supportBtn) use ($count) {
+            $supportBtn->waitForText($count);
+        });
+    }
+
+    public function assertDocumentOpposeCount(Browser $browser, $count)
+    {
+        $browser->with('@opposeBtn', function ($opposeBtn) use ($count) {
+            $opposeBtn->waitForText($count);
+        });
     }
 
     public function addActionToComment(Browser $browser, $action, Annotation $comment)
     {
         $commentSelector = static::commentSelector($comment);
         $browser
-            ->openCommentsTab()
             ->with($commentSelector, function ($commentDiv) use ($action) {
                 $commentDiv
                     ->assertVisible('@' . $action . 'Count')
@@ -150,7 +201,6 @@ class DocumentPage extends BasePage
     {
         $noteSelector = static::noteSelector($note);
         $browser
-            ->openNotesPane()
             ->with($noteSelector, function ($noteElement) use ($action) {
                 $noteElement
                     ->assertVisible('@' . $action . 'Count')
@@ -158,6 +208,75 @@ class DocumentPage extends BasePage
                     ;
             })
             ;
+    }
+
+    public function fillAndSubmitCommentForm(Browser $browser)
+    {
+        $fakeComment = factory(Comment::class)->make();
+
+        $browser
+            ->with('@addCommentForm', function ($commentForm) use ($fakeComment) {
+                $commentForm
+                    ->type('text', static::flattenParagraphs($fakeComment->content))
+                    ->click('@submitBtn')
+                    ;
+            })
+            ;
+    }
+
+    public function fillAndSubmitCommentReplyForm(Browser $browser, Annotation $comment)
+    {
+        $fakeComment = factory(Comment::class)->make();
+
+        $browser->with('.comment#' . $comment->str_id, function ($commentDiv) use ($fakeComment) {
+            $commentDiv
+                ->type('text', static::flattenParagraphs($fakeComment->content))
+                ->click('@submitBtn')
+                ;
+        });
+    }
+
+    public function addNoteToContent(Browser $browser)
+    {
+        $fakeNote = factory(Comment::class)->make();
+
+        $browser
+            ->pause(1000)
+            ->script(join(';', [
+                'let firstParagraph = document.querySelector("#content #page_content .annotator-wrapper p:first-child")',
+                'let selection = window.getSelection()',
+                'let range = document.createRange()',
+                'range.selectNodeContents(firstParagraph)',
+                'selection.removeAllRanges()',
+                'selection.addRange(range)',
+                '$(document).trigger("mouseup")',
+            ]))
+            ;
+
+        $browser
+            ->click('@noteAdder')
+            ->with('@annotatorWidget', function ($annotatorWidget) use ($fakeNote) {
+                $annotatorWidget
+                    ->keys('#annotator-field-0', str_replace("\n\n", " ", $fakeNote->content)) // newlines seem to cause problems
+                    ->click('@saveNoteBtn')
+                    ->script('$(window).scrollTop(0)')
+                    ;
+            })
+            ;
+    }
+
+    public function addReplyToNote(Browser $browser, Annotation $note)
+    {
+        $fakeNote = factory(Comment::class)->make();
+        $targetNoteSelector = static::noteSelector($note);
+
+        $browser
+            ->with($targetNoteSelector, function ($noteElement) use ($note, $fakeNote) {
+                $noteElement
+                    ->type('text', str_replace("\n\n", " ", $fakeNote->content)) // newlines seem to cause problems
+                    ->press('Submit')
+                    ;
+            });
     }
 
     public static function noteSelector(Annotation $note)
@@ -168,5 +287,11 @@ class DocumentPage extends BasePage
     public static function commentSelector(Annotation $comment)
     {
         return '.comment#' . $comment->str_id;
+    }
+
+    public static function flattenParagraphs($content)
+    {
+        // Content paragraphs are combined into one in the UI as of now.
+        return str_replace("\r\n", " ", str_replace("\n\n", " ", $content));
     }
 }
