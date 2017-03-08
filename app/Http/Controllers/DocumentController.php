@@ -457,7 +457,7 @@ class DocumentController extends Controller
 
         $document->save();
 
-        $document->annotations()->delete();
+        $document->annotations()->withoutGlobalScope('visible')->delete();
         $document->doc_meta()->delete();
         $document->content()->delete();
 
@@ -481,7 +481,7 @@ class DocumentController extends Controller
 
         DocumentMeta::withTrashed()->where('doc_id', $document->id)->restore();
         $document->content()->withTrashed()->restore();
-        $document->annotations()->withTrashed()->restore();
+        $document->annotations()->withTrashed()->withoutGlobalScope('visible')->restore();
 
         $document->restore();
         $document->publish_state = Document::PUBLISH_STATE_UNPUBLISHED;

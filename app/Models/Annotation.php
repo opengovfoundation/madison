@@ -92,7 +92,7 @@ class Annotation extends Model implements ActivityInterface
     public function delete()
     {
         DB::transaction(function () {
-            $this->annotations()->delete();
+            $this->annotations()->withoutGlobalScope('visible')->delete();
             $this->permissions()->delete();
             return parent::delete();
         });
