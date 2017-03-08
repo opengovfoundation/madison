@@ -53,7 +53,7 @@
                                             {{ Form::open(['route' => ['admin.users.postAdmin', $user], 'method' => 'post']) }}
                                                 <input type="hidden" name="admin" value="0">
                                                 @if ($user->id !== Auth::user()->id)
-                                                    <button type="submit" class="btn btn-default">
+                                                    <button type="submit" class="btn btn-default admin">
                                                         @lang('messages.user.remove_admin')
                                                     </button>
                                                 @endif
@@ -61,7 +61,7 @@
                                         @else
                                             {{ Form::open(['route' => ['admin.users.postAdmin', $user], 'method' => 'post']) }}
                                                 <input type="hidden" name="admin" value="1">
-                                                <button type="submit" class="btn btn-default">
+                                                <button type="submit" class="btn btn-default admin">
                                                     @lang('messages.user.make_admin')
                                                 </button>
                                             {{ Form::close() }}
