@@ -129,7 +129,7 @@ class UserController extends Controller
         //Filter out event keys
         $events = array_keys($validNotifications);
 
-        //Retreive all User Events for the current user
+        //Retrieve all User Events for the current user
         $currentNotifications = NotificationPreference::select('event')->where('user_id', '=', $user->id)->whereIn('event', $events)->get();
 
         //Filter out event names from selected notifications

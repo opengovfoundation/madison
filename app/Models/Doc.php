@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Category;
 use App\Models\DocContent as DocumentContent;
+use App\Services\SearchQueryCompiler;
 use App\Traits\RootAnnotatableHelpers;
 use Event;
 use Exception;
@@ -748,5 +749,28 @@ class Doc extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        $search = SearchQueryCompiler::compile($search);
+
+        return $query
+            ->join('doc_contents', 'docs.id', '=', 'doc_contents.doc_id')
+            ->selectRaw('
+                docs.*,
+                MATCH (docs.title) AGAINST (? IN BOOLEAN MODE) as title_relevance,
+                MATCH (doc_contents.content) AGAINST (? IN BOOLEAN MODE) as content_relevance
+            ', [$search, $search])
+            ->having('title_relevance', '>', '0')
+            ->orHaving('content_relevance', '>', '0')
+            ;
+    }
+
+    public function scopeOrderByRelevance($query, $dir = 'DESC')
+    {
+        return $query
+            ->orderByRaw("(title_relevance + content_relevance) $dir")
+            ;
     }
 }

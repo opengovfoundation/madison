@@ -15,16 +15,11 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->input('search');
         $categories = $request->input('categories');
 
         $selectedCategories = [];
 
         $documentQuery = Document::getEager()->where('publish_state', Document::PUBLISH_STATE_PUBLISHED);
-
-        if ($search) {
-            $documentQuery->where('title', 'like', '%' . $search . '%');
-        }
 
         if ($categories) {
             $selectedCategories = Category::whereIn('id', $categories)->get();

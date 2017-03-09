@@ -36,7 +36,7 @@ class CreatePage extends Page
     public function elements()
     {
         return [
-            '@submitBtn' => 'form button[type=submit]',
+            '@submitBtn' => '#content form button[type=submit]',
         ];
     }
 

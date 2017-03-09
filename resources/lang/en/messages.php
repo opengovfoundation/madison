@@ -37,6 +37,8 @@ return [
     'type' => 'Type',
     'view' => 'View',
     'get_started' => 'Get Started',
+    'relevance' => 'Relevance',
+    'relevance_ordering_warning' => 'Ordering by relevance only works with a search query, default order has been used.',
 
     // Authentication Stuff
     'password' => 'Password',
@@ -62,8 +64,6 @@ return [
         'welcome' => 'Add your voice...',
         'intro' => 'Find legislation and regulations being developed and get informed. Then get involved and collaboratively craft the documents with the sponsors. To get started, choose from the recent documents below, or search the whole repository.',
     ],
-
-    'searchdisplay' => 'Search: ',
 
     'search' => [
         'title' => 'Search all documents',

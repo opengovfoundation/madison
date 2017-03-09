@@ -24,7 +24,7 @@
                 </div>
                 <div class="modal-body">
                     {{ Form::open(['route' => 'documents.index', 'method' => 'get']) }}
-                        {{ Form::mInput('text', 'title', trans('messages.document.title')) }}
+                        {{ Form::mInput('text', 'q', trans('messages.search.title')) }}
                         {{ Form::mSelect(
                                'sponsor_id[]',
                                trans('messages.document.sponsor'),
@@ -66,7 +66,8 @@
                                    'created_at' => trans('messages.created'),
                                    'updated_at' => trans('messages.updated'),
                                    'title' => trans('messages.document.title'),
-                                   'activity' => trans('messages.document.activity')
+                                   'activity' => trans('messages.document.activity'),
+                                   'relevance' => trans('messages.relevance'),
                                ])
                         }}
                         {{ Form::mSelect(

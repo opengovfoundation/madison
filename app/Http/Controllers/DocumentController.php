@@ -65,9 +65,8 @@ class DocumentController extends Controller
             });
         }
 
-        if ($request->has('title')) {
-            $title = $request->get('title');
-            $documentsQuery->where('title', 'LIKE', "%$title%");
+        if ($request->has('q')) {
+            $documentsQuery->search($request->get('q'));
         }
 
         // So this part of the query is a little crazy. It basically grabs
@@ -173,6 +172,9 @@ class DocumentController extends Controller
         // execute the query
         $documents = null;
         $limit = $request->input('limit', 10);
+        $page = $request->input('page', 1);
+        $orderedAndLimitedDocuments = collect([]);
+        $totalCount = 0;
 
         if ($orderField === 'activity') {
             // ordering by activity is special
@@ -182,29 +184,55 @@ class DocumentController extends Controller
             // discussion states, we could not do this and simply have all
             // other documents sorted to the bottom instead of excluded
             $unorderedDocuments = $documentsQuery
-                ->whereIn('id', Document::getActiveIds())
+                ->whereIn('docs.id', Document::getActiveIds())
                 ->get()
                 ;
 
-            $offset = $request->input('page', 0) * $limit;
             $orderedAndLimitedDocuments = Document::sortByActive($unorderedDocuments)
-                ->slice($offset, $limit);
+                ->forPage($page, $limit);
 
-            $documents = new LengthAwarePaginator(
-                $orderedAndLimitedDocuments,
-                count(Document::getActiveIds()), // total items possible
-                $limit,
-                Paginator::resolveCurrentPage(),
-                [
-                    'path' => Paginator::resolveCurrentPath(),
-                    'pageName' => 'page'
-                ]
-            );
+            $totalCount = count(Document::getActiveIds()); // total items possible
         } else {
-            $documents = $documentsQuery
-                ->orderby($orderField, $orderDir)
-                ->paginate($limit);
+            // do the count query first, ordering doesn't matter to it, we
+            // can't just use the normal pagination methods for this due to
+            // how the search query works with it's extra select statements
+            // and havings
+            $totalCount = with(clone $documentsQuery)
+                ->addSelect(\DB::raw('count(*) as count'))
+                ->first()
+                ;
+            $totalCount = $totalCount ? $totalCount->count : 0;
+
+            // if a specific sort order wasn't requested and they had a search
+            // query, prioritize ordering by search relevance
+            if ($request->has('q')
+                && (!$request->has('order') || $orderField === 'relevance')
+            ) {
+                $documentsQuery->orderByRelevance();
+            } elseif ($orderField === 'relevance' && !$request->has('q')) {
+                // relevance ordering only makes sense with a query
+                flash(trans('messages.relevance_ordering_warning'));
+                $documentsQuery->orderBy('updated_at', 'desc');
+            } else {
+                $documentsQuery->orderBy($orderField, $orderDir);
+            }
+
+            $orderedAndLimitedDocuments = $documentsQuery
+                ->forPage($page, $limit)
+                ->get()
+                ;
         }
+
+        $documents = new LengthAwarePaginator(
+            $orderedAndLimitedDocuments,
+            $totalCount, // total items possible
+            $limit,
+            $page,
+            [
+                'path' => Paginator::resolveCurrentPath(),
+                'pageName' => 'page'
+            ]
+        );
 
         $documentsCapabilities = [];
         $baseDocumentCapabilities = [

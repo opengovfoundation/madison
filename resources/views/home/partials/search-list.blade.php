@@ -1,16 +1,3 @@
-<section class="document-search-form-container">
-    <h3>{{ trans('messages.search.title') }}</h3>
-
-    <form action="{{ request()->fullUrl() }}" id="document-search-form" method="get">
-        <input type="text" name="search"
-        placeholder="{{ trans('messages.search.placeholder') }}">
-
-        <button class="document-search-button" type="submit">
-            {{ trans('messages.submit') }}
-        </button>
-    </form>
-</section>
-
 <section class="document-search-results">
     <!-- Pagination! Thanks Laravel! -->
     {{ $documents->links() }}
@@ -31,19 +18,6 @@
             @endforeach
             <div class="clear-category" role="button">
                 <a href="{{ request()->fullUrlWithQuery(['categories' => null ]) }}">
-                    {{ trans('messages.clear') }}
-                </a>
-            </div>
-        </div>
-    @endif
-
-    <!-- Search filter -->
-    @if (request()->input('search'))
-        <div class="search-filter">
-            {{ trans('messages.searchdisplay') }}
-            <span class="search-query">{{ Request::input('search') }}</span>
-            <div class="clear-search" role="button">
-                <a href="{{ request()->fullUrlWithQuery(['search' => null ]) }}">
                     {{ trans('messages.clear') }}
                 </a>
             </div>
