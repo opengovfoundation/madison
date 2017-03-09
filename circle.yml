@@ -60,6 +60,7 @@ test:
     - cp /var/log/apache2/other_vhosts_access.log $CIRCLE_ARTIFACTS/apache_traffic.log
     - cp ./storage/logs/laravel.log $CIRCLE_ARTIFACTS/laravel.log
     - cp -r ./tests/Browser/screenshots $CIRCLE_ARTIFACTS/
+    - cp -r ./tests/Browser/console $CIRCLE_ARTIFACTS/
 
 
 notify:

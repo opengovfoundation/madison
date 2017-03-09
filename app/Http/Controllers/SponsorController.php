@@ -26,6 +26,12 @@ class SponsorController extends Controller
      */
     public function index(Requests\Index $request)
     {
+        if ($request->user() && !$request->user()->isAdmin()
+            && $request->user()->sponsors()->count() == 1
+        ) {
+            return redirect()->route('sponsors.show', $request->user()->sponsors()->first());
+        }
+
         $orderField = $request->input('order', 'updated_at');
         $orderDir = $request->input('order_dir', 'DESC');
         $limit = $request->input('limit', 10);

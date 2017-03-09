@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Sponsor;
 use Tests\Browser\Pages\Sponsor as SponsorPages;
 use Tests\DuskTestCase;
+use Tests\FactoryHelpers;
 use Illuminate\Support\Facades\Event;
 use Laravel\Dusk\Browser;
 
@@ -57,6 +58,35 @@ class SponsorTest extends DuskTestCase
             //Event::assertDispatched('App\Events\SponsorCreated', function ($e) use ($sponsor) {
             //    return $e->sponsor->id === $sponsor->id;
             //});
+        });
+    }
+
+    public function testRedirectedToSoleSponsor()
+    {
+        $user = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($user);
+
+        $this->browse(function ($browser) use ($user, $sponsor) {
+            $browser
+                ->loginAs($user)
+                ->visitRoute('sponsors.index')
+                ->assertRouteIs('sponsors.show', $sponsor)
+                ;
+        });
+    }
+
+    public function testNotRedirectedWithMultiSponsor()
+    {
+        $user = factory(User::class)->create();
+        $sponsor1 = FactoryHelpers::createActiveSponsorWithUser($user);
+        $sponsor2 = FactoryHelpers::createActiveSponsorWithUser($user);
+
+        $this->browse(function ($browser) use ($user) {
+            $browser
+                ->loginAs($user)
+                ->visitRoute('sponsors.index')
+                ->assertRouteIs('sponsors.index')
+                ;
         });
     }
 }
