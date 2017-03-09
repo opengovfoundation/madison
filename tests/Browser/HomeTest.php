@@ -25,13 +25,11 @@ class HomeTest extends DuskTestCase
         ]);
     }
 
-    public function testFeaturedDefaultsToMostRecent()
+    public function testFeaturedHiddenIfNoneSet()
     {
         $this->browse(function ($browser) {
             $browser->visit(new HomePage);
-            $browser->with('@mainFeatured', function ($featured) {
-                $featured->assertSee($this->document2->title);
-            });
+            $browser->assertDontSee('@featured');
         });
     }
 
@@ -42,8 +40,7 @@ class HomeTest extends DuskTestCase
 
             $browser->visit(new HomePage);
 
-            $browser->assertSeeIn('@mainFeatured', $this->document1->title);
-            $browser->assertDontSeeIn('@mainFeatured', $this->document2->title);
+            $browser->assertSeeIn('@featured', $this->document1->title);
             $browser->assertDontSeeIn('@featured', $this->document2->title);
         });
     }
@@ -58,10 +55,6 @@ class HomeTest extends DuskTestCase
 
             $browser->assertSeeIn('@featured', $this->document1->title);
             $browser->assertSeeIn('@featured', $this->document2->title);
-
-            // Most recently "featured" document shows up first
-            $browser->assertSeeIn('@mainFeatured', $this->document2->title);
-            $browser->assertDontSeeIn('@mainFeatured', $this->document1->title);
         });
     }
 
@@ -77,7 +70,7 @@ class HomeTest extends DuskTestCase
             $this->document1->update(['publish_state' => Document::PUBLISH_STATE_UNPUBLISHED]);
 
             $browser->visit(new HomePage);
-            $browser->assertDontSeeIn('@featured', $this->document1->title);
+            $browser->assertDontSee('@featured');
 
             // Test it becomes featured again after republishing
             $this->document1->update(['publish_state' => Document::PUBLISH_STATE_PUBLISHED]);
@@ -99,7 +92,7 @@ class HomeTest extends DuskTestCase
             $this->document1->update(['publish_state' => Document::PUBLISH_STATE_PRIVATE]);
 
             $browser->visit(new HomePage);
-            $browser->assertDontSeeIn('@featured', $this->document1->title);
+            $browser->assertDontSee('@featured');
 
             // Test it becomes featured again after republishing
             $this->document1->update(['publish_state' => Document::PUBLISH_STATE_PUBLISHED]);
@@ -122,13 +115,13 @@ class HomeTest extends DuskTestCase
             $this->document1->delete();
 
             $browser->visit(new HomePage);
-            $browser->assertDontSeeIn('@featured', $this->document1->title);
+            $browser->assertDontSee('@featured');
 
             // Test it isn't featured anymore if restored
             $this->document1->restore();
 
             $browser->visit(new HomePage);
-            $browser->assertDontSeeIn('@featured', $this->document1->title);
+            $browser->assertDontSee('@featured');
         });
     }
 }

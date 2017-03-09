@@ -15,30 +15,13 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = $request->input('categories');
+        $featuredDocuments = Document::getFeatured();
+        $popularDocuments = Document::getActiveOrRecent(3);
 
-        $selectedCategories = [];
-
-        $documentQuery = Document::getEager()->where('publish_state', Document::PUBLISH_STATE_PUBLISHED);
-
-        if ($categories) {
-            $selectedCategories = Category::whereIn('id', $categories)->get();
-            $documentQuery->whereHas('categories', function($q) use ($categories) {
-                $q->whereIn('id', $categories);
-            });
-        }
-
-        $documents = $documentQuery->paginate(5);
-        $featuredDocuments = Document::getFeaturedOrRecent();
-        $mostActiveDocuments = Document::getActive(6);
-        $mostRecentDocuments = Document::mostRecentPublicWithOpenDiscussion()->get();
-
-        return view('home', compact(
+        return view('home', compact([
             'selectedCategories',
-            'documents',
             'featuredDocuments',
-            'mostActiveDocuments',
-            'mostRecentDocuments'
-        ));
+            'popularDocuments',
+        ]));
     }
 }

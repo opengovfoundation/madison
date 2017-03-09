@@ -61,8 +61,23 @@ return [
     // Home Page Stuff
     'home' => [
         'home' => 'Home',
-        'welcome' => 'Add your voice...',
-        'intro' => 'Find legislation and regulations being developed and get informed. Then get involved and collaboratively craft the documents with the sponsors. To get started, choose from the recent documents below, or search the whole repository.',
+        'welcome' => 'Add your voice',
+        'intro' => 'Legislation and regulations that impact your life are written every day. With Madison, you can work directly <em>with</em> the sponsors of these documents.',
+        'learn_more' => 'Learn more',
+        'how_it_works' => [
+            'title' => 'How it Works',
+            'step1' => 'Elected officials share policy documents on Madison for public collaboration.',
+            'step2' => 'The people can read the documents, vote on the documents, and leave feedback on the documents, and their comments are sent <strong>directly to the officials</strong>.',
+            'step3' => 'Officials respond to these comments and even make changes to the documents based on the feedback.',
+        ],
+        'sponsor_cta' => [
+            'title' => 'Have a document to share?',
+            'text' => 'You can easily request to become a document sponsor and add the public\'s voice and credibility to your proposal.',
+            'action_text' => 'Learn about how to become a sponsor.',
+        ],
+        'featured_title' => 'Featured',
+        'popular_title' => 'Popular',
+        'all_documents' => 'View all documents',
     ],
 
     'search' => [
@@ -78,6 +93,7 @@ return [
 
     // Document Stuff
     'document' => [
+        'read' => 'Read this document',
         'title' => 'Title',
         'title_invalid' => 'Can\'t create document with that name, please try another.',
         'slug' => 'Custom URL (slug)',

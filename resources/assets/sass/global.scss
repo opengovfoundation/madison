@@ -29,6 +29,10 @@
   display: inline;
 }
 
+footer.nav {
+  padding-bottom: 30px;
+}
+
 // Overlay shadows
 %simple-shadow {
   box-shadow: 0 0 5px 0 rgba(0,0,0,0.9);

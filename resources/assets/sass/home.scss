@@ -1,7 +1,6 @@
-.home-feature {
-  @extend .col-md-12;
-}
+.doc-card.thumbnail {
+  padding: 0;
 
-.document-thumbnail {
-  max-width: 100%;
+  .caption { padding: 13px; }
+  img { border-radius: 4px 4px 0 0; }
 }

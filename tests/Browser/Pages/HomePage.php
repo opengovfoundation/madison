@@ -34,8 +34,8 @@ class HomePage extends Page
     public function elements()
     {
         return [
-            '@featured' => '.home-feature',
-            '@mainFeatured' => '.main-feature',
+            '@featured' => '.featured',
+            '@popular' => '.popular',
         ];
     }
 }

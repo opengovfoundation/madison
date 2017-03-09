@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\DocContent as DocumentContent;
 use App\Services\SearchQueryCompiler;
 use App\Traits\RootAnnotatableHelpers;
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Event;
 use Exception;
 use URL;
@@ -104,6 +106,7 @@ class Doc extends Model
 
     public function setIntroText($value)
     {
+        $htmlCacheKey = static::introtextHtmlCacheKey($this);
         $introtext = DocMeta
             ::where('meta_key', '=', 'intro-text')
             ->where('doc_id', $this->id)
@@ -118,7 +121,13 @@ class Doc extends Model
             $introtext->meta_value = $value;
         }
 
+        Cache::forget($htmlCacheKey);
         $introtext->save();
+    }
+
+    public function shortIntroText()
+    {
+        return Str::words(strip_tags($this->introtext_html), 15, ' ...');
     }
 
     public function dates()
@@ -309,6 +318,7 @@ class Doc extends Model
     public function enableIntrotext()
     {
         $this->appends[] = 'introtext';
+        $this->appends[] = 'introtext_html';
     }
 
     public function getIntrotextAttribute()
@@ -318,6 +328,29 @@ class Doc extends Model
         } else {
             return null;
         }
+    }
+
+    public function getIntrotextHtmlAttribute()
+    {
+        if ($this->introtext()->count()) {
+            $cacheKey = static::introtextHtmlCacheKey($this);
+
+            if (Cache::has($cacheKey)) {
+                return Cache::get($cacheKey);
+            }
+
+            $introtextHtml = Markdown::convertToHtml($this->introtext()->first()->meta_value);
+            Cache::forever($cacheKey, $introtextHtml);
+
+            return $introtextHtml;
+        }
+
+        return null;
+    }
+
+    protected static function introtextHtmlCacheKey(Doc $document)
+    {
+        return 'doc-'.$document->id.'-introtext-html';
     }
 
     public function getSponsorIdsAttribute()
@@ -451,6 +484,27 @@ class Doc extends Model
             ->with('dates');
     }
 
+    /**
+     * Get a number of active documents, filling in with recent documents if
+     * number requested is not fufilled.
+     */
+    public static function getActiveOrRecent($num = 10, $offset = 0)
+    {
+        $documents = collect(static::getActive($num, $offset));
+
+        if ($documents->count() < $num) {
+            $recentDocuments = static
+                ::where('publish_state', static::PUBLISH_STATE_PUBLISHED)
+                ->where('is_template', '!=', '1')
+                ->orderBy('created_at', 'desc')
+                ->take($num - $documents->count())
+                ;
+            $documents = $documents->union($recentDocuments->get());
+        }
+
+        return $documents;
+    }
+
     /*
      * Active documents are much harder to query.  We do this with its own
      * custom query.
@@ -554,43 +608,6 @@ class Doc extends Model
         }
 
         return null;
-    }
-
-
-    public static function getFeaturedOrRecent()
-    {
-        $docs = static::getFeatured();
-
-        // If we don't have a document, just find anything recent.
-        if (empty($docs)) {
-            $docs =
-                static::with('categories')
-                ->with('sponsors')
-                ->with('statuses')
-                ->with('dates')
-                ->where('publish_state', '=', static::PUBLISH_STATE_PUBLISHED)
-                ->where('is_template', '!=', '1')
-                ->orderBy('created_at', 'desc')
-                ->limit(1)
-                ->get()
-                ;
-        }
-
-        $return_docs = [];
-        foreach ($docs as $key => $doc) {
-            $doc->enableCounts();
-            $doc->enableSponsors();
-            $return_doc = $doc->toArray();
-
-            $return_doc['introtext'] = $doc->introtext()->first()['meta_value'];
-            $return_doc['updated_at'] = date('c', strtotime($return_doc['updated_at']));
-            $return_doc['created_at'] = date('c', strtotime($return_doc['created_at']));
-            $return_doc['featuredImageUrl'] = $doc->getFeaturedImageUrl();
-
-            $return_docs[] = $return_doc;
-        }
-
-        return $return_docs;
     }
 
     public static function allOwnedBy($userId)
