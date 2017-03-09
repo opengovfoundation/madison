@@ -131,6 +131,9 @@ Route::get('/documents/{document}/moderate', 'DocumentController@moderate')
 
 
 // Sponsors
+Route::get('/become-a-sponsor', 'SponsorController@info')
+    ->name('sponsors.info');
+
 Route::resource('sponsors', 'SponsorController', [
     'except' => ['show']
 ]);

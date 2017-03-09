@@ -36,6 +36,7 @@ return [
     'settings' => 'Settings',
     'type' => 'Type',
     'view' => 'View',
+    'get_started' => 'Get Started',
 
     // Authentication Stuff
     'password' => 'Password',
@@ -164,6 +165,16 @@ return [
 
     // Sponsor Stuff
     'sponsor' => [
+        'become' => 'Become a Sponsor',
+        'info' => [
+            'introtext' => 'Sponsors are individuals and organizations that want to share a document with the public and hear their opinions using Madison. Add the public\'s voice and credibility to your proposal. It\'s simple, fast, and free.',
+            'step1' => 'First :linkOpen create an account :linkClose on Madison.',
+            'step2' => 'Login and :linkOpen request to become a sponsor :linkClose. A sponsor can be you as an individual or an organization to which you belong.',
+            'step3' => 'Madison administrators will receive your request and contact you with two business days to verify your request.',
+            'step4' => 'Once approved, Madison administrators will help you make a plan to promote your document so you get the best public engagement possible.',
+            'step5' => 'With a plan in place, you can :linkOpen publish a document :linkClose and hear the opinions of the public.',
+        ],
+
         'list' => 'Sponsors',
         'create' => 'Create Sponsor',
         'my_sponsors' => 'My Sponsors',
