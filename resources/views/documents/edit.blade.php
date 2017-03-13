@@ -76,7 +76,7 @@
                     {{-- Submits the hidden add page form --}}
                     <button
                         type="button"
-                        class="btn btn-default pull-right"
+                        class="btn btn-default pull-right add-page"
                         onclick="event.preventDefault();document.getElementById('add-page-form').submit();">
                         @lang('messages.document.add_page')
                     </button>

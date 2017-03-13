@@ -382,14 +382,13 @@ class Doc extends Model
 
     public function content()
     {
-        return $this->hasMany('App\Models\DocContent');
+        return $this->hasMany('App\Models\DocContent')->orderBy('page');
     }
 
     public function fullContentHtml()
     {
-        return $this->content()
-            ->orderBy('page')
-            ->get()
+        return $this
+            ->content
             ->reduce(function ($fullContent, $content) {
                 return $fullContent . $content->html();
             }, '')

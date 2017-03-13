@@ -15,9 +15,7 @@ class AdminTestCase extends DuskTestCase
     {
         parent::setUp();
 
-        $this->admin = factory(User::class)->create();
-        $this->admin->makeAdmin();
-
+        $this->admin = factory(User::class)->create()->makeAdmin();
         $this->user = factory(User::class)->create();
     }
 

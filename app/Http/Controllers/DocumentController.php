@@ -467,7 +467,10 @@ class DocumentController extends Controller
         }
 
         flash(trans('messages.document.updated'));
-        return redirect()->route('documents.edit', $document);
+        return redirect()->route('documents.edit', [
+            'document' => $document,
+            'page' => $request->input('page', 1),
+        ]);
     }
 
     /**

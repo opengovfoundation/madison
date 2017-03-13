@@ -153,7 +153,7 @@
                                 @elseif ($cap === 'delete')
                                     <div class="btn-group" role="group">
                                         {{ Form::open(['route' => ['documents.destroy', $document], 'method' => 'delete']) }}
-                                            <button type="submit" class="btn btn-default">{{ trans('messages.delete') }}</button>
+                                            <button type="submit" class="btn btn-default destroy">{{ trans('messages.delete') }}</button>
                                         {{ Form::close() }}
                                     </div>
                                 @elseif ($cap === 'restore')
