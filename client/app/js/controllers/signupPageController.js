@@ -1,8 +1,8 @@
 angular.module('madisonApp.controllers')
   .controller('SignupPageController', ['$scope', '$state', 'AuthService',
-    'growl', 'growlMessages', '$translate', 'pageService', 'SITE',
+    'growl', 'growlMessages', '$translate', 'pageService', 'SITE', '$rootScope',
     function ($scope, $state, AuthService, growl, growlMessages, $translate,
-      pageService, SITE) {
+      pageService, SITE, $rootScope) {
       $translate('content.signup.title', {title: SITE.name}).then(function(translation) {
         pageService.setTitle(translation);
       });
@@ -15,7 +15,13 @@ angular.module('madisonApp.controllers')
         signup.success(function () {
           $scope.credentials = {fname: "", lname: "", email: "", password: ""};
           AuthService.getUser();
-          $state.go('index');
+
+          if ($rootScope.previousState && $rootScope.previousState.name !== '') {
+            $state.go($rootScope.previousState.name, $rootScope.previousState.params);
+          } else {
+            $state.go('index')
+          }
+
           growl.success($translate.instant('form.signup.success'));
         })
           .error(function (response) {

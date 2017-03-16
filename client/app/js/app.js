@@ -126,6 +126,12 @@ app.run(function(AuthService, annotationService, AUTH_EVENTS, $rootScope,
     }
   });
 
+  $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {
+    //save the previous state in a rootScope variable so that it's accessible from everywhere
+    $rootScope.previousState = from;
+    $rootScope.previousState.params = fromParams;
+  });
+
   //Check for 403 Errors ( Forbidden )
   $rootScope.$on(AUTH_EVENTS.notAuthorized, function () {
     growl.error('You are not authorized to view that page');
