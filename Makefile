@@ -80,6 +80,5 @@ watch:
 
 envoyer-post-composer: clean deps-node build-prod
 	php artisan config:cache
-	php artisan route:cache
 
 envoyer-post-activate: db-force-migrate
