@@ -17,7 +17,7 @@ angular.module('madisonApp.services')
     };
 
     this.setAnnotations = function (annotations) {
-      var parentElements = 'h1,h2,h3,h4,h5,h6,li,p';
+      var parentElements = 'h1,h2,h3,h4,h5,h6,li,p,tr,th,td';
 
       angular.forEach(annotations, function (annotation) {
         annotation.html = $sce.trustAsHtml(converter.makeHtml(annotation.text));
