@@ -279,7 +279,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   addNoteLink: function (field, annotation) {
 
     //Add link to annotation
-    var linkPath = this.options.origin + this.options.path + '#' + annotation.link;
+    var linkPath = (this.options.origin || '') + this.options.path + '#' + annotation.link;
     var annotationLink = $('<a></a>').attr('href', linkPath).text('Permanent link to this note').addClass('annotation-permalink');
     var noteLink = $('<div class="annotation-link"></div>');
 
