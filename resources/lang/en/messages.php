@@ -399,6 +399,7 @@ return [
         'site_settings' => 'Site Settings',
         'custom_pages' => 'Custom Pages',
         'pages' => 'Pages',
+        'add_featured_document' => 'Add Featured Document',
 
         'madison' => [
             'date_format' => 'Date Format',

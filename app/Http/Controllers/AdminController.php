@@ -129,8 +129,15 @@ class AdminController extends Controller
     public function indexFeaturedDocuments(Requests\FeaturedDocuments\Index $request)
     {
         $documents = Document::getFeatured(false);
+        $nonFeaturedDocuments = Document
+            ::whereNotIn('id', Document::getFeaturedDocumentIds())
+            ->where('is_template', '!=', '1')
+            ->latest()
+            ->get()
+            ;
         return view('admin.featured-documents', compact([
-            'documents'
+            'documents',
+            'nonFeaturedDocuments',
         ]));
     }
 
@@ -172,6 +179,16 @@ class AdminController extends Controller
 
         $featuredSetting->meta_value = join(',', $featuredIds);
         $featuredSetting->save();
+
+        flash(trans('messages.admin.updated_featured_documents'));
+        return redirect()->route('admin.featured-documents.index');
+    }
+
+    public function addFeaturedDocument(Requests\FeaturedDocuments\Index $request)
+    {
+        $document = Document::findOrFail($request->input('add_featured_doc_id'));
+
+        $document->setAsFeatured();
 
         flash(trans('messages.admin.updated_featured_documents'));
         return redirect()->route('admin.featured-documents.index');

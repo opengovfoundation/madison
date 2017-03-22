@@ -13,6 +13,9 @@ $(function () {
       $hiddenInput.val('0');
     }
   });
+
+  $.fn.select2.defaults.set('theme', 'bootstrap');
+  $('select').select2();
 });
 
 window.loadTranslations = function (msgIds) {

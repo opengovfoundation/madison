@@ -6,7 +6,7 @@
 
     @include('home.partials.welcome')
 
-    @if (collect($featuredDocuments)->count() > 0)
+    @if (!$featuredDocuments->isEmpty())
         <h2>@lang('messages.home.featured_title')</h2>
         <div class="row featured">
             @each('home.partials.document-card', $featuredDocuments, 'document')
