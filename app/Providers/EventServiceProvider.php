@@ -25,9 +25,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\DocumentPublished' => [
             'App\Listeners\DocumentPublishedNotification',
         ],
-        'App\Events\FeedbackSeen' => [
-            'App\Listeners\FeedbackSeenNotification',
-        ],
         'App\Events\SponsorCreated' => [
             'App\Listeners\SponsorCreatedNotification',
         ],

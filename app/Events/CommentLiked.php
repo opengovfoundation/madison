@@ -2,12 +2,11 @@
 
 namespace App\Events;
 
-use App\Events\Event;
 use App\Models\Annotation;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CommentLiked extends Event
+class CommentLiked
 {
     use SerializesModels;
 
@@ -31,15 +30,5 @@ class CommentLiked extends Event
     public function broadcastOn()
     {
         return [];
-    }
-
-    public static function getName()
-    {
-        return 'madison.comment.liked';
-    }
-
-    public static function getType()
-    {
-        return static::TYPE_USER;
     }
 }

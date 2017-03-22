@@ -130,11 +130,6 @@ class Doc extends Model
         return Str::words(strip_tags($this->introtext_html), 15, ' ...');
     }
 
-    public function dates()
-    {
-        return $this->hasMany('App\Models\Date');
-    }
-
     public function getFeaturedAttribute()
     {
         $featuredSetting = Setting::where('meta_key', '=', 'featured-doc')->first();
@@ -201,11 +196,6 @@ class Doc extends Model
     public function getSponsorsAttribute()
     {
         return $this->sponsors()->get();
-    }
-
-    public function statuses()
-    {
-        return $this->belongsToMany('App\Models\Status');
     }
 
     public function categories()
@@ -400,41 +390,6 @@ class Doc extends Model
         return $this->hasMany('App\Models\DocMeta');
     }
 
-    /**
-     * TODO: Sponsor handling here is off. Is this method needed even?
-     * -- Only used in database seeding currently.
-     */
-    public static function createEmptyDocument(array $params)
-    {
-        $defaults = array(
-            'content' => "New Document Content",
-            'sponsor' => null,
-            'publish_state' => static::PUBLISH_STATE_UNPUBLISHED
-        );
-
-        $params = array_replace_recursive($defaults, $params);
-
-        if (is_null($params['sponsor'])) {
-            throw new \Exception("Sponsor Param Required");
-        }
-
-        $document = new Doc();
-
-        \DB::transaction(function () use ($document, $params) {
-            $document->title = $params['title'];
-            $document->publish_state = $params['publish_state'];
-            $document->save();
-
-            $document->sponsors()->sync([$params['sponsor']]);
-
-            $pageContent = $document->content()->first();
-            $pageContent->content = $params['content'];
-            $pageContent->save();
-        });
-
-        return $document;
-    }
-
     public static function prepareCountsAndDates($docs = [])
     {
         $return_docs = [];
@@ -477,10 +432,10 @@ class Doc extends Model
      */
     public static function getEager()
     {
-        return static::with('categories')
+        return static
+            ::with('categories')
             ->with('sponsors')
-            ->with('statuses')
-            ->with('dates');
+            ;
     }
 
     /**
@@ -576,8 +531,6 @@ class Doc extends Model
             $featuredIds = explode(',', $featuredSetting->meta_value);
             $docQuery = static::with('categories')
                 ->with('sponsors')
-                ->with('statuses')
-                ->with('dates')
                 ->whereIn('id', $featuredIds)
                 ->where('is_template', '!=', '1');
 

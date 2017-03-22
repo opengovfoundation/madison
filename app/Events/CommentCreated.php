@@ -2,12 +2,11 @@
 
 namespace App\Events;
 
-use App\Events\Event;
 use App\Models\Annotation;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CommentCreated extends Event
+class CommentCreated
 {
     use SerializesModels;
 
@@ -33,15 +32,5 @@ class CommentCreated extends Event
     public function broadcastOn()
     {
         return [];
-    }
-
-    public static function getName()
-    {
-        return 'madison.comment.created';
-    }
-
-    public static function getType()
-    {
-        return static::TYPE_USER;
     }
 }

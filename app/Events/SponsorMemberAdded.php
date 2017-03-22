@@ -2,13 +2,12 @@
 
 namespace App\Events;
 
-use App\Events\Event;
 use App\Models\SponsorMember;
 use App\Models\User;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class SponsorMemberAdded extends Event
+class SponsorMemberAdded
 {
     use SerializesModels;
 
@@ -34,15 +33,5 @@ class SponsorMemberAdded extends Event
     public function broadcastOn()
     {
         return [];
-    }
-
-    public static function getName()
-    {
-        return 'madison.sponsor.member-added';
-    }
-
-    public static function getType()
-    {
-        return static::TYPE_USER;
     }
 }

@@ -2,12 +2,11 @@
 
 namespace App\Events;
 
-use App\Events\Event;
 use App\Models\User;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserVerificationRequest extends Event
+class UserVerificationRequest
 {
     use SerializesModels;
 
@@ -31,15 +30,5 @@ class UserVerificationRequest extends Event
     public function broadcastOn()
     {
         return [];
-    }
-
-    public static function getName()
-    {
-        return 'madison.user.verification.request';
-    }
-
-    public static function getType()
-    {
-        return static::TYPE_ADMIN;
     }
 }
