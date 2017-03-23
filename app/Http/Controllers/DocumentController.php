@@ -235,30 +235,9 @@ class DocumentController extends Controller
         );
 
         $documentsCapabilities = [];
-        $baseDocumentCapabilities = [
-            'open' => true,
-            'edit' => false,
-            'delete' => false,
-            'restore' => false,
-        ];
+
         foreach ($documents as $document) {
-            $caps = $baseDocumentCapabilities;
-
-            if ($document->publish_state === Document::PUBLISH_STATE_DELETED_ADMIN
-                || $document->publish_state === Document::PUBLISH_STATE_DELETED_USER
-            ) {
-                $caps = array_map(function ($item) { return false; }, $caps);
-                $caps['restore'] = true;
-            } elseif ($request->user()
-                      && ($request->user()->isAdmin()
-                          || $document->canUserEdit($request->user())
-                         )
-            ) {
-                    $caps = array_map(function ($item) { return true; }, $caps);
-                    $caps['restore'] = false;
-            }
-
-            $documentsCapabilities[$document->id] = $caps;
+            $documentsCapabilities[$document->id] = $document->capabilitiesForUser($request->user());
         }
 
         // for the query builder modal

@@ -12,7 +12,7 @@ class SponsorMember extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $appends = ['name'];
+    protected $appends = ['name', 'email'];
 
     public static $timestamp = true;
 
@@ -33,12 +33,11 @@ class SponsorMember extends Model
 
     public function getNameAttribute()
     {
-        $user = User::where('id', '=', $this->user_id)->first();
+        return "{$this->user->display_name}";
+    }
 
-        if (!$user) {
-            throw new \Exception("Could not locate user with ID");
-        }
-
-        return "{$user->display_name}";
+    public function getEmailAttribute()
+    {
+        return "{$this->user->email}";
     }
 }

@@ -6,6 +6,7 @@
 
     <div class="page-header">
         <h1>{{ trans('messages.admin.admin_label', ['page' => trans('messages.admin.featured_documents')]) }}</h1>
+        @include('components.breadcrumbs.admin')
     </div>
 
     @include('components.errors')

@@ -36,7 +36,11 @@ return [
     'settings' => 'Settings',
     'type' => 'Type',
     'view' => 'View',
+    'save' => 'Save',
+    'add' => 'Add',
+    'new' => 'New',
     'get_started' => 'Get Started',
+    'learn_more' => 'Learn more',
     'relevance' => 'Relevance',
     'relevance_ordering_warning' => 'Ordering by relevance only works with a search query, default order has been used.',
 
@@ -63,7 +67,6 @@ return [
         'home' => 'Home',
         'welcome' => 'Add your voice',
         'intro' => 'Legislation and regulations that impact your life are written every day. With Madison, you can work directly <em>with</em> the sponsors of these documents.',
-        'learn_more' => 'Learn more',
         'how_it_works' => [
             'title' => 'How it Works',
             'step1' => 'Elected officials share policy documents on Madison for public collaboration.',
@@ -153,6 +156,7 @@ return [
         'update_support' => 'Updated your support on this document',
 
         'publish_state' => 'Publish State',
+        'publish_state_short' => 'Publish',
         'publish_state_help' => 'If a document is set to "unpublished", only sponsors can view it. If it is set to private, anyone with the link can view it. Otherwise it is publicly viewable.',
         'publish_states' => [
             'all' => 'All',
@@ -164,6 +168,7 @@ return [
         ],
 
         'discussion_state' => 'Discussion State',
+        'discussion_state_short' => 'Discussion',
         'discussion_state_help' => 'If commenting is set to "open", users will be able to comment and make notes normally. If it is "closed", then existing comments will be viewable, but new comments can not happen. If it is set to "hidden", no new commenting can happen, and existing comments will not be viewable.',
         'discussion_states' => [
             \App\Models\Doc::DISCUSSION_STATE_OPEN => 'Open',
@@ -176,6 +181,7 @@ return [
 
         'list' => 'Documents',
         'create' => 'Create Document',
+        'new' => 'New Document',
         'edit' => 'Edit Document',
     ],
 
@@ -190,13 +196,23 @@ return [
             'step4' => 'Once approved, Madison administrators will help you make a plan to promote your document so you get the best public engagement possible.',
             'step5' => 'With a plan in place, you can :linkOpen publish a document :linkClose and hear the opinions of the public.',
         ],
-
+        'create_help' => [
+            'what_is_a_sponsor' => 'Sponsors are individuals and organizations that want to share a document with the public and hear their opinions using Madison. Add the public\'s voice and credibility to your proposal.',
+            'next_steps' => 'Completing this form will submit your request to the Madison administrators to authorize your sponsor account. You will be contacted within two business days to verify your request.',
+        ],
+        'page_title_documents' => 'Documents | :sponsorName',
+        'page_title_members' => 'Members | :sponsorName',
+        'page_title_settings' => 'Settings | :sponsorName',
         'list' => 'Sponsors',
         'create' => 'Create Sponsor',
         'my_sponsors' => 'My Sponsors',
         'all_sponsors' => 'All Sponsors',
         'edit' => 'Edit Sponsor',
         'view_docs' => 'Documents',
+
+        'create_another' => 'Create Another Sponsor',
+        'create_another_header' => 'Need another sponsor?',
+        'create_another_body' => 'It doesn\'t happen often, but some people need create more than one sponsor account. Don\'t worry, the process is the same.',
 
         'member' => 'Member',
         'members' => 'Members',
@@ -217,13 +233,14 @@ return [
         'updated' => 'Sponsor updated.',
         'update_failed' => 'Sponsor update failed.',
 
-        'create' => 'New Sponsor',
+        'create' => 'Create a New Sponsor',
         'created' => 'Sponsor created',
         'create_failed' => 'Sponsor creation failed.',
     ],
 
     'sponsor_member' => [
         'add' => 'Add a Member',
+        'add_user' => 'Add User',
         'create' => 'New Sponsor Member',
         'role_updated' => 'Sponsor member role updated',
 
@@ -381,6 +398,7 @@ return [
         'updated_featured_documents' => 'Feature documents updated',
         'site_settings' => 'Site Settings',
         'custom_pages' => 'Custom Pages',
+        'pages' => 'Pages',
 
         'madison' => [
             'date_format' => 'Date Format',

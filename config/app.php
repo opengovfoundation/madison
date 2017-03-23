@@ -188,6 +188,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
+        Watson\Active\ActiveServiceProvider::class,
 
     ],
 

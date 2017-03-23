@@ -44,6 +44,8 @@ class RemovedFromSponsor extends UserMembershipChanged
      */
     public function toMail($notifiable)
     {
+        $url = route('sponsors.show', $this->sponsor);
+
         return (new MailMessage)
                     ->subject(trans(static::baseMessageLocation().'.removed_from_sponsor', [
                         'name' => $this->instigator->getDisplayName(),

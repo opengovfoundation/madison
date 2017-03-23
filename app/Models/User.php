@@ -234,7 +234,7 @@ class User extends Authenticatable
      */
     public function sponsors()
     {
-        return $this->belongsToMany('App\Models\Sponsor', 'sponsor_members');
+        return $this->belongsToMany('App\Models\Sponsor', 'sponsor_members')->whereNull('sponsor_members.deleted_at');
     }
 
     /**

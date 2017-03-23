@@ -390,6 +390,34 @@ class Doc extends Model
         return $this->hasMany('App\Models\DocMeta');
     }
 
+    public function capabilitiesForUser($user)
+    {
+        $caps = [
+            'open' => true,
+            'edit' => false,
+            'delete' => false,
+            'restore' => false,
+        ];
+
+        if ($user === null) return $caps;
+
+        if ($this->publish_state === static::PUBLISH_STATE_DELETED_ADMIN
+            || $this->publish_state === static::PUBLISH_STATE_DELETED_USER
+        ) {
+            $caps = array_map(function ($item) { return false; }, $caps);
+            $caps['restore'] = true;
+        } elseif ($user
+                  && ($user->isAdmin()
+                      || $this->canUserEdit($user)
+                     )
+        ) {
+                $caps = array_map(function ($item) { return true; }, $caps);
+                $caps['restore'] = false;
+        }
+
+        return $caps;
+    }
+
     public static function prepareCountsAndDates($docs = [])
     {
         $return_docs = [];

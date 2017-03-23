@@ -4,6 +4,7 @@
     {{-- TODO: set this differently for each page? --}}
     <div class="page-header">
         <h1>{{ trans('messages.settings') }}: {{ $user->displayName }}</h1>
+        @include('components.breadcrumbs.account')
     </div>
 
     @include('components.errors')

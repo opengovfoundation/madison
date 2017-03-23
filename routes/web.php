@@ -134,10 +134,15 @@ Route::get('/documents/{document}/moderate', 'DocumentController@moderate')
 Route::get('/become-a-sponsor', 'SponsorController@info')
     ->name('sponsors.info');
 
-Route::resource('sponsors', 'SponsorController');
+Route::resource('sponsors', 'SponsorController', [
+    'except' => ['index', 'destroy'],
+]);
 
 Route::put('/sponsors/{sponsor}/status', 'SponsorController@updateStatus')
     ->name('sponsors.status.update');
+
+Route::get('/sponsors/{sponsor}/documents', 'SponsorController@documentsIndex')
+    ->name('sponsors.documents.index');
 
 
 // Sponsor Members
@@ -175,6 +180,9 @@ Route::get('/users/{user}/settings/notifications', 'UserController@editSettingsN
     ->name('users.settings.notifications.edit');
 Route::put('/users/{user}/settings/notifications', 'UserController@updateSettingsNotifications')
     ->name('users.settings.notifications.update');
+
+Route::get('/users/{user}/sponsors', 'UserController@sponsorsIndex')
+    ->name('users.sponsors.index');
 
 
 // Pages

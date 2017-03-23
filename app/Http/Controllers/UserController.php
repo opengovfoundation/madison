@@ -135,6 +135,27 @@ class UserController extends Controller
         return back();
     }
 
+    /**
+     * List all sponsors for a particular user.
+     *
+     */
+    public function sponsorsIndex(Requests\SponsorsIndex $request, User $user)
+    {
+        if ($request->user() && !$request->user()->isAdmin()
+            && $request->user()->sponsors()->count() == 1
+        ) {
+            return redirect()->route('sponsors.documents.index', $request->user()->sponsors()->first());
+        }
+
+        $limit = $request->input('limit', 10);
+        $sponsors = $user->sponsors()->paginate($limit);
+
+        return view('sponsors.list', compact([
+            'sponsors'
+        ]));
+    }
+
+
     public function verifyEmail(Requests\Edit $request, User $user, $token)
     {
         if (empty($user->token)) {

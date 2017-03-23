@@ -2,7 +2,7 @@
     <div class="container">
         <h1>@lang('messages.home.welcome')</h1>
         <p>{!! trans('messages.home.intro') !!}</p>
-        <p><a class="btn btn-primary btn-lg" href="#how-it-works" role="button">{{ trans('messages.home.learn_more') }} &raquo;</a></p>
+        <p><a class="btn btn-primary btn-lg" href="#how-it-works" role="button">{{ trans('messages.learn_more') }} &raquo;</a></p>
     </div>
 </div>
 

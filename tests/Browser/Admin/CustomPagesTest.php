@@ -66,6 +66,7 @@ class CustomPagesTest extends AdminTestCase
                 ->visit($page)
                 ->type('nav_title', 'test')
                 ->press('Submit')
+                ->waitForText('Edit Page')
                 ;
 
             $customPage = Page::first();
