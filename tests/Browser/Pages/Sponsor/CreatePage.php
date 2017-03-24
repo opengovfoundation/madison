@@ -40,15 +40,15 @@ class CreatePage extends Page
         ];
     }
 
-    public function fillNewSponsorForm(Browser $browser, $attrs)
+    public function fillNewSponsorForm(Browser $browser, $sponsorAttrs)
     {
-        $browser->type('name', $attrs['name'])
-            ->type('display_name', $attrs['display_name'])
-            ->type('address1', $attrs['address1'])
-            ->type('city', $attrs['city'])
-            ->type('state', $attrs['state'])
-            ->type('postal_code', $attrs['postal_code'])
-            ->type('phone', $attrs['phone'])
+        $browser->type('name', $sponsorAttrs->name)
+            ->type('display_name', $sponsorAttrs->display_name)
+            ->type('address1', $sponsorAttrs->address1)
+            ->type('city', $sponsorAttrs->city)
+            ->type('state', $sponsorAttrs->state)
+            ->type('postal_code', $sponsorAttrs->postal_code)
+            ->type('phone', $sponsorAttrs->phone)
             ;
     }
 }

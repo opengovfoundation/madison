@@ -28,14 +28,14 @@ class SponsorTest extends DuskTestCase
         // TODO: currently doesn't work with Dusk
         //Event::fake();
 
-        $attrs = factory(Sponsor::class)->make()->toArray();
+        $sponsorAttrs = factory(Sponsor::class)->make();
         $user = factory(User::class)->create();
 
-        $this->browse(function ($browser) use ($attrs, $user) {
+        $this->browse(function ($browser) use ($sponsorAttrs, $user) {
             $browser
                 ->loginAs($user)
                 ->visit(new SponsorPages\CreatePage)
-                ->fillNewSponsorForm($attrs)
+                ->fillNewSponsorForm($sponsorAttrs)
                 ->click('@submitBtn')
                 ->assertVisible('.alert.alert-info') // some success
                 ;
@@ -46,13 +46,13 @@ class SponsorTest extends DuskTestCase
 
             $this->assertEquals($sponsor->status, Sponsor::STATUS_PENDING);
 
-            $this->assertEquals($sponsor->name, $attrs['name']);
-            $this->assertEquals($sponsor->display_name, $attrs['display_name']);
-            $this->assertEquals($sponsor->address1, $attrs['address1']);
-            $this->assertEquals($sponsor->city, $attrs['city']);
-            $this->assertEquals($sponsor->state, $attrs['state']);
-            $this->assertEquals($sponsor->postal_code, $attrs['postal_code']);
-            $this->assertEquals($sponsor->phone, $attrs['phone']);
+            $this->assertEquals($sponsor->name, $sponsorAttrs->name);
+            $this->assertEquals($sponsor->display_name, $sponsorAttrs->display_name);
+            $this->assertEquals($sponsor->address1, $sponsorAttrs->address1);
+            $this->assertEquals($sponsor->city, $sponsorAttrs->city);
+            $this->assertEquals($sponsor->state, $sponsorAttrs->state);
+            $this->assertEquals($sponsor->postal_code, $sponsorAttrs->postal_code);
+            $this->assertEquals($sponsor->phone, $sponsorAttrs->phone);
 
             // TODO: currently doesn't work with Dusk
             //Event::assertDispatched('App\Events\SponsorCreated', function ($e) use ($sponsor) {
@@ -101,6 +101,61 @@ class SponsorTest extends DuskTestCase
                 ->visitRoute('sponsors.show', $sponsor)
                 ->waitForText($sponsor->display_name)
                 ->assertRouteIs('sponsors.documents.index', $sponsor)
+                ;
+        });
+    }
+
+    public function testSponsorOwnerCanEditSponsorSettings()
+    {
+        $user = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($user);
+
+        $newSponsorData = factory(Sponsor::class)->make();
+
+        $this->browse(function ($browser) use ($user, $sponsor, $newSponsorData) {
+            $browser
+                ->loginAs($user)
+                ->visit(new SponsorPages\EditPage($sponsor))
+                ->assertFormHasDataForSponsor($sponsor)
+                ->type('name', $newSponsorData->name)
+                ->type('display_name', $newSponsorData->display_name)
+                ->type('address1', $newSponsorData->address1)
+                ->type('city', $newSponsorData->city)
+                ->type('state', $newSponsorData->state)
+                ->type('postal_code', $newSponsorData->postal_code)
+                ->type('phone', $newSponsorData->phone)
+                ->press('@submitBtn')
+                ->assertRouteIs('sponsors.edit', $sponsor)
+                ->assertFormHasDataForSponsor($sponsor->fresh())
+                ;
+
+            $sponsor = $sponsor->fresh();
+
+            $this->assertEquals($sponsor->name, $newSponsorData->name);
+            $this->assertEquals($sponsor->display_name, $newSponsorData->display_name);
+            $this->assertEquals($sponsor->address1, $newSponsorData->address1);
+            $this->assertEquals($sponsor->city, $newSponsorData->city);
+            $this->assertEquals($sponsor->state, $newSponsorData->state);
+            $this->assertEquals($sponsor->postal_code, $newSponsorData->postal_code);
+            $this->assertEquals($sponsor->phone, $newSponsorData->phone);
+        });
+    }
+
+    public function testNonOwnerCantEditSponsorSettings()
+    {
+        $owner = factory(User::class)->create();
+        $editor = factory(User::class)->create();
+
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
+
+        $this->browse(function ($browser) use ($editor, $sponsor) {
+            $browser
+                ->loginAs($editor)
+                ->visitRoute('sponsors.documents.index', $sponsor)
+                ->assertDontSeeIn('#content .list-group', trans('messages.settings'))
+                ->visitRoute('sponsors.edit', $sponsor)
+                ->assertSee('unauthorized')
                 ;
         });
     }
