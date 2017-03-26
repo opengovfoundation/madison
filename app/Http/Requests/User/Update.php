@@ -31,13 +31,6 @@ class Update extends FormRequest
             'fname' => 'string|required',
             'lname' => 'string|required',
             'email' => 'email|required',
-            'address1' => 'string',
-            'address2' => 'string',
-            'city' => 'string',
-            'state' => 'string',
-            'postal_code' => 'string',
-            'phone' => 'string',
-            'url' => 'url',
             'new_password' => 'string|min:6|confirmed',
         ];
     }

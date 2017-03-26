@@ -39,6 +39,7 @@ return [
     'save' => 'Save',
     'add' => 'Add',
     'new' => 'New',
+    'save' => 'Save',
     'get_started' => 'Get Started',
     'learn_more' => 'Learn more',
     'relevance' => 'Relevance',
@@ -285,6 +286,7 @@ return [
         'make_admin' => 'Make Admin',
         'remove_admin' => 'Remove Admin',
 
+        'settings' => 'User Settings',
         'settings_pages' => [
             'notifications' => 'Notifications',
             'password' => 'Password',
@@ -318,6 +320,12 @@ return [
         'having_trouble' => 'If you\'re having trouble clicking the ":actionText" button, copy and paste the URL below into your web browser:',
         'thank_you' => 'Thank you for using our application!',
         'unsubscribe' => 'If you do not wish to receive these notifications, you can unsubscribe in your user settings.',
+
+        'groups' => [
+            'user' => 'User Notifications',
+            'sponsor' => 'Sponsor Notifications',
+            'admin' => 'Admin Notifications',
+        ],
 
         // actual notification content
         'madison' => [
@@ -356,7 +364,7 @@ return [
                 ],
 
                 'published' => [
-                    'preference_description' => 'When document is published',
+                    'preference_description' => 'When new documents are published',
                     'subject' => ':document has been published',
                 ],
             ],

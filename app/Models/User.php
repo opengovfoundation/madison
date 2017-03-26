@@ -34,7 +34,7 @@ class User extends Authenticatable
     protected $dates = ['deleted_at'];
 
     protected $hidden = ['password', 'token', 'last_login', 'deleted_at', 'roles', 'remember_token'];
-    protected $fillable = ['fname', 'lname', 'email', 'password', 'address1', 'address2', 'city', 'state', 'postal_code', 'phone', 'url', 'token'];
+    protected $fillable = ['fname', 'lname', 'email', 'password', 'token'];
     protected $appends = ['display_name', 'independent_sponsor'];
 
     const STATUS_VERIFIED = 'verified';

@@ -3,7 +3,7 @@
 @section('content')
     {{-- TODO: set this differently for each page? --}}
     <div class="page-header">
-        <h1>{{ trans('messages.settings') }}: {{ $user->displayName }}</h1>
+        <h1>{{ trans('messages.user.settings') }}</h1>
         @include('components.breadcrumbs.account')
     </div>
 

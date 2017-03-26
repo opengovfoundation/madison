@@ -103,7 +103,7 @@ class SupportVoteChanged extends Notification implements ShouldQueue
 
     public static function getType()
     {
-        return static::TYPE_USER;
+        return static::TYPE_SPONSOR;
     }
 
     public function getInstigator()

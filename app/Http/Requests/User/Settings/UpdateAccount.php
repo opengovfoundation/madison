@@ -17,13 +17,6 @@ class UpdateAccount extends \App\Http\Requests\User\Edit
             'fname' => 'string|required',
             'lname' => 'string|required',
             'email' => 'email|required|unique:users',
-            'address1' => 'string',
-            'address2' => 'string',
-            'city' => 'string',
-            'state' => 'string',
-            'postal_code' => 'string',
-            'phone' => 'string',
-            'url' => 'url',
         ];
     }
 }

@@ -50,12 +50,15 @@ class UserController extends Controller
             ->flip();
 
         // Build array of notifications and their selected status
-        $notificationPreferences = [];
+        $notificationPreferenceGroups = [];
         foreach ($validNotifications as $notificationName => $className) {
-            $notificationPreferences[$className] = isset($currentNotifications[$notificationName]);
+            if (!isset($notificationPreferenceGroups[$className::getType()])) {
+                $notificationPreferenceGroups[$className::getType()] = [];
+            }
+            $notificationPreferenceGroups[$className::getType()][$className] = isset($currentNotifications[$notificationName]);
         }
 
-        return view('users.settings.notifications', compact('user', 'notificationPreferences'));
+        return view('users.settings.notifications', compact('user', 'notificationPreferenceGroups'));
     }
 
     /**
@@ -70,13 +73,6 @@ class UserController extends Controller
         $user->fname = $request->input('fname');
         $user->lname = $request->input('lname');
         $user->email = $request->input('email') ?: null;
-        $user->address1 = $request->input('address1') ?: null;
-        $user->address2 = $request->input('address2') ?: null;
-        $user->city = $request->input('city') ?: null;
-        $user->state = $request->input('state') ?: null;
-        $user->postal_code = $request->input('postal_code') ?: null;
-        $user->phone = $request->input('phone') ?: null;
-        $user->url = $request->input('url') ?: null;
 
         if ($user->save()) {
             flash(trans('messages.updated'));

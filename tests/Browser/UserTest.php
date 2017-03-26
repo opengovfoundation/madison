@@ -67,7 +67,7 @@ class UserTest extends DuskTestCase
                 ->type('fname', $fakeUser->fname)
                 ->type('lname', $fakeUser->lname)
                 ->type('email', $fakeUser->email)
-                ->press('Submit')
+                ->press('Save')
                 ->assertPathIs($page->url())
                 // some success
                 ->assertVisible('.alert.alert-info')
@@ -98,7 +98,7 @@ class UserTest extends DuskTestCase
                 ->loginAs($user)
                 ->visit($page)
                 ->type('email', $otherUser->email)
-                ->press('Submit')
+                ->press('Save')
                 ->assertPathIs($page->url())
                 // some error
                 ->assertVisible('.alert.alert-danger')
@@ -144,7 +144,7 @@ class UserTest extends DuskTestCase
                 ->visit($page)
                 ->type('new_password', $newPassword)
                 ->type('new_password_confirmation', $newPassword)
-                ->press('Submit')
+                ->press('Save')
                 // some success
                 ->assertVisible('.alert.alert-info')
                 ;
@@ -207,7 +207,7 @@ class UserTest extends DuskTestCase
                 ->loginAs($user)
                 ->visit($page)
                 ->check($events[0])
-                ->press('Submit')
+                ->press('Save')
                 // some success
                 ->assertVisible('.alert.alert-info')
                 ->assertChecked($events[0])

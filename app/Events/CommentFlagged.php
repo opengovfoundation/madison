@@ -31,4 +31,5 @@ class CommentFlagged
     {
         return [];
     }
+
 }

@@ -65,9 +65,24 @@ class CreateGroupsForDocOwningUsers extends Migration
                 }
 
                 // Create the group
-                $individual_group = Sponsor::createIndividualSponsor($record->user_id, [
+                $user = User::find($userId);
+
+                $attrs = array_merge([
+                    'name' => $user->fname . ' ' . $user->lname,
+                    'display_name' => $user->fname . ' ' . $user->lname,
+                    'address1' => '',
+                    'address2' => '',
+                    'city' => '',
+                    'state' => '',
+                    'postal_code' => ''|| ' ',
+                    'phone' => '',
+                    'individual' => true,
                     'status' => $status
-                ]);
+                ], $input_attrs);
+
+                $sponsor = new Sponsor($attrs);
+                $sponsor->save();
+                $sponsor->addMember($userId, Sponsor::ROLE_OWNER);
             }
         }
 

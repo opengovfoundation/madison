@@ -369,31 +369,6 @@ class Sponsor extends Model
         return $sponsorMember;
     }
 
-
-    public static function createIndividualSponsor($userId, $input_attrs = [])
-    {
-        $user = User::find($userId);
-
-        $attrs = array_merge([
-            'name' => $user->fname . ' ' . $user->lname,
-            'display_name' => $user->fname . ' ' . $user->lname,
-            'address1' => $user->address1 || ' ',
-            'address2' => $user->address2 || ' ',
-            'city' => $user->city || ' ',
-            'state' => $user->state || ' ',
-            'postal_code' => $user->postal_code || ' ',
-            'phone' => $user->phone || ' ',
-            'individual' => true,
-            'status' => 'pending'
-        ], $input_attrs);
-
-        $sponsor = new Sponsor($attrs);
-        $sponsor->save();
-        $sponsor->addMember($userId, Sponsor::ROLE_OWNER);
-
-        return $sponsor;
-    }
-
     public function userCanCreateDocument($user)
     {
         return $this->userHasRole($user, Sponsor::ROLE_EDITOR) || $this->userHasRole($user, Sponsor::ROLE_OWNER);
