@@ -20,5 +20,10 @@
 
             @lang('messages.admin.manage_users')
         </a>
+        <a href="{{ route('admin.sponsors.index') }}"
+            class="list-group-item {{ active(['admin.sponsors.index']) }}">
+
+            @lang('messages.admin.manage_sponsors')
+        </a>
     </div>
 </div>

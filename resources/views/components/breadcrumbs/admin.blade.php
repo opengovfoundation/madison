@@ -13,6 +13,8 @@
             @lang('messages.admin.featured_documents')
         @elseif (Route::currentRouteName() === 'admin.users.index')
             @lang('messages.admin.manage_users')
+        @elseif (Route::currentRouteName() === 'admin.sponsors.index')
+            @lang('messages.admin.manage_sponsors')
         @endif
     </li>
 </ol>

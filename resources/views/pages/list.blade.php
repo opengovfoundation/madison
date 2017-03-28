@@ -45,7 +45,7 @@
                             <td>
                                 <a href="{{ route('pages.edit', $page) }}"
                                     title="@lang('messages.page.edit')"
-                                    class="btn btn-xs btn-default edit">
+                                    class="btn btn-xs btn-link edit">
 
                                     <i class="fa fa-pencil"></i>
                                 </a>
@@ -54,8 +54,8 @@
                             <td>
                                 <div class="btn-group" role="group">
                                     {{ Form::open(['route' => ['pages.destroy', $page], 'method' => 'delete']) }}
-                                        <button type="submit" class="btn btn-xs btn-danger destroy">
-                                            <i class="fa fa-trash"></i>
+                                        <button type="submit" class="btn btn-xs btn-link destroy">
+                                            <i class="fa fa-close"></i>
                                         </button>
                                     {{ Form::close() }}
                                 </div>

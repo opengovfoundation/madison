@@ -12,36 +12,7 @@
 
     <div class="row">
         <div class="col-md-9">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>@lang('messages.sponsor.name')</th>
-                        <th>@lang('messages.created')</th>
-                        <th>@lang('messages.sponsor.status')</th>
-                        <th>@lang('messages.sponsor.members')</th>
-                        <th>@lang('messages.document.list')</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($sponsors as $sponsor)
-                        <tr>
-                            <td>
-                                <a href="{{ route('sponsors.documents.index', $sponsor) }}">
-                                    {{ $sponsor->name }}
-                                </a>
-                            </td>
-                            <td>
-                                @include('components/date', [ 'datetime' => $sponsor->created_at, ])
-                            </td>
-                            <td>
-                                {{ trans('messages.sponsor.statuses.'.$sponsor->status) }}
-                            </td>
-                            <td>{{ $sponsor->members()->count() }}</td>
-                            <td>{{ $sponsor->docs()->count() }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            @include('sponsors.partials.table', ['sponsors' => $sponsors])
         </div>
         <div class="col-md-3">
             <div class="panel panel-default">
@@ -52,9 +23,5 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="text-center">
-        @include('components.pagination', ['collection' => $sponsors])
     </div>
 @endsection

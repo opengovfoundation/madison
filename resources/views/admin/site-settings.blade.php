@@ -15,36 +15,45 @@
 
         <div class="col-md-9">
             {{ Form::model($currentSettings, ['route' => ['admin.site.update'], 'method' => 'put']) }}
-                @foreach ($allSettingsDesc as $key => $desc)
-                    @if ($desc['type'] === 'select')
-                        {{ Form::mSelect(
-                                $key,
-                                trans('messages.admin.'.$key),
-                                $options[$key]['choices'],
-                                null,
-                                [],
-                                trans('messages.admin.'.$key.'_help') !== 'messages.admin.'.$key.'_help'
-                                       ? trans('messages.admin.'.$key.'_help')
-                                       : null
-                                )
-                        }}
-                    @elseif ($desc['type'] === 'text')
-                        {{ Form::mInput(
-                                'text',
-                                $key,
-                                trans('messages.admin.'.$key),
-                                null,
-                                [ 'placeholder' =>
-                                    !empty($options[$key]['placeholder'])
-                                        ? $options[$key]['placeholder']
-                                        : ''
-                                ],
-                                trans('messages.admin.'.$key.'_help') !== 'messages.admin.'.$key.'_help'
-                                       ? trans('messages.admin.'.$key.'_help')
-                                       : null
-                                )
-                        }}
-                    @endif
+                @foreach ($groupedSettingsDesc as $groupName => $settingsGroup)
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@lang('messages.admin.setting_groups.' . $groupName)</h3>
+                        </div>
+                        <div class="panel-body">
+                            @foreach ($settingsGroup as $setting)
+                                @if ($setting['type'] === 'select')
+                                    {{ Form::mSelect(
+                                            $setting['key'],
+                                            trans('messages.admin.'.$setting['key']),
+                                            $options[$setting['key']]['choices'],
+                                            null,
+                                            [],
+                                            trans('messages.admin.'.$setting['key'].'_help') !== 'messages.admin.'.$setting['key'].'_help'
+                                                   ? trans('messages.admin.'.$setting['key'].'_help')
+                                                   : null
+                                            )
+                                    }}
+                                @elseif ($setting['type'] === 'text')
+                                    {{ Form::mInput(
+                                            'text',
+                                            $setting['key'],
+                                            trans('messages.admin.'.$setting['key']),
+                                            null,
+                                            [ 'placeholder' =>
+                                                !empty($options[$setting['key']]['placeholder'])
+                                                    ? $options[$setting['key']]['placeholder']
+                                                    : ''
+                                            ],
+                                            trans('messages.admin.'.$setting['key'].'_help') !== 'messages.admin.'.$setting['key'].'_help'
+                                                   ? trans('messages.admin.'.$setting['key'].'_help')
+                                                   : null
+                                            )
+                                    }}
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
                 @endforeach
 
                 {{ Form::mSubmit() }}

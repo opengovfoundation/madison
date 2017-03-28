@@ -224,7 +224,7 @@ return [
 
         'status' => 'Status',
         'statuses' => [
-            \App\Models\Sponsor::STATUS_ACTIVE => 'Active',
+            \App\Models\Sponsor::STATUS_ACTIVE => 'Approved',
             \App\Models\Sponsor::STATUS_PENDING => 'Pending',
         ],
 
@@ -403,16 +403,21 @@ return [
         'admin_label' => 'Site Administration: :page',
         'featured_documents' => 'Featured Documents',
         'manage_users' => 'Manage Users',
+        'manage_sponsors' => 'Manage Sponsors',
         'updated_featured_documents' => 'Feature documents updated',
         'site_settings' => 'Site Settings',
         'custom_pages' => 'Custom Pages',
         'pages' => 'Pages',
         'add_featured_document' => 'Add Featured Document',
 
+        'setting_groups' => [
+            'date_time' => 'Date & Time',
+            'google_analytics' => 'Google Analytics',
+        ],
         'madison' => [
             'date_format' => 'Date Format',
             'time_format' => 'Time Format',
-            'google_analytics_property_id' => 'Google Analytics Property Id',
+            'google_analytics_property_id' => 'Google Analytics Key',
             'google_analytics_property_id_help' => 'The UA-XXXXX-Y string identifying which Google Analytics property you wish to track traffic against',
         ],
     ],

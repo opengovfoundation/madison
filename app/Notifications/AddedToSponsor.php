@@ -42,7 +42,7 @@ class AddedToSponsor extends UserMembershipChanged
      */
     public function toMail($notifiable)
     {
-        $url = route('sponsors.index', ['id' => [$this->sponsorMember->sponsor->id]]);
+        $url = route('sponsors.documents.index', $this->sponsorMember->sponsor);
 
         return (new MailMessage)
                     ->subject(trans(static::baseMessageLocation().'.added_to_sponsor', [

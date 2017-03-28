@@ -37,24 +37,14 @@
                             @else
                                 <td></td>
                             @endif
-                            @if ($user->isAdmin())
-                                <td class="text-center"><i class="fa fa-check"></i></td>
-                            @else
-                                <td></td>
-                            @endif
                             <td>
                                 <div class="btn-toolbar" role="toolbar">
-                                    <div class="btn-group" role="group">
-                                        <a href="{{ route('users.settings.account.edit', $user) }}" class="btn btn-default">
-                                            @lang('messages.edit')
-                                        </a>
-                                    </div>
                                     <div class="btn-group" role="group">
                                         @if ($user->isAdmin())
                                             {{ Form::open(['route' => ['admin.users.postAdmin', $user], 'method' => 'post']) }}
                                                 <input type="hidden" name="admin" value="0">
                                                 @if ($user->id !== Auth::user()->id)
-                                                    <button type="submit" class="btn btn-default admin">
+                                                    <button type="submit" class="btn btn-default btn-xs admin">
                                                         @lang('messages.user.remove_admin')
                                                     </button>
                                                 @endif
@@ -62,13 +52,18 @@
                                         @else
                                             {{ Form::open(['route' => ['admin.users.postAdmin', $user], 'method' => 'post']) }}
                                                 <input type="hidden" name="admin" value="1">
-                                                <button type="submit" class="btn btn-default admin">
+                                                <button type="submit" class="btn btn-default btn-xs admin">
                                                     @lang('messages.user.make_admin')
                                                 </button>
                                             {{ Form::close() }}
                                         @endif
                                     </div>
                                 </div>
+                            </td>
+                            <td>
+                                <a href="{{ route('users.settings.account.edit', $user) }}">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

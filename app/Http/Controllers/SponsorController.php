@@ -103,15 +103,6 @@ class SponsorController extends Controller
         }
     }
 
-    public function updateStatus(Requests\UpdateStatus $request, Sponsor $sponsor)
-    {
-        $sponsor->status = $request->input('status');
-        $sponsor->save();
-
-        flash(trans('messages.sponsor.status_updated'));
-        return redirect()->route('sponsors.index', ['sponsor' => $sponsor->id]);
-    }
-
     /**
      * Lists documents for a given sponsor.
      */

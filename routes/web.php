@@ -138,9 +138,6 @@ Route::resource('sponsors', 'SponsorController', [
     'except' => ['index', 'destroy'],
 ]);
 
-Route::put('/sponsors/{sponsor}/status', 'SponsorController@updateStatus')
-    ->name('sponsors.status.update');
-
 Route::get('/sponsors/{sponsor}/documents', 'SponsorController@documentsIndex')
     ->name('sponsors.documents.index');
 
@@ -212,6 +209,12 @@ Route::post('/admin/featured/add', 'AdminController@addFeaturedDocument')
 
 Route::get('/admin/users', 'AdminController@usersIndex')
     ->name('admin.users.index');
+
+Route::get('/admin/sponsors', 'AdminController@sponsorsIndex')
+    ->name('admin.sponsors.index');
+
+Route::put('/admin/sponsors/{sponsor}/status', 'AdminController@sponsorsPutStatus')
+    ->name('admin.sponsors.status.update');
 
 Route::post('/admin/users/{user}/admin', 'AdminController@usersPostAdmin')
     ->name('admin.users.postAdmin');
