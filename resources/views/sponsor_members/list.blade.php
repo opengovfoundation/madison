@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     @foreach ($members as $member)
-                        <tr>
+                        <tr id="user-{{ $member->user->id }}">
                             <td>{{ $member->name }}</td>
                             <td>{{ $member->email }}</td>
                             <td>
@@ -34,7 +34,10 @@
                                             'role',
                                             $allRoles,
                                             $member->role,
-                                            [ 'onchange' => 'if (this.selectedIndex >= 0) this.form.submit();' ]
+                                            [
+                                                'onchange' => 'if (this.selectedIndex >= 0) this.form.submit();',
+                                                'class' => 'no-select2',
+                                            ]
                                             )
                                         }}
                                     {{ Form::close() }}
@@ -52,7 +55,7 @@
                                     @if ($sponsor->isSponsorOwner(Auth::user()->id) || Auth::user()->isAdmin())
                                         <div class="btn-group">
                                             {{ Form::open(['route' => ['sponsors.members.destroy', $sponsor, $member], 'method' => 'delete']) }}
-                                                <button type="submit" class="btn btn-xs btn-link">
+                                                <button type="submit" class="btn btn-xs btn-link remove">
                                                     <i class="fa fa-close"></i>
                                                 </button>
                                             {{ Form::close() }}
@@ -71,7 +74,9 @@
 
             <hr>
 
-            {{ Html::linkRoute('sponsors.members.create', trans('messages.sponsor_member.add'), [$sponsor], ['class' => 'btn btn-primary'])}}
+            @if ($sponsor->isSponsorOwner(Auth::user()->id) || Auth::user()->isAdmin())
+                {{ Html::linkRoute('sponsors.members.create', trans('messages.sponsor_member.add'), [$sponsor], ['class' => 'btn btn-primary add-member'])}}
+            @endif
         </div>
     </div>
 @endsection

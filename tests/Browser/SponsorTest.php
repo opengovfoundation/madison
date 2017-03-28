@@ -159,4 +159,153 @@ class SponsorTest extends DuskTestCase
                 ;
         });
     }
+
+    public function testSponsorOwnerCanAddMembers()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+
+        $user = factory(User::class)->create();
+        $role = Sponsor::ROLE_EDITOR;
+
+        $this->browse(function ($browser) use ($owner, $sponsor, $user, $role) {
+            $browser
+                ->loginAs($owner)
+                ->visit(new SponsorPages\MembersPage($sponsor))
+                ->assertDontSeeIn('table', $user->display_name)
+                ->click('@addMemberButton')
+                ->assertRouteIs('sponsors.members.create', $sponsor)
+                ->type('email', $user->email)
+                ->select('role', $role)
+                ->press(trans('messages.sponsor_member.add_user'))
+                ->assertRouteIs('sponsors.members.index', $sponsor)
+                ->assertSeeIn('table', $user->display_name)
+                ->assertSeeIn('tr#user-'.$user->id, trans('messages.sponsor_member.roles.'.$role))
+                ;
+        });
+    }
+
+    public function testNonSponsorOwnerCannotAddMembers()
+    {
+        $owner = factory(User::class)->create();
+        $editor = factory(User::class)->create();
+
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
+
+        $this->browse(function ($browser) use ($sponsor, $editor) {
+            $browser
+                ->loginAs($editor)
+                ->visit(new SponsorPages\MembersPage($sponsor))
+                ->assertMissing('@addMemberButton')
+                ->visitRoute('sponsors.members.create', $sponsor)
+                ->assertSee('Whoops, looks like something went wrong') // 403 status
+                ;
+        });
+    }
+
+    public function testSponsorOwnerCanRemoveMembers()
+    {
+        $owner = factory(User::class)->create();
+        $editor = factory(User::class)->create();
+
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
+
+        $this->browse(function ($browser) use ($owner, $sponsor, $editor) {
+            $browser
+                ->loginAs($owner)
+                ->visit(new SponsorPages\MembersPage($sponsor))
+                ->assertSeeIn('table', $editor->display_name)
+                ->with('tr#user-' . $editor->id, function ($userRow) {
+                    $userRow->press('.remove');
+                })
+                ->assertVisible('.alert.alert-info') // some success
+                ->assertRouteIs('sponsors.members.index', $sponsor)
+                ->assertDontSeeIn('table', $editor->display_name)
+                ;
+        });
+    }
+
+    public function testNonSponsorOwnerCannotRemoveMembers()
+    {
+        $owner = factory(User::class)->create();
+        $editor = factory(User::class)->create();
+
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
+
+        $this->browse(function ($browser) use ($sponsor, $editor) {
+            $browser
+                ->loginAs($editor)
+                ->visit(new SponsorPages\MembersPage($sponsor))
+                ->assertMissing('tr .remove')
+                ;
+        });
+    }
+
+    public function testSponsorOwnerCanUpdateMemberRoles()
+    {
+        $owner = factory(User::class)->create();
+        $editor = factory(User::class)->create();
+
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
+
+        $newRole = Sponsor::ROLE_STAFF;
+
+        $this->browse(function ($browser) use ($owner, $sponsor, $editor, $newRole) {
+            $browser
+                ->loginAs($owner)
+                ->visit(new SponsorPages\MembersPage($sponsor))
+                ->assertSeeIn('table', $editor->display_name)
+                ->with('tr#user-' . $editor->id, function ($userRow) use ($newRole) {
+                    $userRow->select('role', $newRole);
+                })
+                ->assertVisible('.alert.alert-info') // some success
+                ->assertRouteIs('sponsors.members.index', $sponsor)
+                ->assertSeeIn('tr#user-' . $editor->id, trans('messages.sponsor_member.roles.'.$newRole))
+                ;
+        });
+    }
+
+    public function testNonSponsorOwnerCannotUpdateMemberRoles()
+    {
+        $owner = factory(User::class)->create();
+        $editor = factory(User::class)->create();
+
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
+
+        $this->browse(function ($browser) use ($sponsor, $editor) {
+            $browser
+                ->loginAs($editor)
+                ->visit(new SponsorPages\MembersPage($sponsor))
+                ->assertMissing('tr select')
+                ;
+        });
+    }
+
+    public function testEnsuresAtLeastOneOwner()
+    {
+        $owner = factory(User::class)->create();
+
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+        $sponsor->addMember(factory(User::class)->create()->id, Sponsor::ROLE_EDITOR);
+
+        $originalRole = Sponsor::ROLE_OWNER;
+        $newRole = Sponsor::ROLE_STAFF;
+
+        $this->browse(function ($browser) use ($sponsor, $owner, $originalRole, $newRole) {
+            $browser
+                ->loginAs($owner)
+                ->visit(new SponsorPages\MembersPage($sponsor))
+                ->with('tr#user-' . $owner->id, function ($userRow) use ($originalRole, $newRole) {
+                    $userRow->select('role', $newRole);
+                })
+                ->assertSeeIn('.alert', trans('messages.sponsor_member.need_owner'))
+                ->assertSeeIn('tr#user-' . $owner->id, trans('messages.sponsor_member.roles.' . $originalRole))
+                ;
+        });
+    }
 }

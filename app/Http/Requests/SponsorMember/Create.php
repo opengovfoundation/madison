@@ -17,10 +17,8 @@ class Create extends FormRequest
     {
         $currentUser = $this->user();
 
-        return $this->sponsor->isActive() || (
-            $currentUser && (
-                $currentUser->isAdmin() || $this->sponsor->isSponsorOwner($currentUser->id)
-            )
+        return $currentUser && (
+            $currentUser->isAdmin() || $this->sponsor->isSponsorOwner($currentUser->id)
         );
     }
 
