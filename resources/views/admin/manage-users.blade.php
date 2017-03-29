@@ -44,7 +44,7 @@
                                             {{ Form::open(['route' => ['admin.users.postAdmin', $user], 'method' => 'post']) }}
                                                 <input type="hidden" name="admin" value="0">
                                                 @if ($user->id !== Auth::user()->id)
-                                                    <button type="submit" class="btn btn-default btn-xs admin">
+                                                    <button type="submit" class="btn btn-danger btn-xs admin">
                                                         @lang('messages.user.remove_admin')
                                                     </button>
                                                 @endif

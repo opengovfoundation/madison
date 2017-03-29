@@ -529,7 +529,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   },
 
   groupAnnotations: function (annotations) {
-    var parentElements = 'h1,h2,h3,h4,h5,h6,li,p';
+    var parentElements = 'h1,h2,h3,h4,h5,h6,li,p,tr,th,td';
     var annotationGroupCount = 0;
     var annotationGroups = [];
 

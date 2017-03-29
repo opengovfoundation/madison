@@ -23,9 +23,6 @@ For Mac OSX installation instructions, see INSTALL.OSX.md.
 
 1. Run `make deps` to install all dependencies.
 
-1. Copy `config/example_creds.php` to `config/creds.php`
-and add your mysql credentials
-
 1. Copy `.env.example` to `.env` and add your mysql credentials
 
 1. Create a database based on the settings you set in `.env`.
