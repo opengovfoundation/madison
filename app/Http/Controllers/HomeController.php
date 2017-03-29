@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Doc as Document;
-use App\Models\Category;
 
 class HomeController extends Controller
 {
@@ -19,7 +18,6 @@ class HomeController extends Controller
         $popularDocuments = Document::getActiveOrRecent(3);
 
         return view('home', compact([
-            'selectedCategories',
             'featuredDocuments',
             'popularDocuments',
         ]));

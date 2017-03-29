@@ -33,14 +33,6 @@
                                ['multiple' => true]
                                )
                         }}
-                        {{ Form::mSelect(
-                               'category_id[]',
-                               trans('messages.document.category'),
-                               $categories->mapWithKeys_v2(function ($item) {return [$item->id => $item->name]; })->toArray(),
-                               null,
-                               ['multiple' => true]
-                               )
-                        }}
                         @if (Auth::user())
                             {{ Form::mSelect(
                                    'publish_state[]',
@@ -127,48 +119,49 @@
                     @endif
                     <td>
                         <div class="btn-toolbar" role="toolbar">
-                            @foreach ($documentsCapabilities[$document->id] as $cap => $allowed)
-                                @if (!$allowed)
-                                    {{-- do nothing --}}
-                                @elseif ($cap === 'open')
-                                    <div class="btn-group" role="group">
-                                        {{ Html::linkRoute(
-                                                'documents.show',
-                                                trans('messages.open'),
-                                                ['document' => $document->slug],
-                                                ['class' => 'btn btn-default']
-                                                )
-                                        }}
-                                    </div>
-                                @elseif ($cap === 'edit')
-                                    <div class="btn-group" role="group">
-                                        {{ Html::linkRoute(
-                                                'documents.edit',
-                                                trans('messages.edit'),
-                                                ['document' => $document->slug],
-                                                ['class' => 'btn btn-default']
-                                                )
-                                        }}
-                                    </div>
-                                @elseif ($cap === 'delete')
-                                    <div class="btn-group" role="group">
-                                        {{ Form::open(['route' => ['documents.destroy', $document], 'method' => 'delete']) }}
-                                            <button type="submit" class="btn btn-default destroy">{{ trans('messages.delete') }}</button>
-                                        {{ Form::close() }}
-                                    </div>
-                                @elseif ($cap === 'restore')
-                                    <div class="btn-group" role="group">
-                                        {{ Html::linkRoute(
-                                                'documents.restore',
-                                                trans('messages.restore'),
-                                                ['document' => $document->slug],
-                                                ['class' => 'btn btn-default']
-                                                )
-                                        }}
-                                    </div>
-                                @endif
-                            @endforeach
+                            @if ($document->canUserView(Auth::user()))
+                                <div class="btn-group" role="group">
+                                    {{ Html::linkRoute(
+                                            'documents.show',
+                                            trans('messages.open'),
+                                            ['document' => $document->slug],
+                                            ['class' => 'btn btn-default']
+                                            )
+                                    }}
+                                </div>
+                            @endif
 
+                            @can ('viewManage', $document)
+                                <div class="btn-group" role="group">
+                                    {{ Html::linkRoute(
+                                            'documents.manage.settings',
+                                            trans('messages.manage'),
+                                            ['document' => $document->slug],
+                                            ['class' => 'btn btn-default']
+                                            )
+                                    }}
+                                </div>
+                            @endcan
+
+                            @can ('delete', $document)
+                                <div class="btn-group" role="group">
+                                    {{ Form::open(['route' => ['documents.destroy', $document], 'method' => 'delete']) }}
+                                        <button type="submit" class="btn btn-default destroy">{{ trans('messages.delete') }}</button>
+                                    {{ Form::close() }}
+                                </div>
+                            @endcan
+
+                            @if ($document->trashed() && Auth::user()->can('restore', $document))
+                                <div class="btn-group" role="group">
+                                    {{ Html::linkRoute(
+                                            'documents.restore',
+                                            trans('messages.restore'),
+                                            ['document' => $document->slug],
+                                            ['class' => 'btn btn-default']
+                                            )
+                                    }}
+                                </div>
+                            @endif
                         </div>
                     </td>
                 </tr>

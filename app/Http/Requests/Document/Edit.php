@@ -23,7 +23,7 @@ class Edit extends FormRequest
             }
         }
 
-        return $user && $document && $document->canUserEdit($user);
+        return $user && $user->can('update', $document);
     }
 
     /**

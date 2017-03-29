@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Document as Requests;
 use App\Events\DocumentPublished;
 use App\Events\SupportVoteChanged;
-use App\Models\Category;
 use App\Models\User;
 use App\Models\Doc as Document;
 use App\Models\DocContent as DocumentContent;
@@ -51,18 +50,6 @@ class DocumentController extends Controller
 
         if ($discussionStates) {
             $documentsQuery->whereIn('discussion_state', $discussionStates);
-        }
-
-        if ($request->has('category_id') && !in_array('any', $request->input('category_id'))) {
-            $documentsQuery->whereHas('categories', function ($q) use ($request) {
-                $ids = $request->input('category_id');
-                $q->whereIn('categories.id', $ids);
-            });
-        } elseif ($request->has('category')) {
-            $documentsQuery->whereHas('categories', function ($q) use ($request) {
-                $category = $request->input('category');
-                $q->where('categories.name', 'LIKE', "%$category%");
-            });
         }
 
         if ($request->has('q')) {
@@ -234,14 +221,7 @@ class DocumentController extends Controller
             ]
         );
 
-        $documentsCapabilities = [];
-
-        foreach ($documents as $document) {
-            $documentsCapabilities[$document->id] = $document->capabilitiesForUser($request->user());
-        }
-
         // for the query builder modal
-        $categories = Category::all();
         $sponsors = Sponsor::where('status', Sponsor::STATUS_ACTIVE)->get();
         $publishStates = static::validPublishStatesForQuery();
         $discussionStates = Document::validDiscussionStates();
@@ -249,8 +229,6 @@ class DocumentController extends Controller
         // draw the page
         return view('documents.list', compact([
             'documents',
-            'documentsCapabilities',
-            'categories',
             'sponsors',
             'publishStates',
             'discussionStates',
@@ -317,7 +295,7 @@ class DocumentController extends Controller
         $document->sponsors()->sync([$request->input('sponsor_id')]);
 
         flash(trans('messages.document.created'));
-        return redirect()->route('documents.edit', $document);
+        return redirect()->route('documents.manage.settings', $document);
     }
 
     /**
@@ -360,29 +338,6 @@ class DocumentController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Requests\Edit $request, Document $document)
-    {
-        $categories = Category::all();
-        $sponsors = Sponsor::where('status', Sponsor::STATUS_ACTIVE)->get();
-        $publishStates = Document::validPublishStates();
-        $discussionStates = Document::validDiscussionStates();
-        $pages = $document->content()->paginate(1);
-
-        return view('documents.edit', compact([
-            'document',
-            'categories',
-            'sponsors',
-            'publishStates',
-            'discussionStates',
-            'pages',
-        ]));
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @return \Illuminate\Http\Response
@@ -400,8 +355,6 @@ class DocumentController extends Controller
         }
 
         $document->setIntroText($request->input('introtext'));
-        $document->sponsors()->sync([$request->input('sponsor_id')]);
-        $document->syncCategories($request->input('category_id'));
 
         // update content for correct page
         $pageContent = $document->content()->where('page', $request->input('page', 1))->first();
@@ -411,24 +364,7 @@ class DocumentController extends Controller
             $pageContent->save();
         }
 
-        // feature document stuff
-        if ($document->featured != (bool) $request->input('featured', false)) {
-            if (!$request->user()->isAdmin()) {
-                abort(403, 'Unauthorized.');
-            }
-
-            if ($request->input('featured')) {
-                $document->setAsFeatured();
-            } else {
-                $document->removeAsFeatured();
-            }
-        }
-
         if ($request->hasFile('featured-image')) {
-            if (!$request->user()->isAdmin()) {
-                abort(403, 'Unauthorized.');
-            }
-
             $file = $request->file('featured-image');
 
             // Keep a record of our previous featuredImage.
@@ -446,7 +382,7 @@ class DocumentController extends Controller
         }
 
         flash(trans('messages.document.updated'));
-        return redirect()->route('documents.edit', [
+        return redirect()->route('documents.manage.settings', [
             'document' => $document,
             'page' => $request->input('page', 1),
         ]);
@@ -498,7 +434,7 @@ class DocumentController extends Controller
         $document->save();
 
         flash(trans('messages.document.restored'));
-        return redirect()->route('documents.edit', $document);
+        return redirect()->route('documents.manage.settings', $document);
     }
 
     public function storePage(Requests\Edit $request, Document $document)
@@ -512,7 +448,7 @@ class DocumentController extends Controller
         $document->content()->save($documentContent);
 
         flash(trans('messages.document.page_added'));
-        return redirect()->route('documents.edit', ['document' => $document, 'page' => $page]);
+        return redirect()->route('documents.manage.settings', ['document' => $document, 'page' => $page]);
     }
 
     public function showImage(Requests\View $request, Document $document, $image)
@@ -539,7 +475,7 @@ class DocumentController extends Controller
             flash(trans('messages.document.featured_image_removed'));
         }
 
-        return redirect()->route('documents.edit', $document);
+        return redirect()->route('documents.manage.settings', $document);
     }
 
     public function updateSupport(Requests\PutSupport $request, Document $document)
@@ -577,8 +513,28 @@ class DocumentController extends Controller
         return redirect()->route('documents.show', $document);
     }
 
-    public function moderate(Requests\Moderate $request, Document $document)
+    public function manageSettings(Request $request, Document $document)
     {
+        $this->authorize('viewManage', $document);
+
+        $sponsors = Sponsor::where('status', Sponsor::STATUS_ACTIVE)->get();
+        $publishStates = Document::validPublishStates();
+        $discussionStates = Document::validDiscussionStates();
+        $pages = $document->content()->paginate(1);
+
+        return view('documents.manage.settings', compact([
+            'document',
+            'sponsors',
+            'publishStates',
+            'discussionStates',
+            'pages',
+        ]));
+    }
+
+    public function manageComments(Request $request, Document $document)
+    {
+        $this->authorize('viewManage', $document);
+
         $allFlaggedComments = $document->allCommentsWithHidden->filter(function ($comment) {
             return $comment->flags_count;
         });
@@ -594,7 +550,7 @@ class DocumentController extends Controller
             }
         });
 
-        return view('documents.moderate', compact([
+        return view('documents.manage.comments', compact([
             'document',
             'unhandledComments',
             'handledComments',

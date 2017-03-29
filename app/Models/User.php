@@ -5,15 +5,16 @@ namespace App\Models;
 /**
  * User Model.
  */
+use Hash;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
-use Session;
-use Hash;
 use Log;
+use Session;
 
 use App\Models\Annotation;
 use App\Models\Sponsor;
@@ -27,8 +28,12 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
+    use Authorizable;
     use Notifiable;
-    use EntrustUserTrait;
+    use EntrustUserTrait {
+        Authorizable::can insteadof EntrustUserTrait;
+        EntrustUserTrait::can as hasPermission;
+    }
     use SoftDeletes { SoftDeletes::restore insteadof EntrustUserTrait; }
 
     protected $dates = ['deleted_at'];

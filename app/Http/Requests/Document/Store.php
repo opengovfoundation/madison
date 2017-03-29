@@ -15,18 +15,14 @@ class Store extends FormRequest
      */
     public function authorize()
     {
-        if (!$this->user()->can('admin_manage_documents')) {
-            // If there's a sponsor
-            if ($this->input('sponsor_id')) {
-                $sponsor = Sponsor::find($this->input('sponsor_id'));
+        // If there's a sponsor
+        if ($this->input('sponsor_id')) {
+            $sponsor = Sponsor::find($this->input('sponsor_id'));
 
-                return $sponsor && $sponsor->isActive() && $sponsor->canUserCreateDocument($this->user());
-            } else {
-                return false;
-            }
+            return $this->user()->can('create', [\App\Models\Doc::class, $sponsor]);
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -38,7 +34,7 @@ class Store extends FormRequest
     {
         return [
             'title' => 'required',
-            'sponsor_id' => 'integer',
+            'sponsor_id' => 'required|integer',
         ];
     }
 }

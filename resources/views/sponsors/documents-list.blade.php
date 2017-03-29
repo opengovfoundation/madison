@@ -30,7 +30,7 @@
                     @foreach ($documents as $document)
                         <tr>
                             <td>
-                                @if ($documentsCapabilities[$document->id]['open'])
+                                @if ($document->canUserView(Auth::user()))
                                     <a href="{{ route('documents.show', $document) }}">{{ $document->title }}</a>
                                 @else
                                     {{ $document->title }}
@@ -45,21 +45,21 @@
                             <td>{{ trans('messages.document.discussion_states.'.$document->discussion_state) }}</td>
                             <td>
                                 {{ $document->all_comments_count }}
-                                <a href="{{ route('documents.comments.index', [$document, 'download' => 'csv']) }}" title="{{ trans('messages.document.download_comments_csv') }}">
+                                <a href="{{ route('documents.comments.index', [$document, 'download' => 'csv', 'all' => true]) }}" title="{{ trans('messages.document.download_comments_csv') }}">
                                     <i class="fa fa-download" aria-hidden="true"></i>
                                 </a>
                             </td>
                             <td>
-                                @if ($documentsCapabilities[$document->id]['edit'])
-                                    <a href="{{ route('documents.edit', $document) }}"
-                                        title="@lang('messages.document.edit')">
+                                @can('viewManage', $document)
+                                    <a href="{{ route('documents.manage.settings', $document) }}"
+                                        title="@lang('messages.document.manage')">
 
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                 @endif
                             </td>
                             <td>
-                                @if ($documentsCapabilities[$document->id]['delete'])
+                                @can('delete', $document)
                                     <div class="btn-group" role="group">
                                         {{ Form::open(['route' => ['documents.destroy', $document], 'method' => 'delete']) }}
                                             <button type="submit" class="btn btn-xs btn-link">
@@ -70,7 +70,7 @@
                                 @endif
                             </td>
                             <td>
-                                @if ($documentsCapabilities[$document->id]['restore'])
+                                @if ($document->trashed() && Auth::user()->can('restore', $document))
                                     <div class="btn-group" role="group">
                                         {{ Form::open(['route' => ['documents.restore', $document], 'method' => 'delete']) }}
                                             <button type="submit" class="btn btn-xs btn-link">

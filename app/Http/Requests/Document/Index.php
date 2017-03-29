@@ -31,8 +31,6 @@ class Index extends FormRequest
             'publish_state' => 'array|in:' . implode(',', DocumentController::validPublishStatesForQuery()),
             'discussion_state' => 'array|in:' . implode(',', Document::validDiscussionStates()),
             'sponsor_id.*' => 'integer',
-            'category_id.*' => 'integer',
-            'category' => 'string',
             'limit' => 'integer',
             'page' => 'integer',
             'title' => 'string|nullable',

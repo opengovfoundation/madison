@@ -142,7 +142,6 @@ class Annotation extends Model implements ActivityInterface
             'description' => $description,
             'content' => '',
             'enclosure' => [],
-            'category' => '',
         ];
     }
 

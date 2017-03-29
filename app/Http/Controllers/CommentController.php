@@ -157,18 +157,22 @@ class CommentController extends Controller
         return Response::json($this->commentService->toAnnotatorArray($comment));
     }
 
-    public function storeHidden(DocumentEditRequest $request, Document $document, Annotation $comment)
+    public function storeHidden(Request $request, Document $document, Annotation $comment)
     {
+        $this->authorize('moderate', $document);
+
         $this->commentService->hideComment($comment, $request->user());
         flash(trans('messages.document.comment_hide_success'));
-        return redirect()->route('documents.moderate', $document);
+        return redirect()->route('documents.manage.comments', $document);
     }
 
-    public function storeResolve(DocumentEditRequest $request, Document $document, Annotation $comment)
+    public function storeResolve(Request $request, Document $document, Annotation $comment)
     {
+        $this->authorize('moderate', $document);
+
         $this->commentService->resolveComment($comment, $request->user());
         flash(trans('messages.document.comment_resolve_success'));
-        return redirect()->route('documents.moderate', $document);
+        return redirect()->route('documents.manage.comments', $document);
     }
 
     /**

@@ -109,7 +109,9 @@ Route::post('documents/{document}/comments/{commentHidden}/resolve', 'CommentCon
 
 
 // Documents
-Route::resource('documents', 'DocumentController');
+Route::resource('documents', 'DocumentController', [
+    'except' => ['edit']
+]);
 
 Route::post('/documents/{document}/pages', 'DocumentController@storePage')
     ->name('documents.pages.store');
@@ -126,8 +128,11 @@ Route::get('/documents/{documentTrashed}/restore', 'DocumentController@restore')
 Route::put('/documents/{document}/support', 'DocumentController@updateSupport')
     ->name('documents.support');
 
-Route::get('/documents/{document}/moderate', 'DocumentController@moderate')
-    ->name('documents.moderate');
+Route::get('/documents/{document}/manage/settings', 'DocumentController@manageSettings')
+    ->name('documents.manage.settings');
+
+Route::get('/documents/{document}/manage/comments', 'DocumentController@manageComments')
+    ->name('documents.manage.comments');
 
 
 // Sponsors

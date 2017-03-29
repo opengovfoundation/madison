@@ -243,7 +243,6 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Feed'      => Roumen\Feed\Feed::class,
-        'CategoryHelpers' => App\Helpers\CategoryHelpers::class,
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'SiteConfigSaver' => App\Config\Facades\SiteConfigSaver::class,

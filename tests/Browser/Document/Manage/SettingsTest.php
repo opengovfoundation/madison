@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\Browser\Document;
+namespace Tests\Browser\Document\Manage;
 
 use App\Models\Doc as Document;
 use App\Models\DocContent;
 use App\Models\Sponsor;
 use App\Models\User;
-use Tests\Browser\Pages\Document\EditPage;
+use Tests\Browser\Pages\Document\Manage\SettingsPage;
 use Tests\DuskTestCase;
 use Tests\FactoryHelpers;
 
-class EditTest extends DuskTestCase
+class SettingsTest extends DuskTestCase
 {
     public function setUp()
     {
@@ -24,7 +24,7 @@ class EditTest extends DuskTestCase
         ]);
         $this->document->content()->save(factory(DocContent::class)->make());
         $this->document->sponsors()->save($this->sponsor);
-        $this->page = new EditPage($this->document);
+        $this->page = new SettingsPage($this->document);
     }
 
     public function testAdminCanEditDocument()
@@ -54,6 +54,26 @@ class EditTest extends DuskTestCase
             $browser
                 ->loginAs($staff)
                 ->visit($this->page)
+                ->assertVisible('fieldset[disabled]')
+                ;
+        });
+    }
+
+    public function testSponsorCannotEditOtherDocument()
+    {
+        $otherSponsorOwner = factory(User::class)->create();
+        $otherSponsor = FactoryHelpers::createActiveSponsorWithUser($otherSponsorOwner);
+
+        $otherDocument = factory(Document::class)->create([
+            'publish_state' => Document::PUBLISH_STATE_UNPUBLISHED,
+        ]);
+        $otherDocument->content()->save(factory(DocContent::class)->make());
+        $otherDocument->sponsors()->save($otherSponsor);
+
+        $this->browse(function ($browser) use ($otherDocument) {
+            $browser
+                ->loginAs($this->sponsorOwner)
+                ->visit(new SettingsPage($otherDocument))
                 // 403 status
                 ->assertSee('Whoops, looks like something went wrong')
                 ;
@@ -114,7 +134,7 @@ class EditTest extends DuskTestCase
                 ->type('slug', $newData['slug'])
                 ->click('@submitBtn')
                 ->assertInputValue('slug', $newData['slug'])
-                ->assertPathIs("/documents/{$newData['slug']}/edit")
+                ->assertPathIs("/documents/{$newData['slug']}/manage/settings")
                 ;
 
             $this->document = $this->document->fresh();

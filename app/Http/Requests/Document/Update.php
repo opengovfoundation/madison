@@ -32,8 +32,6 @@ class Update extends Edit
             ],
             'publish_state' => 'in:' . implode(',', Document::validPublishStates()),
             'discussion_state' => 'in:' . implode(',', Document::validDiscussionStates()),
-            'sponsor_id' => 'integer',
-            'category_id.*' => 'integer',
             'featured-image' => 'image',
         ];
     }

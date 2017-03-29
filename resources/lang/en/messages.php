@@ -44,6 +44,7 @@ return [
     'learn_more' => 'Learn more',
     'relevance' => 'Relevance',
     'relevance_ordering_warning' => 'Ordering by relevance only works with a search query, default order has been used.',
+    'manage' => 'Manage',
 
     // Authentication Stuff
     'password' => 'Password',
@@ -100,12 +101,10 @@ return [
         'read' => 'Read this document',
         'title' => 'Title',
         'title_invalid' => 'Can\'t create document with that name, please try another.',
-        'slug' => 'Custom URL (slug)',
-        'slug_help' => 'Will automatically be set based on title if blank. Only the letters a through z (lowercase), numbers 0 through 9, and hyphens (-) may be used.  For example: my-document',
-        'introtext' => 'Intro Text',
-        'category' => 'Category',
+        'slug' => 'Slug',
+        'slug_help' => 'You can change the slug of your document. It is strongly suggested that you not change this after you have published your document.',
+        'introtext' => 'Introduction',
         'content' => 'Content',
-        'categories' => 'Categories: ',
         'sponsor' => 'Sponsor',
         'sponsor_others' => 'and others',
 
@@ -184,6 +183,9 @@ return [
         'create' => 'Create Document',
         'new' => 'New Document',
         'edit' => 'Edit Document',
+        'save' => 'Save Document',
+        'view' => 'View Document',
+        'manage' => 'Manage Document',
     ],
 
     // Sponsor Stuff

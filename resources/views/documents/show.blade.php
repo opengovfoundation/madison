@@ -33,9 +33,9 @@
                         <span class="notes-count">
                             <strong>{{ trans('messages.document.notes') }}</strong>: {{ $noteCount }}
                         </span>
-                        @if (Auth::check() && $document->canUserEdit(Auth::user()))
-                            <a href="{{ route('documents.moderate', $document) }}" class="btn btn-default">@lang('messages.document.moderate')</a>
-                        @endif
+                        @can('viewManage', $document)
+                            <a href="{{ route('documents.manage.comments', $document) }}" class="btn btn-default">@lang('messages.document.moderate')</a>
+                        @endcan
                     </div>
 
                     <div class="btn-group support-btn" role="group">

@@ -19,8 +19,6 @@ class DatabaseSeeder extends Seeder
         'annotation_types_seen',
         'annotation_types_tag',
         'annotations',
-        'categories',
-        'category_doc',
         'configs',
         'doc_contents',
         'doc_meta',
@@ -60,7 +58,6 @@ class DatabaseSeeder extends Seeder
         $this->call('NotificationSeeder');
         $this->call('SponsorsTableSeeder');
         $this->call('DocumentsTableSeeder');
-        $this->call('CategoriesTableSeeder');
         $this->call('AnnotationsTableSeeder');
         $this->call('PagesTableSeeder');
 

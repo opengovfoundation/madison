@@ -2,54 +2,56 @@
     <thead>
         <tr>
             <th>@lang('messages.user.user')</th>
-            <th>@lang('messages.type')</th>
             <th>@lang('messages.document.comment')</th>
             <th>@lang('messages.document.like')</th>
             <th>@lang('messages.document.flag')</th>
             <th>@lang('messages.document.replies')</th>
             <th>@lang('messages.created')</th>
-            <th>@lang('messages.actions')</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach ($comments as $comment)
-            <tr>
+            <tr id="comment-{{ $comment->id }}">
                 <td>{{ $comment->user->display_name }}</td>
-                <td>{{ $comment->isNote() ? trans('messages.document.note') : trans('messages.document.comment') }}</td>
-                <td>{{ str_limit($comment->annotationType->content, 100, ' ...') }}</td>
+                <td>
+                    @if (!$comment->isHidden())
+                        <a href="{{ $comment->getLink() }}">
+                    @endif
+                    {{ str_limit($comment->annotationType->content, 100, ' ...') }}
+                    @if (!$comment->isHidden())
+                        </a>
+                    @endif
+                </td>
                 <td>{{ $comment->likes_count }}</td>
                 <td>{{ $comment->flags_count }}</td>
                 <td>{{ $comment->comments()->withoutGlobalScope('visible')->notHidden()->count() }}</td>
                 <td>{{ $comment->created_at->diffForHumans() }}</td>
                 <td>
-                    @if (!$comment->isHidden())
-                        <div class="btn-group" role="group">
-                            <a href="{{ $comment->getLink() }}" class="btn btn-default">
-                                {{ trans('messages.view') }}
-                            </a>
-                        </div>
-                    @endif
                     <div class="btn-group" role="group">
                         {{ Form::open(['route' => ['documents.comments.storeHidden', $document, $comment], 'method' => 'post']) }}
                             @if ($comment->isHidden())
-                                <button type="submit" class="btn btn-default" disabled="true">
+                                <button type="submit" class="btn btn-default btn-xs" disabled>
                                     {{ trans('messages.document.hidden_comment') }}
                                 </button>
                             @else
-                                <button type="submit" class="btn btn-default">
+                                <button type="submit" class="btn btn-default btn-xs">
                                     {{ trans('messages.document.hide_comment') }}
                                 </button>
                             @endif
                         {{ Form::close() }}
                     </div>
+                </td>
+                <td>
                     <div class="btn-group" role="group">
                         {{ Form::open(['route' => ['documents.comments.storeResolve', $document, $comment], 'method' => 'post']) }}
                             @if ($comment->isResolved())
-                                <button type="submit" class="btn btn-default" disabled="true">
+                                <button type="submit" class="btn btn-default btn-xs" disabled>
                                     {{ trans('messages.document.resolved_comment') }}
                                 </button>
                             @else
-                                <button type="submit" class="btn btn-default">
+                                <button type="submit" class="btn btn-default btn-xs">
                                     {{ trans('messages.document.resolve_comment') }}
                                 </button>
                             @endif

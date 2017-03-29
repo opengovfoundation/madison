@@ -110,18 +110,10 @@ class SponsorController extends Controller
     {
         $limit = $request->input('limit', 10);
         $documents = $sponsor->docs()->paginate($limit);
-        $documentsCapabilities = [];
-
-        foreach ($documents as $document) {
-            $documentsCapabilities[$document->id] = $document->capabilitiesForUser($request->user());
-        }
 
         return view('sponsors.documents-list', compact([
             'sponsor',
             'documents',
-            'documentsCapabilities',
         ]));
     }
-
-
 }

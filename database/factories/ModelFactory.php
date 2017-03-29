@@ -12,7 +12,6 @@
 
 use App\Models\Annotation;
 use App\Models\AnnotationTypes;
-use App\Models\Category;
 use App\Models\Doc as Document;
 use App\Models\DocContent;
 use App\Models\Page;
@@ -86,10 +85,6 @@ $factory->define(DocContent::class, function (Faker\Generator $faker) {
     return [
         'content' => $faker->paragraphs(100, true),
     ];
-});
-
-$factory->define(Category::class, function (Faker\Generator $faker) {
-    return [ 'name' => $faker->words(2, true) ];
 });
 
 $factory->define(Annotation::class, function (Faker\Generator $faker) {
