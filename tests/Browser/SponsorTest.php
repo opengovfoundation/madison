@@ -110,35 +110,17 @@ class SponsorTest extends DuskTestCase
         $user = factory(User::class)->create();
         $sponsor = FactoryHelpers::createActiveSponsorWithUser($user);
 
-        $newSponsorData = factory(Sponsor::class)->make();
+        $this->userCanEditSponsor($user, $sponsor);
+    }
 
-        $this->browse(function ($browser) use ($user, $sponsor, $newSponsorData) {
-            $browser
-                ->loginAs($user)
-                ->visit(new SponsorPages\EditPage($sponsor))
-                ->assertFormHasDataForSponsor($sponsor)
-                ->type('name', $newSponsorData->name)
-                ->type('display_name', $newSponsorData->display_name)
-                ->type('address1', $newSponsorData->address1)
-                ->type('city', $newSponsorData->city)
-                ->type('state', $newSponsorData->state)
-                ->type('postal_code', $newSponsorData->postal_code)
-                ->type('phone', $newSponsorData->phone)
-                ->press('@submitBtn')
-                ->assertRouteIs('sponsors.edit', $sponsor)
-                ->assertFormHasDataForSponsor($sponsor->fresh())
-                ;
+    public function testAdminCanEditSponsorSettings()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
 
-            $sponsor = $sponsor->fresh();
+        $admin = factory(User::class)->create()->makeAdmin();
 
-            $this->assertEquals($sponsor->name, $newSponsorData->name);
-            $this->assertEquals($sponsor->display_name, $newSponsorData->display_name);
-            $this->assertEquals($sponsor->address1, $newSponsorData->address1);
-            $this->assertEquals($sponsor->city, $newSponsorData->city);
-            $this->assertEquals($sponsor->state, $newSponsorData->state);
-            $this->assertEquals($sponsor->postal_code, $newSponsorData->postal_code);
-            $this->assertEquals($sponsor->phone, $newSponsorData->phone);
-        });
+        $this->userCanEditSponsor($admin, $sponsor);
     }
 
     public function testNonOwnerCantEditSponsorSettings()
@@ -165,24 +147,17 @@ class SponsorTest extends DuskTestCase
         $owner = factory(User::class)->create();
         $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
 
-        $user = factory(User::class)->create();
-        $role = Sponsor::ROLE_EDITOR;
+        $this->userCanAddMembersToSponsor($owner, $sponsor);
+    }
 
-        $this->browse(function ($browser) use ($owner, $sponsor, $user, $role) {
-            $browser
-                ->loginAs($owner)
-                ->visit(new SponsorPages\MembersPage($sponsor))
-                ->assertDontSeeIn('table', $user->display_name)
-                ->click('@addMemberButton')
-                ->assertRouteIs('sponsors.members.create', $sponsor)
-                ->type('email', $user->email)
-                ->select('role', $role)
-                ->press(trans('messages.sponsor_member.add_user'))
-                ->assertRouteIs('sponsors.members.index', $sponsor)
-                ->assertSeeIn('table', $user->display_name)
-                ->assertSeeIn('tr#user-'.$user->id, trans('messages.sponsor_member.roles.'.$role))
-                ;
-        });
+    public function testAdminCanAddMembers()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+
+        $admin = factory(User::class)->create()->makeAdmin();
+
+        $this->userCanAddMembersToSponsor($admin, $sponsor);
     }
 
     public function testNonSponsorOwnerCannotAddMembers()
@@ -207,24 +182,19 @@ class SponsorTest extends DuskTestCase
     public function testSponsorOwnerCanRemoveMembers()
     {
         $owner = factory(User::class)->create();
-        $editor = factory(User::class)->create();
-
         $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
-        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
 
-        $this->browse(function ($browser) use ($owner, $sponsor, $editor) {
-            $browser
-                ->loginAs($owner)
-                ->visit(new SponsorPages\MembersPage($sponsor))
-                ->assertSeeIn('table', $editor->display_name)
-                ->with('tr#user-' . $editor->id, function ($userRow) {
-                    $userRow->press('.remove');
-                })
-                ->assertVisible('.alert.alert-info') // some success
-                ->assertRouteIs('sponsors.members.index', $sponsor)
-                ->assertDontSeeIn('table', $editor->display_name)
-                ;
-        });
+        $this->userCanRemoveMembersFromSponsor($owner, $sponsor);
+    }
+
+    public function testAdminCanRemoveMembers()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+
+        $admin = factory(User::class)->create()->makeAdmin();
+
+        $this->userCanRemoveMembersFromSponsor($admin, $sponsor);
     }
 
     public function testNonSponsorOwnerCannotRemoveMembers()
@@ -247,26 +217,19 @@ class SponsorTest extends DuskTestCase
     public function testSponsorOwnerCanUpdateMemberRoles()
     {
         $owner = factory(User::class)->create();
-        $editor = factory(User::class)->create();
-
         $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
-        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
 
-        $newRole = Sponsor::ROLE_STAFF;
+        $this->userCanUpdateSponsorMemberRoles($owner, $sponsor);
+    }
 
-        $this->browse(function ($browser) use ($owner, $sponsor, $editor, $newRole) {
-            $browser
-                ->loginAs($owner)
-                ->visit(new SponsorPages\MembersPage($sponsor))
-                ->assertSeeIn('table', $editor->display_name)
-                ->with('tr#user-' . $editor->id, function ($userRow) use ($newRole) {
-                    $userRow->select('role', $newRole);
-                })
-                ->assertVisible('.alert.alert-info') // some success
-                ->assertRouteIs('sponsors.members.index', $sponsor)
-                ->assertSeeIn('tr#user-' . $editor->id, trans('messages.sponsor_member.roles.'.$newRole))
-                ;
-        });
+    public function testAdminCanUpdateMemberRoles()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+
+        $admin = factory(User::class)->create()->makeAdmin();
+
+        $this->userCanUpdateSponsorMemberRoles($admin, $sponsor);
     }
 
     public function testNonSponsorOwnerCannotUpdateMemberRoles()
@@ -305,6 +268,103 @@ class SponsorTest extends DuskTestCase
                 })
                 ->assertSeeIn('.alert', trans('messages.sponsor_member.need_owner'))
                 ->assertSeeIn('tr#user-' . $owner->id, trans('messages.sponsor_member.roles.' . $originalRole))
+                ;
+        });
+    }
+
+    public function userCanEditSponsor($user, $sponsor)
+    {
+        $newSponsorData = factory(Sponsor::class)->make();
+
+        $this->browse(function ($browser) use ($user, $sponsor, $newSponsorData) {
+            $browser
+                ->loginAs($user)
+                ->visit(new SponsorPages\EditPage($sponsor))
+                ->assertFormHasDataForSponsor($sponsor)
+                ->type('name', $newSponsorData->name)
+                ->type('display_name', $newSponsorData->display_name)
+                ->type('address1', $newSponsorData->address1)
+                ->type('city', $newSponsorData->city)
+                ->type('state', $newSponsorData->state)
+                ->type('postal_code', $newSponsorData->postal_code)
+                ->type('phone', $newSponsorData->phone)
+                ->press('@submitBtn')
+                ->assertRouteIs('sponsors.edit', $sponsor)
+                ->assertFormHasDataForSponsor($sponsor->fresh())
+                ;
+
+            $sponsor = $sponsor->fresh();
+
+            $this->assertEquals($sponsor->name, $newSponsorData->name);
+            $this->assertEquals($sponsor->display_name, $newSponsorData->display_name);
+            $this->assertEquals($sponsor->address1, $newSponsorData->address1);
+            $this->assertEquals($sponsor->city, $newSponsorData->city);
+            $this->assertEquals($sponsor->state, $newSponsorData->state);
+            $this->assertEquals($sponsor->postal_code, $newSponsorData->postal_code);
+            $this->assertEquals($sponsor->phone, $newSponsorData->phone);
+        });
+    }
+
+    public function userCanAddMembersToSponsor($user, $sponsor)
+    {
+        $newUser = factory(User::class)->create();
+        $role = Sponsor::ROLE_EDITOR;
+
+        $this->browse(function ($browser) use ($user, $sponsor, $newUser, $role) {
+            $browser
+                ->loginAs($user)
+                ->visit(new SponsorPages\MembersPage($sponsor))
+                ->assertDontSeeIn('table', $newUser->display_name)
+                ->click('@addMemberButton')
+                ->assertRouteIs('sponsors.members.create', $sponsor)
+                ->type('email', $newUser->email)
+                ->select('role', $role)
+                ->press(trans('messages.sponsor_member.add_user'))
+                ->assertRouteIs('sponsors.members.index', $sponsor)
+                ->assertSeeIn('table', $newUser->display_name)
+                ->assertSeeIn('tr#user-'.$newUser->id, trans('messages.sponsor_member.roles.'.$role))
+                ;
+        });
+    }
+
+    public function userCanRemoveMembersFromSponsor($user, $sponsor)
+    {
+        $editor = factory(User::class)->create();
+        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
+
+        $this->browse(function ($browser) use ($user, $sponsor, $editor) {
+            $browser
+                ->loginAs($user)
+                ->visit(new SponsorPages\MembersPage($sponsor))
+                ->assertSeeIn('table', $editor->display_name)
+                ->with('tr#user-' . $editor->id, function ($userRow) {
+                    $userRow->press('.remove');
+                })
+                ->assertVisible('.alert.alert-info') // some success
+                ->assertRouteIs('sponsors.members.index', $sponsor)
+                ->assertDontSeeIn('table', $editor->display_name)
+                ;
+        });
+    }
+
+    public function userCanUpdateSponsorMemberRoles($user, $sponsor)
+    {
+        $editor = factory(User::class)->create();
+        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
+
+        $newRole = Sponsor::ROLE_STAFF;
+
+        $this->browse(function ($browser) use ($user, $sponsor, $editor, $newRole) {
+            $browser
+                ->loginAs($user)
+                ->visit(new SponsorPages\MembersPage($sponsor))
+                ->assertSeeIn('table', $editor->display_name)
+                ->with('tr#user-' . $editor->id, function ($userRow) use ($newRole) {
+                    $userRow->select('role', $newRole);
+                })
+                ->assertVisible('.alert.alert-info') // some success
+                ->assertRouteIs('sponsors.members.index', $sponsor)
+                ->assertSeeIn('tr#user-' . $editor->id, trans('messages.sponsor_member.roles.'.$newRole))
                 ;
         });
     }
