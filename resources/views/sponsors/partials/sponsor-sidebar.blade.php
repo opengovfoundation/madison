@@ -10,7 +10,7 @@
 
             @lang('messages.sponsor.members')
         </a>
-        @if ($sponsor->isSponsorOwner(Auth::user()) || Auth::user()->isAdmin())
+        @if ($sponsor->isSponsorOwner(Auth::user()->id) || Auth::user()->isAdmin())
             <a href="{{ route('sponsors.edit', $sponsor) }}"
                 class="list-group-item {{ active(['sponsors.edit']) }}">
 

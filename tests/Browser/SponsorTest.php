@@ -17,8 +17,8 @@ class SponsorTest extends DuskTestCase
     {
         $this->browse(function ($browser) {
             $browser
-                ->visit(new SponsorPages\CreatePage)
-                ->assertSee('unauthorized')
+                ->visit((new SponsorPages\CreatePage)->url())
+                ->assertRouteIs('login')
                 ;
         });
     }
@@ -42,7 +42,7 @@ class SponsorTest extends DuskTestCase
 
             $sponsor = Sponsor::first();
 
-            $browser->assertRouteIs('sponsors.members.index', $sponsor);
+            $browser->assertRouteIs('sponsors.awaiting-approval');
 
             $this->assertEquals($sponsor->status, Sponsor::STATUS_PENDING);
 
@@ -366,6 +366,61 @@ class SponsorTest extends DuskTestCase
                 ->assertRouteIs('sponsors.members.index', $sponsor)
                 ->assertSeeIn('tr#user-' . $editor->id, trans('messages.sponsor_member.roles.'.$newRole))
                 ;
+        });
+    }
+
+    public function testSponsorOwnerRedirectedToPendingPageIfSponsorNotApproved()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = factory(Sponsor::class)->create([
+            'status' => Sponsor::STATUS_PENDING,
+        ]);
+        $sponsor->addMember($owner->id, Sponsor::ROLE_OWNER);
+
+        $this->browse(function ($browser) use ($owner, $sponsor) {
+            $browser
+                ->loginAs($owner)
+                ;
+
+            $sponsorPages = [
+                (new SponsorPages\EditPage($sponsor))->url(),
+                (new SponsorPages\MembersPage($sponsor))->url(),
+                route('sponsors.documents.index', [$sponsor], false),
+            ];
+
+            foreach ($sponsorPages as $page) {
+                $browser
+                    ->visit($page)
+                    ->assertRouteIs('sponsors.awaiting-approval')
+                    ;
+            }
+        });
+    }
+
+    public function testAdminNotRedirectedToPendingPageIfSponsorNotApproved()
+    {
+        $admin = factory(User::class)->create()->makeAdmin();
+        $sponsor = factory(Sponsor::class)->create([
+            'status' => Sponsor::STATUS_PENDING,
+        ]);
+
+        $this->browse(function ($browser) use ($admin, $sponsor) {
+            $browser
+                ->loginAs($admin)
+                ;
+
+            $sponsorPages = [
+                (new SponsorPages\EditPage($sponsor))->url(),
+                (new SponsorPages\MembersPage($sponsor))->url(),
+                route('sponsors.documents.index', [$sponsor], false),
+            ];
+
+            foreach ($sponsorPages as $page) {
+                $browser
+                    ->visit($page)
+                    ->assertPathIs($page)
+                    ;
+            }
         });
     }
 }

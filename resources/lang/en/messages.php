@@ -199,6 +199,12 @@ return [
             'step4' => 'Once approved, Madison administrators will help you make a plan to promote your document so you get the best public engagement possible.',
             'step5' => 'With a plan in place, you can :linkOpen publish a document :linkClose and hear the opinions of the public.',
         ],
+        'waiting_approval' => [
+            'page_title' => 'Sponsor Awaiting Approval',
+            'msg_header' => 'Your Sponsor Request Is Awaiting Approval',
+            'msg_lead' => 'Thank you! You are one step closer to adding the public\'s voice and credibility to your document.',
+            'msg_body' => 'Madison administrators will be contact you within two business days to verify your request.',
+        ],
         'create_help' => [
             'what_is_a_sponsor' => 'Sponsors are individuals and organizations that want to share a document with the public and hear their opinions using Madison. Add the public\'s voice and credibility to your proposal.',
             'next_steps' => 'Completing this form will submit your request to the Madison administrators to authorize your sponsor account. You will be contacted within two business days to verify your request.',
@@ -229,7 +235,6 @@ return [
             \App\Models\Sponsor::STATUS_ACTIVE => 'Approved',
             \App\Models\Sponsor::STATUS_PENDING => 'Pending',
         ],
-
 
         'status_updated' => 'Status Updated',
 

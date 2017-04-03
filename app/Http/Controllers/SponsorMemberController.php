@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Sponsor;
 use App\Models\SponsorMember;
 use App\Models\User;
+use App\Http\Middleware\UnapprovedSponsorRedirect;
 use App\Http\Requests\SponsorMember as Requests;
 use App\Events\SponsorMemberAdded;
 use App\Events\SponsorMemberRemoved;
@@ -13,6 +14,17 @@ use App\Events\SponsorMemberRoleChanged;
 
 class SponsorMemberController extends Controller
 {
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(UnapprovedSponsorRedirect::class);
+    }
+
     /**
      * Display a listing of the resource.
      *

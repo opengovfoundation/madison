@@ -2,15 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SponsorCreated;
+use App\Http\Middleware\UnapprovedSponsorRedirect;
 use App\Http\Requests\Sponsor as Requests;
 use App\Models\Sponsor;
 use App\Models\User;
-use App\Events\SponsorCreated;
-use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Http\Request;
 
 class SponsorController extends Controller
 {
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['info']);
+        $this->middleware(UnapprovedSponsorRedirect::class)->except(['info', 'awaitingApproval']);
+    }
 
     /**
      * Information page on becoming a sponsor.
@@ -19,7 +30,6 @@ class SponsorController extends Controller
     {
         return view('sponsors.info');
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -47,7 +57,7 @@ class SponsorController extends Controller
             event(new SponsorCreated($sponsor));
 
             flash(trans('messages.sponsor.created'));
-            return redirect()->route('sponsors.members.index', $sponsor->id);
+            return redirect()->route('sponsors.awaiting-approval', $sponsor->id);
         } else {
             flash(trans('messages.sponsor.create_failed'));
             return back()->withInput();
@@ -115,5 +125,10 @@ class SponsorController extends Controller
             'sponsor',
             'documents',
         ]));
+    }
+
+    public function awaitingApproval(Request $request)
+    {
+        return view('sponsors.awaiting-approval');
     }
 }

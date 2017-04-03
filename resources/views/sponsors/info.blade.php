@@ -22,7 +22,7 @@
                     <li>@lang('messages.sponsor.info.step5', [ 'linkOpen' => '<a href="' . route('documents.create') . '">', 'linkClose' => '</a>' ])</li>
                 </ol>
 
-                <p><a class="btn btn-primary" href="/madison-mockups/users/sponsors/new.html" role="button">@lang('messages.sponsor.become')</a></p>
+                <p><a class="btn btn-primary" href="{{ route('sponsors.create') }}" role="button">@lang('messages.sponsor.become')</a></p>
             </div>
             <div class="col-md-6">
                 <div class="embed-responsive embed-responsive-4by3">
