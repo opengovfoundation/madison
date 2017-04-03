@@ -19,4 +19,12 @@ class UpdateAccount extends \App\Http\Requests\User\Edit
             'email' => 'email|required|unique:users',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'fname.required' => 'The first name field is required.',
+            'lname.required' => 'The last name field is required.',
+        ];
+    }
 }

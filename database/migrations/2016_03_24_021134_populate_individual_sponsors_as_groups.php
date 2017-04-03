@@ -4,7 +4,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 use App\Models\Sponsor;
-use App\Models\UserMeta;
+use Carbon\Carbon;
 
 class PopulateIndividualSponsorsAsGroups extends Migration
 {
@@ -73,10 +73,13 @@ class PopulateIndividualSponsorsAsGroups extends Migration
 
             if (count($existing_meta_records) === 0) {
                 // no record, create a new one
-                $meta_record = new UserMeta([
+                $now = Carbon::now();
+                DB::table('user_meta')->insert([
                     'user_id' => $individual_group->user_id,
-                    'meta_key' => UserMeta::TYPE_INDEPENDENT_SPONSOR,
-                    'meta_value' => $individual_group->status === 'active' ? 1 : 0
+                    'meta_key' => 'independent_sponsor',
+                    'meta_value' => $individual_group->status === 'active' ? 1 : 0,
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ]);
             } else {
                 // record exists! update status if needed

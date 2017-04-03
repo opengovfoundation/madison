@@ -40,7 +40,6 @@ class DatabaseSeeder extends Seeder
         'settings',
         'sponsor_members',
         'sponsors',
-        'user_meta',
         'users',
     ];
 

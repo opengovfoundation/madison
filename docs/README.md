@@ -127,12 +127,6 @@ logging in.  These options include:
     * *Unpublished*: Only accessible by the sponsor of the document
     * *Private*: Not listed on the front page, but accessible by anyone who has
       the direct link
-* `Verify Accounts`
-  * Verified users are presented as such on the public facing side of the
-    application.  This is a way to separate notable accounts from the average
-    registrant.
-  * Users request verified status from their `Account Settings` page and must
-    be approved by a site admin.
 * `Verify Sponsors`
   * Sponsors can be used for different organizations, legislative offices, or
     individuals.  Users request to create a sponsor from their `Sponsor

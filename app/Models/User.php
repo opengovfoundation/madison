@@ -2,16 +2,12 @@
 
 namespace App\Models;
 
-/**
- * User Model.
- */
 use Hash;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use Log;
 use Session;
@@ -20,7 +16,6 @@ use App\Models\Annotation;
 use App\Models\Sponsor;
 use App\Models\SponsorMember;
 use App\Models\Role;
-use App\Models\UserMeta;
 
 use DB;
 
@@ -40,111 +35,7 @@ class User extends Authenticatable
 
     protected $hidden = ['password', 'token', 'last_login', 'deleted_at', 'roles', 'remember_token'];
     protected $fillable = ['fname', 'lname', 'email', 'password', 'token'];
-    protected $appends = ['display_name', 'independent_sponsor'];
-
-    const STATUS_VERIFIED = 'verified';
-    const STATUS_PENDING = 'pending';
-    const STATUS_DENIED = 'denied';
-
-    /**
-     * Validation rules.
-     */
-    protected static $rules = [
-        'save' => [
-            'fname' => 'required',
-            'lname' => 'required',
-        ],
-        'create' => [
-            'email' => 'required|unique:users',
-            'password' => 'required',
-        ],
-        'update' => [
-            'email' => 'required|unique:users',
-            'password' => 'required',
-        ],
-        'verify' => [
-            'phone' => 'required',
-        ],
-    ];
-
-    protected $validationErrors = null;
-    protected $verify = false;
-
-    /**
-     *  Custom error messages for certain validation requirements.
-     */
-    protected static $customMessages = array(
-        'fname.required' => 'The first name field is required.',
-        'lname.required' => 'The last name field is required.',
-        'phone.required' => 'A phone number is required to request verified status.',
-    );
-
-    /**
-     *  Constructor.
-     *
-     *  @param array $attributes
-     *  Extends Eloquent constructor
-     */
-    public function __construct($attributes = array())
-    {
-        parent::__construct($attributes);
-        $this->validationErrors = new MessageBag();
-    }
-
-    /**
-     *  Save.
-     *
-     *  Override Eloquent save() method
-     *      Runs $this->beforeSave()
-     *
-     * @param array $options
-     *
-     * @return bool
-     */
-    public function save(array $options = array())
-    {
-        if (!$this->beforeSave()) {
-            return false;
-        }
-
-        return parent::save($options);
-    }
-
-    /**
-     *  getErrors.
-     *
-     *  Returns errors from validation
-     *
-     *  @param void
-     *
-     * @return MessageBag $this->validationErrors
-     */
-    public function getErrors()
-    {
-        return $this->validationErrors;
-    }
-
-    /**
-     *  verified.
-     *
-     *  Returns the value of the UserMeta for this user with key 'verify'
-     *      The value of this is either 'verified' or 'pending'
-     *      If the user hasn't requested verified status, this will return null
-     *
-     *  @param void
-     *
-     * @return string||null
-     */
-    public function verified()
-    {
-        $request = $this->user_meta()->where('meta_key', 'verify')->first();
-
-        if (isset($request)) {
-            return $request->meta_value;
-        } else {
-            return;
-        }
-    }
+    protected $appends = ['display_name'];
 
     /**
      *  getDisplayName.
@@ -176,22 +67,6 @@ class User extends Authenticatable
     public function getNameAttribute()
     {
         return $this->getDisplayName();
-    }
-
-    /**
-     * getIndependentSponsorAttribute
-     *
-     * Returns the user's independent sponsor status.
-     *
-     * @param void
-     * @return string
-     */
-    public function getIndependentSponsorAttribute()
-    {
-        // check if user has sponsor marked as individual
-        // return the status of that sponsor
-        $individual_sponsor = $this->sponsors->where('individual', 1)->first();
-        return $individual_sponsor ? $individual_sponsor->status : null;
     }
 
     /**
@@ -240,19 +115,6 @@ class User extends Authenticatable
     public function sponsors()
     {
         return $this->belongsToMany('App\Models\Sponsor', 'sponsor_members')->whereNull('sponsor_members.deleted_at');
-    }
-
-    /**
-     * individualSponsor
-     *
-     * Eloquent belongsTo relationship for an independent sponsor sponsor
-     *
-     * @param void
-     * @return App\Models\Sponsor
-     */
-    public function individualSponsor()
-    {
-        return $this->sponsors->where('individual', true)->first();
     }
 
     public function comments()
@@ -330,65 +192,6 @@ class User extends Authenticatable
     }
 
     /**
-     *  user_meta.
-     *
-     *  Eloquent hasMany relationship for UserMeta
-     *
-     *  @param void
-     *
-     *  @return Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function user_meta()
-    {
-        return $this->hasMany('App\Models\UserMeta');
-    }
-
-    /**
-     *  admin_contact.
-     *
-     *  Sets the user as an admin contact for the site
-     *
-     *  @param unknownType $setting
-     *
-     *  @return bool||void
-     *
-     *  @todo References to this should be removed.  We're allowing all admins to determine notification subscriptions
-     */
-    public function admin_contact($setting = null)
-    {
-        if (isset($setting)) {
-            $meta = $this->user_meta()->where('meta_key', '=', 'admin_contact')->first();
-
-            if (!isset($meta)) {
-                $meta = new UserMeta();
-                $meta->user_id = $this->id;
-                $meta->meta_key = 'admin_contact';
-                $meta->meta_value = $setting;
-                $meta->save();
-
-                return true;
-            } else {
-                $meta->meta_value = $setting;
-                $meta->save();
-
-                return true;
-            }
-        }
-
-        if (!$this->hasRole('Admin')) {
-            return false;
-        }
-
-        $meta = $this->user_meta()->where('meta_key', '=', 'admin_contact')->first();
-
-        if (isset($meta)) {
-            $this->admin_contact = $meta->meta_value == '1' ? true : false;
-        } else {
-            $this->admin_contact = false;
-        }
-    }
-
-    /**
      *  doc_meta.
      *
      *  Eloquent hasMany relationship for DocMeta
@@ -400,26 +203,6 @@ class User extends Authenticatable
     public function doc_meta()
     {
         return $this->hasMany('App\Models\DocMeta');
-    }
-
-    /**
-     *  getValidSponsors.
-     *
-     *  @todo I'm not sure what exactly this does at first glance
-     */
-    public function getValidSponsors()
-    {
-        $collection = new Collection();
-
-        $sponsors = SponsorMember::where('user_id', '=', $this->id)
-                             ->whereIn('role', array(Sponsor::ROLE_EDITOR, Sponsor::ROLE_OWNER))
-                             ->get();
-
-        foreach ($sponsors as $sponsorMember) {
-            $collection->add($sponsorMember->sponsor()->first());
-        }
-
-        return $collection;
     }
 
     /**
@@ -466,92 +249,6 @@ class User extends Authenticatable
         } else {
             return false;
         }
-    }
-
-    /**
-     *  beforeSave.
-     *
-     *  Validates before saving.  Returns whether the User can be saved.
-     *
-     *  @param array $options
-     *
-     * @return bool
-     */
-    private function beforeSave(array $options = array())
-    {
-        if (!$this->validate()) {
-            Log::error("Unable to validate user: ");
-            Log::error($this->getErrors()->toArray());
-            Log::error($this->attributes);
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     *  mergeRules.
-     *
-     *  Merge the rules arrays to form one set of rules
-     *
-     * @param void
-     *
-     * @return array $output
-     */
-    public function mergeRules()
-    {
-        $rules = static::$rules;
-        $output = array();
-
-        //If we're updating the user
-        if ($this->exists) {
-            $merged = array_merge_recursive($rules['save'], $rules['update']);
-            $merged['email'] = 'required|unique:users,email,'.$this->id;
-        }
-        //If we're creating a user via Madison
-        else {
-            $merged = array_merge_recursive($rules['save'], $rules['create']);
-        }
-
-        //Include verify rules if requesting verification
-        if ($this->verify) {
-            $merged = array_merge_recursive($merged, $rules['verify']);
-        }
-
-        foreach ($merged as $field => $rules) {
-            if (is_array($rules)) {
-                $output[$field] = implode("|", $rules);
-            } else {
-                $output[$field] = $rules;
-            }
-        }
-
-        return $output;
-    }
-
-    /**
-     *  Validate.
-     *
-     *  Validate input against merged rules
-     *
-     *  @param array $attributes
-     *
-     * @return bool
-     */
-    public function validate()
-    {
-        // `mergeRules` handles logic for determining the context of the
-        // validation, eg: save, update, create, etc
-        $validation = Validator::make($this->attributes, $this->mergeRules(), static::$customMessages);
-
-        if ($validation->passes()) {
-            return true;
-        }
-
-        $this->validationErrors = $validation->messages();
-
-        return false;
     }
 
     /**

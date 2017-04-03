@@ -79,20 +79,6 @@ class Sponsor extends Model
         return $this->belongsToMany('App\Models\Doc');
     }
 
-    /**
-     *  @todo is this used?  Used to be used in $this->userHasRole, but the logic there has been changed.
-     */
-    public function getRoleId($role)
-    {
-        $role = strtolower($role);
-
-        if (!static::isValidRole($role)) {
-            throw new \Exception("Invalid Role");
-        }
-
-        return "sponsor_{$this->id}_$role";
-    }
-
     public function userHasRole($user, $role)
     {
         $sponsorMember = SponsorMember::where('sponsor_id', '=', $this->id)->where('user_id', '=', $user->id)->first();
