@@ -73,9 +73,6 @@ class DocumentPageTest extends DuskTestCase
     {
         $this->browse(function ($browser) {
             $browser->visit(new DocumentPage($this->document))
-                ->assertSeeIn('@participantCount', '1')
-                ->assertSeeIn('@notesCount', '2')
-                ->assertSeeIn('@commentsCount', '3')
                 ->assertSeeIn('@supportBtn', '0')
                 ->assertSeeIn('@opposeBtn', '0')
                 ;

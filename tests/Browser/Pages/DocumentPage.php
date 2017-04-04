@@ -34,7 +34,7 @@ class DocumentPage extends BasePage
     public function elements()
     {
         return [
-            '@sponsorList' => '.page-header .sponsors',
+            '@sponsorList' => '.jumbotron .sponsors',
             '@stats' => '.document-stats',
             '@participantCount' => '.participants-count',
             '@commentsCount' => '.comments-count',

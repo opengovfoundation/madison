@@ -18,7 +18,7 @@ class DocumentsTableSeeder extends Seeder
             'publish_state' => Document::PUBLISH_STATE_PUBLISHED,
         ])->each(function ($document) use ($sponsor, $faker) {
             $document->sponsors()->attach($sponsor);
-            $document->setIntroText(join(' ', $faker->sentences));
+            $document->setIntroText($faker->paragraphs($faker->numberBetween(1, 10), true));
             $document->content()->save(factory(DocContent::class)->make());
         });
 
