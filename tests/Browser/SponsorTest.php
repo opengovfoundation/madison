@@ -91,6 +91,20 @@ class SponsorTest extends DuskTestCase
         });
     }
 
+    public function testNoSponsorShowsMessage()
+    {
+        $user = factory(User::class)->create();
+
+        $this->browse(function ($browser) use ($user) {
+            $browser
+                ->loginAs($user)
+                ->visitRoute('users.sponsors.index', $user)
+                ->assertSee('You are not a sponsor')
+                ->assertDontSee('table')
+                ;
+        });
+    }
+
     public function testShowRedirectsToDocumentList()
     {
         $user = factory(User::class)->create();
