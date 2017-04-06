@@ -236,28 +236,6 @@ class DocumentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-        $user = $request->user();
-
-        $availableSponsors = $user->sponsors;
-        $availableSponsors->filter(function ($sponsor) use ($user) {
-            return $sponsor->userCanCreateDocument($user);
-        });
-
-        $activeSponsor = $request->user()->activeSponsor();
-        if ($activeSponsor && !$activeSponsor->userCanCreateDocument($user)) {
-            $activeSponsor = null;
-        }
-
-        return view('documents.create', compact('availableSponsors', 'activeSponsor'));
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @return \Illuminate\Http\Response

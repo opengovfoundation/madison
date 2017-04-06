@@ -110,7 +110,7 @@ Route::post('documents/{document}/comments/{commentHidden}/resolve', 'CommentCon
 
 // Documents
 Route::resource('documents', 'DocumentController', [
-    'except' => ['edit']
+    'except' => ['create', 'edit']
 ]);
 
 Route::post('/documents/{document}/pages', 'DocumentController@storePage')

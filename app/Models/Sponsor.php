@@ -357,7 +357,9 @@ class Sponsor extends Model
 
     public function userCanCreateDocument($user)
     {
-        return $this->userHasRole($user, Sponsor::ROLE_EDITOR) || $this->userHasRole($user, Sponsor::ROLE_OWNER);
+        return $user->isAdmin() ||
+            $this->userHasRole($user, Sponsor::ROLE_EDITOR) ||
+            $this->userHasRole($user, Sponsor::ROLE_OWNER);
     }
 
     public function isActive()

@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use App\Models\User;
 use App\Models\Sponsor;
+use App\Models\Doc as Document;
 use Tests\Browser\Pages\Sponsor as SponsorPages;
 use Tests\DuskTestCase;
 use Tests\FactoryHelpers;
@@ -101,6 +102,52 @@ class SponsorTest extends DuskTestCase
                 ->visitRoute('sponsors.show', $sponsor)
                 ->waitForText($sponsor->display_name)
                 ->assertRouteIs('sponsors.documents.index', $sponsor)
+                ;
+        });
+    }
+
+    public function testSponsorOwnerCanCreateDocuments()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+
+        $this->userCanCreateDocumentsForSponsor($owner, $sponsor);
+    }
+
+    public function testSponsorEditorCanCreateDocuments()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+
+        $editor = factory(User::class)->create();
+        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
+
+        $this->userCanCreateDocumentsForSponsor($editor, $sponsor);
+    }
+
+    public function testAdminCanCreateDocuments()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+
+        $admin = factory(User::class)->create()->makeAdmin();
+
+        $this->userCanCreateDocumentsForSponsor($admin, $sponsor);
+    }
+
+    public function testSponsorStaffCannotCreateDocuments()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+
+        $staff = factory(User::class)->create();
+        $sponsor->addMember($staff->id, Sponsor::ROLE_STAFF);
+
+        $this->browse(function ($browser) use ($staff, $sponsor) {
+            $browser
+                ->loginAs($staff)
+                ->visit(new SponsorPages\DocumentsPage($sponsor))
+                ->assertMissing('@newDocumentButton')
                 ;
         });
     }
@@ -272,6 +319,61 @@ class SponsorTest extends DuskTestCase
         });
     }
 
+    public function testSponsorOwnerRedirectedToPendingPageIfSponsorNotApproved()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = factory(Sponsor::class)->create([
+            'status' => Sponsor::STATUS_PENDING,
+        ]);
+        $sponsor->addMember($owner->id, Sponsor::ROLE_OWNER);
+
+        $this->browse(function ($browser) use ($owner, $sponsor) {
+            $browser
+                ->loginAs($owner)
+                ;
+
+            $sponsorPages = [
+                (new SponsorPages\EditPage($sponsor))->url(),
+                (new SponsorPages\MembersPage($sponsor))->url(),
+                route('sponsors.documents.index', [$sponsor], false),
+            ];
+
+            foreach ($sponsorPages as $page) {
+                $browser
+                    ->visit($page)
+                    ->assertRouteIs('sponsors.awaiting-approval')
+                    ;
+            }
+        });
+    }
+
+    public function testAdminNotRedirectedToPendingPageIfSponsorNotApproved()
+    {
+        $admin = factory(User::class)->create()->makeAdmin();
+        $sponsor = factory(Sponsor::class)->create([
+            'status' => Sponsor::STATUS_PENDING,
+        ]);
+
+        $this->browse(function ($browser) use ($admin, $sponsor) {
+            $browser
+                ->loginAs($admin)
+                ;
+
+            $sponsorPages = [
+                (new SponsorPages\EditPage($sponsor))->url(),
+                (new SponsorPages\MembersPage($sponsor))->url(),
+                route('sponsors.documents.index', [$sponsor], false),
+            ];
+
+            foreach ($sponsorPages as $page) {
+                $browser
+                    ->visit($page)
+                    ->assertPathIs($page)
+                    ;
+            }
+        });
+    }
+
     public function userCanEditSponsor($user, $sponsor)
     {
         $newSponsorData = factory(Sponsor::class)->make();
@@ -369,58 +471,23 @@ class SponsorTest extends DuskTestCase
         });
     }
 
-    public function testSponsorOwnerRedirectedToPendingPageIfSponsorNotApproved()
+    public function userCanCreateDocumentsForSponsor($user, $sponsor)
     {
-        $owner = factory(User::class)->create();
-        $sponsor = factory(Sponsor::class)->create([
-            'status' => Sponsor::STATUS_PENDING,
-        ]);
-        $sponsor->addMember($owner->id, Sponsor::ROLE_OWNER);
+        $documentData = factory(Document::class)->make();
 
-        $this->browse(function ($browser) use ($owner, $sponsor) {
+        $this->browse(function ($browser) use ($user, $sponsor, $documentData) {
             $browser
-                ->loginAs($owner)
+                ->loginAs($user)
+                ->visit(new SponsorPages\DocumentsPage($sponsor))
+                ->assertVisible('@newDocumentButton')
+                ->click('@newDocumentButton')
+                ->waitFor('@newDocumentModal')
+                ->type('title', $documentData->title)
+                ->press(trans('messages.submit'))
+                ->assertRouteIs('documents.manage.settings', ['slug' => str_slug($documentData->title)])
+                ->assertInputValue('title', $documentData->title)
+                ->assertInputValue('slug', str_slug($documentData->title))
                 ;
-
-            $sponsorPages = [
-                (new SponsorPages\EditPage($sponsor))->url(),
-                (new SponsorPages\MembersPage($sponsor))->url(),
-                route('sponsors.documents.index', [$sponsor], false),
-            ];
-
-            foreach ($sponsorPages as $page) {
-                $browser
-                    ->visit($page)
-                    ->assertRouteIs('sponsors.awaiting-approval')
-                    ;
-            }
-        });
-    }
-
-    public function testAdminNotRedirectedToPendingPageIfSponsorNotApproved()
-    {
-        $admin = factory(User::class)->create()->makeAdmin();
-        $sponsor = factory(Sponsor::class)->create([
-            'status' => Sponsor::STATUS_PENDING,
-        ]);
-
-        $this->browse(function ($browser) use ($admin, $sponsor) {
-            $browser
-                ->loginAs($admin)
-                ;
-
-            $sponsorPages = [
-                (new SponsorPages\EditPage($sponsor))->url(),
-                (new SponsorPages\MembersPage($sponsor))->url(),
-                route('sponsors.documents.index', [$sponsor], false),
-            ];
-
-            foreach ($sponsorPages as $page) {
-                $browser
-                    ->visit($page)
-                    ->assertPathIs($page)
-                    ;
-            }
         });
     }
 }

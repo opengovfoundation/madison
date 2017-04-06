@@ -91,10 +91,40 @@
 
             <hr>
 
-            @if (Auth::user())
-                {{ Html::linkRoute('documents.create', trans('messages.document.new'), [], ['class' => 'btn btn-primary'])}}
+            @if (Auth::user() && $sponsor->userCanCreateDocument(Auth::user()))
+                <button class="btn btn-primary new-document" data-toggle="modal" data-target="#new-document-modal">
+                    @lang('messages.document.new')
+                </button>
             @endif
         </div>
     </div>
+
+    @if (Auth::user() && $sponsor->userCanCreateDocument(Auth::user()))
+        <div class="modal fade" id="new-document-modal" tabindex="-1" role="dialog" aria-labelledby="new-document-modal-label">
+            <div class="modal-dialog" role="document">
+                {{ Form::open(['route' => ['documents.store'], 'class' => 'modal-content']) }}
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="new-document-modal-label">@lang('messages.document.new')</h2>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="sponsor_id" value="{{ $sponsor->id }}">
+                        {{ Form::mInput('text', 'title', trans('messages.document.title')) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('messages.close')</button>
+                        {{ Form::mSubmit() }}
+                    </div>
+                {{ Form::close() }}
+            </div>
+        </div>
+    @endif
+
+    @push('scripts')
+        <script>
+            $('#new-document-modal').on('shown.bs.modal', function(e) {
+                $(e.target).find('input[name=title]').focus();
+            });
+        </script>
+    @endpush
 
 @endsection

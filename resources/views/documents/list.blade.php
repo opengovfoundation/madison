@@ -9,10 +9,6 @@
 
     @include('components.errors')
 
-    @if (Auth::user())
-        {{ Html::linkRoute('documents.create', trans('messages.document.create'), [], ['class' => 'btn btn-default'])}}
-    @endif
-
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#queryModal">Query</button>
 
     <div class="modal fade" id="queryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
