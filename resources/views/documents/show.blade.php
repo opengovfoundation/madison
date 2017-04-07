@@ -102,7 +102,7 @@
                                 {{ Form::mSubmit() }}
                             {{ Form::close() }}
                         @else
-                            {{ Html::linkRoute('login', trans('messages.document.login_to_comment')) }}
+                            {{ Html::linkRoute('login', trans('messages.document.login_to_comment'), ['redirect' => $document->url]) }}
                         @endif
                         <hr>
                     @endif

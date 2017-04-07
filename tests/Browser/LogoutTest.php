@@ -20,7 +20,8 @@ class LogoutTest extends DuskTestCase
 
         $this->browse(function ($browser) use ($user) {
             $home = new HomePage;
-            $browser->loginAs($user)
+            $browser
+                ->loginAs($user)
                 ->assertAuthenticatedAs($user)
                 ->visit($home)
                 ->clickLink('Logout')

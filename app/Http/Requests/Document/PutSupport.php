@@ -22,7 +22,7 @@ class PutSupport extends FormRequest
             }
         }
 
-        return $document && $document->canUserView($this->user());
+        return $this->user() && $document && $document->canUserView($this->user());
     }
 
     /**

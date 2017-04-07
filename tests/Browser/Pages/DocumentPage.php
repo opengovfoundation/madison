@@ -279,6 +279,16 @@ class DocumentPage extends BasePage
             });
     }
 
+    public function assertLoginRedirectsBackToPage(Browser $browser, $user)
+    {
+        $browser
+            ->on(new LoginPage)
+            ->fillAndSubmitLoginForm($user)
+            ->assertPathIs($this->url())
+            ->assertAuthenticatedAs($user)
+            ;
+    }
+
     public static function noteSelector(Annotation $note)
     {
         return '.annotation#' . $note->str_id;

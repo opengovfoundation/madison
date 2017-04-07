@@ -37,3 +37,7 @@ window.getQueryParam = function(name, url) {
 
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
+
+window.redirectToLogin = function() {
+  window.location.href = '/login?redirect='+window.location.pathname;
+};

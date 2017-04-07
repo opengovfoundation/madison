@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Validator;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Validator;
 
 class RegisterController extends Controller
 {
@@ -70,5 +71,22 @@ class RegisterController extends Controller
             'password' => $data['password'],
             'token' => str_random(),
         ]);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        $redirectTo = $this->redirectPath();
+        if ($request->has('redirect')) {
+            $redirectTo = $request->input('redirect');
+        }
+
+        return redirect()->intended($redirectTo);
     }
 }

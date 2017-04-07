@@ -85,8 +85,13 @@
 
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">@lang('messages.login')</a></li>
-                            <li><a href="{{ url('/register') }}">@lang('messages.register')</a></li>
+                            @if (Route::currentRouteName() === 'login' || Route::currentRouteName() === 'register')
+                                @php($redirect = request()->input('redirect'))
+                            @else
+                                @php($redirect = Request::path())
+                            @endif
+                            <li>{{ Html::linkRoute('login', trans('messages.login'), ['redirect' => $redirect]) }}</li>
+                            <li>{{ Html::linkRoute('register', trans('messages.register'), ['redirect' => $redirect]) }}</li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

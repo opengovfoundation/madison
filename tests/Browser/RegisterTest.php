@@ -2,20 +2,16 @@
 
 namespace Tests\Browser;
 
-use App\Models\User;
 use App\Mail\EmailVerification;
+use App\Models\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Dusk\Browser;
+use Tests\Browser\Pages\RegisterPage;
 use Tests\DuskTestCase;
 
 class RegisterTest extends DuskTestCase
 {
-    /**
-     * A basic browser test example.
-     *
-     * @return void
-     */
     public function testUserCanRegister()
     {
         $fakeUser = factory(User::class)->make();
@@ -24,13 +20,9 @@ class RegisterTest extends DuskTestCase
         // Event::fake();
 
         $this->browse(function ($browser) use ($fakeUser) {
-            $browser->visit('/register')
-                ->type('fname', $fakeUser->fname)
-                ->type('lname', $fakeUser->lname)
-                ->type('email', $fakeUser->email)
-                ->type('password', 'secret')
-                ->type('password_confirmation', 'secret')
-                ->press('Register')
+            $browser
+                ->visit(new RegisterPage)
+                ->fillAndSubmitRegisterForm($fakeUser)
                 ->assertPathIs('/')
                 ->assertSee('You haven\'t verified your email')
                 ;
@@ -42,6 +34,24 @@ class RegisterTest extends DuskTestCase
             $this->assertEquals($fakeUser->fname, $user->fname);
             $this->assertEquals($fakeUser->lname, $user->lname);
             $this->assertEquals($fakeUser->email, $user->email);
+        });
+    }
+
+    /**
+     * @depends testUserCanRegister
+     */
+    public function testRedirectParameter()
+    {
+        $fakeUser = factory(User::class)->make();
+
+        $this->browse(function ($browser) use ($fakeUser) {
+            $redirectPath = route('users.settings.account.edit', ['1'], false);
+            $browser
+                ->visit('/register?redirect='.$redirectPath)
+                ->fillAndSubmitRegisterForm($fakeUser)
+                ->assertPathIs($redirectPath)
+                ->assertSee('You haven\'t verified your email')
+                ;
         });
     }
 }

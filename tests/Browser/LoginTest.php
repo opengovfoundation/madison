@@ -3,26 +3,39 @@
 namespace Tests\Browser;
 
 use App\Models\User;
-use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
+use Tests\Browser\Pages\LoginPage;
 
 class LoginTest extends DuskTestCase
 {
-    /**
-     * A basic browser test example.
-     *
-     * @return void
-     */
     public function testUserCanLogIn()
     {
         $user = factory(User::class)->create();
 
         $this->browse(function ($browser) use ($user) {
-            $browser->visit('/login')
-                ->type('email', $user->email)
-                ->type('password', 'secret')
-                ->press('Login')
+            $browser
+                ->visit(new LoginPage)
+                ->fillAndSubmitLoginForm($user)
                 ->assertPathIs('/')
+                ->assertAuthenticatedAs($user)
+                ;
+        });
+    }
+
+    /**
+     * @depends testUserCanLogIn
+     */
+    public function testLoginRedirectParameter()
+    {
+        $user = factory(User::class)->create();
+
+        $this->browse(function ($browser) use ($user) {
+            $redirectPath = route('users.settings.account.edit', [$user], false);
+            $browser
+                ->visit('/login?redirect='.$redirectPath)
+                ->fillAndSubmitLoginForm($user)
+                ->assertPathIs($redirectPath)
                 ->assertAuthenticatedAs($user)
                 ;
         });

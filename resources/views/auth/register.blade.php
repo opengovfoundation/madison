@@ -11,6 +11,7 @@
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                         {{ csrf_field() }}
+                        <input id="redirect" type="hidden" name="redirect" value="{{ request()->input('redirect') }}">
 
                         <div class="form-group{{ $errors->has('fname') ? ' has-error' : '' }}">
                                 <label for="fname" class="col-md-4 control-label">@lang('messages.user.fname')</label>

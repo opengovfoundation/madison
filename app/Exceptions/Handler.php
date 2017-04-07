@@ -63,6 +63,16 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        return redirect()->guest('login');
+        if ($request->method() === 'POST' || $request->method() === 'PUT' || $request->method() === 'PATCH') {
+            // if the unauthorized request was a POST-y thing, then send the
+            // user back to the page they originated from after the login
+            // instead of the POST page since the data will no longer be with
+            // request after the login, so sending them back to the POST page
+            // will just fail unhelpfully
+            session(['url.intended' => url()->previous()]);
+            return redirect()->route('login');
+        } else {
+            return redirect()->guest('login');
+        }
     }
 }

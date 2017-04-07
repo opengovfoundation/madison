@@ -57,7 +57,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
             console.error(data);
           });
       } else {
-        window.location.href = '/login';
+        window.redirectToLogin();
       }
     }.bind(this));
 
@@ -193,7 +193,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       }
 
       if (!this.options.userId) {
-        window.location.href = '/login';
+        window.redirectToLogin();
       } else {
         this.onAdderClickOld(event);
       }
@@ -582,7 +582,7 @@ window.hideNotes = function () {
 
 window.showNoteReplyForm = function (userId, annotationId) {
   if (!userId) {
-    window.location.href = '/login';
+    window.redirectToLogin();
   }
 
   $('#comment-form-field-'+annotationId).focus();
