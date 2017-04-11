@@ -19,6 +19,14 @@
   column-gap: $intro-column-gap;
 }
 
+@media only screen and (max-width: $screen-sm-min) {
+  .introtext {
+    -moz-column-count: 1;
+    -webkit-column-count: 1;
+    column-count: 1;
+  }
+}
+
 .support-btns {
   margin-left: 1em;
   margin-bottom: 1em;
@@ -26,4 +34,34 @@
   .btn-group {
     z-index: $zindex-navbar;
   }
+}
+
+blockquote {
+  color: $text-color;
+
+  a & {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: none;
+      background-color: darken($blockquote-border-color, 5);
+    }
+  }
+}
+
+.new-comment-form {
+  .media-body > button {
+    padding-left: 0;
+    color: $text-muted;
+  }
+
+  .expanded-content {
+    .media {
+      margin-bottom: 1em;
+    }
+  }
+}
+
+.comment-replies-toggle {
+  margin-top: 1em;
 }

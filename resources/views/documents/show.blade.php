@@ -10,7 +10,13 @@
     @include('components.errors')
 
     @can('viewManage', $document)
-        <a href="{{ route('documents.manage.comments', $document) }}" class="btn btn-default pull-right">@lang('messages.document.moderate')</a>
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i></button>
+            <ul class="dropdown-menu">
+                <li><a href="{{ route('documents.manage.settings', $document) }}">@lang('messages.edit')</a></li>
+                <li><a href="{{ route('documents.manage.comments', $document) }}">@lang('messages.document.moderate')</a></li>
+            </ul>
+        </div>
     @endcan
 
     <div class="jumbotron">
@@ -27,96 +33,43 @@
         @endif
     </div>
 
-    @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-                <a href="#content" role="tab" data-toggle="tab">@lang('messages.document.content')</a>
-            </li>
-            <li role="presentation">
-                <a href="#comments" role="tab" data-toggle="tab">@lang('messages.document.comments')</a>
-            </li>
-        </ul>
-    @endif
+    <div class="row">
+        <div class="col-md-10">
+            @include('documents.partials.support-btns')
 
-    <div class="tab-content">
-        <div class="active tab-pane row" id="content" role="tabpanel">
-            <div class="col-md-10">
-                @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
-                    <div class="support-btns pull-right text-center">
-                        <div>
-                            <small>@lang('messages.document.support_prompt')</small>
-                        </div>
-                        <div class="btn-group support-btn" role="group">
-                                {{ Form::open(['route' => ['documents.support', $document], 'method' => 'put']) }}
-                                    <input type="hidden" name="support" value="1">
-
-                                    <button type="submit" class="btn btn-primary btn-xs {{ $userSupport === true ? 'active' : '' }}">
-                                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                                        @if ($userSupport === true)
-                                            {{ trans('messages.document.supported') }}
-                                        @else
-                                            {{ trans('messages.document.support') }}
-                                        @endif
-                                        ({{ $supportCount }})
-                                    </button>
-                                {{ Form::close() }}
-                        </div>
-                        <div class="btn-group oppose-btn" role="group">
-                                {{ Form::open(['route' => ['documents.support', $document], 'method' => 'put']) }}
-                                    <input type="hidden" name="support" value="0">
-                                    <button type="submit" class="btn btn-primary btn-xs {{ $userSupport === false ? 'active' : '' }}">
-                                        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-                                        @if ($userSupport === false)
-                                                {{ trans('messages.document.opposed') }}
-                                        @else
-                                                {{ trans('messages.document.oppose') }}
-                                        @endif
-                                        ({{ $opposeCount }})
-                                    </button>
-                                {{ Form::close() }}
-                        </div>
-                    </div>
-                @endif
-
-                <section id="page_content">
-                    {!! $documentPages->first()->rendered() !!}
-                </section>
-            </div>
-
-            <aside class="annotation-container col-md-2"></aside>
+            <section id="page_content">
+                {!! $documentPages->first()->rendered() !!}
+            </section>
         </div>
 
-        @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
-            <div class="tab-pane row comments" id="comments" role="tabpanel">
-                <section class="col-md-8">
-                    @if ($document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_OPEN)
-                        @if (Auth::user())
-                            {{ Form::open(['route' => ['documents.comments.store', $document], 'class' => 'comment-form']) }}
-                                {{ Form::mInput(
-                                    'textarea',
-                                    'text',
-                                    trans('messages.document.add_comment'),
-                                    null,
-                                    [ 'rows' => 3 ]
-                                ) }}
-                                {{ Form::mSubmit() }}
-                            {{ Form::close() }}
-                        @else
-                            {{ Html::linkRoute('login', trans('messages.document.login_to_comment'), ['redirect' => $document->url]) }}
-                        @endif
-                        <hr>
-                    @endif
+        <aside class="annotation-container col-md-2"></aside>
 
-                    @each('documents/partials/comment', $comments, 'comment')
-                    @include('components.pagination', ['collection' => $comments])
-                </section>
-
-                <section class="col-md-4"></section>
-            </div>
-        @endif
+        {{ $documentPages->appends(request()->query())->fragment('page_content')->links() }}
     </div>
 
-    {{ $documentPages->appends(request()->query())->fragment('page_content')->links() }}
+    @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
+        <hr>
+        <div id="comments" class="row comments">
+            <section class="col-md-offset-2 col-md-8">
+                @include('documents.partials.support-btns')
+                @if ($document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_OPEN)
+                    @if (Auth::user())
+                        @include('documents.partials.new-comment-form', ['route' => ['documents.comments.store', $document], 'message' => 'messages.document.add_comment'])
+                    @else
+                        {{ Html::linkRoute('login', trans('messages.document.login_to_comment'), ['redirect' => $document->url]) }}
+                    @endif
+                    <hr>
+                @endif
+
+                <ul class="media-list">
+                    @each('documents.partials.comment-li', $comments, 'comment')
+                </ul>
+                <div class="text-center">
+                    @include('components.pagination', ['collection' => $comments])
+                </div>
+            </section>
+        </div>
+    @endif
 
     @push('scripts')
         <script src="{{ elixir('js/annotator-madison.js') }}"></script>
@@ -145,7 +98,7 @@
                         ".annotation-container",
                         {{ $document->id }},
                         {{ request()->user() ? request()->user()->id : 'null' }},
-                        {{ $document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_CLOSED ? 1 : 0 }}
+                        {{ $document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_OPEN ? 1 : 0 }}
                     );
 
                     // race-y with loading annotaions, so it's called again
@@ -158,7 +111,7 @@
                         showComments();
                     }
 
-                    $('.activity-actions a.comments').click(function(e) {
+                    $('.comment-replies-toggle-show').click(function(e) {
                         e.preventDefault();
                         let commentId = $(e.target).data('comment-id');
                         toggleCommentReplies(commentId);

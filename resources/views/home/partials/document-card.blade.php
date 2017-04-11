@@ -20,10 +20,10 @@
             <hr>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-xs-6">
                     <small class="text-muted">{{ $document->created_at->toDateString() }}</small>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-xs-6 text-right">
                     <small class="text-muted">{{ $document->all_comments_count }} {{ trans('messages.document.comments') }}</small>
                 </div>
             </div>

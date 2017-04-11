@@ -58,6 +58,11 @@ class AnnotationsTableSeeder extends Seeder
                     $annotationService
                         ->createAnnotationRange($comment, $comment->user, $rangeData);
 
+                    // set junk data
+                    $comment->data = [
+                        'quote' => 'Some junk for now.',
+                    ];
+
                     $comment->annotation_subtype = Annotation::SUBTYPE_NOTE;
                     $comment->save();
                 });

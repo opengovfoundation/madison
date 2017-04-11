@@ -4,6 +4,16 @@
 .activity-actions {
   color: $gray;
 
+  a {
+    color: $text-muted;
+
+    &:hover,
+    &:focus {
+      color: $link-color;
+      text-decoration: none;
+    }
+  }
+
   .thumbs-up {
     @extend .fa;
     @extend .fa-thumbs-o-up;
@@ -45,12 +55,12 @@
   cursor:pointer;
 
   .annotation-group-count {
-    .fa-stack-1x {
-      color: white;
+    .fa {
+      color: $gray;
     }
 
-    .fa-stack-2x {
-      color: $gray;
+    .badge {
+      margin-left: 1em;
     }
   }
 
@@ -79,7 +89,7 @@
   bottom: 0;
   right: 0;
   height: 100%;
-  z-index: $zindex-navbar;
+  z-index: ($zindex-navbar + 1);
   background-color: $gray-lighter;
   @extend %simple-shadow;
   padding: 0 0 (2 * $line-height-computed);
@@ -148,18 +158,13 @@
   }
 }
 
-.annotation, .comment {
+.annotation {
   .author {
     font-weight: bold;
   }
 
   .date, .activity-actions {
     float: right;
-    color: $gray;
-  }
-
-  .comment {
-    margin-left: 40px;
   }
 
   .reply-action, .activity-actions {
@@ -174,6 +179,14 @@
 
 .annotation:not(:last-child) {
   @extend .title-underline-medium;
+}
+
+#comments .comment {
+  .activity-actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
 
 .subcomment-form {
@@ -198,14 +211,6 @@
 
 // Mobile phone-sizes
 @media only screen and (max-width: $screen-sm-min) {
-  .annotation-container {
-    left: calc(100% - 2rem);
-  }
-
-  .annotation-title {
-    display: none;
-  }
-
   .mobile-annotation-message {
     display: block;
     margin: $line-height-computed 0;
@@ -213,14 +218,19 @@
   }
 
   // Leave room for annotation numbers
-  .doc-content {
+  #page_content {
     padding-right: 2rem;
   }
 
   .annotation-group {
-    // Hide the details on annotations in the sidebar.
-    .annotation-group-statistics {
+    right: 5px;
+
+    .fa {
       display: none;
+    }
+
+    .annotation-group-count .badge {
+      margin-left: 0;
     }
   }
 
@@ -235,5 +245,15 @@
   // Hide all inline annotations for now.
   .annotator-outer {
     display: none;
+  }
+}
+
+.comment-content {
+  position: relative;
+}
+
+.comment-replies {
+  .media:first-child {
+    margin-top: 15px;
   }
 }

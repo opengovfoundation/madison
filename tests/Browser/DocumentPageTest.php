@@ -92,8 +92,6 @@ class DocumentPageTest extends DuskTestCase
                 ->visit($this->page)
                 ->assertDontSee('@supportBtn')
                 ->assertDontSee('@opposeBtn')
-                ->assertDontSee('@contentTab')
-                ->assertDontSee('@commentsTab')
                 ->assertDontSee('@annotationGroups')
                 ;
         });
@@ -107,9 +105,9 @@ class DocumentPageTest extends DuskTestCase
         $this->browse(function ($browser) {
             $browser
                 ->visit($this->page)
-                ->openCommentsTab()
                 ->assertSeeComment($this->comment1)
                 ->assertSeeComment($this->comment2)
+                ->revealCommentReplies($this->comment1)
                 ->assertSeeReplyToComment($this->comment1, $this->commentReply)
                 ;
         });
@@ -175,7 +173,6 @@ class DocumentPageTest extends DuskTestCase
         $this->browse(function ($browser) {
             $browser
                 ->visit($this->page)
-                ->openCommentsTab()
                 ->pause(500)
                 ->addActionToComment('like', $this->comment1)
                 ->assertPathIs('/login')
@@ -189,7 +186,6 @@ class DocumentPageTest extends DuskTestCase
         $this->browse(function ($browser) {
             $browser
                 ->visit($this->page)
-                ->openCommentsTab()
                 ->pause(500)
                 ->addActionToComment('flag', $this->comment1)
                 ->assertPathIs('/login')
@@ -231,7 +227,6 @@ class DocumentPageTest extends DuskTestCase
         $this->browse(function ($browser) {
             $browser
                 ->visit($this->page)
-                ->openCommentsTab()
                 ->pause(500)
                 ->clickLink(trans('messages.document.login_to_comment'))
                 ->assertPathIs('/login')
@@ -245,7 +240,6 @@ class DocumentPageTest extends DuskTestCase
         $this->browse(function ($browser) {
             $browser
                 ->visit($this->page)
-                ->openCommentsTab()
                 ->assertDontSee('@commentForm')
                 ->with(DocumentPage::commentSelector($this->comment1), function($commentDiv) {
                     $commentDiv->assertDontSee('@commentForm');
@@ -263,7 +257,7 @@ class DocumentPageTest extends DuskTestCase
                 ->with(DocumentPage::noteSelector($this->note1), function($commentDiv) {
                     $commentDiv
                         ->assertDontSee('@noteReplyForm')
-                        ->clickLink('Add your reply')
+                        ->clickLink(trans('messages.document.add_reply'))
                         ->assertPathIs('/login')
                         ;
                 })
@@ -277,7 +271,6 @@ class DocumentPageTest extends DuskTestCase
             $browser
                 ->loginAs($this->user)
                 ->visit($this->page)
-                ->openCommentsTab()
                 ->fillAndSubmitCommentForm()
                 ;
 
@@ -307,7 +300,6 @@ class DocumentPageTest extends DuskTestCase
             $browser
                 ->loginAs($this->user)
                 ->visit($this->page)
-                ->openCommentsTab()
                 ->fillAndSubmitCommentReplyForm($this->comment1)
                 ;
 
@@ -414,7 +406,6 @@ class DocumentPageTest extends DuskTestCase
             $browser
                 ->loginAs($this->user)
                 ->visit($this->page)
-                ->openCommentsTab()
                 ->addActionToComment('like', $this->comment1)
                 ->assertCommentHasActionCount('like', $this->comment1, $commentLikes + 1)
                 ;
@@ -441,7 +432,6 @@ class DocumentPageTest extends DuskTestCase
             $browser
                 ->loginAs($this->user)
                 ->visit($this->page)
-                ->openCommentsTab()
                 ->addActionToComment('flag', $this->comment1)
                 ->assertCommentHasActionCount('flag', $this->comment1, $commentFlags + 1)
                 ;
@@ -469,7 +459,7 @@ class DocumentPageTest extends DuskTestCase
             $browser
                 ->loginAs($this->user)
                 ->visit($this->page)
-                ->openCommentsTab()
+                ->revealCommentReplies($this->comment1)
                 ->addActionToComment('like', $reply)
                 ->assertCommentHasActionCount('like', $reply, $replyLikes + 1)
                 ;
@@ -497,7 +487,7 @@ class DocumentPageTest extends DuskTestCase
             $browser
                 ->loginAs($this->user)
                 ->visit($this->page)
-                ->openCommentsTab()
+                ->revealCommentReplies($this->comment1)
                 ->addActionToComment('flag', $reply)
                 ->assertCommentHasActionCount('flag', $reply, $replyFlags + 1)
                 ;

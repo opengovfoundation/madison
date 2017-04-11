@@ -283,9 +283,6 @@ class DocumentController extends Controller
      */
     public function show(Requests\View $request, Document $document)
     {
-        $commentCount = $document->comment_count;
-        $noteCount = $document->note_count;
-        $userCount = $document->user_count;
         $supportCount = $document->support;
         $opposeCount = $document->oppose;
         $userSupport = null;
@@ -300,15 +297,12 @@ class DocumentController extends Controller
         }
 
         $documentPages = $document->content()->paginate(1);
-        $comments = $document->comments()->notNotes()->paginate(15, ['*'], 'comment_page');
+        $comments = $document->comments()->latest()->paginate(15, ['*'], 'comment_page');
 
         return view('documents.show', compact([
             'document',
             'documentPages',
             'comments',
-            'commentCount',
-            'noteCount',
-            'userCount',
             'supportCount',
             'opposeCount',
             'userSupport',

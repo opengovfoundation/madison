@@ -1,5 +1,13 @@
 @php ($savedValue = $value ?: request()->input($name, null))
 
+@php
+$labelSrOnly = false;
+if (!empty($attributes['label-sr-only'])) {
+  $labelSrOnly = true;
+  unset($attributes['label-sr-only']);
+}
+@endphp
+
 @if ('checkbox' === $type)
     <div class="checkbox">
         <label>
@@ -10,7 +18,7 @@
     </div>
 @else
     <div class="form-group">
-        {{ Form::label($name, $displayName, ['class' => 'control-label']) }}
+        {{ Form::label($name, $displayName, ['class' => 'control-label' . ($labelSrOnly ? ' sr-only' : '')]) }}
 
         @if ('textarea' === $type)
             {{ Form::textarea($name, $savedValue, array_merge(['class' => 'form-control'], $attributes)) }}

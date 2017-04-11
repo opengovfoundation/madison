@@ -298,4 +298,10 @@ class User extends Authenticatable
 
         return $this;
     }
+
+    public function getAvatarAttribute()
+    {
+        $gravatarHash = md5(strtolower(trim($this->email ?: $this->display_name)));
+        return "https://www.gravatar.com/avatar/$gravatarHash?s=45&d=mm";
+    }
 }
