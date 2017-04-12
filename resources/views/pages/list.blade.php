@@ -31,12 +31,12 @@
                     @foreach ($pages as $page)
                         <tr>
                             <td>
-                                <a href="{{ $page->url }}" title="{{ $page->title }}">
+                                <a href="{{ $page->getUrl() }}" title="{{ $page->title }}">
                                     {{ $page->nav_title }}
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ $page->url }}" title="{{ $page->title }}">
+                                <a href="{{ $page->getUrl() }}" title="{{ $page->title }}">
                                     {{ $page->url }}
                                 </a>
                             </td>
