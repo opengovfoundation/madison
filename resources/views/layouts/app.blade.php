@@ -10,6 +10,20 @@
 
     <title>@yield('pageTitle') | {{ config('app.name', 'Madison') }}</title>
 
+    <!-- Social -->
+    <meta property="og:site_name" content="{{ config('app.name', 'Madison') }}">
+    <meta property="og:title" content="@yield('pageTitle')">
+    <meta property="og:url" content="{{ Request::url() }}">
+    @stack('meta')
+
+    @if (config('madison.social_analytics.facebook_app_id'))
+        <meta property="fb:app_id" content="{{ config('madison.social_analytics.facebook_app_id') }}" />
+    @endif
+
+    @if (config('madison.social_analytics.twitter_username'))
+        <meta name="twitter:site" content="{{ config('madison.social_analytics.twitter_username') }}">
+    @endif
+
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">

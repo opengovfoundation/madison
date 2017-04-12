@@ -2,6 +2,12 @@
 
 @section('pageTitle', $document->title)
 
+@push('meta')
+    <meta property="og:description" content="{{ $document->shortIntroText() }}">
+    <meta property="og:image" content="{{ url($document->getFeaturedImageUrl()) }}">
+    <meta name="twitter:card" content="summary_large_image">
+@endpush
+
 @push('styles')
     <link href="{{ elixir('css/annotator.min.css') }}" rel="stylesheet">
 @endpush

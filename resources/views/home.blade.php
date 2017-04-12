@@ -2,6 +2,10 @@
 
 @section('pageTitle', trans('messages.home.home'))
 
+@push('meta')
+    <meta property="og:description" content="{{ trans('messages.home.intro') }}">
+@endpush
+
 @section('content')
 
     @include('home.partials.welcome')

@@ -38,4 +38,9 @@ return [
     'time_format' => 'H:i',
 
     'google_analytics_property_id' => env('GA', ''),
+
+    'social_analytics' => [
+        'facebook_app_id' => env('FACEBOOK_APP_ID', ''),
+        'twitter_username' => env('TWITTER_USERNAME', ''),
+    ],
  ];
