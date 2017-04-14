@@ -286,6 +286,7 @@ class DocumentController extends Controller
         $supportCount = $document->support;
         $opposeCount = $document->oppose;
         $userSupport = null;
+        $useDarkContentBg = true;
 
         // Get current user support status, if logged in
         if ($request->user()) {
@@ -306,6 +307,7 @@ class DocumentController extends Controller
             'supportCount',
             'opposeCount',
             'userSupport',
+            'useDarkContentBg',
         ]));
     }
 

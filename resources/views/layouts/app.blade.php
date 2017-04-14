@@ -33,6 +33,7 @@
     <meta name="theme-color" content="#ffffff">
 
     <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif|Poppins" rel="stylesheet">
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
     @stack('styles')
 
@@ -45,7 +46,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav id="main-nav" class="navbar navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
 
@@ -84,7 +85,7 @@
                         </li>
                         <li>
                             <a href="{{ route('documents.index') }}">
-                                <strong>@lang('messages.document.list')</strong>
+                                @lang('messages.document.list')
                             </a>
                         </li>
                         <li>
@@ -147,35 +148,36 @@
             </div>
         </nav>
 
-        <div id="content" class="container">
-            @if (Auth::check() && Auth::user()->token)
-                <div class="alert alert-info alert-important" role="alert">
-                    @php ($resendLink = route('users.resend_email_verification', Auth::user()))
-                    @lang('messages.email_verification.banner', [
-                      'resendLinkOpen' => '<a href="'.$resendLink.'" onclick="event.preventDefault(); document.getElementById(\'resend-email-verification-form\').submit();">',
-                      'resendLinkClose' => '</a>',
-                    ])
+        <div id="content" class="{{ isset($useDarkContentBg) ? 'dark' : '' }}">
+            <div class="container">
+                @if (Auth::check() && Auth::user()->token)
+                    <div class="alert alert-info alert-important" role="alert">
+                        @php ($resendLink = route('users.resend_email_verification', Auth::user()))
+                        @lang('messages.email_verification.banner', [
+                        'resendLinkOpen' => '<a href="'.$resendLink.'" onclick="event.preventDefault(); document.getElementById(\'resend-email-verification-form\').submit();">',
+                        'resendLinkClose' => '</a>',
+                        ])
 
-                    <form id="resend-email-verification-form" action="{{ $resendLink }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form>
-                </div>
-            @endif
+                        <form id="resend-email-verification-form" action="{{ $resendLink }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </div>
+                @endif
 
-            @include('flash::message')
-            @yield('content')
+                @include('flash::message')
+                @yield('content')
+            </div>
+        </div>
 
-            <hr>
-
-            <footer class="nav">
-                <ul class="nav navbar-nav navbar-right">
+        <div id="main-footer">
+            <footer class="container">
+                <ul>
                     @foreach ($footerPages as $page)
                         <li><a href="{{ $page->getUrl() }}">{{ $page->nav_title }}</a></li>
                     @endforeach
                 </ul>
             </footer>
         </div>
-
     </div>
 
     @if (config('madison.google_analytics_property_id'))

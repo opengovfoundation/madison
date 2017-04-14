@@ -37,3 +37,38 @@ footer.nav {
 %simple-shadow {
   box-shadow: 0 0 5px 0 rgba(0,0,0,0.9);
 }
+
+#content {
+  &.dark {
+    background-color: $ogf-dark-blue;
+  }
+
+  padding-top: $line-height-computed;
+}
+
+#main-nav {
+  margin-bottom: 0;
+  font-family: $font-family-sans-serif;
+}
+
+#main-footer {
+  background-color: $ogf-dark-blue;
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+  footer ul {
+    float: right;
+
+    a {
+      color: white;
+    }
+
+    li {
+      display: inline-block;
+    }
+
+    li + li {
+      margin-left: 15px;
+    }
+  }
+}
