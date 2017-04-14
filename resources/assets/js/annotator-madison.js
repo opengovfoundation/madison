@@ -1,5 +1,4 @@
 /*global Annotator*/
-/*global diff_match_patch*/
 /*jslint newcap: true*/
 Annotator.Plugin.Madison = function (element, options) {
   Annotator.Plugin.apply(this, arguments);
@@ -96,31 +95,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       $('#current-comments').collapse(true);
     });
 
-    this.annotator.subscribe('annotationViewerTextField', function (field, annotation) {
-      if (annotation.tags.length === 0) {
-        return;
-      }
-
-      annotation.tags.forEach(function (tag) {
-        // TODO: support edits?
-        // if (tag === 'edit') {
-        //   var jField = $(field);
-        //   var differ = new diff_match_patch();
-        //   var diffs = differ.diff_main(annotation.quote, annotation.text);
-        //   var html = differ.diff_prettyHtml(diffs);
-        //   jField.find('p').html(html);
-        // }
-      });
-    });
-
-    // Add Madison-specific fields to the viewer when Annotator loads it
-    this.annotator.viewer.addField({
-      load: function (field, annotation) {
-        this.addNoteActions(field, annotation);
-        this.addComments(field, annotation);
-      }.bind(this)
-    });
-
     this.annotator.editor.submit = function (e) {
       // Clear previous errors
       this.annotation._error = false;
@@ -142,49 +116,38 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       }
     };
 
-    this.annotator.editor.addField({
-      load: function (field, annotation) {
-        this.addEditFields(field, annotation);
-      }.bind(this),
-      submit: function (field, annotation) {
-        // check it is tagged 'edit'
-        if (this.hasEditTag(annotation.tags)) {
-          // check we have explanatory content
-          var explanation = $(field).find('#explanation').val();
-
-          // If no explanatory content, show message and don't submit
-          if ('' === explanation.trim()) {
-            $('#annotation-error').text("Explanation required for edits.").toggle(true);
-
-            annotation._error = true;
-            return false;
-          }
-
-          annotation.explanation = explanation;
-        }
-      },
-      hasEditTag: function (tags) {
-        var hasEditTag = false;
-
-        if (tags === undefined || tags.length  === 0) {
-          return false;
-        }
-
-        tags.forEach(function (tag) {
-          if (tag === 'edit') {
-            hasEditTag = true;
-          }
-        });
-
-        return hasEditTag;
-      }
-    });
-
     // We want document events even on readOnly, which isn't the default
     // behavior.
     if (this.annotator.options.readOnly && !this.annotator.options.discussionClosed) {
       this.annotator._setupDocumentEvents();
     }
+
+    // Disable viewing annotations through mouseover
+    this.annotator.onHighlightMouseover = function (event) {
+      return false;
+    };
+
+    // Clicking a highlight opens the panel for that annotation group
+    $('.annotator-wrapper').delegate('.annotator-hl', 'click', function (event) {
+      $(event.target).trigger('madison.showNotes');
+    });
+
+    // If the area outside of the editor is clicked, close it.
+    this.annotator.subscribe('annotationEditorShown', function () {
+      setTimeout(function() {
+        $(document).one('click.annotationEditor', function (e) {
+          let clickIsOutsideEditor = !$(e.target).closest('.annotator-editor').length;
+          if (clickIsOutsideEditor) {
+            $('.annotator-editor:not(.annotator-hide) .annotator-controls .annotator-cancel').trigger('click');
+          }
+        });
+      }, 500);
+    });
+
+    // Just in case we close the editor with "cancel", clean up the single event binding
+    this.annotator.subscribe('annotationEditorHidden', function () {
+      $(document).off('click.annotationEditor');
+    });
 
     this.onAdderClickOld = this.annotator.onAdderClick;
     this.annotator.onAdderClick = function (event) {
@@ -252,100 +215,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       this.annotations.push(annotation);
       this.setAnnotations(this.annotations);
     }
-  },
-
-  addEditFields: function (field, annotation) {
-    var newField = $(field);
-    var toAdd = $('<div class="annotator-editor-edit-wrapper"></div>');
-
-    var buttonGroup = $('<div class="btn-group"></div>');
-
-    var explanation = $('<input id="explanation" type="text" name="explanation" placeholder="'+window.trans['messages.document.note_edit_explanation_prompt']+'" style="display:none;" />');
-    var annotationError = $('<p id="annotation-error" style="display:none; color:red;"></p>');
-
-    var annotateButton = $('<button type="button" class="btn btn-default active">'+window.trans['messages.document.note']+'</button>').click(function () {
-      $(this).addClass('active');
-      $(this).siblings().each(function (sibling) {
-        $(this).removeClass('active');
-      });
-      $('#annotator-field-0').val('');
-      $('#annotator-field-1').val('');
-      $('#explanation').toggle(false);
-      $('#explanation').prop('required', false);
-      $('#annotator-error').text('').toggle(false);
-      $('#annotator-field-0').focus();
-    });
-
-    var editButton = $('<button type="button" class="btn btn-default">'+window.trans['messages.edit']+'</button>').click(function () {
-      $(this).addClass('active');
-      $(this).siblings().each(function (sibling) {
-        $(this).removeClass('active');
-      });
-      $('#annotator-field-0').val(annotation.quote);
-      $('#annotator-field-1').val('edit ');
-      $('#explanation').toggle(true);
-      $('#explanation').prop('required', true);
-      $('#annotator-field-0').focus();
-    });
-
-    buttonGroup.append(annotateButton, editButton);
-    toAdd.append(buttonGroup);
-    toAdd.append(explanation);
-    toAdd.append(annotationError);
-    newField.html(toAdd);
-  },
-
-  addComments: function (field, annotation) {
-    var userId = this.options.userId;
-
-    // Add comment wrapper and collapse the comment thread
-    var commentsHeader = $('<div class="comment-toggle" data-toggle-"collapse" data-target="#current-comments">Comments <span id="comment-caret" class="caret caret-right"></span></button>').click(function () {
-      $('#current-comments').collapse('toggle');
-      $('#comment-caret').toggleClass('caret-right');
-    });
-
-    // If there are no comments, hide the comment wrapper
-    if ($(annotation.comments).length === 0) {
-      commentsHeader.addClass('hidden');
-    }
-
-    // Add all current comments to the annotation viewer
-    var currentComments = $('<div id="current-comments" class="current-comments collapse"></div>');
-
-    /*jslint unparam: true*/
-    $.each(annotation.comments, function (index, comment) {
-      comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.display_name + '</div></blockquote></div>');
-      currentComments.append(comment);
-    });
-    /*jslint unparam: false*/
-
-    // Collapse the comment thread on load
-    currentComments.ready(function () {
-      $('#existing-comments').collapse({
-        toggle: false
-      });
-    });
-
-    // If the user is logged in, allow them to comment
-    if (userId) {
-      var annotationComments = $('<div class="annotation-comments"></div>');
-      var commentText = $('<input type="text" class="form-control" />');
-      var commentSubmit = $('<button type="button" class="btn btn-primary" >Submit</button>');
-      commentSubmit.click(function () {
-        this.createComment(commentText, annotation);
-      }.bind(this));
-      annotationComments.append(commentText);
-
-      annotationComments.append(commentSubmit);
-
-      $(field).append(annotationComments);
-    }
-
-    $(field).append(commentsHeader, currentComments);
-  },
-
-  addNoteActions: function (field, annotation) {
-    $(field).append(this.noteActionsString(annotation));
   },
 
   noteActionsString: function (comment) {
@@ -543,11 +412,17 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       var annotationParentId;
       if (annotationParent.prop('id')) {
         annotationParentId = annotationParent.prop('id');
+        annotationGroupCount = parseInt(annotationParentId.replace('annotationGroup-', ''));
       } else {
         annotationGroupCount++;
         annotationParentId = 'annotationGroup-' + annotationGroupCount;
         annotationParent.prop('id', annotationParentId);
       }
+
+      // Set data-group-id on highlights so they can trigger notes pane
+      annotation.highlights.forEach(function (highlight) {
+        $(highlight).data('groupId', annotationParentId);
+      });
 
       if ((typeof(annotationGroups[annotationParentId])).toLowerCase() === 'undefined') {
         var parentTop = annotationParent.offset().top;

@@ -8,10 +8,6 @@
     <meta name="twitter:card" content="summary_large_image">
 @endpush
 
-@push('styles')
-    <link href="{{ elixir('css/annotator.min.css') }}" rel="stylesheet">
-@endpush
-
 @section('content')
     @include('components.errors')
 

@@ -201,8 +201,139 @@
   }
 }
 
+.annotator-hide { display: none; }
+
 .annotator-adder, .annotator-outer, .annotator-notice, .annotator-filter {
   z-index: 1000 !important;
+}
+
+.annotator-wrapper .annotator-adder {
+  position: absolute;
+  padding-left: 15px;
+  padding-top: 7px;
+
+  button {
+    @extend .btn;
+    @extend .btn-default;
+    @extend .fa;
+    @extend .fa-pencil;
+
+    // Styling for the pencil
+    &:before {
+      text-indent: 0;
+      color: $gray;
+      font-size: 16px;
+      position: absolute;
+      top: 6px;
+      left: 8px;
+    }
+
+    text-indent: -9999px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    margin-left: 5px;
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: -40px;
+    left: -20px;
+  }
+}
+
+.annotator-outer.annotator-editor {
+  position: absolute;
+}
+
+.annotator-wrapper .annotator-widget {
+  @extend .panel;
+
+  position: absolute;
+  top: -180px;
+  left: -150px;
+
+  border: 1px solid #eee;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+
+  &:after { background-image: none; }
+
+  .annotator-listing {
+    @extend .panel-body;
+
+    padding-bottom: 0;
+    list-style: none;
+
+    .annotator-item textarea {
+      padding: 0;
+      border: none;
+      width: 300px;
+      min-height: 80px;
+
+      &:focus { outline: none; }
+    }
+  }
+
+  .annotator-controls {
+    @extend .panel-footer;
+
+    a {
+      @extend .btn;
+
+      &.annotator-save {
+        @extend .btn-primary;
+        float: right;
+      }
+      &.annotator-cancel {
+        @extend .btn-default;
+      }
+    }
+  }
+
+}
+
+.annotator-notice {
+  @extend .alert;
+
+  position: fixed;
+  top: -54px;
+  left: 0;
+
+  width: 100%;
+  text-align: center;
+
+  .ie6 & {
+    position: absolute;
+  }
+
+}
+
+.annotator-notice-success {
+  @extend .alert-success;
+}
+
+.annotator-notice-error {
+  @extend .alert-danger;
+}
+
+.annotator-notice-show {
+  top: 0;
+}
+
+
+
+.annotator-hl {
+  background: rgba(255,255,10,0.3);
+  cursor: pointer;
+}
+
+.annotator-hl-temporary {
+  background: rgba(0,124,255,0.3);
+}
+
+.annotator-hl-active {
+  background: rgba(255,255,10,0.8);
+}
+
+.annotator-hl-filtered {
+  background-color: transparent;
 }
 
 .mobile-annotation-message {
@@ -243,8 +374,9 @@
   }
 
   // Hide all inline annotations for now.
-  .annotator-outer {
-    display: none;
+  .annotator-outer,
+  .annotator-adder {
+    display: none !important;
   }
 }
 

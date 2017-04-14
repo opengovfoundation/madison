@@ -27,7 +27,6 @@ elixir((mix) => {
        )
        .copy('resources/assets/img', 'public/img')
        .copy('resources/assets/icons', 'public/')
-       .copy('resources/assets/vendor/css/annotator.min.css', 'public/css/')
        .copy('node_modules/font-awesome/fonts/', 'public/fonts/')
        .version([
          'css/app.css',
