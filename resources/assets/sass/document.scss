@@ -65,3 +65,42 @@ blockquote {
 .comment-replies-toggle {
   margin-top: 1em;
 }
+
+#document-outline {
+  ul.nav li {
+    a {
+      padding: 5px;
+    }
+
+    ul.nav {
+      padding-left: 20px;
+    }
+
+    &.active {
+      font-weight: bold;
+
+      ul.nav {
+        font-weight: normal;
+        display: block;
+      }
+    }
+  }
+
+  .affix, .affix-bottom, .affix-top {
+    width: 273px;
+    height: 95vh;
+    overflow-y: hidden;
+  }
+
+  .affix-top { position: relative; }
+  .affix { top: 15px; }
+  .affix-bottom { position: absolute; }
+}
+
+@media only screen and (max-width: $screen-lg-min) {
+  #document-outline {
+    .affix, .affix-bottom, .affix-top {
+      width: 227px;
+    }
+  }
+}

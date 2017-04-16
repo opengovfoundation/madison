@@ -132,3 +132,78 @@ window.toggleNewCommentForm = function (elem) {
     $expandedContent.toggleClass('hide');
   }
 };
+
+window.buildDocumentOutline = function (outlineContainer, documentContent) {
+  var contentHeadings = $(documentContent).find('h1,h2,h3,h4,h5,h6').toArray();
+  var outlineTree = contentHeadings.reduce(buildOutlineTree, []);
+  var $affixedOutlineList = $(outlineContainer).children('ul');
+
+  // Create HTML from the outline tree and put into container
+  $(outlineContainer).find('ul').append(outlineTree.reduce(buildItemHtml, ''));
+
+  // Set the outline to be affixed
+  $(outlineContainer).children('ul').affix({
+    offset: {
+      top: $(outlineContainer).position().top - 5,
+      bottom: $(document).height() - $('#comments').position().top + 50
+    }
+  });
+
+  $(window).scroll(function (e) {
+    if (!$affixedOutlineList.hasClass('affix')) return;
+
+    // get current position in #page_content as a %
+    var topOfContent = $(documentContent).offset().top;
+    var contentHeight = $(documentContent).height();
+    var contentPosition = $(document).scrollTop() - topOfContent;
+    var contentPositionDecimal = (contentPosition / contentHeight);
+
+    // get equivalent percentage position in outline content
+    var outerOutlineHeight = $affixedOutlineList.height();
+    var innerOutlineHeight = $affixedOutlineList[0].scrollHeight;
+    var outlineScrollPosition = (innerOutlineHeight * contentPositionDecimal);
+
+    // set the scroll to that position
+    $affixedOutlineList.scrollTop(outlineScrollPosition - (outerOutlineHeight / 2));
+  });
+
+  // Set scrollspy on the outline
+  $('body').scrollspy({ target: outlineContainer });
+
+  function buildOutlineTree (outlineTree, heading, idx) {
+    var lastTopLevelHeading = outlineTree[outlineTree.length - 1];
+
+    var newHeading = {
+      el: heading,
+      level: parseInt(heading.tagName[1]),
+      id: 'toc-heading-' + idx,
+      text: $(heading).text(),
+      subHeadings: []
+    };
+
+    if (!lastTopLevelHeading || newHeading.level <= lastTopLevelHeading.level) {
+      outlineTree.push(newHeading);
+    } else {
+      outlineTree[outlineTree.length - 1].subHeadings.push(newHeading);
+    }
+
+    return outlineTree;
+  }
+
+  function buildItemHtml (html, item) {
+    html += '<li><a href="#' + item.id + '">' + item.text + '</a>';
+
+    if (item.subHeadings.length > 0) {
+      html += '<ul class="nav">';
+      html += item.subHeadings.reduce(buildItemHtml, '');
+      html += '</ul>';
+    }
+
+    html += '</li>';
+
+    // Side effect! Attach ID to the heading element
+    $(item.el).attr('id', item.id);
+
+    return html;
+  }
+};

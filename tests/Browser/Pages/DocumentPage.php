@@ -38,6 +38,7 @@ class DocumentPage extends BasePage
             '@stats' => '.document-stats',
             '@supportBtn' => '.support-btn button',
             '@opposeBtn' => '.oppose-btn button',
+            '@outline' => '#document-outline',
             '@noteBubble' => '.annotation-group',
             '@notesPane' => '.annotation-list',
             '@commentsDiv' => '#comments.comments',
@@ -238,7 +239,7 @@ class DocumentPage extends BasePage
         $browser
             ->pause(1000)
             ->script(join(';', [
-                'let firstParagraph = document.querySelector("#content #page_content .annotator-wrapper p:first-child")',
+                'let firstParagraph = document.querySelector("#content #page_content .annotator-wrapper p")',
                 'let selection = window.getSelection()',
                 'let range = document.createRange()',
                 'range.selectNodeContents(firstParagraph)',

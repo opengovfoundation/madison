@@ -82,8 +82,20 @@ $factory->define(Document::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(DocContent::class, function (Faker\Generator $faker) {
+    $content = '';
+
+    $numHeadings = rand(30, 40);
+    $headings = $faker->sentences($numHeadings);
+
+    foreach ($headings as $heading) {
+        $content .= str_repeat('#', rand(1, 4)) . ' ' . $heading;
+        $content .= "\n\n";
+        $content .= $faker->paragraphs(rand(3, 5), true);
+        $content .= "\n\n";
+    }
+
     return [
-        'content' => $faker->paragraphs(100, true),
+        'content' => $content,
     ];
 });
 

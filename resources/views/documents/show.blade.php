@@ -36,17 +36,21 @@
     </div>
 
     <div class="row">
-        <div class="col-md-10">
+        <div id="document-outline" class="col-md-3 panel hidden-sm hidden-xs small">
+            <ul class="nav"></ul>
+        </div>
+
+        <div class="col-md-8 col-sm-11">
             @include('documents.partials.support-btns')
 
             <section id="page_content">
                 {!! $documentPages->first()->rendered() !!}
             </section>
+
+            {{ $documentPages->appends(request()->query())->fragment('page_content')->links() }}
         </div>
 
-        <aside class="annotation-container col-md-2"></aside>
-
-        {{ $documentPages->appends(request()->query())->fragment('page_content')->links() }}
+        <aside class="annotation-container col-md-1"></aside>
     </div>
 
     @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
@@ -94,6 +98,8 @@
                 'messages.submit'
             ])
             .done(function () {
+                window.buildDocumentOutline('#document-outline', '#page_content');
+
                 @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
                     loadAnnotations(
                         "#page_content",
