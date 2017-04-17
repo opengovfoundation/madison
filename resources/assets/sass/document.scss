@@ -77,11 +77,22 @@ blockquote {
     }
 
     &.active {
-      font-weight: bold;
+      a {
+        color: $ogf-dark-blue;
+      }
 
       ul.nav {
-        font-weight: normal;
         display: block;
+
+        a {
+          color: $link-color;
+        }
+
+        li.active {
+          a {
+            color: $ogf-dark-blue;
+          }
+        }
       }
     }
   }
@@ -124,7 +135,6 @@ blockquote {
   h1 {
     margin-top: 0;
     font-size: $jumbotron-heading-font-size;
-    font-family: $font-family-sans-serif;
   }
 
   .sponsors {
@@ -143,6 +153,12 @@ blockquote {
   background-color: white;
   padding-left: (floor(($grid-gutter-width / 2)));
   padding-right: (floor(($grid-gutter-width / 2)));
+
+  #page_content {
+    h1, h2, h3, h4, h5, h6 {
+      font-family: $font-family-serif;
+    }
+  }
 }
 
 #comments {
