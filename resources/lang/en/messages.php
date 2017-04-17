@@ -91,6 +91,8 @@ return [
         'placeholder' => 'Search documents',
     ],
 
+    'user_greeting' => 'Hi :name',
+
     'activelegislation' => 'Active Legislation',
     'recentactivity' => 'Recent Activity',
     'mostactive' => 'Most Active Documents',

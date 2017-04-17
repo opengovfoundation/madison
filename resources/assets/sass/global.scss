@@ -7,6 +7,12 @@ body {
   font-weight: bold;
 }
 
+.nav li .divider {
+  margin: 0 $nav-link-padding;
+  border-right: 1px solid lighten($gray-light, 20%);
+  line-height: 3em;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-family-serif;
   font-weight: bold;
@@ -81,6 +87,12 @@ footer.nav {
 
   .navbar-form .input-group {
     background: $gray-lighter;
+  }
+
+  .dropdown a {
+    &:link, &:visited, &:active, &:hover {
+      & .caret { color: $ogf-red; }
+    }
   }
 }
 

@@ -98,6 +98,10 @@
                             <li><a href="{{ $page->getUrl() }}">{{ $page->nav_title }}</a></li>
                         @endforeach
 
+                        <li>
+                            <span class="divider"></span>
+                        </li>
+
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             @if (Route::currentRouteName() === 'login' || Route::currentRouteName() === 'register')
@@ -110,7 +114,7 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    <i class="fa fa-user"></i> {{ Auth::user()->displayName }} <span class="caret"></span>
+                                    {{ trans('messages.user_greeting', ['name' => Auth::user()->fname]) }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
