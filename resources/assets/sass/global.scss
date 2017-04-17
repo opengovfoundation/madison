@@ -68,10 +68,6 @@ footer.nav {
     font-size: 1.9em;
   }
 
-  .navbar-form {
-    width: 100%;
-  }
-
   .navbar-form .input-group .btn,
   .navbar-form .input-group .form-control {
     border-radius: 0;
@@ -99,6 +95,13 @@ footer.nav {
     .icon-bar {
       background-color: #888;
     }
+  }
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+  #main-nav .navbar-form {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
