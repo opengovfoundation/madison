@@ -68,7 +68,7 @@ footer.nav {
 
 #main-nav {
   margin-bottom: 0;
-  padding: 20px 0;
+  padding: 25px;
 
   .navbar-brand {
     font-family: $font-family-serif;
@@ -87,6 +87,9 @@ footer.nav {
 
   .navbar-form .input-group {
     background: $gray-lighter;
+    padding: 5px;
+    margin-top: -5px;
+    font-family: $font-family-serif;
   }
 
   .dropdown a {
