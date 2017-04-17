@@ -67,10 +67,6 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             {{ Form::open(['route' => 'documents.index', 'method' => 'get', 'class' => 'navbar-form']) }}
                                 <div class="input-group">
@@ -83,6 +79,10 @@
                                 </div>
                             {{ Form::close() }}
                         </li>
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="{{ route('documents.index') }}">
                                 @lang('messages.document.list')
