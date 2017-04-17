@@ -68,6 +68,10 @@ footer.nav {
     font-size: 1.9em;
   }
 
+  .navbar-form {
+    width: 100%;
+  }
+
   .navbar-form .input-group .btn,
   .navbar-form .input-group .form-control {
     border-radius: 0;
@@ -86,6 +90,14 @@ footer.nav {
   .dropdown a {
     &:link, &:visited, &:active, &:hover {
       & .caret { color: $ogf-red; }
+    }
+  }
+
+  .navbar-toggle {
+    border-color: #ddd;
+
+    .icon-bar {
+      background-color: #888;
     }
   }
 }
