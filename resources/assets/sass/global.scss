@@ -54,12 +54,17 @@ footer.nav {
     background-color: $ogf-dark-blue;
   }
 
+  &:not(.dark) {
+    border-top: 2px solid #E5E5E5;
+    box-shadow: 0 -2px #C4C8CD;
+  }
+
   padding-top: $line-height-computed;
 }
 
 #main-nav {
   margin-bottom: 0;
-  padding: 25px;
+  padding: 18px;
 
   .navbar-brand {
     font-family: $font-family-serif;
