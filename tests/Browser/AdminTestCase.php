@@ -32,7 +32,7 @@ class AdminTestCase extends DuskTestCase
             ->loginAs($this->user)
             ->visit($page)
             // 403 status
-            ->assertSee('Whoops, looks like something went wrong')
+            ->assertSee('403')
             ;
     }
 }

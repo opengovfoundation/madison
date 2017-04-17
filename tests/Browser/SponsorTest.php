@@ -198,7 +198,7 @@ class SponsorTest extends DuskTestCase
                 ->visitRoute('sponsors.documents.index', $sponsor)
                 ->assertDontSeeIn('#content .list-group', trans('messages.settings'))
                 ->visitRoute('sponsors.edit', $sponsor)
-                ->assertSee('unauthorized')
+                ->assertSee('403')
                 ;
         });
     }
@@ -235,7 +235,7 @@ class SponsorTest extends DuskTestCase
                 ->visit(new SponsorPages\MembersPage($sponsor))
                 ->assertMissing('@addMemberButton')
                 ->visitRoute('sponsors.members.create', $sponsor)
-                ->assertSee('Whoops, looks like something went wrong') // 403 status
+                ->assertSee('403') // 403 status
                 ;
         });
     }

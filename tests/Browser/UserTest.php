@@ -41,14 +41,14 @@ class UserTest extends DuskTestCase
                 ->loginAs($user)
                 ->visit($page)
                 // 403 status
-                ->assertSee('Whoops, looks like something went wrong')
+                ->assertSee('403')
                 ;
 
             // anonymous user
             $browser
                 ->visit($page)
                 // 403 status
-                ->assertSee('Whoops, looks like something went wrong')
+                ->assertSee('403')
                 ;
         });
     }

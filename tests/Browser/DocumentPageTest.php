@@ -175,7 +175,7 @@ class DocumentPageTest extends DuskTestCase
         $this->browse(function ($browser) {
             $browser
                 ->visit($this->page)
-                ->assertSee('This action is unauthorized')
+                ->assertSee('403')
                 ;
         });
     }

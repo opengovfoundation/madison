@@ -437,4 +437,19 @@ return [
             'google_analytics_property_id_help' => 'The UA-XXXXX-Y string identifying which Google Analytics property you wish to track traffic against',
         ],
     ],
+
+    'error' => [
+        '404' => [
+            'title' => 'Not Found (404)',
+            'body' => 'Whatever you were looking for was not found. Try going back and giving it another shot.',
+        ],
+        '403' => [
+            'title' => 'Not Authorized (403)',
+            'body' => 'You are not authorized to perform this action, please go back.',
+        ],
+        '500' => [
+            'title' => 'Something went wrong (500)',
+            'body' => 'There was a problem in our system, we apologize for the inconvenience.',
+        ],
+    ],
 ];

@@ -70,7 +70,7 @@ class CommentsTest extends DuskTestCase
                 ->loginAs($this->sponsorOwner)
                 ->visit(new CommentsPage($otherDocument))
                 // 403 status
-                ->assertSee('Whoops, looks like something went wrong')
+                ->assertSee('403')
                 ;
         });
     }
