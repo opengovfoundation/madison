@@ -74,12 +74,12 @@
                         <li>
                             {{ Form::open(['route' => 'documents.index', 'method' => 'get', 'class' => 'navbar-form']) }}
                                 <div class="input-group">
-                                    <input class="form-control" placeholder="{{ trans('messages.search.placeholder') }}" name="q" type="text">
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" type="submit">
                                             <i class="fa fa-search" aria-hidden="true"></i>
                                         </button>
                                     </div>
+                                    <input class="form-control" placeholder="{{ trans('messages.search.placeholder') }}" name="q" type="text">
                                 </div>
                             {{ Form::close() }}
                         </li>
