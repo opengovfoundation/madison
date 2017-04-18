@@ -230,10 +230,10 @@ blockquote {
 
   .read-the-document-badge {
     display: inline-block;
-    width: 120px;
-    height: 90px;
-    margin-top: -($grid-gutter-width);
-    padding: $grid-gutter-width;
+    width: 80px;
+    height: 65px;
+    margin-top: -20px;
+    padding: 13px;
     background: $ogf-red;
     font-family: $font-family-sans-serif;
     font-weight: bold;
@@ -241,18 +241,20 @@ blockquote {
     text-transform: uppercase;
     text-align: center;
     color: #fff;
+    position: relative;
+    font-size: 12px;
 
     &:after {
       content: '';
-      position: relative;
+      position: absolute;
       display: block;
-      top: 6px;
-      left: -30px;
+      top: 100%;
+      left: 0;
       width: 0;
       height: 0;
-      border-top: 40px solid $ogf-red;
-      border-left: 60px solid transparent;
-      border-right: 60px solid transparent;
+      border-top: 20px solid $ogf-red;
+      border-left: 40px solid transparent;
+      border-right: 40px solid transparent;
     }
 
     // Read
@@ -263,40 +265,24 @@ blockquote {
     // the
     span:nth-child(2) {
       text-transform: lowercase;
-
-      &:before,
-      &:after {
-        content: ' ';
-        position: relative;
-        display: block;
-        border-bottom: 1px solid #fff;
-        width: 20px;
-      }
-
-      &:before {
-        bottom: -9px;
-        left: 0;
-      }
-      &:after {
-        top: -8px;
-        left: 40px;
-      }
+      width: 100%;
+      border-bottom: 1px solid #fff;
+      line-height: 0.1em;
+      margin: 7px 0;
+      display: block;
 
       span {
-        font-size: 0.7em;
+        font-size: 0.8em;
         font-family: $font-family-serif;
         font-style: italic;
         background: $ogf-red;
-        z-index: 1;
-        display: inline-block;
-        width: auto;
-        padding: 0 2px;
+        padding: 0 5px;
       }
     }
 
     // Document
     span:nth-child(3) {
-      font-size: 0.7em;
+      font-size: 0.75em;
     }
   }
 

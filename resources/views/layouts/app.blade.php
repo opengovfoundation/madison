@@ -33,7 +33,7 @@
     <meta name="theme-color" content="#ffffff">
 
     <!-- Styles -->
-    <link href="https://fonts.googleapis.com/css?family=Droid+Serif|Poppins" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif|Poppins:400,700" rel="stylesheet">
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
     @stack('styles')
 
