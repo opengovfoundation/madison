@@ -13,6 +13,7 @@
                         </button>
                     {{ Form::close() }}
                 </div>
+                <div class="separator"></div>
                 <div class="oppose-btn" role="group">
                     {{ Form::open(['route' => ['documents.support', $document], 'method' => 'put']) }}
                         <input type="hidden" name="support" value="0">

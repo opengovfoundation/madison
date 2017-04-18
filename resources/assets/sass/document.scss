@@ -27,35 +27,32 @@
   }
 }
 
-.support-btns * {
-    display: inline;
-}
-
 .support-btns {
   padding-bottom: 0;
-  border-bottom: 1px solid lighten($gray-light, 10%);
   margin: ($jumbotron-padding * 1.5) 0;
+  position: relative;
 
-  // Second border
-  &:after {
-    content: ' ';
+  border-bottom: 2px solid #C4C8CD;
+  box-shadow: 0 2px #E5E5E5;
+
+  * {
+    display: inline-block;
+  }
+
+  .separator {
     position: absolute;
-    top: 96px;
-    right: 5px;
-    bottom: 5px;
-    left: 5px;
-    height: 5px;
-    margin: 0 10px;
-    border-bottom: 5px solid $gray-lighter;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    border-left: 1px solid #C4C8CD;
   }
 
   button {
-    display: inline-block;
     height: $navbar-height;
     padding: 0 ($grid-gutter-width * 1.5);
     background: 0;
     border: 0;
-    border-bottom: 3px solid #fff;
+    border-bottom: 3px solid transparent;
     font-family: $font-family-sans-serif;
     font-size: $font-size-base * 0.8;
     font-weight: bold;
@@ -67,21 +64,12 @@
 
     &.support:hover,
     &.support.active {
-      border-bottom: 3px solid $ogf-blue;
+      border-color: $ogf-blue;
     }
 
     &.oppose:hover,
     &.oppose.active {
-      border-bottom: 3px solid $ogf-red;
-    }
-
-    // Correct the white space between buttons
-    &.oppose {
-      margin-left: -3px;
-    }
-
-    &.support {
-      border-right: 1px solid lighten($gray-light, 10%);
+      border-color: $ogf-red;
     }
 
     .fa-thumbs-down {
@@ -320,5 +308,14 @@ blockquote {
     margin-right: -(floor(($grid-gutter-width / 2)));
     padding-left: (floor(($grid-gutter-width / 2)));
     padding-right: (floor(($grid-gutter-width / 2)));
+  }
+
+  .support-btns {
+    margin-left: -(floor(($grid-gutter-width / 2)));
+    margin-right: -(floor(($grid-gutter-width / 2)));
+
+    .separator {
+      display: none;
+    }
   }
 }
