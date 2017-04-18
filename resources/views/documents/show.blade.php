@@ -71,6 +71,10 @@
         <div id="comments">
             <div class="row comments">
                 <section class="col-md-offset-2 col-md-8">
+                    <div id="all-comments-count">
+                        @lang('messages.document.comments_with_count', ['count' => $document->all_comments_count])
+                    </div>
+
                     @if ($document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_OPEN)
                         <div class="floating-card">
                             @if (Auth::user())

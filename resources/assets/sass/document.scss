@@ -302,6 +302,11 @@ blockquote {
   padding-top: $line-height-computed;
   padding-left: (floor(($grid-gutter-width / 2)));
   padding-right: (floor(($grid-gutter-width / 2)));
+
+  #all-comments-count {
+    @extend .h1;
+    margin-bottom: $line-height-computed;
+  }
 }
 
 @media only screen and (max-width: $screen-sm-min) {

@@ -115,6 +115,7 @@ return [
         'participants' => 'Participants',
         'comment' => 'Comment',
         'comments' => 'Comments',
+        'comments_with_count' => ':count Comments',
         'add_comment' => 'Write a comment...',
         'login_to_comment' => 'Login to comment',
         'see_replies' => 'See replies (:count)',
