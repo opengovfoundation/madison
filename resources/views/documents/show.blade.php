@@ -35,13 +35,14 @@
     </div>
 
     <div id="doc-content">
+        @include('documents.partials.support-btns')
+
         <div class="row">
             <div id="document-outline" class="col-md-3 panel hidden-sm hidden-xs small">
                 <ul class="nav"></ul>
             </div>
 
             <div class="col-md-8 col-sm-11">
-                @include('documents.partials.support-btns')
 
                 <section id="page_content">
                     {!! $documentPages->first()->rendered() !!}

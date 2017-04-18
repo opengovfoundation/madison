@@ -27,12 +27,70 @@
   }
 }
 
-.support-btns {
-  margin-left: 1em;
-  margin-bottom: 1em;
+.support-btns * {
+    display: inline;
+}
 
-  .btn-group {
-    z-index: $zindex-navbar;
+.support-btns {
+  padding-bottom: 0;
+  border-bottom: 1px solid $gray-light;
+  margin: ($jumbotron-padding * 1.5) 0;
+
+  &:after {
+    content: ' ';
+    position: absolute;
+    top: 96px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    height: 5px;
+    margin: 0 10px;
+    border-bottom: 5px solid $gray-lighter;
+  }
+
+  button {
+    display: inline-block;
+    height: $navbar-height;
+    padding: 0 ($grid-gutter-width * 1.5);
+    background: 0;
+    border: 0;
+    border-bottom: 3px solid #fff;
+    font-family: $font-family-sans-serif;
+    font-size: $font-size-base * 0.8;
+    font-weight: bold;
+    color: $ogf-blue;
+
+    &:hover {
+      color: lighten($ogf-blue, 10%);
+    }
+
+    &.support:hover,
+    &.support.active {
+      border-bottom: 3px solid $ogf-blue;
+    }
+
+    &.oppose:hover,
+    &.oppose.active {
+      border-bottom: 3px solid $ogf-red;
+    }
+
+    // Correct the white space between buttons
+    &.oppose {
+      margin-left: -3px;
+    }
+
+    &.support {
+      border-right: 1px solid $gray-light;
+    }
+
+    .fa-thumbs-down {
+      color: $ogf-red;
+    }
+
+    .count {
+      @extend .small;
+      color: $gray-light;
+    }
   }
 }
 
@@ -67,19 +125,19 @@ blockquote {
 }
 
 #document-outline {
-  ul.nav {
-    margin-left: -((floor(($grid-gutter-width / 2))) + 1);
-  }
+  background: 0;
+  margin-left: -1px;
 
   ul.nav li {
     padding-left: (floor(($grid-gutter-width / 2)));
     border-left: 5px solid transparent;
 
     a {
-      padding: 5px;
+      padding: ($grid-gutter-width / 3) ($grid-gutter-width / 2);
     }
 
     ul.nav {
+      margin-left: -((floor(($grid-gutter-width / 2))) + 1);
       li {
         padding-left: (2*(floor(($grid-gutter-width / 2))));
       }
@@ -162,9 +220,7 @@ blockquote {
 
 #doc-content {
   background-color: white;
-  padding-left: (floor(($grid-gutter-width / 2)));
-  padding-right: (floor(($grid-gutter-width / 2)));
-  padding-top: 2em;
+  padding: 0;
 
   #page_content {
     h1, h2, h3, h4, h5, h6 {
