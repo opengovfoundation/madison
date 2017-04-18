@@ -121,10 +121,6 @@ blockquote {
   }
 }
 
-.comment-replies-toggle {
-  margin-top: 1em;
-}
-
 #document-outline {
   background: 0;
   margin-left: -1px;
@@ -304,6 +300,17 @@ blockquote {
   #all-comments-count {
     @extend .h1;
     margin-bottom: $line-height-computed;
+  }
+
+  .like-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .bottom {
+    margin-top: 1em;
+    overflow: hidden;
   }
 }
 

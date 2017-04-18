@@ -44,6 +44,16 @@
   display: inline;
 }
 
+.btn-simple {
+  color: $text-muted;
+
+  &:hover,
+  &:focus {
+    color: $link-color;
+    text-decoration: none;
+  }
+}
+
 footer.nav {
   padding-bottom: 30px;
 }

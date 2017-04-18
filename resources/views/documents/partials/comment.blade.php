@@ -8,30 +8,21 @@
             {{ $comment->user->display_name }}
             <br>
 
-            <a class="link" href="{{ $comment->getLink() }}"
+            <a href="{{ $comment->getLink() }}"
                 aria-label="{{ trans('messages.permalink') }}" role="button"
                 title="{{ trans('messages.permalink') }}">
             <small>@include('components/relative-time', [ 'datetime' => $comment->created_at ])</small>
                 </a>
-        </h4>
 
-        <div class="activity-actions">
-            <a class="thumbs-up" onclick="$(this).trigger('madison.addAction')"
+            <a class="btn btn-simple like-btn" onclick="$(this).trigger('madison.addAction')"
                 data-action-type="likes" data-annotation-id="{{ $comment->str_id }}"
                 title="{{ trans('messages.document.like') }}"
                 aria-label="{{ trans('messages.document.like') }}" role="button">
 
+                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                 <span class="action-count">{{ $comment->likes_count }}</span>
             </a>
-
-            <a class="flag" onclick="$(this).trigger('madison.addAction')"
-                data-action-type="flags" data-annotation-id="{{ $comment->str_id }}"
-                title="{{ trans('messages.document.flag') }}"
-                aria-label="{{ trans('messages.document.flag') }}" role="button">
-
-                <span class="action-count">{{ $comment->flags_count }}</span>
-            </a>
-        </div>
+        </h4>
 
         @if (!empty($comment->data['quote']))
             <a onclick="anchorToHighlight('{{ $comment->str_id }}')">
@@ -42,6 +33,28 @@
         @endif
 
         <p>{{ $comment->annotationType->content }}</p>
+
+        <div class="bottom">
+            @if ($comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE && $comment->comments()->count() > 0)
+                <div class="comment-replies-toggle pull-left">
+                    <a class="comment-replies-toggle-show" aria-label="{{ trans('messages.document.replies') }}
+                        title="{{ trans('messages.document.replies') }} role="button"
+                        data-comment-id="{{ $comment->str_id }}">
+
+                        @lang('messages.document.see_replies', ['count' => $comment->comments()->count()])
+                    </a>
+                </div>
+            @endif
+
+            <a class="btn btn-simple pull-right" onclick="$(this).trigger('madison.addAction')"
+                data-action-type="flags" data-annotation-id="{{ $comment->str_id }}"
+                title="{{ trans('messages.document.flag') }}"
+                aria-label="{{ trans('messages.document.flag') }}" role="button">
+
+                <i class="fa fa-flag" aria-hidden="true"></i>
+                <span class="action-count">{{ $comment->flags_count }}</span>
+            </a>
+        </div>
     </div>
 
     @if (Auth::user() && $comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE)
@@ -55,16 +68,4 @@
             @each('documents/partials/comment-div', $comment->comments()->get(), 'comment')
         @endif
     </div>
-
-    @if ($comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE && $comment->comments()->count() > 0)
-        <div class="comment-replies-toggle text-center">
-            <a class="comment-replies-toggle-show" aria-label="{{ trans('messages.document.replies') }}
-                title="{{ trans('messages.document.replies') }} role="button"
-                data-comment-id="{{ $comment->str_id }}">
-
-                @lang('messages.document.see_replies', ['count' => $comment->comments()->count()])
-            </a>
-        </div>
-    @endif
-
 </div>

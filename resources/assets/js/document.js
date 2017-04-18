@@ -29,20 +29,16 @@ window.loadAnnotations = function (contentElem, annotationContainerElem, docId, 
 window.toggleCommentReplies = function(commentId) {
   var $commentDiv = $('#' + commentId);
   var $commentReplyDiv = $commentDiv.find('.comment-replies');
-  var $commentReplyToggleShowDiv = $commentDiv.find('.comment-replies-toggle-show');
   if ($commentReplyDiv) {
     $commentReplyDiv.toggleClass('hide');
-    $commentReplyToggleShowDiv.toggleClass('hide');
   }
 };
 
 window.showCommentReplies = function(commentId) {
   var $commentDiv = $('#' + commentId);
   var $commentReplyDiv = $commentDiv.find('.comment-replies');
-  var $commentReplyToggleShowDiv = $commentDiv.find('.comment-replies-toggle-show');
   if ($commentReplyDiv) {
     $commentReplyDiv.removeClass('hide');
-    $commentReplyToggleShowDiv.addClass('hide');
   }
 };
 

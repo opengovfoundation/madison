@@ -181,14 +181,6 @@
   @extend .title-underline-medium;
 }
 
-#comments .comment {
-  .activity-actions {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-}
-
 .subcomment-form {
   margin: $line-height-computed;
 

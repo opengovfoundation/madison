@@ -118,7 +118,7 @@ return [
         'comments_with_count' => ':count Comments',
         'add_comment' => 'Write a comment...',
         'login_to_comment' => 'Login to comment',
-        'see_replies' => 'See replies (:count)',
+        'see_replies' => ':count Replies',
         'note' => 'Note',
         'note_edit_explanation_prompt' => 'Why did you make this edit?',
         'notes' => 'Notes',
