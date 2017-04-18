@@ -229,17 +229,31 @@ blockquote {
   }
 
   .read-the-document-badge {
-    margin-top: -($grid-gutter-width);
     display: inline-block;
-    background: $ogf-red;
     width: 120px;
+    height: 90px;
+    margin-top: -($grid-gutter-width);
+    padding: $grid-gutter-width;
+    background: $ogf-red;
     font-family: $font-family-sans-serif;
     font-weight: bold;
     line-height: 1em;
     text-transform: uppercase;
-    padding: $grid-gutter-width;
     text-align: center;
     color: #fff;
+
+    &:after {
+      content: '';
+      position: relative;
+      display: block;
+      top: 6px;
+      left: -30px;
+      width: 0;
+      height: 0;
+      border-top: 40px solid $ogf-red;
+      border-left: 60px solid transparent;
+      border-right: 60px solid transparent;
+    }
 
     // Read
     span:nth-child(1) {
