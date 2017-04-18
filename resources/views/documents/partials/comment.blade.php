@@ -14,14 +14,14 @@
             <small>@include('components/relative-time', [ 'datetime' => $comment->created_at ])</small>
                 </a>
 
-            <a class="btn btn-simple like-btn" onclick="$(this).trigger('madison.addAction')"
+            <button class="btn btn-simple like-btn" onclick="$(this).trigger('madison.addAction')"
                 data-action-type="likes" data-annotation-id="{{ $comment->str_id }}"
                 title="{{ trans('messages.document.like') }}"
-                aria-label="{{ trans('messages.document.like') }}" role="button">
+                aria-label="{{ trans('messages.document.like') }}">
 
                 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                 <span class="action-count">{{ $comment->likes_count }}</span>
-            </a>
+            </button>
         </h4>
 
         @if (!empty($comment->data['quote']))
@@ -41,19 +41,19 @@
                         title="{{ trans('messages.document.replies') }} role="button"
                         data-comment-id="{{ $comment->str_id }}">
 
-                        @lang('messages.document.see_replies', ['count' => $comment->comments()->count()])
+                        @choice('messages.document.see_replies', $comment->comments()->count())
                     </a>
                 </div>
             @endif
 
-            <a class="btn btn-simple pull-right" onclick="$(this).trigger('madison.addAction')"
+            <button class="btn btn-simple pull-right" onclick="$(this).trigger('madison.addAction')"
                 data-action-type="flags" data-annotation-id="{{ $comment->str_id }}"
                 title="{{ trans('messages.document.flag') }}"
-                aria-label="{{ trans('messages.document.flag') }}" role="button">
+                aria-label="{{ trans('messages.document.flag') }}">
 
                 <i class="fa fa-flag" aria-hidden="true"></i>
                 <span class="action-count">{{ $comment->flags_count }}</span>
-            </a>
+            </button>
         </div>
     </div>
 

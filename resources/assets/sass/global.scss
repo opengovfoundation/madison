@@ -46,11 +46,16 @@
 
 .btn-simple {
   color: $text-muted;
+  background: transparent;
 
   &:hover,
   &:focus {
     color: $link-color;
     text-decoration: none;
+  }
+
+  &:active {
+    box-shadow: none;
   }
 }
 
