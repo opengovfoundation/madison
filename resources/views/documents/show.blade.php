@@ -35,6 +35,18 @@
     </div>
 
     <div id="doc-content">
+        <div class="text-center">
+            <span class="read-the-document-badge">
+                {!! trans('messages.document.read') !!}
+            </span>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+                <h1 class="document-title">{{ $document->title }}</h1>
+            </div>
+        </div>
+
         @include('documents.partials.support-btns')
 
         <div class="row">

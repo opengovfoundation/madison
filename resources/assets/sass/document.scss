@@ -33,9 +33,10 @@
 
 .support-btns {
   padding-bottom: 0;
-  border-bottom: 1px solid $gray-light;
+  border-bottom: 1px solid lighten($gray-light, 10%);
   margin: ($jumbotron-padding * 1.5) 0;
 
+  // Second border
   &:after {
     content: ' ';
     position: absolute;
@@ -80,7 +81,7 @@
     }
 
     &.support {
-      border-right: 1px solid $gray-light;
+      border-right: 1px solid lighten($gray-light, 10%);
     }
 
     .fa-thumbs-down {
@@ -221,6 +222,69 @@ blockquote {
 #doc-content {
   background-color: white;
   padding: 0;
+
+  .document-title {
+    margin-top: $jumbotron-padding * 2;
+    font-size: 3em;
+  }
+
+  .read-the-document-badge {
+    margin-top: -($grid-gutter-width);
+    display: inline-block;
+    background: $ogf-red;
+    width: 120px;
+    font-family: $font-family-sans-serif;
+    font-weight: bold;
+    line-height: 1em;
+    text-transform: uppercase;
+    padding: $grid-gutter-width;
+    text-align: center;
+    color: #fff;
+
+    // Read
+    span:nth-child(1) {
+      font-size: 1.5em;
+    }
+
+    // the
+    span:nth-child(2) {
+      text-transform: lowercase;
+
+      &:before,
+      &:after {
+        content: ' ';
+        position: relative;
+        display: block;
+        border-bottom: 1px solid #fff;
+        width: 20px;
+      }
+
+      &:before {
+        bottom: -9px;
+        left: 0;
+      }
+      &:after {
+        top: -8px;
+        left: 40px;
+      }
+
+      span {
+        font-size: 0.7em;
+        font-family: $font-family-serif;
+        font-style: italic;
+        background: $ogf-red;
+        z-index: 1;
+        display: inline-block;
+        width: auto;
+        padding: 0 2px;
+      }
+    }
+
+    // Document
+    span:nth-child(3) {
+      font-size: 0.7em;
+    }
+  }
 
   #page_content {
     h1, h2, h3, h4, h5, h6 {

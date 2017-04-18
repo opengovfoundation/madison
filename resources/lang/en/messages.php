@@ -101,7 +101,7 @@ return [
 
     // Document Stuff
     'document' => [
-        'read' => 'Read this document',
+        'read' => '<span>Read</span> <span><span>the</span></span> <span>document</span>',
         'title' => 'Title',
         'title_invalid' => 'Can\'t create document with that name, please try another.',
         'slug' => 'Slug',
