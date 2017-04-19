@@ -186,6 +186,10 @@ blockquote {
   padding: $jumbotron-padding * 2 $jumbotron-padding;
   font-size: $jumbotron-font-size * 0.8;
 
+  a {
+    @extend .alt-link;
+  }
+
   h1 {
     margin-top: 0;
     font-size: $jumbotron-heading-font-size;

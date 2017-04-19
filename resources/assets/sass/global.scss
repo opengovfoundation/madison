@@ -61,6 +61,18 @@
   }
 }
 
+.alt-link {
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: $ogf-yellow;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $ogf-yellow;
+  }
+}
+
 footer.nav {
   padding-bottom: 30px;
 }
@@ -139,10 +151,6 @@ footer.nav {
 
   footer ul {
     float: right;
-
-    a {
-      color: white;
-    }
 
     li {
       display: inline-block;

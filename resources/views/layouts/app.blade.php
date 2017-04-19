@@ -179,7 +179,7 @@
             <footer class="container">
                 <ul>
                     @foreach ($footerPages as $page)
-                        <li><a href="{{ $page->getUrl() }}">{{ $page->nav_title }}</a></li>
+                        <li><a href="{{ $page->getUrl() }}" class="alt-link">{{ $page->nav_title }}</a></li>
                     @endforeach
                 </ul>
             </footer>
