@@ -4,7 +4,7 @@
 
 @push('meta')
     <meta property="og:description" content="{{ $document->shortIntroText() }}">
-    <meta property="og:image" content="{{ url($document->getFeaturedImageUrl()) }}">
+    <meta property="og:image" content="{{ url('/img/default-featured.jpg') }}">
     <meta name="twitter:card" content="summary_large_image">
 @endpush
 

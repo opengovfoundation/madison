@@ -191,3 +191,21 @@ footer.nav {
     }
   }
 }
+
+// https://www.lullabot.com/articles/importing-css-breakpoints-into-javascript
+body:before {
+  content: 'xs';
+  display: none; /* Prevent from displaying. */
+}
+
+@media (min-width: $screen-sm-min) {
+  body:before { content: 'sm'; }
+}
+
+@media (min-width: $screen-md-min) {
+  body:before { content: 'md'; }
+}
+
+@media (min-width: $screen-lg-min) {
+  body:before { content: 'lg'; }
+}

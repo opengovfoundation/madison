@@ -626,19 +626,6 @@ class Doc extends Model
         $featuredSetting->save();
     }
 
-    public function getFeaturedImageUrl()
-    {
-        if ($this->featuredImage) {
-            return route('documents.images.show', [
-                'document' => $this->slug,
-                'image' => $this->featuredImage,
-                'size' => 'featured',
-            ]);
-        }
-
-        return '/img/default-featured.jpg';
-    }
-
     /**
      * Get the route key for the model.
      *

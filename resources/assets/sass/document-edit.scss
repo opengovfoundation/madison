@@ -1,3 +1,41 @@
+.edit-document {
+  textarea {
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+    margin-bottom: $grid-gutter-width * 2;
+
+    &#title {
+      font-size: $font-size-h1;
+      font-weight: 700;
+    }
+
+    &#introtext {
+      font-size: $font-size-base + ($font-size-base * 0.2);
+    }
+
+    &#page_content,
+    &#introtext {
+      border-top: 1px solid $gray-lighter;
+      padding-top: $grid-gutter-width;
+    }
+
+    &:focus {
+      outline: 0;
+      border: 0;
+      box-shadow: none;
+      border-bottom: 1px solid $gray-lighter;
+    }
+  }
+
+  .settings-sidebar {
+    &.affix {
+      width: 360px;
+      top: 5px;
+    }
+  }
+}
+
 .document-pages-toolbar {
   margin-bottom: $form-group-margin-bottom;
   overflow: hidden;

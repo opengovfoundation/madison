@@ -338,23 +338,6 @@ class DocumentController extends Controller
             $pageContent->save();
         }
 
-        if ($request->hasFile('featured-image')) {
-            $file = $request->file('featured-image');
-
-            // Keep a record of our previous featuredImage.
-            $previousFeaturedImageId = $document->featuredImage;
-
-            $imageId = $this->documentService->generateAllImageSizes($file);
-
-            $document->featuredImage = $imageId;
-            $document->save();
-
-            // Our featured image was saved, so let's remove the old one.
-            if ($previousFeaturedImageId) {
-                $this->documentService->destroyAllImageSizes($previousFeaturedImageId);
-            }
-        }
-
         flash(trans('messages.document.updated'));
         return redirect()->route('documents.manage.settings', [
             'document' => $document,
@@ -423,33 +406,6 @@ class DocumentController extends Controller
 
         flash(trans('messages.document.page_added'));
         return redirect()->route('documents.manage.settings', ['document' => $document, 'page' => $page]);
-    }
-
-    public function showImage(Requests\View $request, Document $document, $image)
-    {
-        $size = $request->input('size', null);
-        $imageId = $this->documentService->getImageIdForSize($image, $size);
-
-        if (!Storage::has($imageId)) {
-            abort(null, 404);
-        }
-
-        return response(Storage::get($imageId), 200)
-            ->header('Content-Type', Storage::mimeType($imageId));
-    }
-
-    public function destroyImage(Requests\Edit $request, Document $document, $image)
-    {
-        $this->documentService->destroyAllImageSizes($image);
-
-        if ($image === $document->featuredImage) {
-            $document->featuredImage = null;
-            $document->save();
-
-            flash(trans('messages.document.featured_image_removed'));
-        }
-
-        return redirect()->route('documents.manage.settings', $document);
     }
 
     public function updateSupport(Requests\PutSupport $request, Document $document)

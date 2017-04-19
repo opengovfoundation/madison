@@ -27,7 +27,7 @@ if (!empty($attributes['label-sr-only'])) {
         @endif
 
         @if (!empty($helpText))
-            <p class="help-block">{{ $helpText }}</p>
+            <p class="help-block small">{{ $helpText }}</p>
         @endif
     </div>
 @endif
