@@ -29,20 +29,16 @@ window.loadAnnotations = function (contentElem, annotationContainerElem, docId, 
 window.toggleCommentReplies = function(commentId) {
   var $commentDiv = $('#' + commentId);
   var $commentReplyDiv = $commentDiv.find('.comment-replies');
-  var $commentReplyToggleShowDiv = $commentDiv.find('.comment-replies-toggle-show');
   if ($commentReplyDiv) {
-    $commentReplyDiv.toggleClass('hide');
-    $commentReplyToggleShowDiv.toggleClass('hide');
+    $commentReplyDiv.toggleClass('hidden');
   }
 };
 
 window.showCommentReplies = function(commentId) {
   var $commentDiv = $('#' + commentId);
   var $commentReplyDiv = $commentDiv.find('.comment-replies');
-  var $commentReplyToggleShowDiv = $commentDiv.find('.comment-replies-toggle-show');
   if ($commentReplyDiv) {
-    $commentReplyDiv.removeClass('hide');
-    $commentReplyToggleShowDiv.addClass('hide');
+    $commentReplyDiv.removeClass('hidden');
   }
 };
 
@@ -128,8 +124,8 @@ window.toggleNewCommentForm = function (elem) {
     var $collapsedContent = $(parents[0]).find('.collapsed-content');
     var $expandedContent = $(parents[0]).find('.expanded-content');
 
-    $collapsedContent.toggleClass('hide');
-    $expandedContent.toggleClass('hide');
+    $collapsedContent.toggleClass('hidden');
+    $expandedContent.toggleClass('hidden');
   }
 };
 

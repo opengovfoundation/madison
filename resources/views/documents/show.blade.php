@@ -21,59 +21,78 @@
         </div>
     @endcan
 
-    <div class="jumbotron">
+    <div id="doc-header">
         <h1>{{ $document->title }}</h1>
         <p class="sponsors">
             @lang('messages.document.sponsoredby', ['sponsors' => $document->sponsors->implode('display_name', ', ')])
         </p>
 
         @if (!empty($document->introtext))
-            <hr>
             <div class="introtext">
-                {!! $document->introtext !!}
+                {!! $document->introtext_html !!}
             </div>
         @endif
     </div>
 
-    <div class="row">
-        <div id="document-outline" class="col-md-3 panel hidden-sm hidden-xs small">
-            <ul class="nav"></ul>
+    <div id="doc-content">
+        <div class="text-center">
+            <span class="read-the-document-badge">
+                {!! trans('messages.document.read') !!}
+            </span>
         </div>
 
-        <div class="col-md-8 col-sm-11">
-            @include('documents.partials.support-btns')
-
-            <section id="page_content">
-                {!! $documentPages->first()->rendered() !!}
-            </section>
-
-            {{ $documentPages->appends(request()->query())->fragment('page_content')->links() }}
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+                <h1 class="document-title">{{ $document->title }}</h1>
+            </div>
         </div>
 
-        <aside class="annotation-container col-md-1"></aside>
+        @include('documents.partials.support-btns')
+
+        <div class="row">
+            <div id="document-outline" class="col-md-3 panel hidden-sm hidden-xs small">
+                <ul class="nav"></ul>
+            </div>
+
+            <div class="col-md-8 col-sm-11">
+
+                <section id="page_content">
+                    {!! $documentPages->first()->rendered() !!}
+                </section>
+
+                {{ $documentPages->appends(request()->query())->fragment('page_content')->links() }}
+            </div>
+
+            <aside class="annotation-container col-md-1"></aside>
+        </div>
     </div>
 
     @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
-        <hr>
-        <div id="comments" class="row comments">
-            <section class="col-md-offset-2 col-md-8">
-                @include('documents.partials.support-btns')
-                @if ($document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_OPEN)
-                    @if (Auth::user())
-                        @include('documents.partials.new-comment-form', ['route' => ['documents.comments.store', $document], 'message' => 'messages.document.add_comment'])
-                    @else
-                        {{ Html::linkRoute('login', trans('messages.document.login_to_comment'), ['redirect' => $document->url]) }}
-                    @endif
-                    <hr>
-                @endif
+        <div id="comments">
+            <div class="row comments">
+                <section class="col-md-offset-2 col-md-8">
+                    <div id="all-comments-count">
+                        @choice('messages.document.comments_with_count', $document->all_comments_count)
+                    </div>
 
-                <ul class="media-list">
-                    @each('documents.partials.comment-li', $comments, 'comment')
-                </ul>
-                <div class="text-center">
-                    @include('components.pagination', ['collection' => $comments])
-                </div>
-            </section>
+                    @if ($document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_OPEN)
+                        <div class="floating-card">
+                            @if (Auth::user())
+                                @include('documents.partials.new-comment-form', ['route' => ['documents.comments.store', $document], 'message' => 'messages.document.add_comment'])
+                            @else
+                                {{ Html::linkRoute('login', trans('messages.document.login_to_comment'), ['redirect' => $document->url]) }}
+                            @endif
+                        </div>
+                    @endif
+
+                    <ul class="media-list">
+                        @each('documents.partials.comment-li', $comments, 'comment')
+                    </ul>
+                    <div class="text-center">
+                        @include('components.pagination', ['collection' => $comments])
+                    </div>
+                </section>
+            </div>
         </div>
     @endif
 
@@ -84,15 +103,11 @@
             loadTranslations([
                 'messages.close',
                 'messages.document.add_reply',
-                'messages.document.collaborators_count',
                 'messages.document.flag',
                 'messages.document.like',
                 'messages.document.note',
-                'messages.document.note_edit_explanation_prompt',
                 'messages.document.note_reply',
                 'messages.document.notes',
-                'messages.document.replies_count',
-                'messages.edit',
                 'messages.none',
                 'messages.permalink',
                 'messages.submit'

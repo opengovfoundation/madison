@@ -2,7 +2,7 @@
     <div class="collapsed-content">
         <div class="media">
             <div class="media-left">
-                <img class="media-object" alt="{{ trans('messages.user.avatar_alt_text') }}" src="{{ Auth::user()->avatar }}">
+                <img class="media-object img-circle" alt="{{ trans('messages.user.avatar_alt_text') }}" src="{{ Auth::user()->avatar }}">
             </div>
             <div class="media-body media-middle">
                 <button class="btn btn-link new-comment-form-toggle" onclick="toggleNewCommentForm(this)">
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div class="expanded-content hide">
+    <div class="expanded-content hidden">
         <div class="media">
             <div class="media-left">
                 <img class="media-object" alt="{{ trans('messages.user.avatar_alt_text') }}" src="{{ Auth::user()->avatar }}">

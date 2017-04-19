@@ -33,6 +33,7 @@
     <meta name="theme-color" content="#ffffff">
 
     <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif|Poppins:400,700" rel="stylesheet">
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
     @stack('styles')
 
@@ -45,8 +46,8 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+        <nav id="main-nav" class="navbar navbar-static-top">
+            <div class="container-fluid">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -66,25 +67,25 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             {{ Form::open(['route' => 'documents.index', 'method' => 'get', 'class' => 'navbar-form']) }}
                                 <div class="input-group">
-                                    <input class="form-control" placeholder="{{ trans('messages.search.placeholder') }}" name="q" type="text">
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" type="submit">
                                             <i class="fa fa-search" aria-hidden="true"></i>
                                         </button>
                                     </div>
+                                    <input class="form-control" placeholder="{{ trans('messages.search.placeholder') }}" name="q" type="text">
                                 </div>
                             {{ Form::close() }}
                         </li>
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="{{ route('documents.index') }}">
-                                <strong>@lang('messages.document.list')</strong>
+                                @lang('messages.document.list')
                             </a>
                         </li>
                         <li>
@@ -96,6 +97,11 @@
                         @foreach ($headerPages as $page)
                             <li><a href="{{ $page->getUrl() }}">{{ $page->nav_title }}</a></li>
                         @endforeach
+
+                        <li>
+                            <span class="divider hidden-xs"></span>
+                            <hr class="visible-xs">
+                        </li>
 
                         <!-- Authentication Links -->
                         @if (Auth::guest())
@@ -109,7 +115,7 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    <i class="fa fa-user"></i> {{ Auth::user()->displayName }} <span class="caret"></span>
+                                    {{ trans('messages.user_greeting', ['name' => Auth::user()->fname]) }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
@@ -127,6 +133,7 @@
                                     @endif
 
                                     <li role="separator" class="divider"></li>
+
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
@@ -147,35 +154,36 @@
             </div>
         </nav>
 
-        <div id="content" class="container">
-            @if (Auth::check() && Auth::user()->token)
-                <div class="alert alert-info alert-important" role="alert">
-                    @php ($resendLink = route('users.resend_email_verification', Auth::user()))
-                    @lang('messages.email_verification.banner', [
-                      'resendLinkOpen' => '<a href="'.$resendLink.'" onclick="event.preventDefault(); document.getElementById(\'resend-email-verification-form\').submit();">',
-                      'resendLinkClose' => '</a>',
-                    ])
+        <div id="content" class="{{ isset($useDarkContentBg) ? 'dark' : '' }}">
+            <div class="container">
+                @if (Auth::check() && Auth::user()->token)
+                    <div class="alert alert-info alert-important" role="alert">
+                        @php ($resendLink = route('users.resend_email_verification', Auth::user()))
+                        @lang('messages.email_verification.banner', [
+                        'resendLinkOpen' => '<a href="'.$resendLink.'" onclick="event.preventDefault(); document.getElementById(\'resend-email-verification-form\').submit();">',
+                        'resendLinkClose' => '</a>',
+                        ])
 
-                    <form id="resend-email-verification-form" action="{{ $resendLink }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form>
-                </div>
-            @endif
+                        <form id="resend-email-verification-form" action="{{ $resendLink }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </div>
+                @endif
 
-            @include('flash::message')
-            @yield('content')
+                @include('flash::message')
+                @yield('content')
+            </div>
+        </div>
 
-            <hr>
-
-            <footer class="nav">
-                <ul class="nav navbar-nav navbar-right">
+        <div id="main-footer">
+            <footer class="container">
+                <ul>
                     @foreach ($footerPages as $page)
                         <li><a href="{{ $page->getUrl() }}">{{ $page->nav_title }}</a></li>
                     @endforeach
                 </ul>
             </footer>
         </div>
-
     </div>
 
     @if (config('madison.google_analytics_property_id'))

@@ -471,7 +471,7 @@ class DocumentPageTest extends DuskTestCase
                 ->loginAs($this->user)
                 ->visit($this->page)
                 ->addActionToComment('flag', $this->comment1)
-                ->assertCommentHasActionCount('flag', $this->comment1, $commentFlags + 1)
+                ->assertCommentActionActive('flag', $this->comment1)
                 ;
 
             //$newFlag = Annotation::where('annotation_type_type', Annotation::TYPE_FLAG)
@@ -519,15 +519,14 @@ class DocumentPageTest extends DuskTestCase
     public function testFlagCommentReply()
     {
         $reply = FactoryHelpers::createComment($this->sponsorUser, $this->comment1);
-        $replyFlags = $reply->flags_count;
 
-        $this->browse(function ($browser) use ($reply, $replyFlags) {
+        $this->browse(function ($browser) use ($reply) {
             $browser
                 ->loginAs($this->user)
                 ->visit($this->page)
                 ->revealCommentReplies($this->comment1)
                 ->addActionToComment('flag', $reply)
-                ->assertCommentHasActionCount('flag', $reply, $replyFlags + 1)
+                ->assertCommentActionActive('flag', $reply)
                 ;
 
             //$newFlag = Annotation::where('annotation_type_type', Annotation::TYPE_FLAG)

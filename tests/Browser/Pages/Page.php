@@ -26,7 +26,7 @@ abstract class Page extends BasePage
     {
         return [
             '@headerNav' => '.navbar-static-top .navbar-right',
-            '@footerNav' => 'footer.nav .navbar-nav',
+            '@footerNav' => '#main-footer ul',
         ];
     }
 }

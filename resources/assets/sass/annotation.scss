@@ -181,14 +181,6 @@
   @extend .title-underline-medium;
 }
 
-#comments .comment {
-  .activity-actions {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-}
-
 .subcomment-form {
   margin: $line-height-computed;
 
@@ -377,15 +369,5 @@
   .annotator-outer,
   .annotator-adder {
     display: none !important;
-  }
-}
-
-.comment-content {
-  position: relative;
-}
-
-.comment-replies {
-  .media:first-child {
-    margin-top: 15px;
   }
 }

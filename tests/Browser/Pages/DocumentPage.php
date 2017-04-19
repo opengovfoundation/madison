@@ -34,7 +34,7 @@ class DocumentPage extends BasePage
     public function elements()
     {
         return [
-            '@sponsorList' => '.jumbotron .sponsors',
+            '@sponsorList' => '#doc-header .sponsors',
             '@stats' => '.document-stats',
             '@supportBtn' => '.support-btn button',
             '@opposeBtn' => '.oppose-btn button',
@@ -43,8 +43,8 @@ class DocumentPage extends BasePage
             '@notesPane' => '.annotation-list',
             '@commentsDiv' => '#comments.comments',
             '@contentDiv' => '#content #page_content',
-            '@likeBtn' => '.activity-actions a[data-action-type="likes"]',
-            '@flagBtn' => '.activity-actions a[data-action-type="flags"]',
+            '@likeBtn' => '[data-action-type="likes"]',
+            '@flagBtn' => '[data-action-type="flags"]',
             '@newCommentForm' => '.new-comment-form',
             '@addCommentForm' => '.comment-form',
             '@noteReplyForm' => '.add-subcomment-form',
@@ -108,7 +108,7 @@ class DocumentPage extends BasePage
             $commentDiv
                 ->assertSee($comment->user->name)
                 ->assertSeeIn('@likeBtn', (string) $comment->likes_count)
-                ->assertSeeIn('@flagBtn', (string) $comment->flags_count)
+                ->assertVisible('@flagBtn')
                 ->assertSee(static::flattenParagraphs($comment->annotationType->content))
                 ;
         })
@@ -130,7 +130,7 @@ class DocumentPage extends BasePage
                         $replyDiv
                             ->assertSee($reply->user->name)
                             ->assertSeeIn('@likeBtn', (string) $reply->likes_count)
-                            ->assertSeeIn('@flagBtn', (string) $reply->flags_count)
+                            ->assertVisible('@flagBtn')
                             ->assertSee(static::flattenParagraphs($reply->annotationType->content))
                             ;
                     });
@@ -146,6 +146,14 @@ class DocumentPage extends BasePage
                 // Use a wait since it updates after going to server
                 $actionDiv->waitForText($count);
             });
+        });
+    }
+
+    public function assertCommentActionActive(Browser $browser, $action, Annotation $comment)
+    {
+        $commentSelector = static::commentSelector($comment);
+        $browser->with($commentSelector, function ($commentDiv) use ($action) {
+            $commentDiv->waitUntil("$('".$commentDiv->resolver->format('@' . $action . 'Btn')."').hasClass('active')");
         });
     }
 
@@ -292,7 +300,7 @@ class DocumentPage extends BasePage
         $browser
             ->with($commentSelector, function ($commentDiv) {
                 $commentDiv
-                    ->pause(500)
+                    ->pause(1000)
                     ->click('.comment-replies-toggle-show')
                     ->waitFor('.comment-replies .comment')
                     ;

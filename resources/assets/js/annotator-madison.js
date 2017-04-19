@@ -29,21 +29,30 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
           .done(function (data) {
             element = $(element);
 
-            let otherAction = { element: '', value: 0 };
-            let currentActionValue = 0;
+            let likeAction = { element: '', value: data.likes };
+            let flagAction = { element: '', value: data.flags };
+
             if (action === 'likes') {
-              otherAction.element = '.flag';
-              otherAction.value = data.flags;
-              currentActionValue = data.likes;
+              likeAction.element = element;
+              flagAction.element = element.siblings('.flag');
             } else {
-              otherAction.element = '.thumbs-up';
-              otherAction.value = data.likes;
-              currentActionValue = data.flags;
+              flagAction.element = element;
+              likeAction.element = element.siblings('.thumbs-up');
             }
 
             // update live display
-            element.children('.action-count').text(currentActionValue);
-            element.siblings(otherAction.element).children('.action-count').text(otherAction.value);
+            likeAction.element.children('.action-count').text(likeAction.value);
+
+            if (flagAction.value > 0) {
+              flagAction.element.addClass('active');
+            } else {
+              flagAction.element.removeClass('active');
+            }
+
+            let flagCountElement = flagAction.element.children('.action-count');
+            if (flagCountElement.length) {
+              flagCountElement.text(flagAction.value);
+            }
 
             // update data for later redrawing if needed
             let annotation = this.findAnnotation(annotationId);
