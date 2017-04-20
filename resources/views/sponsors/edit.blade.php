@@ -3,9 +3,10 @@
 @section('pageTitle', trans('messages.sponsor.page_title_settings', ['sponsorName' => $sponsor->display_name]))
 
 @section('content')
+    @include('components.breadcrumbs.sponsor', ['sponsor' => $sponsor])
+
     <div class="page-header">
         <h1>{{ $sponsor->display_name }}</h1>
-        @include('components.breadcrumbs.sponsor', ['sponsor' => $sponsor])
     </div>
 
     @include('components.errors')

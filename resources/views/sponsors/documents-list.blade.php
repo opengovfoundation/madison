@@ -3,6 +3,8 @@
 @section('pageTitle', trans('messages.sponsor.page_title_documents', ['sponsorName' => $sponsor->display_name]))
 
 @section('content')
+    @include('components.breadcrumbs.sponsor', ['sponsor' => $sponsor])
+
     <div class="page-header">
         @if ($sponsor->userCanCreateDocument(Auth::user()))
             @if ($showingDeleted)
@@ -17,7 +19,6 @@
         @endif
 
         <h1>{{ $sponsor->display_name }}</h1>
-        @include('components.breadcrumbs.sponsor', ['sponsor' => $sponsor])
     </div>
 
     @include('components.errors')

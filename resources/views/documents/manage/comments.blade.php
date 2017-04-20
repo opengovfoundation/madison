@@ -3,13 +3,14 @@
 @section('pageTitle', trans('messages.document.manage_comments'))
 
 @section('content')
+    @include('components.breadcrumbs.document', ['sponsor' => $document->sponsors()->first(), 'document' => $document])
+
     <div class="page-header">
         <a href="{{ route('documents.manage.settings', $document) }}" class="btn btn-default pull-right">
             @lang('messages.document.edit')
         </a>
 
         <h1>@lang('messages.document.manage_comments')</h1>
-        @include('components.breadcrumbs.document', ['sponsor' => $document->sponsors()->first(), 'document' => $document])
     </div>
 
     @include('components.errors')

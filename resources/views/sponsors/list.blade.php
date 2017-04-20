@@ -3,11 +3,12 @@
 @section('pageTitle', trans('messages.sponsor.list'))
 
 @section('content')
+    @if ($sponsors->count() > 0)
+        @include('components.breadcrumbs.account')
+    @endif
+
     <div class="page-header">
         <h1>{{ trans('messages.sponsor.list') }}</h1>
-        @if ($sponsors->count() > 0)
-            @include('components.breadcrumbs.account')
-        @endif
     </div>
 
     @include('components.errors')

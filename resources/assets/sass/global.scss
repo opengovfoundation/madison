@@ -3,9 +3,9 @@
   font-weight: bold;
 }
 
-.nav li .divider {
+.nav li .separator {
   margin: 0 $nav-link-padding;
-  border-right: 1px solid lighten($gray-light, 20%);
+  border-right: 1px solid #DBDBDB;
   line-height: 3em;
 }
 
@@ -79,6 +79,10 @@ form {
   }
 }
 
+.breadcrumb {
+  font-family: $font-family-sans-serif;
+}
+
 footer.nav {
   padding-bottom: 30px;
 }
@@ -89,13 +93,10 @@ footer.nav {
 }
 
 #content {
-  &.dark {
-    background-color: $ogf-dark-blue;
-  }
+  background-color: white;
 
-  &:not(.dark) {
-    border-top: 2px solid #E5E5E5;
-    box-shadow: 0 -2px #C4C8CD;
+  .dark-content & {
+    background-color: transparent;
   }
 
   padding-top: $line-height-computed;
@@ -105,6 +106,15 @@ footer.nav {
 #main-nav {
   margin-bottom: 0;
   padding: 18px;
+  background-color: white;
+
+  border-bottom: 2px solid #C4C8CD;
+  box-shadow: 0 2px #E5E5E5;
+
+  .dark-content & {
+    border-bottom: none;
+    box-shadow: none;
+  }
 
   .navbar-brand {
     font-family: $font-family-serif;
@@ -122,7 +132,7 @@ footer.nav {
   }
 
   .navbar-form .input-group {
-    background: $gray-lighter;
+    background: $ogf-blue-gray;
 
     input {
       font-family: $font-family-serif;
@@ -174,7 +184,6 @@ footer.nav {
 }
 
 #main-footer {
-  background-color: $ogf-dark-blue;
   padding-top: 40px;
   margin-top: $padding-base-vertical * 4;
   padding-bottom: 40px;
@@ -190,6 +199,10 @@ footer.nav {
       margin-left: 15px;
     }
   }
+}
+
+body {
+  background-color: $ogf-dark-blue;
 }
 
 // https://www.lullabot.com/articles/importing-css-breakpoints-into-javascript

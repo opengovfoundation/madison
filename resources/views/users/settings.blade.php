@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    @include('components.breadcrumbs.account')
+
     {{-- TODO: set this differently for each page? --}}
     <div class="page-header">
         <h1>{{ trans('messages.user.settings') }}</h1>
-        @include('components.breadcrumbs.account')
     </div>
 
     @include('components.errors')

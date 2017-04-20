@@ -3,9 +3,10 @@
 @section('pageTitle', trans('messages.page.edit'))
 
 @section('content')
+    @include('components.breadcrumbs.pages', ['page' => $page])
+
     <div class="page-header">
         <h1>{{ trans('messages.page.edit') }}</h1>
-        @include('components.breadcrumbs.pages', ['page' => $page])
     </div>
 
     @include('components.errors')

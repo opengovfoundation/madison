@@ -3,9 +3,10 @@
 @section('pageTitle', trans('messages.sponsor_member.create'))
 
 @section('content')
+    @include('components.breadcrumbs.sponsor', ['sponsor' => $sponsor])
+
     <div class="page-header">
         <h1>{{ trans('messages.sponsor_member.create') }}</h1>
-        @include('components.breadcrumbs.sponsor', ['sponsor' => $sponsor])
     </div>
 
     @include('components.errors')

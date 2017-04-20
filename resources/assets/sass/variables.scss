@@ -2,6 +2,7 @@ $ogf-blue: #1C64AC;
 $ogf-light-blue: #3C74AC;
 $ogf-dark-blue: #1C3650;
 $ogf-blue-white: #F3F7FB;
+$ogf-blue-gray: #E8EBED;
 $ogf-red: #A92B2B;
 $ogf-yellow: #CAD654;
 $ogf-slate: #54616C;
@@ -18,11 +19,19 @@ $font-family-base: $font-family-serif;
 
 $headings-font-family: $font-family-sans-serif;
 $headings-font-weight: 700;
-$headings-color: $ogf-slate;
+$headings-color: $ogf-dark-blue;
 
-$padding-base-vertical: 12px;
-$padding-base-horizontal: 24px;
+$padding-base-vertical: 8px;
+$padding-base-horizontal: 14px;
 
-$border-radius-base: 0px;
-$border-radius-large: 0px;
-$border-radius-small: 0px;
+$border-radius-base: 0;
+$border-radius-large: 0;
+$border-radius-small: 0;
+
+$breadcrumb-padding-horizontal: 0;
+$breadcrumb-bg: transparent;
+$breadcrumb-color: $ogf-slate-light;
+$breadcrumb-active-color: $ogf-dark-blue;
+$breadcrumb-separator: "\00BB";
+
+$jumbotron-bg: $ogf-blue-gray;

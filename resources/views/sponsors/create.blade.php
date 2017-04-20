@@ -3,9 +3,10 @@
 @section('pageTitle', trans('messages.sponsor.create'))
 
 @section('content')
+    @include('components.breadcrumbs.account')
+
     <div class="page-header">
         <h1>{{ trans('messages.sponsor.create') }}</h1>
-        @include('components.breadcrumbs.account')
     </div>
 
     @include('components.errors')

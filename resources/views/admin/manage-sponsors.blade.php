@@ -3,9 +3,10 @@
 @section('pageTitle', trans('messages.admin.manage_sponsors'))
 
 @section('content')
+    @include('components.breadcrumbs.admin')
+
     <div class="page-header">
         <h1>{{ trans('messages.sponsor.list') }}</h1>
-        @include('components.breadcrumbs.admin')
     </div>
 
     @include('components.errors')

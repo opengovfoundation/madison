@@ -45,7 +45,7 @@
     </script>
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="{{ isset($useDarkContentBg) ? 'dark-content' : '' }}">
         <nav id="main-nav" class="navbar navbar-static-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -99,7 +99,7 @@
                         @endforeach
 
                         <li>
-                            <span class="divider hidden-xs"></span>
+                            <span class="separator hidden-xs" role="separator"></span>
                             <hr class="visible-xs">
                         </li>
 
@@ -154,7 +154,7 @@
             </div>
         </nav>
 
-        <div id="content" class="{{ isset($useDarkContentBg) ? 'dark' : '' }}">
+        <div id="content">
             <div class="container">
                 @if (Auth::check() && Auth::user()->token)
                     <div class="alert alert-info alert-important" role="alert">

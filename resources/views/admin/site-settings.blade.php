@@ -3,9 +3,10 @@
 @section('pageTitle', trans('messages.admin.site_settings'))
 
 @section('content')
+    @include('components.breadcrumbs.admin')
+
     <div class="page-header">
         <h1>{{ trans('messages.admin.admin_label', ['page' => trans('messages.settings')]) }}</h1>
-        @include('components.breadcrumbs.admin')
     </div>
 
     @include('components.errors')
