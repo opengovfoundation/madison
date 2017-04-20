@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\SponsorCreated;
 use App\Http\Middleware\UnapprovedSponsorRedirect;
 use App\Http\Requests\Sponsor as Requests;
+use App\Models\Doc as Document;
 use App\Models\Sponsor;
 use App\Models\User;
 use Auth;
@@ -119,9 +120,21 @@ class SponsorController extends Controller
     public function documentsIndex(Requests\DocumentsIndex $request, Sponsor $sponsor)
     {
         $limit = $request->input('limit', 10);
-        $documents = $sponsor->docs()->paginate($limit);
+        $showingDeleted = $request->input('deleted', false);
+        $documentsQuery = $sponsor->docs();
+
+        if ($showingDeleted) {
+            $documentsQuery = $sponsor->docs()->onlyTrashed();
+
+            if (!$request->user()->isAdmin()) {
+                $documentsQuery->where('publish_state', '!=', Document::PUBLISH_STATE_DELETED_ADMIN);
+            }
+        }
+
+        $documents = $documentsQuery->paginate($limit);
 
         return view('sponsors.documents-list', compact([
+            'showingDeleted',
             'sponsor',
             'documents',
         ]));

@@ -158,7 +158,7 @@ class DocumentController extends Controller
 
         // execute the query
         $documents = null;
-        $limit = $request->input('limit', 10);
+        $limit = $request->input('limit', 12);
         $page = $request->input('page', 1);
         $orderedAndLimitedDocuments = collect([]);
         $totalCount = 0;
@@ -388,7 +388,7 @@ class DocumentController extends Controller
             'restoreLinkOpen' => "<a href='$restoreUrl'>",
             'restoreLinkClosed' => '</a>',
         ]))->important();
-        return redirect()->route('documents.index');
+        return back();
     }
 
     public function restore(Requests\Edit $request, Document $document)

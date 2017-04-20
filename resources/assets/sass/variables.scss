@@ -4,12 +4,24 @@ $ogf-dark-blue: #1C3650;
 $ogf-blue-white: #F3F7FB;
 $ogf-red: #A92B2B;
 $ogf-yellow: #CAD654;
+$ogf-slate: #54616C;
+$ogf-slate-light: lighten($ogf-slate, 30%);
 
 $brand-primary: $ogf-blue;
 
 $font-size-base: 16px;
+$font-size-h1: 60px;
+
 $font-family-sans-serif: 'Poppins', "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-family-serif: 'Droid Sans', Georgia, "Times New Roman", Times, serif;
 $font-family-base: $font-family-serif;
+
 $headings-font-family: $font-family-sans-serif;
 $headings-font-weight: 700;
+
+$padding-base-vertical: 12px;
+$padding-base-horizontal: 24px;
+
+$border-radius-base: 0px;
+$border-radius-large: 0px;
+$border-radius-small: 0px;

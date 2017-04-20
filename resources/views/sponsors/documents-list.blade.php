@@ -4,6 +4,18 @@
 
 @section('content')
     <div class="page-header">
+        @if ($sponsor->userCanCreateDocument(Auth::user()))
+            @if ($showingDeleted)
+                <a href="{{ route('sponsors.documents.index', $sponsor) }}" class="btn btn-link pull-right">
+                    @lang('messages.document.view_documents')
+                </a>
+            @else
+                <a href="{{ route('sponsors.documents.index', ['sponsor' =>  $sponsor, 'deleted' => true]) }}" class="btn btn-link pull-right">
+                    @lang('messages.document.view_deleted')
+                </a>
+            @endif
+        @endif
+
         <h1>{{ $sponsor->display_name }}</h1>
         @include('components.breadcrumbs.sponsor', ['sponsor' => $sponsor])
     </div>
@@ -28,9 +40,9 @@
                 </thead>
                 <tbody>
                     @foreach ($documents as $document)
-                        <tr>
+                        <tr id="document-{{ $document->id }}">
                             <td>
-                                @if ($document->canUserView(Auth::user()))
+                                @if ($document->canUserView(Auth::user()) && !$document->trashed())
                                     <a href="{{ route('documents.show', $document) }}">{{ $document->title }}</a>
                                 @else
                                     {{ $document->title }}
@@ -62,7 +74,7 @@
                                 @can('delete', $document)
                                     <div class="btn-group" role="group">
                                         {{ Form::open(['route' => ['documents.destroy', $document], 'method' => 'delete']) }}
-                                            <button type="submit" class="btn btn-xs btn-link">
+                                            <button type="submit" class="btn btn-xs btn-link delete-document">
                                                 <i class="fa fa-close"></i>
                                             </button>
                                         {{ Form::close() }}
@@ -72,11 +84,9 @@
                             <td>
                                 @if ($document->trashed() && Auth::user()->can('restore', $document))
                                     <div class="btn-group" role="group">
-                                        {{ Form::open(['route' => ['documents.restore', $document], 'method' => 'delete']) }}
-                                            <button type="submit" class="btn btn-xs btn-link">
-                                                <i class="fa fa-undo"></i>
-                                            </button>
-                                        {{ Form::close() }}
+                                        <a class="btn btn-xs btn-link restore-document" href="{{ route('documents.restore', $document) }}">
+                                            <i class="fa fa-undo"></i>
+                                        </a>
                                     </div>
                                 @endif
                             </td>

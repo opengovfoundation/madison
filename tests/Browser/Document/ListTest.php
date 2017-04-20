@@ -104,12 +104,6 @@ class ListTest extends DuskTestCase
         });
     }
 
-    public function testAdminCanDeleteDocument()
-    {
-        $admin = factory(User::class)->create()->makeAdmin();
-        $this->deleteDocumentTest($admin, Document::PUBLISH_STATE_DELETED_ADMIN);
-    }
-
     public function testSponsorCanSeeAllOfOwnDocuments()
     {
         $this->genDocs(3);
@@ -130,11 +124,6 @@ class ListTest extends DuskTestCase
                 $browser->assertSee($document->title);
             }
         });
-    }
-
-    public function testSponsorOwnerCanDeleteOwnDocument()
-    {
-        $this->deleteDocumentTest($this->sponsorUser, Document::PUBLISH_STATE_DELETED_USER);
     }
 
     public function testSponsorCanNotSeeAllOfOtherSponsorDocuments()
@@ -177,51 +166,6 @@ class ListTest extends DuskTestCase
             $document->setIntroText('hello world');
 
             FactoryHelpers::createComment($this->sponsorUser, $document);
-        });
-    }
-
-    protected function deleteDocumentTest($user, $status)
-    {
-        $this->genDocs(1);
-
-        $this->browse(function ($browser) use ($user, $status) {
-            $page = new ListPage;
-
-            $browser
-                ->loginAs($user)
-                ->visit($page)
-                ->assertSee($this->documents[0]->title)
-                ->click('@deleteBtn')
-                ->assertPathIs($page->url())
-                ->assertDontSee($this->documents[0]->title)
-                ;
-
-            $document = $this->documents[0]->fresh();
-            $this->assertNotNull($document->deleted_at);
-            $this->assertEquals($status, $document->publish_state);
-
-            $metas = $document->doc_meta()->withTrashed()->get();
-            $this->assertNotEmpty($metas);
-            $metas->each(function ($meta) {
-                $this->assertNotNull($meta->deleted_at);
-            });
-
-            $annotations = $document->annotations()->withTrashed()->get();
-            $this->assertNotEmpty($annotations);
-            $annotations->each(function ($annotation) {
-                $this->assertNotNull($annotation->deleted_at);
-
-                $annotations = $annotation->annotations()->withTrashed()->get();
-                $annotations->each(function ($annotation) {
-                    $this->assertNotNull($annotation->deleted_at);
-                });
-            });
-
-            $contents = $document->content()->withTrashed()->get();
-            $this->assertNotEmpty($contents);
-            $contents->each(function ($content) {
-                $this->assertNotNull($content->deleted_at);
-            });
         });
     }
 }

@@ -4,166 +4,98 @@
 
 @section('content')
     <div class="page-header">
+        <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#queryModal">@lang('messages.advanced_search')</button>
         <h1>{{ trans('messages.document.list') }}</h1>
     </div>
 
     @include('components.errors')
 
-    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#queryModal">Query</button>
-
     <div class="modal fade" id="queryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Query</h4>
-                </div>
-                <div class="modal-body">
-                    {{ Form::open(['route' => 'documents.index', 'method' => 'get']) }}
-                        {{ Form::mInput('text', 'q', trans('messages.search.title')) }}
-                        {{ Form::mSelect(
-                               'sponsor_id[]',
-                               trans('messages.document.sponsor'),
-                               $sponsors->mapWithKeys_v2(function ($item) {return [$item->id => $item->display_name]; })->toArray(),
-                               null,
-                               ['multiple' => true]
-                               )
-                        }}
-                        @if (Auth::user())
-                            {{ Form::mSelect(
-                                   'publish_state[]',
-                                   trans('messages.document.publish_state'),
-                                   collect($publishStates)->mapWithKeys_v2(function ($item) {return [$item => trans('messages.document.publish_states.'.$item)]; })->toArray(),
-                                   null,
-                                   ['multiple' => true]
-                                   )
-                            }}
-                        @endif
-                        {{ Form::mSelect(
-                               'discussion_state[]',
-                               trans('messages.document.discussion_state'),
-                               collect($discussionStates)->mapWithKeys_v2(function ($item) {return [$item => trans('messages.document.discussion_states.'.$item)]; })->toArray(),
-                               null,
-                               ['multiple' => true]
-                               )
-                        }}
-                        {{ Form::mSelect(
-                               'order',
-                               trans('messages.order_by'),
-                               [
-                                   'created_at' => trans('messages.created'),
-                                   'updated_at' => trans('messages.updated'),
-                                   'title' => trans('messages.document.title'),
-                                   'activity' => trans('messages.document.activity'),
-                                   'relevance' => trans('messages.relevance'),
-                               ])
-                        }}
-                        {{ Form::mSelect(
-                               'order_dir',
-                               trans('messages.order_by_direction'),
-                               [
-                                   'DESC' => trans('messages.order_by_dir_desc'),
-                                   'ASC' => trans('messages.order_by_dir_asc')
-                               ])
-                        }}
-                        {{ Form::mSelect(
-                               'limit',
-                               trans('messages.limit'),
-                               array_combine($range = [10, 25, 50], $range)
-                               )
-                        }}
+            {{ Form::open(['route' => 'documents.index', 'method' => 'get']) }}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">@lang('messages.advanced_search')</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ Form::mInput('text', 'q', trans('messages.search.title')) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ Form::mSelect(
+                                       'sponsor_id[]',
+                                       trans('messages.document.sponsor'),
+                                       $sponsors->mapWithKeys_v2(function ($item) {return [$item->id => $item->display_name]; })->toArray(),
+                                       null,
+                                       ['multiple' => true]
+                                       )
+                                }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                {{ Form::mSelect(
+                                       'order',
+                                       trans('messages.order_by'),
+                                       [
+                                           'created_at' => trans('messages.created'),
+                                           'updated_at' => trans('messages.updated'),
+                                           'title' => trans('messages.document.title'),
+                                           'activity' => trans('messages.document.activity'),
+                                           'relevance' => trans('messages.relevance'),
+                                       ])
+                                }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ Form::mSelect(
+                                       'order_dir',
+                                       trans('messages.order_by_direction'),
+                                       [
+                                           'DESC' => trans('messages.order_by_dir_desc'),
+                                           'ASC' => trans('messages.order_by_dir_asc')
+                                       ])
+                                }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ Form::mSelect(
+                                       'limit',
+                                       trans('messages.limit'),
+                                       array_combine($range = [10, 25, 50], $range)
+                                       )
+                                }}
+                            </div>
+                        </div>
 
-                        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('messages.close')</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">@lang('messages.close')</button>
                         <a href="{{ request()->url() }}" class="btn btn-default">@lang('messages.clear')</a>
                         {{ Form::mSubmit() }}
-                    {{ Form::close() }}
+                    </div>
                 </div>
-            </div>
+            {{ Form::close() }}
         </div>
     </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@lang('messages.id')</th>
-                <th>@lang('messages.document.title')</th>
-                <th>@lang('messages.created')</th>
-                <th>@lang('messages.document.sponsor')</th>
-                @if (Auth::user() && Auth::user()->isAdmin())
-                    <th>@lang('messages.document.publish_state')</th>
-                @endif
-                <th>@lang('messages.actions')</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($documents as $document)
-                <tr>
-                    <td>{{ $document->id }}</td>
-                    <td>{{ $document->title }}</td>
-                    <td>
-                        @include('components/date', [
-                        'datetime' => $document->created_at,
-                        ])
-                    </td>
-                    <td>{{ $document->sponsors->shift()->display_name }}
-                        @if ($document->sponsors->count() > 1)
-                            @lang('messages.document.sponsor_others')
-                        @endif
-                    </td>
-                    @if (Auth::user() && Auth::user()->isAdmin())
-                        <td>{{ trans('messages.document.publish_states.'.$document->publish_state) }}</td>
-                    @endif
-                    <td>
-                        <div class="btn-toolbar" role="toolbar">
-                            @if ($document->canUserView(Auth::user()))
-                                <div class="btn-group" role="group">
-                                    {{ Html::linkRoute(
-                                            'documents.show',
-                                            trans('messages.open'),
-                                            ['document' => $document->slug],
-                                            ['class' => 'btn btn-default']
-                                            )
-                                    }}
-                                </div>
-                            @endif
+    <ul class="document-grid row">
+        @foreach ($documents->values() as $idx => $document)
+            <li class="col-md-4 col-sm-6 col-xs-12">
+                @include('components/document-card', ['document' => $document])
+            </li>
 
-                            @can ('viewManage', $document)
-                                <div class="btn-group" role="group">
-                                    {{ Html::linkRoute(
-                                            'documents.manage.settings',
-                                            trans('messages.manage'),
-                                            ['document' => $document->slug],
-                                            ['class' => 'btn btn-default']
-                                            )
-                                    }}
-                                </div>
-                            @endcan
+            @if (($idx+1) % 3 == 0)
+                <div class="clearfix visible-md-block visible-lg-block"></div>
+            @endif
 
-                            @can ('delete', $document)
-                                <div class="btn-group" role="group">
-                                    {{ Form::open(['route' => ['documents.destroy', $document], 'method' => 'delete']) }}
-                                        <button type="submit" class="btn btn-default destroy">{{ trans('messages.delete') }}</button>
-                                    {{ Form::close() }}
-                                </div>
-                            @endcan
-
-                            @if ($document->trashed() && Auth::user()->can('restore', $document))
-                                <div class="btn-group" role="group">
-                                    {{ Html::linkRoute(
-                                            'documents.restore',
-                                            trans('messages.restore'),
-                                            ['document' => $document->slug],
-                                            ['class' => 'btn btn-default']
-                                            )
-                                    }}
-                                </div>
-                            @endif
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+            @if (($idx+1) % 2 == 0)
+                <div class="clearfix visible-sm-block"></div>
+            @endif
+        @endforeach
+    </ul>
 
     <div class="text-center">
         @include('components.pagination', ['collection' => $documents])

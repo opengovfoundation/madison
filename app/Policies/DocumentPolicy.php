@@ -92,6 +92,9 @@ class DocumentPolicy extends Policy
 
     public function restore(User $user, Document $document)
     {
+        if ($document->publish_state === Document::PUBLISH_STATE_DELETED_ADMIN) {
+            return $user->isAdmin();
+        }
         return $this->delete($user, $document);
     }
 

@@ -30,6 +30,12 @@
 
 }
 
+.btn,
+.select2-container,
+form {
+  font-family: $font-family-sans-serif;
+}
+
 .small-caps {
   font-size: 90%;
   line-height: $line-height-computed;
@@ -117,9 +123,11 @@ footer.nav {
 
   .navbar-form .input-group {
     background: $gray-lighter;
-    padding: 5px;
-    margin-top: -5px;
-    font-family: $font-family-serif;
+
+    input {
+      font-family: $font-family-serif;
+      padding-left: 0;
+    }
   }
 
   .dropdown a {
@@ -144,9 +152,31 @@ footer.nav {
   }
 }
 
+.page-header {
+  border: 0;
+
+  h1 {
+    color: $ogf-slate;
+  }
+}
+
+.pagination-showing,
+.pagination {
+  font-family: $font-family-sans-serif;
+}
+
+.pagination-showing {
+  margin-top: $padding-base-vertical * 2;
+}
+
+.pagination {
+  font-weight: bold;
+}
+
 #main-footer {
   background-color: $ogf-dark-blue;
   padding-top: 40px;
+  margin-top: $padding-base-vertical * 4;
   padding-bottom: 40px;
 
   footer ul {

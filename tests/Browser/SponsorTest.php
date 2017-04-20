@@ -388,6 +388,197 @@ class SponsorTest extends DuskTestCase
         });
     }
 
+    public function testOwnerCanDeleteDocuments()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+        $document = FactoryHelpers::createPublishedDocumentForSponsor($sponsor);
+
+        $this->browse(function ($browser) use ($owner, $sponsor, $document) {
+            $browser
+                ->loginAs($owner)
+                ->visit(new SponsorPages\DocumentsPage($sponsor))
+                ->deleteDocumentAndAssertSuccess($document)
+                ;
+
+            $document = $document->fresh();
+            $this->assertTrue($document->publish_state === Document::PUBLISH_STATE_DELETED_USER);
+            $this->assertTrue($document->deleted_at !== null);
+        });
+    }
+
+    public function testEditorCanDeleteDocuments()
+    {
+        $editor = factory(User::class)->create();
+
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser(factory(User::class)->create());
+        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
+
+        $document = FactoryHelpers::createPublishedDocumentForSponsor($sponsor);
+
+        $this->browse(function ($browser) use ($editor, $sponsor, $document) {
+            $browser
+                ->loginAs($editor)
+                ->visit(new SponsorPages\DocumentsPage($sponsor))
+                ->deleteDocumentAndAssertSuccess($document)
+                ;
+
+            $document = $document->fresh();
+            $this->assertTrue($document->publish_state === Document::PUBLISH_STATE_DELETED_USER);
+            $this->assertTrue($document->deleted_at !== null);
+        });
+    }
+
+    public function testStaffCannotDeleteDocuments()
+    {
+        $staff = factory(User::class)->create();
+
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser(factory(User::class)->create());
+        $sponsor->addMember($staff->id, Sponsor::ROLE_STAFF);
+
+        FactoryHelpers::createPublishedDocumentForSponsor($sponsor);
+
+        $this->browse(function ($browser) use ($staff, $sponsor) {
+            $browser
+                ->loginAs($staff)
+                ->visit(new SponsorPages\DocumentsPage($sponsor))
+                ->assertDontSee('.delete-document')
+                ->assertDontSee(trans('messages.document.view_deleted'))
+                ;
+        });
+    }
+
+    public function testAdminCanDeleteDocuments()
+    {
+        $admin = factory(User::class)->create()->makeAdmin();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser(factory(User::class)->create());
+        $document = FactoryHelpers::createPublishedDocumentForSponsor($sponsor);
+
+        $this->browse(function ($browser) use ($admin, $sponsor, $document) {
+            $browser
+                ->loginAs($admin)
+                ->visit(new SponsorPages\DocumentsPage($sponsor))
+                ->deleteDocumentAndAssertSuccess($document)
+                ;
+
+            $document = $document->fresh();
+            $this->assertTrue($document->publish_state === Document::PUBLISH_STATE_DELETED_ADMIN);
+            $this->assertTrue($document->deleted_at !== null);
+        });
+    }
+
+    public function testNonAdminCannotSeeAdminDeletedDocuments()
+    {
+        $owner = factory(User::class)->create();
+        $admin = factory(User::class)->create()->makeAdmin();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+        $document = FactoryHelpers::createPublishedDocumentForSponsor($sponsor);
+
+        $this->browse(function ($browser) use ($admin, $owner, $sponsor, $document) {
+            $browser
+                ->loginAs($admin)
+                ->visit(new SponsorPages\DocumentsPage($sponsor))
+                ->deleteDocumentAndAssertSuccess($document)
+                ;
+
+            $document = $document->fresh();
+            $this->assertTrue($document->publish_state === Document::PUBLISH_STATE_DELETED_ADMIN);
+            $this->assertTrue($document->deleted_at !== null);
+
+            $browser
+                ->loginAs($owner)
+                ->visit(new SponsorPages\DocumentsPage($sponsor))
+                ->clickLink(trans('messages.document.view_deleted'))
+                ->assertDontSee($document->title)
+                ;
+        });
+    }
+
+    public function testOwnerCanRestoreDocuments()
+    {
+        $owner = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser($owner);
+        $document = FactoryHelpers::createPublishedDocumentForSponsor($sponsor);
+
+        $this->browse(function ($browser) use ($owner, $sponsor, $document) {
+            $browser
+                ->loginAs($owner)
+                ->visit(new SponsorPages\DocumentsPage($sponsor))
+                ->deleteDocumentAndAssertSuccess($document)
+                ;
+
+            $document = $document->fresh();
+            $this->assertTrue($document->publish_state === Document::PUBLISH_STATE_DELETED_USER);
+            $this->assertTrue($document->deleted_at !== null);
+
+            $browser
+                ->clickLink(trans('messages.document.view_deleted'))
+                ->restoreDocumentAndAssertSuccess($document)
+                ;
+
+            $document = $document->fresh();
+            $this->assertTrue($document->publish_state === Document::PUBLISH_STATE_UNPUBLISHED);
+            $this->assertTrue($document->deleted_at === null);
+        });
+    }
+
+    public function testEditorCanRestoreDocuments()
+    {
+        $editor = factory(User::class)->create();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser(factory(User::class)->create());
+        $document = FactoryHelpers::createPublishedDocumentForSponsor($sponsor);
+        $sponsor->addMember($editor->id, Sponsor::ROLE_EDITOR);
+
+        $this->browse(function ($browser) use ($editor, $sponsor, $document) {
+            $browser
+                ->loginAs($editor)
+                ->visit(new SponsorPages\DocumentsPage($sponsor))
+                ->deleteDocumentAndAssertSuccess($document)
+                ;
+
+            $document = $document->fresh();
+            $this->assertTrue($document->publish_state === Document::PUBLISH_STATE_DELETED_USER);
+            $this->assertTrue($document->deleted_at !== null);
+
+            $browser
+                ->clickLink(trans('messages.document.view_deleted'))
+                ->restoreDocumentAndAssertSuccess($document)
+                ;
+
+            $document = $document->fresh();
+            $this->assertTrue($document->publish_state === Document::PUBLISH_STATE_UNPUBLISHED);
+            $this->assertTrue($document->deleted_at === null);
+        });
+    }
+
+    public function testAdminCanRestoreAdminDeletedDocuments()
+    {
+        $admin = factory(User::class)->create()->makeAdmin();
+        $sponsor = FactoryHelpers::createActiveSponsorWithUser(factory(User::class)->create());
+        $document = FactoryHelpers::createPublishedDocumentForSponsor($sponsor);
+
+        $this->browse(function ($browser) use ($admin, $sponsor, $document) {
+            $browser
+                ->loginAs($admin)
+                ->visit(new SponsorPages\DocumentsPage($sponsor))
+                ->deleteDocumentAndAssertSuccess($document)
+                ;
+
+            $document = $document->fresh();
+            $this->assertTrue($document->publish_state === Document::PUBLISH_STATE_DELETED_ADMIN);
+            $this->assertTrue($document->deleted_at !== null);
+
+            $browser
+                ->clickLink(trans('messages.document.view_deleted'))
+                ->restoreDocumentAndAssertSuccess($document)
+                ;
+
+            $document = $document->fresh();
+            $this->assertTrue($document->publish_state === Document::PUBLISH_STATE_UNPUBLISHED);
+            $this->assertTrue($document->deleted_at === null);
+        });
+    }
+
     public function userCanEditSponsor($user, $sponsor)
     {
         $newSponsorData = factory(Sponsor::class)->make();

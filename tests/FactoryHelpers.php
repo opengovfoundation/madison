@@ -7,6 +7,7 @@ use Faker;
 use Exception;
 
 use App\Models\Doc as Document;
+use App\Models\DocContent;
 use App\Models\User;
 use App\Models\Sponsor;
 use App\Models\AnnotationTypes;
@@ -74,6 +75,18 @@ class FactoryHelpers
         $sponsor->addMember($user->id, Sponsor::ROLE_OWNER);
 
         return $sponsor;
+    }
+
+    public static function createPublishedDocumentForSponsor(Sponsor $sponsor)
+    {
+        $document = factory(Document::class)->create([
+            'publish_state' => Document::PUBLISH_STATE_PUBLISHED,
+        ]);
+
+        $document->content()->save(factory(DocContent::class)->make());
+        $document->sponsors()->save($sponsor);
+
+        return $document;
     }
 
     public static function subscribeUsersToAllNotifications($users)

@@ -15,7 +15,7 @@ $(function () {
   });
 
   $.fn.select2.defaults.set('theme', 'bootstrap');
-  $('select:not(.no-select2)').select2();
+  $('select:not(.no-select2)').select2({ width: '100%' });
 });
 
 window.loadTranslations = function (msgIds) {

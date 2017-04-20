@@ -1,6 +1,8 @@
-.doc-card.thumbnail {
-  padding: 0;
-
-  .caption { padding: 13px; }
-  img { border-radius: 4px 4px 0 0; }
+.featured .document-card {
+  h3 {
+    font-size: $font-size-h3 + ($font-size-h3 * 0.2);
+  }
+  .document-info {
+    font-size: $font-size-base;
+  }
 }
