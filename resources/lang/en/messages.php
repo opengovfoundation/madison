@@ -198,7 +198,7 @@ return [
             'step2' => 'Login and :linkOpen request to become a sponsor :linkClose. A sponsor can be you as an individual or an organization to which you belong.',
             'step3' => 'Madison administrators will receive your request and contact you with two business days to verify your request.',
             'step4' => 'Once approved, Madison administrators will help you make a plan to promote your document so you get the best public engagement possible.',
-            'step5' => 'With a plan in place, you can :linkOpen publish a document :linkClose and hear the opinions of the public.',
+            'step5' => 'With a plan in place, you can publish a document and hear the opinions of the public.',
         ],
         'waiting_approval' => [
             'page_title' => 'Sponsor Awaiting Approval',

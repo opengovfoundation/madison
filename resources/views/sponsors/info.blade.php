@@ -19,7 +19,7 @@
                     <li>@lang('messages.sponsor.info.step2', [ 'linkOpen' => '<a href="' . route('sponsors.create') . '">', 'linkClose' => '</a>' ])</li>
                     <li>@lang('messages.sponsor.info.step3')</li>
                     <li>@lang('messages.sponsor.info.step4')</li>
-                    <li>@lang('messages.sponsor.info.step5', [ 'linkOpen' => '<a href="' . route('sponsors.documents.index') . '">', 'linkClose' => '</a>' ])</li>
+                    <li>@lang('messages.sponsor.info.step5')</li>
                 </ol>
 
                 <p><a class="btn btn-primary" href="{{ route('sponsors.create') }}" role="button">@lang('messages.sponsor.become')</a></p>
