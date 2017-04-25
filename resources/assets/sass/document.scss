@@ -224,6 +224,22 @@ blockquote {
     @extend .alt-link;
   }
 
+  .background-title {
+    @extend .h1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #193149;
+    font-size: 350px;
+    white-space: nowrap;
+    margin: 0;
+    margin-left: -10px;
+    margin-top: -4px;
+    padding: 0;
+    line-height: 1;
+    z-index: -1;
+  }
+
   h1 {
     color: white;
     margin-top: 0;

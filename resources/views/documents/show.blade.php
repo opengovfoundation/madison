@@ -20,6 +20,8 @@
     @endcan
 
     <div id="doc-header">
+        <span class="background-title visible-lg" aria-hidden="true">{{ $document->title }}</span>
+
         <h1>{{ $document->title }}</h1>
         <p class="sponsors">
             @lang('messages.document.sponsoredby', ['sponsors' => $document->sponsors->implode('display_name', ', ')])
