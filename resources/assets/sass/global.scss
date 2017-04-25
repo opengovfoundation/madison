@@ -83,6 +83,13 @@ form {
   font-family: $font-family-sans-serif;
 }
 
+.jumbotron {
+  margin-right: -50vw;
+  margin-left: -50vw;
+  background-color: $ogf-dark-blue;
+  color: white;
+}
+
 footer.nav {
   padding-bottom: 30px;
 }
