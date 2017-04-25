@@ -212,7 +212,9 @@ window.buildDocumentOutline = function (outlineContainer, documentContent) {
   $(outlineContainer).children('ul').affix({
     offset: {
       top: $(outlineContainer).position().top - 5,
-      bottom: $(document).height() - $('#comments').position().top + 50
+      bottom: function () {
+        return $(document).height() - $('#comments').position().top + 50;
+      }
     }
   });
 
