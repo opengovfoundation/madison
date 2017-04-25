@@ -35,7 +35,7 @@
         </a>
     @endif
 
-    <p>{{ $comment->annotationType->content }}</p>
+    {!! $comment->annotationType->content_html !!}
 </div>
 
 <div class="bottom">
@@ -43,7 +43,8 @@
         <div class="comment-replies-toggle pull-left">
             <a class="comment-replies-toggle-show" aria-label="{{ trans('messages.document.replies') }}
                 title="{{ trans('messages.document.replies') }} role="button"
-                data-comment-id="{{ $comment->str_id }}">
+                data-comment-id="{{ $comment->str_id }}"
+                onclick="toggleCommentReplies($(this))">
 
                 @choice('messages.document.see_replies', $comment->comments()->count())
             </a>
@@ -59,14 +60,16 @@
     </button>
 </div>
 
-@if (Auth::user() && $comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE)
-    <div class="clearfix"></div>
+@if ($comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE)
+    @if (Auth::user())
+        <div class="clearfix"></div>
 
-    @include('documents.partials.new-comment-form', ['route' => ['documents.comments.storeReply', $comment->annotatable_id, $comment->id], 'message' => 'messages.document.add_reply'])
+        @include('documents.partials.new-comment-form', ['route' => ['documents.comments.storeReply', $comment->annotatable_id, $comment->id], 'message' => 'messages.document.add_reply'])
+    @endif
 @endif
 
-<div class="comment-replies hidden">
+<div class="comment-replies {{ !empty($showReplies) ? '' : 'hidden' }}">
     @if ($comment->comments()->count() > 0)
-        @each('documents/partials/comment-div', $comment->comments()->get(), 'comment')
+        @each('documents/partials/comment-reply', $comment->comments()->get(), 'comment')
     @endif
 </div>

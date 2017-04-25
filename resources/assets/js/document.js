@@ -18,7 +18,7 @@ window.loadAnnotations = function (contentElem, annotationContainerElem, docId, 
     prefix: '/documents/' + docId + '/comments',
     urls: {
       create: '',
-      read: '/:id?only_notes=true',
+      read: '/:id?only_notes=true&include_replies=false&include_content=false',
       update: '/:id',
       destroy: '/:id',
       search: '/search'
@@ -26,9 +26,8 @@ window.loadAnnotations = function (contentElem, annotationContainerElem, docId, 
   });
 };
 
-window.toggleCommentReplies = function(commentId) {
-  var $commentDiv = $('#' + commentId);
-  var $commentReplyDiv = $commentDiv.find('.comment-replies');
+window.toggleCommentReplies = function(toggleBtn) {
+  var $commentReplyDiv = toggleBtn.parents('.comment').first().find('.comment-replies').first();
   if ($commentReplyDiv) {
     $commentReplyDiv.toggleClass('hidden');
   }
@@ -73,7 +72,16 @@ window.revealComment = function (docId) {
       return;
     }
 
-    // look in comment pane for hash
+    // if note pane is open with content, then we should look there first
+    var note = $('.annotation-container').find('#'+id);
+    if (note.length) {
+      note[0].scrollIntoView();
+      $('.anchor-target').removeClass('anchor-target');
+      $(note[0]).find('.comment-content').first().addClass('anchor-target');
+      return;
+    }
+
+    // look in comments
     var comments = $('#comments').find('#'+id);
     if (comments.length) {
       showComments();
@@ -95,8 +103,6 @@ window.revealComment = function (docId) {
       $(noteHighlight[0]).addClass('anchor-target');
       return;
     }
-
-    // might be a reply to a note or on another page
   });
 
   if (commentHash) {
@@ -126,7 +132,72 @@ window.toggleNewCommentForm = function (elem) {
 
     $collapsedContent.toggleClass('hidden');
     $expandedContent.toggleClass('hidden');
+
+    if (!$expandedContent.hasClass('hidden')) {
+      $expandedContent.find(':input').filter(':visible:first').focus();
+    }
   }
+};
+
+window.submitNewComment = function (e) {
+  e.preventDefault();
+
+  var $form = $(e.target);
+  var $comment = $form.parents('.comment').first();
+  var $comments = $form.parents('.comments').first().find('.media-list').first();
+
+  // we are replying to an existing comment
+  if ($comment.length) {
+    $comment.addClass('pending');
+
+    // submit comment
+    $.post($form.attr('action'), $form.serialize())
+      .done(function (response) {
+        // if success, fetch new markup and swap with existing
+        $.get('/documents/'+window.documentId+'/comments/'+$comment.attr('id'), { 'partial': true }, null, "html")
+          .done(function (html) {
+            $comment.replaceWith(html);
+
+            // highlight new comment
+            window.location.hash = '#' + response.id;
+          });
+      })
+      .fail(function (response) {
+        // TODO: if error, show error
+      })
+      .always(function () {
+        $comment.removeClass('pending');
+      })
+    ;
+  } else if ($comments.length) {
+    // we are adding a new top level comment
+    $form.addClass('pending');
+
+    // submit comment
+    $.post($form.attr('action'), $form.serialize())
+      .done(function (response) {
+        $form.trigger('reset');
+        toggleNewCommentForm($form);
+
+        $.get('/documents/'+window.documentId+'/comments/'+response.id, { 'partial': true }, null, "html")
+          .done(function (html) {
+            $comments.prepend(html);
+
+            // highlight new comment
+            window.location.hash = '#' + response.id;
+          });
+      })
+      .fail(function (response) {
+        // TODO: if error, show error
+      })
+      .always(function () {
+        $form.removeClass('pending');
+      })
+    ;
+  }
+
+
+  return false;
 };
 
 window.buildDocumentOutline = function (outlineContainer, documentContent) {

@@ -15,14 +15,14 @@
     <div class="expanded-content hidden">
         <div class="media">
             <div class="media-left">
-                <img class="media-object" alt="{{ trans('messages.user.avatar_alt_text') }}" src="{{ Auth::user()->avatar }}">
+                <img class="media-object img-circle" alt="{{ trans('messages.user.avatar_alt_text') }}" src="{{ Auth::user()->avatar }}">
             </div>
             <div class="media-body media-middle">
                 {{ Auth::user()->display_name }}
             </div>
         </div>
 
-        {{ Form::open(['route' => $route, 'class' => 'comment-form']) }}
+        {{ Form::open(['route' => $route, 'class' => 'comment-form', 'onsubmit' => 'return submitNewComment(event)']) }}
             {{ Form::mInput(
                 'textarea',
                 'text',

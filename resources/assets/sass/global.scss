@@ -97,6 +97,7 @@ footer.nav {
 
   .dark-content & {
     background-color: transparent;
+    padding-bottom: 0;
   }
 
   padding-top: $line-height-computed;
@@ -167,6 +168,7 @@ footer.nav {
 
   h1 {
     color: $ogf-slate;
+    font-size: 60px;
   }
 }
 
@@ -184,19 +186,28 @@ footer.nav {
 }
 
 #main-footer {
-  padding-top: 40px;
-  margin-top: $padding-base-vertical * 4;
-  padding-bottom: 40px;
+  padding-top: 60px;
+  padding-bottom: 60px;
 
-  footer ul {
-    float: right;
+  footer {
+    display: flex;
+    align-items: center;
 
-    li {
-      display: inline-block;
+    .logo {
+      width: 160px;
+      height: 160px;
     }
 
-    li + li {
-      margin-left: 15px;
+    ul {
+      margin-left: auto;
+
+      li {
+        display: inline-block;
+      }
+
+      li + li {
+        margin-left: 15px;
+      }
     }
   }
 }

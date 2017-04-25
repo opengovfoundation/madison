@@ -10,16 +10,15 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   pluginInit: function () {
     $(document).on('madison.showNotes', function (e) {
       let annotationGroup = this.annotationGroups[$(e.target).data('groupId')];
-      this.drawNotesPane(annotationGroup);
-      window.setTimeout(function () {
+      this.drawNotesPane(annotationGroup).done(function () {
         $('.annotation-pane').addClass('active');
-      }, 100);
+      });
     }.bind(this));
 
     $(document).on('madison.addAction', function (e) {
       let annotationId = $(e.target).data('annotationId');
       let action = $(e.target).data('actionType');
-      let element = $(e.target);
+      let sourceElement = $(e.target);
       let data = {
         _token: window.Laravel.csrfToken
       };
@@ -27,17 +26,17 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       if (this.options.userId) {
         $.post('/documents/' + this.options.docId + '/comments/' + annotationId + '/' + action, data)
           .done(function (data) {
-            element = $(element);
+            sourceElement = $(sourceElement);
 
             let likeAction = { element: '', value: data.likes };
             let flagAction = { element: '', value: data.flags };
 
             if (action === 'likes') {
-              likeAction.element = element;
-              flagAction.element = element.siblings('.flag');
+              likeAction.element = sourceElement;
+              flagAction.element = sourceElement.siblings('.flag');
             } else {
-              flagAction.element = element;
-              likeAction.element = element.siblings('.thumbs-up');
+              flagAction.element = sourceElement;
+              likeAction.element = sourceElement.siblings('.thumbs-up');
             }
 
             // update live display
@@ -47,18 +46,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
               flagAction.element.addClass('active');
             } else {
               flagAction.element.removeClass('active');
-            }
-
-            let flagCountElement = flagAction.element.children('.action-count');
-            if (flagCountElement.length) {
-              flagCountElement.text(flagAction.value);
-            }
-
-            // update data for later redrawing if needed
-            let annotation = this.findAnnotation(annotationId);
-            if (typeof annotation !== 'undefined') {
-              annotation.likes = data.likes;
-              annotation.flags = data.flags;
             }
           }.bind(this))
           .fail(function (data) {
@@ -81,8 +68,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 
       revealComment(this.options.docId);
 
-      // TODO: support showing notes pane for requested permalink?
-
       this.setAnnotations(annotations);
     }.bind(this));
 
@@ -94,15 +79,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       // TODO: show success notification or maybe in addAnnotation
       this.addAnnotation(annotation);
     }.bind(this));
-
-    this.annotator.subscribe('commentCreated', function (comment) {
-      comment = $('<div class="existing-comment"><blockquote>' + comment.text + '<div class="comment-author">' + comment.user.display_name + '</div></blockquote></div>');
-      var currentComments = $('#current-comments');
-      currentComments.append(comment);
-      currentComments.removeClass('hidden');
-
-      $('#current-comments').collapse(true);
-    });
 
     this.annotator.editor.submit = function (e) {
       // Clear previous errors
@@ -182,7 +158,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       comment.link = window.location.pathname+'#'+comment.htmlId;
     });
 
-    annotation.commentsCollapsed = true;
     annotation.label = 'annotation';
     annotation.htmlId = annotation.id;
     annotation.link = window.location.pathname+'#'+annotation.htmlId;
@@ -193,24 +168,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     this.annotations = annotations;
     this.annotationGroups = annotationGroups;
     this.drawNotesSideBubbles(annotations, annotationGroups);
-  },
-
-  findAnnotation: function (annotationId) {
-    for (var i = 0; i < this.annotations.length; i++) {
-      let annotation = this.annotations[i];
-
-      if (annotationId === annotation.id) {
-        return annotation;
-      }
-
-      for (var j = 0; j < annotation.comments.length; j++) {
-        let comment = annotation.comments[j];
-
-        if (annotationId === comment.id) {
-          return comment;
-        }
-      }
-    }
   },
 
   addAnnotation: function (annotation) {
@@ -224,48 +181,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       this.annotations.push(annotation);
       this.setAnnotations(this.annotations);
     }
-  },
-
-  noteActionsString: function (comment) {
-    let actions = '<div class="activity-actions">';
-    actions += '<a class="thumbs-up" onclick=$(this).trigger("madison.addAction")'
-      + ' data-action-type="likes" data-annotation-id="'+comment.id+'"'
-      + ' title="'+window.trans['messages.document.like']+'"'
-      + ' aria-label="'+window.trans['messages.document.like']+'" role="button"'
-      + ' ><span class="action-count">'+comment.likes+'</span></a>';
-
-    actions += '<a class="flag" onclick=$(this).trigger("madison.addAction")'
-      + ' data-action-type="flags" data-annotation-id="'+comment.id+'"'
-      + ' title="'+window.trans['messages.document.flag']+'"'
-      + ' aria-label="'+window.trans['messages.document.flag']+'" role="button"'
-      + ' ><span class="action-count">'+comment.flags+'</span></a>';
-
-    actions += '<a class="link" href="'+comment.link+'"'
-      + ' aria-label="'+window.trans['messages.permalink']+'" role="button"'
-      + ' title="'+window.trans['messages.permalink']+'">&nbsp;</a>';
-    actions += '</div>';
-
-    return actions;
-  },
-
-  createComment: function (textElement, annotation) {
-    var userId = this.options.userId;
-    var docId = this.options.docId;
-    var text = textElement.val();
-    textElement.val('');
-
-    var comment = {
-      text: text,
-      user: userId,
-      _token: window.Laravel.csrfToken
-    };
-
-    // Add user's comment
-    $.post('/documents/' + docId + '/comments/' + annotation.id + '/comments', comment, function (commentResponse) {
-      annotation.comments.push(commentResponse);
-
-      return this.annotator.publish('commentCreated', commentResponse);
-    }.bind(this));
   },
 
   drawNotesSideBubbles: function (annotations, annotationGroups) {
@@ -288,7 +203,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
           + ' data-group-id='+index+'>';
 
         sideBubbles += '<span class="annotation-group-count">';
-        sideBubbles += '<i class="fa fa-comment fa-lg"></i>';
         sideBubbles += '<span class="badge">';
         sideBubbles += annotationGroup.annotations.length + annotationGroup.commentCount;
         sideBubbles += '</span>';
@@ -321,87 +235,18 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     pane += '</a>';
     pane += '</header>';
 
-    pane += '<section class="annotation-list">'
-    annotationGroup.annotations.forEach(function (annotation) {
-      pane += '<article class="annotation" id="' + annotation.htmlId + '">';
+    pane += '<ul class="annotation-list media-list">'
+    return $.get('/documents/'+this.options.docId+'/comments/',
+          {'partial': true,
+           'ids': annotationGroup.annotations.map(function (ann) { return ann.id; })
+          }, null, "html")
+      .done(function (data) {
+        pane += data;
+        pane += '</ul>'; // comments
+        pane += '</aside>';
 
-      pane += '<blockquote>&quot;';
-      annotation.highlights.forEach(function (highlight) {
-        pane += '<span>';
-        pane += highlight.textContent;
-        pane += '</span>';
-      });
-      pane += '&quot;</blockquote>';
-
-      pane += '<div class="comment-body">'
-
-      pane += '<header class="annotation-header">'
-      pane += '<span class="author">'+annotation.user.display_name+'</span>';
-      pane += '<time class="date" datetime="'+annotation.created_at+'">'+annotation.created_at_relative+'</time>'
-      pane += '</header>';
-
-      pane += '<section class="content">';
-      pane += annotation.text;
-      pane += '</section>';
-
-      pane += '</div>'; // comment-body
-
-      if (!this.annotator.options.discussionClosed) {
-        pane += '<div>';
-        pane += this.noteActionsString(annotation);
-        pane += '<footer>';
-        pane += '<div class="reply-action">';
-        pane += '<a onclick="showNoteReplyForm('+this.options.userId+', \''+annotation.id+'\')">';
-        pane += window.trans['messages.document.add_reply'];
-        pane += '</a>';
-        pane += '</div>';
-        pane += '</footer>';
-        pane += '</div>';
-      }
-
-      pane += '<section class="comments">';
-      annotation.comments.forEach(function (comment) {
-        pane += '<article class="comment"'
-          + 'id="'+comment.htmlId+'"'
-          + '>';
-
-        pane += '<header class="comment-header">';
-        pane += '<span class="author">'+comment.user.display_name+'</span>';
-        pane += '<time class="date" datetime="'+comment.created_at+'">'+comment.created_at_relative+'</time>'
-        pane += '</header>'
-
-        pane += '<section class="content">';
-        pane += comment.text;
-        pane += '</section>';
-
-        if (!this.annotator.options.discussionClosed) {
-          pane += this.noteActionsString(comment);
-        }
-
-        pane += '</article>'; // comment
+        $(this.options.annotationContainerElem).append(pane);
       }.bind(this));
-      pane += '</section>'; // comments
-
-      pane += '<section class="subcomment-form">';
-      if (!this.annotator.options.discussionClosed && this.options.userId) {
-        let url = '/documents/'+this.options.docId+'/comments/'+annotation.id+'/comments';
-        pane += '<form name="add-subcomment-form" action="'+url+'" method="POST">';
-        pane += '<h4>'+window.trans['messages.document.note_reply']+'</h4>';
-        pane += '<input type="hidden" name="_token"' + ' value='+window.Laravel.csrfToken+' >';
-        pane += '<textarea id="comment-form-field-'+annotation.id+'" name="text" class="form-control centered" required></textarea>';
-        pane += '<button class="comment-button" type="submit">'+window.trans['messages.submit']+'</button>'; //TODO: trans
-        pane += '</form>';
-      }
-      pane += '</section>'; // subcomment-form
-
-      pane += '</article>';
-    }.bind(this));
-
-    pane += '</section>';
-    pane += '</aside>';
-
-    // insert new content
-    $(this.options.annotationContainerElem).append(pane);
   },
 
   groupAnnotations: function (annotations) {
@@ -421,7 +266,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       var annotationParentId;
       if (annotationParent.prop('id')) {
         annotationParentId = annotationParent.prop('id');
-        annotationGroupCount = parseInt(annotationParentId.replace('annotationGroup-', ''));
       } else {
         annotationGroupCount++;
         annotationParentId = 'annotationGroup-' + annotationGroupCount;
@@ -448,7 +292,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       }
 
       // Count replies
-      annotationGroups[annotationParentId].commentCount += annotation.comments.length;
+      annotationGroups[annotationParentId].commentCount += annotation.comments_count;
 
       annotationGroups[annotationParentId].annotations.push(annotation);
     }, this);
@@ -460,12 +304,4 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 window.hideNotes = function () {
   $('.annotation-click-capture').remove();
   $('.annotation-pane').removeClass('active');
-};
-
-window.showNoteReplyForm = function (userId, annotationId) {
-  if (!userId) {
-    window.redirectToLogin();
-  }
-
-  $('#comment-form-field-'+annotationId).focus();
 };

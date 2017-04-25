@@ -32,11 +32,23 @@
   margin: ($jumbotron-padding * 1.5) 0;
   position: relative;
 
-  border-bottom: 2px solid #C4C8CD;
-  box-shadow: 0 2px #E5E5E5;
+  border-bottom: 1px solid #C4C8CD;
+  box-shadow: 0 6px #E8EBED;
 
-  * {
-    display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .support-btn, .oppose-btn {
+    width: 49%;
+  }
+
+  .support-btn button {
+    float: right;
+  }
+
+  .oppose-btn button {
+    float: left;
   }
 
   .separator {
@@ -85,13 +97,34 @@
 
 blockquote {
   color: $text-color;
+  background-color: $ogf-blue-gray;
+  border: none;
+  position: relative;
+
+  &:before, &:after {
+    font-family: FontAwesome;
+    font-size: 12px;
+    position: absolute;
+  }
+
+  &:before {
+    content: $fa-var-quote-left;
+    top: 5px;
+    left: 7px;
+  }
+
+  &:after {
+    content: $fa-var-quote-right;
+    bottom: 5px;
+    right: 7px;
+  }
 
   a & {
     cursor: pointer;
 
     &:hover {
       text-decoration: none;
-      background-color: darken($blockquote-border-color, 5);
+      background-color: darken($ogf-blue-gray, 5);
     }
   }
 }
@@ -175,6 +208,7 @@ blockquote {
   padding: 30px;
   margin-bottom: $line-height-computed;
   background-color: white;
+  position: relative;
 
   border: 1px solid $gray-lighter;
   box-shadow: 10px 10px 0 rgba(0,0,0,0.03);
@@ -219,11 +253,12 @@ blockquote {
   }
 
   .read-the-document-badge {
+    $width: 110px;
     display: inline-block;
-    width: 80px;
-    height: 65px;
-    margin-top: -20px;
-    padding: 13px;
+    width: $width;
+    margin-top: -25px;
+    padding: 20px;
+    padding-bottom: 12px;
     background: $ogf-red;
     font-family: $font-family-sans-serif;
     font-weight: bold;
@@ -232,7 +267,7 @@ blockquote {
     text-align: center;
     color: #fff;
     position: relative;
-    font-size: 12px;
+    font-size: 16px;
 
     &:after {
       content: '';
@@ -242,9 +277,9 @@ blockquote {
       left: 0;
       width: 0;
       height: 0;
-      border-top: 20px solid $ogf-red;
-      border-left: 40px solid transparent;
-      border-right: 40px solid transparent;
+      border-top: 30px solid $ogf-red;
+      border-left: ($width/2) solid transparent;
+      border-right: ($width/2) solid transparent;
     }
 
     // Read
@@ -258,7 +293,7 @@ blockquote {
       width: 100%;
       border-bottom: 1px solid #fff;
       line-height: 0.1em;
-      margin: 7px 0;
+      margin: 12px 0;
       display: block;
 
       span {
@@ -296,23 +331,35 @@ blockquote {
     @extend .h1;
     margin-bottom: $line-height-computed;
   }
+}
 
-  .comment {
-    a small {
-      font-family: $font-family-serif;
-    }
+.pending:before {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
 
-    .media-body {
-      position: relative;
-    }
+.comment {
+  a small {
+    font-family: $font-family-serif;
+  }
 
-    .media-heading {
-      font-size: 90%;
-    }
+  .media-body {
+    position: relative;
+  }
 
-    .comment-content {
-      margin-top: $line-height-computed;
-    }
+  .media-heading {
+    font-size: 90%;
+  }
+
+  .comment-content {
+    margin-top: $line-height-computed;
   }
 
   .comment-replies {
@@ -353,6 +400,16 @@ blockquote {
   .support-btns {
     margin-left: -(floor(($grid-gutter-width / 2)));
     margin-right: -(floor(($grid-gutter-width / 2)));
+
+    flex-direction: column;
+
+    .support-btn, .oppose-btn {
+      width: 100%;
+
+      button {
+        float: none;
+      }
+    }
 
     .separator {
       display: none;

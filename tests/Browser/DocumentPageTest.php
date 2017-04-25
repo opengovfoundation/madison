@@ -287,9 +287,7 @@ class DocumentPageTest extends DuskTestCase
                 ->openNotesPane()
                 ->with(DocumentPage::noteSelector($this->note1), function($commentDiv) {
                     $commentDiv
-                        ->assertDontSee('@noteReplyForm')
-                        ->clickLink(trans('messages.document.add_reply'))
-                        ->assertPathIs('/login')
+                        ->assertDontSee('@newCommentForm')
                         ;
                 })
                 ;
@@ -311,7 +309,7 @@ class DocumentPageTest extends DuskTestCase
 
             // Should jump to and highlight new comment
             $browser
-                ->waitFor('.comment#' . $newComment->str_id)
+                ->waitFor(DocumentPage::commentSelector($newComment))
                 ->assertSeeComment($newComment)
                 ;
 
@@ -340,7 +338,7 @@ class DocumentPageTest extends DuskTestCase
 
             // Should jump to and highlight new comment
             $browser
-                ->waitFor('.comment#' . $newComment->str_id)
+                ->waitFor(DocumentPage::commentSelector($newComment))
                 ->assertSeeReplyToComment($this->comment1, $newComment)
                 ;
 
@@ -398,7 +396,7 @@ class DocumentPageTest extends DuskTestCase
                 ->loginAs($this->user)
                 ->visit($this->page)
                 ->openNotesPane()
-                ->addReplyToNote($this->note1)
+                ->fillAndSubmitCommentReplyForm($this->note1)
                 ;
 
             $newNote = $this->document->allComments()
@@ -406,8 +404,7 @@ class DocumentPageTest extends DuskTestCase
                 ->first();
 
             $browser
-                ->refresh()
-                ->openNotesPane()
+                ->waitFor(DocumentPage::commentSelector($newNote))
                 ->assertSeeReplyToNote($this->note1, $newNote)
                 ;
 
@@ -565,15 +562,13 @@ class DocumentPageTest extends DuskTestCase
 
     public function testFlagNoteOnDocument()
     {
-        $noteFlags = $this->note1->flags_count;
-
-        $this->browse(function ($browser) use ($noteFlags) {
+        $this->browse(function ($browser) {
             $browser
                 ->loginAs($this->user)
                 ->visit($this->page)
                 ->openNotesPane()
                 ->addActionToNote('flag', $this->note1)
-                ->assertNoteHasActionCount('flag', $this->note1, $noteFlags +1)
+                ->assertCommentActionActive('flag', $this->note1)
                 ;
 
             //$newFlag = Annotation::where('annotation_type_type', Annotation::TYPE_FLAG)
@@ -621,15 +616,14 @@ class DocumentPageTest extends DuskTestCase
     public function testFlagNoteReply()
     {
         $reply = FactoryHelpers::createComment($this->sponsorUser, $this->note1);
-        $replyFlags = $reply->flags_count;
 
-        $this->browse(function ($browser) use ($reply, $replyFlags) {
+        $this->browse(function ($browser) use ($reply) {
             $browser
                 ->loginAs($this->user)
                 ->visit($this->page)
                 ->openNotesPane()
                 ->addActionToComment('flag', $reply)
-                ->assertCommentHasActionCount('flag', $reply, $replyFlags + 1)
+                ->assertCommentActionActive('flag', $reply)
                 ;
 
             //$newFlag = Annotation::where('annotation_type_type', Annotation::TYPE_FLAG)

@@ -177,6 +177,10 @@
 
         <div id="main-footer">
             <footer class="container">
+                <div class="logo">
+                    <img src="/img/logo.svg">
+                </div>
+
                 <ul>
                     @foreach ($footerPages as $page)
                         <li><a href="{{ $page->getUrl() }}" class="alt-link">{{ $page->nav_title }}</a></li>

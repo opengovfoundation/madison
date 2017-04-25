@@ -95,12 +95,6 @@ return [
 
     'user_greeting' => 'Hi :name',
 
-    'activelegislation' => 'Active Legislation',
-    'recentactivity' => 'Recent Activity',
-    'mostactive' => 'Most Active Documents',
-    'recentlegislation' => 'Recent Legislation',
-
-
     // Document Stuff
     'document' => [
         'read' => '<span>Read</span> <span><span>the</span></span> <span>document</span>',
@@ -128,7 +122,6 @@ return [
         'replies_count' => ':count replies',
         'replies' => 'Replies',
         'add_reply' => 'Write a reply...',
-        'note_reply' => 'Reply to this note',
         'support' => 'I support this document',
         'oppose' => 'I oppose this document',
         'flag' => 'Flag',

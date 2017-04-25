@@ -74,8 +74,8 @@ class DocumentPage extends BasePage
                 $noteElement
                     ->assertSee($note->user->name)
                     ->assertSeeIn('@likeBtn', (string) $note->likes_count)
-                    ->assertSeeIn('@flagBtn', (string) $note->flags_count)
-                    ->assertSee(static::flattenParagraphs($note->annotationType->content))
+                    ->assertVisible('@flagBtn')
+                    ->assertSeeCommentContent($note)
                     ;
             });
         });
@@ -92,8 +92,8 @@ class DocumentPage extends BasePage
                     $replyElement
                         ->assertSee($reply->user->name)
                         ->assertSeeIn('@likeBtn', (string) $reply->likes_count)
-                        ->assertSeeIn('@flagBtn', (string) $reply->flags_count)
-                        ->assertSee(static::flattenParagraphs($reply->annotationType->content))
+                        ->assertVisible('@flagBtn')
+                        ->assertSeeCommentContent($reply)
                         ;
                 });
             });
@@ -109,17 +109,22 @@ class DocumentPage extends BasePage
                 ->assertSee($comment->user->name)
                 ->assertSeeIn('@likeBtn', (string) $comment->likes_count)
                 ->assertVisible('@flagBtn')
-                ->assertSee(static::flattenParagraphs($comment->annotationType->content))
+                ->assertSeeCommentContent($comment)
                 ;
         })
         ;
     }
 
+    public function assertSeeCommentContent(Browser $browser, Annotation $comment)
+    {
+        foreach (preg_split('/\\n\\n/', $comment->annotationType->content) as $line) {
+            $browser->assertSee($line);
+        }
+    }
+
     public function assertSeeReplyToComment(Browser $browser, Annotation $comment, Annotation $reply)
     {
-        /**
-         * Timestamps end up being off by a second sometimes, so leaving them out.
-         */
+        // Timestamps end up being off by a second sometimes, so leaving them out.
         $commentSelector = static::commentSelector($comment);
         $replySelector = static::commentSelector($reply);
 
@@ -131,7 +136,7 @@ class DocumentPage extends BasePage
                             ->assertSee($reply->user->name)
                             ->assertSeeIn('@likeBtn', (string) $reply->likes_count)
                             ->assertVisible('@flagBtn')
-                            ->assertSee(static::flattenParagraphs($reply->annotationType->content))
+                            ->assertSeeCommentContent($reply)
                             ;
                     });
             })
@@ -229,13 +234,16 @@ class DocumentPage extends BasePage
     public function fillAndSubmitCommentReplyForm(Browser $browser, Annotation $comment)
     {
         $fakeComment = factory(Comment::class)->make();
+        $commentSelector = static::commentSelector($comment);
 
-        $browser->with('.comment#' . $comment->str_id, function ($commentDiv) use ($fakeComment) {
+        $browser->with($commentSelector, function ($commentDiv) use ($commentSelector, $fakeComment) {
             $commentDiv
                 ->click('.new-comment-form-toggle')
                 ->waitFor('@submitBtn')
                 ->type('text', static::flattenParagraphs($fakeComment->content))
                 ->click('@submitBtn')
+                ->waitUntil("$('".$commentSelector."').hasClass('pending')")
+                ->waitUntil("!$('".$commentSelector."').hasClass('pending')")
                 ;
         });
     }
@@ -313,7 +321,7 @@ class DocumentPage extends BasePage
 
     public static function noteSelector(Annotation $note)
     {
-        return '.annotation#' . $note->str_id;
+        return static::commentSelector($note);
     }
 
     public static function commentSelector(Annotation $comment)

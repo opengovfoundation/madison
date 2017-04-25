@@ -4,8 +4,6 @@
 
 @push('meta')
     <meta property="og:description" content="{{ $document->shortIntroText() }}">
-    <meta property="og:image" content="{{ url('/img/default-featured.jpg') }}">
-    <meta name="twitter:card" content="summary_large_image">
 @endpush
 
 @section('content')
@@ -85,9 +83,7 @@
                         </div>
                     @endif
 
-                    <ul class="media-list">
-                        @each('documents.partials.comment-li', $comments, 'comment')
-                    </ul>
+                    @include('documents.partials.comments', ['view' => 'card', 'comments' => $comments])
                     <div class="text-center">
                         @include('components.pagination', ['collection' => $comments])
                     </div>
@@ -102,17 +98,11 @@
         <script>
             loadTranslations([
                 'messages.close',
-                'messages.document.add_reply',
-                'messages.document.flag',
-                'messages.document.like',
-                'messages.document.note',
-                'messages.document.note_reply',
                 'messages.document.notes',
                 'messages.none',
-                'messages.permalink',
-                'messages.submit'
             ])
             .done(function () {
+                window.documentId = {{ $document->id }};
                 window.buildDocumentOutline('#document-outline', '#page_content');
 
                 @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
@@ -133,17 +123,6 @@
                     if (window.getQueryParam('comment_page')) {
                         showComments();
                     }
-
-                    $('.comment-replies-toggle-show').click(function(e) {
-                        e.preventDefault();
-                        let commentId = $(e.target).data('comment-id');
-                        toggleCommentReplies(commentId);
-                    });
-
-                    $('.comment a.action-link').click(function(e) {
-                        e.preventDefault();
-                        $(e.target).trigger('madison.addAction');
-                    });
                 @endif
             });
         </script>
