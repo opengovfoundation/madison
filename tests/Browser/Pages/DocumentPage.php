@@ -62,6 +62,7 @@ class DocumentPage extends BasePage
             ->click('@noteBubble')
             ->pause(700) // Ensure enough time for notes pane to expand
             ->assertVisible('@notesPane')
+            ->waitUntil("!$('.annotation-list').hasClass('pending')")
             ;
     }
 

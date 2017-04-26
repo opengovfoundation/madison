@@ -10,9 +10,15 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
   pluginInit: function () {
     $(document).on('madison.showNotes', function (e) {
       let annotationGroup = this.annotationGroups[$(e.target).data('groupId')];
-      this.drawNotesPane(annotationGroup).done(function () {
-        $('.annotation-pane').addClass('active');
-      });
+
+      // remove any existing content
+      $(this.options.annotationContainerElem).find('.annotation-list').empty().addClass('pending');
+
+      // start showing the pane
+      $('.annotation-pane').addClass('active');
+      $('.annotation-click-capture').removeClass('hidden');
+
+      this.loadNotesPane(annotationGroup);
     }.bind(this));
 
     $(document).on('madison.addAction', function (e) {
@@ -191,9 +197,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     var sideBubbles = '<div id="participate-activity" class="participate-activity">';
     sideBubbles += '<div class="activity-thread">';
 
-    if (annotations.length === 0) {
-      sideBubbles += '<div>' + window.trans['messages.none'] + '</div>';
-    } else {
+    if (annotations.length !== 0) {
       for (let index in annotationGroups) {
         let annotationGroup = annotationGroups[index];
 
@@ -218,34 +222,14 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
     $(this.options.annotationContainerElem).append(sideBubbles);
   },
 
-  drawNotesPane: function (annotationGroup) {
-    // remove any existing content
-    $('.annotation-pane').remove();
-
+  loadNotesPane: function (annotationGroup) {
     // build up new content
-    var pane = '';
-    pane += '<aside class="annotation-pane">';
-
-    pane += '<div class="annotation-click-capture" onclick="hideNotes()"></div>';
-
-    pane += '<header class="title-header navbar navbar-default navbar-static-top">';
-    pane += '<h2>'+window.trans['messages.document.notes']+'</h2>';
-    pane += '<a class="close-button navbar-link" onclick="hideNotes()">';
-    pane += window.trans['messages.close'];
-    pane += '</a>';
-    pane += '</header>';
-
-    pane += '<ul class="annotation-list media-list">'
     return $.get('/documents/'+this.options.docId+'/comments/',
           {'partial': true,
            'ids': annotationGroup.annotations.map(function (ann) { return ann.id; })
           }, null, "html")
       .done(function (data) {
-        pane += data;
-        pane += '</ul>'; // comments
-        pane += '</aside>';
-
-        $(this.options.annotationContainerElem).append(pane);
+        $(this.options.annotationContainerElem).find('.annotation-list').html(data).removeClass('pending');
       }.bind(this));
   },
 
@@ -302,6 +286,6 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
 });
 
 window.hideNotes = function () {
-  $('.annotation-click-capture').remove();
+  $('.annotation-click-capture').addClass('hidden');
   $('.annotation-pane').removeClass('active');
 };

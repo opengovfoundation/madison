@@ -63,7 +63,19 @@
                 {{ $documentPages->appends(request()->query())->fragment('page_content')->links() }}
             </div>
 
-            <aside class="annotation-container col-md-1"></aside>
+            <aside class="annotation-container col-md-1">
+                <aside class="annotation-pane" role="dialog">
+                    <div class="annotation-click-capture hidden" onclick="hideNotes()"></div>
+
+                    <header class="title-header navbar navbar-default navbar-static-top">
+                    <h2>@lang('messages.document.notes')</h2>
+                        <a class="close-button navbar-link" onclick="hideNotes()">@lang('messages.close')</a>
+                    </header>
+
+                    <ul class="annotation-list media-list">
+                    </ul>
+                </aside>
+            </aside>
         </div>
     </div>
 
@@ -98,35 +110,28 @@
         <script src="{{ elixir('js/annotator-madison.js') }}"></script>
         <script src="{{ elixir('js/document.js') }}"></script>
         <script>
-            loadTranslations([
-                'messages.close',
-                'messages.document.notes',
-                'messages.none',
-            ])
-            .done(function () {
-                window.documentId = {{ $document->id }};
-                window.buildDocumentOutline('#document-outline', '#page_content');
+            window.documentId = {{ $document->id }};
+            window.buildDocumentOutline('#document-outline', '#page_content');
 
-                @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
-                    loadAnnotations(
-                        "#page_content",
-                        ".annotation-container",
-                        {{ $document->id }},
-                        {{ request()->user() ? request()->user()->id : 'null' }},
-                        {{ $document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_OPEN ? 1 : 0 }}
-                    );
+            @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
+                loadAnnotations(
+                    "#page_content",
+                    ".annotation-container",
+                    {{ $document->id }},
+                    {{ request()->user() ? request()->user()->id : 'null' }},
+                    {{ $document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_OPEN ? 1 : 0 }}
+                );
 
-                    // race-y with loading annotaions, so it's called again
-                    // in annotator-madison.js after annotator.js has loaded
-                    // it's stuff
-                    revealComment({{ $document->id }});
-                    window.onhashchange = revealComment.bind(this, {{$document->id }});
+                // race-y with loading annotaions, so it's called again
+                // in annotator-madison.js after annotator.js has loaded
+                // it's stuff
+                revealComment({{ $document->id }});
+                window.onhashchange = revealComment.bind(this, {{$document->id }});
 
-                    if (window.getQueryParam('comment_page')) {
-                        showComments();
-                    }
-                @endif
-            });
+                if (window.getQueryParam('comment_page')) {
+                    showComments();
+                }
+            @endif
         </script>
     @endpush
 @endsection

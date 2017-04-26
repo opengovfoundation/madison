@@ -3,7 +3,7 @@
 }
 
 .anchor-target {
-  background-color: rgba(0, 128, 0, 0.3) !important;
+  background-color: rgba(10, 255, 30, 0.3) !important;
 }
 
 .introtext {
@@ -350,6 +350,9 @@ blockquote {
 }
 
 .pending:before {
+  $base-color: rgba(0, 0, 0, 0.3);
+  $other-color: rgba(0, 0, 0, 0.4);
+
   content: "";
   display: block;
   height: 100%;
@@ -357,8 +360,35 @@ blockquote {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: $base-color;
   z-index: 1;
+
+  -webkit-animation: pulse 1s infinite ease-in-out;
+  animation: pulse 1s infinite ease-in-out;
+
+  @-webkit-keyframes pulse {
+    0% {
+      background-color: $base-color;
+    }
+    50% {
+      background-color: $other-color;
+    }
+    100% {
+      background-color: $base-color;
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      background-color: $base-color;
+    }
+    50% {
+      background-color: $other-color;
+    }
+    100% {
+      background-color: $base-color;
+    }
+  }
 }
 
 .comment {
