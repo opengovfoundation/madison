@@ -35,8 +35,16 @@
   border-bottom: 1px solid #C4C8CD;
   box-shadow: 0 6px #E8EBED;
 
+  display: -webkit-flexbox;
+  display: -ms-flexbox;
   display: flex;
+
+  -ms-flex-align: center;
+  -webkit-align-items: center;
   align-items: center;
+
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
 
   .support-btn, .oppose-btn {
@@ -447,6 +455,8 @@ blockquote {
     margin-left: -(floor(($grid-gutter-width / 2)));
     margin-right: -(floor(($grid-gutter-width / 2)));
 
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
     flex-direction: column;
 
     .support-btn, .oppose-btn {

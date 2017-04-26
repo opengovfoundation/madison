@@ -198,7 +198,12 @@ footer.nav {
   padding-bottom: 60px;
 
   footer {
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
     display: flex;
+
+    -ms-flex-align: center;
+    -webkit-align-items: center;
     align-items: center;
 
     .logo {
