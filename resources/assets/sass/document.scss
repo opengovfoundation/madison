@@ -225,6 +225,7 @@ blockquote {
   color: white;
   padding: $jumbotron-padding * 2 $jumbotron-padding;
   font-size: $jumbotron-font-size * 0.8;
+  overflow: hidden;
 
   a {
     @extend .alt-link;
@@ -287,6 +288,7 @@ blockquote {
   .document-title {
     margin-top: $jumbotron-padding * 2;
     font-size: 2em;
+    overflow: hidden;
   }
 
   @media screen and (min-width: $screen-sm-min) {
@@ -355,12 +357,18 @@ blockquote {
   }
 
   #page_content {
+    overflow: hidden;
+
     h1, h2, h3, h4, h5, h6 {
       font-family: $font-family-serif;
 
       &:first-child {
         margin-top: 0;
       }
+    }
+
+    a {
+      word-wrap: break-word;
     }
   }
 }
@@ -369,6 +377,7 @@ blockquote {
   background-color: $ogf-blue-white;
   padding-top: $line-height-computed;
   padding-bottom: $line-height-computed;
+  overflow: hidden;
 
   #all-comments-count {
     @extend .h1;
