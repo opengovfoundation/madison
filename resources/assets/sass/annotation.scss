@@ -6,32 +6,30 @@
 }
 
 .annotation-click-capture {
-  @extend .col-md-8;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.2);
 }
 
 .annotation-pane {
-  @extend .col-md-4;
   position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
   height: 100%;
+  width: 100%;
   z-index: ($zindex-navbar + 1);
   background-color: white;
-  @extend %simple-shadow;
-  padding: 0 0 (2 * $line-height-computed);
-  // Pad the top to allow the header to float above it.
-  margin-top: 0;
 
   // Slide in/out
-  margin-right: -34%;
-  @include transition(all $transition-duration $transition-easing);
+  @include translate(100%, 0);
+  @include transition-transform($transition-duration $transition-easing);
   &.active {
-    margin-right: 0;
+    @extend %simple-shadow;
+    @include translate(0, 0);
   }
 
   .title-header {
@@ -60,11 +58,12 @@
     display: inline-block;
   }
 
-  .close-button {
-    float: right;
-    font-style: italic;
+  .close {
     line-height: (2 * $line-height-computed);
-    cursor: pointer;
+  }
+
+  @media screen and (min-width: $screen-md-min) {
+    width: 40%;
   }
 }
 
@@ -216,14 +215,6 @@
   // Hide bubbles
   .annotation-group {
     display: none;
-  }
-
-  .annotation-pane {
-    left: 100%;
-
-    &.active {
-      left: 0;
-    }
   }
 
   // Hide all inline annotations for now.

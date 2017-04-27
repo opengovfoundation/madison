@@ -64,16 +64,18 @@
             </div>
 
             <aside class="annotation-container col-md-1">
-                <aside class="annotation-pane" role="dialog">
+                <aside class="annotation-pane-wrapper" role="dialog">
                     <div class="annotation-click-capture hidden" onclick="hideNotes()"></div>
 
-                    <header class="title-header navbar navbar-default navbar-static-top">
-                    <h2>@lang('messages.document.notes')</h2>
-                        <a class="close-button navbar-link" onclick="hideNotes()">@lang('messages.close')</a>
-                    </header>
+                    <div class="annotation-pane">
+                        <header class="title-header navbar navbar-default navbar-static-top">
+                        <h2>@lang('messages.document.notes')</h2>
+                            <a class="close" aria-label="{{ trans('messages.close') }}" onclick="hideNotes()">&times;</a>
+                        </header>
 
-                    <ul class="annotation-list media-list">
-                    </ul>
+                        <ul class="annotation-list media-list">
+                        </ul>
+                    </div>
                 </aside>
             </aside>
         </div>
