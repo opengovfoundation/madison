@@ -54,6 +54,8 @@ return [
     'forgot_password' => 'Forgot Your Password?',
     'reset_password' => 'Reset Password',
     'reset_password_send' => 'Send Password Reset Link',
+    'need_an_account' => 'Don\'t have an account? :linkOpen Create one! :linkClose',
+    'already_have_an_account' => 'Already have an account? :linkOpen Login here. :linkClose',
 
     'email_verification' => [
         'banner' => 'You haven\'t verified your email address yet. We need you to verify it before we can send messages to it. Please check your inbox or :resendLinkOpen resend the verification email :resendLinkClose.',

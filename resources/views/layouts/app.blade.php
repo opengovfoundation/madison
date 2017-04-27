@@ -171,6 +171,11 @@
                 @endif
 
                 @include('flash::message')
+            </div>
+
+            @yield('full-width-content')
+
+            <div class="container">
                 @yield('content')
             </div>
         </div>

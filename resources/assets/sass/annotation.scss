@@ -213,13 +213,9 @@
     font-style: italic;
   }
 
-  // Leave room for annotation numbers
-  #page_content {
-    padding-right: 2rem;
-  }
-
+  // Hide bubbles
   .annotation-group {
-    right: 5px;
+    display: none;
   }
 
   .annotation-pane {

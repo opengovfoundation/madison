@@ -6,8 +6,17 @@
     <meta property="og:description" content="{{ trans('messages.home.intro') }}">
 @endpush
 
-@section('content')
+@section('full-width-content')
+    <div class="jumbotron">
+        <div class="container">
+            <h1>@lang('messages.home.welcome')</h1>
+            <p>{!! trans('messages.home.intro') !!}</p>
+            <p><a class="btn btn-primary btn-lg" href="#how-it-works" role="button">{{ trans('messages.learn_more') }} &raquo;</a></p>
+        </div>
+    </div>
+@endsection
 
+@section('content')
     @include('home.partials.welcome')
 
     @if (!$featuredDocuments->isEmpty())

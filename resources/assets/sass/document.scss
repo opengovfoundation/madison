@@ -29,7 +29,7 @@
 
 .support-btns {
   padding-bottom: 0;
-  margin: ($jumbotron-padding * 1.5) 0;
+  margin: 30px 0;
   position: relative;
 
   border-bottom: 1px solid #C4C8CD;
@@ -74,8 +74,6 @@
     border: 0;
     border-bottom: 3px solid transparent;
     font-family: $font-family-sans-serif;
-    font-size: $font-size-base * 0.8;
-    font-weight: bold;
     color: $ogf-blue;
 
     &:hover {
@@ -251,19 +249,32 @@ blockquote {
   h1 {
     color: white;
     margin-top: 0;
-    font-size: $jumbotron-heading-font-size;
   }
 
   .sponsors {
     color: #9EB2C5;
     font-style: italic;
     margin-bottom: 2em;
-    font-size: $jumbotron-font-size;
   }
 
   .introtext p:first-child {
-    font-size: $jumbotron-font-size * 1.5;
+    font-size: $jumbotron-font-size * 1.2;
   }
+
+  @media screen and (min-width: $screen-sm-min) {
+    h1 {
+      font-size: $jumbotron-heading-font-size;
+    }
+
+    .sponsors {
+      font-size: $jumbotron-font-size;
+    }
+
+    .introtext p:first-child {
+      font-size: $jumbotron-font-size * 1.5;
+    }
+  }
+
 }
 
 #doc-content {
@@ -273,7 +284,13 @@ blockquote {
 
   .document-title {
     margin-top: $jumbotron-padding * 2;
-    font-size: 3em;
+    font-size: 2em;
+  }
+
+  @media screen and (min-width: $screen-sm-min) {
+    .document-title {
+      font-size: 3em;
+    }
   }
 
   .read-the-document-badge {
@@ -443,7 +460,7 @@ blockquote {
   }
 }
 
-@media only screen and (max-width: $screen-sm-min) {
+@media only screen and (max-width: $screen-md-min) {
   #doc-content, #comments {
     margin-left: -(floor(($grid-gutter-width / 2)));
     margin-right: -(floor(($grid-gutter-width / 2)));
@@ -454,7 +471,11 @@ blockquote {
   .support-btns {
     margin-left: -(floor(($grid-gutter-width / 2)));
     margin-right: -(floor(($grid-gutter-width / 2)));
+  }
+}
 
+@media only screen and (max-width: $screen-sm-min) {
+  .support-btns {
     -ms-flex-direction: column;
     -webkit-flex-direction: column;
     flex-direction: column;

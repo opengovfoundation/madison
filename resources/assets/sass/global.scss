@@ -83,13 +83,6 @@ form {
   font-family: $font-family-sans-serif;
 }
 
-.jumbotron {
-  margin-right: -50vw;
-  margin-left: -50vw;
-  background-color: $ogf-dark-blue;
-  color: white;
-}
-
 footer.nav {
   padding-bottom: 30px;
 }
@@ -156,10 +149,10 @@ footer.nav {
   }
 
   .navbar-toggle {
-    border-color: #ddd;
+    background-color: #32608E;
 
     .icon-bar {
-      background-color: #888;
+      background-color: white;
     }
   }
 }
@@ -176,7 +169,10 @@ footer.nav {
 
   h1 {
     color: $ogf-slate;
-    font-size: 60px;
+
+    @media only screen and (min-width: $screen-sm-min) {
+      font-size: 60px;
+    }
   }
 }
 
@@ -213,6 +209,7 @@ footer.nav {
 
     ul {
       margin-left: auto;
+      padding-left: 0;
 
       li {
         display: inline-block;
@@ -220,6 +217,18 @@ footer.nav {
 
       li + li {
         margin-left: 15px;
+      }
+    }
+
+    @media only screen and (max-width: $screen-sm-min) {
+      -ms-flex-direction: column-reverse;
+      -webkit-flex-direction: column-reverse;
+      flex-direction: column-reverse;
+
+      ul {
+        margin-bottom: 60px;
+        margin-left: 0;
+        text-align: center;
       }
     }
   }

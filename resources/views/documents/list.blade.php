@@ -4,7 +4,10 @@
 
 @section('content')
     <div class="page-header">
-        <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#queryModal">@lang('messages.advanced_search')</button>
+        <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#queryModal" aria-label="{{trans('messages.advanced_search') }}">
+            <span class="hidden-xs">@lang('messages.advanced_search')</span>
+            <span class="visible-xs"><i class="fa fa-search" aria-hidden="true"></i></span>
+        </button>
         <h1>{{ trans('messages.document.list') }}</h1>
     </div>
 

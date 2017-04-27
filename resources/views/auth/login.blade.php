@@ -6,6 +6,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+            <p>
+                @lang('messages.need_an_account', ['linkOpen' => '<a href="' . route('register') . '">', 'linkClose' => '</a>' ])
+            </p>
+
             <div class="panel panel-default">
                 <div class="panel-heading">@lang('messages.login')</div>
                 <div class="panel-body">
