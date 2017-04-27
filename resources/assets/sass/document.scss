@@ -244,6 +244,8 @@ blockquote {
     padding: 0;
     line-height: 1;
     z-index: -1;
+    width: 100%;
+    overflow: hidden;
   }
 
   h1 {
