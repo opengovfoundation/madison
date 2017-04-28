@@ -19,6 +19,10 @@ return [
         'level' => env('ROLLBAR_LEVEL'),
     ],
 
+    'hotjar' => [
+        'site_id' => env('HOTJAR_SITE_ID'),
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),

@@ -43,6 +43,10 @@
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+
+    @if (App::environment('production', 'staging') && !empty(config('services.hotjar.site_id'))) {
+        @include('partials/hotjar-script')
+    @endif
 </head>
 <body>
     <div id="app" class="{{ isset($useDarkContentBg) ? 'dark-content' : '' }}">
