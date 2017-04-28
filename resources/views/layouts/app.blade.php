@@ -44,7 +44,7 @@
         ]); ?>
     </script>
 
-    @if (App::environment('production', 'staging') && !empty(config('services.hotjar.site_id'))) {
+    @if (App::environment('production', 'staging') && !empty(config('services.hotjar.site_id')))
         @include('partials/hotjar-script')
     @endif
 </head>
