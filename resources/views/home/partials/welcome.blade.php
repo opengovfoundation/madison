@@ -11,7 +11,7 @@
         <p>
             {!! trans('messages.home.sponsor_cta.text') !!}
             <strong>
-                <a href="{{ route('sponsors.create') }}">@lang('messages.home.sponsor_cta.action_text')</a>
+                <a href="{{ route('sponsors.info') }}">@lang('messages.home.sponsor_cta.action_text')</a>
             </strong>
         </p>
     </div>
