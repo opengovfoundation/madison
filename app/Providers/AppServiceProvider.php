@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->environment('production', 'staging')) {
+        if ($this->app->environment('production', 'staging') && !empty(config('services.rollbar.access_token'))) {
             $this->app->register(\Jenssegers\Rollbar\RollbarServiceProvider::class);
         }
 

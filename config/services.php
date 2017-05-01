@@ -15,7 +15,8 @@ return [
     */
 
     'rollbar' => [
-        'access_token' => env('ROLLBAR_TOKEN'),
+        'access_token' => env('ROLLBAR_SERVER_TOKEN'),
+        'client_side_access_token' => env('ROLLBAR_CLIENT_TOKEN'),
         'level' => env('ROLLBAR_LEVEL'),
     ],
 
