@@ -29,6 +29,10 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
         _token: window.Laravel.csrfToken
       };
 
+      if (this.annotator.options.discussionClosed) {
+        return;
+      }
+
       if (this.options.userId) {
         $.post('/documents/' + this.options.docId + '/comments/' + annotationId + '/' + action, data)
           .done(function (data) {

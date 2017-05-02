@@ -128,9 +128,32 @@ class DocumentPageTest extends DuskTestCase
         $this->browse(function ($browser) {
             $browser
                 ->visit($this->page)
-                ->assertDontSee('@supportBtn')
-                ->assertDontSee('@opposeBtn')
-                ->assertDontSee('@annotationGroups')
+                ->assertMissing('@supportBtn')
+                ->assertMissing('@opposeBtn')
+                ->assertMissing('@noteBubble')
+                ->assertMissing('@newCommentForm')
+                ->assertMissing('@likeBtn')
+                ->assertMissing('@flagBtn')
+                ->assertMissing('@commentsDiv')
+                ;
+        });
+    }
+
+    public function testDiscussionClosedDisablesThings()
+    {
+        $this->document->update(['discussion_state' => Document::DISCUSSION_STATE_CLOSED]);
+
+        $this->browse(function ($browser) {
+            $browser
+                ->visit($this->page)
+                ->assertVisible('@supportBtnDisabled')
+                ->assertVisible('@opposeBtnDisabled')
+                ->waitFor('@noteBubble')
+                ->assertVisible('@noteBubble')
+                ->assertMissing('@newCommentForm')
+                ->assertVisible('@likeBtnDisabled')
+                ->assertVisible('@flagBtnDisabled')
+                ->assertSeeComment($this->comment1)
                 ;
         });
     }

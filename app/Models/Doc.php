@@ -667,4 +667,9 @@ class Doc extends Model
             ->orderByRaw("(title_relevance + content_relevance) $dir")
             ;
     }
+
+    public function isDiscussionOpen()
+    {
+        return $this->discussion_state === static::DISCUSSION_STATE_OPEN;
+    }
 }

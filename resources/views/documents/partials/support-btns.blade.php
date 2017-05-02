@@ -6,7 +6,9 @@
                     {{ Form::open(['route' => ['documents.support', $document], 'method' => 'put']) }}
                         <input type="hidden" name="support" value="1">
 
-                        <button type="submit" class="support {{ $userSupport === true ? 'active' : '' }}">
+                        <button type="submit" class="btn support {{ $userSupport === true ? 'active' : '' }}"
+                        {{ !$document->isDiscussionOpen() ? 'disabled' : '' }}>
+
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                             {{ trans('messages.document.support') }}
                             <span class="count">{{ $supportCount }}</span>
@@ -17,7 +19,8 @@
                 <div class="oppose-btn" role="group">
                     {{ Form::open(['route' => ['documents.support', $document], 'method' => 'put']) }}
                         <input type="hidden" name="support" value="0">
-                        <button type="submit" class="oppose {{ $userSupport === false ? 'active' : '' }}">
+                        <button type="submit" class="btn oppose {{ $userSupport === false ? 'active' : '' }}"
+                        {{ !$document->isDiscussionOpen() ? 'disabled' : '' }}>
                             <i class="fa fa-thumbs-down" aria-hidden="true"></i>
                             {{ trans('messages.document.oppose') }}
                             <span class="count">{{ $opposeCount }}</span>

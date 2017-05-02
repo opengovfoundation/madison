@@ -1,6 +1,6 @@
 window.loadAnnotations = function (contentElem, annotationContainerElem, docId, userId, discussionClosed) {
   var ann = $(contentElem).annotator({
-    readOnly: !!userId,
+    readOnly: !!!userId,
     discussionClosed: discussionClosed
   });
   ann.annotator('addPlugin', 'Unsupported');

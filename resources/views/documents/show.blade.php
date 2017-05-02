@@ -89,7 +89,7 @@
                         @choice('messages.document.comments_with_count', $document->all_comments_count)
                     </div>
 
-                    @if ($document->discussion_state === \App\Models\Doc::DISCUSSION_STATE_OPEN)
+                    @if ($document->isDiscussionOpen())
                         <div class="floating-card">
                             @if (Auth::user())
                                 @include('documents.partials.new-comment-form', ['route' => ['documents.comments.store', $document], 'message' => 'messages.document.add_comment'])

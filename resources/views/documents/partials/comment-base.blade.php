@@ -19,7 +19,8 @@
             <button class="btn btn-simple like-btn thumbs-up" onclick="$(this).trigger('madison.addAction')"
                 data-action-type="likes" data-annotation-id="{{ $comment->str_id }}"
                 title="{{ trans('messages.document.like') }}"
-                aria-label="{{ trans('messages.document.like') }}">
+                aria-label="{{ trans('messages.document.like') }}"
+                {{ !$comment->rootAnnotatable->isDiscussionOpen() ? 'disabled' : '' }}>
 
                 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                 <span class="action-count">{{ $comment->likes_count }}</span>
@@ -56,13 +57,14 @@
     <button class="btn btn-simple flag pull-right {{ $comment->flags_count ? 'active' : ''}}" onclick="$(this).trigger('madison.addAction')"
         data-action-type="flags" data-annotation-id="{{ $comment->str_id }}"
         title="{{ trans('messages.document.flag') }}"
-        aria-label="{{ trans('messages.document.flag') }}">
+        aria-label="{{ trans('messages.document.flag') }}"
+        {{ !$comment->rootAnnotatable->isDiscussionOpen() ? 'disabled' : '' }}>
 
         <i class="fa fa-flag" aria-hidden="true"></i>
     </button>
 </div>
 
-@if ($comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE)
+@if ($comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE && $comment->rootAnnotatable->isDiscussionOpen())
     @if (Auth::user())
         <div class="clearfix"></div>
 
