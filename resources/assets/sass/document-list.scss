@@ -1,0 +1,45 @@
+.document-grid {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    list-style: none;
+  }
+}
+
+.document-card {
+  border-bottom: 1px solid $gray-lighter;
+  padding-bottom: $padding-base-vertical * 2;
+
+  h3 .text-muted {
+    font-family: $font-family-serif;
+    font-style: italic;
+    font-size: 45%;
+    font-weight: bold;
+    color: $ogf-slate-light;
+  }
+
+  .document-info {
+    font-family: $font-family-sans-serif;
+    color: $ogf-slate-light;
+    font-size: 80%;
+    font-weight: bold;
+    padding-top: $padding-base-vertical;
+
+    small {
+      padding: 0 ($grid-gutter-width / 3);
+
+      &:first-child {
+        padding-left: 0;
+      }
+    }
+  }
+
+}
+
+@media only screen and (min-width: 992px) {
+  .document-grid {
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+}

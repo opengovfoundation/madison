@@ -1,0 +1,37 @@
+$ogf-blue: #1C64AC;
+$ogf-light-blue: #3C74AC;
+$ogf-dark-blue: #1C3650;
+$ogf-blue-white: #F3F7FB;
+$ogf-blue-gray: #E8EBED;
+$ogf-red: #A92B2B;
+$ogf-yellow: #CAD654;
+$ogf-slate: #54616C;
+$ogf-slate-light: lighten($ogf-slate, 30%);
+
+$brand-primary: $ogf-blue;
+
+$font-size-base: 16px;
+
+$font-family-sans-serif: 'Poppins', "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-serif: 'Droid Sans', Georgia, "Times New Roman", Times, serif;
+$font-family-base: $font-family-serif;
+
+$headings-font-family: $font-family-sans-serif;
+$headings-font-weight: 700;
+$headings-color: $ogf-dark-blue;
+
+$padding-base-vertical: 8px;
+$padding-base-horizontal: 14px;
+
+$border-radius-base: 0;
+$border-radius-large: 0;
+$border-radius-small: 0;
+
+$breadcrumb-padding-horizontal: 0;
+$breadcrumb-bg: transparent;
+$breadcrumb-color: $ogf-slate-light;
+$breadcrumb-active-color: $ogf-dark-blue;
+$breadcrumb-separator: "\00BB";
+
+$jumbotron-color: white;
+$jumbotron-bg: $ogf-dark-blue;

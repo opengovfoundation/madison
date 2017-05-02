@@ -1,0 +1,8 @@
+.featured .document-card {
+  h3 {
+    font-size: $font-size-h3 + ($font-size-h3 * 0.2);
+  }
+  .document-info {
+    font-size: $font-size-base;
+  }
+}

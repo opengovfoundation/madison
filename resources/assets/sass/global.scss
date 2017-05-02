@@ -1,0 +1,257 @@
+.nav {
+  font-family: $font-family-sans-serif;
+  font-weight: bold;
+}
+
+.nav li .separator {
+  margin: 0 $nav-link-padding;
+  border-right: 1px solid #DBDBDB;
+  line-height: 3em;
+}
+
+.title-underline-thick {
+  padding-bottom: calc( #{$line-height-computed} - 5px );
+  border-bottom: 10px solid $gray-darker;
+  margin-bottom: calc( #{$line-height-computed} - 5px );
+
+}
+
+.title-underline-medium {
+  padding-bottom: calc( #{0.5 * $line-height-computed} - 3px );
+  border-bottom: 6px solid $gray-darker;
+  margin-bottom: calc( #{0.5 * $line-height-computed} - 3px );
+
+}
+
+.title-underline-thin {
+  padding-bottom: 0.5 * $line-height-computed;
+  border-bottom: 1px solid $gray-darker;
+  margin-bottom: calc( #{0.5 * $line-height-computed} - 1px);
+
+}
+
+.btn,
+.select2-container,
+form {
+  font-family: $font-family-sans-serif;
+}
+
+.small-caps {
+  font-size: 90%;
+  line-height: $line-height-computed;
+  text-transform: uppercase;
+}
+
+.small {
+  font-size: 75%;
+}
+
+.inline {
+  display: inline;
+}
+
+.btn-simple {
+  color: lighten($gray-light, 20%);
+  background: transparent;
+
+  &:hover,
+  &:focus {
+    color: $link-color;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    box-shadow: none;
+    color: $link-color;
+  }
+}
+
+.alt-link {
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: $ogf-yellow;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $ogf-yellow;
+  }
+}
+
+.breadcrumb {
+  font-family: $font-family-sans-serif;
+}
+
+footer.nav {
+  padding-bottom: 30px;
+}
+
+// Overlay shadows
+%simple-shadow {
+  box-shadow: 0 0 5px 0 rgba(0,0,0,0.9);
+}
+
+#content {
+  background-color: white;
+  position: relative;
+
+  .dark-content & {
+    background-color: transparent;
+    padding-bottom: 0;
+  }
+
+  padding-top: $line-height-computed;
+  padding-bottom: $line-height-computed;
+}
+
+#main-nav {
+  margin-bottom: 0;
+  padding: 18px;
+  background-color: white;
+
+  border-bottom: 2px solid #C4C8CD;
+  box-shadow: 0 2px #E5E5E5;
+
+  .dark-content & {
+    border-bottom: none;
+    box-shadow: none;
+  }
+
+  .navbar-brand {
+    font-family: $font-family-serif;
+    color: $ogf-dark-blue;
+    font-weight: bold;
+    font-size: 1.9em;
+  }
+
+  .navbar-form .input-group .btn,
+  .navbar-form .input-group .form-control {
+    border-radius: 0;
+    border: 0;
+    box-shadow: none;
+    background: none;
+  }
+
+  .navbar-form .input-group {
+    background: $ogf-blue-gray;
+
+    input {
+      font-family: $font-family-serif;
+      padding-left: 0;
+    }
+  }
+
+  .dropdown a {
+    &:link, &:visited, &:active, &:hover {
+      & .caret { color: $ogf-red; }
+    }
+  }
+
+  .navbar-toggle {
+    background-color: #32608E;
+
+    .icon-bar {
+      background-color: white;
+    }
+  }
+}
+
+@media only screen and (max-width: $screen-sm-min) {
+  #main-nav .navbar-form {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.page-header {
+  border: 0;
+
+  h1 {
+    color: $ogf-slate;
+
+    @media only screen and (min-width: $screen-sm-min) {
+      font-size: 60px;
+    }
+  }
+}
+
+.pagination-showing,
+.pagination {
+  font-family: $font-family-sans-serif;
+}
+
+.pagination-showing {
+  margin-top: $padding-base-vertical * 2;
+}
+
+.pagination {
+  font-weight: bold;
+}
+
+#main-footer {
+  padding-top: 60px;
+  padding-bottom: 60px;
+
+  footer {
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
+    display: flex;
+
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+
+    .logo {
+      width: 160px;
+      height: 160px;
+    }
+
+    ul {
+      margin-left: auto;
+      padding-left: 0;
+
+      li {
+        display: inline-block;
+      }
+
+      li + li {
+        margin-left: 15px;
+      }
+    }
+
+    @media only screen and (max-width: $screen-sm-min) {
+      -ms-flex-direction: column-reverse;
+      -webkit-flex-direction: column-reverse;
+      flex-direction: column-reverse;
+
+      ul {
+        margin-bottom: 60px;
+        margin-left: 0;
+        text-align: center;
+      }
+    }
+  }
+}
+
+body {
+  background-color: $ogf-dark-blue;
+}
+
+// https://www.lullabot.com/articles/importing-css-breakpoints-into-javascript
+body:before {
+  content: 'xs';
+  display: none; /* Prevent from displaying. */
+}
+
+@media (min-width: $screen-sm-min) {
+  body:before { content: 'sm'; }
+}
+
+@media (min-width: $screen-md-min) {
+  body:before { content: 'md'; }
+}
+
+@media (min-width: $screen-lg-min) {
+  body:before { content: 'lg'; }
+}

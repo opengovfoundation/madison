@@ -37,13 +37,13 @@ Guidelines](#contributing). Pull requests welcome!
 
 ## Installation
 
-Madison is build on top of [Laravel v.5.1](http://laravel.com/docs/5.1) and uses
+Madison is build on top of [Laravel v.5.3](http://laravel.com/docs/5.3) and uses
 many of configuration tools that Laravel provides ( specifically its [`.env`
-files](https://laravel.com/docs/5.1#environment-configuration) )
+files](https://laravel.com/docs/5.3#environment-configuration) )
 
 ### .env file
 
-Regardless of your configuration method, you'll need to setup a `server/.env`
+Regardless of your configuration method, you'll need to setup a `.env`
 file for the application in the document root directory.  We have included a
 sample file, `.env.example`.  You can find more details about [configuring
 Laravel in the Laravel
@@ -69,7 +69,7 @@ are the values you will need to set:
 
 #### Storage settings
 
-* `DB_DRIVE`: The database engine to use, probably `MySQL` or `Postgres`.
+* `DB_CONNECTION`: The database engine to use, probably `MySQL` or `Postgres`.
   You can use `SQLite` but we don't recommend it or support it.
 * `DB_HOST`: The hostname of your database.
 * `DB_DATABASE`: The database name.
@@ -127,21 +127,11 @@ logging in.  These options include:
     * *Unpublished*: Only accessible by the sponsor of the document
     * *Private*: Not listed on the front page, but accessible by anyone who has
       the direct link
-* `Verify Accounts`
-  * Verified users are presented as such on the public facing side of the
-    application.  This is a way to separate notable accounts from the average
-    registrant.
-  * Users request verified status from their `Account Settings` page and must
-    be approved by a site admin.
-* `Verify Groups`
-  * Groups can be used for different organizations, legislative offices, etc.
-    Users request to create a group from their `Group Management` page and must
-    be approved by an admin.  Groups have the ability to post new documents on Madison.
-* `Verify Independent Sponsors`
-  * Users to want to publish documents but are not part of a group can request
-    `Independent Sponsor` status. They do this from their `Account Settings`
-    page and must be verified by an admin.  After verification, they will be
-    able to post new documents on Madison.
+* `Verify Sponsors`
+  * Sponsors can be used for different organizations, legislative offices, or
+    individuals.  Users request to create a sponsor from their `Sponsor
+    Management` page and must be approved by an admin.  Sponsors have the
+    ability to post new documents on Madison.
 * `Administrative Notification Settings`
   * Site admins may want to be notified when activity is happening on their
     installation.  This page allows them to subscribe to email notifications for
@@ -176,47 +166,24 @@ which overrides variables and styles.
 
 ## Architecture and Development Notes
 
-### Single Page Application Architecture
-
-Madison uses a [Single Page Application](https://en.wikipedia.org/wiki/Single-page_application)
-architecture
-
-* The API side is served from the Laravel application in the `server` folder.
-* The client is entirely served from the code in the `client` folder.
+Madison is a fairly standard Laravel application.
 
 ## Localization
 
-Madison has internationalization support, and but currently only has
-localization for US English.  To create a new localization, you just need to
-create a new language file in `public/locales` that matches the name of your
-language, and then add suitable translations for all the phrases in the English
-file.
-
-Madison uses the Angular-Translate plugin for frontend translation.  As a result, there are a few oddities:
-
-* In most cases, we're using [the `translate`
-  directive](http://angular-translate.github.io/docs/#/guide/05_using-translate-directive),
-  which results in the content being hidden until it's translated. This also
-  means that html is rendered properly, so it may be used safely in your
-  translations.  The major exception to this is for any html-attribute text
-  that's translated, such as `placeholder` attributes; in these cases, we're
-  using [the `translate`
-  filter](http://angular-translate.github.io/docs/#/guide/04_using-translate-filter)
-  instead.
-
-* In a few places, we need to deal with fancy pluralization/language rules, so
-  we're using [the MessageFormat
-  syntax](http://angular-translate.github.io/docs/#/guide/14_pluralization) in
-  those cases.  In most places, we're using standard interpolation.  This is a
-  bit inconsistent, unfortunately - be careful when creating new locales.
-
-* There are a few outstanding localization issues on the server-side, all
-  covered here: https://github.com/opengovfoundation/madison/issues/513
+* Make a new directory for the language you want to add support for under
+  `resources/assets/lang` and copy the files from `resources/assets/lang/en`
+  into it.
+* Open each PHP file in the new directory and translate the values of each array
+  element into the language you're interested in. Note, only translate the
+  *values*, do not change the keys of the elements as that will break the
+  lookup of the translation.
 
 We encourage you to create new locale files and submit them back to the project!
 We hope to support many languages in the future.
 
 ### Annotations
+
+TODO: update
 
 * Madison uses [AnnotatorJS](http://annotatorjs.org/) as its Annotation engine.
   This library is only loaded on document pages.
@@ -231,45 +198,6 @@ We hope to support many languages in the future.
   front-end annotation functionality.  This service is injected into Annotator
   when it is instantiated and allows communication between the Angular
   application and Annotator.
-
-### Authentication / Authorization
-
-* `client/app/js/services/authService` handles all authentication /
-  authorization for the front-end.
-  * This service keeps the user updated via its `getUser` method which pulls
-    the current user session from Laravel.
-* All page-level authorizations are handled in `client/app/js/routes.js` in the
-  `authorizedRoles` data attribute.  These are set when the user logs in.
-* All user session data is stored and shared across the app via the
-  `client/app/js/services/sessionService`.
-* All app constants ( events and user roles ) can be found in `client/app/js/constants.js`
-
-### Templates
-*All templates are in the `client/app/templates` directory.*
-**Disclaimer: We're still working on getting these organized.**
-
-* `templates/directives`: This directory is for anything being loaded via `templateUrl` in a directive.
-* `templates/partials`: This directory is for anything that is included as ng-include as a partial for a view
-* `templates/pages`: This directory is for page views being loaded in `routes.js`
-
-
-### Helpers
-
-We've created a couple helper components devs should be aware of
-
-* Server Side Notifications
-  * The front-end is set up to automatically present notifications handled by
-    the controller helper method `growlMessage($messages, $severity, $params)`
-    which can be found in the `app/controllers/BaseController` class.
-    * `$messages` is an array of message texts
-    * `$severity` is the severity of the messages to pass (`error`, `success`, `info`)
-    * `$params` is an array of any extra data needed to pass in the JSON response.
-* Front-end helpers
-  * `modalService` can be used any time a modal needs to be displayed
-  * `prompts` module can be used to add prompt bars at the top of the main content
-    * eg. `prompts.info(<html-content>)`
-  * `loginPopupService` can be used to display the login modal
-
 
 ## Contributing
 
@@ -288,16 +216,17 @@ Please include a descriptive message ( and if possible an issue link ) with each
 
 #### Vagrant
 We supply a `Vagrantfile` which should get a working development environment
-running without much fuss.
+running without much fuss. This is created via [Homestead](https://laravel.com/docs/5.3/homestead).
 
-For the Vagrant setup to work, you `.env` settings need to be:
+For the Vagrant setup to work, your `.env` settings need to be:
 
 ```
-DB_HOST=localhost
-DB_DATABASE=madison
-DB_USERNAME=root
-DB_PASSWORD=''
-COOKIE_DOMAIN=''
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=homestead
+DB_USERNAME=homestead
+DB_PASSWORD=secret
 ```
 
 Once those are set
@@ -305,13 +234,8 @@ up [install Vagrant](https://www.vagrantup.com/docs/installation/)
 and [VirtualBox](https://www.virtualbox.org/) then run `vagrant up` and wait a
 bit.
 
-When it is done you should be able to open `localhost:8080` in your browser and
-see Madison. `localhost:8080` serves the "production" build of the client
-(`client/build`), which means anytime you make a change to the client side code
-you need to run `make build-client` in order to see the changes.
-`localhost:8081` is also available, serving the "development" build
-(`client/app`) which does not require a full rebuild for code changes to take
-effect.
+When it is done you should be able to open `192.168.10.10` or `localhost:8000`
+in your browser and see Madison.
 
 You can run build commands in the VM (connect with `vagrant ssh` and move to the
 shared folder with `cd /vagrant`) since workable versions of the development
@@ -319,13 +243,10 @@ tools are installed in there. You can also install the development tools locally
 and build there since the directory is shared.
 
 #### Locally
-The [example apache config](docs/apache.conf.example) points the document root
-and client folder to `client/app`. This will serve up the development version of
-the application.
-
-To instead locally test the production built version of the client, change
-`client/app` to `client/build`. You will also need to make sure the client is
-built by running `make build-client`.
+Just running `./artisan serve` will get you going. You will need to setup a
+database corresponding to your settings in `.env` by hand though. You will also
+likely want to run `make watch` while developing to automatically rebuild the
+client whenever changes are made to the SASS or JS files.
 
 ### Build Process
 
@@ -333,14 +254,12 @@ built by running `make build-client`.
   assets.
 * You must have [composer](https://getcomposer.org/) and
   [npm](https://www.npmjs.com/) installed to install client and server
-  dependensies.
-* All client tasks are found in the `client/tasks` directory.
+  dependencies.
 * To build the application, run `make`. This will run `make deps` and `make
-  build-client`. What happens is:
-  * Server: composer dependencies are installed
-  * Server: composer dumps the autoload
-  * Client: npm dependencies are installed
-  * Client: assets are built into the `client/app/build` folder
+  build`. What happens is:
+  * Composer dependencies are installed
+  * npm install client dependencies
+  * Client files are built into `/public`
 
 ### Roadmap
 
@@ -349,6 +268,9 @@ Milestones](https://github.com/opengovfoundation/madison/milestones).  Please
 see milestone descriptions / issues for an up-to-date roadmap.
 
 ## Changelog
+* `4.0`
+  * Remove Angular client code
+  * Upgrade to Laravel 5.3
 * `3.0`
   * Client and server code has been separated into `client` and `server` folders
   * Built assets are now removed from repo, build happens on deploy

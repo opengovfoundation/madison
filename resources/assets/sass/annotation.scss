@@ -1,0 +1,225 @@
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins/vendor-prefixes";
+
+.annotation-group {
+  position: absolute;
+  cursor: pointer;
+}
+
+.annotation-click-capture {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.2);
+}
+
+.annotation-pane {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  z-index: ($zindex-navbar + 1);
+  background-color: white;
+
+  // Slide in/out
+  @include translate(100%, 0);
+  @include transition-transform($transition-duration $transition-easing);
+  &.active {
+    @extend %simple-shadow;
+    @include translate(0, 0);
+  }
+
+  .title-header {
+    @extend .container;
+    width: 100%;
+  }
+
+  .annotation-list {
+    position: absolute;
+    top: $navbar-height;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    overflow-y: scroll;
+
+    .comment {
+      box-shadow: none;
+    }
+  }
+
+  h2 {
+    @extend .small-caps;
+    font-weight: bold;
+    line-height: (2 * $line-height-computed);
+    margin: 0;
+    display: inline-block;
+  }
+
+  .close {
+    line-height: (2 * $line-height-computed);
+  }
+
+  @media screen and (min-width: $screen-md-min) {
+    width: 40%;
+  }
+}
+
+.annotator-hide { display: none; }
+
+.annotator-adder, .annotator-outer, .annotator-notice, .annotator-filter {
+  z-index: 1000 !important;
+}
+
+.annotator-wrapper .annotator-adder {
+  position: absolute;
+  padding-left: 15px;
+  padding-top: 7px;
+
+  button {
+    @extend .btn;
+    @extend .btn-default;
+    @extend .fa;
+    @extend .fa-pencil;
+
+    // Styling for the pencil
+    &:before {
+      text-indent: 0;
+      color: $gray;
+      font-family: "FontAwesome";
+      position: absolute;
+      top: 6px;
+      left: 8px;
+    }
+
+    text-indent: -9999px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    margin-left: 5px;
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: -40px;
+    left: -20px;
+  }
+}
+
+.annotator-outer.annotator-editor {
+  position: absolute;
+}
+
+.annotator-wrapper .annotator-widget {
+  @extend .panel;
+
+  position: absolute;
+  top: -180px;
+  left: -150px;
+
+  border: 1px solid #eee;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+
+  &:after { background-image: none; }
+
+  .annotator-listing {
+    @extend .panel-body;
+
+    padding-bottom: 0;
+    list-style: none;
+
+    .annotator-item textarea {
+      padding: 0;
+      border: none;
+      width: 300px;
+      min-height: 80px;
+
+      &:focus { outline: none; }
+    }
+  }
+
+  .annotator-controls {
+    @extend .panel-footer;
+
+    a {
+      @extend .btn;
+
+      &.annotator-save {
+        @extend .btn-primary;
+        float: right;
+      }
+      &.annotator-cancel {
+        @extend .btn-default;
+      }
+    }
+  }
+
+}
+
+.annotator-notice {
+  @extend .alert;
+
+  position: fixed;
+  top: -54px;
+  left: 0;
+
+  width: 100%;
+  text-align: center;
+
+  .ie6 & {
+    position: absolute;
+  }
+
+}
+
+.annotator-notice-success {
+  @extend .alert-success;
+}
+
+.annotator-notice-error {
+  @extend .alert-danger;
+}
+
+.annotator-notice-show {
+  top: 0;
+}
+
+.annotator-hl {
+  background: rgba(255,255,10,0.3);
+  cursor: pointer;
+}
+
+.annotator-hl-temporary {
+  background: rgba(0,124,255,0.3);
+}
+
+.annotator-hl-active {
+  background: rgba(255,255,10,0.8);
+}
+
+.annotator-hl-filtered {
+  background-color: transparent;
+}
+
+.mobile-annotation-message {
+  display: none;
+}
+
+// Mobile phone-sizes
+@media only screen and (max-width: $screen-sm-min) {
+  .mobile-annotation-message {
+    display: block;
+    margin: $line-height-computed 0;
+    font-style: italic;
+  }
+
+  // Hide bubbles
+  .annotation-group {
+    display: none;
+  }
+
+  // Hide all inline annotations for now.
+  .annotator-outer,
+  .annotator-adder {
+    display: none !important;
+  }
+}
