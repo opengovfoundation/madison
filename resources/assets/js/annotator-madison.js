@@ -276,7 +276,7 @@ $.extend(Annotator.Plugin.Madison.prototype, new Annotator.Plugin(), {
       }
 
       // Count replies
-      annotationGroups[annotationParentId].commentCount += annotation.comments_count;
+      annotationGroups[annotationParentId].commentCount += annotation.comments_count || annotation.comments.length;
 
       annotationGroups[annotationParentId].annotations.push(annotation);
     }, this);
