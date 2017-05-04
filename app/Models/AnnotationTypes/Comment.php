@@ -2,8 +2,8 @@
 
 namespace App\Models\AnnotationTypes;
 
+use App;
 use Cache;
-use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -39,7 +39,7 @@ class Comment extends Model
                 return Cache::get($cacheKey);
             }
 
-            $html = Markdown::convertToHtml($this->content);
+            $html = App::make('comment_markdown')->convertToHtml($this->content);
             Cache::forever($cacheKey, $html);
 
             return $html;

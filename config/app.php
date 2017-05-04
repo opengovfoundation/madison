@@ -177,6 +177,7 @@ return [
         App\Providers\AnnotationsServiceProvider::class,
         App\Providers\DocumentsServiceProvider::class,
         App\Config\SiteConfigServiceProvider::class,
+        App\Providers\CommentMarkdownServiceProvider::class,
 
         /**
          * Vendor Providers...
