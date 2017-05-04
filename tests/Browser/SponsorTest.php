@@ -327,7 +327,7 @@ class SponsorTest extends DuskTestCase
                 ->with('tr#user-' . $owner->id, function ($userRow) use ($originalRole, $newRole) {
                     $userRow->select('role', $newRole);
                 })
-                ->assertSeeIn('.alert', trans('messages.sponsor_member.need_owner'))
+                ->assertSeeIn('.alert:not(.browser-support)', trans('messages.sponsor_member.need_owner'))
                 ->assertSeeIn('tr#user-' . $owner->id, trans('messages.sponsor_member.roles.' . $originalRole))
                 ;
         });

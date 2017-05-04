@@ -22,6 +22,7 @@ elixir((mix) => {
           'node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
           'node_modules/select2/dist/js/select2.min.js',
           'resources/assets/vendor/js/annotator-full.min.js',
+          'resources/assets/vendor/js/modernizr-custom.js',
          ],
          'public/js/vendor.js'
        )

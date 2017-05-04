@@ -47,6 +47,8 @@ return [
     'relevance_ordering_warning' => 'Ordering by relevance only works with a search query, default order has been used.',
     'manage' => 'Manage',
 
+    'browser_support_banner' => 'Your browser does not support needed features for Madison to function properly. Please upgrade to a modern browser.',
+
     // Authentication Stuff
     'password' => 'Password',
     'confirm_password' => 'Confirm Password',

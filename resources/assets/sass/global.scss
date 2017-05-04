@@ -92,6 +92,14 @@ footer.nav {
   box-shadow: 0 0 5px 0 rgba(0,0,0,0.9);
 }
 
+.no-flexbox,
+.no-cssvhunit,
+.no-cssvwunit {
+  .alert.browser-support {
+    display: block !important;
+  }
+}
+
 #content {
   background-color: white;
   position: relative;

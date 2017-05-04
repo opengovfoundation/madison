@@ -164,6 +164,10 @@
 
         <div id="content">
             <div class="container">
+                <div class="alert alert-warning alert-important browser-support hidden" role="alert">
+                    @lang('messages.browser_support_banner')
+                </div>
+
                 @if (Auth::check() && Auth::user()->token)
                     <div class="alert alert-info alert-important" role="alert">
                         @php ($resendLink = route('users.resend_email_verification', Auth::user()))
