@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use App\Models\DocContent as DocumentContent;
+use App\Models\User;
 use App\Services\SearchQueryCompiler;
 use App\Traits\RootAnnotatableHelpers;
 use GrahamCampbell\Markdown\Facades\Markdown;
@@ -311,6 +312,14 @@ class Doc extends Model
     public function doc_meta()
     {
         return $this->hasMany('App\Models\DocMeta');
+    }
+
+    public function userIsSponsor(User $user)
+    {
+        $documentSponsorIds = $this->sponsors()->pluck('id')->toArray();
+        $userSponsorIds = $user->sponsors()->pluck('sponsors.id')->toArray();
+
+        return array_intersect($documentSponsorIds, $userSponsorIds) !== [];
     }
 
     public static function prepareCountsAndDates($docs = [])

@@ -44,7 +44,7 @@ class DocumentPageTest extends DuskTestCase
         $this->note2 = FactoryHelpers::addNoteToDocument($this->sponsorUser, $this->document, $secondWord);
 
         $this->comment1 = FactoryHelpers::createComment($this->sponsorUser, $this->document);
-        $this->comment2 = FactoryHelpers::createComment($this->sponsorUser, $this->document);
+        $this->comment2 = FactoryHelpers::createComment($this->user, $this->document);
 
         $this->commentReply = FactoryHelpers::createComment($this->sponsorUser, $this->comment1);
 
@@ -162,6 +162,24 @@ class DocumentPageTest extends DuskTestCase
                 ->openNotesPane()
                 ->assertSeeNote($this->note1)
                 ->assertSeeNote($this->note2)
+                ;
+        });
+    }
+
+    public function testSponsorCommentsHaveSponsorBadge()
+    {
+        $comment1Selector = DocumentPage::commentSelector($this->comment1);
+        $comment2Selector = DocumentPage::commentSelector($this->comment2);
+
+        $this->browse(function ($browser) use ($comment1Selector, $comment2Selector) {
+            $browser
+                ->visit($this->page)
+                ->with($comment1Selector, function ($commentDiv) {
+                    $commentDiv->assertVisible('span.sponsor-badge');
+                })
+                ->with($comment2Selector, function ($commentDiv) {
+                    $commentDiv->assertMissing('span.sponsor-badge');
+                })
                 ;
         });
     }

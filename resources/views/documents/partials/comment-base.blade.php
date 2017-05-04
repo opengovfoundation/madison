@@ -5,7 +5,9 @@
 
     <div class="media-body media-middle">
         <h4 class="media-heading">
-            {{ $comment->user->display_name }}
+            <span class="{{ ($comment->rootAnnotatable && $comment->rootAnnotatable->userIsSponsor($comment->user)) ? 'sponsor-badge' : '' }}">
+                {{ $comment->user->display_name }}
+            </span>
             <br>
 
             <a href="{{ $comment->getLink() }}"
