@@ -16,6 +16,7 @@ use App\Models\Annotation;
 use App\Models\Sponsor;
 use App\Models\SponsorMember;
 use App\Models\Role;
+use App\Models\NotificationPreference;
 
 use DB;
 
@@ -36,6 +37,15 @@ class User extends Authenticatable
     protected $hidden = ['password', 'token', 'last_login', 'deleted_at', 'roles', 'remember_token'];
     protected $fillable = ['fname', 'lname', 'email', 'password', 'token'];
     protected $appends = ['display_name'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function($user) {
+            NotificationPreference::setDefaultPreferences($user);
+        });
+    }
 
     /**
      *  getDisplayName.

@@ -171,10 +171,6 @@ class UserTest extends DuskTestCase
     {
         $events = NotificationPreference::getValidNotificationsForUser($user);
 
-        foreach ($events as $eventName => $eventClass) {
-            NotificationPreference::addNotificationForUser($eventName, $user->id);
-        }
-
         $this->browse(function ($browser) use ($user, $events) {
             $page = new NotificationsPage($user);
 

@@ -194,4 +194,13 @@ class NotificationPreference extends Model
             $notification->delete();
         }
     }
+
+    public static function setDefaultPreferences(User $user)
+    {
+        $events = NotificationPreference::getValidNotificationsForUser($user);
+
+        foreach ($events as $eventName => $eventClass) {
+            NotificationPreference::addNotificationForUser($eventName, $user->id);
+        }
+    }
 }
