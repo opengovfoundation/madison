@@ -92,7 +92,7 @@ footer.nav {
   box-shadow: 0 0 5px 0 rgba(0,0,0,0.9);
 }
 
-.no-flexbox,
+.no-flexbox:not(.flexboxtweener),
 .no-cssvhunit,
 .no-cssvwunit {
   .alert.browser-support {
@@ -202,12 +202,8 @@ footer.nav {
   padding-bottom: 60px;
 
   footer {
-    display: -webkit-flexbox;
-    display: -ms-flexbox;
     display: flex;
 
-    -ms-flex-align: center;
-    -webkit-align-items: center;
     align-items: center;
 
     .logo {
@@ -229,8 +225,6 @@ footer.nav {
     }
 
     @media only screen and (max-width: $screen-sm-min) {
-      -ms-flex-direction: column-reverse;
-      -webkit-flex-direction: column-reverse;
       flex-direction: column-reverse;
 
       ul {

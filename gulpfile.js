@@ -11,6 +11,9 @@ const elixir = require('laravel-elixir');
  |
  */
 
+elixir.config.css.autoprefix.options.browsers = ['> 1%', 'last 2 versions', 'Firefox ESR', 'IE >= 10'];
+elixir.config.css.autoprefix.options.remove = false;
+
 elixir((mix) => {
     mix.sass('app.scss')
        .webpack('annotator-madison.js')

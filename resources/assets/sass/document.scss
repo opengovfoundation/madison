@@ -7,22 +7,12 @@
 }
 
 .introtext {
-  $intro-column-count: 2;
-  $intro-column-gap: floor(($grid-gutter-width / 2));
-
-  -moz-column-count: $intro-column-count;
-  -webkit-column-count: $intro-column-count;
-  column-count: $intro-column-count;
-
-  -moz-column-gap: $intro-column-gap;
-  -webkit-column-gap: $intro-column-gap;
-  column-gap: $intro-column-gap;
+  column-count: 2;
+  column-gap: floor(($grid-gutter-width / 2));
 }
 
 @media only screen and (max-width: $screen-sm-min) {
   .introtext {
-    -moz-column-count: 1;
-    -webkit-column-count: 1;
     column-count: 1;
   }
 }
@@ -35,16 +25,10 @@
   border-bottom: 1px solid #C4C8CD;
   box-shadow: 0 6px #E8EBED;
 
-  display: -webkit-flexbox;
-  display: -ms-flexbox;
   display: flex;
 
-  -ms-flex-align: center;
-  -webkit-align-items: center;
   align-items: center;
 
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
   justify-content: center;
 
   .support-btn, .oppose-btn {
@@ -494,8 +478,6 @@ blockquote {
 
 @media only screen and (max-width: $screen-sm-min) {
   .support-btns {
-    -ms-flex-direction: column;
-    -webkit-flex-direction: column;
     flex-direction: column;
 
     .support-btn, .oppose-btn {
