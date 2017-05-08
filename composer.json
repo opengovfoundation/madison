@@ -19,13 +19,14 @@
         "predis/predis": "^1.1",
         "roumen/feed": "~2.10",
         "roumen/sitemap": "2.4.*",
+        "watson/active": "^2.0",
         "zizaco/entrust": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
-        "laravel/homestead": "4.0.x-dev"
+        "laravel/homestead": "^5"
     },
     "autoload": {
         "classmap": [
