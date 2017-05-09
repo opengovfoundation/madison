@@ -35,3 +35,11 @@ $breadcrumb-separator: "\00BB";
 
 $jumbotron-color: white;
 $jumbotron-bg: $ogf-dark-blue;
+
+$fa-font-path: "/fonts";
+
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+// Our custom transition.
+$transition-duration: 0.4s !default;
+$transition-easing: cubic-bezier(.62,.28,.23,.99) !default;

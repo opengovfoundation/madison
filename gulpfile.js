@@ -16,6 +16,7 @@ elixir.config.css.autoprefix.options.remove = false;
 
 elixir((mix) => {
     mix.sass('app.scss')
+       .sass('mail.scss', 'resources/views/vendor/mail/html/themes/opengov.css')
        .webpack('annotator-madison.js')
        .webpack('app.js')
        .webpack('document.js')

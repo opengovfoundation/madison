@@ -115,7 +115,7 @@ return [
     |
     */
     'markdown' => [
-        'theme' => 'default',
+        'theme' => 'opengov',
         'paths' => [
             resource_path('views/vendor/mail'),
         ],

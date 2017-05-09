@@ -44,6 +44,7 @@
 <!-- Subcopy -->
 @if (isset($actionText))
 @component('mail::subcopy')
+
 @lang('messages.notifications.having_trouble', ['actionText' => $actionText])
  [{{ $actionUrl }}]({{ $actionUrl }})
 
