@@ -29,9 +29,56 @@
   }
 
   .settings-sidebar {
-    &.affix {
+    &.affix,
+    &.affix-bottom {
       width: 360px;
-      top: 5px;
+
+      @media only screen and (max-width: $screen-lg-min) {
+        width: 293px;
+      }
+    }
+
+    &.affix { top: 10px; }
+    &.affix-bottom { position: absolute; }
+  }
+
+  .editor-toolbar {
+    border-radius: 0;
+
+    &.affix,
+    &.affix-bottom {
+      position: fixed;
+      z-index: 3;
+      width: 750px;
+      border-bottom: 1px solid #bbb;
+      border-top: 0;
+      background: white;
+      opacity: 1;
+
+      @media only screen and (max-width: $screen-lg-min) {
+        width: 616px;
+      }
+    }
+    &.affix { top: 0; }
+    &.affix-bottom { position: absolute; }
+
+    a.smde-preview {
+      float: right;
+      margin-top: 3px;
+      width: 30%;
+      border-radius: 0;
+
+      &:hover,
+      &:focus,
+      &:active {
+        border: 0;
+        outline: 0;
+      }
+
+      &:after {
+        content: attr(title);
+        float: right;
+      }
     }
   }
 }

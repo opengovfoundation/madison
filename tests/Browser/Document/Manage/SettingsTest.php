@@ -96,14 +96,16 @@ class SettingsTest extends DuskTestCase
                 ->loginAs($user)
                 ->visit($this->page)
                 ->type('title', $newData['title'])
-                ->type('introtext', $newData['introtext'])
+                ->waitForCodeMirror()
+                ->setCodeMirrorTextForField('introtext', $newData['introtext'])
                 ->select('publish_state', $newData['publish_state'])
                 ->select('discussion_state', $newData['discussion_state'])
                 ->click('@submitBtn')
                 ->assertPathIs($this->page->url())
                 ->assertVisible('.alert.alert-info')
+                ->waitForCodeMirror()
                 ->assertInputValue('title', $newData['title'])
-                ->assertInputValue('introtext', $newData['introtext'])
+                ->assertSeeIn(SettingsPage::codeMirrorSelectorForField('introtext'), $newData['introtext'])
                 ->assertSelected('publish_state', $newData['publish_state'])
                 ->assertSelected('discussion_state', $newData['discussion_state'])
                 ;
@@ -114,18 +116,21 @@ class SettingsTest extends DuskTestCase
             $this->assertEquals($newData['publish_state'], $this->document->publish_state);
             $this->assertEquals($newData['discussion_state'], $this->document->discussion_state);
 
+            $browser->driver->executeScript('document.getElementById("add-page-form").submit();');
             $browser
-                ->click('@addPageBtn')
+                //->click('@addPageBtn')
                 ->assertPathIs($this->page->url())
                 ->assertQueryStringHas('page', '2')
                 ->assertVisible('.document-pages-toolbar .pagination')
                 ->assertInputValue('page_content', '')
-                ->type('page_content', $newData['new_page_content'])
+                ->waitForCodeMirror()
+                ->setCodeMirrorTextForField('page_content', $newData['new_page_content'])
                 ->click('@submitBtn')
                 ->assertPathIs($this->page->url())
                 ->assertQueryStringHas('page', '2')
                 ->assertVisible('.alert.alert-info')
-                ->assertInputValue('page_content', $newData['new_page_content'])
+                ->waitForCodeMirror()
+                ->assertSeeIn(SettingsPage::codeMirrorSelectorForField('page_content'), $newData['new_page_content'])
                 ;
 
             $this->assertEquals($newData['new_page_content'], $this->document->content()->where('page', 2)->first()->content);

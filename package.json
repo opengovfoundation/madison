@@ -6,13 +6,14 @@
   },
   "devDependencies": {
     "bootstrap-sass": "^3.3.7",
+    "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
     "jquery": "^3.1.0",
     "laravel-elixir": "^6.0.0-14",
     "laravel-elixir-webpack-official": "^1.0.2",
     "lodash": "^4.16.2",
-    "font-awesome": "^4.7.0",
     "select2": "^4.0.3",
-    "select2-bootstrap-theme": "0.1.0-beta.9"
+    "select2-bootstrap-theme": "0.1.0-beta.9",
+    "simplemde": "^1.11.2"
   }
 }

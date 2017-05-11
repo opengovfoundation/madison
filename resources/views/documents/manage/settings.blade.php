@@ -81,19 +81,69 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ elixir('js/document-edit.js') }}"></script>
     <script>
-        autoHeightTextarea($('textarea[name="title"]')[0]);
-        autoHeightTextarea($('textarea[name="introtext"]')[0]);
+        window.loadTranslations([
+            'messages.preview'
+        ]).then(function () {
+            var introtextSelector = 'textarea[name=introtext]';
+            var contentSelector = 'textarea[name=page_content]';
 
-        // Only set side affix and auto content height on md+ screens
-        if (['xs', 'sm'].indexOf(window.screenSize()) === -1) {
-            let $settingsSidebar = $('.settings-sidebar');
+            var mdeDefaults = {
+                hideIcons: ['fullscreen', 'side-by-side', 'image'],
+                spellChecker: false,
+                status: false,
+                toolbar: [
+                    'heading-1',
+                    'heading-2',
+                    'heading-3',
+                    '|',
+                    'bold',
+                    'italic',
+                    'quote',
+                    'link',
+                    '|',
+                    'unordered-list',
+                    'ordered-list',
+                    '|',
+                    'guide',
+                    {
+                        name: 'preview',
+                        action: SimpleMDE.togglePreview,
+                        className: 'smde-preview no-disable',
+                        title: window.trans['messages.preview']
+                    }
+                ],
+                shortcuts: { 'togglePreview': null } // So the "Ctrl-P" doesn't show up in the label
+            };
+            var introMde = new SimpleMDE(Object.assign(mdeDefaults, {
+                element: document.querySelector(introtextSelector)
+            }));
+            var contentMde = new SimpleMDE(Object.assign(mdeDefaults, {
+                element: document.querySelector(contentSelector)
+            }));
 
-            $settingsSidebar.affix({
-                offset: { top: $settingsSidebar.parent().position().top - 10 }
-            });
+            autoHeightTextarea($('textarea[name="title"]')[0]);
+            autoHeightTextarea($('textarea[name="introtext"]')[0]);
 
-            autoHeightTextarea($('textarea[name="page_content"]')[0]);
-        }
+            // Only perform these things on md+ screens
+            if (['xs', 'sm'].indexOf(window.screenSize()) === -1) {
+                // Affix the settings sidebar
+                let $settingsSidebar = $('.settings-sidebar');
+                $settingsSidebar.affix({
+                    offset: {
+                        top: $settingsSidebar.parent().offset().top - 10,
+                        bottom: $('#main-footer').outerHeight() + 10
+                    }
+                });
+
+                // Match content editor height to content length
+                autoHeightTextarea($('textarea[name="page_content"]')[0]);
+
+                // Affix the markdown editor toolbars
+                affixMarkdownToolbar(introtextSelector);
+                affixMarkdownToolbar(contentSelector);
+            }
+        });
     </script>
 @endpush

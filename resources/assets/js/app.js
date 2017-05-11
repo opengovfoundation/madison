@@ -42,17 +42,6 @@ window.redirectToLogin = function() {
   window.location.href = '/login?redirect='+window.location.pathname;
 };
 
-// http://stackoverflow.com/a/37192700/738052
-window.autoHeightTextarea = function(textarea) {
-  $(textarea)
-    .each(function () { adjustHeight(this); })
-    .on('input', function () { adjustHeight(this); });
-
-  function adjustHeight(ctrl) {
-    $(ctrl).css({'height':'auto','overflow-y':'hidden'}).height(ctrl.scrollHeight);
-  }
-};
-
 // https://www.lullabot.com/articles/importing-css-breakpoints-into-javascript
 window.screenSize = function () {
   return window
