@@ -3,9 +3,9 @@
 namespace App\Notifications;
 
 use App\Models\Annotation;
+use App\Notifications\Messages\MailMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class CommentLiked extends Notification implements ShouldQueue
 {
@@ -50,7 +50,7 @@ class CommentLiked extends Notification implements ShouldQueue
 
         $url = $this->like->annotatable->getLink();
 
-        return (new MailMessage)
+        return (new MailMessage($this, $notifiable))
                     ->subject(trans(static::baseMessageLocation().'.subject', [
                         'name' => $this->like->user->getDisplayName(),
                         'comment_type' => $parentType,

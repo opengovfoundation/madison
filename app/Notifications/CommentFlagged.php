@@ -3,9 +3,9 @@
 namespace App\Notifications;
 
 use App\Models\Annotation;
+use App\Notifications\Messages\MailMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class CommentFlagged extends Notification implements ShouldQueue
 {
@@ -50,7 +50,7 @@ class CommentFlagged extends Notification implements ShouldQueue
 
         $url = $this->flag->annotatable->getLink();
 
-        return (new MailMessage)
+        return (new MailMessage($this, $notifiable))
                     ->subject(trans(static::baseMessageLocation().'.subject', [
                         'comment_type' => $parentType,
                         'document' => $this->flag->rootAnnotatable->title,

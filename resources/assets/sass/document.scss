@@ -60,16 +60,24 @@
     font-family: $font-family-sans-serif;
     color: $ogf-blue;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: lighten($ogf-blue, 10%);
     }
 
+    &:active,
+    &.active {
+      box-shadow: none;
+    }
+
     &.support:hover,
+    &.support:focus,
     &.support.active {
       border-color: $ogf-blue;
     }
 
     &.oppose:hover,
+    &.oppose:focus,
     &.oppose.active {
       border-color: $ogf-red;
     }

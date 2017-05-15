@@ -11,12 +11,15 @@
                 </div>
                 <div class="panel-body">
                     @foreach($notificationPreferences as $notificationClass => $value)
-                        {{ Form::mInput(
-                               'checkbox',
-                               $notificationClass::getName(),
-                               trans($notificationClass::baseMessageLocation().'.preference_description'),
-                               $value
-                        ) }}
+                        @php($targetNotification = request()->input('notification') === $notificationClass::getName())
+                        <div class="{{ $targetNotification ? 'anchor-target' : '' }}">
+                            {{ Form::mInput(
+                                'checkbox',
+                                $notificationClass::getName(),
+                                trans($notificationClass::baseMessageLocation().'.preference_description'),
+                                $value
+                            ) }}
+                        </div>
                     @endforeach
                 </div>
             </div>

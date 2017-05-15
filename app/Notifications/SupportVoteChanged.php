@@ -4,9 +4,9 @@ namespace App\Notifications;
 
 use App\Models\Doc as Document;
 use App\Models\User;
+use App\Notifications\Messages\MailMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class SupportVoteChanged extends Notification implements ShouldQueue
 {
@@ -73,7 +73,7 @@ class SupportVoteChanged extends Notification implements ShouldQueue
             'document' => $this->document->title,
         ];
 
-        return (new MailMessage)
+        return (new MailMessage($this, $notifiable))
                     ->subject(trans($subject, $args))
                     ->action(trans('messages.notifications.see_document'), $url)
                     ;

@@ -339,4 +339,9 @@ class User extends Authenticatable
             ->orderByRaw("(fname_relevance + lname_relevance + email_relevance) $dir")
             ;
     }
+
+    public function loginTokens()
+    {
+        return $this->hasMany('App\Models\LoginToken');
+    }
 }

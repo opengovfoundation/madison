@@ -3,9 +3,9 @@
 namespace App\Notifications;
 
 use App\Models\Sponsor;
+use App\Notifications\Messages\MailMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class SponsorNeedsApproval extends Notification implements ShouldQueue
 {
@@ -44,7 +44,7 @@ class SponsorNeedsApproval extends Notification implements ShouldQueue
     {
         $url = route('admin.sponsors.index');
 
-        return (new MailMessage)
+        return (new MailMessage($this, $notifiable))
                     ->subject(trans(static::baseMessageLocation().'.subject', ['name' => $this->sponsor->name]))
                     ->action(trans('messages.notifications.review_sponsor'), $url)
                     ;

@@ -3,9 +3,9 @@
 namespace App\Notifications;
 
 use App\Models\Annotation;
+use App\Notifications\Messages\MailMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class CommentCreatedOnSponsoredDocument extends Notification implements ShouldQueue
 {
@@ -38,7 +38,7 @@ class CommentCreatedOnSponsoredDocument extends Notification implements ShouldQu
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return \App\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
@@ -50,7 +50,7 @@ class CommentCreatedOnSponsoredDocument extends Notification implements ShouldQu
 
         $url = $this->comment->getLink();
 
-        return (new MailMessage)
+        return (new MailMessage($this, $notifiable))
                     ->subject(trans(static::baseMessageLocation().'.subject', [
                         'name' => $this->comment->user->getDisplayName(),
                         'comment_type' => $commentType,

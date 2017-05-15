@@ -4,9 +4,9 @@ namespace App\Notifications;
 
 use App\Models\Sponsor;
 use App\Models\User;
+use App\Notifications\Messages\MailMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class RemovedFromSponsor extends UserMembershipChanged
 {
@@ -46,7 +46,7 @@ class RemovedFromSponsor extends UserMembershipChanged
     {
         $url = route('sponsors.show', $this->sponsor);
 
-        return (new MailMessage)
+        return (new MailMessage($this, $notifiable))
                     ->subject(trans(static::baseMessageLocation().'.removed_from_sponsor', [
                         'name' => $this->instigator->getDisplayName(),
                         'sponsor' => $this->sponsor->display_name,

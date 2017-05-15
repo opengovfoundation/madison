@@ -4,9 +4,9 @@ namespace App\Notifications;
 
 use App\Models\SponsorMember;
 use App\Models\User;
+use App\Notifications\Messages\MailMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class UserSponsorRoleChanged extends Notification implements ShouldQueue
 {
@@ -51,7 +51,7 @@ class UserSponsorRoleChanged extends Notification implements ShouldQueue
     {
         $url = route('sponsors.members.index', $this->sponsorMember->sponsor);
 
-        return (new MailMessage)
+        return (new MailMessage($this, $notifiable))
                     ->subject(trans(static::baseMessageLocation().'.subject', [
                         'name' => $this->instigator->getDisplayName(),
                         'sponsor' => $this->sponsorMember->sponsor->display_name,

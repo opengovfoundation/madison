@@ -35,20 +35,23 @@
 
 @endforeach
 
-<!-- Salutation -->
+{{-- Salutation --}}
 @if (! empty($salutation))
 {{ $salutation }}
 @else
 @endif
 
-<!-- Subcopy -->
-@if (isset($actionText))
+{{-- Subcopy --}}
 @component('mail::subcopy')
 
+@if (isset($actionText))
 @lang('messages.notifications.having_trouble', ['actionText' => $actionText])
  [{{ $actionUrl }}]({{ $actionUrl }})
-
-@lang('messages.notifications.unsubscribe')
-@endcomponent
 @endif
+
+@if (isset($unsubscribeMarkdown))
+{!! $unsubscribeMarkdown !!}
+@endif
+
+@endcomponent
 @endcomponent

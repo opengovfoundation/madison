@@ -4,9 +4,9 @@ namespace App\Notifications;
 
 use App\Models\SponsorMember;
 use App\Models\User;
+use App\Notifications\Messages\MailMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class AddedToSponsor extends UserMembershipChanged
 {
@@ -44,7 +44,7 @@ class AddedToSponsor extends UserMembershipChanged
     {
         $url = route('sponsors.documents.index', $this->sponsorMember->sponsor);
 
-        return (new MailMessage)
+        return (new MailMessage($this, $notifiable))
                     ->subject(trans(static::baseMessageLocation().'.added_to_sponsor', [
                         'name' => $this->instigator->getDisplayName(),
                         'sponsor' => $this->sponsorMember->sponsor->display_name,
