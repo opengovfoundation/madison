@@ -29,5 +29,7 @@ class UsersTableSeeder extends Seeder
             'fname' => $creds['unconfirmed_fname'],
             'lname' => $creds['unconfirmed_lname'],
         ]);
+
+        factory(User::class, config('madison.seeder.num_users'))->create();
     }
 }

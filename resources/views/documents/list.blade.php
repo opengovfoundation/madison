@@ -13,18 +13,18 @@
 
     @include('components.errors')
 
-    <div class="modal fade" id="queryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="queryModal" tabindex="-1" role="dialog" aria-labelledby="queryModalLabel">
         <div class="modal-dialog" role="document">
             {{ Form::open(['route' => 'documents.index', 'method' => 'get']) }}
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="{{ trans('messages.close') }}"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">@lang('messages.advanced_search')</h4>
+                        <h4 class="modal-title" id="queryModalLabel">@lang('messages.advanced_search')</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
-                                {{ Form::mInput('text', 'q', trans('messages.search.title')) }}
+                                {{ Form::mInput('text', 'q', trans('messages.search.documents')) }}
                             </div>
                         </div>
                         <div class="row">

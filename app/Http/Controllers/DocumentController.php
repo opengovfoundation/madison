@@ -180,16 +180,6 @@ class DocumentController extends Controller
 
             $totalCount = count(Document::getActiveIds()); // total items possible
         } else {
-            // do the count query first, ordering doesn't matter to it, we
-            // can't just use the normal pagination methods for this due to
-            // how the search query works with it's extra select statements
-            // and havings
-            $totalCount = with(clone $documentsQuery)
-                ->addSelect(\DB::raw('count(*) as count'))
-                ->first()
-                ;
-            $totalCount = $totalCount ? $totalCount->count : 0;
-
             // if a specific sort order wasn't requested and they had a search
             // query, prioritize ordering by search relevance
             if ($request->has('q')
@@ -204,12 +194,13 @@ class DocumentController extends Controller
                 $documentsQuery->orderBy($orderField, $orderDir);
             }
 
-            $orderedAndLimitedDocuments = $documentsQuery
-                ->forPage($page, $limit)
-                ->get()
-                ;
+            $orderedDocuments = $documentsQuery->get();
+            $totalCount = $orderedDocuments->count();
+            $orderedAndLimitedDocuments = $orderedDocuments->forPage($page, $limit);
         }
 
+        // we can't just use the normal pagination methods for this due to
+        // how the search query works with it's extra select statements and havings
         $documents = new LengthAwarePaginator(
             $orderedAndLimitedDocuments,
             $totalCount, // total items possible

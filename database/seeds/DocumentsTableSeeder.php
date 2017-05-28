@@ -12,7 +12,7 @@ class DocumentsTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        $sponsor = Sponsor::find(1);
+        $sponsor = Sponsor::where([ 'status' => Sponsor::STATUS_ACTIVE ])->first();
 
         $documents = factory(Document::class, (int)config('madison.seeder.num_docs'))->create([
             'publish_state' => Document::PUBLISH_STATE_PUBLISHED,

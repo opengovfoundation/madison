@@ -15,6 +15,7 @@ use App\Models\SponsorMember;
 use App\Models\Role;
 use App\Models\Permission;
 use App\Models\User;
+use App\Services\SearchQueryCompiler;
 
 use Log;
 
@@ -365,5 +366,52 @@ class Sponsor extends Model
     public function isActive()
     {
         return $this->status === static::STATUS_ACTIVE;
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        $search = SearchQueryCompiler::compile($search);
+
+        return $query
+            ->selectRaw('
+                sponsors.*,
+                MATCH (sponsors.name) AGAINST (? IN BOOLEAN MODE) as name_relevance,
+                MATCH (sponsors.display_name) AGAINST (? IN BOOLEAN MODE) as display_name_relevance,
+                MATCH (sponsors.address1) AGAINST (? IN BOOLEAN MODE) as address1_relevance,
+                MATCH (sponsors.address2) AGAINST (? IN BOOLEAN MODE) as address2_relevance,
+                MATCH (sponsors.city) AGAINST (? IN BOOLEAN MODE) as city_relevance,
+                MATCH (sponsors.state) AGAINST (? IN BOOLEAN MODE) as state_relevance,
+                MATCH (sponsors.postal_code) AGAINST (? IN BOOLEAN MODE) as postal_code_relevance,
+                MATCH (sponsors.phone) AGAINST (? IN BOOLEAN MODE) as phone_relevance
+            ', [$search, $search, $search, $search, $search, $search, $search, $search])
+            ->having('name_relevance', '>', '0')
+            ->orHaving('display_name_relevance', '>', '0')
+            ->orHaving('address1_relevance', '>', '0')
+            ->orHaving('address2_relevance', '>', '0')
+            ->orHaving('city_relevance', '>', '0')
+            ->orHaving('state_relevance', '>', '0')
+            ->orHaving('postal_code_relevance', '>', '0')
+            ->orHaving('phone_relevance', '>', '0')
+            ;
+    }
+
+    public function scopeOrderByRelevance($query, $dir = 'DESC')
+    {
+        $relevances = [
+            'name_relevance',
+            'display_name_relevance',
+            'address1_relevance',
+            'address2_relevance',
+            'city_relevance',
+            'state_relevance',
+            'postal_code_relevance',
+            'phone_relevance',
+        ];
+
+        $relevancesStr = join($relevances, ' + ');
+
+        return $query
+            ->orderByRaw("($relevancesStr) $dir")
+            ;
     }
 }

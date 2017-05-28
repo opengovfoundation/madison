@@ -6,7 +6,7 @@
     @include('components.breadcrumbs.admin')
 
     <div class="page-header">
-        <h1>{{ trans('messages.admin.admin_label', ['page' => trans('messages.admin.featured_documents')]) }}</h1>
+        <h1>{{ trans('messages.admin.featured_documents') }}</h1>
     </div>
 
     @include('components.errors')

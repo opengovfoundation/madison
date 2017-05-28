@@ -92,7 +92,9 @@ return [
     ],
 
     'search' => [
-        'title' => 'Search all documents',
+        'documents' => 'Search all documents',
+        'users' => 'Search all users',
+        'sponsors' => 'Search all sponsors',
         'placeholder' => 'Search documents',
     ],
 
@@ -236,6 +238,7 @@ return [
 
         'status' => 'Status',
         'statuses' => [
+            'all' => 'All',
             \App\Models\Sponsor::STATUS_ACTIVE => 'Approved',
             \App\Models\Sponsor::STATUS_PENDING => 'Pending',
         ],
@@ -413,7 +416,6 @@ return [
     ],
 
     'admin' => [
-        'admin_label' => 'Site Administration: :page',
         'featured_documents' => 'Featured Documents',
         'manage_users' => 'Manage Users',
         'manage_sponsors' => 'Manage Sponsors',

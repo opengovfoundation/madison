@@ -11,10 +11,15 @@ class AnnotationsTableSeeder extends Seeder
 {
     public function run()
     {
-        $regularUser = User::find(1);
-        $adminUser = User::find(2);
-        $users = collect([$regularUser, $adminUser]);
+        $unverifiedUser = User::where('token', '!=', '')->first();
+
+        $allUsers = User::all();
+        $users = $allUsers->reject(function ($user) use ($unverifiedUser) {
+            return $user == $unverifiedUser;
+        });
+
         $docs = Document::all();
+
         $annotationService = App::make('App\Services\Annotations');
 
         foreach ($docs as $doc) {

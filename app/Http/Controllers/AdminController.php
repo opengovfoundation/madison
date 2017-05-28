@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Sponsor;
 use App\Http\Requests\Admin as Requests;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use SiteConfigSaver;
 
 class AdminController extends Controller
@@ -20,15 +22,98 @@ class AdminController extends Controller
 
     public function usersIndex(Requests\Users\Index $request)
     {
-        $users = User::all();
+        $usersQuery = User::query();
+
+        if ($request->has('q')) {
+            $usersQuery->search($request->get('q'));
+        }
+
+        $limit = $request->input('limit', 12);
+        $page = $request->input('page', 1);
+        $orderField = $request->input('order', 'updated_at');
+        $orderDir = $request->input('order_dir', 'DESC');
+
+        if ($request->has('q')
+            && (!$request->has('order') || $orderField === 'relevance')
+        ) {
+            $usersQuery->orderByRelevance();
+        } elseif ($orderField === 'relevance' && !$request->has('q')) {
+            // relevance ordering only makes sense with a query
+            flash(trans('messages.relevance_ordering_warning'));
+            $usersQuery->orderBy('updated_at', 'desc');
+        } else {
+            $usersQuery->orderBy($orderField, $orderDir);
+        }
+
+        $orderedUsers = $usersQuery->get();
+        $totalCount = $orderedUsers->count();
+        $orderedAndLimitedUsers = $orderedUsers->forPage($page, $limit);
+
+        $users = new LengthAwarePaginator(
+            $orderedAndLimitedUsers,
+            $totalCount, // total items possible
+            $limit,
+            $page,
+            [
+                'path' => Paginator::resolveCurrentPath(),
+                'pageName' => 'page'
+            ]
+        );
+
         return view('admin.manage-users', compact('users'));
     }
 
     public function sponsorsIndex(Requests\Sponsors\Index $request)
     {
-        $limit = $request->input('limit', 10);
-        $sponsors = Sponsor::paginate($limit);
-        return view('admin.manage-sponsors', compact('sponsors'));
+        $sponsorsQuery = Sponsor::query();
+
+        if ($request->has('q')) {
+            $sponsorsQuery->search($request->get('q'));
+        }
+
+        if ($request->has('status')) {
+            $sponsorsQuery->where('status', $request->input('status'));
+        }
+
+        $limit = $request->input('limit', 12);
+        $page = $request->input('page', 1);
+        $orderField = $request->input('order', 'updated_at');
+        $orderDir = $request->input('order_dir', 'DESC');
+
+        if ($request->has('q')
+            && (!$request->has('order') || $orderField === 'relevance')
+        ) {
+            $sponsorsQuery->orderByRelevance();
+        } elseif ($orderField === 'relevance' && !$request->has('q')) {
+            // relevance ordering only makes sense with a query
+            flash(trans('messages.relevance_ordering_warning'));
+            $sponsorsQuery->orderBy('updated_at', 'desc');
+        } else {
+            $sponsorsQuery->orderBy($orderField, $orderDir);
+        }
+
+        $orderedSponsors = $sponsorsQuery->get();
+        $totalCount = $orderedSponsors->count();
+        $orderedAndLimitedSponsors = $orderedSponsors->forPage($page, $limit);
+
+        $sponsors = new LengthAwarePaginator(
+            $orderedAndLimitedSponsors,
+            $totalCount, // total items possible
+            $limit,
+            $page,
+            [
+                'path' => Paginator::resolveCurrentPath(),
+                'pageName' => 'page'
+            ]
+        );
+
+        $statuses = collect(['' => trans('messages.sponsor.statuses.all')]);
+        collect(Sponsor::getStatuses())
+            ->each(function ($status) use ($statuses) {
+                $statuses->put($status, trans('messages.sponsor.statuses.'.$status));
+            })
+            ;
+        return view('admin.manage-sponsors', compact('sponsors', 'statuses'));
     }
 
     public function sponsorsPutStatus(Requests\Sponsors\PutStatus $request, Sponsor $sponsor)

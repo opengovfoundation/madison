@@ -17,6 +17,7 @@ use App\Models\Sponsor;
 use App\Models\SponsorMember;
 use App\Models\Role;
 use App\Models\NotificationPreference;
+use App\Services\SearchQueryCompiler;
 
 use DB;
 
@@ -313,5 +314,29 @@ class User extends Authenticatable
     {
         $gravatarHash = md5(strtolower(trim($this->email ?: $this->display_name)));
         return "https://www.gravatar.com/avatar/$gravatarHash?s=45&d=mm";
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        $search = SearchQueryCompiler::compile($search);
+
+        return $query
+            ->selectRaw('
+                users.*,
+                MATCH (users.fname) AGAINST (? IN BOOLEAN MODE) as fname_relevance,
+                MATCH (users.lname) AGAINST (? IN BOOLEAN MODE) as lname_relevance,
+                MATCH (users.email) AGAINST (? IN BOOLEAN MODE) as email_relevance
+            ', [$search, $search, $search])
+            ->having('fname_relevance', '>', '0')
+            ->orHaving('lname_relevance', '>', '0')
+            ->orHaving('email_relevance', '>', '0')
+            ;
+    }
+
+    public function scopeOrderByRelevance($query, $dir = 'DESC')
+    {
+        return $query
+            ->orderByRaw("(fname_relevance + lname_relevance + email_relevance) $dir")
+            ;
     }
 }

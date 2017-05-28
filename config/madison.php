@@ -17,6 +17,11 @@ return [
         'unconfirmed_lname' => 'Doe',
         'unconfirmed_password' => 'password',
 
+        'num_users' => env('SEEDER_NUM_USERS', 20),
+
+        'num_active_sponsors' => env('SEEDER_NUM_ACTIVE_SPONSORS', 10),
+        'num_pending_sponsors' => env('SEEDER_NUM_PENDING_SPONSORS', 5),
+
         'num_docs' => env('SEEDER_NUM_DOCS', 5),
         'num_comments_per_doc_min' => env('SEEDER_NUM_COMMENTS_MIN', 1),
         'num_comments_per_doc_max' => env('SEEDER_NUM_COMMENTS_MAX', 50),

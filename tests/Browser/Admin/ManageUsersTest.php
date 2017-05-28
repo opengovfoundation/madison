@@ -51,4 +51,21 @@ class ManageUsersTest extends AdminTestCase
             $this->assertFalse($this->user->isAdmin());
         });
     }
+
+    public function testSearchUsers()
+    {
+        $this->browse(function ($browser) {
+            $browser
+                ->loginAs($this->admin)
+                ->visit(new Admin\ManageUsersPage)
+                ->press(trans('messages.advanced_search'))
+                ->waitFor('#queryModal')
+                ->pause(500)
+                ->type('#q', $this->user->fname)
+                ->press(trans('messages.submit'))
+                ->assertSee($this->user->email)
+                ->assertDontSee($this->admin->email)
+                ;
+        });
+    }
 }
