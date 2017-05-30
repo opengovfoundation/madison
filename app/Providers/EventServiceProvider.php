@@ -37,6 +37,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SponsorMemberRoleChanged' => [
             'App\Listeners\SponsorMemberRoleChangedNotification',
         ],
+        'App\Events\SponsorStatusChanged' => [
+            'App\Listeners\SponsorStatusChangedNotification',
+        ],
         'App\Events\SupportVoteChanged' => [
             'App\Listeners\SupportVoteChangedNotification',
         ],

@@ -3,11 +3,13 @@
 namespace App\Listeners;
 
 use App\Events\SponsorCreated;
+use App\Mail\SponsorOnboarding;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\SponsorNeedsApproval;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Mail;
 use Notification;
 
 class SponsorCreatedNotification implements ShouldQueue
@@ -21,7 +23,9 @@ class SponsorCreatedNotification implements ShouldQueue
     public function handle(SponsorCreated $event)
     {
         $admins = User::findByRoleName(Role::ROLE_ADMIN);
+        Notification::send($admins, new SponsorNeedsApproval($event->sponsor, $event->user));
 
-        Notification::send($admins, new SponsorNeedsApproval($event->sponsor));
+        Mail::to($event->user)
+            ->send(new SponsorOnboarding\Prepare($event->user));
     }
 }

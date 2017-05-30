@@ -10,6 +10,7 @@ use App\Models\Sponsor;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
+use GrahamCampbell\Markdown\Facades\Markdown;
 
 class SponsorController extends Controller
 {
@@ -20,8 +21,8 @@ class SponsorController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except(['info']);
-        $this->middleware(UnapprovedSponsorRedirect::class)->except(['info', 'awaitingApproval']);
+        $this->middleware('auth')->except(['info', 'guide']);
+        $this->middleware(UnapprovedSponsorRedirect::class)->except(['info', 'awaitingApproval', 'guide']);
     }
 
     /**
@@ -30,6 +31,15 @@ class SponsorController extends Controller
     public function info(Request $request)
     {
         return view('sponsors.info');
+    }
+
+    /**
+     * Information page on becoming a sponsor.
+     */
+    public function guide(Request $request)
+    {
+        $content = Markdown::convertToHtml(view('sponsors.onboarding.combined'));
+        return view('sponsors.guide', compact('content'));
     }
 
     /**
@@ -55,10 +65,10 @@ class SponsorController extends Controller
 
         if ($sponsor->save()) {
             $sponsor->addMember(Auth::user()->id, Sponsor::ROLE_OWNER);
-            event(new SponsorCreated($sponsor));
+            event(new SponsorCreated($sponsor, Auth::user()));
 
             flash(trans('messages.sponsor.created'));
-            return redirect()->route('sponsors.awaiting-approval', $sponsor->id);
+            return redirect()->route('sponsors.awaiting-approval');
         } else {
             flash(trans('messages.sponsor.create_failed'));
             return back()->withInput();

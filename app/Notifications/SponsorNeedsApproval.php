@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Sponsor;
+use App\Models\User;
 use App\Notifications\Messages\MailMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,15 +13,17 @@ class SponsorNeedsApproval extends Notification implements ShouldQueue
     use Queueable;
 
     protected $sponsor;
+    protected $instigator;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Sponsor $sponsor)
+    public function __construct(Sponsor $sponsor, User $instigator)
     {
         $this->sponsor = $sponsor;
+        $this->instigator = $instigator;
     }
 
     /**
@@ -76,10 +79,6 @@ class SponsorNeedsApproval extends Notification implements ShouldQueue
 
     public function getInstigator()
     {
-        // not strictly correct, we do currently set the user who created the
-        // sponsor as an owner, but since these notifications are queued,
-        // there is a small chance that a user could add another user, make
-        // them an owner, and remove themselves...
-        return $this->sponsor->findUsersByRole(Sponsor::ROLE_OWNER)->first();
+        return $this->instigator;
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Doc as Document;
 use Form;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
 
@@ -62,6 +63,17 @@ class AppServiceProvider extends ServiceProvider
             'text',
             'attributes' => [],
         ]);
+
+        Blade::directive('includeLocale', function ($expression) {
+            $localeTemplate = str_replace('$locale', \Lang::getLocale(), $expression);
+            $fallbackTemplate = str_replace('$locale', 'en', $expression);
+
+            if (\View::exists($localeTemplate)) {
+                return Blade::compileString("@include($localeTemplate)");
+            } else {
+                return Blade::compileString("@include($fallbackTemplate)");
+            }
+        });
 
         // https://github.com/laravel/framework/issues/15409#issuecomment-247083776
         Collection::macro('mapWithKeys_v2', function ($callback) {

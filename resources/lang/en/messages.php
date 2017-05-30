@@ -251,6 +251,31 @@ return [
         'create' => 'Create a New Sponsor',
         'created' => 'Sponsor created',
         'create_failed' => 'Sponsor creation failed.',
+
+        'onboarding' => [
+            'salutation' => 'Hello :name,',
+            'learn_more' => 'Want to learn more?',
+            'complete_guide' => 'You can read our [complete guide](:guideLink) to successful engagement',
+            'guide' => 'Sponsor Guide',
+
+            'prepare' => [
+                'subject' => 'Request to become a sponsor received',
+                'opening' => 'We\'re excited that you want to become a document sponsor. We\'re reviewing your request and will be in touch soon.',
+                'opening_2' => 'In the meantime, here are some helpful things to consider before you get started',
+            ],
+
+            'publish' => [
+                'subject' => 'Your sponsor request has been approved',
+                'opening' => 'Welcome to the Madison community! We\'re excited to tell you that your request to create :sponsor to sponsor documents has been approved.
+',
+                'opening_2' => 'Now that you\'ve been approved and have had time to prepare for your engagement, here is how you can put your document on Madison.',
+            ],
+
+            'participate' => [
+                'subject' => 'Engagement on your published document',
+                'opening' => 'It looks like you\'ve published your document. Great! Now that you\'ve prepared for your engagement and published a great document, here is how you can make the most out of your engagement.',
+            ],
+        ],
     ],
 
     'sponsor_member' => [

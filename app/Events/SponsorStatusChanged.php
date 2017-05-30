@@ -7,22 +7,26 @@ use App\Models\User;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class SponsorCreated
+class SponsorStatusChanged
 {
     use SerializesModels;
 
+    public $oldValue;
+    public $newValue;
     public $sponsor;
-    public $user;
+    public $instigator;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Sponsor $sponsor, User $user)
+    public function __construct($oldValue, $newValue, Sponsor $sponsor, User $instigator)
     {
+        $this->oldValue = $oldValue;
+        $this->newValue = $newValue;
         $this->sponsor = $sponsor;
-        $this->user = $user;
+        $this->instigator = $instigator;
     }
 
     /**

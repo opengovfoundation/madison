@@ -15,7 +15,7 @@ body, body *:not(html):not(style):not(br):not(tr):not(code) {
 
 body {
     background-color: $ogf-dark-blue;
-    color: $laravel-gray;
+    color: $text-color;
     height: 100%;
     line-height: 1.4;
     margin: 0;
@@ -66,7 +66,6 @@ h3 {
 }
 
 p {
-    color: $text-color;
     font-size: 16px;
     line-height: 1.5em;
     margin-top: 0;

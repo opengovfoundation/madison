@@ -139,6 +139,9 @@ Route::get('/documents/{document}/manage/comments', 'DocumentController@manageCo
 Route::get('/become-a-sponsor', 'SponsorController@info')
     ->name('sponsors.info');
 
+Route::get('/sponsors/guide', 'SponsorController@guide')
+    ->name('sponsors.guide');
+
 Route::get('/sponsors/pending', 'SponsorController@awaitingApproval')
     ->name('sponsors.awaiting-approval');
 
