@@ -33,8 +33,6 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        // Logging the error here will send it to Rollbar, if configured
-        Log::error($exception);
         parent::report($exception);
     }
 
