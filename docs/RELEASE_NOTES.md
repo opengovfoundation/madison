@@ -1,5 +1,17 @@
 # Madison Release Notes
 
+## 4.0
+
+* Transitioned to a traditional Laravel application.
+* Removed Angular code from front-end, all server rendered now.
+* Major UX and UI overhaul.
+* Improved notifications system.
+* Many more new improvements and features.
+
+**Note:** This is a major release! To upgrade, we recommend setting up a new
+server and migrating over the old database. For deploy steps, check the
+[deployment documentation](/docs/deploy.md).
+
 ## 3.0
 
 * Chef solo setup and cookbooks for easy server provisioning.
@@ -11,6 +23,6 @@
   * Includes style overrides and locale file overrides.
 * Simplified document sponsorship model.
 
-**Note:** This is a major release! Check out the [upgrade and changes
-doc](/docs/upgrade/2.0-3.0.md) for more info on the changes and recommended
-steps for upgrading.
+**Note:** For documentation on this release, upgrading from older versions, and
+more, check the [version 3
+branch](https://github.com/opengovfoundation/madison/tree/v3).

@@ -37,6 +37,7 @@ dependencies:
     # Setup environment for Apache
     - env | xargs -I {} echo "export '{}'" | sudo tee --append /etc/apache2/envvars > /dev/null
     # Install our config and make it active
+    - sed -i "s/{{REPO}}/$CIRCLE_PROJECT_REPONAME/g" circleci/apache.conf
     - sudo cp -f circleci/apache.conf /etc/apache2/sites-available/madison.conf
     - sudo a2enmod rewrite actions alias headers negotiation dir vhost_alias deflate
     - sudo a2ensite madison

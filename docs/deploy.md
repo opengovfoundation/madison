@@ -20,14 +20,14 @@ When a server is created, you will want to..
   * Use `forge` as the database user
   * Create a secure password and be sure to save it for site settings next
 
-Next you need to create a site for this server. Call it what you want and set
+Next you need to create a "Site" for this server. Call it what you want and set
 the Web Directory to `/current/public`. Envoyer uses a release-based deploy
 process, so `/current` always references the currently active release.
 
 Nex you can configure the site settings by going to the "Environment" area.
 
 The site configuration that Forge manages is our `.env` file. A reference to
-each of these items can be found in [`docs/README.md`](docs/README.md). Start
+each of these items can be found in [`docs/README.md`](/docs/README.md). Start
 by copying the `.env.example` file in the project root, and configure
 accordingly.
 

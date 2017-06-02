@@ -3,13 +3,11 @@
 ## Contents:
 
 * [Introduction](#introduction)
-* [Installation](#installation)
+* [Development Notes](#development-notes)
+* [Configuration](#configuration)
 * [Administration](#administration)
-* [Theming](#theming)
-* [Architecture and Development notes](#architecture-and-development-notes)
 * [Localization](#localization)
 * [Contributing](#contributing)
-* [Changelog](#changelog)
 
 ## Introduction:
 
@@ -35,11 +33,18 @@ job has never been easier.
 Check out the rest of the documentation and read through the [Contributing
 Guidelines](#contributing). Pull requests welcome!
 
-## Installation
+## Development Notes
 
-Madison is build on top of [Laravel v.5.3](http://laravel.com/docs/5.3) and uses
-many of configuration tools that Laravel provides ( specifically its [`.env`
-files](https://laravel.com/docs/5.3#environment-configuration) )
+Madison is a fairly standard Laravel application. For information on local
+development, see [`docs/develop.md`](/docs/develop.md).
+
+You can also [view the release notes](/docs/RELEASE_NOTES.md).
+
+## Configuration
+
+Madison is build on top of [Laravel v.5.4](http://laravel.com/docs/5.4) and uses
+many of configuration tools that [Laravel
+provides](https://laravel.com/docs/5.4#configuration).
 
 ### .env file
 
@@ -55,29 +60,41 @@ are the values you will need to set:
 * `APP_ENV`: For your live site, you probably want to set this to `production`,
   which will prevent migrations, etc from happening and making the site go
   offline temporarily.
+* `APP_KEY`: This is used to encrypt private info, such as sessions. Set it to
+  a random string with `php artisan key:generate`.
 * `APP_DEBUG`: This should be `false` on your live site, hiding any system
   errors and debugging info from your users.
-* `APP_KEY`: This is used to encrypt private info, such as sessions.  Set it to
-  a random string.
+* `APP_LOG_LEVEL`: The minimum level of log messages you want showing up in log
+  files. Keep at `debug` for local dev and something higher for production.
 * `APP_NAME`: This is the name that the server will show for pages when they're
-  shared on social media.
+  shared on social media and other places.
 * `APP_URL`: This is the domain that your application will be served from.
-* `COOKIE_DOMAIN`: The domain that cookies will be shared for.  [More info on
-  cookie domains.](http://erik.io/blog/2014/03/04/definitive-guide-to-cookie-domains/)
-* `ADMIN_EMAIL`: The email address of the site administrator.
-* `ADMIN_PASSWORD`: The default password of the site administrator.
+* `ADMIN_EMAIL`: The email address of the initial site administrator user.
+* `ADMIN_PASSWORD`: The default password of the initial site administrator user.
 
 #### Storage settings
 
 * `DB_CONNECTION`: The database engine to use, probably `MySQL` or `Postgres`.
   You can use `SQLite` but we don't recommend it or support it.
 * `DB_HOST`: The hostname of your database.
+* `DB_POST`: The port to connect to the database through.
 * `DB_DATABASE`: The database name.
 * `DB_USERNAME`: The database username.
 * `DB_PASSWORD`: The database password.
-* `CACHE_DRIVER`: The driver for the site cache. We recommend `file`.
+
+#### Drivers
+
+* `BROADCAST_DRIVER`: The driver for broadcast style notifications in Laravel.
+* `CACHE_DRIVER`: The driver for the site cache. We recommend `redis`.
 * `SESSION_DRIVER`: The driver for the session storage.  Right now, we recommend `file`.
-* `QUEUE_DRIVER`: The driver to use for queue workers. We recommend `database`.
+* `QUEUE_DRIVER`: The driver to use for queue workers. We recommend `database`,
+  or `sync` for local development.
+
+#### Redis
+
+* `REDIS_HOST`: The host for your redis instance.
+* `REDIS_PASSWORD`: The password for your redis instance.
+* `REDIS_POST`: The port for your redis instance.
 
 #### Mail settings
 
@@ -90,89 +107,59 @@ settings.](https://laravel.com/docs/5.2/mail)
 * `MAIL_PORT`: The port to send mail to.
 * `MAIL_USERNAME`: The username of your mailer account.
 * `MAIL_PASSWORD`: The password of your mailer account.
+* `MAIL_ENCRYPTION`: The encryption level to use for email.
 * `MAIL_FROM_ADDRESS`: The email address to show as the sender.
 * `MAIL_FROM_NAME`: The name to show as the sender.
 
-#### Social Authentication
+#### Rollbar
 
-**Note:** Social login is [currently not
-working](https://phabricator.opengovfoundation.org/T76).
+* `ROLLBAR_SERVER_TOKEN`: Token for server reported errors, provided by Rollbar.
+* `ROLLBAR_CLIENT_TOKEN`: Token for client reported errors, provided by Rollbar.
+* `ROLLBAR_LEVEL`: Level of reporting to Rollbar.
 
-We allow several services for OAuth for users to login to the system. You will
-need to signup for accounts on each service you which to provide, and fill in
-the API info as follows:
+#### Pusher
 
-* `FB_CLIENT_ID`, `FB_CLIENT_SECRET`: Facebook credentials.
-* `TW_CLIENT_ID`, `TW_CLIENT_SECRET`: Twitter credentials.
-* `LI_CLIENT_ID`, `LI_CLIENT_SECRET`: LinkedIn credentials.
+**Note:** Madison is not utilizing broadcast notifications at this time.
 
-#### Plugin Features
+* `PUSHER_APP_ID`: The pusher application ID.
+* `PUSHER_APP_KEY`: Key provided by pusher for this application.
+* `PUSHER_APP_SECRET`: Secret provided by pusher.
 
-* `USERVOICE`: We use the Uservoice app for feedback, you can drop in your user account with
+#### Google Analytics
+
 * `GA`: Your tracking code (`UA-00000000-01`) for a Google Analytics account for tracking page views.
 
 ## Administration
 
 Administering Madison is pretty simple at this stage of the project.  Any
 Madison administrator will have extra options in their account dropdown in the
-top-right corner of the application under `Administrative Dashboard` after
-logging in.  These options include:
+top-right corner of the application under `Admin` after logging in.
 
-* `Edit Documents`
-  * Administrators have access to all documents in Madison.  This option will
-    display all documents with links to the document editor for each.
-  * The option to create new documents is found at the bottom of this page.
-  * When choosing the "publish state" of a document, the following rules apply:
-    * *Published*: Publicly viewable and listed in the front page index
-    * *Unpublished*: Only accessible by the sponsor of the document
-    * *Private*: Not listed on the front page, but accessible by anyone who has
-      the direct link
-* `Verify Sponsors`
-  * Sponsors can be used for different organizations, legislative offices, or
-    individuals.  Users request to create a sponsor from their `Sponsor
-    Management` page and must be approved by an admin.  Sponsors have the
-    ability to post new documents on Madison.
-* `Administrative Notification Settings`
-  * Site admins may want to be notified when activity is happening on their
-    installation.  This page allows them to subscribe to email notifications for
-    events in Madison.
-* `Site Settings`
-  * This is where site Admins can change the `Featured Document` on Madison.
-    This can also be changed in the in`Document Information` tab in each
-    document editor, but gives Admins another option
+These options include:
 
-## Theming
-
-**Note: Madison's styles are built using [Compass](http://compass-style.org/)
-which uses [SASS](http://sass-lang.com/).  You'll need to have a decent
-knowledge of SASS and CSS to customize the theme currently.**
-
-To customize the Madison design, simply add a new file in the
-`public/sass/custom/` directory with your custom styles.  All files in this
-directory will be pulled in automatically [_after_ the global variables are
-defined](https://github.com/opengovfoundation/madison/blob/master/public/sass/style.scss#L25).
-This will allow you to use or override the existing variables, as well as adding
-custom styles.
-
-The site also has a `.madison` class on the body of the page, so you can
-override individual style rules by copying any existing rule and adding
-`.madison` as the top level selector.  For instance, if you want to override the
-`.navbar` background color, simply apply a new color to `.madison .navbar`
-instead.
-
-To see a live example, have a look at [DC's custom theme
-file](https://github.com/DCgov/dc-madison/blob/master/public/sass/custom/_dc.scss)
-which overrides variables and styles.
-
-## Architecture and Development Notes
-
-Madison is a fairly standard Laravel application.
+* Site Settings
+  * Date Format
+  * Time Format
+  * Google Analytics Key
+* Custom Pages
+  * Manage custom content pages throughout the site
+* Featured Documents
+  * Manage which documents show as "featured" on the home page
+* Manage Users
+  * Master list of all users in the system, searchable
+  * Ability to edit users, and make / remove admin privileges
+* Manage Sponsors
+  * List of all sponsors in the system, searchable
+  * Can approve or deny sponsor approval requests
 
 ## Localization
 
-* Make a new directory for the language you want to add support for under
-  `resources/assets/lang` and copy the files from `resources/assets/lang/en`
-  into it.
+* We're using Laravel's i18n system, language files are located in
+  `resources/lang/`.
+  * We also have sponsor onboarding localized in lang-code specific folders in
+    `resources/views/sponsor/onboarding/`.
+* Make a new directory for the language code you wish to support in
+  `resources/lang/`, then copy over each file from the `en/` folder.
 * Open each PHP file in the new directory and translate the values of each array
   element into the language you're interested in. Note, only translate the
   *values*, do not change the keys of the elements as that will break the
@@ -183,25 +170,17 @@ We hope to support many languages in the future.
 
 ### Annotations
 
-TODO: update
-
 * Madison uses [AnnotatorJS](http://annotatorjs.org/) as its Annotation engine.
   This library is only loaded on document pages.
-
 * **Annotator loads and saves all annotations from / to the api**
-
 * We have created an [Annotator
   Plugin](http://docs.annotatorjs.org/en/v1.2.x/hacking/plugin-development.html)
-  to add Madison-specific functionality to Annotator and allow Annotator to talk
-  to our AngularJS application.
-* Madison uses its `public/js/services/annotationService` to handle all
-  front-end annotation functionality.  This service is injected into Annotator
-  when it is instantiated and allows communication between the Angular
-  application and Annotator.
+  to add Madison-specific functionality to Annotator.
 
 ## Contributing
 
-Please include a descriptive message ( and if possible an issue link ) with each pull request.  We will try to merge PRs as quickly as possible.
+Please include a descriptive message (and if possible an issue link) with each
+pull request. We will try to merge PRs as quickly as possible.
 
 ### Code Style
 
@@ -211,89 +190,3 @@ Please include a descriptive message ( and if possible an issue link ) with each
 * All PHP code should be styled using `PSR-2` guidelines.  Please make sure to
   run [`php-cs-fixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer) before
   committing code.
-
-### Development Configuration
-
-#### Vagrant
-We supply a `Vagrantfile` which should get a working development environment
-running without much fuss. This is created via [Homestead](https://laravel.com/docs/5.3/homestead).
-
-For the Vagrant setup to work, your `.env` settings need to be:
-
-```
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=homestead
-DB_USERNAME=homestead
-DB_PASSWORD=secret
-```
-
-Once those are set
-up [install Vagrant](https://www.vagrantup.com/docs/installation/)
-and [VirtualBox](https://www.virtualbox.org/) then run `vagrant up` and wait a
-bit.
-
-When it is done you should be able to open `192.168.10.10` or `localhost:8000`
-in your browser and see Madison.
-
-You can run build commands in the VM (connect with `vagrant ssh` and move to the
-shared folder with `cd /vagrant`) since workable versions of the development
-tools are installed in there. You can also install the development tools locally
-and build there since the directory is shared.
-
-#### Locally
-Just running `./artisan serve` will get you going. You will need to setup a
-database corresponding to your settings in `.env` by hand though. You will also
-likely want to run `make watch` while developing to automatically rebuild the
-client whenever changes are made to the SASS or JS files.
-
-### Build Process
-
-* Madison uses a [Makefile](Makefile) to run common tasks, including building
-  assets.
-* You must have [composer](https://getcomposer.org/) and
-  [npm](https://www.npmjs.com/) installed to install client and server
-  dependencies.
-* To build the application, run `make`. This will run `make deps` and `make
-  build`. What happens is:
-  * Composer dependencies are installed
-  * npm install client dependencies
-  * Client files are built into `/public`
-
-### Roadmap
-
-Madison's milestone is organized through its [Github
-Milestones](https://github.com/opengovfoundation/madison/milestones).  Please
-see milestone descriptions / issues for an up-to-date roadmap.
-
-## Changelog
-* `4.0`
-  * Remove Angular client code
-  * Upgrade to Laravel 5.3
-* `3.0`
-  * Client and server code has been separated into `client` and `server` folders
-  * Built assets are now removed from repo, build happens on deploy
-  * Major work towards customization happening in config files and the database
-    so multi-instance management can happen from a single core repo
-* `2.0`
-  * We have upgraded to Laravel 5.1.  Installation is the same, but links have
-    been updated to the proper documentation versions.
-* `1.8`
-  * All configuration options have been moved to [Laravel's `.env`
-    files](http://laravel.com/docs/4.2/configuration#protecting-sensitive-configuration).
-    All previous `.yml` configuration files have been removed.
-  * All templates are now found in the `public/templates` directory.  The only
-    blade views left in `app/views` are for emails.
-  * All routes not beginning with `api/` are served up `public/index.html`, as a
-    [Single Page
-    Application](https://en.wikipedia.org/wiki/Single-page_application).  This
-    loads the AngularJS app and pulls all data from the API.  All interaction
-    between client / server are now done via Angular / the Laravel API.
-  * The entire theme has been updated and streamlined.  All relevant assets are
-    still included in the `public/sass` directory.  See the [Theming]
-    documentation on how to customize the theme for your needs.
-  * The build process has been streamlined and tasks have been separated in the
-    `tasks` directory.  We've also included concatenation, minification, and
-    cache-busting of the relevant JS and CSS assets.
-  * All dependencies have been set to a minor version for stability.
