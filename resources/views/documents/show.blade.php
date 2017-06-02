@@ -113,7 +113,6 @@
         <script src="{{ elixir('js/document.js') }}"></script>
         <script>
             window.documentId = {{ $document->id }};
-            window.buildDocumentOutline('#document-outline', '#page_content');
 
             @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
                 loadAnnotations(
@@ -133,6 +132,9 @@
                 if (window.getQueryParam('comment_page')) {
                     showComments();
                 }
+
+                // Build this last to prevent misplacement on the page during `showComments()`
+                window.buildDocumentOutline('#document-outline', '#page_content');
             @endif
         </script>
     @endpush

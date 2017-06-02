@@ -18,6 +18,7 @@
 }
 
 .support-btns {
+  min-height: 10px; // Needed when discussion is hidden
   padding-bottom: 0;
   margin: 30px 0;
   position: relative;

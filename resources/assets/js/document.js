@@ -211,9 +211,9 @@ window.buildDocumentOutline = function (outlineContainer, documentContent) {
   // Set the outline to be affixed
   $(outlineContainer).children('ul').affix({
     offset: {
-      top: $(outlineContainer).position().top - 5,
+      top: $(outlineContainer).offset().top - 15,
       bottom: function () {
-        return $(document).height() - $('#comments').position().top + 50;
+        return $(document).height() - ($('#page_content').offset().top + $('#page_content').height());
       }
     }
   });

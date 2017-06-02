@@ -1,7 +1,7 @@
-@if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
-    <div class="row">
-        <div class="col-xs-12 text-center">
-            <div class="support-btns">
+<div class="row">
+    <div class="col-xs-12 text-center">
+        <div class="support-btns">
+            @if ($document->discussion_state !== \App\Models\Doc::DISCUSSION_STATE_HIDDEN)
                 <div class="support-btn" role="group">
                     {{ Form::open(['route' => ['documents.support', $document], 'method' => 'put']) }}
                         <input type="hidden" name="support" value="1">
@@ -27,7 +27,7 @@
                         </button>
                     {{ Form::close() }}
                 </div>
-            </div>
+            @endif
         </div>
     </div>
-@endif
+</div>
