@@ -393,7 +393,7 @@ return [
                 'created_on_sponsored' => ':count new comments have been created on :document.',
                 'liked' => ':count users have liked your :comment_type on :document.',
                 'flagged' => ':count users have flagged your :comment_type on :document.',
-                'replied' => ':count users have replied to your :comment_type on :document.',
+                'replied' => ':count replies to your :comment_type on :document.',
             ],
         ],
 
