@@ -35,6 +35,20 @@ You will want to also configure a queue worker by going to the "Queue" section.
 The connection should match with what you have configured in `.env` for the
 `QUEUE_DRIVER` setting.
 
+Next we will configure the scheduler. This is simply a cron job that runs a
+laravel command every minute to check if any scheduled tasks need to be run.
+These tasks are configured in `app/Console/Kernel.php` in the `schedule`
+function.
+
+To configure the scheduler, go to the "Scheduler" section of the forge
+configuration for the server. From there, you will create a new scheduled job.
+Enter the command as follows:
+
+`php /home/forge/YOUR_SITE_NAME_HERE/artisan schedule:run`
+
+Make sure to put in the name that you used to create the site. The user will be
+`forge`, and the frequency should be `Every Minute`. That's it!
+
 Lastly, you will want to configure SSL for this site. Go to the SSL area and
 click on LetsEncrypt. Make sure the domain is pointing at the server first,
 otherwise this process will fail. Put the domain you plan to use in the Domains

@@ -28,28 +28,7 @@ class SupportVoteChanged extends Notification implements ShouldQueue
         $this->newValue = $newValue;
         $this->document = $document;
         $this->user = $user;
-    }
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        $url = $this->document->url;
+        $this->actionUrl = $document->url;
 
         $subject = '';
 
@@ -73,9 +52,20 @@ class SupportVoteChanged extends Notification implements ShouldQueue
             'document' => $this->document->title,
         ];
 
+        $this->subjectText = trans($subject, $args);
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
         return (new MailMessage($this, $notifiable))
-                    ->subject(trans($subject, $args))
-                    ->action(trans('messages.notifications.see_document'), $url)
+                    ->subject($this->subjectText)
+                    ->action(trans('messages.notifications.see_document'), $this->actionUrl)
                     ;
     }
 
@@ -88,6 +78,7 @@ class SupportVoteChanged extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
+            'line' => $this->toLine(),
             'name' => static::getName(),
             'old_value' => $this->oldValue,
             'new_value' => $this->newValue,

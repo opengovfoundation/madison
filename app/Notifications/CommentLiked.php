@@ -12,6 +12,7 @@ class CommentLiked extends Notification implements ShouldQueue
     use Queueable;
 
     public $like;
+    public $parentType;
 
     /**
      * Create a new notification instance.
@@ -21,17 +22,19 @@ class CommentLiked extends Notification implements ShouldQueue
     public function __construct(Annotation $like)
     {
         $this->like = $like;
-    }
+        $this->actionUrl = $like->annotatable->getLink();
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
+        if ($this->like->annotatable->isNote()) {
+            $this->parentType = trans('messages.notifications.comment_type_note');
+        } else {
+            $this->parentType = trans('messages.notifications.comment_type_comment');
+        }
+
+        $this->subjectText = trans(static::baseMessageLocation().'.subject', [
+            'name' => $this->like->user->getDisplayName(),
+            'comment_type' => $this->parentType,
+            'document' => $this->like->rootAnnotatable->title,
+        ]);
     }
 
     /**
@@ -42,21 +45,9 @@ class CommentLiked extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        if ($this->like->annotatable->isNote()) {
-            $parentType = trans('messages.notifications.comment_type_note');
-        } else {
-            $parentType = trans('messages.notifications.comment_type_comment');
-        }
-
-        $url = $this->like->annotatable->getLink();
-
         return (new MailMessage($this, $notifiable))
-                    ->subject(trans(static::baseMessageLocation().'.subject', [
-                        'name' => $this->like->user->getDisplayName(),
-                        'comment_type' => $parentType,
-                        'document' => $this->like->rootAnnotatable->title,
-                    ]))
-                    ->action(trans('messages.notifications.see_comment', ['comment_type' => $parentType]), $url)
+                    ->subject($this->subjectText)
+                    ->action(trans('messages.notifications.see_comment', ['comment_type' => $this->parentType]), $this->actionUrl)
                     ;
     }
 
@@ -69,8 +60,10 @@ class CommentLiked extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
+            'line' => $this->toLine(),
             'name' => static::getName(),
             'like_id' => $this->like->id,
+            'comment_type' => $this->parentType,
         ];
     }
 

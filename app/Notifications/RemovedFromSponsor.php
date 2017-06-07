@@ -23,17 +23,11 @@ class RemovedFromSponsor extends UserMembershipChanged
         parent::__construct($instigator);
         $this->sponsor = $sponsor;
         $this->member = $member;
-    }
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
+        $this->actionUrl = route('sponsors.show', $sponsor);
+        $this->subjectText = trans(static::baseMessageLocation().'.removed_from_sponsor', [
+            'name' => $this->instigator->getDisplayName(),
+            'sponsor' => $this->sponsor->display_name,
+        ]);
     }
 
     /**
@@ -44,14 +38,9 @@ class RemovedFromSponsor extends UserMembershipChanged
      */
     public function toMail($notifiable)
     {
-        $url = route('sponsors.show', $this->sponsor);
-
         return (new MailMessage($this, $notifiable))
-                    ->subject(trans(static::baseMessageLocation().'.removed_from_sponsor', [
-                        'name' => $this->instigator->getDisplayName(),
-                        'sponsor' => $this->sponsor->display_name,
-                    ]))
-                    ->action(trans('messages.notifications.see_sponsor'), $url)
+                    ->subject($this->subjectText)
+                    ->action(trans('messages.notifications.see_sponsor'), $this->actionUrl)
                     ;
     }
 
@@ -64,6 +53,7 @@ class RemovedFromSponsor extends UserMembershipChanged
     public function toArray($notifiable)
     {
         return [
+            'line' => $this->toLine(),
             'name' => static::getName(),
             'sponsor_id' => $this->sponsor->id,
             'member_id' => $this->member->id,

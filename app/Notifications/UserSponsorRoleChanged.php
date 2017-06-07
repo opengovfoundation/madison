@@ -28,17 +28,13 @@ class UserSponsorRoleChanged extends Notification implements ShouldQueue
         $this->newValue = $newValue;
         $this->sponsorMember = $sponsorMember;
         $this->instigator = $instigator;
-    }
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
+        $this->actionUrl = route('sponsors.members.index', $sponsorMember->sponsor);
+        $this->subjectText = trans(static::baseMessageLocation().'.subject', [
+            'name' => $this->instigator->getDisplayName(),
+            'sponsor' => $this->sponsorMember->sponsor->display_name,
+            'old_role' => trans('messages.sponsor_member.roles.'.$this->oldValue),
+            'new_role' => trans('messages.sponsor_member.roles.'.$this->newValue),
+        ]);
     }
 
     /**
@@ -49,16 +45,9 @@ class UserSponsorRoleChanged extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $url = route('sponsors.members.index', $this->sponsorMember->sponsor);
-
         return (new MailMessage($this, $notifiable))
-                    ->subject(trans(static::baseMessageLocation().'.subject', [
-                        'name' => $this->instigator->getDisplayName(),
-                        'sponsor' => $this->sponsorMember->sponsor->display_name,
-                        'old_role' => trans('messages.sponsor_member.roles.'.$this->oldValue),
-                        'new_role' => trans('messages.sponsor_member.roles.'.$this->newValue),
-                    ]))
-                    ->action(trans('messages.notifications.see_sponsor'), $url)
+                    ->subject($this->subjectText)
+                    ->action(trans('messages.notifications.see_sponsor'), $this->actionUrl)
                     ;
     }
 
@@ -71,6 +60,7 @@ class UserSponsorRoleChanged extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
+            'line' => $this->toLine(),
             'name' => static::getName(),
             'old_value' => $this->oldValue,
             'new_value' => $this->newValue,

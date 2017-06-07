@@ -46,8 +46,8 @@ class UserController extends Controller
         $currentNotifications = $user
             ->notificationPreferences()
             ->whereIn('event', array_keys($validNotifications))
-            ->pluck('event')
-            ->flip();
+            ->pluck('frequency', 'event')
+            ;
 
         // Build array of notifications and their selected status
         $notificationPreferenceGroups = [];
@@ -55,10 +55,13 @@ class UserController extends Controller
             if (!isset($notificationPreferenceGroups[$className::getType()])) {
                 $notificationPreferenceGroups[$className::getType()] = [];
             }
-            $notificationPreferenceGroups[$className::getType()][$className] = isset($currentNotifications[$notificationName]);
+            $value = isset($currentNotifications[$notificationName]) ? $currentNotifications[$notificationName] : null;
+            $notificationPreferenceGroups[$className::getType()][$className] = $value;
         }
 
-        return view('users.settings.notifications', compact('user', 'notificationPreferenceGroups'));
+        $frequencyOptions = NotificationPreference::getValidFrequencies();
+
+        return view('users.settings.notifications', compact('user', 'notificationPreferenceGroups', 'frequencyOptions'));
     }
 
     /**
@@ -104,26 +107,25 @@ class UserController extends Controller
 
         foreach ($validNotifications as $notificationName) {
             $notificationParamName = str_replace('.', '_', $notificationName);
-            $newValue = !empty($request->input($notificationParamName));
+
+            $newValue = $request->input($notificationParamName);
+            if ($newValue === '') { $newValue = null; } // Turn empty strings to their proper null value
 
             // Grab this notification from the database
             $pref = $user
                 ->notificationPreferences()
                 ->where('event', $notificationName)
-                ->first();
+                ->first()
+                ;
 
-            // If we don't want that notification (and it exists), delete it
-            if (!$newValue && !empty($pref)) {
-                $pref->delete();
-            } else {
-                // If the entry doesn't already exist, create it.
-                if (!isset($pref)) {
-                    $user->notificationPreferences()->create([
-                        'event' => $notificationName,
-                        'type' => NotificationPreference::TYPE_EMAIL,
-                    ]);
-                }
-                // Otherwise, ignore (there was no change)
+            if (isset($pref)) {
+                $newValue ? $pref->update([ 'frequency' => $newValue ]) : $pref->delete();
+            } else if ($newValue !== null) {
+                $user->notificationPreferences()->create([
+                    'event' => $notificationName,
+                    'type' => NotificationPreference::TYPE_EMAIL,
+                    'frequency' => $newValue,
+                ]);
             }
         }
 

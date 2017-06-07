@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\DatabaseClear::class,
         \App\Console\Commands\DatabaseRebuild::class,
         \App\Console\Commands\DatabaseRestore::class,
+        \App\Console\Commands\SendDailyNotifications::class,
     ];
 
     /**
@@ -39,6 +40,9 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             LoginToken::where('expires_at', '<', Carbon::now())->delete();
         })->daily();
+
+        // Runs at midnight
+        $schedule->call('send-daily-notifications')->daily();
     }
 
     protected function bootstrappers()

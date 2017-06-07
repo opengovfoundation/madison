@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         'failed_jobs',
         'jobs',
         'notification_preferences',
+        'notifications',
         'page_contents',
         'pages',
         'password_reminders',

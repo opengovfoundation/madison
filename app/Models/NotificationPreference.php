@@ -10,10 +10,13 @@ use App\Models\User;
 class NotificationPreference extends Model
 {
     const TYPE_EMAIL = "email";
-    const TYPE_TEXT = "text";
+
+    const FREQUENCY_IMMEDIATELY = 'immediately';
+    const FREQUENCY_DAILY = 'daily';
+    const FREQUENCY_NEVER = null;
 
     protected $table = 'notification_preferences';
-    protected $fillable = ['event', 'type', 'user_id', 'sponsor_id'];
+    protected $fillable = ['event', 'type', 'frequency', 'user_id', 'sponsor_id'];
     public $timestamps = false;
 
     public function sponsor()
@@ -85,6 +88,20 @@ class NotificationPreference extends Model
         ];
 
         return static::buildNotificationsFromEventNames($validNotifications);
+    }
+
+    /**
+     * Return an array of valid notification preference frequencies.
+     *
+     * @return array
+     */
+    public static function getValidFrequencies()
+    {
+        return [
+            static::FREQUENCY_IMMEDIATELY,
+            static::FREQUENCY_DAILY,
+            static::FREQUENCY_NEVER,
+        ];
     }
 
     protected static function buildNotificationsFromEventNames($names)
@@ -205,6 +222,8 @@ class NotificationPreference extends Model
 
     public static function getUnsubscribeMarkdown($notification, $notifiable)
     {
+        $markdown = '';
+
         $token = $notifiable->loginTokens()->create([]);
         $params = [
             'user' => $notifiable,
@@ -212,12 +231,17 @@ class NotificationPreference extends Model
             'login_email' => $notifiable->email,
         ];
 
-        $specificLink = route('users.settings.notifications.edit', $params + [
-            'notification' => $notification::getName(),
-        ]);
+        if ($notification) {
+            $specificLink = route('users.settings.notifications.edit', $params + [
+                'notification' => $notification::getName(),
+            ]);
+
+            $markdown = trans('messages.notifications.unsubscribe_specific', compact('specificLink')) . ' ';
+        }
 
         $allLink = route('users.settings.notifications.edit', $params);
+        $markdown .= trans('messages.notifications.unsubscribe_all', compact('allLink'));
 
-        return trans('messages.notifications.unsubscribe', compact('specificLink', 'allLink'));
+        return $markdown;
     }
 }

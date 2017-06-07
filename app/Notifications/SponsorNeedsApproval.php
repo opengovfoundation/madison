@@ -24,17 +24,8 @@ class SponsorNeedsApproval extends Notification implements ShouldQueue
     {
         $this->sponsor = $sponsor;
         $this->instigator = $instigator;
-    }
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
+        $this->actionUrl = route('admin.sponsors.index');
+        $this->subjectText = trans(static::baseMessageLocation().'.subject', ['name' => $this->sponsor->name]);
     }
 
     /**
@@ -45,11 +36,9 @@ class SponsorNeedsApproval extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $url = route('admin.sponsors.index');
-
         return (new MailMessage($this, $notifiable))
-                    ->subject(trans(static::baseMessageLocation().'.subject', ['name' => $this->sponsor->name]))
-                    ->action(trans('messages.notifications.review_sponsor'), $url)
+                    ->subject($this->subjectText)
+                    ->action(trans('messages.notifications.review_sponsor'), $this->actionUrl)
                     ;
     }
 
@@ -62,6 +51,7 @@ class SponsorNeedsApproval extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
+            'line' => $this->toLine(),
             'name' => static::getName(),
             'sponsor_id' => $this->sponsor->id,
         ];

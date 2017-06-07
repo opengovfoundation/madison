@@ -24,17 +24,10 @@ class DocumentPublished extends Notification implements ShouldQueue
     {
         $this->document = $document;
         $this->instigator = $instigator;
-    }
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
+        $this->actionUrl = $document->url;
+        $this->subjectText = trans(static::baseMessageLocation().'.subject', [
+            'document' => $this->document->title,
+        ]);
     }
 
     /**
@@ -45,14 +38,11 @@ class DocumentPublished extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $url = $this->document->url;
-        $shareUrl = 'https://twitter.com/intent/tweet/?url=' . urlencode($url) . '&text=' . urlencode($this->document->title);
+        $shareUrl = 'https://twitter.com/intent/tweet/?url=' . urlencode($this->actionUrl) . '&text=' . urlencode($this->document->title);
 
         return (new MailMessage($this, $notifiable))
-                    ->subject(trans(static::baseMessageLocation().'.subject', [
-                        'document' => $this->document->title,
-                    ]))
-                    ->action(trans('messages.notifications.see_document'), $url)
+                    ->subject($this->subjectText)
+                    ->action(trans('messages.notifications.see_document'), $this->actionUrl)
                     ->line('[' . trans('messages.notifications.madison.document.published.share_on_twitter') . '](' . $shareUrl . ')')
                     ;
     }
@@ -66,6 +56,7 @@ class DocumentPublished extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
+            'line' => $this->toLine(),
             'name' => static::getName(),
             'document_id' => $this->document->id,
             'instigator_id' => $this->instigator->id,

@@ -12,13 +12,24 @@
                 <div class="panel-body">
                     @foreach($notificationPreferences as $notificationClass => $value)
                         @php($targetNotification = request()->input('notification') === $notificationClass::getName())
-                        <div class="{{ $targetNotification ? 'anchor-target' : '' }}">
-                            {{ Form::mInput(
-                                'checkbox',
-                                $notificationClass::getName(),
-                                trans($notificationClass::baseMessageLocation().'.preference_description'),
-                                $value
-                            ) }}
+                        <div class="form-horizontal {{ $targetNotification ? 'anchor-target' : '' }}">
+                            <div class="form-group">
+                                <label for="{{ $notificationClass::getName() }}" class="col-xs-12 col-md-9 control-label">
+                                   @lang($notificationClass::baseMessageLocation().'.preference_description')
+                                </label>
+                                <div class="col-xs-12 col-md-3">
+                                    {{ Form::select(
+                                        $notificationClass::getName(),
+                                        collect($frequencyOptions)->mapWithKeys_v2(function ($f) { return [$f => trans('messages.notifications.frequencies.'.$f.'.label')]; })->toArray(),
+                                        $value,
+                                        [
+                                            'id' => $notificationClass::getName(),
+                                            'class' => 'no-select2 form-control',
+                                            'autocomplete' => 'off',
+                                        ]
+                                    ) }}
+                                </div>
+                            </div>
                         </div>
                     @endforeach
                 </div>

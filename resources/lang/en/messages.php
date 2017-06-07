@@ -359,12 +359,42 @@ return [
         'salutation' => 'Regards,<br>:name',
         'having_trouble' => 'If you\'re having trouble clicking the ":actionText" button, copy and paste the URL below into your web browser:',
         'thank_you' => 'Thank you for using our application!',
-        'unsubscribe' => 'You can unsubscribe from these types of notifications [here](:specificLink) or manage all your notification preferences [here](:allLink).',
+        'unsubscribe_specific' => 'You can unsubscribe from these types of notifications [here](:specificLink).',
+        'unsubscribe_all' => 'You can manage all of your notification preferences [here](:allLink).',
 
         'groups' => [
             'user' => 'User Notifications',
             'sponsor' => 'Sponsor Notifications',
             'admin' => 'Admin Notifications',
+        ],
+
+        'frequencies' => [
+            App\Models\NotificationPreference::FREQUENCY_IMMEDIATELY => [
+                'label' => 'Immediately',
+            ],
+            App\Models\NotificationPreference::FREQUENCY_DAILY => [
+                'label' => 'Daily',
+                'subject' => 'Notifications for :dateStr',
+                'intro' => 'Here are your notifications for the day.',
+            ],
+            App\Models\NotificationPreference::FREQUENCY_NEVER => [
+                'label' => 'Never',
+            ],
+        ],
+
+        'grouped' => [
+            'document' => [
+                'support_vote_changed' => [
+                    'support' => ':count users have voted in support of :document.',
+                    'oppose' => ':count users have voted in opposition of :document.',
+                ],
+            ],
+            'comment' => [
+                'created_on_sponsored' => ':count new comments have been created on :document.',
+                'liked' => ':count users have liked your :comment_type on :document.',
+                'flagged' => ':count users have flagged your :comment_type on :document.',
+                'replied' => ':count users have replied to your :comment_type on :document.',
+            ],
         ],
 
         // actual notification content

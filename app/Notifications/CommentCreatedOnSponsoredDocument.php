@@ -12,6 +12,7 @@ class CommentCreatedOnSponsoredDocument extends Notification implements ShouldQu
     use Queueable;
 
     public $comment;
+    public $commentType;
 
     /**
      * Create a new notification instance.
@@ -21,17 +22,19 @@ class CommentCreatedOnSponsoredDocument extends Notification implements ShouldQu
     public function __construct(Annotation $comment)
     {
         $this->comment = $comment;
-    }
+        $this->actionUrl = $comment->getLink();
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
+        if ($this->comment->isNote()) {
+            $this->commentType = trans('messages.notifications.comment_type_note');
+        } else {
+            $this->commentType = trans('messages.notifications.comment_type_comment');
+        }
+
+        $this->subjectText = trans(static::baseMessageLocation().'.subject', [
+            'name' => $this->comment->user->getDisplayName(),
+            'comment_type' => $this->commentType,
+            'document' => $this->comment->rootAnnotatable->title,
+        ]);
     }
 
     /**
@@ -42,21 +45,9 @@ class CommentCreatedOnSponsoredDocument extends Notification implements ShouldQu
      */
     public function toMail($notifiable)
     {
-        if ($this->comment->isNote()) {
-            $commentType = trans('messages.notifications.comment_type_note');
-        } else {
-            $commentType = trans('messages.notifications.comment_type_comment');
-        }
-
-        $url = $this->comment->getLink();
-
         return (new MailMessage($this, $notifiable))
-                    ->subject(trans(static::baseMessageLocation().'.subject', [
-                        'name' => $this->comment->user->getDisplayName(),
-                        'comment_type' => $commentType,
-                        'document' => $this->comment->rootAnnotatable->title,
-                    ]))
-                    ->action(trans('messages.notifications.see_comment', ['comment_type' => $commentType]), $url)
+                    ->subject($this->subjectText)
+                    ->action(trans('messages.notifications.see_comment', ['comment_type' => $this->commentType]), $this->actionUrl)
                     ;
     }
 
@@ -69,6 +60,7 @@ class CommentCreatedOnSponsoredDocument extends Notification implements ShouldQu
     public function toArray($notifiable)
     {
         return [
+            'line' => $this->toLine(),
             'name' => static::getName(),
             'comment_id' => $this->comment->id,
         ];

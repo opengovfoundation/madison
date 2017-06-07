@@ -20,6 +20,10 @@ use App\Models\Role;
 use App\Models\Sponsor;
 use App\Models\User;
 
+use Illuminate\Notifications\DatabaseNotification;
+
+use Ramsey\Uuid\Uuid;
+
 $factory->define(User::class, function (Faker\Generator $faker) {
     static $password;
 
@@ -116,5 +120,14 @@ $factory->define(AnnotationTypes\Range::class, function (Faker\Generator $faker)
         'end' => '/p[1]',
         'start_offset' => $faker->numberBetween(1, 20),
         'end_offset' => $faker->numberBetween(1, 20),
+    ];
+});
+
+$factory->define(DatabaseNotification::class, function (Faker\Generator $faker) {
+    return [
+        'id' => Uuid::uuid4()->toString(),
+        'notifiable_id' => 1,
+        'notifiable_type' => 'App\Models\User',
+        'data' => [],
     ];
 });

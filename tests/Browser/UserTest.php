@@ -182,11 +182,11 @@ class UserTest extends DuskTestCase
             $activePreferences = $user->notificationPreferences->pluck('event');
 
             foreach ($activePreferences as $eventName) {
-                $browser->assertChecked($eventName);
+                $browser->assertSelected($eventName, NotificationPreference::FREQUENCY_IMMEDIATELY);
             }
 
             foreach (collect(array_keys($events))->diff($activePreferences) as $eventName) {
-                $browser->assertNotChecked($eventName);
+                $browser->assertSelected($eventName, ''); // FREQUENCY_NEVER is null, which translates to ''
             }
         });
     }
@@ -202,11 +202,11 @@ class UserTest extends DuskTestCase
             $browser
                 ->loginAs($user)
                 ->visit($page)
-                ->check($events[0])
+                ->select($events[0], NotificationPreference::FREQUENCY_DAILY)
                 ->press('Save')
                 // some success
                 ->assertVisible('.alert.alert-info')
-                ->assertChecked($events[0])
+                ->assertSelected($events[0], NotificationPreference::FREQUENCY_DAILY)
                 ;
         });
     }

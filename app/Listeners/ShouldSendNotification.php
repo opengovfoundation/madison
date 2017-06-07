@@ -62,10 +62,11 @@ class ShouldSendNotification
                     ->where('type', NotificationPreference::TYPE_EMAIL);
                 break;
             case 'database':
-                // unsupported at the moment
-                // $recipientNotificationPreferenceQuery
-                //     ->where('type', NotificationPreference::TYPE_IN_APP);
-                return false;
+                // Only notifications that are not sent immediately should go to the database
+                $recipientNotificationPreferenceQuery
+                    ->where('type', NotificationPreference::TYPE_EMAIL)
+                    ->where('frequency', '!=', NotificationPreference::FREQUENCY_IMMEDIATELY)
+                    ;
                 break;
             case 'nexmo':
                 // unsupported at the moment

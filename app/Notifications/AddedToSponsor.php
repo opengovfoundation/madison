@@ -21,17 +21,12 @@ class AddedToSponsor extends UserMembershipChanged
     {
         parent::__construct($instigator);
         $this->sponsorMember = $sponsorMember;
-    }
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
+        $this->actionUrl = route('sponsors.documents.index', $sponsorMember->sponsor);
+        $this->subjectText = trans(static::baseMessageLocation().'.added_to_sponsor', [
+            'name' => $this->instigator->getDisplayName(),
+            'sponsor' => $this->sponsorMember->sponsor->display_name,
+            'role' => $this->sponsorMember->role,
+        ]);
     }
 
     /**
@@ -42,15 +37,10 @@ class AddedToSponsor extends UserMembershipChanged
      */
     public function toMail($notifiable)
     {
-        $url = route('sponsors.documents.index', $this->sponsorMember->sponsor);
 
         return (new MailMessage($this, $notifiable))
-                    ->subject(trans(static::baseMessageLocation().'.added_to_sponsor', [
-                        'name' => $this->instigator->getDisplayName(),
-                        'sponsor' => $this->sponsorMember->sponsor->display_name,
-                        'role' => $this->sponsorMember->role,
-                    ]))
-                    ->action(trans('messages.notifications.see_sponsor'), $url)
+                    ->subject($this->subjectText)
+                    ->action(trans('messages.notifications.see_sponsor'), $this->actionUrl)
                     ;
     }
 
@@ -63,6 +53,7 @@ class AddedToSponsor extends UserMembershipChanged
     public function toArray($notifiable)
     {
         return [
+            'line' => $this->toLine(),
             'name' => static::getName(),
             'sponsor_member_id' => $this->sponsorMember->id,
             'instigator_id' => $this->instigator->id,

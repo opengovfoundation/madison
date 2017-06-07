@@ -12,6 +12,7 @@ class CommentFlagged extends Notification implements ShouldQueue
     use Queueable;
 
     public $flag;
+    public $parentType;
 
     /**
      * Create a new notification instance.
@@ -21,17 +22,18 @@ class CommentFlagged extends Notification implements ShouldQueue
     public function __construct(Annotation $flag)
     {
         $this->flag = $flag;
-    }
+        $this->actionUrl = $flag->annotatable->getLink();
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
+        if ($this->flag->annotatable->isNote()) {
+            $this->parentType = trans('messages.notifications.comment_type_note');
+        } else {
+            $this->parentType = trans('messages.notifications.comment_type_comment');
+        }
+
+        $this->subjectText = trans(static::baseMessageLocation().'.subject', [
+            'comment_type' => $this->parentType,
+            'document' => $this->flag->rootAnnotatable->title,
+        ]);
     }
 
     /**
@@ -42,20 +44,9 @@ class CommentFlagged extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        if ($this->flag->annotatable->isNote()) {
-            $parentType = trans('messages.notifications.comment_type_note');
-        } else {
-            $parentType = trans('messages.notifications.comment_type_comment');
-        }
-
-        $url = $this->flag->annotatable->getLink();
-
         return (new MailMessage($this, $notifiable))
-                    ->subject(trans(static::baseMessageLocation().'.subject', [
-                        'comment_type' => $parentType,
-                        'document' => $this->flag->rootAnnotatable->title,
-                    ]))
-                    ->action(trans('messages.notifications.see_comment', ['comment_type' => $parentType]), $url)
+                    ->subject($this->subjectText)
+                    ->action(trans('messages.notifications.see_comment', ['comment_type' => $this->parentType]), $this->actionUrl)
                     ;
     }
 
@@ -68,8 +59,10 @@ class CommentFlagged extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
+            'line' => $this->toLine(),
             'name' => static::getName(),
             'flag_id' => $this->flag->id,
+            'comment_type' => $this->parentType,
         ];
     }
 

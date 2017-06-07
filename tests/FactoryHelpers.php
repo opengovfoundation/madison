@@ -66,6 +66,22 @@ class FactoryHelpers
         ]);
     }
 
+    public static function createLike(User $user, $target)
+    {
+        $faker = Faker\Factory::create();
+        $annotationService = App::make('App\Services\Annotations');
+
+        return $annotationService->createAnnotationLike($target, $user, []);
+    }
+
+    public static function createFlag(User $user, $target)
+    {
+        $faker = Faker\Factory::create();
+        $annotationService = App::make('App\Services\Annotations');
+
+        return $annotationService->createAnnotationFlag($target, $user, []);
+    }
+
     public static function createActiveSponsorWithUser(User $user)
     {
         $sponsor = factory(Sponsor::class)->create([
