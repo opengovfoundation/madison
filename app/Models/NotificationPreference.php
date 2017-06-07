@@ -64,6 +64,7 @@ class NotificationPreference extends Model
     {
         $validNotifications = [
             'SponsorNeedsApproval',
+            'UserCreated',
         ];
 
         return static::buildNotificationsFromEventNames($validNotifications);
@@ -217,6 +218,24 @@ class NotificationPreference extends Model
 
         foreach ($events as $eventName => $eventClass) {
             NotificationPreference::addNotificationForUser($eventName, $user->id);
+        }
+    }
+
+    public static function setDefaultAdminPreferences(User $user)
+    {
+        $events = NotificationPreference::getAdminNotifications();
+
+        foreach ($events as $eventName => $eventClass) {
+            NotificationPreference::addNotificationForUser($eventName, $user->id);
+        }
+    }
+
+    public static function removeAdminPreferences(User $user)
+    {
+        $events = NotificationPreference::getAdminNotifications();
+
+        foreach ($events as $eventName => $eventClass) {
+            NotificationPreference::removeNotificationForUser($eventName, $user->id);
         }
     }
 

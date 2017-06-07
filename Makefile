@@ -1,4 +1,4 @@
-.PHONY: all build build-prod deps deps-php clean distclean db-reset db-migrate test test-php gettext-prep queue-listen watch
+.PHONY: all build build-prod deps deps-php clean distclean db-reset db-migrate test test-php queue-listen watch
 
 all: deps build
 
@@ -68,9 +68,6 @@ db-restore:
 	php artisan db:restore $(file)
 
 deploy-forge: distclean deps-production db-force-migrate
-
-gettext-prep:
-	php artisan gettext:update
 
 queue-listen:
 	php artisan queue:listen

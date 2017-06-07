@@ -449,11 +449,17 @@ return [
             ],
 
             'user' => [
+                'created' => [
+                  'preference_description' => 'When a new user account is created',
+                  'subject' => ':name has created an account',
+                ],
+
                 'sponsor_membership_changed' => [
                     'preference_description' => 'When you are added to or removed from a sponsor',
                     'added_to_sponsor' => ':name has added you to :sponsor with a role of :role',
                     'removed_from_sponsor' => ':name has removed you from :sponsor',
                 ],
+
                 'sponsor_role_changed' => [
                     'preference_description' => 'When your role in a sponsor is changed',
                     'subject' => ':name changed your role for :sponsor from :old_role to :new_role',
