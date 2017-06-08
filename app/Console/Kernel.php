@@ -42,7 +42,7 @@ class Kernel extends ConsoleKernel
         })->daily();
 
         // Runs at midnight
-        $schedule->call('send-daily-notifications')->daily();
+        $schedule->command('send-daily-notifications')->daily();
     }
 
     protected function bootstrappers()
