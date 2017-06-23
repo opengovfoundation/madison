@@ -195,7 +195,7 @@
         <div id="main-footer">
             <footer class="container">
                 <div class="logo">
-                    <img src="/img/logo.svg">
+                    <a href="https://opengovfoundation.org" title="OpenGov Foundation"><img src="/img/logo.svg"></a>
                 </div>
 
                 <ul>
