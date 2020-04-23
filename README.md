@@ -19,7 +19,7 @@ As of 4.0, Madison is a generally plain Laravel (PHP) application.
 
 ## User Guide
 
-Visit our [Engagement Guide](https://mymadison.io/sponsors/guide)
+Donate via [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5XHFT7UGRZFH4)
 for information on using Madison to run engagement rounds.
 
 ## How to Help
