@@ -64,7 +64,7 @@
     </button>
 </div>
 
-@if ($comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE && $comment->rootAnnotatable->isDiscussionOpen())
+@if ($comment->annotatable_type === \App\Models\Doc::ANNOTATABLE_TYPE && ($comment->rootAnnotatable->isDiscussionOpen() || Auth::user()->can('edit', $document)))
     @if (Auth::user())
         <div class="clearfix"></div>
 
